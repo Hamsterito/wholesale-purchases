@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                'Астана, Coffe Boom, проспект мангилик Ел...',
+                'Главная',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 14,
@@ -228,18 +228,10 @@ class HomePage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Container(
-                        width: 30,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 18,
-                        ),
+                      Icon(
+                        Icons.add,
+                        color: Colors.blue,
+                        size: 32,
                       ),
                     ],
                   ),
