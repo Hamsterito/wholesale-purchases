@@ -74,17 +74,14 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.65,
+                childAspectRatio: 0.62,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
               ),
               itemCount: 4,
               itemBuilder: (context, index) {
                 return _buildProductCard(
-                  imageUrl: 'https://via.placeholder.com/150x200/ff0000/ffffff?text=Coca-Cola',
-                  deliveryDate: index % 2 == 0 ? 'Четверг 17:00' : 'Сб 23 сентября 12:00',
-                  deliveryDateColor: index % 2 == 0 ? Colors.blue : Colors.orange,
-                  expiryDate: 'Годность 18.10.2025',
+                  imageUrl: 'assets/cart_home/CocaCola.png',
                   title: 'Напиток Coca-Cola газированный 1.5 л',
                   minQuantity: 'Минимум: 4 упаковок',
                   warehouse: 'Склад "Аскар"',
@@ -97,15 +94,12 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ],
-      )
+      ),
     );
   }
 
   Widget _buildProductCard({
     required String imageUrl,
-    required String deliveryDate,
-    required Color deliveryDateColor,
-    required String expiryDate,
     required String title,
     required String minQuantity,
     required String warehouse,
@@ -130,121 +124,73 @@ class HomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Изображение товара
-          Stack(
-            children: [
-              Container(
-                height: 150,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                  color: Colors.grey[100],
-                ),
-                child: Center(
-                  child: Image.network(
-                    imageUrl,
-                    height: 140,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        height: 140,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.local_drink, size: 60, color: Colors.red),
-                            SizedBox(height: 8),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Text(
-                                '1.5л',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 8,
-                left: 8,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: deliveryDateColor.withValues(alpha: 0.9),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    deliveryDate,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
+          Container(
+            height: 160,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+              color: Colors.white,
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+              child: Image.asset(
+                imageUrl,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return Center(
+                    child: Icon(
+                      Icons.image_not_supported,
+                      size: 50,
+                      color: Colors.grey[400],
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
-            ],
+            ),
           ),
 
           // Информация о товаре
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    expiryDate,
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 10,
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
                     title,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 11,
                       fontWeight: FontWeight.w500,
-                      height: 1.3,
+                      height: 1.2,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 4),
+                  SizedBox(height: 2),
                   Text(
                     minQuantity,
                     style: TextStyle(
                       color: Colors.grey[600],
-                      fontSize: 10,
+                      fontSize: 9,
                     ),
                   ),
-                  SizedBox(height: 2),
+                  SizedBox(height: 1),
                   Text(
                     warehouse,
                     style: TextStyle(
                       color: Colors.grey[600],
-                      fontSize: 10,
+                      fontSize: 9,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  SizedBox(height: 3),
                   Row(
                     children: [
-                      Icon(Icons.star, color: Colors.amber, size: 14),
+                      Icon(Icons.star, color: Colors.amber, size: 12),
                       SizedBox(width: 2),
                       Text(
                         rating.toString(),
                         style: TextStyle(
-                          fontSize: 11,
+                          fontSize: 10,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -253,7 +199,7 @@ class HomePage extends StatelessWidget {
                         '$reviews отзывов',
                         style: TextStyle(
                           color: Colors.grey[600],
-                          fontSize: 10,
+                          fontSize: 9,
                         ),
                       ),
                     ],
@@ -269,23 +215,22 @@ class HomePage extends StatelessWidget {
                           Text(
                             '$price ₸',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
                             '$oldPrice ₸',
                             style: TextStyle(
-                              fontSize: 10,
+                              fontSize: 9,
                               color: Colors.grey,
-                              decoration: TextDecoration.lineThrough,
                             ),
                           ),
                         ],
                       ),
                       Container(
-                        width: 32,
-                        height: 32,
+                        width: 30,
+                        height: 30,
                         decoration: BoxDecoration(
                           color: Colors.blue,
                           borderRadius: BorderRadius.circular(8),
@@ -293,7 +238,7 @@ class HomePage extends StatelessWidget {
                         child: Icon(
                           Icons.add,
                           color: Colors.white,
-                          size: 20,
+                          size: 18,
                         ),
                       ),
                     ],

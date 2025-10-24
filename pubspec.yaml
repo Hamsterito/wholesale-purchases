@@ -59,6 +59,7 @@ flutter:
 
   assets:
     - assets/icons/
+    - assets/cart_home/
 
 
   # To add assets to your application, add an assets section, like this:
