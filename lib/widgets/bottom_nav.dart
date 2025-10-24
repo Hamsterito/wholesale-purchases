@@ -26,6 +26,10 @@ class BottomNavBar extends StatelessWidget {
           label: "Главная",
         ),
         BottomNavigationBarItem(
+          icon: ImageIcon(AssetImage('assets/icons/catalog.png'), size: 46),
+          label: "Каталог",
+        ),
+        BottomNavigationBarItem(
           icon: ImageIcon(AssetImage('assets/icons/korzina.png'), size: 46),
           label: "Корзина",
         ),

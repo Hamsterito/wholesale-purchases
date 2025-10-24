@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/widgets/bottom_nav.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Catalog',
+      title: 'Coffe Boom',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.grey[50],
@@ -22,6 +21,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+enum CategoryFilter { all, drinks, vegetables, bread, dairy, meat }
+
 class CatalogPage extends StatefulWidget {
   const CatalogPage({Key? key}) : super(key: key);
 
@@ -30,12 +31,17 @@ class CatalogPage extends StatefulWidget {
 }
 
 class _CatalogPageState extends State<CatalogPage> {
-  int _selectedIndex = 1;
+  CategoryFilter _selectedFilter = CategoryFilter.all;
 
-  void _onItemTapped(int index) {
+  void _onFilterTapped(CategoryFilter filter) {
     setState(() {
-      _selectedIndex = index;
+      _selectedFilter = filter;
     });
+  }
+
+  bool _shouldShowCategory(CategoryFilter category) {
+    if (_selectedFilter == CategoryFilter.all) return true;
+    return _selectedFilter == category;
   }
 
   @override
@@ -48,7 +54,7 @@ class _CatalogPageState extends State<CatalogPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Каталог',
+              'Астана, Coffe Boom, проспект мангилик Ел...',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 14,
@@ -83,18 +89,27 @@ class _CatalogPageState extends State<CatalogPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             color: Colors.white,
-            child: Row(
-              children: [
-                Icon(Icons.sort, size: 20),
-                SizedBox(width: 8),
-                Icon(Icons.tune, size: 20),
-                SizedBox(width: 16),
-                Text('Все', style: TextStyle(color: Colors.blue)),
-                SizedBox(width: 16),
-                Text('Напитки', style: TextStyle(color: Colors.grey)),
-                SizedBox(width: 16),
-                Text('Овощи фрукты', style: TextStyle(color: Colors.grey)),
-              ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Icon(Icons.sort, size: 20),
+                  SizedBox(width: 8),
+                  Icon(Icons.tune, size: 20),
+                  SizedBox(width: 16),
+                  _buildFilterButton('Все', CategoryFilter.all),
+                  SizedBox(width: 16),
+                  _buildFilterButton('Напитки', CategoryFilter.drinks),
+                  SizedBox(width: 16),
+                  _buildFilterButton('Овощи фрукты', CategoryFilter.vegetables),
+                  SizedBox(width: 16),
+                  _buildFilterButton('Хлеб', CategoryFilter.bread),
+                  SizedBox(width: 16),
+                  _buildFilterButton('Молочка', CategoryFilter.dairy),
+                  SizedBox(width: 16),
+                  _buildFilterButton('Мясо', CategoryFilter.meat),
+                ],
+              ),
             ),
           ),
 
@@ -104,144 +119,190 @@ class _CatalogPageState extends State<CatalogPage> {
               padding: const EdgeInsets.all(16),
               children: [
                 // Хлеб и пекарня
-                _buildCategoryTitle('Хлеб и пекарня'),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildCategoryCard(
-                        'Выпечка\nот Манса',
-                        Colors.orange[200]!,
+                if (_shouldShowCategory(CategoryFilter.bread)) ...[
+                  _buildCategoryTitle('Хлеб и пекарня'),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Выпечка\nот Манса',
+                          Colors.orange[200]!,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildCategoryCard(
-                        'Хлеб',
-                        Colors.orange[300]!,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Хлеб',
+                          Colors.orange[300]!,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildCategoryCard(
-                        'Выпечка и\nпироги',
-                        Colors.orange[200]!,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Выпечка и\nпироги',
+                          Colors.orange[200]!,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 24),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                ],
 
                 // Свежие овощи и фрукты
-                _buildCategoryTitle('Свежие овощи и фрукты'),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildCategoryCard(
-                        'Фрукты, ягоды',
-                        Colors.green[300]!,
-                        height: 120,
+                if (_shouldShowCategory(CategoryFilter.vegetables)) ...[
+                  _buildCategoryTitle('Свежие овощи и фрукты'),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Фрукты, ягоды',
+                          Colors.green[300]!,
+                          height: 120,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildCategoryCard(
-                        'Овощи, грибы и\nзелень',
-                        Colors.green[300]!,
-                        height: 120,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Овощи, грибы и\nзелень',
+                          Colors.green[300]!,
+                          height: 120,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 24),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                ],
 
                 // Молоко, яйца и сыр
-                _buildCategoryTitle('Молоко, яйца и сыр'),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildCategoryCard(
-                        'Сыр',
-                        Colors.brown[100]!,
+                if (_shouldShowCategory(CategoryFilter.dairy)) ...[
+                  _buildCategoryTitle('Молоко, яйца и сыр'),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Сыр',
+                          Colors.brown[100]!,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildCategoryCard(
-                        'Творог,\nсметана',
-                        Colors.brown[100]!,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Творог,\nсметана',
+                          Colors.brown[100]!,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildCategoryCard(
-                        'Йогурт и\nдесерты',
-                        Colors.brown[100]!,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Йогурт и\nдесерты',
+                          Colors.brown[100]!,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildCategoryCard(
-                        'Молоко\nкисломолочные\nпродукты',
-                        Colors.yellow[100]!,
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Молоко\nкисломолочные\nпродукты',
+                          Colors.yellow[100]!,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildCategoryCard(
-                        'Масло и яйца',
-                        Colors.yellow[100]!,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Масло и яйца',
+                          Colors.yellow[100]!,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 24),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                ],
 
                 // Мясная лавка
-                _buildCategoryTitle('Мясная лавка'),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildCategoryCard(
-                        'Мясо и\nптица',
-                        Colors.pink[100]!,
+                if (_shouldShowCategory(CategoryFilter.meat)) ...[
+                  _buildCategoryTitle('Мясная лавка'),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Мясо и\nптица',
+                          Colors.pink[100]!,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildCategoryCard(
-                        'Колбасы и\nсосиски',
-                        Colors.pink[100]!,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Колбасы и\nсосиски',
+                          Colors.pink[100]!,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildCategoryCard(
-                        'Мясные\nделикатесы',
-                        Colors.pink[100]!,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Мясные\nделикатесы',
+                          Colors.pink[100]!,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                ],
+
+                // Напитки (пример категории)
+                if (_shouldShowCategory(CategoryFilter.drinks)) ...[
+                  _buildCategoryTitle('Напитки'),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Вода',
+                          Colors.blue[100]!,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Соки',
+                          Colors.orange[100]!,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildCategoryCard(
+                          'Газировка',
+                          Colors.blue[200]!,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                ],
               ],
             ),
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+    );
+  }
+
+  Widget _buildFilterButton(String label, CategoryFilter filter) {
+    bool isSelected = _selectedFilter == filter;
+    return GestureDetector(
+      onTap: () => _onFilterTapped(filter),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: isSelected ? Colors.blue : Colors.grey,
+          fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+        ),
       ),
     );
   }
