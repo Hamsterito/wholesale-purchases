@@ -6,7 +6,7 @@ import 'home_screan/profile.dart';
 import 'widgets/bottom_nav.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
