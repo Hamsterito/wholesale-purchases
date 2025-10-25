@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/forgot_screan/verification_page.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({Key? key}) : super(key: key);
+  const ForgotPasswordPage({super.key});
 
   @override
   State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
@@ -26,7 +26,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF6B9BD1),
+              Color(0xFF6288D5),
               Color(0xFF5A8BC5),
             ],
           ),

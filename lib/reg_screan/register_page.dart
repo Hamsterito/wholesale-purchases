@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -33,7 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF6B9BD1),
+              Color(0xFF6288D5),
               Color(0xFF5A8BC5),
             ],
           ),

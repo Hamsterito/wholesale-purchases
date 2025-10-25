@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/reg_screan/register_page.dart';
 import 'package:flutter_project/forgot_screan/forgot_password_page.dart';
-import 'package:flutter_project/home_screan/catalog.dart';
+import 'package:flutter_project/pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -26,18 +26,14 @@ class _LoginPageState extends State<LoginPage> {
   void _navigateToForgotPassword() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const ForgotPasswordPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
     );
   }
 
   void _navigateToRegister() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const RegisterPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const RegisterPage()),
     );
   }
 
@@ -49,10 +45,7 @@ class _LoginPageState extends State<LoginPage> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF6B9BD1),
-              Color(0xFF5A8BC5),
-            ],
+            colors: [Color(0xFF6288D5), Color(0xFF5A8BC5)],
           ),
         ),
         child: Column(
@@ -84,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(24),
@@ -115,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                             hintText: 'example@gmail.com',
                             hintStyle: TextStyle(color: Colors.grey[400]),
                             filled: true,
-                            fillColor: Color(0xFFF5F5F5),
+                            fillColor: const Color(0xFFF5F5F5),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -143,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                             hintText: '············',
                             hintStyle: TextStyle(color: Colors.grey[400]),
                             filled: true,
-                            fillColor: Color(0xFFF5F5F5),
+                            fillColor: const Color(0xFFF5F5F5),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -219,7 +212,9 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () {
                               Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(builder: (context) => const CatalogPage()),
+                                MaterialPageRoute(
+                                  builder: (context) => const HomePage(),
+                                ),
                               );
                             },
                             style: ElevatedButton.styleFrom(
@@ -255,9 +250,9 @@ class _LoginPageState extends State<LoginPage> {
                                 onPressed: _navigateToRegister,
                                 style: TextButton.styleFrom(
                                   padding: EdgeInsets.zero,
-                                  minimumSize: Size(0, 0),
+                                  minimumSize: Size.zero,
                                   tapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
+                                      MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 child: const Text(
                                   'Зарегистрируйтесь',
