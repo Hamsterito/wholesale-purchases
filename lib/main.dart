@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'widgets/main_navigation.dart';
+import 'login_screen/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MainNavigation(),
+      home: const LoginPage(),
     );
   }
 }

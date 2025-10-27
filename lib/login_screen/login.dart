@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/reg_screan/register_page.dart';
 import 'package:flutter_project/forgot_screan/forgot_password_page.dart';
-import '../pages/catalog.dart';
+import '../widgets/main_navigation.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -212,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () {
                               Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(builder: (context) => const CatalogPage()),
+                                MaterialPageRoute(builder: (context) => const MainNavigation()),
                               );
                             },
                             style: ElevatedButton.styleFrom(
