@@ -53,7 +53,7 @@ class _CatalogPageState extends State<CatalogPage> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Астана, Coffe Boom, проспект мангілік Ел...',
+                    'Каталог',
                     style: TextStyle(fontSize: 14, color: Colors.grey.shade800),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -61,7 +61,6 @@ class _CatalogPageState extends State<CatalogPage> {
               ],
             ),
           ),
-          const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
         ],
       ),
     );

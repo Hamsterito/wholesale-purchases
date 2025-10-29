@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Астана, Coffe Boom, проспект мангілік Ел...',
+                    'Главная',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey.shade800,
@@ -65,7 +65,6 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
         ],
       ),
     );

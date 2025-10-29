@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'add_payment_card.dart';
 
 class PaymentMethodPage extends StatefulWidget {
   const PaymentMethodPage({super.key});
@@ -89,7 +90,12 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
             // Кнопка ADD NEW
             TextButton.icon(
               onPressed: () {
-                // действие
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddPaymentCardPage(),
+                  ),
+                );
               },
               icon: const Icon(Icons.add, size: 18),
               label: const Text(
@@ -105,39 +111,12 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
             ),
 
             const Spacer(),
-
-            // Кнопка назад
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 0,
-                ),
-                child: const Text(
-                  'ДОБАВИТЬ НОВЫЙ АДРЕС',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),
     );
   }
 
-  // Метод построения кнопки оплаты
   Widget _buildPaymentOption({
     required String iconPath,
     required String label,
@@ -156,8 +135,8 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
           Stack(
             children: [
               Container(
-                width: 70,
-                height: 70,
+                width: 90,
+                height: 90,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -181,7 +160,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                   right: -2,
                   child: Container(
                     padding: const EdgeInsets.all(2),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Colors.blue,
                       shape: BoxShape.circle,
                     ),

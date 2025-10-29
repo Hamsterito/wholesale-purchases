@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import '../profile/personal_info.dart';
-import '../profile/address_page.dart';
+import '../profile/my_addresses.dart';
 import '../login_screen/login.dart';
 import '../profile/payment_method.dart';
+import '../profile/faqs_page.dart';
+import '../profile/reviews_page.dart';
+import '../profile/settings_page.dart';
+import '../profile/tehpoderzhka.dart';
+
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -14,7 +19,7 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        automaticallyImplyLeading: false, // <-- Убирает стрелку назад
+        automaticallyImplyLeading: false,
         title: const Text(
           'Профиль',
           style: TextStyle(
@@ -23,12 +28,6 @@ class ProfilePage extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -102,7 +101,7 @@ class ProfilePage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const AddressPage(),
+                        builder: (context) => const MyAddressesPage(),
                       ),
                     );
                   },
@@ -139,7 +138,6 @@ class ProfilePage extends StatelessWidget {
 
           const SizedBox(height: 16),
 
-          // FAQ, отзывы, настройки
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -150,19 +148,38 @@ class ProfilePage extends StatelessWidget {
                 _buildMenuItem(
                   iconPath: 'assets/icons/help.png',
                   title: 'FAQs',
-                  onTap: () {},
-                ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const FAQsPage(),
+                      ),
+                    );
+                  },                ),
                 Divider(height: 1, indent: 56, endIndent: 16),
                 _buildMenuItem(
                   iconPath: 'assets/icons/otzivi.png',
                   title: 'Ваши отзывы',
-                  onTap: () {},
-                ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ReviewsPage(),
+                      ),
+                    );
+                  },                   ),
                 Divider(height: 1, indent: 56, endIndent: 16),
                 _buildMenuItem(
                   iconPath: 'assets/icons/settings.png',
                   title: 'Параметр',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SettingsPage(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -179,8 +196,14 @@ class ProfilePage extends StatelessWidget {
             child: _buildMenuItem(
               iconPath: 'assets/icons/support.png',
               title: 'Техподдержка',
-              onTap: () {},
-            ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SupportPage(),
+                  ),
+                );
+              },              ),
           ),
 
           const SizedBox(height: 16),
