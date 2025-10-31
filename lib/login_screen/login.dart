@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/reg_screan/register_page.dart';
 import 'package:flutter_project/forgot_screan/forgot_password_page.dart';
 import '../widgets/main_navigation.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
   bool _obscurePassword = true;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -35,6 +37,52 @@ class _LoginPageState extends State<LoginPage> {
       context,
       MaterialPageRoute(builder: (context) => const RegisterPage()),
     );
+  }
+
+  // 🚀 Авторизация через бекенд
+  Future<void> _loginUser() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Введите email и пароль')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      final url = Uri.parse('http://10.0.2.2:8080/login');
+      final response = await http.post(url, body: {
+        'email': email,
+        'password': password,
+      });
+
+      if (response.statusCode == 200) {
+        // ✅ успешный вход
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(response.body)),
+        );
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MainNavigation()),
+        );
+      } else {
+        // ❌ ошибка логина
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(response.body)),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Ошибка подключения к серверу: $e')),
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -209,19 +257,18 @@ class _LoginPageState extends State<LoginPage> {
                           width: double.infinity,
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(builder: (context) => const MainNavigation()),
-                              );
-                            },
+                            onPressed: _isLoading ? null : _loginUser,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF2D2D2D),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            child: const Text(
+                            child: _isLoading
+                                ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                                : const Text(
                               'ВОЙТИ',
                               style: TextStyle(
                                 fontSize: 16,
@@ -250,7 +297,7 @@ class _LoginPageState extends State<LoginPage> {
                                   padding: EdgeInsets.zero,
                                   minimumSize: Size.zero,
                                   tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
+                                  MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 child: const Text(
                                   'Зарегистрируйтесь',

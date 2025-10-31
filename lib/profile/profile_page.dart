@@ -7,6 +7,7 @@ import '../profile/faqs_page.dart';
 import '../profile/reviews_page.dart';
 import '../profile/settings_page.dart';
 import '../profile/tehpoderzhka.dart';
+import '../profile/zakazi.dart';
 
 
 class ProfilePage extends StatelessWidget {
@@ -120,6 +121,19 @@ class ProfilePage extends StatelessWidget {
             ),
             child: Column(
               children: [
+                _buildMenuItem(
+                  iconPath: 'assets/icons/Shopping_Cart_01.png',
+                  title: 'Мои заказы',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyOrdersPage(),
+                      ),
+                    );
+                  },
+                ),
+                Divider(height: 1, indent: 56, endIndent: 16),
                 _buildMenuItem(
                   iconPath: 'assets/icons/card.png',
                   title: 'Способ оплаты',
