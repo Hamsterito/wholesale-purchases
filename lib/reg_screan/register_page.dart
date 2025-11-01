@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -14,6 +15,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -23,12 +25,60 @@ class _RegisterPageState extends State<RegisterPage> {
     _confirmPasswordController.dispose();
     super.dispose();
   }
+  Future<void> _registerUser() async {
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Пароли не совпадают')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      // Если тестируешь в Android Studio эмуляторе:
+      final url = Uri.parse('http://10.0.2.2:8080/register');
+
+      // ⚠️ Отправляем как form-urlencoded, без jsonEncode()
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: {
+          'name': name,
+          'email': email,
+          'password': password,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Регистрация прошла успешно!')),
+        );
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Ошибка: ${response.body}')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Ошибка подключения: $e')),
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -47,12 +97,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Row(
                   children: [
                     Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.black),
+                        icon: const Icon(Icons.arrow_back, color: Colors.black),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -66,8 +116,8 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
+                  children: const [
+                    Text(
                       'Регистрация',
                       style: TextStyle(
                         fontSize: 32,
@@ -75,8 +125,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    const Text(
+                    SizedBox(height: 12),
+                    Text(
                       'Зарегистрируйтесь что бы начать',
                       style: TextStyle(
                         fontSize: 16,
@@ -88,7 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(24),
@@ -115,10 +165,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         TextField(
                           controller: _nameController,
                           decoration: InputDecoration(
-                            hintText: 'example@gmail.com',
+                            hintText: 'Введите имя',
                             hintStyle: TextStyle(color: Colors.grey[400]),
                             filled: true,
-                            fillColor: Color(0xFFF5F5F5),
+                            fillColor: const Color(0xFFF5F5F5),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -146,7 +196,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             hintText: 'example@gmail.com',
                             hintStyle: TextStyle(color: Colors.grey[400]),
                             filled: true,
-                            fillColor: Color(0xFFF5F5F5),
+                            fillColor: const Color(0xFFF5F5F5),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -174,7 +224,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             hintText: '············',
                             hintStyle: TextStyle(color: Colors.grey[400]),
                             filled: true,
-                            fillColor: Color(0xFFF5F5F5),
+                            fillColor: const Color(0xFFF5F5F5),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -215,7 +265,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             hintText: '············',
                             hintStyle: TextStyle(color: Colors.grey[400]),
                             filled: true,
-                            fillColor: Color(0xFFF5F5F5),
+                            fillColor: const Color(0xFFF5F5F5),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -244,14 +294,16 @@ class _RegisterPageState extends State<RegisterPage> {
                           width: double.infinity,
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: _isLoading ? null : _registerUser,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF2D2D2D),
+                              backgroundColor: const Color(0xFF2D2D2D),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            child: const Text(
+                            child: _isLoading
+                                ? const CircularProgressIndicator(color: Colors.white)
+                                : const Text(
                               'ЗАРЕГИСТРОВАТЬСЯ',
                               style: TextStyle(
                                 fontSize: 16,

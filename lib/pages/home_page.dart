@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/product.dart';
-import '../data/sample_product.dart';
 import '../widgets/product_card.dart';
+import '../services/api_service.dart';
 import 'product_detail_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,12 +14,35 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedTabIndex = 0;
   final List<String> _tabs = ['Все', 'Напитки', 'Овощи фрукты', 'Мясо'];
-  late List<Product> _products;
+  List<Product> _products = [];
+  bool _isLoading = true;
+  String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
-    _products = getSampleProducts();
+    _loadProducts();
+  }
+
+  Future<void> _loadProducts() async {
+    try {
+      setState(() {
+        _isLoading = true;
+        _errorMessage = null;
+      });
+
+      final products = await ApiService.getProducts();
+
+      setState(() {
+        _products = products;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Ошибка загрузки товаров: $e';
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -33,12 +56,58 @@ class _HomePageState extends State<HomePage> {
             _buildSearchBar(),
             _buildFilterTabs(),
             Expanded(
-              child: _buildProductGrid(),
+              child: _buildContent(),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildContent() {
+    if (_isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(
+          color: Color(0xFF6288D5),
+        ),
+      );
+    }
+
+    if (_errorMessage != null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, size: 64, color: Colors.grey),
+            const SizedBox(height: 16),
+            Text(
+              _errorMessage!,
+              style: const TextStyle(color: Colors.grey),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _loadProducts,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF6288D5),
+              ),
+              child: const Text('Повторить'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (_products.isEmpty) {
+      return const Center(
+        child: Text(
+          'Товары не найдены',
+          style: TextStyle(color: Colors.grey, fontSize: 16),
+        ),
+      );
+    }
+
+    return _buildProductGrid();
   }
 
   Widget _buildHeader() {
@@ -140,7 +209,7 @@ class _HomePageState extends State<HomePage> {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight:
-                                isSelected ? FontWeight.w600 : FontWeight.w400,
+                            isSelected ? FontWeight.w600 : FontWeight.w400,
                             color: isSelected ? Colors.white : Colors.black,
                           ),
                         ),
@@ -157,44 +226,48 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildProductGrid() {
-    return GridView.builder(
-      padding: const EdgeInsets.all(16),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.58,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-      ),
-      itemCount: _products.length,
-      itemBuilder: (context, index) {
-        final product = _products[index];
-        return ProductCard(
-          product: product,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProductDetailPage(
-                  product: product,
-                  similarProducts: _products
-                      .where((p) => p.id != product.id)
-                      .take(5)
-                      .toList(),
+    return RefreshIndicator(
+      color: const Color(0xFF6288D5),
+      onRefresh: _loadProducts,
+      child: GridView.builder(
+        padding: const EdgeInsets.all(16),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.58,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+        ),
+        itemCount: _products.length,
+        itemBuilder: (context, index) {
+          final product = _products[index];
+          return ProductCard(
+            product: product,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductDetailPage(
+                    product: product,
+                    similarProducts: _products
+                        .where((p) => p.id != product.id)
+                        .take(5)
+                        .toList(),
+                  ),
                 ),
-              ),
-            );
-          },
-          onAddToCart: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('${product.name} добавлен в корзину'),
-                backgroundColor: const Color(0xFF6288D5),
-                duration: const Duration(seconds: 2),
-              ),
-            );
-          },
-        );
-      },
+              );
+            },
+            onAddToCart: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('${product.name} добавлен в корзину'),
+                  backgroundColor: const Color(0xFF6288D5),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
