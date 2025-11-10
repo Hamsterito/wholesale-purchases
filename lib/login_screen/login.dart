@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // 🚀 Авторизация через бекенд
+  // Авторизация через бекенд
   Future<void> _loginUser() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
       });
 
       if (response.statusCode == 200) {
-        // ✅ успешный вход
+        //успешный вход
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(response.body)),
         );
@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
           MaterialPageRoute(builder: (context) => const MainNavigation()),
         );
       } else {
-        // ❌ ошибка логина
+        //ошибка логина
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(response.body)),
         );

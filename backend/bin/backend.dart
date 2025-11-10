@@ -19,14 +19,14 @@ void main() async {
     settings: const ConnectionSettings(sslMode: SslMode.disable),
   );
 
-  print('✅ Подключено к PostgreSQL!');
+  print('Подключено к PostgreSQL!');
 
   final router = Router();
 
   // Проверка соединения
   router.get('/', (Request request) {
     return Response.ok(
-      '✅ Бекенд работает и подключен к PostgreSQL!',
+      'Бекенд работает и подключен к PostgreSQL!',
       headers: {'content-type': 'text/plain; charset=utf-8'},
     );
   });
@@ -95,8 +95,8 @@ void main() async {
         headers: {'content-type': 'application/json; charset=utf-8'},
       );
     } catch (e, st) {
-      print('❌ Ошибка при получении товаров: $e\n$st');
-      return Response.internalServerError(body: '⚠️ Ошибка сервера: $e');
+      print('Ошибка при получении товаров: $e\n$st');
+      return Response.internalServerError(body: 'Ошибка сервера: $e');
     }
   });
 
@@ -104,7 +104,7 @@ void main() async {
   router.post('/register', (Request request) async {
     try {
       final body = await request.readAsString();
-      print('📥 Получено тело: $body');
+      print('Получено тело: $body');
 
       final data = Uri.splitQueryString(body);
 
@@ -113,7 +113,7 @@ void main() async {
       final password = data['password'];
 
       if (name == null || email == null || password == null) {
-        return Response(400, body: '❌ Missing fields');
+        return Response(400, body: 'Missing fields');
       }
 
       final existing = await connection.execute(
@@ -122,7 +122,7 @@ void main() async {
       );
 
       if (existing.isNotEmpty) {
-        return Response.forbidden('⚠️ Email already registered');
+        return Response.forbidden('Email already registered');
       }
 
       await connection.execute(
@@ -130,15 +130,14 @@ void main() async {
         parameters: {'name': name, 'email': email, 'password': password},
       );
 
-      print('✅ Новый пользователь добавлен: $email');
-      return Response.ok('✅ Registration successful');
+      print('Новый пользователь добавлен: $email');
+      return Response.ok('Registration successful');
     } catch (e, st) {
-      print('❌ Ошибка при регистрации: $e\n$st');
-      return Response.internalServerError(body: '⚠️ Server error: $e');
+      print('Ошибка при регистрации: $e\n$st');
+      return Response.internalServerError(body: 'Server error: $e');
     }
   });
 
-  // 🔐 Авторизация
   router.post('/login', (Request request) async {
     try {
       final body = await request.readAsString();
@@ -148,7 +147,7 @@ void main() async {
       final password = data['password'];
 
       if (email == null || password == null) {
-        return Response.badRequest(body: '❌ Отсутствует email или пароль');
+        return Response.badRequest(body: 'Отсутствует email или пароль');
       }
 
       final result = await connection.execute(
@@ -157,17 +156,17 @@ void main() async {
       );
 
       if (result.isEmpty) {
-        return Response.forbidden('❌ Неправильный логин или пароль');
+        return Response.forbidden('Неправильный логин или пароль');
       }
 
       final user = result.first.toColumnMap();
       return Response.ok(
-        '✅ Добро пожаловать, ${user['name']}!',
+        'Добро пожаловать, ${user['name']}!',
         headers: {'content-type': 'text/plain; charset=utf-8'},
       );
     } catch (e, st) {
       print('Ошибка при авторизации: $e\n$st');
-      return Response.internalServerError(body: '⚠️ Ошибка сервера');
+      return Response.internalServerError(body: 'Ошибка сервера');
     }
   });
 
@@ -179,5 +178,5 @@ void main() async {
 
   // Запуск сервера
   final server = await serve(handler, InternetAddress.anyIPv4, 8080);
-  print('🚀 Сервер запущен: http://${server.address.host}:${server.port}');
+  print('Сервер запущен: http://${server.address.host}:${server.port}');
 }
