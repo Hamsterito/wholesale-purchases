@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/main_bottom_nav.dart';
 
 class AddressPage extends StatefulWidget {
   const AddressPage({super.key});
@@ -23,6 +24,13 @@ class _AddressPageState extends State<AddressPage> {
 
   String _selectedType = 'Home';
 
+  ThemeData get _theme => Theme.of(context);
+  ColorScheme get _colorScheme => _theme.colorScheme;
+  Color get _pageBg => _theme.scaffoldBackgroundColor;
+  Color get _cardBg => _colorScheme.surface;
+  Color get _mutedText => _colorScheme.onSurfaceVariant;
+  Color get _inputFill => _colorScheme.surfaceVariant;
+
   @override
   void dispose() {
     _addressController.dispose();
@@ -34,21 +42,23 @@ class _AddressPageState extends State<AddressPage> {
 
   @override
   Widget build(BuildContext context) {
+    const primaryColor = Color(0xFF6288D5);
+
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: _pageBg,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: _cardBg,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: _colorScheme.onSurface),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: const Text(
+        title: Text(
           'Мой адрес',
           style: TextStyle(
-            color: Colors.black,
+            color: _colorScheme.onSurface,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
@@ -100,11 +110,11 @@ class _AddressPageState extends State<AddressPage> {
             // Кнопки выбора типа адреса
             Row(
               children: [
-                _buildTypeButton('Home'),
+                _buildTypeButton(value: 'Home', label: 'Дом'),
                 const SizedBox(width: 12),
-                _buildTypeButton('Work'),
+                _buildTypeButton(value: 'Work', label: 'Работа'),
                 const SizedBox(width: 12),
-                _buildTypeButton('Other'),
+                _buildTypeButton(value: 'Other', label: 'Другое'),
               ],
             ),
 
@@ -119,7 +129,7 @@ class _AddressPageState extends State<AddressPage> {
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: primaryColor,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
@@ -127,7 +137,7 @@ class _AddressPageState extends State<AddressPage> {
                   ),
                   elevation: 0,
                 ),
-                child: const Text(
+                child: Text(
                   'СОХРАНИТЬ АДРЕС',
                   style: TextStyle(
                     fontSize: 16,
@@ -139,6 +149,7 @@ class _AddressPageState extends State<AddressPage> {
           ],
         ),
       ),
+      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
     );
   }
 
@@ -152,10 +163,10 @@ class _AddressPageState extends State<AddressPage> {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: Colors.black,
+            color: _colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
@@ -163,9 +174,9 @@ class _AddressPageState extends State<AddressPage> {
           controller: controller,
           decoration: InputDecoration(
             filled: true,
-            fillColor: Colors.grey[100],
+            fillColor: _inputFill,
             prefixIcon: prefixIcon != null
-                ? Icon(prefixIcon, color: Colors.grey[600])
+                ? Icon(prefixIcon, color: _mutedText)
                 : null,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
@@ -181,27 +192,32 @@ class _AddressPageState extends State<AddressPage> {
     );
   }
 
-  Widget _buildTypeButton(String type) {
-    final isSelected = _selectedType == type;
+  Widget _buildTypeButton({
+    required String value,
+    required String label,
+  }) {
+    final isSelected = _selectedType == value;
+    const primaryColor = Color(0xFF6288D5);
+
     return Expanded(
       child: InkWell(
         onTap: () {
           setState(() {
-            _selectedType = type;
+            _selectedType = value;
           });
         },
         borderRadius: BorderRadius.circular(24),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            color: isSelected ? Colors.blue : Colors.grey[200],
+            color: isSelected ? primaryColor : _inputFill,
             borderRadius: BorderRadius.circular(24),
           ),
           child: Text(
-            type,
+            label,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: isSelected ? Colors.white : Colors.black,
+              color: isSelected ? Colors.white : _colorScheme.onSurface,
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),

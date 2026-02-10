@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/main_bottom_nav.dart';
 
 class SupportPage extends StatefulWidget {
   const SupportPage({super.key});
@@ -8,6 +9,9 @@ class SupportPage extends StatefulWidget {
 }
 
 class _SupportPageState extends State<SupportPage> {
+  static const Color _primaryColor = Color(0xFF6288D5);
+  static const Color _primaryDark = Color(0xFF4F6FBF);
+
   final TextEditingController _subjectController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
   String? _selectedCategory;
@@ -22,20 +26,35 @@ class _SupportPageState extends State<SupportPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+    final pageBackground = isDark ? const Color(0xFF0F1115) : const Color(0xFFF2F5FB);
+    final cardBackground = colorScheme.surface;
+    final textPrimary = colorScheme.onSurface;
+    final textMuted = colorScheme.onSurfaceVariant;
+    final fieldFill = isDark ? const Color(0xFF171D28) : const Color(0xFFF4F6FB);
+    final fieldBorder = isDark ? colorScheme.outlineVariant : const Color(0xFFE1E7F3);
+    final cardShadow =
+        isDark ? Colors.black.withValues(alpha: 0.35) : const Color(0x14000000);
+    final baseFieldDecoration = _baseFieldDecoration(
+      fillColor: fieldFill,
+      borderColor: fieldBorder,
+      focusColor: _primaryColor,
+      hintColor: textMuted,
+    );
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: pageBackground,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           'Техподдержка',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
+          style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -48,8 +67,22 @@ class _SupportPageState extends State<SupportPage> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: const Color(0xFF5B8DEE),
-                borderRadius: BorderRadius.circular(16),
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    _primaryColor,
+                    _primaryDark,
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: cardShadow,
+                    blurRadius: 18,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
               ),
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -70,7 +103,7 @@ class _SupportPageState extends State<SupportPage> {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  const Text(
+                  Text(
                     'Мы готовы помочь вам решить любой вопрос',
                     style: TextStyle(
                       color: Color(0xFFE3ECFF),
@@ -89,115 +122,145 @@ class _SupportPageState extends State<SupportPage> {
             const SizedBox(height: 16),
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
+                color: cardBackground,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: fieldBorder),
+                boxShadow: [
+                  BoxShadow(
+                    color: cardShadow,
+                    blurRadius: 14,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
               padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Отправить обращение',
                     style: TextStyle(
                       fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Категория обращения',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: textMuted,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Категория обращения',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF666666),
-                    ),
-                  ),
                   const SizedBox(height: 8),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFFE0E0E0)),
-                      borderRadius: BorderRadius.circular(12),
+                  DropdownButtonFormField<String>(
+                    value: _selectedCategory,
+                    hint: Text(
+                      'Выберите категорию',
+                      style: TextStyle(color: textMuted),
                     ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: _selectedCategory,
-                        hint: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          child: Text('Выберите категорию'),
+                    isExpanded: true,
+                    icon: const SizedBox.shrink(),
+                    iconSize: 0,
+                    iconEnabledColor: Colors.transparent,
+                    iconDisabledColor: Colors.transparent,
+                    borderRadius: BorderRadius.circular(14),
+                    menuMaxHeight: 260,
+                    dropdownColor: cardBackground,
+                    elevation: 10,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: textPrimary,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    selectedItemBuilder: (context) {
+                      return _categories.map((category) {
+                        return Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            category,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: textPrimary,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        );
+                      }).toList();
+                    },
+                    decoration: baseFieldDecoration,
+                    items: _categories.map((String category) {
+                      final isSelected = category == _selectedCategory;
+                      return DropdownMenuItem<String>(
+                        value: category,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              color: isSelected ? fieldFill : Colors.transparent,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color:
+                                    isSelected ? fieldBorder : Colors.transparent,
+                              ),
+                            ),
+                            child: Text(
+                              category,
+                              style: TextStyle(
+                                color: textPrimary,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        items: _categories.map((String category) {
-                          return DropdownMenuItem<String>(
-                            value: category,
-                            child: Text(category),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedCategory = newValue;
-                          });
-                        },
-                      ),
-                    ),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedCategory = newValue;
+                      });
+                    },
                   ),
                   const SizedBox(height: 20),
-                  const Text(
+                  Text(
                     'Тема обращения',
                     style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF666666),
+                      fontSize: 16,
+                      color: textMuted,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 8),
                   TextField(
                     controller: _subjectController,
-                    decoration: InputDecoration(
+                    decoration: baseFieldDecoration.copyWith(
                       hintText: 'Введите тему',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFF5B8DEE)),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 14,
-                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Text(
+                  Text(
                     'Сообщение',
                     style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF666666),
+                      fontSize: 16,
+                      color: textMuted,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 8),
                   TextField(
                     controller: _messageController,
                     maxLines: 5,
-                    decoration: InputDecoration(
+                    decoration: baseFieldDecoration.copyWith(
                       hintText: 'Опишите вашу проблему подробно',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFF5B8DEE)),
-                      ),
                       contentPadding: const EdgeInsets.all(16),
+                      alignLabelWithHint: true,
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -210,21 +273,22 @@ class _SupportPageState extends State<SupportPage> {
                             _subjectController.text.isNotEmpty &&
                             _messageController.text.isNotEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
+                            SnackBar(
                               content: Text('Обращение отправлено'),
-                              backgroundColor: Color(0xFF5B8DEE),
+                              backgroundColor: _primaryColor,
                             ),
                           );
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF5B8DEE),
+                        backgroundColor: _primaryColor,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(14),
                         ),
-                        elevation: 0,
+                        elevation: 2,
+                        shadowColor: _primaryColor.withOpacity(0.3),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Отправить',
                         style: TextStyle(
                           fontSize: 16,
@@ -237,17 +301,38 @@ class _SupportPageState extends State<SupportPage> {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              padding: const EdgeInsets.all(20),
-
-            ),
           ],
         ),
+      ),
+      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+    );
+  }
+
+  InputDecoration _baseFieldDecoration({
+    required Color fillColor,
+    required Color borderColor,
+    required Color focusColor,
+    required Color hintColor,
+  }) {
+    return InputDecoration(
+      filled: true,
+      fillColor: fillColor,
+      hintStyle: TextStyle(color: hintColor),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 14,
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(color: borderColor),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(color: borderColor),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(color: focusColor, width: 1.4),
       ),
     );
   }
@@ -259,7 +344,7 @@ class _SupportPageState extends State<SupportPage> {
         const SizedBox(width: 12),
         Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
             fontSize: 14,
           ),

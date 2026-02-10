@@ -1,3 +1,5 @@
+import '../utils/text_normalizer.dart';
+
 class Product {
   final String id;
   final String name;
@@ -39,17 +41,31 @@ class Product {
   }
 
   factory Product.fromJson(Map<String, dynamic> json) {
+    final normalize = TextNormalizer.normalize;
+    final rawCategories = json['categories'];
+    final categories = rawCategories is List
+        ? rawCategories.map((item) => normalize(item.toString())).toList()
+        : <String>[];
+    final rawCharacteristics = json['characteristics'];
+    final characteristics = <String, String>{};
+    if (rawCharacteristics is Map) {
+      rawCharacteristics.forEach((key, value) {
+        characteristics[normalize(key.toString())] =
+            normalize(value.toString());
+      });
+    }
+
     return Product(
-      id: json['id'] ?? '',
-      name: json['name'] ?? '',
-      description: json['description'] ?? '',
+      id: json['id']?.toString() ?? '',
+      name: normalize(json['name']?.toString() ?? ''),
+      description: normalize(json['description']?.toString() ?? ''),
       imageUrls: List<String>.from(json['imageUrls'] ?? []),
       rating: (json['rating'] ?? 0).toDouble(),
       reviewCount: json['reviewCount'] ?? 0,
-      categories: List<String>.from(json['categories'] ?? []),
+      categories: categories,
       nutritionalInfo: NutritionalInfo.fromJson(json['nutritionalInfo'] ?? {}),
-      ingredients: json['ingredients'] ?? '',
-      characteristics: Map<String, String>.from(json['characteristics'] ?? {}),
+      ingredients: normalize(json['ingredients']?.toString() ?? ''),
+      characteristics: characteristics,
       suppliers: (json['suppliers'] as List?)
               ?.map((s) => Supplier.fromJson(s))
               .toList() ??
@@ -96,6 +112,7 @@ class Supplier {
   final int reviewCount;
   final int pricePerUnit;
   final int minQuantity;
+  final int? maxQuantity;
   final String deliveryDate;
   final String deliveryInfo;
   final String deliveryBadge;
@@ -107,6 +124,7 @@ class Supplier {
     required this.reviewCount,
     required this.pricePerUnit,
     required this.minQuantity,
+    this.maxQuantity,
     required this.deliveryDate,
     required this.deliveryInfo,
     required this.deliveryBadge,
@@ -117,16 +135,33 @@ class Supplier {
   }
 
   factory Supplier.fromJson(Map<String, dynamic> json) {
+    final normalize = TextNormalizer.normalize;
+    int? parsePositiveInt(dynamic value) {
+      if (value == null) return null;
+      if (value is int) return value > 0 ? value : null;
+      if (value is double) {
+        final rounded = value.round();
+        return rounded > 0 ? rounded : null;
+      }
+      final parsed = int.tryParse(value.toString());
+      return parsed != null && parsed > 0 ? parsed : null;
+    }
+
+    final maxQuantity = parsePositiveInt(
+      json['maxQuantity'] ?? json['max_quantity'] ?? json['limit_quantity'],
+    );
+
     return Supplier(
-      id: json['id'] ?? '',
-      name: json['name'] ?? '',
+      id: json['id']?.toString() ?? '',
+      name: normalize(json['name']?.toString() ?? ''),
       rating: (json['rating'] ?? 0).toDouble(),
       reviewCount: json['reviewCount'] ?? 0,
       pricePerUnit: json['pricePerUnit'] ?? 0,
       minQuantity: json['minQuantity'] ?? 1,
-      deliveryDate: json['deliveryDate'] ?? '',
-      deliveryInfo: json['deliveryInfo'] ?? '',
-      deliveryBadge: json['deliveryBadge'] ?? '',
+      maxQuantity: maxQuantity,
+      deliveryDate: normalize(json['deliveryDate']?.toString() ?? ''),
+      deliveryInfo: normalize(json['deliveryInfo']?.toString() ?? ''),
+      deliveryBadge: normalize(json['deliveryBadge']?.toString() ?? ''),
     );
   }
 }

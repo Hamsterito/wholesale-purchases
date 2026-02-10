@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class CategoryTags extends StatelessWidget {
   final List<String> categories;
@@ -7,13 +7,18 @@ class CategoryTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+    final chipBg = isDark
+        ? colorScheme.primary.withValues(alpha: 0.22)
+        : colorScheme.surfaceVariant;
+    final chipText = isDark ? colorScheme.primary : colorScheme.onSurfaceVariant;
+
     return Container(
       width: double.infinity,
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 16,
-      ),
+      color: colorScheme.surface,
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 2),
       child: Wrap(
         spacing: 8,
         runSpacing: 8,
@@ -21,14 +26,14 @@ class CategoryTags extends StatelessWidget {
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: const Color(0xFFE3EFFF),
+              color: chipBg,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Text(
               category,
-              style: const TextStyle(
-                fontSize: 13,
-                color: Color(0xFF6288D5),
+              style: TextStyle(
+                fontSize: 12,
+                color: chipText,
                 fontWeight: FontWeight.w500,
               ),
             ),

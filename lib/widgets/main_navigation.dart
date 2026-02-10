@@ -1,12 +1,17 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_project/pages/home_page.dart';
 import 'package:flutter_project/pages/catalog.dart';
 import 'package:flutter_project/pages/cart_page.dart';
 import 'package:flutter_project/profile/profile_page.dart';
-import 'package:flutter_svg/flutter_svg.dart'; 
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MainNavigation extends StatefulWidget {
-  const MainNavigation({super.key});
+  final int initialIndex;
+
+  const MainNavigation({
+    super.key,
+    this.initialIndex = 0,
+  });
 
   @override
   State<MainNavigation> createState() => _MainNavigationState();
@@ -31,15 +36,27 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+    final shadowColor =
+        isDark ? Colors.black.withValues(alpha: 0.4) : Colors.black.withValues(alpha: 0.05);
+
     return Scaffold(
       body: IndexedStack(index: _currentIndex, children: _pages),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: colorScheme.surface,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
+              color: shadowColor,
               blurRadius: 10,
               offset: const Offset(0, -2),
             ),
@@ -89,36 +106,56 @@ class _MainNavigationState extends State<MainNavigation> {
     int index,
   ) {
     final isActive = _currentIndex == index;
+    final colorScheme = Theme.of(context).colorScheme;
+    final activeColor = colorScheme.primary;
+    final inactiveColor = colorScheme.onSurfaceVariant;
+    final splashColor = activeColor.withValues(alpha: 0.18);
+    final highlightColor = activeColor.withValues(alpha: 0.12);
+    final hoverColor = activeColor.withValues(alpha: 0.08);
+    bool isPressed = false;
 
     return Expanded(
-      child: InkWell(
-        onTap: () => _onItemTapped(index),
-        borderRadius: BorderRadius.circular(12),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              isActive ? activeIconPath : iconPath,
-              width: 24,
-              height: 24,
-              colorFilter: ColorFilter.mode(
-                isActive ? const Color(0xFF6288D5) : Colors.grey.shade600,
-                BlendMode.srcIn,
+      child: StatefulBuilder(
+        builder: (context, setInnerState) {
+          return AnimatedScale(
+            scale: isPressed ? 0.92 : 1.0,
+            duration: const Duration(milliseconds: 120),
+            curve: Curves.easeOut,
+            child: InkWell(
+              onTap: () => _onItemTapped(index),
+              onHighlightChanged: (value) {
+                setInnerState(() => isPressed = value);
+              },
+              borderRadius: BorderRadius.circular(12),
+              splashColor: splashColor,
+              highlightColor: highlightColor,
+              hoverColor: hoverColor,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SvgPicture.asset(
+                    isActive ? activeIconPath : iconPath,
+                    width: 24,
+                    height: 24,
+                    colorFilter: ColorFilter.mode(
+                      isActive ? activeColor : inactiveColor,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: isActive ? activeColor : inactiveColor,
+                      fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 11,
-                color: isActive
-                    ? const Color(0xFF6288D5)
-                    : Colors.grey.shade600,
-                fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

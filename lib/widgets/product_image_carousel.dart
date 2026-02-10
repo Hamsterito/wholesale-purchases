@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class ProductImageCarousel extends StatefulWidget {
   final List<String> imageUrls;
@@ -16,89 +16,113 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
   int _currentIndex = 0;
   final PageController _pageController = PageController();
 
+  ThemeData get _theme => Theme.of(context);
+  ColorScheme get _colorScheme => _theme.colorScheme;
+  Color get _cardBg => _colorScheme.surface;
+  Color get _surfaceContainer => _colorScheme.surfaceContainerHighest;
+  Color get _mutedText => _colorScheme.onSurfaceVariant;
+
+  List<String> _normalizedImages() {
+    final images = widget.imageUrls
+        .map((url) => url.trim())
+        .where((url) => url.isNotEmpty)
+        .toList();
+    return images.isEmpty ? [''] : images;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 400,
-      color: Colors.white,
-      child: Stack(
-        children: [
-          PageView.builder(
-            controller: _pageController,
-            onPageChanged: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            itemCount: widget.imageUrls.length,
-            itemBuilder: (context, index) {
-              final path = widget.imageUrls[index];
-              final isNetwork = path.startsWith('http');
+    final images = _normalizedImages();
 
-              return Center(
-                child: isNetwork
-                    ? Image.network(
-                        path,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) {
-                          return _buildPlaceholder();
-                        },
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null,
-                              color: const Color(0xFF6288D5),
-                            ),
-                          );
-                        },
-                      )
-                    : Image.asset(
-                        path,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) =>
-                            _buildPlaceholder(),
-                      ),
-              );
-            },
-          ),
-          if (widget.imageUrls.length > 1)
-            Positioned(
-              bottom: 16,
-              left: 0,
-              right: 0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(widget.imageUrls.length, (index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _currentIndex == index
-                          ? const Color(0xFF6288D5)
-                          : Colors.grey.shade300,
-                    ),
-                  );
-                }),
-              ),
+    return Container(
+      color: _cardBg,
+      child: Container(
+        color: _surfaceContainer,
+        height: 400,
+        child: Stack(
+          children: [
+            PageView.builder(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+              itemCount: images.length,
+              itemBuilder: (context, index) {
+                final path = images[index];
+                final isNetwork = path.startsWith('http');
+
+                return Center(
+                  child: path.isEmpty
+                      ? _buildPlaceholder()
+                      : isNetwork
+                      ? Image.network(
+                          path,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          errorBuilder: (context, error, stackTrace) {
+                            return _buildPlaceholder();
+                          },
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                                color: const Color(0xFF6288D5),
+                              ),
+                            );
+                          },
+                        )
+                      : Image.asset(
+                          path,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          errorBuilder: (context, error, stackTrace) =>
+                              _buildPlaceholder(),
+                        ),
+                );
+              },
             ),
-        ],
+            if (images.length > 1)
+              Positioned(
+                bottom: 12,
+                left: 0,
+                right: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(images.length, (index) {
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      width: _currentIndex == index ? 16 : 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(999),
+                        color: _currentIndex == index
+                            ? const Color(0xFF6288D5)
+                            : Colors.white.withValues(alpha: 0.7),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildPlaceholder() {
     return Container(
-      color: Colors.grey.shade200,
-      child: const Icon(
+      color: _surfaceContainer,
+      child: Icon(
         Icons.image,
         size: 100,
-        color: Colors.grey,
+        color: _mutedText,
       ),
     );
   }

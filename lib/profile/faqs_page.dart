@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/main_bottom_nav.dart';
 
 class FAQsPage extends StatefulWidget {
   const FAQsPage({super.key});
@@ -9,6 +10,17 @@ class FAQsPage extends StatefulWidget {
 
 class _FAQsPageState extends State<FAQsPage> {
   int? _expandedIndex;
+  static const _expansionDuration = Duration(milliseconds: 280);
+  static const _expansionCurve = Curves.easeInOutCubic;
+
+  ThemeData get _theme => Theme.of(context);
+  ColorScheme get _colorScheme => _theme.colorScheme;
+  bool get _isDark => _theme.brightness == Brightness.dark;
+  Color get _pageBg => _theme.scaffoldBackgroundColor;
+  Color get _cardBg => _colorScheme.surface;
+  Color get _mutedText => _colorScheme.onSurfaceVariant;
+  Color get _shadowColor =>
+      _isDark ? Colors.black.withValues(alpha: 0.35) : Colors.black.withValues(alpha: 0.05);
 
   final List<Map<String, String>> _faqs = [
     {
@@ -48,21 +60,19 @@ class _FAQsPageState extends State<FAQsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: _pageBg,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: _cardBg,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: _colorScheme.onSurface),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: const Text(
-          'FAQs',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
+        title: Text(
+          'Вопросы и ответы',
+          style: _theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -77,47 +87,91 @@ class _FAQsPageState extends State<FAQsPage> {
           return Container(
             margin: const EdgeInsets.only(bottom: 12),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: _cardBg,
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
+                  color: _shadowColor,
                   blurRadius: 4,
                   offset: const Offset(0, 2),
                 ),
               ],
             ),
-            child: Theme(
-              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-              child: ExpansionTile(
-                title: Text(
-                  faq['question']!,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                  ),
-                ),
-                trailing: Icon(
-                  isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                  color: Colors.grey[600],
-                ),
-                onExpansionChanged: (expanded) {
-                  setState(() {
-                    _expandedIndex = expanded ? index : null;
-                  });
-                },
+            child: Material(
+              color: Colors.transparent,
+              child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                    child: Text(
-                      faq['answer']!,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                        height: 1.5,
+                  InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () {
+                      setState(() {
+                        _expandedIndex = isExpanded ? null : index;
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              faq['question']!,
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: _colorScheme.onSurface,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          AnimatedRotation(
+                            turns: isExpanded ? 0.5 : 0.0,
+                            duration: _expansionDuration,
+                            curve: _expansionCurve,
+                            child: Icon(
+                              Icons.keyboard_arrow_down,
+                              color: _mutedText,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                  ),
+                  AnimatedSwitcher(
+                    duration: _expansionDuration,
+                    reverseDuration: _expansionDuration,
+                    switchInCurve: _expansionCurve,
+                    switchOutCurve: _expansionCurve,
+                    transitionBuilder: (child, animation) {
+                      final curved = CurvedAnimation(
+                        parent: animation,
+                        curve: _expansionCurve,
+                      );
+                      return FadeTransition(
+                        opacity: curved,
+                        child: SizeTransition(
+                          sizeFactor: curved,
+                          axisAlignment: -1,
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: isExpanded
+                        ? Padding(
+                            key: const ValueKey('expanded'),
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                            child: Text(
+                              faq['answer']!,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: _mutedText,
+                                height: 1.5,
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink(
+                            key: ValueKey('collapsed'),
+                          ),
                   ),
                 ],
               ),
@@ -125,6 +179,7 @@ class _FAQsPageState extends State<FAQsPage> {
           );
         },
       ),
+      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
     );
   }
 }

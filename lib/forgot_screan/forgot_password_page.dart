@@ -11,6 +11,14 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _emailController = TextEditingController();
 
+  ThemeData get _theme => Theme.of(context);
+  ColorScheme get _colorScheme => _theme.colorScheme;
+  bool get _isDark => _theme.brightness == Brightness.dark;
+  Color get _cardBg => _colorScheme.surface;
+  Color get _mutedText => _colorScheme.onSurfaceVariant;
+  Color get _inputFill =>
+      _isDark ? _colorScheme.surfaceVariant : const Color(0xFFF5F5F5);
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -19,16 +27,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final gradientColors = _isDark
+        ? const [Color(0xFF1B2434), Color(0xFF0F1115)]
+        : const [Color(0xFF6288D5), Color(0xFF5A8BC5)];
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF6288D5),
-              Color(0xFF5A8BC5),
-            ],
+            colors: gradientColors,
           ),
         ),
         child: Column(
@@ -41,11 +50,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: _cardBg,
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.black),
+                        icon: Icon(Icons.arrow_back, color: _colorScheme.onSurface),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -60,7 +69,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       'Забыли пароль',
                       style: TextStyle(
                         fontSize: 32,
@@ -69,7 +78,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    const Text(
+                    Text(
                       'Напиши свою почту',
                       style: TextStyle(
                         fontSize: 16,
@@ -82,8 +91,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             ),
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
+                color: _cardBg,
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),
                 ),
@@ -96,7 +105,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'EMAIL',
                           style: TextStyle(
                             fontSize: 12,
@@ -110,9 +119,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             hintText: 'example@gmail.com',
-                            hintStyle: TextStyle(color: Colors.grey[400]),
+                            hintStyle: TextStyle(color: _mutedText),
                             filled: true,
-                            fillColor: Color(0xFFF5F5F5),
+                            fillColor: _inputFill,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -137,12 +146,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF2D2D2D),
+                              backgroundColor:
+                                  _isDark ? _colorScheme.primary : const Color(0xFF2D2D2D),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            child: const Text(
+                            child: Text(
                               'ОТПРАВИТЬ КОД',
                               style: TextStyle(
                                 fontSize: 16,

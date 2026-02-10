@@ -19,6 +19,14 @@ class _VerificationPageState extends State<VerificationPage> {
 
   int _remainingTime = 10;
   Timer? _timer;
+
+  ThemeData get _theme => Theme.of(context);
+  ColorScheme get _colorScheme => _theme.colorScheme;
+  bool get _isDark => _theme.brightness == Brightness.dark;
+  Color get _cardBg => _colorScheme.surface;
+  Color get _mutedText => _colorScheme.onSurfaceVariant;
+  Color get _inputFill =>
+      _isDark ? _colorScheme.surfaceVariant : const Color(0xFFF5F5F5);
   bool _isButtonDisabled = true;
 
   @override
@@ -66,16 +74,17 @@ class _VerificationPageState extends State<VerificationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final gradientColors = _isDark
+        ? const [Color(0xFF1B2434), Color(0xFF0F1115)]
+        : const [Color(0xFF6288D5), Color(0xFF5A8BC5)];
+
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF6288D5),
-              Color(0xFF5A8BC5),
-            ],
+            colors: gradientColors,
           ),
         ),
         child: Column(
@@ -87,12 +96,12 @@ class _VerificationPageState extends State<VerificationPage> {
                 child: Row(
                   children: [
                     Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
+                      decoration: BoxDecoration(
+                        color: _cardBg,
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.black),
+                        icon: Icon(Icons.arrow_back, color: _colorScheme.onSurface),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -107,7 +116,7 @@ class _VerificationPageState extends State<VerificationPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       'Верификация',
                       style: TextStyle(
                         fontSize: 32,
@@ -116,7 +125,7 @@ class _VerificationPageState extends State<VerificationPage> {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    const Text(
+                    Text(
                       'Мы отправили код на вашу почту',
                       style: TextStyle(
                         fontSize: 16,
@@ -126,7 +135,7 @@ class _VerificationPageState extends State<VerificationPage> {
                     const SizedBox(height: 4),
                     Text(
                       widget.email,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
@@ -137,9 +146,9 @@ class _VerificationPageState extends State<VerificationPage> {
               ),
             ),
             Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: _cardBg,
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),
                 ),
@@ -155,7 +164,7 @@ class _VerificationPageState extends State<VerificationPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             'CODE',
                             style: TextStyle(
                               fontSize: 12,
@@ -177,17 +186,17 @@ class _VerificationPageState extends State<VerificationPage> {
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                     color: _isButtonDisabled
-                                        ? Colors.grey
-                                        : Colors.black87,
+                                        ? _mutedText
+                                        : _colorScheme.onSurface,
                                   ),
                                 ),
                               ),
                               const SizedBox(width: 4),
                               Text(
                                 _isButtonDisabled ? '$_remainingTime сек' : '',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.grey,
+                                  color: _mutedText,
                                 ),
                               )
                             ],
@@ -204,7 +213,7 @@ class _VerificationPageState extends State<VerificationPage> {
                             width: 65,
                             height: 65,
                             decoration: BoxDecoration(
-                              color: const Color(0xFFF5F5F5),
+                              color: _inputFill,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: TextField(
@@ -213,7 +222,7 @@ class _VerificationPageState extends State<VerificationPage> {
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
                               maxLength: 1,
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 24, fontWeight: FontWeight.bold),
                               decoration: const InputDecoration(
                                 counterText: '',
@@ -238,12 +247,12 @@ class _VerificationPageState extends State<VerificationPage> {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF2D2D2D),
+                            backgroundColor: _isDark ? _colorScheme.primary : const Color(0xFF2D2D2D),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             'Подтвердить',
                             style: TextStyle(
                               fontSize: 16,

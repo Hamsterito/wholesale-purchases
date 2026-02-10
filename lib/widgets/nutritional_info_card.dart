@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../models/product.dart';
 
 class NutritionalInfoCard extends StatelessWidget {
@@ -8,40 +8,60 @@ class NutritionalInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final cardBg = colorScheme.surface;
+    final mutedText = colorScheme.onSurfaceVariant;
+
     return Container(
-      color: Colors.white,
+      color: cardBg,
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Пищевая ценность',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 4),
           Text(
-            'В 100 граммах',
-            style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+            'В 100 граммах:',
+            style: TextStyle(fontSize: 12, color: mutedText),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           Row(
             children: [
-              _buildNutritionItem(
-                '${nutritionalInfo.calories.toStringAsFixed(0)} кк',
-                'Калории',
+              Expanded(
+                child: _buildNutritionItem(
+                  context: context,
+                  value: '${nutritionalInfo.calories.toStringAsFixed(0)} кк',
+                  label: 'Калории',
+                ),
               ),
-              _buildNutritionItem(
-                '${nutritionalInfo.protein.toStringAsFixed(0)} г',
-                'Белки',
+              const SizedBox(width: 8),
+              Expanded(
+                child: _buildNutritionItem(
+                  context: context,
+                  value: '${nutritionalInfo.protein.toStringAsFixed(0)} г',
+                  label: 'Белки',
+                ),
               ),
-              _buildNutritionItem(
-                '${nutritionalInfo.fat.toStringAsFixed(0)} г',
-                'Жиры',
+              const SizedBox(width: 8),
+              Expanded(
+                child: _buildNutritionItem(
+                  context: context,
+                  value: '${nutritionalInfo.fat.toStringAsFixed(0)} г',
+                  label: 'Жиры',
+                ),
               ),
-              _buildNutritionItem(
-                '${nutritionalInfo.carbohydrates.toStringAsFixed(1)} г',
-                'Углеводы',
+              const SizedBox(width: 8),
+              Expanded(
+                child: _buildNutritionItem(
+                  context: context,
+                  value:
+                      '${nutritionalInfo.carbohydrates.toStringAsFixed(1)} г',
+                  label: 'Углеводы',
+                ),
               ),
             ],
           ),
@@ -50,18 +70,31 @@ class NutritionalInfoCard extends StatelessWidget {
     );
   }
 
-  Widget _buildNutritionItem(String value, String label) {
-    return Expanded(
+  Widget _buildNutritionItem({
+    required BuildContext context,
+    required String value,
+    required String label,
+  }) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final surfaceContainer = colorScheme.surfaceContainerHighest;
+    final mutedText = colorScheme.onSurfaceVariant;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(
+        color: surfaceContainer,
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Column(
         children: [
           Text(
             value,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 4),
           Text(
             label,
-            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+            style: TextStyle(fontSize: 11, color: mutedText),
             textAlign: TextAlign.center,
           ),
         ],

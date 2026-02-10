@@ -1,97 +1,96 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../widgets/main_bottom_nav.dart';
 import 'address_page.dart';
 
-class MyAddressesPage extends StatelessWidget {
+class MyAddressesPage extends StatefulWidget {
   const MyAddressesPage({super.key});
 
   @override
+  State<MyAddressesPage> createState() => _MyAddressesPageState();
+}
+
+class _MyAddressesPageState extends State<MyAddressesPage> {
+  static const Color _primaryColor = Color(0xFF6288D5);
+
+  final List<_AddressEntry> _addresses = const [
+    _AddressEntry(
+      icon: Icons.home_outlined,
+      title: 'HOME',
+      address: '2464 Royal Ln. Mesa, New Jersey 45463',
+    ),
+    _AddressEntry(
+      icon: Icons.work_outline,
+      title: 'WORK',
+      address: '3891 Ranchview Dr. Richardson, California 62639',
+    ),
+  ];
+
+  int _selectedIndex = 0;
+
+  ThemeData get _theme => Theme.of(context);
+  ColorScheme get _colorScheme => _theme.colorScheme;
+  bool get _isDark => _theme.brightness == Brightness.dark;
+  Color get _pageBg =>
+      _isDark ? _theme.scaffoldBackgroundColor : const Color(0xFFF3F6FB);
+  Color get _cardBg => _colorScheme.surface;
+  Color get _mutedText => _colorScheme.onSurfaceVariant;
+
+  void _openAddressEditor() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AddressPage()),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final primarySoft = _primaryColor.withValues(alpha: _isDark ? 0.18 : 0.12);
+
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: _pageBg,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: _cardBg,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          icon: Icon(Icons.arrow_back, color: _colorScheme.onSurface),
+          onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           'Мой адрес',
           style: TextStyle(
-            color: Colors.black,
+            color: _colorScheme.onSurface,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
         ),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              children: [
-                // HOME адрес
-                _buildAddressCard(
-                  context: context,
-                  icon: Icons.home_outlined,
-                  iconColor: Colors.blue,
-                  iconBgColor: Colors.blue[50]!,
-                  title: 'HOME',
-                  address: '2464 Royal Ln. Mesa, New Jersey 45463',
-                ),
-
-                const SizedBox(height: 12),
-
-                // WORK адрес
-                _buildAddressCard(
-                  context: context,
-                  icon: Icons.work_outline,
-                  iconColor: Colors.purple,
-                  iconBgColor: Colors.purple[50]!,
-                  title: 'WORK',
-                  address: '3891 Ranchview Dr. Richardson, California 62639',
-                ),
-              ],
-            ),
+        actions: [
+          IconButton(
+            onPressed: _openAddressEditor,
+            icon: const Icon(Icons.add_circle_outline, color: _primaryColor),
+            tooltip: 'Добавить адрес',
           ),
-
-          // Кнопка добавить новый адрес
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AddressPage(),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 0,
-                ),
-                child: const Text(
-                  'ДОБАВИТЬ НОВЫЙ АДРЕС',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          const SizedBox(width: 6),
         ],
       ),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(16),
+        itemCount: _addresses.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
+        itemBuilder: (context, index) {
+          final entry = _addresses[index];
+          return _buildAddressCard(
+            context: context,
+            icon: entry.icon,
+            iconColor: _primaryColor,
+            iconBgColor: primarySoft,
+            title: entry.title,
+            address: entry.address,
+            isSelected: index == _selectedIndex,
+            onTap: () => setState(() => _selectedIndex = index),
+          );
+        },
+      ),
+      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
     );
   }
 
@@ -102,98 +101,104 @@ class MyAddressesPage extends StatelessWidget {
     required Color iconBgColor,
     required String title,
     required String address,
+    required bool isSelected,
+    required VoidCallback onTap,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Иконка
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: iconBgColor,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              icon,
-              color: iconColor,
-              size: 24,
-            ),
-          ),
+    final borderColor = isSelected ? _primaryColor : Colors.transparent;
+    final shadowColor = _isDark
+        ? Colors.black.withValues(alpha: 0.35)
+        : Colors.black.withValues(alpha: 0.06);
 
-          const SizedBox(width: 12),
-
-          // Текст
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  address,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[600],
-                    height: 1.4,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(width: 8),
-
-          // Кнопки действий
-          Row(
-            children: [
-              IconButton(
-                onPressed: () {
-                  // Редактировать адрес
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AddressPage(),
-                    ),
-                  );
-                },
-                icon: Icon(
-                  Icons.edit_outlined,
-                  color: Colors.blue,
-                  size: 20,
-                ),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-              ),
-              const SizedBox(width: 12),
-              IconButton(
-                onPressed: () {
-                  // Удалить адрес
-                  _showDeleteDialog(context, title);
-                },
-                icon: Icon(
-                  Icons.delete_outline,
-                  color: Colors.red,
-                  size: 20,
-                ),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
+    return Material(
+      color: _cardBg,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: borderColor, width: 1.2),
+            boxShadow: [
+              BoxShadow(
+                color: shadowColor,
+                blurRadius: 10,
+                offset: const Offset(0, 6),
               ),
             ],
           ),
-        ],
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: iconBgColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  icon,
+                  color: iconColor,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: _colorScheme.onSurface,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      address,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: _mutedText,
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: _openAddressEditor,
+                    icon: const Icon(
+                      Icons.edit_outlined,
+                      color: _primaryColor,
+                      size: 20,
+                    ),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    tooltip: 'Редактировать',
+                  ),
+                  const SizedBox(width: 12),
+                  IconButton(
+                    onPressed: () => _showDeleteDialog(context, title),
+                    icon: const Icon(
+                      Icons.delete_outline,
+                      color: _primaryColor,
+                      size: 20,
+                    ),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    tooltip: 'Удалить',
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -210,21 +215,35 @@ class MyAddressesPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
+              style: TextButton.styleFrom(
+                foregroundColor: _primaryColor,
+              ),
               child: const Text('Отмена'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                // Здесь логика удаления
               },
-              child: const Text(
-                'Удалить',
-                style: TextStyle(color: Colors.red),
+              style: TextButton.styleFrom(
+                foregroundColor: _primaryColor,
               ),
+              child: const Text('Удалить'),
             ),
           ],
         );
       },
     );
   }
+}
+
+class _AddressEntry {
+  final IconData icon;
+  final String title;
+  final String address;
+
+  const _AddressEntry({
+    required this.icon,
+    required this.title,
+    required this.address,
+  });
 }

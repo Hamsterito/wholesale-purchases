@@ -17,6 +17,15 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _obscureConfirmPassword = true;
   bool _isLoading = false;
 
+  ThemeData get _theme => Theme.of(context);
+  ColorScheme get _colorScheme => _theme.colorScheme;
+  bool get _isDark => _theme.brightness == Brightness.dark;
+  Color get _pageBg => _theme.scaffoldBackgroundColor;
+  Color get _cardBg => _colorScheme.surface;
+  Color get _mutedText => _colorScheme.onSurfaceVariant;
+  Color get _inputFill =>
+      _isDark ? _colorScheme.surfaceVariant : const Color(0xFFF5F5F5);
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -76,16 +85,17 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final gradientColors = _isDark
+        ? const [Color(0xFF1B2434), Color(0xFF0F1115)]
+        : const [Color(0xFF6288D5), Color(0xFF5A8BC5)];
+
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF6288D5),
-              Color(0xFF5A8BC5),
-            ],
+            colors: gradientColors,
           ),
         ),
         child: Column(
@@ -97,12 +107,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Row(
                   children: [
                     Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
+                      decoration: BoxDecoration(
+                        color: _cardBg,
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.black),
+                        icon: Icon(Icons.arrow_back, color: _colorScheme.onSurface),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -138,9 +148,9 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: _cardBg,
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),
                 ),
@@ -153,7 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'NAME',
                           style: TextStyle(
                             fontSize: 12,
@@ -166,9 +176,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           controller: _nameController,
                           decoration: InputDecoration(
                             hintText: 'Введите имя',
-                            hintStyle: TextStyle(color: Colors.grey[400]),
+                            hintStyle: TextStyle(color: _mutedText),
                             filled: true,
-                            fillColor: const Color(0xFFF5F5F5),
+                            fillColor: _inputFill,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -180,7 +190,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        const Text(
+                        Text(
                           'EMAIL',
                           style: TextStyle(
                             fontSize: 12,
@@ -194,9 +204,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             hintText: 'example@gmail.com',
-                            hintStyle: TextStyle(color: Colors.grey[400]),
+                            hintStyle: TextStyle(color: _mutedText),
                             filled: true,
-                            fillColor: const Color(0xFFF5F5F5),
+                            fillColor: _inputFill,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -208,7 +218,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        const Text(
+                        Text(
                           'PASSWORD',
                           style: TextStyle(
                             fontSize: 12,
@@ -222,9 +232,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           obscureText: _obscurePassword,
                           decoration: InputDecoration(
                             hintText: '············',
-                            hintStyle: TextStyle(color: Colors.grey[400]),
+                            hintStyle: TextStyle(color: _mutedText),
                             filled: true,
-                            fillColor: const Color(0xFFF5F5F5),
+                            fillColor: _inputFill,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -238,7 +248,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 _obscurePassword
                                     ? Icons.visibility_off
                                     : Icons.visibility,
-                                color: Colors.grey,
+                                color: _mutedText,
                               ),
                               onPressed: () {
                                 setState(() {
@@ -249,7 +259,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        const Text(
+                        Text(
                           'RE-TYPE PASSWORD',
                           style: TextStyle(
                             fontSize: 12,
@@ -263,9 +273,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           obscureText: _obscureConfirmPassword,
                           decoration: InputDecoration(
                             hintText: '············',
-                            hintStyle: TextStyle(color: Colors.grey[400]),
+                            hintStyle: TextStyle(color: _mutedText),
                             filled: true,
-                            fillColor: const Color(0xFFF5F5F5),
+                            fillColor: _inputFill,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -279,7 +289,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 _obscureConfirmPassword
                                     ? Icons.visibility_off
                                     : Icons.visibility,
-                                color: Colors.grey,
+                                color: _mutedText,
                               ),
                               onPressed: () {
                                 setState(() {
@@ -296,14 +306,16 @@ class _RegisterPageState extends State<RegisterPage> {
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _registerUser,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF2D2D2D),
+                              backgroundColor: _isDark
+                                  ? _colorScheme.primary
+                                  : const Color(0xFF2D2D2D),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
                             child: _isLoading
                                 ? const CircularProgressIndicator(color: Colors.white)
-                                : const Text(
+                                : Text(
                               'ЗАРЕГИСТРОВАТЬСЯ',
                               style: TextStyle(
                                 fontSize: 16,

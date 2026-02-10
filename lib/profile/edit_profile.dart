@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../widgets/phone_input_formatter.dart';
+import '../widgets/main_bottom_nav.dart';
 
 class EditProfilePage extends StatefulWidget {
   final String title;
@@ -22,12 +25,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
   late TextEditingController _phoneController;
   late TextEditingController _descriptionController;
 
+  ThemeData get _theme => Theme.of(context);
+  ColorScheme get _colorScheme => _theme.colorScheme;
+  Color get _pageBg => _theme.scaffoldBackgroundColor;
+  Color get _cardBg => _colorScheme.surface;
+  Color get _mutedText => _colorScheme.onSurfaceVariant;
+  Color get _inputFill => _colorScheme.surfaceVariant;
+
   @override
   void initState() {
     super.initState();
     _nameController = TextEditingController(text: 'Kotik Milo');
     _emailController = TextEditingController(text: 'Kotik@chip.ma');
-    _phoneController = TextEditingController(text: '777-777-777');
+    _phoneController = TextEditingController(
+      text: PhoneNumberInputFormatter.formatDigits('77777777777'),
+    );
     _descriptionController = TextEditingController(text: 'I love KitKat');
   }
 
@@ -40,23 +52,30 @@ class _EditProfilePageState extends State<EditProfilePage> {
     super.dispose();
   }
 
+  bool _isValidPhone(String value) {
+    final digits = value.replaceAll(RegExp(r'\D'), '');
+    return digits.length == 11;
+  }
+
   @override
   Widget build(BuildContext context) {
+    const primaryColor = Color(0xFF6288D5);
+
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: _pageBg,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: _cardBg,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: _colorScheme.onSurface),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: const Text(
+        title: Text(
           'Ред. Профиль',
           style: TextStyle(
-            color: Colors.black,
+            color: _colorScheme.onSurface,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
@@ -72,7 +91,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 CircleAvatar(
                   radius: 50,
                   backgroundImage: const AssetImage('assets/icons/avatar.png'),
-                  backgroundColor: Colors.grey[300],
+                  backgroundColor: _colorScheme.surfaceVariant,
                 ),
                 Positioned(
                   bottom: 0,
@@ -80,10 +99,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: primaryColor,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.edit,
                       color: Colors.white,
                       size: 20,
@@ -117,6 +136,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
               label: 'НОМЕР',
               controller: _phoneController,
               keyboardType: TextInputType.phone,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(11),
+                const PhoneNumberInputFormatter(),
+              ],
             ),
 
             const SizedBox(height: 16),
@@ -135,11 +159,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Сохранить данные
+                  if (!_isValidPhone(_phoneController.text)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('\u041d\u043e\u043c\u0435\u0440 \u0434\u043e\u043b\u0436\u0435\u043d \u0431\u044b\u0442\u044c \u0432 \u0444\u043e\u0440\u043c\u0430\u0442\u0435 +7-XXX-XXX-XXXX'))
+                    );
+                    return;
+                  }
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: primaryColor,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
@@ -147,7 +176,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   elevation: 0,
                 ),
-                child: const Text(
+                child: Text(
                   'СОХРАНИТЬ',
                   style: TextStyle(
                     fontSize: 16,
@@ -159,6 +188,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ],
         ),
       ),
+      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
     );
   }
 
@@ -166,6 +196,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     required String label,
     required TextEditingController controller,
     TextInputType? keyboardType,
+    List<TextInputFormatter>? inputFormatters,
     int maxLines = 1,
   }) {
     return Column(
@@ -173,20 +204,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: Colors.black,
+            color: _colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
         TextField(
           controller: controller,
           keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
           maxLines: maxLines,
           decoration: InputDecoration(
             filled: true,
-            fillColor: Colors.grey[100],
+            fillColor: _inputFill,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,

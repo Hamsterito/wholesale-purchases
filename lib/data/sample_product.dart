@@ -1,16 +1,12 @@
-import '../models/product.dart';
+﻿import '../models/product.dart';
 
 Product getSampleProduct() {
   return Product(
     id: '1',
     name: 'Напиток Coca-Cola газированный 1.5 л',
     description:
-        'Coca-cola - самый популярный газированный напиток в мире. Имеет резкий, но приятный вкус. Отлично утоляет жажду, рекомендуется пить охлажденным.',
-    imageUrls: [
-      'assets/coca_cola.jpeg',
-      'assets/coca_cola.jpeg',
-      'assets/coca_cola.jpeg',
-    ],
+        'Coca-Cola — самый популярный газированный напиток в мире. Имеет резкий, но приятный вкус, хорошо утоляет жажду, рекомендуется пить охлажденным.',
+    imageUrls: ['assets/coca_cola.jpeg'],
     rating: 4.7,
     reviewCount: 13,
     categories: ['Напитки', 'Газированные напитки'],
@@ -21,10 +17,11 @@ Product getSampleProduct() {
       carbohydrates: 10.6,
     ),
     ingredients:
-        'Газированная вода, сахар, краситель (сахарный колер [V]), регулятор кислотности (ортофосфорная кислота), натуральные ароматизаторы, кофеин.',
+        'Газированная вода, сахар, краситель (сахарный колер [IV]), регулятор кислотности (ортофосфорная кислота), натуральные ароматизаторы, кофеин.',
     characteristics: {
       'Страна производителя': 'Казахстан',
       'Торговая марка': 'Coca-Cola',
+      'Линейка': 'Классическая',
     },
     suppliers: [
       Supplier(
@@ -35,7 +32,7 @@ Product getSampleProduct() {
         pricePerUnit: 790,
         minQuantity: 5,
         deliveryDate: 'завтра',
-        deliveryInfo: 'Доставка мегаполис',
+        deliveryInfo: 'Доставка межгород',
         deliveryBadge: 'Четверг 17:00',
       ),
       Supplier(
@@ -45,23 +42,23 @@ Product getSampleProduct() {
         reviewCount: 131,
         pricePerUnit: 800,
         minQuantity: 4,
-        deliveryDate: 'ВС 21 сентября',
-        deliveryInfo: 'Доставка мегаполис',
-        deliveryBadge: 'Сб 23 сентября 12:00', 
+        deliveryDate: 'Вс 21 сентября',
+        deliveryInfo: 'Доставка межгород',
+        deliveryBadge: 'Сб 23 сентября 12:00',
       ),
       Supplier(
         id: '3',
-        name: 'Какой то крутой поставщик',
+        name: 'Какой-то крутой поставщик',
         rating: 4.9,
         reviewCount: 131,
         pricePerUnit: 810,
         minQuantity: 6,
-        deliveryDate: 'СБ 20 сентября',
-        deliveryInfo: 'Доставка мегаполис',
+        deliveryDate: 'Сб 20 сентября',
+        deliveryInfo: 'Доставка межгород',
         deliveryBadge: 'Четверг 17:00',
       ),
     ],
-    similarProducts: [], 
+    similarProducts: [],
     ratingDistribution: [
       RatingDistribution(stars: 5, count: 7),
       RatingDistribution(stars: 4, count: 3),

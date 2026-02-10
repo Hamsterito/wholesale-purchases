@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../utils/ru_plural.dart';
 
 class RatingSection extends StatelessWidget {
   final double rating;
@@ -14,42 +15,60 @@ class RatingSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final cardBg = colorScheme.surface;
+    final mutedText = colorScheme.onSurfaceVariant;
     return InkWell(
       onTap: onTap,
       child: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        color: cardBg,
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
         child: Row(
           children: [
             Text(
               rating.toStringAsFixed(1),
-              style: const TextStyle(
-                fontSize: 16,
+              style: TextStyle(
+                fontSize: 15,
                 fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(width: 8),
             ...List.generate(5, (index) {
               if (index < rating.floor()) {
-                return const Icon(Icons.star, color: Colors.amber, size: 20);
+                return Icon(
+                  Icons.star,
+                  color: Color(0xFFF5B400),
+                  size: 14,
+                );
               } else if (index < rating) {
-                return const Icon(Icons.star_half, color: Colors.amber, size: 20);
+                return Icon(
+                  Icons.star_half,
+                  color: Color(0xFFF5B400),
+                  size: 14,
+                );
               } else {
-                return Icon(Icons.star_border, color: Colors.grey.shade400, size: 20);
+                return Icon(
+                  Icons.star_border,
+                  color: mutedText,
+                  size: 14,
+                );
               }
             }),
             const SizedBox(width: 8),
             Text(
-              '$reviewCount отзывов',
+              reviewsLabel(reviewCount),
               style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey.shade600,
+                fontSize: 12,
+                color: mutedText,
               ),
             ),
-            const Icon(Icons.chevron_right, size: 20, color: Colors.grey),
+            const SizedBox(width: 4),
+            Icon(Icons.chevron_right, size: 18, color: mutedText),
           ],
         ),
       ),
     );
   }
 }
+
+

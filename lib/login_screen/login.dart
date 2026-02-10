@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_project/reg_screan/register_page.dart';
 import 'package:flutter_project/forgot_screan/forgot_password_page.dart';
 import '../widgets/main_navigation.dart';
 import 'package:http/http.dart' as http;
+import '../services/auth_storage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,6 +18,25 @@ class _LoginPageState extends State<LoginPage> {
   bool _rememberMe = false;
   bool _obscurePassword = true;
   bool _isLoading = false;
+
+  ThemeData get _theme => Theme.of(context);
+  ColorScheme get _colorScheme => _theme.colorScheme;
+  bool get _isDark => _theme.brightness == Brightness.dark;
+  Color get _pageBg => _theme.scaffoldBackgroundColor;
+  Color get _cardBg => _colorScheme.surface;
+  Color get _mutedText => _colorScheme.onSurfaceVariant;
+  Color get _inputFill =>
+      _isDark ? _colorScheme.surfaceVariant : const Color(0xFFF5F5F5);
+
+  @override
+  void initState() {
+    super.initState();
+    _rememberMe = AuthStorage.isRemembered;
+    final rememberedEmail = AuthStorage.email;
+    if (rememberedEmail != null && rememberedEmail.isNotEmpty) {
+      _emailController.text = rememberedEmail;
+    }
+  }
 
   @override
   void dispose() {
@@ -39,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // Авторизация через бекенд
+  // Авторизация через бэкенд
   Future<void> _loginUser() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
@@ -61,7 +81,13 @@ class _LoginPageState extends State<LoginPage> {
       });
 
       if (response.statusCode == 200) {
-        //успешный вход
+        if (_rememberMe) {
+          await AuthStorage.remember(email: email);
+        } else {
+          await AuthStorage.forget();
+        }
+        if (!mounted) return;
+        // Успешный вход
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(response.body)),
         );
@@ -71,29 +97,36 @@ class _LoginPageState extends State<LoginPage> {
           MaterialPageRoute(builder: (context) => const MainNavigation()),
         );
       } else {
-        //ошибка логина
+        if (!mounted) return;
+        // Ошибка логина
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(response.body)),
         );
       }
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Ошибка подключения к серверу: $e')),
       );
     } finally {
+      if (!mounted) return;
       setState(() => _isLoading = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final gradientColors = _isDark
+        ? const [Color(0xFF1B2434), Color(0xFF0F1115)]
+        : const [Color(0xFF6288D5), Color(0xFF5A8BC5)];
+
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF6288D5), Color(0xFF5A8BC5)],
+            colors: gradientColors,
           ),
         ),
         child: Column(
@@ -117,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                     Text(
-                      'На свой аккаунт',
+                      'В свой аккаунт',
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ],
@@ -125,9 +158,9 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: _cardBg,
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),
                 ),
@@ -140,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'EMAIL',
                           style: TextStyle(
                             fontSize: 12,
@@ -154,9 +187,9 @@ class _LoginPageState extends State<LoginPage> {
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             hintText: 'example@gmail.com',
-                            hintStyle: TextStyle(color: Colors.grey[400]),
+                            hintStyle: TextStyle(color: _mutedText),
                             filled: true,
-                            fillColor: const Color(0xFFF5F5F5),
+                            fillColor: _inputFill,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -168,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        const Text(
+                        Text(
                           'PASSWORD',
                           style: TextStyle(
                             fontSize: 12,
@@ -181,10 +214,10 @@ class _LoginPageState extends State<LoginPage> {
                           controller: _passwordController,
                           obscureText: _obscurePassword,
                           decoration: InputDecoration(
-                            hintText: '············',
-                            hintStyle: TextStyle(color: Colors.grey[400]),
+                            hintText: '••••••••••••',
+                            hintStyle: TextStyle(color: _mutedText),
                             filled: true,
-                            fillColor: const Color(0xFFF5F5F5),
+                            fillColor: _inputFill,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
@@ -198,7 +231,7 @@ class _LoginPageState extends State<LoginPage> {
                                 _obscurePassword
                                     ? Icons.visibility_off
                                     : Icons.visibility,
-                                color: Colors.grey,
+                                color: _mutedText,
                               ),
                               onPressed: () {
                                 setState(() {
@@ -219,10 +252,14 @@ class _LoginPageState extends State<LoginPage> {
                                   height: 20,
                                   child: Checkbox(
                                     value: _rememberMe,
-                                    onChanged: (value) {
+                                    onChanged: (value) async {
+                                      final nextValue = value ?? false;
                                       setState(() {
-                                        _rememberMe = value ?? false;
+                                        _rememberMe = nextValue;
                                       });
+                                      if (!nextValue) {
+                                        await AuthStorage.forget();
+                                      }
                                     },
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(4),
@@ -230,22 +267,22 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                const Text(
+                                Text(
                                   'Запомнить меня',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.black87,
+                                    color: _colorScheme.onSurface,
                                   ),
                                 ),
                               ],
                             ),
                             TextButton(
                               onPressed: _navigateToForgotPassword,
-                              child: const Text(
+                              child: Text(
                                 'Забыли пароль?',
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.black87,
+                                  color: _colorScheme.onSurface,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -259,7 +296,9 @@ class _LoginPageState extends State<LoginPage> {
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _loginUser,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF2D2D2D),
+                              backgroundColor: _isDark
+                                  ? _colorScheme.primary
+                                  : const Color(0xFF2D2D2D),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
@@ -268,7 +307,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ? const CircularProgressIndicator(
                               color: Colors.white,
                             )
-                                : const Text(
+                                : Text(
                               'ВОЙТИ',
                               style: TextStyle(
                                 fontSize: 16,
@@ -288,7 +327,7 @@ class _LoginPageState extends State<LoginPage> {
                                 'Нет аккаунта? ',
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.grey[600],
+                                  color: _mutedText,
                                 ),
                               ),
                               TextButton(
@@ -299,11 +338,11 @@ class _LoginPageState extends State<LoginPage> {
                                   tapTargetSize:
                                   MaterialTapTargetSize.shrinkWrap,
                                 ),
-                                child: const Text(
+                                child: Text(
                                   'Зарегистрируйтесь',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.black87,
+                                    color: _colorScheme.onSurface,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),

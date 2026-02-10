@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class InfoSection extends StatelessWidget {
   final String title;
@@ -8,8 +8,14 @@ class InfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final cardBg = colorScheme.surface;
+    final mutedText = colorScheme.onSurfaceVariant;
+
     return Container(
-      color: Colors.white,
+      width: double.infinity,
+      color: cardBg,
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -17,15 +23,15 @@ class InfoSection extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           Text(
             content,
             style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey.shade800,
-              height: 1.5,
+              fontSize: 13,
+              color: mutedText,
+              height: 1.4,
             ),
           ),
         ],

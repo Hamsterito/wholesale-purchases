@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/main_bottom_nav.dart';
 import 'add_payment_card.dart';
 
 class PaymentMethodPage extends StatefulWidget {
@@ -11,23 +12,31 @@ class PaymentMethodPage extends StatefulWidget {
 class _PaymentMethodPageState extends State<PaymentMethodPage> {
   String _selectedMethod = 'Mastercard';
 
+  ThemeData get _theme => Theme.of(context);
+  ColorScheme get _colorScheme => _theme.colorScheme;
+  Color get _pageBg => _theme.scaffoldBackgroundColor;
+  Color get _cardBg => _colorScheme.surface;
+  Color get _mutedText => _colorScheme.onSurfaceVariant;
+
   @override
   Widget build(BuildContext context) {
+    const primaryColor = Color(0xFF6288D5);
+
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: _pageBg,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: _cardBg,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: _colorScheme.onSurface),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: const Text(
+        title: Text(
           'Метод оплаты',
           style: TextStyle(
-            color: Colors.black,
+            color: _colorScheme.onSurface,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
@@ -37,13 +46,13 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // Варианты оплаты PNG
+            // Варианты оплаты
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _buildPaymentOption(
                   iconPath: 'assets/icons/cash.png',
-                  label: 'Cash',
+                  label: 'Наличные',
                   value: 'Cash',
                 ),
                 _buildPaymentOption(
@@ -58,7 +67,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                 ),
                 _buildPaymentOption(
                   iconPath: 'assets/icons/paypal.png',
-                  label: 'Paypal',
+                  label: 'PayPal',
                   value: 'Paypal',
                 ),
               ],
@@ -72,7 +81,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: Colors.grey[600],
+                color: _mutedText,
               ),
             ),
             const SizedBox(height: 8),
@@ -81,13 +90,13 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.grey[500],
+                color: _mutedText,
               ),
             ),
 
             const SizedBox(height: 24),
 
-            // Кнопка ADD NEW
+            // Кнопка "Добавить новый"
             TextButton.icon(
               onPressed: () {
                 Navigator.push(
@@ -97,16 +106,16 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                   ),
                 );
               },
-              icon: const Icon(Icons.add, size: 18),
-              label: const Text(
-                'ADD NEW',
+              icon: Icon(Icons.add, size: 18),
+              label: Text(
+                'Добавить новый',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               style: TextButton.styleFrom(
-                foregroundColor: Colors.blue,
+                foregroundColor: primaryColor,
               ),
             ),
 
@@ -114,6 +123,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
           ],
         ),
       ),
+      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
     );
   }
 
@@ -123,6 +133,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
     required String value,
   }) {
     final isSelected = _selectedMethod == value;
+    const primaryColor = Color(0xFF6288D5);
 
     return GestureDetector(
       onTap: () {
@@ -138,10 +149,11 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                 width: 90,
                 height: 90,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: _cardBg,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: isSelected ? Colors.blue : Colors.grey[300]!,
+                    color:
+                        isSelected ? primaryColor : _colorScheme.surfaceVariant,
                     width: 2,
                   ),
                 ),
@@ -161,10 +173,10 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                   child: Container(
                     padding: const EdgeInsets.all(2),
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: primaryColor,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.check,
                       color: Colors.white,
                       size: 16,
@@ -178,7 +190,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
             label,
             style: TextStyle(
               fontSize: 12,
-              color: Colors.grey[700],
+              color: _mutedText,
             ),
           ),
         ],
