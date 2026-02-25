@@ -1,13 +1,14 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'main_navigation.dart';
+import 'nav_colors.dart';
 
 class MainBottomNav extends StatelessWidget {
-  final int currentIndex;
+  final int? currentIndex;
 
   const MainBottomNav({
     super.key,
-    required this.currentIndex,
+    this.currentIndex,
   });
 
   void _openTab(BuildContext context, int index) {
@@ -22,14 +23,14 @@ class MainBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
     final shadowColor =
         isDark ? Colors.black.withValues(alpha: 0.4) : Colors.black.withValues(alpha: 0.05);
+    final navColors = NavColors.of(context);
 
     return Container(
       decoration: BoxDecoration(
-        color: colorScheme.surface,
+        color: navColors.background,
         boxShadow: [
           BoxShadow(
             color: shadowColor,
@@ -86,9 +87,9 @@ class MainBottomNav extends StatelessWidget {
     int index,
   ) {
     final isActive = currentIndex == index;
-    final colorScheme = Theme.of(context).colorScheme;
-    final activeColor = colorScheme.primary;
-    final inactiveColor = colorScheme.onSurfaceVariant;
+    final navColors = NavColors.of(context);
+    final activeColor = navColors.foreground;
+    final inactiveColor = navColors.foregroundMuted;
     final splashColor = activeColor.withValues(alpha: 0.18);
     final highlightColor = activeColor.withValues(alpha: 0.12);
     final hoverColor = activeColor.withValues(alpha: 0.08);
@@ -140,3 +141,4 @@ class MainBottomNav extends StatelessWidget {
     );
   }
 }
+

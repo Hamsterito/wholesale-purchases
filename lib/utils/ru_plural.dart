@@ -1,4 +1,4 @@
-String pluralizeRu(int count, String one, String few, String many) {
+﻿String pluralizeRu(int count, String one, String few, String many) {
   final mod10 = count % 10;
   final mod100 = count % 100;
   if (mod10 == 1 && mod100 != 11) {
@@ -13,3 +13,4 @@ String pluralizeRu(int count, String one, String few, String many) {
 String reviewsLabel(int count) {
   return '$count ${pluralizeRu(count, 'отзыв', 'отзыва', 'отзывов')}';
 }
+

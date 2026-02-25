@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../services/api_service.dart';
+import '../services/auth_storage.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -17,6 +19,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   bool _showCurrent = false;
   bool _showNew = false;
   bool _showConfirm = false;
+  bool _isSaving = false;
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
@@ -69,7 +72,32 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     return null;
   }
 
+  String _normalizeErrorMessage(Object error) {
+    final raw = error.toString().trim();
+    if (raw.isEmpty) {
+      return 'Не удалось изменить пароль';
+    }
+
+    const exceptionPrefix = 'Exception:';
+    if (raw.startsWith(exceptionPrefix)) {
+      final details = raw.substring(exceptionPrefix.length).trim();
+      return details.isEmpty ? 'Не удалось изменить пароль' : details;
+    }
+
+    const argumentPrefix = 'Invalid argument(s):';
+    if (raw.startsWith(argumentPrefix)) {
+      final details = raw.substring(argumentPrefix.length).trim();
+      return details.isEmpty ? 'Проверьте введённые данные' : details;
+    }
+
+    return raw;
+  }
+
   Future<void> _submit() async {
+    if (_isSaving) {
+      return;
+    }
+
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -77,6 +105,47 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       );
       return;
     }
+
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Сессия истекла. Войдите снова.')),
+      );
+      return;
+    }
+
+    final currentPassword = _currentPasswordController.text.trim();
+    final newPassword = _newPasswordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
+
+    setState(() {
+      _isSaving = true;
+    });
+
+    try {
+      await ApiService.changeUserPassword(
+        userId: userId,
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+        confirmPassword: confirmPassword,
+      );
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(_normalizeErrorMessage(error))),
+      );
+      return;
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSaving = false;
+        });
+      }
+    }
+
+    if (!mounted) return;
 
     await showDialog<void>(
       context: context,
@@ -146,6 +215,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
+                  enabled: !_isSaving,
                   controller: _currentPasswordController,
                   textInputAction: TextInputAction.next,
                   obscureText: !_showCurrent,
@@ -184,6 +254,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
+                  enabled: !_isSaving,
                   controller: _newPasswordController,
                   textInputAction: TextInputAction.next,
                   obscureText: !_showNew,
@@ -222,6 +293,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
+                  enabled: !_isSaving,
                   controller: _confirmPasswordController,
                   textInputAction: TextInputAction.done,
                   obscureText: !_showConfirm,
@@ -261,7 +333,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: _submit,
+                    onPressed: _isSaving ? null : _submit,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryColor,
                       foregroundColor: Colors.white,
@@ -271,13 +343,24 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       ),
                       elevation: 0,
                     ),
-                    child: const Text(
-                      'СОХРАНИТЬ ПАРОЛЬ',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    child: _isSaving
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
+                          )
+                        : const Text(
+                            'СОХРАНИТЬ ПАРОЛЬ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                   ),
                 ),
               ],
@@ -289,3 +372,4 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     );
   }
 }
+

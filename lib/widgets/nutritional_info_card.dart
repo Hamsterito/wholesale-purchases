@@ -34,7 +34,7 @@ class NutritionalInfoCard extends StatelessWidget {
               Expanded(
                 child: _buildNutritionItem(
                   context: context,
-                  value: '${nutritionalInfo.calories.toStringAsFixed(0)} кк',
+                  value: '${nutritionalInfo.calories.toStringAsFixed(0)} к',
                   label: 'Калории',
                 ),
               ),

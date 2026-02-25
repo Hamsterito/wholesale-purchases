@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../widgets/main_bottom_nav.dart';
 
 class FAQsPage extends StatefulWidget {
@@ -49,7 +49,7 @@ class _FAQsPageState extends State<FAQsPage> {
     },
     {
       'question': 'Как связаться с поддержкой?',
-      'answer': 'Вы можете связаться с нами через раздел "Техподдержка" в приложении, по email или по телефону горячей линии.'
+      'answer': 'Вы можете связаться с нами через раздел "Техподдержка" в приложении, по электронной почте или по телефону горячей линии.'
     },
     {
       'question': 'Есть ли минимальная сумма заказа?',
@@ -183,3 +183,4 @@ class _FAQsPageState extends State<FAQsPage> {
     );
   }
 }
+

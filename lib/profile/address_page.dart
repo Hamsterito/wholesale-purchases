@@ -1,28 +1,36 @@
-import 'package:flutter/material.dart';
-import '../widgets/main_bottom_nav.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../models/user_address.dart';
 
 class AddressPage extends StatefulWidget {
-  const AddressPage({super.key});
+  const AddressPage({super.key, this.initial});
+
+  final AddressDraft? initial;
 
   @override
   State<AddressPage> createState() => _AddressPageState();
 }
 
 class _AddressPageState extends State<AddressPage> {
-  final TextEditingController _addressController = TextEditingController(
-    text: '3235 Royal Ln. Mesa, New Jersy 34567',
-  );
-  final TextEditingController _streetController = TextEditingController(
-    text: 'Hason Nagar',
-  );
-  final TextEditingController _zipController = TextEditingController(
-    text: '34567',
-  );
-  final TextEditingController _apartmentController = TextEditingController(
-    text: '345',
+  static const int _addressLineMaxLength = 500;
+  static const int _streetMaxLength = 100;
+  static const int _zipMaxLength = 10;
+  static const int _apartmentMaxLength = 20;
+  static final RegExp _zipPattern = RegExp(r'^\d{3,10}$');
+  static final RegExp _apartmentPattern = RegExp(
+    r'^[0-9A-Za-zА-Яа-яЁё\\-\\/ ]+$',
   );
 
-  String _selectedType = 'Home';
+  late final TextEditingController _addressController;
+  late final TextEditingController _streetController;
+  late final TextEditingController _zipController;
+  late final TextEditingController _apartmentController;
+
+  String _selectedType = 'home';
+  String? _addressError;
+  String? _streetError;
+  String? _zipError;
+  String? _apartmentError;
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
@@ -30,6 +38,20 @@ class _AddressPageState extends State<AddressPage> {
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _inputFill => _colorScheme.surfaceVariant;
+
+  @override
+  void initState() {
+    super.initState();
+    final initial = widget.initial;
+    _addressController = TextEditingController(text: initial?.addressLine ?? '');
+    _streetController = TextEditingController(text: initial?.street ?? '');
+    _zipController = TextEditingController(text: initial?.zip ?? '');
+    _apartmentController = TextEditingController(text: initial?.apartment ?? '');
+    final label = initial?.label.trim().toLowerCase();
+    if (label == 'home' || label == 'work' || label == 'other') {
+      _selectedType = label!;
+    }
+  }
 
   @override
   void dispose() {
@@ -43,6 +65,8 @@ class _AddressPageState extends State<AddressPage> {
   @override
   Widget build(BuildContext context) {
     const primaryColor = Color(0xFF6288D5);
+    final isEditing = widget.initial != null;
+    final titleText = isEditing ? 'Редактировать адрес' : 'Добавить адрес';
 
     return Scaffold(
       backgroundColor: _pageBg,
@@ -51,12 +75,10 @@ class _AddressPageState extends State<AddressPage> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: _colorScheme.onSurface),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Мой адрес',
+          titleText,
           style: TextStyle(
             color: _colorScheme.onSurface,
             fontSize: 18,
@@ -69,22 +91,28 @@ class _AddressPageState extends State<AddressPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // АДРЕС
             _buildTextField(
               label: 'АДРЕС',
               controller: _addressController,
               prefixIcon: Icons.location_on_outlined,
+              errorText: _addressError,
+              onChanged: _onAddressChanged,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(_addressLineMaxLength),
+              ],
             ),
-
             const SizedBox(height: 16),
-
-            // УЛИЦА и ПОЧТОВЫЙ ИНДЕКС в одной строке
             Row(
               children: [
                 Expanded(
                   child: _buildTextField(
                     label: 'УЛИЦА',
                     controller: _streetController,
+                    errorText: _streetError,
+                    onChanged: _onStreetChanged,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(_streetMaxLength),
+                    ],
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -92,42 +120,42 @@ class _AddressPageState extends State<AddressPage> {
                   child: _buildTextField(
                     label: 'ПОЧТОВЫЙ ИНДЕКС',
                     controller: _zipController,
+                    keyboardType: TextInputType.number,
+                    errorText: _zipError,
+                    onChanged: _onZipChanged,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(_zipMaxLength),
+                    ],
                   ),
                 ),
               ],
             ),
-
             const SizedBox(height: 16),
-
-            // КВАРТИРА
             _buildTextField(
               label: 'КВАРТИРА',
               controller: _apartmentController,
-            ),
-
-            const SizedBox(height: 24),
-
-            // Кнопки выбора типа адреса
-            Row(
-              children: [
-                _buildTypeButton(value: 'Home', label: 'Дом'),
-                const SizedBox(width: 12),
-                _buildTypeButton(value: 'Work', label: 'Работа'),
-                const SizedBox(width: 12),
-                _buildTypeButton(value: 'Other', label: 'Другое'),
+              errorText: _apartmentError,
+              onChanged: _onApartmentChanged,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(_apartmentMaxLength),
               ],
             ),
-
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                _buildTypeButton(value: 'home', label: 'Дом'),
+                const SizedBox(width: 12),
+                _buildTypeButton(value: 'work', label: 'Работа'),
+                const SizedBox(width: 12),
+                _buildTypeButton(value: 'other', label: 'Другое'),
+              ],
+            ),
             const SizedBox(height: 32),
-
-            // Кнопка сохранить
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  // Сохранить адрес
-                  Navigator.pop(context);
-                },
+                onPressed: _submit,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,
                   foregroundColor: Colors.white,
@@ -138,8 +166,8 @@ class _AddressPageState extends State<AddressPage> {
                   elevation: 0,
                 ),
                 child: Text(
-                  'СОХРАНИТЬ АДРЕС',
-                  style: TextStyle(
+                  isEditing ? 'СОХРАНИТЬ' : 'СОХРАНИТЬ АДРЕС',
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -149,7 +177,6 @@ class _AddressPageState extends State<AddressPage> {
           ],
         ),
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
     );
   }
 
@@ -157,6 +184,10 @@ class _AddressPageState extends State<AddressPage> {
     required String label,
     required TextEditingController controller,
     IconData? prefixIcon,
+    TextInputType keyboardType = TextInputType.text,
+    String? errorText,
+    ValueChanged<String>? onChanged,
+    List<TextInputFormatter>? inputFormatters,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,9 +200,23 @@ class _AddressPageState extends State<AddressPage> {
             color: _colorScheme.onSurface,
           ),
         ),
+        if (errorText != null) ...[
+          const SizedBox(height: 6),
+          Text(
+            errorText,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: _colorScheme.error,
+            ),
+          ),
+        ],
         const SizedBox(height: 8),
         TextField(
           controller: controller,
+          keyboardType: keyboardType,
+          onChanged: onChanged,
+          inputFormatters: inputFormatters,
           decoration: InputDecoration(
             filled: true,
             fillColor: _inputFill,
@@ -201,11 +246,7 @@ class _AddressPageState extends State<AddressPage> {
 
     return Expanded(
       child: InkWell(
-        onTap: () {
-          setState(() {
-            _selectedType = value;
-          });
-        },
+        onTap: () => setState(() => _selectedType = value),
         borderRadius: BorderRadius.circular(24),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -226,4 +267,117 @@ class _AddressPageState extends State<AddressPage> {
       ),
     );
   }
+
+  void _submit() {
+    _validateForm();
+    if (_addressError != null ||
+        _streetError != null ||
+        _zipError != null ||
+        _apartmentError != null) {
+      return;
+    }
+
+    final addressLine = _normalizeText(_addressController.text);
+    final street = _normalizeOptionalText(_streetController.text);
+    final zip = _zipController.text.trim();
+    final apartment = _apartmentController.text.trim();
+
+    final draft = AddressDraft(
+      label: _selectedType,
+      addressLine: addressLine,
+      street: street ?? '',
+      zip: zip,
+      apartment: apartment,
+    );
+
+    Navigator.pop(context, draft);
+  }
+
+  void _validateForm() {
+    setState(() {
+      _addressError = _validateAddress(_addressController.text);
+      _streetError = _validateStreet(_streetController.text);
+      _zipError = _validateZip(_zipController.text);
+      _apartmentError = _validateApartment(_apartmentController.text);
+    });
+  }
+
+  void _onAddressChanged(String value) {
+    setState(() {
+      _addressError = _validateAddress(value);
+    });
+  }
+
+  void _onStreetChanged(String value) {
+    setState(() {
+      _streetError = _validateStreet(value);
+    });
+  }
+
+  void _onZipChanged(String value) {
+    setState(() {
+      _zipError = _validateZip(value);
+    });
+  }
+
+  void _onApartmentChanged(String value) {
+    setState(() {
+      _apartmentError = _validateApartment(value);
+    });
+  }
+
+  String? _validateAddress(String value) {
+    final addressLine = _normalizeText(value);
+    if (addressLine.isEmpty) {
+      return 'Введите адрес';
+    }
+    if (addressLine.length < 5) {
+      return 'Адрес слишком короткий';
+    }
+    return null;
+  }
+
+  String? _validateStreet(String value) {
+    final street = _normalizeOptionalText(value);
+    if (street != null && street.length > _streetMaxLength) {
+      return 'Поле "Улица" не должно превышать $_streetMaxLength символов';
+    }
+    return null;
+  }
+
+  String? _validateZip(String value) {
+    final zip = value.trim();
+    if (zip.length > _zipMaxLength) {
+      return 'Индекс не должен превышать $_zipMaxLength символов';
+    }
+    if (zip.isNotEmpty && !_zipPattern.hasMatch(zip)) {
+      return 'Индекс должен содержать только цифры (3-10)';
+    }
+    return null;
+  }
+
+  String? _validateApartment(String value) {
+    final apartment = value.trim();
+    if (apartment.length > _apartmentMaxLength) {
+      return 'Поле "Квартира" не должно превышать $_apartmentMaxLength символов';
+    }
+    if (apartment.isNotEmpty && !_apartmentPattern.hasMatch(apartment)) {
+      return 'Некорректный формат квартиры';
+    }
+    return null;
+  }
+
+  String _normalizeText(String value) {
+    return value.replaceAll(RegExp(r'\s+'), ' ').trim();
+  }
+
+  String? _normalizeOptionalText(String value) {
+    final normalized = _normalizeText(value);
+    if (normalized.isEmpty) {
+      return null;
+    }
+    return normalized;
+  }
+
 }
+

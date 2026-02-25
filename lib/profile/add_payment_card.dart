@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../services/payment_card_storage.dart';
+import '../services/auth_storage.dart';
 import '../widgets/main_bottom_nav.dart';
 
 class AddPaymentCardPage extends StatefulWidget {
@@ -23,8 +25,10 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
   final FocusNode _cardNumberFocus = FocusNode();
   final FocusNode _expireDateFocus = FocusNode();
   final FocusNode _cvcFocus = FocusNode();
-  final CardNumberInputFormatter _cardNumberFormatter = CardNumberInputFormatter();
+  final CardNumberInputFormatter _cardNumberFormatter =
+      CardNumberInputFormatter();
   final ExpiryDateInputFormatter _expiryFormatter = ExpiryDateInputFormatter();
+  bool _isSaving = false;
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
@@ -78,6 +82,9 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
     }
     if (trimmed.length < 2) {
       return 'Имя слишком короткое';
+    }
+    if (RegExp(r'\d').hasMatch(trimmed)) {
+      return 'Имя не должно содержать цифры';
     }
     return null;
   }
@@ -146,7 +153,17 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
     return null;
   }
 
-  void _submit() {
+  Future<void> _submit() async {
+    if (_isSaving) {
+      return;
+    }
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Войдите, чтобы добавить карту')),
+      );
+      return;
+    }
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -154,7 +171,45 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
       );
       return;
     }
-    Navigator.pop(context);
+    setState(() {
+      _isSaving = true;
+    });
+    final digits = _cardNumberController.text.replaceAll(RegExp(r'\D'), '');
+    final expiryDigits = _expireDateController.text.replaceAll(
+      RegExp(r'\D'),
+      '',
+    );
+    final month = int.parse(expiryDigits.substring(0, 2));
+    final year = int.parse(expiryDigits.substring(2, 4));
+    final card = PaymentCard(
+      id: DateTime.now().microsecondsSinceEpoch.toString(),
+      holderName: _cardHolderController.text.trim(),
+      last4: digits.substring(digits.length - 4),
+      expMonth: month,
+      expYear: 2000 + year,
+      brand: detectCardBrand(digits),
+    );
+    try {
+      await PaymentCardStorage.addCard(card, userId: userId);
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _isSaving = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Не удалось сохранить карту')),
+      );
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _isSaving = false;
+    });
+    Navigator.pop(context, card);
   }
 
   @override
@@ -164,10 +219,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
       horizontal: 12,
       vertical: 16,
     );
-    const shortErrorStyle = TextStyle(
-      fontSize: 11,
-      height: 1.1,
-    );
+    const shortErrorStyle = TextStyle(fontSize: 11, height: 1.1);
 
     return Scaffold(
       backgroundColor: _pageBg,
@@ -197,188 +249,180 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            // Владелец карты
-            Text(
-              'ИМЯ ВЛАДЕЛЬЦА КАРТЫ',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: _colorScheme.onSurface,
+              // Владелец карты
+              Text(
+                'ИМЯ ВЛАДЕЛЬЦА КАРТЫ',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: _colorScheme.onSurface,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            TextFormField(
-              key: _cardHolderFieldKey,
-              controller: _cardHolderController,
-              focusNode: _cardHolderFocus,
-              textInputAction: TextInputAction.next,
-              validator: _validateCardHolder,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: _inputFill,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: fieldContentPadding,
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Номер карты
-            Text(
-              'НОМЕР КАРТЫ',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: _colorScheme.onSurface,
-              ),
-            ),
-            const SizedBox(height: 8),
-            TextFormField(
-              key: _cardNumberFieldKey,
-              controller: _cardNumberController,
-              focusNode: _cardNumberFocus,
-              keyboardType: TextInputType.number,
-              textInputAction: TextInputAction.next,
-              validator: _validateCardNumber,
-              inputFormatters: [
-                _cardNumberFormatter,
-              ],
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: _inputFill,
-                hintText: '2134 5678 9012 3456',
-                hintStyle: TextStyle(
-                  color: _mutedText,
-                  letterSpacing: 1,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: fieldContentPadding,
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Срок действия и CVC
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'СРОК ДЕЙСТВИЯ',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: _colorScheme.onSurface,
-                        ),
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      key: _expireDateFieldKey,
-                      controller: _expireDateController,
-                      focusNode: _expireDateFocus,
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
-                      validator: _validateExpireDate,
-                      inputFormatters: [
-                        _expiryFormatter,
-                        ],
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: _inputFill,
-                          hintText: 'ММ/ГГ',
-                          hintStyle: TextStyle(color: _mutedText),
-                          errorStyle: shortErrorStyle,
-                          errorMaxLines: 2,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: fieldContentPadding,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'CVC',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: _colorScheme.onSurface,
-                        ),
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      key: _cvcFieldKey,
-                      controller: _cvcController,
-                      focusNode: _cvcFocus,
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.done,
-                      validator: _validateCvc,
-                      obscureText: true,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(3),
-                        ],
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: _inputFill,
-                          hintText: '***',
-                          hintStyle: TextStyle(color: _mutedText),
-                          errorStyle: shortErrorStyle,
-                          errorMaxLines: 2,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: fieldContentPadding,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-            const Spacer(),
-
-            // Кнопка добавить
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _submit,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
+              const SizedBox(height: 8),
+              TextFormField(
+                key: _cardHolderFieldKey,
+                controller: _cardHolderController,
+                focusNode: _cardHolderFocus,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
+                textCapitalization: TextCapitalization.words,
+                validator: _validateCardHolder,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: _inputFill,
+                  border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
                   ),
-                  elevation: 0,
+                  contentPadding: fieldContentPadding,
                 ),
-                child: Text(
-                  'ДОБАВИТЬ МЕТОД ОПЛАТЫ',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+              ),
+
+              const SizedBox(height: 20),
+
+              // Номер карты
+              Text(
+                'НОМЕР КАРТЫ',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: _colorScheme.onSurface,
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                key: _cardNumberFieldKey,
+                controller: _cardNumberController,
+                focusNode: _cardNumberFocus,
+                keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.next,
+                validator: _validateCardNumber,
+                inputFormatters: [_cardNumberFormatter],
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: _inputFill,
+                  hintText: '2134 5678 9012 3456',
+                  hintStyle: TextStyle(color: _mutedText, letterSpacing: 1),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: fieldContentPadding,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // Срок действия и CVC
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'СРОК ДЕЙСТВИЯ',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: _colorScheme.onSurface,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextFormField(
+                          key: _expireDateFieldKey,
+                          controller: _expireDateController,
+                          focusNode: _expireDateFocus,
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
+                          validator: _validateExpireDate,
+                          inputFormatters: [_expiryFormatter],
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: _inputFill,
+                            hintText: 'ММ/ГГ',
+                            hintStyle: TextStyle(color: _mutedText),
+                            errorStyle: shortErrorStyle,
+                            errorMaxLines: 2,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: fieldContentPadding,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'CVC',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: _colorScheme.onSurface,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextFormField(
+                          key: _cvcFieldKey,
+                          controller: _cvcController,
+                          focusNode: _cvcFocus,
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.done,
+                          validator: _validateCvc,
+                          obscureText: true,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(3),
+                          ],
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: _inputFill,
+                            hintText: '***',
+                            hintStyle: TextStyle(color: _mutedText),
+                            errorStyle: shortErrorStyle,
+                            errorMaxLines: 2,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: fieldContentPadding,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              const Spacer(),
+
+              // Кнопка добавить
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _isSaving ? null : _submit,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    'ДОБАВИТЬ МЕТОД ОПЛАТЫ',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
-            ),
             ],
           ),
         ),
@@ -471,3 +515,4 @@ int _cursorPosition(String formatted, int digitsBeforeCursor) {
   }
   return formatted.length;
 }
+

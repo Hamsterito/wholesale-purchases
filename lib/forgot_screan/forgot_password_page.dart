@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_project/forgot_screan/verification_page.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -106,7 +106,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'EMAIL',
+                          'ЭЛ. ПОЧТА',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -116,9 +116,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         const SizedBox(height: 8),
                         TextField(
                           controller: _emailController,
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                            hintText: 'example@gmail.com',
+                            hintText: 'primer@pochta.ru',
                             hintStyle: TextStyle(color: _mutedText),
                             filled: true,
                             fillColor: _inputFill,
@@ -175,3 +175,4 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     );
   }
 }
+

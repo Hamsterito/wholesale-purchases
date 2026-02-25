@@ -3,6 +3,7 @@ import '../models/product.dart';
 import '../services/api_service.dart';
 import '../widgets/main_bottom_nav.dart';
 import '../widgets/product_card.dart';
+import '../utils/auto_refresh.dart';
 import 'product_detail_page.dart';
 
 class CategoryProductsPage extends StatefulWidget {
@@ -19,7 +20,8 @@ class CategoryProductsPage extends StatefulWidget {
   State<CategoryProductsPage> createState() => _CategoryProductsPageState();
 }
 
-class _CategoryProductsPageState extends State<CategoryProductsPage> {
+class _CategoryProductsPageState extends State<CategoryProductsPage>
+    with AutoRefreshMixin<CategoryProductsPage> {
   List<Product> _products = [];
   bool _isLoading = true;
   String? _errorMessage;
@@ -29,34 +31,43 @@ class _CategoryProductsPageState extends State<CategoryProductsPage> {
   bool get _isDark => _theme.brightness == Brightness.dark;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
   Color get _cardBg => _colorScheme.surface;
-  Color get _mutedText => _colorScheme.onSurfaceVariant.withValues(
-        alpha: _isDark ? 0.9 : 0.7,
-      );
+  Color get _mutedText =>
+      _colorScheme.onSurfaceVariant.withValues(alpha: _isDark ? 0.9 : 0.7);
 
   @override
   void initState() {
     super.initState();
     _loadProducts();
+    startAutoRefresh();
   }
 
-  Future<void> _loadProducts() async {
+  Future<void> _loadProducts({bool showLoading = true}) async {
     try {
-      setState(() {
-        _isLoading = true;
-        _errorMessage = null;
-      });
+      if (showLoading) {
+        setState(() {
+          _isLoading = true;
+          _errorMessage = null;
+        });
+      }
 
       final products = await ApiService.getProducts();
+      if (!mounted) return;
 
       setState(() {
         _products = _filterProducts(products);
-        _isLoading = false;
+        _errorMessage = null;
+        if (showLoading) {
+          _isLoading = false;
+        }
       });
     } catch (e) {
-      setState(() {
-        _errorMessage = 'Ошибка загрузки товаров: $e';
-        _isLoading = false;
-      });
+      if (!mounted) return;
+      if (showLoading) {
+        setState(() {
+          _errorMessage = 'Ошибка загрузки товаров: $e';
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -110,9 +121,7 @@ class _CategoryProductsPageState extends State<CategoryProductsPage> {
   Widget _buildContent() {
     if (_isLoading) {
       return const Center(
-        child: CircularProgressIndicator(
-          color: Color(0xFF6288D5),
-        ),
+        child: CircularProgressIndicator(color: Color(0xFF6288D5)),
       );
     }
 
@@ -157,8 +166,8 @@ class _CategoryProductsPageState extends State<CategoryProductsPage> {
         padding: const EdgeInsets.all(16),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 0.55,
-          crossAxisSpacing: 12,
+          mainAxisExtent: 338,
+          crossAxisSpacing: 15,
           mainAxisSpacing: 12,
         ),
         itemCount: _products.length,
@@ -187,4 +196,17 @@ class _CategoryProductsPageState extends State<CategoryProductsPage> {
       ),
     );
   }
+
+  @override
+  Future<void> onAutoRefresh() async {
+    if (_isLoading) return;
+    await _loadProducts(showLoading: false);
+  }
+
+  @override
+  void dispose() {
+    stopAutoRefresh();
+    super.dispose();
+  }
 }
+

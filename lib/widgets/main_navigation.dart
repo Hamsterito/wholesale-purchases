@@ -1,17 +1,16 @@
 ﻿import 'package:flutter/material.dart';
-import 'package:flutter_project/pages/home_page.dart';
-import 'package:flutter_project/pages/catalog.dart';
 import 'package:flutter_project/pages/cart_page.dart';
+import 'package:flutter_project/pages/catalog.dart';
+import 'package:flutter_project/pages/home_page.dart';
 import 'package:flutter_project/profile/profile_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'nav_colors.dart';
 
 class MainNavigation extends StatefulWidget {
   final int initialIndex;
 
-  const MainNavigation({
-    super.key,
-    this.initialIndex = 0,
-  });
+  const MainNavigation({super.key, this.initialIndex = 0});
 
   @override
   State<MainNavigation> createState() => _MainNavigationState();
@@ -39,21 +38,25 @@ class _MainNavigationState extends State<MainNavigation> {
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
+    if (_currentIndex < 0 || _currentIndex > 3) {
+      _currentIndex = 0;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
-    final shadowColor =
-        isDark ? Colors.black.withValues(alpha: 0.4) : Colors.black.withValues(alpha: 0.05);
+    final shadowColor = isDark
+        ? Colors.black.withValues(alpha: 0.4)
+        : Colors.black.withValues(alpha: 0.05);
+    final navColors = NavColors.of(context);
 
     return Scaffold(
       body: IndexedStack(index: _currentIndex, children: _pages),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: colorScheme.surface,
+          color: navColors.background,
           boxShadow: [
             BoxShadow(
               color: shadowColor,
@@ -106,9 +109,9 @@ class _MainNavigationState extends State<MainNavigation> {
     int index,
   ) {
     final isActive = _currentIndex == index;
-    final colorScheme = Theme.of(context).colorScheme;
-    final activeColor = colorScheme.primary;
-    final inactiveColor = colorScheme.onSurfaceVariant;
+    final navColors = NavColors.of(context);
+    final activeColor = navColors.foreground;
+    final inactiveColor = navColors.foregroundMuted;
     final splashColor = activeColor.withValues(alpha: 0.18);
     final highlightColor = activeColor.withValues(alpha: 0.12);
     final hoverColor = activeColor.withValues(alpha: 0.08);
@@ -160,3 +163,4 @@ class _MainNavigationState extends State<MainNavigation> {
     );
   }
 }
+

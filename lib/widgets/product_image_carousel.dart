@@ -1,12 +1,10 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'smart_image.dart';
 
 class ProductImageCarousel extends StatefulWidget {
   final List<String> imageUrls;
 
-  const ProductImageCarousel({
-    super.key,
-    required this.imageUrls,
-  });
+  const ProductImageCarousel({super.key, required this.imageUrls});
 
   @override
   State<ProductImageCarousel> createState() => _ProductImageCarouselState();
@@ -41,51 +39,28 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
         height: 400,
         child: Stack(
           children: [
-            PageView.builder(
-              controller: _pageController,
-              onPageChanged: (index) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-              itemCount: images.length,
-              itemBuilder: (context, index) {
-                final path = images[index];
-                final isNetwork = path.startsWith('http');
-
-                return Center(
-                  child: path.isEmpty
-                      ? _buildPlaceholder()
-                      : isNetwork
-                      ? Image.network(
-                          path,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          errorBuilder: (context, error, stackTrace) {
-                            return _buildPlaceholder();
-                          },
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : null,
-                                color: const Color(0xFF6288D5),
-                              ),
-                            );
-                          },
-                        )
-                      : Image.asset(
-                          path,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          errorBuilder: (context, error, stackTrace) =>
-                              _buildPlaceholder(),
-                        ),
-                );
-              },
+            RepaintBoundary(
+              child: PageView.builder(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                itemCount: images.length,
+                itemBuilder: (context, index) {
+                  final path = images[index];
+                  return Center(
+                    child: SmartImage(
+                      path: path,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                      placeholder: _buildPlaceholder(),
+                    ),
+                  );
+                },
+              ),
             ),
             if (images.length > 1)
               Positioned(
@@ -119,11 +94,7 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
   Widget _buildPlaceholder() {
     return Container(
       color: _surfaceContainer,
-      child: Icon(
-        Icons.image,
-        size: 100,
-        color: _mutedText,
-      ),
+      child: Icon(Icons.image, size: 100, color: _mutedText),
     );
   }
 

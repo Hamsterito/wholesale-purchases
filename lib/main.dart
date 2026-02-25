@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'login_screen/login.dart';
 import 'services/app_settings.dart';
 import 'services/auth_storage.dart';
@@ -22,27 +23,42 @@ class MyApp extends StatelessWidget {
       valueListenable: AppSettings.themeMode,
       builder: (context, themeMode, _) {
         return MaterialApp(
-          title: 'Marketplace App',
+          title: 'Оптовые закупки',
           debugShowCheckedModeBanner: false,
+          locale: const Locale('ru'),
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('ru'),
+            Locale('en'),
+            Locale('kk'),
+          ],
           theme: _buildLightTheme(primaryColor),
           darkTheme: _buildDarkTheme(primaryColor),
           themeMode: themeMode,
-          home: AuthStorage.isRemembered
-              ? const MainNavigation()
-              : const LoginPage(),
+          home:
+              AuthStorage.isRemembered ? const MainNavigation() : const LoginPage(),
         );
       },
     );
   }
 
   ThemeData _buildLightTheme(Color primaryColor) {
-    final colorScheme = ColorScheme.fromSeed(seedColor: primaryColor);
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: primaryColor,
+    ).copyWith(
+      primary: primaryColor,
+      onPrimary: Colors.white,
+    );
 
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
       primaryColor: primaryColor,
-      scaffoldBackgroundColor: const Color(0xFFF3F9FF),
+      scaffoldBackgroundColor: const Color(0xFFEAF3FF),
       fontFamily: 'Roboto',
       colorScheme: colorScheme,
       dividerTheme: DividerThemeData(color: colorScheme.outlineVariant),
@@ -78,6 +94,9 @@ class MyApp extends StatelessWidget {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: primaryColor,
       brightness: Brightness.dark,
+    ).copyWith(
+      primary: primaryColor,
+      onPrimary: Colors.white,
     );
 
     return ThemeData(
@@ -116,3 +135,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

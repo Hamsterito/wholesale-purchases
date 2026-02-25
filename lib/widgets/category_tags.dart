@@ -13,7 +13,7 @@ class CategoryTags extends StatelessWidget {
     final chipBg = isDark
         ? colorScheme.primary.withValues(alpha: 0.22)
         : colorScheme.surfaceVariant;
-    final chipText = isDark ? colorScheme.primary : colorScheme.onSurfaceVariant;
+    final chipText = colorScheme.primary;
 
     return Container(
       width: double.infinity,

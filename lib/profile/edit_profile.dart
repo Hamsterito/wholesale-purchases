@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../widgets/phone_input_formatter.dart';
 import '../widgets/main_bottom_nav.dart';
@@ -35,12 +35,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: 'Kotik Milo');
-    _emailController = TextEditingController(text: 'Kotik@chip.ma');
+    _nameController = TextEditingController(text: 'Иван Иванов');
+    _emailController = TextEditingController(text: 'ivanov@mail.ru');
     _phoneController = TextEditingController(
       text: PhoneNumberInputFormatter.formatDigits('77777777777'),
     );
-    _descriptionController = TextEditingController(text: 'I love KitKat');
+    _descriptionController = TextEditingController(text: 'Люблю сладости');
   }
 
   @override
@@ -122,11 +122,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
             const SizedBox(height: 16),
 
-            // EMAIL
+            // ЭЛ. ПОЧТА
             _buildTextField(
-              label: 'EMAIL',
+              label: 'ЭЛ. ПОЧТА',
               controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.text,
             ),
 
             const SizedBox(height: 16),
@@ -195,7 +195,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget _buildTextField({
     required String label,
     required TextEditingController controller,
-    TextInputType? keyboardType,
+    TextInputType keyboardType = TextInputType.text,
     List<TextInputFormatter>? inputFormatters,
     int maxLines = 1,
   }) {
@@ -233,3 +233,4 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 }
+

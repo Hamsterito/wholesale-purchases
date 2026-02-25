@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../services/app_settings.dart';
 import '../widgets/main_bottom_nav.dart';
 import 'change_password_page.dart';
@@ -11,9 +11,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _pushNotifications = true;
-  bool _emailNotifications = false;
-  bool _smsNotifications = true;
   bool _darkMode = false;
 
   Color get _settingsAccent {
@@ -66,57 +63,6 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Уведомления
-          Text(
-            'УВЕДОМЛЕНИЯ',
-            style: sectionLabelStyle,
-          ),
-          const SizedBox(height: 12),
-          Container(
-            decoration: BoxDecoration(
-              color: colorScheme.surface,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              children: [
-                _buildSwitchTile(
-                  title: 'Push-уведомления',
-                  subtitle: 'Получать уведомления о заказах',
-                  value: _pushNotifications,
-                  onChanged: (value) {
-                    setState(() {
-                      _pushNotifications = value;
-                    });
-                  },
-                ),
-                Divider(height: 1, indent: 16, endIndent: 16),
-                _buildSwitchTile(
-                  title: 'Email-уведомления',
-                  subtitle: 'Получать письма на почту',
-                  value: _emailNotifications,
-                  onChanged: (value) {
-                    setState(() {
-                      _emailNotifications = value;
-                    });
-                  },
-                ),
-                Divider(height: 1, indent: 16, endIndent: 16),
-                _buildSwitchTile(
-                  title: 'SMS-уведомления',
-                  subtitle: 'Получать SMS о статусе заказа',
-                  value: _smsNotifications,
-                  onChanged: (value) {
-                    setState(() {
-                      _smsNotifications = value;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 24),
-
           // Внешний вид
           Text(
             'ВНЕШНИЙ ВИД',
@@ -160,12 +106,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: 'Язык',
                   value: _selectedLanguage,
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ChangePasswordPage(),
-                      ),
-                    );
                     _showLanguageDialog();
                   },
                 ),
@@ -200,15 +140,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: 'Изменить пароль',
                   icon: Icons.lock_outline,
                   onTap: () {
-                    // Открыть страницу смены пароля
-                  },
-                ),
-                Divider(height: 1, indent: 16, endIndent: 16),
-                _buildActionTile(
-                  title: 'Двухфакторная аутентификация',
-                  icon: Icons.security_outlined,
-                  onTap: () {
-                    // Настройка 2FA
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChangePasswordPage(),
+                      ),
+                    );
                   },
                 ),
               ],
@@ -228,37 +165,17 @@ class _SettingsPageState extends State<SettingsPage> {
               color: colorScheme.surface,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Column(
-              children: [
-                _buildActionTile(
-                  title: 'Версия приложения',
-                  icon: Icons.info_outline,
-                  trailing: Text(
-                    '1.0.0',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                  onTap: () {},
+            child: _buildActionTile(
+              title: 'Версия приложения',
+              icon: Icons.info_outline,
+              trailing: Text(
+                '1.0.0',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: colorScheme.onSurfaceVariant,
                 ),
-                Divider(height: 1, indent: 16, endIndent: 16),
-                _buildActionTile(
-                  title: 'Условия использования',
-                  icon: Icons.description_outlined,
-                  onTap: () {
-                    // Открыть условия использования
-                  },
-                ),
-                Divider(height: 1, indent: 16, endIndent: 16),
-                _buildActionTile(
-                  title: 'Политика конфиденциальности',
-                  icon: Icons.privacy_tip_outlined,
-                  onTap: () {
-                    // Открыть политику конфиденциальности
-                  },
-                ),
-              ],
+              ),
+              onTap: () {},
             ),
           ),
         ],
@@ -359,8 +276,6 @@ class _SettingsPageState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _buildLanguageOption('Русский'),
-              _buildLanguageOption('English'),
-              _buildLanguageOption('Қазақша'),
             ],
           ),
         );
@@ -393,9 +308,6 @@ class _SettingsPageState extends State<SettingsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _buildCurrencyOption('₸ (Тенге)'),
-              _buildCurrencyOption('₽ (Рубль)'),
-              _buildCurrencyOption('\$ (Доллар)'),
-              _buildCurrencyOption('€ (Евро)'),
             ],
           ),
         );
@@ -418,3 +330,5 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 }
+
+

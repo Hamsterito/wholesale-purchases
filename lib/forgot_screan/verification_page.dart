@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -160,12 +160,12 @@ class _VerificationPageState extends State<VerificationPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // CODE TEXT + TIMER
+                      // КОД И ТАЙМЕР
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'CODE',
+                            'КОД',
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
@@ -205,7 +205,7 @@ class _VerificationPageState extends State<VerificationPage> {
                       ),
                       const SizedBox(height: 16),
 
-                      // CODE INPUTS
+                      // ПОЛЯ ВВОДА КОДА
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: List.generate(4, (index) {
@@ -240,7 +240,7 @@ class _VerificationPageState extends State<VerificationPage> {
                       ),
                       const SizedBox(height: 32),
 
-                      // SUBMIT BUTTON
+                      // КНОПКА ПОДТВЕРЖДЕНИЯ
                       SizedBox(
                         width: double.infinity,
                         height: 50,
@@ -273,3 +273,4 @@ class _VerificationPageState extends State<VerificationPage> {
     );
   }
 }
+

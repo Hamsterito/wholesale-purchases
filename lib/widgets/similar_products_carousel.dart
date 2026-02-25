@@ -24,13 +24,12 @@ class SimilarProductsCarousel extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           const gridPadding = 16.0;
-          const gridSpacing = 12.0;
-          const gridAspectRatio = 0.55;
+          const gridSpacing = 15.0;
           const listEndPadding = 32.0;
+          const cardHeight = 323.0;
 
           final cardWidth =
               (constraints.maxWidth - gridPadding * 2 - gridSpacing) / 2;
-          final cardHeight = cardWidth / gridAspectRatio;
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

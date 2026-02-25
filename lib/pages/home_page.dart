@@ -1,9 +1,12 @@
-﻿import 'dart:math';
+﻿import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/product.dart';
 import '../widgets/product_card.dart';
 import '../services/api_service.dart';
+import '../utils/search_normalizer.dart';
+import '../utils/auto_refresh.dart';
 import 'product_detail_page.dart';
 
 enum SortField { price, rating }
@@ -15,12 +18,14 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
   int _selectedTabIndex = 0;
-  final List<String> _tabs = ['Все', 'Напитки', 'Овощи фрукты', 'Мясо'];
+  List<String> _tabs = ['Все'];
+  Map<String, Set<String>> _mainCategoryAliases = {};
   List<Product> _products = [];
   List<Product> _filteredProducts = [];
   final TextEditingController _searchController = TextEditingController();
+  Timer? _searchDebounce;
   String _searchQuery = '';
   Map<String, String> _searchIndex = {};
   bool _isLoading = true;
@@ -37,14 +42,11 @@ class _HomePageState extends State<HomePage> {
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
-  bool get _isDark => _theme.brightness == Brightness.dark;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _borderColor => _colorScheme.outlineVariant;
-  Color get _surfaceVariant => _colorScheme.surfaceVariant;
-  Color get _shadowColor =>
-      _isDark ? Colors.black.withValues(alpha: 0.35) : Colors.black.withValues(alpha: 0.05);
+  Color get _surfaceVariant => _colorScheme.surfaceContainerHighest;
 
   bool get _hasActiveFilters {
     if (!_filtersInitialized) return false;
@@ -59,31 +61,107 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _loadMainCategoryTabs();
     _loadProducts();
+    startAutoRefresh();
   }
 
-  Future<void> _loadProducts() async {
+  Future<void> _loadMainCategoryTabs() async {
     try {
+      final tree = await ApiService.getCatalogCategoryTree();
+      if (!mounted) return;
+
+      final tabs = <String>['Все'];
+      final seenMain = <String>{'все'};
+      final aliasesByMain = <String, Set<String>>{};
+
+      for (final row in tree) {
+        final mainName = _readCategoryName(row['name']);
+        if (mainName.isEmpty) {
+          continue;
+        }
+
+        final mainKey = mainName.toLowerCase();
+        if (seenMain.add(mainKey)) {
+          tabs.add(mainName);
+        }
+
+        final aliases = aliasesByMain.putIfAbsent(mainKey, () => <String>{});
+        aliases.add(mainKey);
+
+        final subRows = row['subcategories'];
+        if (subRows is! List) {
+          continue;
+        }
+        for (final sub in subRows) {
+          if (sub is! Map) {
+            continue;
+          }
+          final subMap = Map<String, dynamic>.from(sub);
+          final subName = _readCategoryName(subMap['name']);
+          if (subName.isEmpty) {
+            continue;
+          }
+          aliases.add(subName.toLowerCase());
+        }
+      }
+
+      if (tabs.length <= 1) {
+        return;
+      }
+
+      final selectedLabel =
+          (_selectedTabIndex >= 0 && _selectedTabIndex < _tabs.length)
+          ? _tabs[_selectedTabIndex]
+          : 'Все';
+      final nextSelectedIndex = tabs.indexOf(selectedLabel);
+
       setState(() {
-        _isLoading = true;
-        _errorMessage = null;
+        _tabs = tabs;
+        _mainCategoryAliases = aliasesByMain;
+        _selectedTabIndex = nextSelectedIndex >= 0 ? nextSelectedIndex : 0;
+        _filteredProducts = _filterProducts(_products);
       });
+    } catch (_) {
+      // Leave default tabs when category tree is unavailable.
+    }
+  }
+
+  String _readCategoryName(Object? value) {
+    return value?.toString().trim() ?? '';
+  }
+
+  Future<void> _loadProducts({bool showLoading = true}) async {
+    try {
+      if (showLoading) {
+        setState(() {
+          _isLoading = true;
+          _errorMessage = null;
+        });
+      }
 
       final products = await ApiService.getProducts();
       final searchIndex = _buildSearchIndex(products);
 
+      if (!mounted) return;
       setState(() {
         _products = products;
         _searchIndex = searchIndex;
         _syncFilterBounds(products);
         _filteredProducts = _filterProducts(products);
-        _isLoading = false;
+        _errorMessage = null;
+        if (showLoading) {
+          _isLoading = false;
+        }
       });
     } catch (e) {
-      setState(() {
-        _errorMessage = 'Ошибка загрузки товаров: $e';
-        _isLoading = false;
-      });
+      if (!mounted) return;
+      if (showLoading) {
+        setState(() {
+          _errorMessage = 'Ошибка загрузки товаров: $e';
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -97,9 +175,7 @@ class _HomePageState extends State<HomePage> {
             _buildHeader(),
             _buildSearchBar(),
             _buildFilterTabs(),
-            Expanded(
-              child: _buildContent(),
-            ),
+            Expanded(child: _buildContent()),
           ],
         ),
       ),
@@ -109,9 +185,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildContent() {
     if (_isLoading) {
       return const Center(
-        child: CircularProgressIndicator(
-          color: Color(0xFF6288D5),
-        ),
+        child: CircularProgressIndicator(color: Color(0xFF6288D5)),
       );
     }
 
@@ -180,6 +254,7 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       child: TextField(
         controller: _searchController,
+        keyboardType: TextInputType.text,
         textInputAction: TextInputAction.search,
         onChanged: _onSearchChanged,
         decoration: InputDecoration(
@@ -256,9 +331,12 @@ class _HomePageState extends State<HomePage> {
                           _tabs[index],
                           style: TextStyle(
                             fontSize: 14,
-                            fontWeight:
-                            isSelected ? FontWeight.w600 : FontWeight.w400,
-                            color: isSelected ? Colors.white : _colorScheme.onSurface,
+                            fontWeight: isSelected
+                                ? FontWeight.w600
+                                : FontWeight.w400,
+                            color: isSelected
+                                ? Colors.white
+                                : _colorScheme.onSurface,
                           ),
                         ),
                       ),
@@ -278,12 +356,12 @@ class _HomePageState extends State<HomePage> {
       color: const Color(0xFF6288D5),
       onRefresh: _loadProducts,
       child: GridView.builder(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 0.55,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
+          mainAxisExtent: 327,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 10,
         ),
         itemCount: _filteredProducts.length,
         itemBuilder: (context, index) {
@@ -306,6 +384,7 @@ class _HomePageState extends State<HomePage> {
             },
             onAddToCart: () {},
             showMessages: true,
+            computeDeliveryDateFromRemaining: true,
           );
         },
       ),
@@ -324,8 +403,9 @@ class _HomePageState extends State<HomePage> {
       return;
     }
 
-    final prices =
-        products.map((p) => p.bestSupplier.pricePerUnit.toDouble()).toList();
+    final prices = products
+        .map((p) => p.bestSupplier.pricePerUnit.toDouble())
+        .toList();
     final priceMax = prices.reduce(max);
 
     _priceMinBound = 0;
@@ -383,8 +463,9 @@ class _HomePageState extends State<HomePage> {
       int compare;
       switch (_sortField) {
         case SortField.price:
-          compare = a.bestSupplier.pricePerUnit
-              .compareTo(b.bestSupplier.pricePerUnit);
+          compare = a.bestSupplier.pricePerUnit.compareTo(
+            b.bestSupplier.pricePerUnit,
+          );
           break;
         case SortField.rating:
           compare = a.rating.compareTo(b.rating);
@@ -398,13 +479,27 @@ class _HomePageState extends State<HomePage> {
 
   bool _matchesSelectedCategory(Product product, int tabIndex) {
     if (tabIndex <= 0 || tabIndex >= _tabs.length) return true;
-    final selected = _tabs[tabIndex].toLowerCase();
-    return product.categories.any((category) {
-      final normalized = category.toLowerCase();
-      return normalized == selected ||
-          normalized.contains(selected) ||
-          selected.contains(normalized);
-    });
+    final selected = _tabs[tabIndex].trim().toLowerCase();
+    final aliases = _mainCategoryAliases[selected];
+    if (aliases != null && aliases.isNotEmpty) {
+      return product.categories.any((category) {
+        final normalized = category.trim().toLowerCase();
+        for (final alias in aliases) {
+          if (_categoryMatches(normalized, alias)) {
+            return true;
+          }
+        }
+        return false;
+      });
+    }
+
+    return product.categories.any(
+      (category) => _categoryMatches(category.trim().toLowerCase(), selected),
+    );
+  }
+
+  bool _categoryMatches(String left, String right) {
+    return left == right || left.contains(right) || right.contains(left);
   }
 
   bool _hasDiscount(Product product) {
@@ -418,7 +513,9 @@ class _HomePageState extends State<HomePage> {
         final parsed = int.tryParse(digits) ?? 0;
         if (parsed > 0) return true;
       }
-      if (value.contains('%') || value.contains('yes') || value.contains('true')) {
+      if (value.contains('%') ||
+          value.contains('yes') ||
+          value.contains('true')) {
         return true;
       }
     }
@@ -426,6 +523,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onSearchChanged(String value) {
+    _searchDebounce?.cancel();
+
+    if (value.isEmpty) {
+      _applySearchQuery(value);
+      return;
+    }
+
+    _searchDebounce = Timer(const Duration(milliseconds: 180), () {
+      if (!mounted) return;
+      _applySearchQuery(value);
+    });
+  }
+
+  void _applySearchQuery(String value) {
+    if (_searchQuery == value) return;
     setState(() {
       _searchQuery = value;
       _filteredProducts = _filterProducts(_products);
@@ -465,26 +577,21 @@ class _HomePageState extends State<HomePage> {
         ..write(' ')
         ..write(supplier.name);
     }
-    return buffer.toString().toLowerCase();
+    return SearchNormalizer.buildSearchText(buffer.toString());
   }
 
   bool _matchesSearch(Product product, String query) {
-    final normalized = query.toLowerCase().trim();
-    if (normalized.isEmpty) return true;
-    final tokens = normalized
-        .split(RegExp(r'\s+'))
-        .where((token) => token.isNotEmpty)
-        .toList();
+    final tokens = SearchNormalizer.tokenizeQuery(query);
     if (tokens.isEmpty) return true;
-    final haystack = _searchIndex[product.id] ?? _buildProductSearchText(product);
-    return tokens.every(haystack.contains);
+    final haystack =
+        _searchIndex[product.id] ?? _buildProductSearchText(product);
+    return SearchNormalizer.matchesTokens(haystack, tokens);
   }
 
   void _openFiltersSheet() {
     if (!_filtersInitialized) return;
     final initialRange = _priceRange;
     final initialRating = _minRating;
-    final initialOnlyDiscounted = _onlyDiscounted;
     final initialMaxUnlimited = _priceMaxUnlimited;
     final initialSortField = _sortField;
     final initialSortAscending = _sortAscending;
@@ -499,7 +606,6 @@ class _HomePageState extends State<HomePage> {
       builder: (context) {
         RangeValues priceRange = initialRange;
         double minRating = initialRating;
-        bool onlyDiscounted = initialOnlyDiscounted;
         bool maxUnlimited = initialMaxUnlimited;
         SortField sortField = initialSortField;
         bool sortAscending = initialSortAscending;
@@ -516,7 +622,7 @@ class _HomePageState extends State<HomePage> {
               _products,
               priceRange: priceRange,
               minRating: minRating,
-              onlyDiscounted: onlyDiscounted,
+              onlyDiscounted: false,
               priceMaxUnlimited: maxUnlimited,
             ).length;
             final priceMin = _priceMinBound;
@@ -555,7 +661,6 @@ class _HomePageState extends State<HomePage> {
                           setSheetState(() {
                             priceRange = RangeValues(0, priceMax);
                             minRating = 0;
-                            onlyDiscounted = false;
                             maxUnlimited = true;
                             sortField = SortField.price;
                             sortAscending = true;
@@ -575,7 +680,9 @@ class _HomePageState extends State<HomePage> {
                         label: 'от',
                         controller: fromController,
                         onChanged: (value) {
-                          final parsed = value.isEmpty ? 0 : int.tryParse(value);
+                          final parsed = value.isEmpty
+                              ? 0
+                              : int.tryParse(value);
                           if (parsed == null) return;
                           final clamped = parsed
                               .clamp(0, priceMax.toInt())
@@ -597,14 +704,18 @@ class _HomePageState extends State<HomePage> {
                           if (value.isEmpty) {
                             setSheetState(() {
                               maxUnlimited = true;
-                              priceRange = RangeValues(priceRange.start, priceMax);
+                              priceRange = RangeValues(
+                                priceRange.start,
+                                priceMax,
+                              );
                             });
                             return;
                           }
                           final parsed = int.tryParse(value);
                           if (parsed == null) return;
-                          final clamped =
-                              parsed.clamp(0, priceMax.toInt()).toDouble();
+                          final clamped = parsed
+                              .clamp(0, priceMax.toInt())
+                              .toDouble();
                           setSheetState(() {
                             maxUnlimited = false;
                             priceRange = RangeValues(
@@ -629,15 +740,18 @@ class _HomePageState extends State<HomePage> {
                           values.start.clamp(0, priceMax),
                           values.end.clamp(0, priceMax),
                         );
-                        fromController.text =
-                            priceRange.start.toInt().toString();
+                        fromController.text = priceRange.start
+                            .toInt()
+                            .toString();
                         toController.text = priceRange.end.toInt().toString();
                       });
                     },
                     activeColor: const Color(0xFF6288D5),
                     labels: RangeLabels(
                       '${priceRange.start.toInt()} \u20B8',
-                      maxUnlimited ? '\u221E' : '${priceRange.end.toInt()} \u20B8',
+                      maxUnlimited
+                          ? '\u221E'
+                          : '${priceRange.end.toInt()} \u20B8',
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -702,10 +816,7 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      _buildValuePill(
-                        'от',
-                        minRating.toStringAsFixed(1),
-                      ),
+                      _buildValuePill('от', minRating.toStringAsFixed(1)),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Slider(
@@ -724,39 +835,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
-                  _buildFilterSectionTitle('Выгодные предложения'),
-                  const SizedBox(height: 6),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      color: _surfaceVariant,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: _borderColor),
-                    ),
-                    child: Row(
-                      children: [
-                        const Expanded(
-                          child: Text(
-                            'Только со скидкой',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                        Switch(
-                          value: onlyDiscounted,
-                          onChanged: (value) {
-                            setSheetState(() {
-                              onlyDiscounted = value;
-                            });
-                          },
-                          activeColor: const Color(0xFF6288D5),
-                        ),
-                      ],
-                    ),
-                  ),
                   const SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
@@ -766,7 +844,7 @@ class _HomePageState extends State<HomePage> {
                           _priceRange = priceRange;
                           _priceMaxUnlimited = maxUnlimited;
                           _minRating = minRating;
-                          _onlyDiscounted = onlyDiscounted;
+                          _onlyDiscounted = false;
                           _sortField = sortField;
                           _sortAscending = sortAscending;
                           _filteredProducts = _filterProducts(_products);
@@ -837,18 +915,19 @@ class _HomePageState extends State<HomePage> {
               switchInCurve: Curves.easeOutBack,
               switchOutCurve: Curves.easeIn,
               transitionBuilder: (child, animation) {
-                final rotate = Tween<double>(begin: -0.1, end: 0.0)
-                    .animate(animation);
-                final scale = Tween<double>(begin: 0.75, end: 1.0)
-                    .animate(animation);
+                final rotate = Tween<double>(
+                  begin: -0.1,
+                  end: 0.0,
+                ).animate(animation);
+                final scale = Tween<double>(
+                  begin: 0.75,
+                  end: 1.0,
+                ).animate(animation);
                 return FadeTransition(
                   opacity: animation,
                   child: RotationTransition(
                     turns: rotate,
-                    child: ScaleTransition(
-                      scale: scale,
-                      child: child,
-                    ),
+                    child: ScaleTransition(scale: scale, child: child),
                   ),
                 );
               },
@@ -868,10 +947,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildFilterSectionTitle(String title) {
     return Text(
       title,
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w700,
-      ),
+      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
     );
   }
 
@@ -949,17 +1025,11 @@ class _HomePageState extends State<HomePage> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            label,
-            style: TextStyle(fontSize: 13, color: _mutedText),
-          ),
+          Text(label, style: TextStyle(fontSize: 13, color: _mutedText)),
           const SizedBox(width: 6),
           Text(
             value,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-            ),
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
           ),
         ],
       ),
@@ -982,10 +1052,7 @@ class _HomePageState extends State<HomePage> {
         ),
         child: Row(
           children: [
-            Text(
-              label,
-              style: TextStyle(fontSize: 13, color: _mutedText),
-            ),
+            Text(label, style: TextStyle(fontSize: 13, color: _mutedText)),
             const SizedBox(width: 6),
             Expanded(
               child: TextField(
@@ -1009,10 +1076,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(width: 6),
             const Text(
               '\u20B8',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ],
         ),
@@ -1027,11 +1091,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  Future<void> onAutoRefresh() async {
+    if (_isLoading) return;
+    await _loadProducts(showLoading: false);
+  }
+
+  @override
   void dispose() {
+    stopAutoRefresh();
+    _searchDebounce?.cancel();
     _searchController.dispose();
     super.dispose();
   }
-
 }
-
 

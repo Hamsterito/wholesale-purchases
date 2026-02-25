@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../services/api_service.dart';
 import 'category_products_page.dart';
-
-enum CategoryFilter { all, drinks, vegetables, bread, dairy, meat }
+import '../widgets/main_bottom_nav.dart';
 
 class CatalogPage extends StatefulWidget {
   const CatalogPage({super.key});
@@ -10,29 +10,43 @@ class CatalogPage extends StatefulWidget {
   State<CatalogPage> createState() => _CatalogPageState();
 }
 
-class _CategoryCardData {
-  const _CategoryCardData({
+class _SubcategoryData {
+  const _SubcategoryData({
     required this.title,
     required this.imagePath,
     required this.keywords,
     required this.tint,
-    this.height,
   });
 
   final String title;
   final String imagePath;
   final List<String> keywords;
   final Color tint;
-  final double? height;
 
   String get routeTitle => title.replaceAll('\n', ' ');
 }
 
+class _MainCategoryData {
+  const _MainCategoryData({
+    required this.title,
+    required this.subtitle,
+    required this.imagePath,
+    required this.tint,
+    required this.subcategories,
+  });
+
+  final String title;
+  final String subtitle;
+  final String imagePath;
+  final Color tint;
+  final List<_SubcategoryData> subcategories;
+}
+
 class _CatalogPageState extends State<CatalogPage> {
-  CategoryFilter _selectedFilter = CategoryFilter.all;
-  bool _sortAscending = true;
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
+  List<_MainCategoryData> _mainCategories = const <_MainCategoryData>[];
+  bool _isLoadingCategories = true;
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
@@ -40,15 +54,326 @@ class _CatalogPageState extends State<CatalogPage> {
   Color get _pageBg => _theme.scaffoldBackgroundColor;
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _borderColor => _colorScheme.outlineVariant;
   Color get _surfaceVariant => _colorScheme.surfaceVariant;
-  Color get _shadowColor =>
-      _isDark ? Colors.black.withValues(alpha: 0.35) : Colors.black.withValues(alpha: 0.05);
+  Color get _shadowColor => _isDark
+      ? Colors.black.withValues(alpha: 0.35)
+      : Colors.black.withValues(alpha: 0.05);
 
-  void _onFilterTapped(CategoryFilter filter) {
+  @override
+  void initState() {
+    super.initState();
+    _loadCategories();
+  }
+
+  Future<void> _loadCategories() async {
     setState(() {
-      _selectedFilter = filter;
+      _isLoadingCategories = true;
     });
+
+    try {
+      final tree = await ApiService.getCatalogCategoryTree();
+      if (!mounted) {
+        return;
+      }
+
+      final parsed = _mapMainCategoriesFromApi(tree);
+      setState(() {
+        _mainCategories = parsed;
+        _isLoadingCategories = false;
+      });
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _mainCategories = const <_MainCategoryData>[];
+        _isLoadingCategories = false;
+      });
+    }
+  }
+
+  List<_MainCategoryData> _mapMainCategoriesFromApi(
+    List<Map<String, dynamic>> rows,
+  ) {
+    final entries = <MapEntry<int, _MainCategoryData>>[];
+
+    for (final row in rows) {
+      final title = _readString(row['name']);
+      if (title.isEmpty) {
+        continue;
+      }
+      final subRows = row['subcategories'];
+      if (subRows is! List) {
+        continue;
+      }
+
+      final tint = _tintForCategoryName(title);
+      final subEntries = <MapEntry<int, _SubcategoryData>>[];
+      for (final sub in subRows) {
+        if (sub is! Map) {
+          continue;
+        }
+        final subMap = Map<String, dynamic>.from(sub);
+        final subTitle = _readString(subMap['name']);
+        if (subTitle.isEmpty) {
+          continue;
+        }
+        final subImageRaw = _readString(subMap['imagePath']);
+        final subImage = subImageRaw.startsWith('assets/')
+            ? subImageRaw
+            : 'assets/catalog/water.jpg';
+        final keywords = _readKeywords(subMap['keywords'], fallback: subTitle);
+
+        subEntries.add(
+          MapEntry(
+            _toSortOrder(subMap['sortOrder']),
+            _SubcategoryData(
+              title: subTitle,
+              imagePath: subImage,
+              keywords: keywords,
+              tint: tint,
+            ),
+          ),
+        );
+      }
+
+      if (subEntries.isEmpty) {
+        continue;
+      }
+      subEntries.sort((a, b) => a.key.compareTo(b.key));
+      final subcategories = subEntries
+          .map((entry) => entry.value)
+          .toList(growable: false);
+
+      final subtitleRaw = _readString(row['subtitle']);
+      final subtitle = subtitleRaw.isEmpty ? title : subtitleRaw;
+
+      final imagePathRaw = _readString(row['imagePath']);
+      final imagePath = imagePathRaw.startsWith('assets/')
+          ? imagePathRaw
+          : subcategories.first.imagePath;
+
+      entries.add(
+        MapEntry(
+          _toSortOrder(row['sortOrder']),
+          _MainCategoryData(
+            title: title,
+            subtitle: subtitle,
+            imagePath: imagePath,
+            tint: tint,
+            subcategories: subcategories,
+          ),
+        ),
+      );
+    }
+
+    entries.sort((a, b) => a.key.compareTo(b.key));
+    return entries.map((entry) => entry.value).toList(growable: false);
+  }
+
+  String _readString(Object? value) {
+    return value?.toString().trim() ?? '';
+  }
+
+  int _toSortOrder(Object? value) {
+    if (value is int) {
+      return value;
+    }
+    if (value is double) {
+      return value.round();
+    }
+    return int.tryParse(value?.toString() ?? '') ?? 0;
+  }
+
+  List<String> _readKeywords(Object? value, {required String fallback}) {
+    final result = <String>[];
+    if (value is List) {
+      for (final item in value) {
+        final normalized = item.toString().trim();
+        if (normalized.isNotEmpty) {
+          result.add(normalized);
+        }
+      }
+    } else if (value != null) {
+      for (final part in value.toString().split(RegExp(r'[;,|]'))) {
+        final normalized = part.trim();
+        if (normalized.isNotEmpty) {
+          result.add(normalized);
+        }
+      }
+    }
+
+    if (result.isNotEmpty) {
+      return result;
+    }
+    return <String>[fallback];
+  }
+
+  Color _tintForCategoryName(String name) {
+    final normalized = name.toLowerCase();
+    if (normalized.contains('напит')) {
+      return Colors.blue[100]!;
+    }
+    if (normalized.contains('овощ') || normalized.contains('фрукт')) {
+      return Colors.green[300]!;
+    }
+    if (normalized.contains('хлеб') || normalized.contains('пекар')) {
+      return Colors.orange[200]!;
+    }
+    if (normalized.contains('молоч')) {
+      return Colors.yellow[100]!;
+    }
+    if (normalized.contains('мяс') || normalized.contains('птиц')) {
+      return Colors.pink[100]!;
+    }
+    return Colors.blue[100]!;
+  }
+
+  List<_MainCategoryData> _buildMainCategories() {
+    final breadTint = Colors.orange[200]!;
+    final vegetablesTint = Colors.green[300]!;
+    final dairyTint = Colors.yellow[100]!;
+    final meatTint = Colors.pink[100]!;
+    final waterTint = Colors.blue[100]!;
+
+    return [
+      _MainCategoryData(
+        title: 'Напитки',
+        subtitle: 'Вода, соки, газировка',
+        imagePath: 'assets/catalog/water.jpg',
+        tint: waterTint,
+        subcategories: [
+          _SubcategoryData(
+            title: 'Вода',
+            imagePath: 'assets/catalog/water.jpg',
+            keywords: const ['вода', 'минеральная'],
+            tint: Colors.blue[100]!,
+          ),
+          _SubcategoryData(
+            title: 'Соки',
+            imagePath: 'assets/catalog/juice.jpg',
+            keywords: const ['сок', 'соки', 'juice'],
+            tint: Colors.orange[100]!,
+          ),
+          _SubcategoryData(
+            title: 'Газировка',
+            imagePath: 'assets/catalog/soda.jpg',
+            keywords: const ['газировка', 'газированный', 'лимонад', 'soda'],
+            tint: Colors.blue[200]!,
+          ),
+        ],
+      ),
+      _MainCategoryData(
+        title: 'Овощи и фрукты',
+        subtitle: 'Фрукты, ягоды, овощи и зелень',
+        imagePath: 'assets/catalog/fruits_berries.jpg',
+        tint: vegetablesTint,
+        subcategories: [
+          _SubcategoryData(
+            title: 'Фрукты, ягоды',
+            imagePath: 'assets/catalog/fruits_berries.jpg',
+            keywords: const ['фрукты', 'ягоды', 'фрукт', 'ягода'],
+            tint: vegetablesTint,
+          ),
+          _SubcategoryData(
+            title: 'Овощи, грибы и зелень',
+            imagePath: 'assets/catalog/vegetables_greens.jpg',
+            keywords: const ['овощи', 'грибы', 'зелень', 'овощ', 'гриб'],
+            tint: vegetablesTint,
+          ),
+        ],
+      ),
+      _MainCategoryData(
+        title: 'Хлеб и пекарня',
+        subtitle: 'Хлеб, булочки, пироги',
+        imagePath: 'assets/catalog/bakery_pastry.jpg',
+        tint: breadTint,
+        subcategories: [
+          _SubcategoryData(
+            title: 'Выпечка от Манса',
+            imagePath: 'assets/catalog/bakery_pastry.jpg',
+            keywords: const ['выпечка', 'пекарня', 'булочки', 'круассан'],
+            tint: breadTint,
+          ),
+          _SubcategoryData(
+            title: 'Хлеб',
+            imagePath: 'assets/catalog/bread.jpg',
+            keywords: const ['хлеб', 'батон', 'багет'],
+            tint: breadTint,
+          ),
+          _SubcategoryData(
+            title: 'Выпечка и пироги',
+            imagePath: 'assets/catalog/pie.jpg',
+            keywords: const ['выпечка', 'пирог', 'пироги'],
+            tint: breadTint,
+          ),
+        ],
+      ),
+      _MainCategoryData(
+        title: 'Молочная продукция',
+        subtitle: 'Молоко, сыр, йогурты и яйца',
+        imagePath: 'assets/catalog/milk.jpg',
+        tint: dairyTint,
+        subcategories: [
+          _SubcategoryData(
+            title: 'Сыр',
+            imagePath: 'assets/catalog/cheese.jpg',
+            keywords: const ['сыр'],
+            tint: Colors.brown[100]!,
+          ),
+          _SubcategoryData(
+            title: 'Творог, сметана',
+            imagePath: 'assets/catalog/cottage_cheese.jpg',
+            keywords: const ['творог', 'сметана', 'кисломолочные'],
+            tint: Colors.brown[100]!,
+          ),
+          _SubcategoryData(
+            title: 'Йогурт и десерты',
+            imagePath: 'assets/catalog/yogurt_dessert.jpg',
+            keywords: const ['йогурт', 'десерт', 'десерты'],
+            tint: Colors.brown[100]!,
+          ),
+          _SubcategoryData(
+            title: 'Молоко и кисломолочные продукты',
+            imagePath: 'assets/catalog/milk.jpg',
+            keywords: const ['молоко', 'кефир', 'ряженка', 'айран'],
+            tint: dairyTint,
+          ),
+          _SubcategoryData(
+            title: 'Масло и яйца',
+            imagePath: 'assets/catalog/butter_eggs.jpg',
+            keywords: const ['масло', 'яйца', 'яйцо'],
+            tint: dairyTint,
+          ),
+        ],
+      ),
+      _MainCategoryData(
+        title: 'Мясо и птица',
+        subtitle: 'Мясо, колбасы и деликатесы',
+        imagePath: 'assets/catalog/meat.jpg',
+        tint: meatTint,
+        subcategories: [
+          _SubcategoryData(
+            title: 'Мясо и птица',
+            imagePath: 'assets/catalog/meat.jpg',
+            keywords: const ['мясо', 'птица', 'курица', 'говядина', 'свинина'],
+            tint: meatTint,
+          ),
+          _SubcategoryData(
+            title: 'Колбасы и сосиски',
+            imagePath: 'assets/catalog/sausages.jpg',
+            keywords: const ['колбаса', 'колбасы', 'сосиски', 'сардельки'],
+            tint: meatTint,
+          ),
+          _SubcategoryData(
+            title: 'Мясные деликатесы',
+            imagePath: 'assets/catalog/deli_meats.jpg',
+            keywords: const ['деликатесы', 'ветчина', 'бекон', 'хамон'],
+            tint: meatTint,
+          ),
+        ],
+      ),
+    ];
   }
 
   void _onSearchChanged(String value) {
@@ -57,107 +382,59 @@ class _CatalogPageState extends State<CatalogPage> {
     });
   }
 
-  bool _shouldShowCategory(CategoryFilter category) {
-    if (_selectedFilter == CategoryFilter.all) return true;
-    return _selectedFilter == category;
-  }
-
   List<String> _tokenizeQuery(String query) {
     final normalized = query.toLowerCase().trim();
-    if (normalized.isEmpty) return const [];
+    if (normalized.isEmpty) {
+      return const <String>[];
+    }
     return normalized
         .split(RegExp(r'\s+'))
         .where((token) => token.isNotEmpty)
         .toList();
   }
 
-  bool _matchesSearch(_CategoryCardData data, List<String> tokens) {
-    if (tokens.isEmpty) return true;
-    final buffer = StringBuffer()..write(data.title);
-    for (final keyword in data.keywords) {
+  bool _matchesMainCategory(_MainCategoryData data, List<String> tokens) {
+    if (tokens.isEmpty) {
+      return true;
+    }
+
+    final buffer = StringBuffer()
+      ..write(data.title)
+      ..write(' ')
+      ..write(data.subtitle);
+
+    for (final sub in data.subcategories) {
       buffer
         ..write(' ')
-        ..write(keyword);
+        ..write(sub.title);
+      for (final keyword in sub.keywords) {
+        buffer
+          ..write(' ')
+          ..write(keyword);
+      }
     }
+
     final haystack = buffer.toString().toLowerCase();
     return tokens.every(haystack.contains);
   }
 
-  void _openCategory(_CategoryCardData data) {
+  List<_MainCategoryData> _visibleMainCategories() {
+    final tokens = _tokenizeQuery(_searchQuery);
+    final filtered = _mainCategories
+        .where((item) => _matchesMainCategory(item, tokens))
+        .toList(growable: false);
+
+    final sorted = [...filtered];
+    sorted.sort((a, b) => a.title.compareTo(b.title));
+    return sorted;
+  }
+
+  void _openMainCategory(_MainCategoryData category) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CategoryProductsPage(
-          title: data.routeTitle,
-          keywords: data.keywords,
-        ),
+        builder: (context) => _SubcategoriesPage(category: category),
       ),
-    );
-  }
-
-  String _filterLabel(CategoryFilter filter) {
-    switch (filter) {
-      case CategoryFilter.all:
-        return 'Все';
-      case CategoryFilter.drinks:
-        return 'Напитки';
-      case CategoryFilter.vegetables:
-        return 'Овощи и фрукты';
-      case CategoryFilter.bread:
-        return 'Хлеб';
-      case CategoryFilter.dairy:
-        return 'Молочка';
-      case CategoryFilter.meat:
-        return 'Мясо';
-    }
-  }
-
-  void _openFilterMenu() {
-    showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: _cardBg,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (context) {
-        return SafeArea(
-          top: false,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 8),
-              Container(
-                width: 32,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: _borderColor,
-                  borderRadius: BorderRadius.circular(999),
-                ),
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                'Фильтры каталога',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 8),
-              for (final filter in CategoryFilter.values)
-                ListTile(
-                  title: Text(_filterLabel(filter)),
-                  trailing: _selectedFilter == filter
-                      ? const Icon(Icons.check, color: Color(0xFF6288D5))
-                      : null,
-                  onTap: () {
-                    setState(() {
-                      _selectedFilter = filter;
-                    });
-                    Navigator.pop(context);
-                  },
-                ),
-              const SizedBox(height: 8),
-            ],
-          ),
-        );
-      },
     );
   }
 
@@ -170,8 +447,7 @@ class _CatalogPageState extends State<CatalogPage> {
           children: [
             _buildHeader(),
             _buildSearchBar(),
-            _buildFilterTabs(),
-            Expanded(child: _buildCategoryList()),
+            Expanded(child: _buildMainCategoryList()),
           ],
         ),
       ),
@@ -209,7 +485,7 @@ class _CatalogPageState extends State<CatalogPage> {
         textInputAction: TextInputAction.search,
         onChanged: _onSearchChanged,
         decoration: InputDecoration(
-          hintText: 'Поиск...',
+          hintText: 'Поиск категорий...',
           hintStyle: TextStyle(color: _mutedText),
           prefixIcon: Icon(Icons.search, color: _mutedText),
           suffixIcon: _searchQuery.isEmpty
@@ -232,224 +508,25 @@ class _CatalogPageState extends State<CatalogPage> {
     );
   }
 
-  Widget _buildFilterTabs() {
-    return Container(
-      color: _cardBg,
-      padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
-      child: Row(
-        children: [
-          IconButton(
-            icon: _buildSortIcon(),
-            onPressed: () {
-              setState(() {
-                _sortAscending = !_sortAscending;
-              });
-            },
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-          ),
-          const SizedBox(width: 12),
-          IconButton(
-            icon: const Icon(Icons.tune),
-            onPressed: _openFilterMenu,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  _buildFilterButton('Все', CategoryFilter.all),
-                  const SizedBox(width: 12),
-                  _buildFilterButton('Напитки', CategoryFilter.drinks),
-                  const SizedBox(width: 12),
-                  _buildFilterButton('Овощи фрукты', CategoryFilter.vegetables),
-                  const SizedBox(width: 12),
-                  _buildFilterButton('Хлеб', CategoryFilter.bread),
-                  const SizedBox(width: 12),
-                  _buildFilterButton('Молочка', CategoryFilter.dairy),
-                  const SizedBox(width: 12),
-                  _buildFilterButton('Мясо', CategoryFilter.meat),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFilterButton(String label, CategoryFilter filter) {
-    bool isSelected = _selectedFilter == filter;
-    return GestureDetector(
-      onTap: () => _onFilterTapped(filter),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF6288D5) : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isSelected ? Colors.white : _colorScheme.onSurface,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCategoryList() {
-    final breadTint = Colors.orange[200]!;
-    final vegetablesTint = Colors.green[300]!;
-    final dairyTint = Colors.brown[100]!;
-    final dairyLightTint = Colors.yellow[100]!;
-    final meatTint = Colors.pink[100]!;
-    final waterTint = Colors.blue[100]!;
-    final juiceTint = Colors.orange[100]!;
-    final sodaTint = Colors.blue[200]!;
-    final tokens = _tokenizeQuery(_searchQuery);
-
-    List<_CategoryCardData> filterCards(List<_CategoryCardData> items) {
-      if (tokens.isEmpty) return items;
-      return items.where((item) => _matchesSearch(item, tokens)).toList();
+  Widget _buildMainCategoryList() {
+    if (_isLoadingCategories) {
+      return const Center(
+        child: CircularProgressIndicator(color: Color(0xFF6288D5)),
+      );
     }
 
-    final breadCards = filterCards([
-      _CategoryCardData(
-        title: 'Выпечка\nот Манса',
-        imagePath: 'assets/catalog/bakery_pastry.jpg',
-        keywords: const ['выпечка', 'пекарня', 'булочки', 'круассан'],
-        tint: breadTint,
-      ),
-      _CategoryCardData(
-        title: 'Хлеб',
-        imagePath: 'assets/catalog/bread.jpg',
-        keywords: const ['хлеб', 'батон', 'багет'],
-        tint: breadTint,
-      ),
-      _CategoryCardData(
-        title: 'Выпечка и\nпироги',
-        imagePath: 'assets/catalog/pie.jpg',
-        keywords: const ['выпечка', 'пирог', 'пироги'],
-        tint: breadTint,
-      ),
-    ]);
+    if (_mainCategories.isEmpty) {
+      return Center(
+        child: Text(
+          'Нет категорий',
+          style: TextStyle(color: _mutedText, fontSize: 16),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
 
-    final vegetablesCards = filterCards([
-      _CategoryCardData(
-        title: 'Фрукты, ягоды',
-        imagePath: 'assets/catalog/fruits_berries.jpg',
-        keywords: const ['фрукты', 'ягоды', 'фрукт', 'ягода'],
-        tint: vegetablesTint,
-        height: 120,
-      ),
-      _CategoryCardData(
-        title: 'Овощи, грибы и\nзелень',
-        imagePath: 'assets/catalog/vegetables_greens.jpg',
-        keywords: const ['овощи', 'грибы', 'зелень', 'овощ', 'гриб'],
-        tint: vegetablesTint,
-        height: 120,
-      ),
-    ]);
-
-    final dairyCardsRow1 = filterCards([
-      _CategoryCardData(
-        title: 'Сыр',
-        imagePath: 'assets/catalog/cheese.jpg',
-        keywords: const ['сыр'],
-        tint: dairyTint,
-      ),
-      _CategoryCardData(
-        title: 'Творог,\nсметана',
-        imagePath: 'assets/catalog/cottage_cheese.jpg',
-        keywords: const ['творог', 'сметана', 'кисломолочные'],
-        tint: dairyTint,
-      ),
-      _CategoryCardData(
-        title: 'Йогурт и\nдесерты',
-        imagePath: 'assets/catalog/yogurt_dessert.jpg',
-        keywords: const ['йогурт', 'десерт', 'десерты'],
-        tint: dairyTint,
-      ),
-    ]);
-
-    final dairyCardsRow2 = filterCards([
-      _CategoryCardData(
-        title: 'Молоко\nкисломолочные\nпродукты',
-        imagePath: 'assets/catalog/milk.jpg',
-        keywords: const ['молоко', 'кефир', 'ряженка', 'айран'],
-        tint: dairyLightTint,
-      ),
-      _CategoryCardData(
-        title: 'Масло и яйца',
-        imagePath: 'assets/catalog/butter_eggs.jpg',
-        keywords: const ['масло', 'яйца', 'яйцо'],
-        tint: dairyLightTint,
-      ),
-    ]);
-
-    final meatCards = filterCards([
-      _CategoryCardData(
-        title: 'Мясо и\nптица',
-        imagePath: 'assets/catalog/meat.jpg',
-        keywords: const [
-          'мясо',
-          'птица',
-          'курица',
-          'говядина',
-          'свинина',
-        ],
-        tint: meatTint,
-      ),
-      _CategoryCardData(
-        title: 'Колбасы и\nсосиски',
-        imagePath: 'assets/catalog/sausages.jpg',
-        keywords: const ['колбаса', 'колбасы', 'сосиски', 'сардельки'],
-        tint: meatTint,
-      ),
-      _CategoryCardData(
-        title: 'Мясные\nделикатесы',
-        imagePath: 'assets/catalog/deli_meats.jpg',
-        keywords: const ['деликатесы', 'ветчина', 'бекон', 'хамон'],
-        tint: meatTint,
-      ),
-    ]);
-
-    final drinksCards = filterCards([
-      _CategoryCardData(
-        title: 'Вода',
-        imagePath: 'assets/catalog/water.jpg',
-        keywords: const ['вода', 'минеральная'],
-        tint: waterTint,
-      ),
-      _CategoryCardData(
-        title: 'Соки',
-        imagePath: 'assets/catalog/juice.jpg',
-        keywords: const ['сок', 'соки', 'juice'],
-        tint: juiceTint,
-      ),
-      _CategoryCardData(
-        title: 'Газировка',
-        imagePath: 'assets/catalog/soda.jpg',
-        keywords: const ['газировка', 'газированный', 'лимонад', 'soda'],
-        tint: sodaTint,
-      ),
-    ]);
-
-    final hasResults =
-        (_shouldShowCategory(CategoryFilter.bread) && breadCards.isNotEmpty) ||
-        (_shouldShowCategory(CategoryFilter.vegetables) &&
-            vegetablesCards.isNotEmpty) ||
-        (_shouldShowCategory(CategoryFilter.dairy) &&
-            (dairyCardsRow1.isNotEmpty || dairyCardsRow2.isNotEmpty)) ||
-        (_shouldShowCategory(CategoryFilter.meat) && meatCards.isNotEmpty) ||
-        (_shouldShowCategory(CategoryFilter.drinks) && drinksCards.isNotEmpty);
-
-    if (!hasResults) {
+    final visible = _visibleMainCategories();
+    if (visible.isEmpty) {
       return Center(
         child: Text(
           'Ничего не найдено',
@@ -458,233 +535,105 @@ class _CatalogPageState extends State<CatalogPage> {
       );
     }
 
-    return ListView(
+    return GridView.builder(
       padding: const EdgeInsets.all(16),
-      children: [
-        if (_shouldShowCategory(CategoryFilter.bread) &&
-            breadCards.isNotEmpty) ...[
-          _buildCategoryTitle('Хлеб и пекарня'),
-          const SizedBox(height: 12),
-          _buildCategoryRow(_sortRow(breadCards)),
-          const SizedBox(height: 24),
-        ],
-        if (_shouldShowCategory(CategoryFilter.vegetables) &&
-            vegetablesCards.isNotEmpty) ...[
-          _buildCategoryTitle('Свежие овощи и фрукты'),
-          const SizedBox(height: 12),
-          _buildCategoryRow(_sortRow(vegetablesCards)),
-          const SizedBox(height: 24),
-        ],
-        if (_shouldShowCategory(CategoryFilter.dairy) &&
-            (dairyCardsRow1.isNotEmpty || dairyCardsRow2.isNotEmpty)) ...[
-          _buildCategoryTitle('Молоко, яйца и сыр'),
-          const SizedBox(height: 12),
-          if (dairyCardsRow1.isNotEmpty)
-            _buildCategoryRow(_sortRow(dairyCardsRow1)),
-          const SizedBox(height: 12),
-          if (dairyCardsRow2.isNotEmpty)
-            _buildCategoryRow(_sortRow(dairyCardsRow2)),
-          const SizedBox(height: 24),
-        ],
-        if (_shouldShowCategory(CategoryFilter.meat) &&
-            meatCards.isNotEmpty) ...[
-          _buildCategoryTitle('Мясная лавка'),
-          const SizedBox(height: 12),
-          _buildCategoryRow(_sortRow(meatCards)),
-          const SizedBox(height: 24),
-        ],
-        if (_shouldShowCategory(CategoryFilter.drinks) &&
-            drinksCards.isNotEmpty) ...[
-          _buildCategoryTitle('Напитки'),
-          const SizedBox(height: 12),
-          _buildCategoryRow(_sortRow(drinksCards)),
-          const SizedBox(height: 24),
-        ],
-      ],
-    );
-  }
-
-  Widget _buildCategoryTitle(String title) {
-    return Text(
-      title,
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w600,
-        color: _colorScheme.onSurface,
+      itemCount: visible.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 1.08,
       ),
+      itemBuilder: (context, index) => _buildMainCategoryCard(visible[index]),
     );
   }
 
-  Widget _buildCategoryCard(_CategoryCardData data) {
+  Widget _buildMainCategoryCard(_MainCategoryData data) {
     final radius = BorderRadius.circular(14);
     final overlayBase = _isDark
         ? Color.lerp(data.tint, Colors.black, 0.35)!
         : Color.lerp(data.tint, Colors.black, 0.7)!;
     final overlayStart = overlayBase.withValues(alpha: _isDark ? 0.45 : 0.6);
     final overlayMid = overlayBase.withValues(alpha: _isDark ? 0.28 : 0.35);
-    final titleColor = Colors.white;
 
-    bool isPressed = false;
-
-    return Expanded(
-      child: StatefulBuilder(
-        builder: (context, setInnerState) {
-          return AnimatedScale(
-            scale: isPressed ? 0.97 : 1,
-            duration: const Duration(milliseconds: 120),
-            curve: Curves.easeOut,
-            child: Container(
-              height: data.height ?? 100,
-              decoration: BoxDecoration(
-                borderRadius: radius,
-                color: _cardBg,
-                boxShadow: [
-                  BoxShadow(
-                    color: _shadowColor,
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
+    return Material(
+      color: Colors.transparent,
+      borderRadius: radius,
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => _openMainCategory(data),
+        splashColor: Colors.white.withValues(alpha: 0.12),
+        highlightColor: Colors.white.withValues(alpha: 0.06),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: radius,
+                  boxShadow: [
+                    BoxShadow(
+                      color: _shadowColor,
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Image.asset(
+                  data.imagePath,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.centerRight,
+                  filterQuality: FilterQuality.high,
+                ),
               ),
-              child: Material(
-                color: Colors.transparent,
-                borderRadius: radius,
-                clipBehavior: Clip.antiAlias,
-                child: InkWell(
-                  onTap: () => _openCategory(data),
-                  onHighlightChanged: (value) {
-                    setInnerState(() => isPressed = value);
-                  },
-                  splashColor: Colors.white.withValues(alpha: 0.12),
-                  highlightColor: Colors.white.withValues(alpha: 0.06),
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: Image.asset(
-                          data.imagePath,
-                          fit: BoxFit.cover,
-                          alignment: Alignment.centerRight,
-                          filterQuality: FilterQuality.high,
-                        ),
-                      ),
-                      Positioned.fill(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [
-                                overlayStart,
-                                overlayMid,
-                                Colors.transparent,
-                              ],
-                              stops: const [0.0, 0.6, 1.0],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              data.title,
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: titleColor,
-                                height: 1.1,
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.black.withValues(alpha: 0.25),
-                                    blurRadius: 4,
-                                    offset: const Offset(0, 1),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Spacer(),
-                            const SizedBox.shrink(),
-                          ],
-                        ),
-                      ),
-                    ],
+            ),
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [overlayStart, overlayMid, Colors.transparent],
+                    stops: const [0.0, 0.6, 1.0],
                   ),
                 ),
               ),
             ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildCategoryRow(List<Widget> cards) {
-    return Row(
-      children: [
-        for (int i = 0; i < cards.length; i++) ...[
-          if (i > 0) const SizedBox(width: 12),
-          cards[i],
-        ],
-      ],
-    );
-  }
-
-  List<Widget> _sortRow(List<_CategoryCardData> data) {
-    final items = [...data];
-    items.sort((a, b) => a.routeTitle.compareTo(b.routeTitle));
-    final ordered = _sortAscending ? items : items.reversed.toList();
-    return ordered.map(_buildCategoryCard).toList();
-  }
-
-  Widget _buildSortIcon() {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Icon(Icons.swap_vert, color: colorScheme.onSurface),
-        Positioned(
-          right: -4,
-          top: -4,
-          child: Container(
-            padding: const EdgeInsets.all(1),
-            decoration: BoxDecoration(
-              color: colorScheme.surface,
-              shape: BoxShape.circle,
-              border: Border.all(color: colorScheme.outlineVariant),
-            ),
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 220),
-              switchInCurve: Curves.easeOutBack,
-              switchOutCurve: Curves.easeIn,
-              transitionBuilder: (child, animation) {
-                final rotate = Tween<double>(begin: -0.1, end: 0.0)
-                    .animate(animation);
-                final scale = Tween<double>(begin: 0.75, end: 1.0)
-                    .animate(animation);
-                return FadeTransition(
-                  opacity: animation,
-                  child: RotationTransition(
-                    turns: rotate,
-                    child: ScaleTransition(
-                      scale: scale,
-                      child: child,
+            Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withValues(alpha: 0.25),
+                          blurRadius: 4,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
                     ),
                   ),
-                );
-              },
-              child: Icon(
-                _sortAscending ? Icons.arrow_upward : Icons.arrow_downward,
-                key: ValueKey<bool>(_sortAscending),
-                size: 12,
-                color: colorScheme.onSurface,
+                  const SizedBox(height: 4),
+                  Text(
+                    data.subtitle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white.withValues(alpha: 0.92),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -694,3 +643,203 @@ class _CatalogPageState extends State<CatalogPage> {
     super.dispose();
   }
 }
+
+class _SubcategoriesPage extends StatefulWidget {
+  const _SubcategoriesPage({required this.category});
+
+  final _MainCategoryData category;
+
+  @override
+  State<_SubcategoriesPage> createState() => _SubcategoriesPageState();
+}
+
+class _SubcategoriesPageState extends State<_SubcategoriesPage> {
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  ColorScheme get _colorScheme => Theme.of(context).colorScheme;
+
+  List<String> _tokenizeQuery(String query) {
+    final normalized = query.toLowerCase().trim();
+    if (normalized.isEmpty) {
+      return const <String>[];
+    }
+    return normalized
+        .split(RegExp(r'\s+'))
+        .where((token) => token.isNotEmpty)
+        .toList();
+  }
+
+  bool _matchesSubcategory(_SubcategoryData data, List<String> tokens) {
+    if (tokens.isEmpty) {
+      return true;
+    }
+
+    final buffer = StringBuffer()..write(data.title);
+    for (final keyword in data.keywords) {
+      buffer
+        ..write(' ')
+        ..write(keyword);
+    }
+    final haystack = buffer.toString().toLowerCase();
+    return tokens.every(haystack.contains);
+  }
+
+  List<_SubcategoryData> _visibleSubcategories() {
+    final tokens = _tokenizeQuery(_searchQuery);
+    final filtered = widget.category.subcategories
+        .where((item) => _matchesSubcategory(item, tokens))
+        .toList();
+
+    filtered.sort((a, b) => a.title.compareTo(b.title));
+    return filtered;
+  }
+
+  void _openSubcategory(_SubcategoryData data) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CategoryProductsPage(
+          title: data.routeTitle,
+          keywords: data.keywords,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final subcategories = _visibleSubcategories();
+
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.category.title)),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
+            child: TextField(
+              controller: _searchController,
+              textInputAction: TextInputAction.search,
+              onChanged: (value) {
+                setState(() {
+                  _searchQuery = value;
+                });
+              },
+              decoration: InputDecoration(
+                hintText: 'Поиск подкатегорий...',
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: _searchQuery.isEmpty
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          _searchController.clear();
+                          setState(() {
+                            _searchQuery = '';
+                          });
+                        },
+                      ),
+                filled: true,
+                fillColor: _colorScheme.surfaceVariant,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: subcategories.isEmpty
+                ? Center(
+                    child: Text(
+                      'Ничего не найдено',
+                      style: TextStyle(
+                        color: _colorScheme.onSurfaceVariant,
+                        fontSize: 16,
+                      ),
+                    ),
+                  )
+                : ListView.separated(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    itemCount: subcategories.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+                    itemBuilder: (context, index) {
+                      return _buildSubcategoryTile(subcategories[index]);
+                    },
+                  ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: const MainBottomNav(currentIndex: 1),
+    );
+  }
+
+  Widget _buildSubcategoryTile(_SubcategoryData data) {
+    return Material(
+      color: _colorScheme.surface,
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: () => _openSubcategory(data),
+        child: Container(
+          padding: const EdgeInsets.all(9),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: _colorScheme.outlineVariant),
+          ),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: SizedBox(
+                  width: 92,
+                  height: 72,
+                  child: Image.asset(data.imagePath, fit: BoxFit.cover),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      data.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      data.keywords.take(3).join(', '),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: _colorScheme.onSurfaceVariant,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: _colorScheme.onSurfaceVariant,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+}
+

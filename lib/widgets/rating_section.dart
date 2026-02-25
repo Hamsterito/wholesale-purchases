@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import '../utils/ru_plural.dart';
+import 'rating_stars.dart';
 
 class RatingSection extends StatelessWidget {
   final double rating;
@@ -33,27 +34,13 @@ class RatingSection extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            ...List.generate(5, (index) {
-              if (index < rating.floor()) {
-                return Icon(
-                  Icons.star,
-                  color: Color(0xFFF5B400),
-                  size: 14,
-                );
-              } else if (index < rating) {
-                return Icon(
-                  Icons.star_half,
-                  color: Color(0xFFF5B400),
-                  size: 14,
-                );
-              } else {
-                return Icon(
-                  Icons.star_border,
-                  color: mutedText,
-                  size: 14,
-                );
-              }
-            }),
+            RatingStars(
+              rating: rating,
+              size: 14,
+              spacing: 1,
+              filledColor: const Color(0xFFF5B400),
+              emptyColor: mutedText,
+            ),
             const SizedBox(width: 8),
             Text(
               reviewsLabel(reviewCount),

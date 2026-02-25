@@ -1,4 +1,4 @@
-import '../utils/text_normalizer.dart';
+﻿import '../utils/text_normalizer.dart';
 
 class Product {
   final String id;
@@ -33,7 +33,7 @@ class Product {
 
   Supplier get bestSupplier {
     if (suppliers.isEmpty) {
-      throw Exception('No suppliers available');
+      throw Exception('Нет доступных поставщиков');
     }
     return suppliers.reduce((a, b) => 
       a.pricePerUnit < b.pricePerUnit ? a : b
@@ -113,6 +113,7 @@ class Supplier {
   final int pricePerUnit;
   final int minQuantity;
   final int? maxQuantity;
+  final int stockQuantity;
   final String deliveryDate;
   final String deliveryInfo;
   final String deliveryBadge;
@@ -125,6 +126,7 @@ class Supplier {
     required this.pricePerUnit,
     required this.minQuantity,
     this.maxQuantity,
+    required this.stockQuantity,
     required this.deliveryDate,
     required this.deliveryInfo,
     required this.deliveryBadge,
@@ -133,6 +135,8 @@ class Supplier {
   int getTotalPrice(int quantity) {
     return pricePerUnit * quantity;
   }
+
+  bool get isAvailable => stockQuantity > 0;
 
   factory Supplier.fromJson(Map<String, dynamic> json) {
     final normalize = TextNormalizer.normalize;
@@ -147,9 +151,44 @@ class Supplier {
       return parsed != null && parsed > 0 ? parsed : null;
     }
 
-    final maxQuantity = parsePositiveInt(
-      json['maxQuantity'] ?? json['max_quantity'] ?? json['limit_quantity'],
+    int parseNonNegativeInt(dynamic value, {int fallback = 0}) {
+      if (value is int) {
+        return value < 0 ? fallback : value;
+      }
+      if (value is double) {
+        final rounded = value.round();
+        return rounded < 0 ? fallback : rounded;
+      }
+      final parsed = int.tryParse(value?.toString() ?? '');
+      if (parsed == null || parsed < 0) {
+        return fallback;
+      }
+      return parsed;
+    }
+
+    final stockQuantity = parseNonNegativeInt(
+      json['stockQuantity'] ??
+          json['stock_quantity'] ??
+          json['availableQuantity'] ??
+          json['maxQuantity'],
     );
+    var minQuantity = parseNonNegativeInt(
+      json['minQuantity'] ?? json['min_quantity'],
+      fallback: 1,
+    );
+    if (minQuantity <= 0) {
+      minQuantity = 1;
+    }
+    if (stockQuantity > 0 && minQuantity > stockQuantity) {
+      minQuantity = stockQuantity;
+    }
+    final maxQuantity = stockQuantity > 0
+        ? stockQuantity
+        : parsePositiveInt(
+            json['maxQuantity'] ??
+                json['max_quantity'] ??
+                json['limit_quantity'],
+          );
 
     return Supplier(
       id: json['id']?.toString() ?? '',
@@ -157,8 +196,9 @@ class Supplier {
       rating: (json['rating'] ?? 0).toDouble(),
       reviewCount: json['reviewCount'] ?? 0,
       pricePerUnit: json['pricePerUnit'] ?? 0,
-      minQuantity: json['minQuantity'] ?? 1,
+      minQuantity: minQuantity,
       maxQuantity: maxQuantity,
+      stockQuantity: stockQuantity,
       deliveryDate: normalize(json['deliveryDate']?.toString() ?? ''),
       deliveryInfo: normalize(json['deliveryInfo']?.toString() ?? ''),
       deliveryBadge: normalize(json['deliveryBadge']?.toString() ?? ''),
@@ -182,3 +222,4 @@ class RatingDistribution {
     );
   }
 }
+

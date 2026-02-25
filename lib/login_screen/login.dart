@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter_project/reg_screan/register_page.dart';
 import 'package:flutter_project/forgot_screan/forgot_password_page.dart';
 import '../widgets/main_navigation.dart';
@@ -66,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Введите email и пароль')),
+        const SnackBar(content: Text('Введите почту и пароль')),
       );
       return;
     }
@@ -75,21 +76,54 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       final url = Uri.parse('http://10.0.2.2:8080/login');
-      final response = await http.post(url, body: {
-        'email': email,
-        'password': password,
-      });
+      final response = await http.post(
+        url,
+        headers: const {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        },
+        encoding: utf8,
+        body: {
+          'email': email,
+          'password': password,
+        },
+      );
 
       if (response.statusCode == 200) {
+        final body = utf8.decode(response.bodyBytes);
+        final data = jsonDecode(body) as Map<String, dynamic>;
+        final role = data['role']?.toString() ?? 'buyer';
+        final userId = int.tryParse(data['id']?.toString() ?? '') ?? 0;
+        final name = data['name']?.toString();
+        final supplierName = data['supplierName']?.toString();
+
         if (_rememberMe) {
-          await AuthStorage.remember(email: email);
+          await AuthStorage.remember(
+            email: email,
+            role: role,
+            userId: userId,
+            name: name,
+            supplierName: supplierName,
+          );
         } else {
           await AuthStorage.forget();
+          await AuthStorage.setSession(
+            email: email,
+            role: role,
+            userId: userId,
+            name: name,
+            supplierName: supplierName,
+          );
         }
         if (!mounted) return;
         // Успешный вход
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(response.body)),
+          SnackBar(
+            content: Text(
+              name == null || name.isEmpty
+                  ? 'Вход выполнен'
+                  : 'Добро пожаловать, $name!',
+            ),
+          ),
         );
 
         Navigator.pushReplacement(
@@ -99,8 +133,15 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         if (!mounted) return;
         // Ошибка логина
+        final errorBody = utf8.decode(response.bodyBytes).trim();
+        final fallbackMessage = switch (response.statusCode) {
+          400 => 'Проверьте, что почта и пароль заполнены',
+          401 => 'Неверная почта или пароль',
+          _ => 'Не удалось выполнить вход. Попробуйте позже.',
+        };
+        final message = errorBody.isEmpty ? fallbackMessage : errorBody;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(response.body)),
+          SnackBar(content: Text(message)),
         );
       }
     } catch (e) {
@@ -174,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'EMAIL',
+                          'ПОЧТА',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -184,9 +225,9 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(height: 8),
                         TextField(
                           controller: _emailController,
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                            hintText: 'example@gmail.com',
+                            hintText: 'primer@pochta.ru',
                             hintStyle: TextStyle(color: _mutedText),
                             filled: true,
                             fillColor: _inputFill,
@@ -202,7 +243,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          'PASSWORD',
+                          'ПАРОЛЬ',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -362,3 +403,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+

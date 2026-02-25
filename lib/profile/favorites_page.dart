@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../services/favorites_store.dart';
 import '../widgets/product_card.dart';
 import '../widgets/main_bottom_nav.dart';
@@ -42,7 +42,7 @@ class FavoritesPage extends StatelessWidget {
                 'Пока нет избранных товаров',
                 style: TextStyle(
                   color: colorScheme.onSurfaceVariant,
-                  fontSize: 20,
+                  fontSize: 18,
                 ),
               ),
             );
@@ -52,8 +52,8 @@ class FavoritesPage extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.55,
-              crossAxisSpacing: 12,
+              mainAxisExtent: 338,
+              crossAxisSpacing: 15,
               mainAxisSpacing: 12,
             ),
             itemCount: items.length,
@@ -88,3 +88,4 @@ class FavoritesPage extends StatelessWidget {
     return items.where((product) => product.id != current.id).toList();
   }
 }
+

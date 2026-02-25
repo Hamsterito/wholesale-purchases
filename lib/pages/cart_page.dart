@@ -1,12 +1,17 @@
-﻿
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../models/cart_item.dart';
+import '../models/user_address.dart';
 import '../pages/order_history_page.dart';
+import '../profile/add_payment_card.dart';
+import 'package:flutter_project/profile/address_page.dart';
 import '../services/api_service.dart';
+import '../services/auth_storage.dart';
 import '../services/cart_store.dart';
+import '../services/payment_card_storage.dart';
 import '../widgets/top_message.dart';
+import '../widgets/smart_image.dart';
 
 const double _buttonRadius = 18;
 
@@ -21,6 +26,7 @@ class _CartPageState extends State<CartPage> {
   static const Color _brandBlue = Color(0xFF6288D5);
   static const Color _payAllBlue = Color(0xFF2D2D2D);
   static const Color _payAllDark = Color(0xFF6B88FF);
+  static const double _bottomMessageOffset = 146;
 
   late final CartStore _cartStore = CartStore.instance;
   bool _isPlacingAllOrders = false;
@@ -29,12 +35,13 @@ class _CartPageState extends State<CartPage> {
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   bool get _isDark => _theme.brightness == Brightness.dark;
-  Color get _pageBg => _isDark ? _theme.scaffoldBackgroundColor : const Color(0xFFF1F5FB);
+  Color get _pageBg => _theme.scaffoldBackgroundColor;
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _chipBg => _colorScheme.surfaceVariant;
-  Color get _shadowColor =>
-      _isDark ? Colors.black.withValues(alpha: 0.4) : Colors.black.withValues(alpha: 0.04);
+  Color get _shadowColor => _isDark
+      ? Colors.black.withValues(alpha: 0.4)
+      : Colors.black.withValues(alpha: 0.04);
   Color get _payAllColor => _isDark ? _payAllDark : _payAllBlue;
 
   @override
@@ -109,76 +116,34 @@ class _CartPageState extends State<CartPage> {
     _showUndoSnackBar(removedItem);
   }
 
+  void _removeSummaryItem(CartItem item) {
+    if (item.supplier.id.isEmpty) {
+      return;
+    }
+    _cartStore.removeItem(
+      supplierId: item.supplier.id,
+      productId: item.product.id,
+    );
+    _showUndoSnackBar(item);
+  }
+
   void _showUndoSnackBar(CartItem removedItem) {
-    final messenger = ScaffoldMessenger.of(context);
-    messenger.hideCurrentSnackBar();
-    messenger.showSnackBar(
-      SnackBar(
-        duration: const Duration(seconds: 3),
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        margin: const EdgeInsets.fromLTRB(16, 0, 16, 90),
-        content: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          decoration: BoxDecoration(
-            color: _cardBg,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: _colorScheme.outlineVariant.withValues(alpha: 0.5),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: _shadowColor.withValues(alpha: 0.22),
-                blurRadius: 16,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              _CountdownRing(
-                duration: const Duration(seconds: 3),
-                color: _brandBlue,
-                textColor: _colorScheme.onSurface,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  'Товар удален',
-                  style: TextStyle(
-                    color: _colorScheme.onSurface,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  messenger.hideCurrentSnackBar();
-                  _cartStore.addOrUpdate(
-                    product: removedItem.product,
-                    supplier: removedItem.supplier,
-                    quantity: removedItem.quantity,
-                  );
-                },
-                style: TextButton.styleFrom(
-                  foregroundColor: _brandBlue,
-                  backgroundColor: _colorScheme.surface,
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text(
-                  'Отменить',
-                  style: TextStyle(fontWeight: FontWeight.w700),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+    showTopMessage(
+      context,
+      'Товар удален',
+      duration: const Duration(seconds: 3),
+      actionText: 'Отменить',
+      onAction: () {
+        _cartStore.addOrUpdate(
+          product: removedItem.product,
+          supplier: removedItem.supplier,
+          quantity: removedItem.quantity,
+        );
+      },
+      showCountdown: true,
+      showClose: false,
+      showAtBottom: true,
+      bottomOffset: _bottomMessageOffset,
     );
   }
 
@@ -220,6 +185,7 @@ class _CartPageState extends State<CartPage> {
     required String title,
     required int amount,
     required int units,
+    String? paymentLabel,
   }) async {
     if (!mounted) return false;
     final formattedAmount = _formatMoney(amount);
@@ -245,6 +211,10 @@ class _CartPageState extends State<CartPage> {
               _buildConfirmRow('Сумма', '$formattedAmount ₸'),
               const SizedBox(height: 6),
               _buildConfirmRow('Штук', '$units'),
+              if (paymentLabel != null && paymentLabel.trim().isNotEmpty) ...[
+                const SizedBox(height: 6),
+                _buildConfirmRow('Оплата', paymentLabel.trim()),
+              ],
             ],
           ),
           actions: [
@@ -271,13 +241,7 @@ class _CartPageState extends State<CartPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 13,
-            color: _mutedText,
-          ),
-        ),
+        Text(label, style: TextStyle(fontSize: 13, color: _mutedText)),
         Text(
           value,
           style: TextStyle(
@@ -288,6 +252,343 @@ class _CartPageState extends State<CartPage> {
         ),
       ],
     );
+  }
+
+  Future<_CheckoutPaymentChoice?> _resolveCheckoutPaymentChoice() async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      _showCheckoutSnackBar('Войдите, чтобы выбрать оплату', isError: true);
+      return null;
+    }
+
+    final cards = await PaymentCardStorage.loadCards(userId: userId);
+    final savedSelection = await PaymentCardStorage.loadSelection(
+      userId: userId,
+    );
+
+    PaymentCard? cardById(String? id) {
+      if (id == null || id.isEmpty) return null;
+      for (final card in cards) {
+        if (card.id == id) return card;
+      }
+      return null;
+    }
+
+    PaymentCard? firstCardForBrand(String brand) {
+      for (final card in cards) {
+        if (card.brand.toLowerCase() == brand.toLowerCase()) {
+          return card;
+        }
+      }
+      return null;
+    }
+
+    PaymentCard? selectedCard = cardById(savedSelection?.cardId);
+
+    if (selectedCard == null && cards.isNotEmpty) {
+      final method = savedSelection?.method;
+      if (method == 'Visa' || method == 'Mastercard') {
+        selectedCard = firstCardForBrand(method!);
+      }
+      selectedCard ??= cards.first;
+    }
+
+    final selectedMethod = await _promptCheckoutPaymentMethod(
+      selectedCard: selectedCard,
+    );
+    if (selectedMethod == null) {
+      return null;
+    }
+
+    if (selectedMethod == _CheckoutMethodAction.cash) {
+      const cashChoice = _CheckoutPaymentChoice(
+        method: 'Cash',
+        label: 'Наличными при получении',
+      );
+      await PaymentCardStorage.saveSelection(
+        const PaymentSelection(method: 'Cash'),
+        userId: userId,
+      );
+      return cashChoice;
+    }
+
+    var cardForPayment = selectedCard;
+    if (cardForPayment == null) {
+      cardForPayment = await _promptAddCardForCheckout();
+      if (cardForPayment == null) {
+        return null;
+      }
+    }
+
+    final method = _normalizedTopBrand(cardForPayment.brand) ?? 'Card';
+    final label = '${cardForPayment.brand} ${cardForPayment.maskedNumber}';
+    await PaymentCardStorage.saveSelection(
+      PaymentSelection(method: method, cardId: cardForPayment.id),
+      userId: userId,
+    );
+
+    return _CheckoutPaymentChoice(
+      method: method,
+      label: label,
+      cardId: cardForPayment.id,
+    );
+  }
+
+  Future<_CheckoutMethodAction?> _promptCheckoutPaymentMethod({
+    required PaymentCard? selectedCard,
+  }) async {
+    if (!mounted) {
+      return null;
+    }
+
+    var selectedMethod = selectedCard == null
+        ? _CheckoutMethodAction.cash
+        : _CheckoutMethodAction.card;
+
+    return showModalBottomSheet<_CheckoutMethodAction>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      showDragHandle: false,
+      backgroundColor: _cardBg,
+      clipBehavior: Clip.antiAlias,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) {
+        final colorScheme = Theme.of(context).colorScheme;
+        final bottomInset = MediaQuery.of(context).viewPadding.bottom;
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            final hasCard = selectedCard != null;
+            final cardSubtitle = hasCard
+                ? '${selectedCard.brand} ${selectedCard.maskedNumber}'
+                : 'Карта не добавлена';
+            return SafeArea(
+              top: false,
+              child: Container(
+                padding: EdgeInsets.fromLTRB(16, 12, 16, 12 + bottomInset),
+                decoration: BoxDecoration(
+                  color: colorScheme.surface,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(24),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.18),
+                      blurRadius: 18,
+                      offset: const Offset(0, -6),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 36,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: colorScheme.outlineVariant,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Способ оплаты',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: colorScheme.onSurface,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    _buildPaymentSheetTile(
+                      icon: Icons.payments_outlined,
+                      title: 'Наличные',
+                      subtitle: 'Оплата при получении',
+                      isSelected: selectedMethod == _CheckoutMethodAction.cash,
+                      onTap: () {
+                        setModalState(() {
+                          selectedMethod = _CheckoutMethodAction.cash;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    _buildPaymentSheetTile(
+                      icon: Icons.credit_card_outlined,
+                      title: 'Карта',
+                      subtitle: cardSubtitle,
+                      isSelected: selectedMethod == _CheckoutMethodAction.card,
+                      onTap: () {
+                        setModalState(() {
+                          selectedMethod = _CheckoutMethodAction.card;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    _buildSelectedPaymentBanner(
+                      selectedMethod: selectedMethod,
+                      selectedCard: selectedCard,
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.pop(context, selectedMethod),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: _brandBlue,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          'Подтвердить выбор',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildPaymentSheetTile({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    final borderColor = isSelected ? _brandBlue : Colors.transparent;
+    return Material(
+      color: _cardBg,
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(14),
+        child: Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: borderColor, width: 1.2),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: _brandBlue.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(icon, color: _brandBlue),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: _colorScheme.onSurface,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: _mutedText,
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (isSelected)
+                Icon(Icons.check_circle, color: _brandBlue, size: 20),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSelectedPaymentBanner({
+    required _CheckoutMethodAction selectedMethod,
+    required PaymentCard? selectedCard,
+  }) {
+    final text = selectedMethod == _CheckoutMethodAction.cash
+        ? 'Оплата наличными при получении'
+        : selectedCard == null
+        ? 'Оплата картой. На следующем шаге добавьте карту.'
+        : 'Оплата картой ${selectedCard.brand} ${selectedCard.maskedNumber}';
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: _brandBlue.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.check_circle, color: _brandBlue, size: 18),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              text,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: _colorScheme.onSurface,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<PaymentCard?> _promptAddCardForCheckout() async {
+    if (!mounted) {
+      return null;
+    }
+
+    final createdCard = await Navigator.push<PaymentCard>(
+      context,
+      MaterialPageRoute(builder: (context) => const AddPaymentCardPage()),
+    );
+    if (!mounted) {
+      return null;
+    }
+    return createdCard;
+  }
+
+  String? _normalizedTopBrand(String brand) {
+    final lower = brand.toLowerCase();
+    if (lower == 'visa') {
+      return 'Visa';
+    }
+    if (lower == 'mastercard') {
+      return 'Mastercard';
+    }
+    return null;
   }
 
   String _formatMoney(int value) {
@@ -317,26 +618,16 @@ class _CartPageState extends State<CartPage> {
     return imagePath.isNotEmpty ? imagePath : 'assets/coca_cola.jpeg';
   }
 
-  String _resolveOrderItemVolume(CartItem item) {
-    const knownKeys = ['Объем', 'Объём', 'volume', 'Volume'];
-    for (final key in knownKeys) {
-      final value = item.product.characteristics[key];
-      if (value != null && value.trim().isNotEmpty) {
-        return value.trim();
-      }
-    }
-    return '1 шт.';
-  }
-
   List<Map<String, dynamic>> _buildOrderItemsPayload(List<CartItem> items) {
     return items
         .map(
           (item) => {
+            'productId': item.product.id,
             'name': item.product.name,
-            'volume': _resolveOrderItemVolume(item),
             'price': item.supplier.pricePerUnit,
             'quantity': item.quantity,
             'imageUrl': _resolveCartImage(item),
+            'supplierName': item.supplier.name,
             'isReceived': false,
           },
         )
@@ -366,15 +657,369 @@ class _CartPageState extends State<CartPage> {
       );
       return;
     }
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(message),
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: const Color(0xFF16A34A),
+    showTopMessage(
+      context,
+      message,
+      showAtBottom: true,
+      bottomOffset: _bottomMessageOffset,
+    );
+  }
+
+  int? _resolveInitialSelectedAddressId(List<UserAddress> addresses) {
+    if (addresses.isEmpty) {
+      return null;
+    }
+    final savedId = AuthStorage.selectedAddressId;
+    if (savedId != null && addresses.any((item) => item.id == savedId)) {
+      return savedId;
+    }
+    return addresses.first.id;
+  }
+
+  UserAddress? _findAddressById(List<UserAddress> addresses, int? addressId) {
+    if (addressId == null) {
+      return null;
+    }
+    for (final address in addresses) {
+      if (address.id == addressId) {
+        return address;
+      }
+    }
+    return null;
+  }
+
+  Future<UserAddress?> _pickDeliveryAddress() async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId == 0) {
+      _showCheckoutSnackBar('Войдите, чтобы выбрать адрес', isError: true);
+      return null;
+    }
+
+    List<UserAddress> addresses = [];
+    try {
+      addresses = await ApiService.getUserAddresses(userId: userId);
+    } catch (_) {
+      _showCheckoutSnackBar('Не удалось загрузить адреса', isError: true);
+      return null;
+    }
+
+    if (!mounted) return null;
+    final initialSelectedId = _resolveInitialSelectedAddressId(addresses);
+    if (initialSelectedId != AuthStorage.selectedAddressId) {
+      await AuthStorage.saveSelectedAddressId(initialSelectedId);
+    }
+
+    final selected = await _showAddressPickerSheet(
+      userId: userId,
+      initialAddresses: addresses,
+      initialSelectedId: initialSelectedId,
+    );
+    if (selected != null) {
+      await AuthStorage.saveSelectedAddressId(selected.id);
+    }
+    return selected;
+  }
+
+  Future<UserAddress?> _showAddressPickerSheet({
+    required int userId,
+    required List<UserAddress> initialAddresses,
+    required int? initialSelectedId,
+  }) async {
+    final addresses = List<UserAddress>.from(initialAddresses);
+    int? selectedId = initialSelectedId;
+
+    return showModalBottomSheet<UserAddress>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      showDragHandle: false,
+      backgroundColor: _cardBg,
+      clipBehavior: Clip.antiAlias,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) {
+        final colorScheme = Theme.of(context).colorScheme;
+        final maxHeight = MediaQuery.of(context).size.height * 0.7;
+        final bottomInset = MediaQuery.of(context).viewPadding.bottom;
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            final selectedAddress = _findAddressById(addresses, selectedId);
+            return SafeArea(
+              top: false,
+              child: Container(
+                constraints: BoxConstraints(maxHeight: maxHeight),
+                padding: EdgeInsets.fromLTRB(16, 12, 16, 12 + bottomInset),
+                decoration: BoxDecoration(
+                  color: colorScheme.surface,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(24),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.18),
+                      blurRadius: 18,
+                      offset: const Offset(0, -6),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      width: 36,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: colorScheme.outlineVariant,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Адрес доставки',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: colorScheme.onSurface,
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            final created = await _createAddressFromCheckout(
+                              userId,
+                            );
+                            if (created == null) return;
+                            if (!context.mounted) return;
+                            setModalState(() {
+                              addresses.insert(0, created);
+                              selectedId = created.id;
+                            });
+                          },
+                          child: const Text('Добавить'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Expanded(
+                      child: addresses.isEmpty
+                          ? _buildEmptyAddressSheet(colorScheme)
+                          : ListView.separated(
+                              itemCount: addresses.length,
+                              separatorBuilder: (_, __) =>
+                                  const SizedBox(height: 10),
+                              itemBuilder: (context, index) {
+                                final address = addresses[index];
+                                final isSelected = address.id == selectedId;
+                                return _buildAddressSheetTile(
+                                  address: address,
+                                  isSelected: isSelected,
+                                  onTap: () {
+                                    setModalState(() {
+                                      selectedId = address.id;
+                                    });
+                                  },
+                                );
+                              },
+                            ),
+                    ),
+                    if (selectedAddress != null) ...[
+                      const SizedBox(height: 12),
+                      _buildSelectedAddressBanner(selectedAddress),
+                    ],
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: selectedAddress == null
+                            ? null
+                            : () => Navigator.pop(context, selectedAddress),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: _brandBlue,
+                          foregroundColor: Colors.white,
+                          disabledBackgroundColor: _brandBlue.withValues(
+                            alpha: 0.35,
+                          ),
+                          disabledForegroundColor: Colors.white.withValues(
+                            alpha: 0.8,
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          'Подтвердить выбор',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildSelectedAddressBanner(UserAddress address) {
+    final text = address.displayAddress.isNotEmpty
+        ? address.displayAddress
+        : address.displayTitle;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: _brandBlue.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.check_circle, color: _brandBlue, size: 18),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              text,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: _colorScheme.onSurface,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyAddressSheet(ColorScheme colorScheme) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.location_on_outlined,
+            size: 36,
+            color: colorScheme.primary,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Адресов пока нет',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: colorScheme.onSurface,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Добавьте адрес, чтобы продолжить оформление.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAddressSheetTile({
+    required UserAddress address,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    final displayAddress = address.displayAddress.isEmpty
+        ? 'Без адреса'
+        : address.displayAddress;
+    final borderColor = isSelected ? _brandBlue : Colors.transparent;
+    return Material(
+      color: _cardBg,
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(14),
+        child: Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: borderColor, width: 1.2),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: _brandBlue.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(_resolveAddressIcon(address), color: _brandBlue),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      address.displayTitle,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: _colorScheme.onSurface,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      displayAddress,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: _mutedText,
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (isSelected)
+                Icon(Icons.check_circle, color: _brandBlue, size: 20),
+            ],
+          ),
         ),
-      );
+      ),
+    );
+  }
+
+  IconData _resolveAddressIcon(UserAddress address) {
+    switch (address.normalizedLabel) {
+      case 'home':
+        return Icons.home_outlined;
+      case 'work':
+        return Icons.work_outline;
+      default:
+        return Icons.location_on_outlined;
+    }
+  }
+
+  Future<UserAddress?> _createAddressFromCheckout(int userId) async {
+    final draft = await Navigator.push<AddressDraft>(
+      context,
+      MaterialPageRoute(builder: (context) => const AddressPage()),
+    );
+
+    if (draft == null) return null;
+
+    try {
+      return await ApiService.createUserAddress(userId: userId, draft: draft);
+    } catch (_) {
+      _showCheckoutSnackBar('Не удалось сохранить адрес', isError: true);
+      return null;
+    }
   }
 
   Future<void> _placeOrderForSupplier(String supplierId) async {
@@ -389,10 +1034,24 @@ class _CartPageState extends State<CartPage> {
     final supplierTotal = _getSupplierTotal(itemsSnapshot);
     final supplierUnits = _getSupplierUnits(itemsSnapshot);
     final supplierName = _formatSupplierName(itemsSnapshot.first.supplier.name);
+    final selectedAddress = await _pickDeliveryAddress();
+    if (selectedAddress == null) {
+      return;
+    }
+    final userId = AuthStorage.userId;
+    if (userId == null || userId == 0) {
+      _showCheckoutSnackBar('Войдите, чтобы оформить заказ', isError: true);
+      return;
+    }
+    final paymentChoice = await _resolveCheckoutPaymentChoice();
+    if (paymentChoice == null) {
+      return;
+    }
     final shouldPay = await _confirmPayment(
       title: supplierName.isNotEmpty ? supplierName : 'Заказ',
       amount: supplierTotal,
       units: supplierUnits,
+      paymentLabel: paymentChoice.label,
     );
     if (!shouldPay) {
       return;
@@ -406,6 +1065,8 @@ class _CartPageState extends State<CartPage> {
       await ApiService.createOrder(
         items: _buildOrderItemsPayload(itemsSnapshot),
         status: 'Собирается',
+        deliveryAddress: selectedAddress.displayAddress,
+        userId: userId,
       );
 
       for (final item in itemsSnapshot) {
@@ -419,12 +1080,14 @@ class _CartPageState extends State<CartPage> {
     } catch (error) {
       _showCheckoutSnackBar(_friendlyCheckoutError(error), isError: true);
     } finally {
-      if (!mounted) return;
-      setState(() {
-        _submittingSuppliers.remove(supplierId);
-      });
+      if (mounted) {
+        setState(() {
+          _submittingSuppliers.remove(supplierId);
+        });
+      }
     }
   }
+
   Future<void> _placeAllOrders() async {
     if (_isPlacingAllOrders || _cartItemsBySupplier.isEmpty) {
       return;
@@ -439,10 +1102,25 @@ class _CartPageState extends State<CartPage> {
       return;
     }
 
+    final selectedAddress = await _pickDeliveryAddress();
+    if (selectedAddress == null) {
+      return;
+    }
+    final userId = AuthStorage.userId;
+    if (userId == null || userId == 0) {
+      _showCheckoutSnackBar('Войдите, чтобы оформить заказ', isError: true);
+      return;
+    }
+    final paymentChoice = await _resolveCheckoutPaymentChoice();
+    if (paymentChoice == null) {
+      return;
+    }
+
     final shouldPay = await _confirmPayment(
       title: 'Все заказы',
       amount: _totalAmount,
       units: _totalUnits,
+      paymentLabel: paymentChoice.label,
     );
     if (!shouldPay) {
       return;
@@ -461,6 +1139,8 @@ class _CartPageState extends State<CartPage> {
         await ApiService.createOrder(
           items: _buildOrderItemsPayload(entry.value),
           status: 'Собирается',
+          deliveryAddress: selectedAddress.displayAddress,
+          userId: userId,
         );
         successCount++;
         for (final item in entry.value) {
@@ -503,9 +1183,10 @@ class _CartPageState extends State<CartPage> {
       switchOutCurve: Curves.easeOut,
       switchInCurve: Curves.easeOut,
       transitionBuilder: (child, animation) {
-        final scale = Tween<double>(begin: 0.98, end: 1.0).animate(
-          CurvedAnimation(parent: animation, curve: Curves.easeOut),
-        );
+        final scale = Tween<double>(
+          begin: 0.98,
+          end: 1.0,
+        ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut));
         return FadeTransition(
           opacity: animation,
           child: ScaleTransition(scale: scale, child: child),
@@ -551,7 +1232,7 @@ class _CartPageState extends State<CartPage> {
       child: SafeArea(
         bottom: false,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -605,8 +1286,8 @@ class _CartPageState extends State<CartPage> {
   Widget _buildPayAllBar() {
     final canCheckout = _cartItemsBySupplier.isNotEmpty && !_isPlacingAllOrders;
     const buttonHeight = 48.0;
-    return Material(
-      type: MaterialType.transparency,
+    return Container(
+      color: _pageBg,
       child: SafeArea(
         top: false,
         child: Padding(
@@ -643,37 +1324,37 @@ class _CartPageState extends State<CartPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             const Text(
-                          'Оформить все заказы',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 1),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            _buildAnimatedValueText(
-                              '${_formatMoney(_totalAmount)} ₸',
+                              'Оформить все заказы',
                               style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white.withValues(alpha: 0.92),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                            const SizedBox(width: 6),
-                            Text(
-                              '· $_totalUnits шт.',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white.withValues(alpha: 0.92),
-                              ),
+                            const SizedBox(height: 1),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                _buildAnimatedValueText(
+                                  '${_formatMoney(_totalAmount)} ₸',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white.withValues(alpha: 0.92),
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  '· $_totalUnits шт.',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white.withValues(alpha: 0.92),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
                 ),
               ),
             ),
@@ -728,14 +1409,17 @@ class _CartPageState extends State<CartPage> {
       ),
     );
   }
+
   Widget _buildSummaryProductsCard() {
-    final items = _cartItemsBySupplier.values.expand((supplier) => supplier).toList();
+    final items = _cartItemsBySupplier.values
+        .expand((supplier) => supplier)
+        .toList();
     final shown = items.take(4).toList();
     final restCount = items.length - shown.length;
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: _isDark ? _colorScheme.surfaceVariant : Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -744,21 +1428,37 @@ class _CartPageState extends State<CartPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          for (final item in shown)
+          for (int i = 0; i < shown.length; i++) ...[
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 2),
-              child: Text(
-                '${item.product.name} - ${item.quantity} шт.',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color:
-                      _isDark ? _colorScheme.onSurface : const Color(0xFF1E293B),
-                ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      '${shown[i].product.name} - ${shown[i].quantity} шт.',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: _isDark
+                            ? _colorScheme.onSurface
+                            : const Color(0xFF1E293B),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  _buildSummaryRemoveButton(shown[i]),
+                ],
               ),
             ),
+            if (i < shown.length - 1)
+              Divider(
+                height: 8,
+                thickness: 1,
+                color: _colorScheme.outlineVariant.withValues(alpha: 0.6),
+              ),
+          ],
           if (restCount > 0)
             Text(
               '+$restCount еще в корзине',
@@ -769,6 +1469,21 @@ class _CartPageState extends State<CartPage> {
               ),
             ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSummaryRemoveButton(CartItem item) {
+    return SizedBox(
+      width: 28,
+      height: 28,
+      child: _HoverIconButton(
+        onTap: () => _removeSummaryItem(item),
+        icon: Icons.delete_outline,
+        size: 18,
+        color: const Color(0xFFDC2626),
+        hoverColor: const Color(0xFFDC2626).withValues(alpha: 0.12),
+        pressedColor: const Color(0xFFDC2626).withValues(alpha: 0.2),
       ),
     );
   }
@@ -976,20 +1691,18 @@ class _CartPageState extends State<CartPage> {
                   Positioned.fill(
                     child: Transform.scale(
                       scale: 1.15,
-                      child: Image.asset(
-                        imagePath,
+                      child: SmartImage(
+                        path: imagePath,
                         fit: BoxFit.cover,
-                        alignment: Alignment.centerRight,
-                        filterQuality: FilterQuality.high,
-                        errorBuilder: (context, error, stackTrace) {
-                          return const Center(
-                            child: Icon(
-                              Icons.image,
-                              size: 28,
-                              color: Color(0xFF9CA3AF),
-                            ),
-                          );
-                        },
+                        width: double.infinity,
+                        height: double.infinity,
+                        placeholder: const Center(
+                          child: Icon(
+                            Icons.image,
+                            size: 28,
+                            color: Color(0xFF9CA3AF),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -1041,10 +1754,7 @@ class _CartPageState extends State<CartPage> {
                       children: [
                         Text(
                           'Дата доставки: ${item.supplier.deliveryDate}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: _mutedText,
-                          ),
+                          style: TextStyle(fontSize: 12, color: _mutedText),
                         ),
                         const SizedBox(height: 4),
                         Text(
@@ -1114,6 +1824,7 @@ class _CartPageState extends State<CartPage> {
       ),
     );
   }
+
   Widget _buildQuantityPill({
     required String supplierId,
     required int index,
@@ -1162,10 +1873,7 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _buildRemoveButton({
-    required String supplierId,
-    required int index,
-  }) {
+  Widget _buildRemoveButton({required String supplierId, required int index}) {
     return SizedBox(
       width: 32,
       height: 32,
@@ -1198,6 +1906,21 @@ class _CartPageState extends State<CartPage> {
     );
   }
 }
+
+enum _CheckoutMethodAction { cash, card }
+
+class _CheckoutPaymentChoice {
+  const _CheckoutPaymentChoice({
+    required this.method,
+    required this.label,
+    this.cardId,
+  });
+
+  final String method;
+  final String label;
+  final String? cardId;
+}
+
 class _HoverIconButton extends StatefulWidget {
   const _HoverIconButton({
     required this.onTap,
@@ -1395,8 +2118,7 @@ class _HoverIconButtonState extends State<_HoverIconButton> {
         onTapCancel: () {
           _setPressed(false);
         },
-        onLongPressStart:
-            widget.enableRepeat ? (_) => _startRepeat() : null,
+        onLongPressStart: widget.enableRepeat ? (_) => _startRepeat() : null,
         onLongPressEnd: widget.enableRepeat ? (_) => _stopRepeat() : null,
         onLongPressCancel: widget.enableRepeat ? _stopRepeat : null,
         behavior: HitTestBehavior.opaque,
@@ -1412,11 +2134,7 @@ class _HoverIconButtonState extends State<_HoverIconButton> {
               color: _backgroundColor,
               borderRadius: BorderRadius.circular(_buttonRadius),
             ),
-            child: Icon(
-              widget.icon,
-              color: widget.color,
-              size: widget.size,
-            ),
+            child: Icon(widget.icon, color: widget.color, size: widget.size),
           ),
         ),
       ),
@@ -1424,78 +2142,3 @@ class _HoverIconButtonState extends State<_HoverIconButton> {
   }
 }
 
-class _CountdownRing extends StatefulWidget {
-  const _CountdownRing({
-    required this.duration,
-    required this.color,
-    required this.textColor,
-    this.size = 28,
-  });
-
-  final Duration duration;
-  final Color color;
-  final Color textColor;
-  final double size;
-
-  @override
-  State<_CountdownRing> createState() => _CountdownRingState();
-}
-
-class _CountdownRingState extends State<_CountdownRing>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    )..forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, _) {
-        final progress = 1.0 - _controller.value;
-        final secondsLeft =
-            (widget.duration.inSeconds * progress).ceil().clamp(0, 99);
-        return SizedBox(
-          width: widget.size,
-          height: widget.size,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              SizedBox(
-                width: widget.size,
-                height: widget.size,
-                child: CircularProgressIndicator(
-                  value: progress,
-                  strokeWidth: 2.4,
-                  color: widget.color,
-                  backgroundColor: widget.color.withValues(alpha: 0.16),
-                ),
-              ),
-              Text(
-                '$secondsLeft',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: widget.textColor,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-}

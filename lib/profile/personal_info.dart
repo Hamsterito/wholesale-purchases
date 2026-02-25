@@ -1,7 +1,10 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../widgets/phone_input_formatter.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../services/auth_storage.dart';
+import '../services/api_service.dart';
+import '../models/user_profile.dart';
 
 class PersonalInfoPage extends StatefulWidget {
   const PersonalInfoPage({super.key});
@@ -13,30 +16,38 @@ class PersonalInfoPage extends StatefulWidget {
 class _PersonalInfoPageState extends State<PersonalInfoPage>
     with TickerProviderStateMixin {
   static const _primaryColor = Color(0xFF6288D5);
+  static final RegExp _emailRegex = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
 
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
   late final TextEditingController _phoneController;
-  late final TextEditingController _aboutController;
+  late final TextEditingController _companyController;
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _inputFill => _colorScheme.surfaceVariant;
+  Color get _inputFill => _colorScheme.surfaceContainerHighest;
   Color get _borderColor => _colorScheme.outlineVariant;
 
-  String _name = 'Kotik Milo';
-  String _email = 'Kotik@ch3j.ma';
-  String _phone = '77777777777';
-  String _about = 'I love Kitcat';
+  String _name = '';
+  String _email = '';
+  String _phone = '';
+  String _companyName = '';
+  String _role = '';
+  bool get _isSupplier => _role.toLowerCase() == 'supplier';
 
   int _expandedIndex = -1;
+  bool _isSavingProfile = false;
 
   @override
   void initState() {
     super.initState();
+    _role = (AuthStorage.role ?? '').trim();
+    _name = AuthStorage.name ?? '';
+    _email = AuthStorage.email ?? '';
+    _companyName = _isSupplier ? (AuthStorage.supplierName ?? '') : '';
     _nameController = TextEditingController(text: _name);
     _emailController = TextEditingController(text: _email);
     _phoneController = TextEditingController(
@@ -44,7 +55,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
         _phone.replaceAll(RegExp(r'\D'), ''),
       ),
     );
-    _aboutController = TextEditingController(text: _about);
+    _companyController = TextEditingController(text: _companyName);
+    _loadProfile();
   }
 
   @override
@@ -52,8 +64,48 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
-    _aboutController.dispose();
+    _companyController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadProfile() async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId == 0) {
+      return;
+    }
+    try {
+      final profile = await ApiService.getUserProfile(userId: userId);
+      if (!mounted) return;
+      setState(() {
+        _applyProfile(profile);
+      });
+    } catch (_) {}
+  }
+
+  void _applyProfile(UserProfile profile) {
+    _name = profile.name.trim();
+    _email = profile.email.trim();
+    final normalizedRole = profile.role.trim();
+    if (normalizedRole.isNotEmpty) {
+      _role = normalizedRole;
+    }
+
+    final phoneDigits = profile.phone.replaceAll(RegExp(r'\D'), '');
+    _phone = phoneDigits;
+    _phoneController.text = phoneDigits.isEmpty
+        ? ''
+        : PhoneNumberInputFormatter.formatDigits(phoneDigits);
+
+    if (_isSupplier) {
+      _companyName = profile.supplierName.trim();
+      _companyController.text = _companyName;
+    } else {
+      _companyName = '';
+      _companyController.clear();
+    }
+
+    _nameController.text = _name;
+    _emailController.text = _email;
   }
 
   String _displayValue(String value) {
@@ -68,32 +120,173 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
     return PhoneNumberInputFormatter.formatDigits(digits);
   }
 
-  void _saveValue(TextEditingController controller, ValueSetter<String> apply) {
-    final trimmed = controller.text.trim();
-    setState(() {
-      apply(trimmed);
-      controller.text = trimmed;
-      _expandedIndex = -1;
-    });
-    FocusScope.of(context).unfocus();
+  String _errorMessage(Object error) {
+    final text = error.toString().trim();
+    const prefix = 'Exception:';
+    if (text.startsWith(prefix)) {
+      return text.substring(prefix.length).trim();
+    }
+    return text;
   }
 
-  void _savePhone() {
-    final digits = _phoneController.text.replaceAll(RegExp(r'\D'), '');
-    if (digits.length != 11) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Номер должен быть в формате +7-XXX-XXX-XXXX'),
-        ),
-      );
+  void _showSnack(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  String? _validateName(String value) {
+    final name = value.trim();
+    if (name.isEmpty) {
+      return 'Введите имя';
+    }
+    if (name.length < 2) {
+      return 'Имя слишком короткое';
+    }
+    return null;
+  }
+
+  String? _validateEmail(String value) {
+    final email = value.trim();
+    if (email.isEmpty) {
+      return 'Введите email';
+    }
+    if (!_emailRegex.hasMatch(email)) {
+      return 'Некорректный email';
+    }
+    return null;
+  }
+
+  String? _validatePhoneDigits(String digits) {
+    if (digits.isEmpty) {
+      return 'Введите номер телефона';
+    }
+    if (digits.length != 11 || !digits.startsWith('7')) {
+      return 'Номер должен быть в формате +7-XXX-XXX-XXXX';
+    }
+    return null;
+  }
+
+  Future<void> _saveProfile({
+    String? name,
+    String? email,
+    String? phone,
+    String? supplierName,
+    required String successMessage,
+  }) async {
+    if (_isSavingProfile) return;
+    final userId = AuthStorage.userId;
+    if (userId == null || userId == 0) {
+      setState(() {
+        if (name != null) {
+          _name = name.trim();
+          _nameController.text = _name;
+        }
+        if (email != null) {
+          _email = email.trim();
+          _emailController.text = _email;
+        }
+        if (phone != null) {
+          final digits = phone.replaceAll(RegExp(r'\D'), '');
+          _phone = digits;
+          _phoneController.text = digits.isEmpty
+              ? ''
+              : PhoneNumberInputFormatter.formatDigits(digits);
+        }
+        if (_isSupplier && supplierName != null) {
+          _companyName = supplierName.trim();
+          _companyController.text = _companyName;
+        }
+        _expandedIndex = -1;
+      });
+      FocusScope.of(context).unfocus();
+      _showSnack(successMessage);
       return;
     }
+
     setState(() {
-      _phone = digits;
-      _phoneController.text = PhoneNumberInputFormatter.formatDigits(digits);
-      _expandedIndex = -1;
+      _isSavingProfile = true;
     });
-    FocusScope.of(context).unfocus();
+
+    try {
+      final profile = await ApiService.updateUserProfile(
+        userId: userId,
+        name: name,
+        email: email,
+        phone: phone,
+        supplierName: supplierName,
+      );
+
+      await AuthStorage.updateProfile(
+        name: profile.name,
+        email: profile.email,
+        supplierName: profile.supplierName,
+      );
+
+      if (!mounted) return;
+      setState(() {
+        _applyProfile(profile);
+        _expandedIndex = -1;
+      });
+      FocusScope.of(context).unfocus();
+      _showSnack(successMessage);
+    } catch (e) {
+      _showSnack('Не удалось сохранить: ${_errorMessage(e)}');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSavingProfile = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _saveName() async {
+    final name = _nameController.text.trim();
+    final validationError = _validateName(name);
+    if (validationError != null) {
+      _showSnack(validationError);
+      return;
+    }
+    await _saveProfile(name: name, successMessage: 'Имя сохранено');
+  }
+
+  Future<void> _saveEmail() async {
+    final email = _emailController.text.trim();
+    final validationError = _validateEmail(email);
+    if (validationError != null) {
+      _showSnack(validationError);
+      return;
+    }
+    await _saveProfile(email: email, successMessage: 'Email сохранен');
+  }
+
+  Future<void> _savePhone() async {
+    final digits = _phoneController.text.replaceAll(RegExp(r'\D'), '');
+    final validationError = _validatePhoneDigits(digits);
+    if (validationError != null) {
+      _showSnack(validationError);
+      return;
+    }
+    await _saveProfile(phone: digits, successMessage: 'Номер сохранен');
+  }
+
+  Future<void> _saveCompanyName() async {
+    if (!_isSupplier) {
+      return;
+    }
+
+    final companyName = _companyController.text.trim();
+    if (companyName.isEmpty) {
+      _showSnack('Введите название компании');
+      return;
+    }
+
+    await _saveProfile(
+      supplierName: companyName,
+      successMessage: 'Название компании сохранено',
+    );
   }
 
   void _cancelEdit(TextEditingController controller, String currentValue) {
@@ -118,7 +311,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
         );
         break;
       case 3:
-        _aboutController.text = _about;
+        _companyController.text = _companyName;
         break;
     }
   }
@@ -159,8 +352,12 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
               children: [
                 CircleAvatar(
                   radius: 35,
-                  backgroundImage: const AssetImage('assets/icons/avatar.png'),
-                  backgroundColor: _colorScheme.surfaceVariant,
+                  backgroundColor: _colorScheme.surfaceContainerHighest,
+                  child: Icon(
+                    Icons.person,
+                    size: 36,
+                    color: _colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 const SizedBox(width: 16),
                 Column(
@@ -175,11 +372,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      _displayValue(_about),
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: _mutedText,
-                      ),
+                      _displayValue(_isSupplier ? _companyName : _email),
+                      style: TextStyle(fontSize: 14, color: _mutedText),
                     ),
                   ],
                 ),
@@ -206,20 +400,18 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                     title: 'ФИО',
                     value: _displayValue(_name),
                     controller: _nameController,
-                    onSave: () =>
-                        _saveValue(_nameController, (value) => _name = value),
+                    onSave: _saveName,
                     onCancel: () => _cancelEdit(_nameController, _name),
                   ),
                   Divider(height: 1, indent: 56, endIndent: 16),
                   _buildEditableTile(
                     index: 1,
                     icon: Icons.email_outlined,
-                    title: 'EMAIL',
+                    title: 'ЭЛ. ПОЧТА',
                     value: _displayValue(_email),
                     controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    onSave: () =>
-                        _saveValue(_emailController, (value) => _email = value),
+                    keyboardType: TextInputType.text,
+                    onSave: _saveEmail,
                     onCancel: () => _cancelEdit(_emailController, _email),
                   ),
                   Divider(height: 1, indent: 56, endIndent: 16),
@@ -238,20 +430,19 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                     onSave: _savePhone,
                     onCancel: () => _cancelEdit(_phoneController, _phone),
                   ),
-                  Divider(height: 1, indent: 56, endIndent: 16),
-                  _buildEditableTile(
-                    index: 3,
-                    icon: Icons.info_outline,
-                    title: 'ОПИСАНИЕ',
-                    value: _displayValue(_about),
-                    controller: _aboutController,
-                    maxLines: 3,
-                    onSave: () => _saveValue(
-                      _aboutController,
-                      (value) => _about = value,
+                  if (_isSupplier) ...[
+                    Divider(height: 1, indent: 56, endIndent: 16),
+                    _buildEditableTile(
+                      index: 3,
+                      icon: Icons.business_outlined,
+                      title: 'НАЗВАНИЕ КОМПАНИИ',
+                      value: _displayValue(_companyName),
+                      controller: _companyController,
+                      onSave: _saveCompanyName,
+                      onCancel: () =>
+                          _cancelEdit(_companyController, _companyName),
                     ),
-                    onCancel: () => _cancelEdit(_aboutController, _about),
-                  ),
+                  ],
                 ],
               ),
             ),
@@ -270,17 +461,25 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
     required TextEditingController controller,
     required VoidCallback onSave,
     required VoidCallback onCancel,
-    TextInputType? keyboardType,
+    TextInputType keyboardType = TextInputType.text,
     List<TextInputFormatter>? inputFormatters,
     int maxLines = 1,
   }) {
     final isExpanded = _expandedIndex == index;
     final isSingleLine = maxLines == 1;
+    final resolvedKeyboardType = isSingleLine
+        ? keyboardType
+        : (keyboardType == TextInputType.text
+              ? TextInputType.multiline
+              : keyboardType);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         InkWell(
           onTap: () {
+            if (_isSavingProfile) {
+              return;
+            }
             setState(() {
               if (isExpanded) {
                 _expandedIndex = -1;
@@ -291,11 +490,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
             });
           },
           child: ListTile(
-            leading: Icon(
-              icon,
-              color: _primaryColor,
-              size: 24,
-            ),
+            leading: Icon(icon, color: _primaryColor, size: 24),
             title: Text(
               title,
               style: TextStyle(
@@ -306,19 +501,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
             ),
             subtitle: Text(
               value,
-              style: TextStyle(
-                fontSize: 13,
-                color: _mutedText,
-              ),
+              style: TextStyle(fontSize: 13, color: _mutedText),
             ),
             trailing: AnimatedRotation(
               turns: isExpanded ? 0.5 : 0.0,
               duration: const Duration(milliseconds: 200),
               curve: Curves.easeInOut,
-              child: Icon(
-                Icons.expand_more,
-                color: _mutedText,
-              ),
+              child: Icon(Icons.expand_more, color: _mutedText),
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
@@ -339,15 +528,18 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                       children: [
                         TextField(
                           controller: controller,
-                          keyboardType: keyboardType,
+                          keyboardType: resolvedKeyboardType,
                           inputFormatters: inputFormatters,
                           maxLines: maxLines,
                           textInputAction: isSingleLine
                               ? TextInputAction.done
                               : TextInputAction.newline,
-                          onSubmitted: isSingleLine ? (_) => onSave() : null,
+                          onSubmitted: isSingleLine && !_isSavingProfile
+                              ? (_) => onSave()
+                              : null,
                           decoration: InputDecoration(
-                            hintText: 'Введите новое значение',
+                            hintText:
+                                'Введите новое значение',
                             filled: true,
                             fillColor: _inputFill,
                             border: OutlineInputBorder(
@@ -365,14 +557,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                           children: [
                             Expanded(
                               child: OutlinedButton(
-                                onPressed: onCancel,
+                                onPressed: _isSavingProfile ? null : onCancel,
                                 style: OutlinedButton.styleFrom(
                                   foregroundColor: _mutedText,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
-                                  side: BorderSide(
-                                    color: _borderColor,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
                                   ),
+                                  side: BorderSide(color: _borderColor),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -389,12 +580,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                             const SizedBox(width: 12),
                             Expanded(
                               child: ElevatedButton(
-                                onPressed: onSave,
+                                onPressed: _isSavingProfile ? null : onSave,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: _primaryColor,
                                   foregroundColor: Colors.white,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -421,3 +613,4 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
     );
   }
 }
+
