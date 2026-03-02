@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class CategoryTags extends StatelessWidget {
   final List<String> categories;
@@ -12,7 +12,7 @@ class CategoryTags extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
     final chipBg = isDark
         ? colorScheme.primary.withValues(alpha: 0.22)
-        : colorScheme.surfaceVariant;
+        : colorScheme.surfaceContainerHighest;
     final chipText = colorScheme.primary;
 
     return Container(

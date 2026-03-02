@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../services/app_settings.dart';
 import '../widgets/main_bottom_nav.dart';
 import 'change_password_page.dart';
@@ -24,6 +24,7 @@ class _SettingsPageState extends State<SettingsPage> {
       brightness: Brightness.dark,
     ).primary;
   }
+
   String _selectedLanguage = 'Русский';
   String _selectedCurrency = '₸ (Тенге)';
 
@@ -64,10 +65,7 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: const EdgeInsets.all(16),
         children: [
           // Внешний вид
-          Text(
-            'ВНЕШНИЙ ВИД',
-            style: sectionLabelStyle,
-          ),
+          Text('ВНЕШНИЙ ВИД', style: sectionLabelStyle),
           const SizedBox(height: 12),
           Container(
             decoration: BoxDecoration(
@@ -90,10 +88,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 24),
 
           // Язык и регион
-          Text(
-            'ЯЗЫК И РЕГИОН',
-            style: sectionLabelStyle,
-          ),
+          Text('ЯЗЫК И РЕГИОН', style: sectionLabelStyle),
           const SizedBox(height: 12),
           Container(
             decoration: BoxDecoration(
@@ -124,10 +119,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 24),
 
           // Безопасность
-          Text(
-            'БЕЗОПАСНОСТЬ',
-            style: sectionLabelStyle,
-          ),
+          Text('БЕЗОПАСНОСТЬ', style: sectionLabelStyle),
           const SizedBox(height: 12),
           Container(
             decoration: BoxDecoration(
@@ -155,10 +147,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 24),
 
           // О приложении
-          Text(
-            'О ПРИЛОЖЕНИИ',
-            style: sectionLabelStyle,
-          ),
+          Text('О ПРИЛОЖЕНИИ', style: sectionLabelStyle),
           const SizedBox(height: 12),
           Container(
             decoration: BoxDecoration(
@@ -196,9 +185,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return SwitchListTile(
       title: Text(
         title,
-        style: textTheme.bodyMedium?.copyWith(
-          fontWeight: FontWeight.w500,
-        ),
+        style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
       ),
       subtitle: Text(
         subtitle,
@@ -208,7 +195,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       value: value,
       onChanged: onChanged,
-      activeColor: _settingsAccent,
+      activeThumbColor: _settingsAccent,
     );
   }
 
@@ -223,9 +210,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return ListTile(
       title: Text(
         title,
-        style: textTheme.bodyMedium?.copyWith(
-          fontWeight: FontWeight.w500,
-        ),
+        style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -257,11 +242,11 @@ class _SettingsPageState extends State<SettingsPage> {
       leading: Icon(icon, color: colorScheme.onSurfaceVariant),
       title: Text(
         title,
-        style: textTheme.bodyMedium?.copyWith(
-          fontWeight: FontWeight.w500,
-        ),
+        style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
       ),
-      trailing: trailing ?? Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
+      trailing:
+          trailing ??
+          Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
       onTap: onTap,
     );
   }
@@ -272,11 +257,21 @@ class _SettingsPageState extends State<SettingsPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Выберите язык'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildLanguageOption('Русский'),
-            ],
+          content: RadioGroup<String>(
+            groupValue: _selectedLanguage,
+            onChanged: (value) {
+              if (value == null) {
+                return;
+              }
+              setState(() {
+                _selectedLanguage = value;
+              });
+              Navigator.pop(context);
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [_buildLanguageOption('Русский')],
+            ),
           ),
         );
       },
@@ -287,13 +282,6 @@ class _SettingsPageState extends State<SettingsPage> {
     return RadioListTile<String>(
       title: Text(language),
       value: language,
-      groupValue: _selectedLanguage,
-      onChanged: (String? value) {
-        setState(() {
-          _selectedLanguage = value!;
-        });
-        Navigator.pop(context);
-      },
       activeColor: _settingsAccent,
     );
   }
@@ -304,11 +292,21 @@ class _SettingsPageState extends State<SettingsPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Выберите валюту'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildCurrencyOption('₸ (Тенге)'),
-            ],
+          content: RadioGroup<String>(
+            groupValue: _selectedCurrency,
+            onChanged: (value) {
+              if (value == null) {
+                return;
+              }
+              setState(() {
+                _selectedCurrency = value;
+              });
+              Navigator.pop(context);
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [_buildCurrencyOption('₸ (Тенге)')],
+            ),
           ),
         );
       },
@@ -319,16 +317,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return RadioListTile<String>(
       title: Text(currency),
       value: currency,
-      groupValue: _selectedCurrency,
-      onChanged: (String? value) {
-        setState(() {
-          _selectedCurrency = value!;
-        });
-        Navigator.pop(context);
-      },
       activeColor: _settingsAccent,
     );
   }
 }
-
-

@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_project/forgot_screan/verification_page.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -17,7 +17,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _inputFill =>
-      _isDark ? _colorScheme.surfaceVariant : const Color(0xFFF5F5F5);
+      _isDark ? _colorScheme.surfaceContainerHighest : const Color(0xFFF5F5F5);
 
   @override
   void dispose() {
@@ -54,7 +54,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
-                        icon: Icon(Icons.arrow_back, color: _colorScheme.onSurface),
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: _colorScheme.onSurface,
+                        ),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -80,10 +83,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     const SizedBox(height: 12),
                     Text(
                       'Напиши свою почту',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ],
                 ),
@@ -141,13 +141,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => VerificationPage(email: _emailController.text),
+                                  builder: (context) => VerificationPage(
+                                    email: _emailController.text,
+                                  ),
                                 ),
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  _isDark ? _colorScheme.primary : const Color(0xFF2D2D2D),
+                              backgroundColor: _isDark
+                                  ? _colorScheme.primary
+                                  : const Color(0xFF2D2D2D),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
@@ -175,4 +178,3 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     );
   }
 }
-

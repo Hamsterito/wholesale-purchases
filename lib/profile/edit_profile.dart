@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../widgets/phone_input_formatter.dart';
 import '../widgets/main_bottom_nav.dart';
@@ -29,8 +29,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   ColorScheme get _colorScheme => _theme.colorScheme;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
   Color get _cardBg => _colorScheme.surface;
-  Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _inputFill => _colorScheme.surfaceVariant;
+  Color get _inputFill => _colorScheme.surfaceContainerHighest;
 
   @override
   void initState() {
@@ -91,7 +90,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 CircleAvatar(
                   radius: 50,
                   backgroundImage: const AssetImage('assets/icons/avatar.png'),
-                  backgroundColor: _colorScheme.surfaceVariant,
+                  backgroundColor: _colorScheme.surfaceContainerHighest,
                 ),
                 Positioned(
                   bottom: 0,
@@ -102,11 +101,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       color: primaryColor,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
-                      Icons.edit,
-                      color: Colors.white,
-                      size: 20,
-                    ),
+                    child: Icon(Icons.edit, color: Colors.white, size: 20),
                   ),
                 ),
               ],
@@ -115,10 +110,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             const SizedBox(height: 32),
 
             // ФИО
-            _buildTextField(
-              label: 'ФИО',
-              controller: _nameController,
-            ),
+            _buildTextField(label: 'ФИО', controller: _nameController),
 
             const SizedBox(height: 16),
 
@@ -161,7 +153,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 onPressed: () {
                   if (!_isValidPhone(_phoneController.text)) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('\u041d\u043e\u043c\u0435\u0440 \u0434\u043e\u043b\u0436\u0435\u043d \u0431\u044b\u0442\u044c \u0432 \u0444\u043e\u0440\u043c\u0430\u0442\u0435 +7-XXX-XXX-XXXX'))
+                      const SnackBar(
+                        content: Text(
+                          '\u041d\u043e\u043c\u0435\u0440 \u0434\u043e\u043b\u0436\u0435\u043d \u0431\u044b\u0442\u044c \u0432 \u0444\u043e\u0440\u043c\u0430\u0442\u0435 +7-XXX-XXX-XXXX',
+                        ),
+                      ),
                     );
                     return;
                   }
@@ -178,10 +174,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
                 child: Text(
                   'СОХРАНИТЬ',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ),
             ),
@@ -233,4 +226,3 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 }
-

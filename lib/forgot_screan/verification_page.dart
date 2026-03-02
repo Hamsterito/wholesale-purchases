@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -12,10 +12,11 @@ class VerificationPage extends StatefulWidget {
 }
 
 class _VerificationPageState extends State<VerificationPage> {
-  final List<TextEditingController> _controllers =
-  List.generate(4, (index) => TextEditingController());
-  final List<FocusNode> _focusNodes =
-  List.generate(4, (index) => FocusNode());
+  final List<TextEditingController> _controllers = List.generate(
+    4,
+    (index) => TextEditingController(),
+  );
+  final List<FocusNode> _focusNodes = List.generate(4, (index) => FocusNode());
 
   int _remainingTime = 10;
   Timer? _timer;
@@ -26,7 +27,7 @@ class _VerificationPageState extends State<VerificationPage> {
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _inputFill =>
-      _isDark ? _colorScheme.surfaceVariant : const Color(0xFFF5F5F5);
+      _isDark ? _colorScheme.surfaceContainerHighest : const Color(0xFFF5F5F5);
   bool _isButtonDisabled = true;
 
   @override
@@ -101,7 +102,10 @@ class _VerificationPageState extends State<VerificationPage> {
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
-                        icon: Icon(Icons.arrow_back, color: _colorScheme.onSurface),
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: _colorScheme.onSurface,
+                        ),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -127,10 +131,7 @@ class _VerificationPageState extends State<VerificationPage> {
                     const SizedBox(height: 12),
                     Text(
                       'Мы отправили код на вашу почту',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -178,8 +179,8 @@ class _VerificationPageState extends State<VerificationPage> {
                                 onPressed: _isButtonDisabled
                                     ? null
                                     : () {
-                                  _startTimer();
-                                },
+                                        _startTimer();
+                                      },
                                 child: Text(
                                   'Отправить снова',
                                   style: TextStyle(
@@ -198,9 +199,9 @@ class _VerificationPageState extends State<VerificationPage> {
                                   fontSize: 14,
                                   color: _mutedText,
                                 ),
-                              )
+                              ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                       const SizedBox(height: 16),
@@ -223,13 +224,15 @@ class _VerificationPageState extends State<VerificationPage> {
                               keyboardType: TextInputType.number,
                               maxLength: 1,
                               style: TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.bold),
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
                               decoration: const InputDecoration(
                                 counterText: '',
                                 border: InputBorder.none,
                               ),
                               inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
+                                FilteringTextInputFormatter.digitsOnly,
                               ],
                               onChanged: (value) {
                                 _onCodeChanged(value, index);
@@ -247,7 +250,9 @@ class _VerificationPageState extends State<VerificationPage> {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: _isDark ? _colorScheme.primary : const Color(0xFF2D2D2D),
+                            backgroundColor: _isDark
+                                ? _colorScheme.primary
+                                : const Color(0xFF2D2D2D),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -261,16 +266,15 @@ class _VerificationPageState extends State<VerificationPage> {
                             ),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 }
-

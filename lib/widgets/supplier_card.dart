@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../utils/ru_plural.dart';
 
@@ -73,10 +73,7 @@ class SupplierCard extends StatelessWidget {
                         const SizedBox(width: 4),
                         Text(
                           reviewsLabel(supplier.reviewCount),
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: mutedText,
-                          ),
+                          style: TextStyle(fontSize: 11, color: mutedText),
                         ),
                       ],
                     ),
@@ -89,8 +86,9 @@ class SupplierCard extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: onSelect,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        isSelected ? const Color(0xFF22C55E) : const Color(0xFF6288D5),
+                    backgroundColor: isSelected
+                        ? const Color(0xFF22C55E)
+                        : const Color(0xFF6288D5),
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     shape: RoundedRectangleBorder(
@@ -112,19 +110,10 @@ class SupplierCard extends StatelessWidget {
             children: [
               Text(
                 '${supplier.pricePerUnit} \u20B8',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
               ),
               const SizedBox(width: 4),
-              Text(
-                'шт',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: mutedText,
-                ),
-              ),
+              Text('шт', style: TextStyle(fontSize: 12, color: mutedText)),
             ],
           ),
           const SizedBox(height: 6),
@@ -147,30 +136,20 @@ class SupplierCard extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                '${quantity} шт.',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: mutedText,
-                ),
+                '$quantity шт.',
+                style: TextStyle(fontSize: 12, color: mutedText),
               ),
             ],
           ),
           const SizedBox(height: 8),
           Row(
             children: [
-              Icon(
-                Icons.local_shipping_outlined,
-                size: 14,
-                color: mutedText,
-              ),
+              Icon(Icons.local_shipping_outlined, size: 14, color: mutedText),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
                   '${supplier.deliveryInfo}, ${supplier.deliveryDate}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: mutedText,
-                  ),
+                  style: TextStyle(fontSize: 12, color: mutedText),
                 ),
               ),
             ],
@@ -180,5 +159,3 @@ class SupplierCard extends StatelessWidget {
     );
   }
 }
-
-

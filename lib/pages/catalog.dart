@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import 'category_products_page.dart';
 import '../widgets/main_bottom_nav.dart';
@@ -54,7 +54,7 @@ class _CatalogPageState extends State<CatalogPage> {
   Color get _pageBg => _theme.scaffoldBackgroundColor;
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _surfaceVariant => _colorScheme.surfaceVariant;
+  Color get _surfaceVariant => _colorScheme.surfaceContainerHighest;
   Color get _shadowColor => _isDark
       ? Colors.black.withValues(alpha: 0.35)
       : Colors.black.withValues(alpha: 0.05);
@@ -227,153 +227,6 @@ class _CatalogPageState extends State<CatalogPage> {
       return Colors.pink[100]!;
     }
     return Colors.blue[100]!;
-  }
-
-  List<_MainCategoryData> _buildMainCategories() {
-    final breadTint = Colors.orange[200]!;
-    final vegetablesTint = Colors.green[300]!;
-    final dairyTint = Colors.yellow[100]!;
-    final meatTint = Colors.pink[100]!;
-    final waterTint = Colors.blue[100]!;
-
-    return [
-      _MainCategoryData(
-        title: 'Напитки',
-        subtitle: 'Вода, соки, газировка',
-        imagePath: 'assets/catalog/water.jpg',
-        tint: waterTint,
-        subcategories: [
-          _SubcategoryData(
-            title: 'Вода',
-            imagePath: 'assets/catalog/water.jpg',
-            keywords: const ['вода', 'минеральная'],
-            tint: Colors.blue[100]!,
-          ),
-          _SubcategoryData(
-            title: 'Соки',
-            imagePath: 'assets/catalog/juice.jpg',
-            keywords: const ['сок', 'соки', 'juice'],
-            tint: Colors.orange[100]!,
-          ),
-          _SubcategoryData(
-            title: 'Газировка',
-            imagePath: 'assets/catalog/soda.jpg',
-            keywords: const ['газировка', 'газированный', 'лимонад', 'soda'],
-            tint: Colors.blue[200]!,
-          ),
-        ],
-      ),
-      _MainCategoryData(
-        title: 'Овощи и фрукты',
-        subtitle: 'Фрукты, ягоды, овощи и зелень',
-        imagePath: 'assets/catalog/fruits_berries.jpg',
-        tint: vegetablesTint,
-        subcategories: [
-          _SubcategoryData(
-            title: 'Фрукты, ягоды',
-            imagePath: 'assets/catalog/fruits_berries.jpg',
-            keywords: const ['фрукты', 'ягоды', 'фрукт', 'ягода'],
-            tint: vegetablesTint,
-          ),
-          _SubcategoryData(
-            title: 'Овощи, грибы и зелень',
-            imagePath: 'assets/catalog/vegetables_greens.jpg',
-            keywords: const ['овощи', 'грибы', 'зелень', 'овощ', 'гриб'],
-            tint: vegetablesTint,
-          ),
-        ],
-      ),
-      _MainCategoryData(
-        title: 'Хлеб и пекарня',
-        subtitle: 'Хлеб, булочки, пироги',
-        imagePath: 'assets/catalog/bakery_pastry.jpg',
-        tint: breadTint,
-        subcategories: [
-          _SubcategoryData(
-            title: 'Выпечка от Манса',
-            imagePath: 'assets/catalog/bakery_pastry.jpg',
-            keywords: const ['выпечка', 'пекарня', 'булочки', 'круассан'],
-            tint: breadTint,
-          ),
-          _SubcategoryData(
-            title: 'Хлеб',
-            imagePath: 'assets/catalog/bread.jpg',
-            keywords: const ['хлеб', 'батон', 'багет'],
-            tint: breadTint,
-          ),
-          _SubcategoryData(
-            title: 'Выпечка и пироги',
-            imagePath: 'assets/catalog/pie.jpg',
-            keywords: const ['выпечка', 'пирог', 'пироги'],
-            tint: breadTint,
-          ),
-        ],
-      ),
-      _MainCategoryData(
-        title: 'Молочная продукция',
-        subtitle: 'Молоко, сыр, йогурты и яйца',
-        imagePath: 'assets/catalog/milk.jpg',
-        tint: dairyTint,
-        subcategories: [
-          _SubcategoryData(
-            title: 'Сыр',
-            imagePath: 'assets/catalog/cheese.jpg',
-            keywords: const ['сыр'],
-            tint: Colors.brown[100]!,
-          ),
-          _SubcategoryData(
-            title: 'Творог, сметана',
-            imagePath: 'assets/catalog/cottage_cheese.jpg',
-            keywords: const ['творог', 'сметана', 'кисломолочные'],
-            tint: Colors.brown[100]!,
-          ),
-          _SubcategoryData(
-            title: 'Йогурт и десерты',
-            imagePath: 'assets/catalog/yogurt_dessert.jpg',
-            keywords: const ['йогурт', 'десерт', 'десерты'],
-            tint: Colors.brown[100]!,
-          ),
-          _SubcategoryData(
-            title: 'Молоко и кисломолочные продукты',
-            imagePath: 'assets/catalog/milk.jpg',
-            keywords: const ['молоко', 'кефир', 'ряженка', 'айран'],
-            tint: dairyTint,
-          ),
-          _SubcategoryData(
-            title: 'Масло и яйца',
-            imagePath: 'assets/catalog/butter_eggs.jpg',
-            keywords: const ['масло', 'яйца', 'яйцо'],
-            tint: dairyTint,
-          ),
-        ],
-      ),
-      _MainCategoryData(
-        title: 'Мясо и птица',
-        subtitle: 'Мясо, колбасы и деликатесы',
-        imagePath: 'assets/catalog/meat.jpg',
-        tint: meatTint,
-        subcategories: [
-          _SubcategoryData(
-            title: 'Мясо и птица',
-            imagePath: 'assets/catalog/meat.jpg',
-            keywords: const ['мясо', 'птица', 'курица', 'говядина', 'свинина'],
-            tint: meatTint,
-          ),
-          _SubcategoryData(
-            title: 'Колбасы и сосиски',
-            imagePath: 'assets/catalog/sausages.jpg',
-            keywords: const ['колбаса', 'колбасы', 'сосиски', 'сардельки'],
-            tint: meatTint,
-          ),
-          _SubcategoryData(
-            title: 'Мясные деликатесы',
-            imagePath: 'assets/catalog/deli_meats.jpg',
-            keywords: const ['деликатесы', 'ветчина', 'бекон', 'хамон'],
-            tint: meatTint,
-          ),
-        ],
-      ),
-    ];
   }
 
   void _onSearchChanged(String value) {
@@ -740,7 +593,7 @@ class _SubcategoriesPageState extends State<_SubcategoriesPage> {
                         },
                       ),
                 filled: true,
-                fillColor: _colorScheme.surfaceVariant,
+                fillColor: _colorScheme.surfaceContainerHighest,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide.none,
@@ -842,4 +695,3 @@ class _SubcategoriesPageState extends State<_SubcategoriesPage> {
     super.dispose();
   }
 }
-

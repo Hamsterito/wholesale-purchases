@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -41,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _inputFill =>
-      _isDark ? _colorScheme.surfaceVariant : const Color(0xFFF5F5F5);
+      _isDark ? _colorScheme.surfaceContainerHighest : const Color(0xFFF5F5F5);
   TextStyle get _labelStyle => const TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w600,
@@ -554,7 +554,7 @@ class _RegisterPageState extends State<RegisterPage> {
         Text('РОЛЬ', style: _labelStyle),
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
-          value: _role,
+          initialValue: _role,
           items: const [
             DropdownMenuItem(value: 'buyer', child: Text('Покупатель')),
             DropdownMenuItem(value: 'supplier', child: Text('Поставщик')),
@@ -774,8 +774,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   bool get _isSubmitStep => _step == _submitStep;
   bool get _isTopAlignedStep =>
-      (_role == 'buyer' && _step == 2) ||
-      (_role == 'supplier' && _step == 1);
+      (_role == 'buyer' && _step == 2) || (_role == 'supplier' && _step == 1);
 
   String get _stepTitle {
     if (_role == 'supplier') {
@@ -929,50 +928,46 @@ class _RegisterPageState extends State<RegisterPage> {
     final primaryButtonDisabled = const Color(0xFF3A3A3A);
     final buttonRadius = BorderRadius.circular(28);
     final backButtonStyle = ButtonStyle(
-      minimumSize: MaterialStateProperty.all(const Size.fromHeight(48)),
-      padding: MaterialStateProperty.all(
-        const EdgeInsets.symmetric(horizontal: 14),
+      minimumSize: const WidgetStatePropertyAll(Size.fromHeight(48)),
+      padding: const WidgetStatePropertyAll(
+        EdgeInsets.symmetric(horizontal: 14),
       ),
-      shape: MaterialStateProperty.all(
+      shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(borderRadius: buttonRadius),
       ),
-      side: MaterialStateProperty.resolveWith(
+      side: WidgetStateProperty.resolveWith(
         (states) => BorderSide(
-          color: states.contains(MaterialState.disabled)
-              ? backBorderColor.withOpacity(0.6)
+          color: states.contains(WidgetState.disabled)
+              ? backBorderColor.withValues(alpha: 0.6)
               : backBorderColor,
         ),
       ),
-      foregroundColor: MaterialStateProperty.resolveWith(
-        (states) => states.contains(MaterialState.disabled)
+      foregroundColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.disabled)
             ? backTextDisabledColor
             : backTextEnabledColor,
       ),
-      textStyle: MaterialStateProperty.all(
-        const TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 1,
-        ),
+      textStyle: const WidgetStatePropertyAll(
+        TextStyle(fontSize: 13, fontWeight: FontWeight.w600, letterSpacing: 1),
       ),
     );
     final primaryButtonStyle = ButtonStyle(
-      minimumSize: MaterialStateProperty.all(const Size.fromHeight(48)),
-      padding: MaterialStateProperty.all(
-        const EdgeInsets.symmetric(horizontal: 14),
+      minimumSize: const WidgetStatePropertyAll(Size.fromHeight(48)),
+      padding: const WidgetStatePropertyAll(
+        EdgeInsets.symmetric(horizontal: 14),
       ),
-      shape: MaterialStateProperty.all(
+      shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(borderRadius: buttonRadius),
       ),
-      backgroundColor: MaterialStateProperty.resolveWith(
-        (states) => states.contains(MaterialState.disabled)
+      backgroundColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.disabled)
             ? primaryButtonDisabled
             : primaryButtonColor,
       ),
-      elevation: MaterialStateProperty.resolveWith(
-        (states) => states.contains(MaterialState.disabled) ? 0 : 3,
+      elevation: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.disabled) ? 0 : 3,
       ),
-      shadowColor: MaterialStateProperty.all(Colors.black.withOpacity(0.25)),
+      shadowColor: WidgetStatePropertyAll(Colors.black.withValues(alpha: 0.25)),
     );
 
     return Scaffold(
@@ -1160,4 +1155,3 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 }
-

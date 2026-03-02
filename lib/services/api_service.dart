@@ -1,4 +1,5 @@
-﻿import 'dart:convert';
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../models/product.dart';
 import '../models/order.dart';
@@ -25,7 +26,7 @@ class ApiService {
         throw Exception('Не удалось загрузить данные: ${response.statusCode}');
       }
     } catch (e) {
-      print('Ошибка при загрузке данных: $e');
+      debugPrint('Ошибка при загрузке данных: $e');
       rethrow;
     }
   }
@@ -73,7 +74,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при загрузке категорий: $e');
+      debugPrint('Ошибка при загрузке категорий: $e');
       rethrow;
     }
   }
@@ -168,7 +169,7 @@ class ApiService {
 
       return tree;
     } catch (e) {
-      print('Ошибка при загрузке списка категорий: $e');
+      debugPrint('Ошибка при загрузке списка категорий: $e');
       rethrow;
     }
   }
@@ -188,7 +189,7 @@ class ApiService {
         throw Exception('Не удалось загрузить данные: ${response.statusCode}');
       }
     } catch (e) {
-      print('Ошибка при загрузке данных: $e');
+      debugPrint('Ошибка при загрузке данных: $e');
       rethrow;
     }
   }
@@ -229,7 +230,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при выполнении операции: $e');
+      debugPrint('Ошибка при выполнении операции: $e');
       rethrow;
     }
   }
@@ -252,7 +253,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при загрузке профиля пользователя: $e');
+      debugPrint('Ошибка при загрузке профиля пользователя: $e');
       rethrow;
     }
   }
@@ -308,7 +309,7 @@ class ApiService {
 
       throw Exception('Не удалось обновить профиль: ${response.statusCode}');
     } catch (e) {
-      print('Ошибка при обновлении профиля: $e');
+      debugPrint('Ошибка при обновлении профиля: $e');
       rethrow;
     }
   }
@@ -365,7 +366,7 @@ class ApiService {
 
       throw Exception('Не удалось обновить пароль: ${response.statusCode}');
     } catch (e) {
-      print('Ошибка при смене пароля: $e');
+      debugPrint('Ошибка при смене пароля: $e');
       rethrow;
     }
   }
@@ -392,7 +393,7 @@ class ApiService {
         throw Exception('Не удалось загрузить данные: ${response.statusCode}');
       }
     } catch (e) {
-      print('Ошибка при загрузке данных: $e');
+      debugPrint('Ошибка при загрузке данных: $e');
       rethrow;
     }
   }
@@ -421,7 +422,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при выполнении операции: $e');
+      debugPrint('Ошибка при выполнении операции: $e');
       rethrow;
     }
   }
@@ -449,7 +450,7 @@ class ApiService {
         throw Exception('Не удалось обновить запись: ${response.statusCode}');
       }
     } catch (e) {
-      print('Ошибка при обновлении записи: $e');
+      debugPrint('Ошибка при обновлении записи: $e');
       rethrow;
     }
   }
@@ -473,7 +474,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при выполнении операции: $e');
+      debugPrint('Ошибка при выполнении операции: $e');
       rethrow;
     }
   }
@@ -497,7 +498,7 @@ class ApiService {
         throw Exception('Не удалось принять заказ: ${response.statusCode}');
       }
     } catch (e) {
-      print('Ошибка при принятии заказа: $e');
+      debugPrint('Ошибка при принятии заказа: $e');
       rethrow;
     }
   }
@@ -532,7 +533,7 @@ class ApiService {
       }
       throw Exception('Не удалось отменить заказ: ${response.statusCode}');
     } catch (e) {
-      print('Ошибка при отмене заказа: $e');
+      debugPrint('Ошибка при отмене заказа: $e');
       rethrow;
     }
   }
@@ -555,7 +556,7 @@ class ApiService {
         throw Exception('Не удалось загрузить данные: ${response.statusCode}');
       }
     } catch (e) {
-      print('Ошибка при загрузке данных: $e');
+      debugPrint('Ошибка при загрузке данных: $e');
       rethrow;
     }
   }
@@ -585,7 +586,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при загрузке отзывов товара: $e');
+      debugPrint('Ошибка при загрузке отзывов товара: $e');
       rethrow;
     }
   }
@@ -614,7 +615,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при загрузке товаров, ожидающих отзыва: $e');
+      debugPrint('Ошибка при загрузке товаров, ожидающих отзыва: $e');
       rethrow;
     }
   }
@@ -654,7 +655,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при выполнении операции: $e');
+      debugPrint('Ошибка при выполнении операции: $e');
       rethrow;
     }
   }
@@ -690,7 +691,7 @@ class ApiService {
         throw Exception('Не удалось обновить запись: ${response.statusCode}');
       }
     } catch (e) {
-      print('Ошибка при обновлении записи: $e');
+      debugPrint('Ошибка при обновлении записи: $e');
       rethrow;
     }
   }
@@ -717,7 +718,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при выполнении операции: $e');
+      debugPrint('Ошибка при выполнении операции: $e');
       rethrow;
     }
   }
@@ -740,7 +741,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при загрузке данных поставщика: $e');
+      debugPrint('Ошибка при загрузке данных поставщика: $e');
       rethrow;
     }
   }
@@ -770,7 +771,7 @@ class ApiService {
         'Не удалось создать товар поставщика: ${response.statusCode}',
       );
     } catch (e) {
-      print('Ошибка при создании товара поставщика: $e');
+      debugPrint('Ошибка при создании товара поставщика: $e');
       rethrow;
     }
   }
@@ -800,7 +801,7 @@ class ApiService {
         'Не удалось обновить товар поставщика: ${response.statusCode}',
       );
     } catch (e) {
-      print('Ошибка при обновлении товара поставщика: $e');
+      debugPrint('Ошибка при обновлении товара поставщика: $e');
       rethrow;
     }
   }
@@ -827,7 +828,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при удалении товара поставщика: $e');
+      debugPrint('Ошибка при удалении товара поставщика: $e');
       rethrow;
     }
   }
@@ -850,7 +851,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при загрузке данных поставщика: $e');
+      debugPrint('Ошибка при загрузке данных поставщика: $e');
       rethrow;
     }
   }
@@ -888,7 +889,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при обновлении статуса заказа поставщика: $e');
+      debugPrint('Ошибка при обновлении статуса заказа поставщика: $e');
       rethrow;
     }
   }
@@ -911,7 +912,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при загрузке товаров на модерации: $e');
+      debugPrint('Ошибка при загрузке товаров на модерации: $e');
       rethrow;
     }
   }
@@ -942,7 +943,7 @@ class ApiService {
         'Не удалось обновить статус модерации: ${response.statusCode}',
       );
     } catch (e) {
-      print('Ошибка при обновлении статуса модерации: $e');
+      debugPrint('Ошибка при обновлении статуса модерации: $e');
       rethrow;
     }
   }
@@ -969,7 +970,10 @@ class ApiService {
       final response = await http.delete(
         Uri.parse('$baseUrl/moderation/products/$normalizedProductId'),
         headers: const {'content-type': 'application/json; charset=utf-8'},
-        body: jsonEncode({'moderatorId': moderatorId, 'reason': normalizedReason}),
+        body: jsonEncode({
+          'moderatorId': moderatorId,
+          'reason': normalizedReason,
+        }),
       );
 
       if (response.statusCode == 200) {
@@ -996,7 +1000,7 @@ class ApiService {
         'Не удалось удалить товар модератором: ${response.statusCode}',
       );
     } catch (e) {
-      print('Ошибка при удалении товара модератором: $e');
+      debugPrint('Ошибка при удалении товара модератором: $e');
       rethrow;
     }
   }
@@ -1053,7 +1057,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при работе с категориями модерации: $e');
+      debugPrint('Ошибка при работе с категориями модерации: $e');
       rethrow;
     }
   }
@@ -1096,7 +1100,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при работе с категориями модерации: $e');
+      debugPrint('Ошибка при работе с категориями модерации: $e');
       rethrow;
     }
   }
@@ -1155,7 +1159,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при обновлении категории модерации: $e');
+      debugPrint('Ошибка при обновлении категории модерации: $e');
       rethrow;
     }
   }
@@ -1176,7 +1180,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при удалении категории модерации: $e');
+      debugPrint('Ошибка при удалении категории модерации: $e');
       rethrow;
     }
   }
@@ -1212,7 +1216,7 @@ class ApiService {
         'Не удалось загрузить тред поддержки: ${response.statusCode}',
       );
     } catch (e) {
-      print('Ошибка при загрузке треда поддержки: $e');
+      debugPrint('Ошибка при загрузке треда поддержки: $e');
       rethrow;
     }
   }
@@ -1251,7 +1255,7 @@ class ApiService {
         'Не удалось загрузить сообщения поддержки: ${response.statusCode}',
       );
     } catch (e) {
-      print('Ошибка при загрузке сообщений поддержки: $e');
+      debugPrint('Ошибка при загрузке сообщений поддержки: $e');
       rethrow;
     }
   }
@@ -1300,7 +1304,7 @@ class ApiService {
         'Не удалось отправить сообщение в поддержку: ${response.statusCode}',
       );
     } catch (e) {
-      print('Ошибка при отправке сообщения в поддержку: $e');
+      debugPrint('Ошибка при отправке сообщения в поддержку: $e');
       rethrow;
     }
   }
@@ -1326,7 +1330,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print('Ошибка при загрузке чатов модерации: $e');
+      debugPrint('Ошибка при загрузке чатов модерации: $e');
       rethrow;
     }
   }
@@ -1356,7 +1360,7 @@ class ApiService {
         'Не удалось загрузить сообщения чата модерации: ${response.statusCode}',
       );
     } catch (e) {
-      print('Ошибка при загрузке сообщений чата модерации: $e');
+      debugPrint('Ошибка при загрузке сообщений чата модерации: $e');
       rethrow;
     }
   }
@@ -1383,7 +1387,7 @@ class ApiService {
         'Не удалось загрузить тред чата модерации: ${response.statusCode}',
       );
     } catch (e) {
-      print('Ошибка при загрузке треда чата модерации: $e');
+      debugPrint('Ошибка при загрузке треда чата модерации: $e');
       rethrow;
     }
   }
@@ -1413,7 +1417,7 @@ class ApiService {
       }
       throw Exception('Не удалось закрыть чат: ${response.statusCode}');
     } catch (e) {
-      print('Ошибка при закрытии чата поддержки: $e');
+      debugPrint('Ошибка при закрытии чата поддержки: $e');
       rethrow;
     }
   }
@@ -1525,7 +1529,7 @@ class ApiService {
         yield trailingFrame;
       }
     } catch (e) {
-      print('Ошибка SSE-подписки ($streamLabel): $e');
+      debugPrint('Ошибка SSE-подписки ($streamLabel): $e');
       rethrow;
     } finally {
       client.close();
@@ -1591,5 +1595,3 @@ class ApiService {
     }
   }
 }
-
-

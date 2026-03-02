@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../widgets/main_bottom_nav.dart';
 import 'add_payment_card.dart';
 import '../services/payment_card_storage.dart';
@@ -167,9 +167,9 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
     if (!mounted) {
       return;
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Карта добавлена')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Карта добавлена')));
   }
 
   @override
@@ -378,8 +378,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            subtitle ??
-                'Пожалуйста, выберите способ\nоплаты',
+            subtitle ?? 'Пожалуйста, выберите способ\nоплаты',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14, color: _mutedText),
           ),
@@ -391,7 +390,9 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
   Widget _buildSavedCardTile(PaymentCard card) {
     final isSelected = _selectedCardId == card.id;
     const primaryColor = Color(0xFF6288D5);
-    final borderColor = isSelected ? primaryColor : _colorScheme.surfaceVariant;
+    final borderColor = isSelected
+        ? primaryColor
+        : _colorScheme.surfaceContainerHighest;
     final shadowColor = _theme.brightness == Brightness.dark
         ? Colors.black.withValues(alpha: 0.35)
         : Colors.black.withValues(alpha: 0.06);
@@ -518,7 +519,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
 
   Widget _buildBrandBadge(String brand) {
     final asset = _brandAssetFor(brand);
-    final badgeBg = _colorScheme.surfaceVariant;
+    final badgeBg = _colorScheme.surfaceContainerHighest;
     if (asset != null) {
       return Container(
         width: 48,
@@ -578,7 +579,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                   border: Border.all(
                     color: isSelected
                         ? primaryColor
-                        : _colorScheme.surfaceVariant,
+                        : _colorScheme.surfaceContainerHighest,
                     width: 2,
                   ),
                 ),
@@ -613,4 +614,3 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
     );
   }
 }
-

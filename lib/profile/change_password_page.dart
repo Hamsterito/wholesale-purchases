@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../widgets/main_bottom_nav.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
@@ -25,7 +25,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   ColorScheme get _colorScheme => _theme.colorScheme;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
   Color get _cardBg => _colorScheme.surface;
-  Color get _inputFill => _colorScheme.surfaceVariant;
+  Color get _inputFill => _colorScheme.surfaceContainerHighest;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
 
   @override
@@ -133,9 +133,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(_normalizeErrorMessage(error))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(_normalizeErrorMessage(error))));
       return;
     } finally {
       if (mounted) {
@@ -324,10 +324,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 const SizedBox(height: 16),
                 Text(
                   'Пароль должен содержать минимум 6 символов и отличаться от текущего.',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: _mutedText,
-                  ),
+                  style: TextStyle(fontSize: 12, color: _mutedText),
                 ),
                 const SizedBox(height: 24),
                 SizedBox(
@@ -372,4 +369,3 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     );
   }
 }
-

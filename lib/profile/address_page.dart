@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/user_address.dart';
 
@@ -37,16 +37,20 @@ class _AddressPageState extends State<AddressPage> {
   Color get _pageBg => _theme.scaffoldBackgroundColor;
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _inputFill => _colorScheme.surfaceVariant;
+  Color get _inputFill => _colorScheme.surfaceContainerHighest;
 
   @override
   void initState() {
     super.initState();
     final initial = widget.initial;
-    _addressController = TextEditingController(text: initial?.addressLine ?? '');
+    _addressController = TextEditingController(
+      text: initial?.addressLine ?? '',
+    );
     _streetController = TextEditingController(text: initial?.street ?? '');
     _zipController = TextEditingController(text: initial?.zip ?? '');
-    _apartmentController = TextEditingController(text: initial?.apartment ?? '');
+    _apartmentController = TextEditingController(
+      text: initial?.apartment ?? '',
+    );
     final label = initial?.label.trim().toLowerCase();
     if (label == 'home' || label == 'work' || label == 'other') {
       _selectedType = label!;
@@ -237,10 +241,7 @@ class _AddressPageState extends State<AddressPage> {
     );
   }
 
-  Widget _buildTypeButton({
-    required String value,
-    required String label,
-  }) {
+  Widget _buildTypeButton({required String value, required String label}) {
     final isSelected = _selectedType == value;
     const primaryColor = Color(0xFF6288D5);
 
@@ -378,6 +379,4 @@ class _AddressPageState extends State<AddressPage> {
     }
     return normalized;
   }
-
 }
-

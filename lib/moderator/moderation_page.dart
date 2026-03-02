@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../models/supplier_product.dart';
 import 'support_chats_page.dart';
 import '../services/api_service.dart';
@@ -29,6 +29,7 @@ class _ModerationPageState extends State<ModerationPage> {
   }
 
   Future<void> _loadProducts() async {
+    if (!mounted) return;
     setState(() {
       _isLoading = true;
       _error = null;
@@ -95,14 +96,13 @@ class _ModerationPageState extends State<ModerationPage> {
         status: status,
         comment: normalizedComment,
       );
+      if (!mounted) return;
       await _loadProducts();
+      if (!mounted) return;
       _showSnack(status == 'approved' ? 'Товар одобрен' : 'Товар отклонен');
     } catch (e) {
       _showSnack(
-        _extractErrorMessage(
-          e,
-          fallback: 'Ошибка при обновлении статуса',
-        ),
+        _extractErrorMessage(e, fallback: 'Ошибка при обновлении статуса'),
       );
     } finally {
       if (mounted) {
@@ -143,7 +143,9 @@ class _ModerationPageState extends State<ModerationPage> {
         moderatorId: moderatorId,
         reason: normalizedReason,
       );
+      if (!mounted) return;
       await _loadProducts();
+      if (!mounted) return;
       final action = result['action']?.toString() ?? '';
       final supplierNotified = result['supplierNotified'] == true;
       if (action == 'hidden_from_catalog') {
@@ -154,13 +156,13 @@ class _ModerationPageState extends State<ModerationPage> {
         );
       } else {
         _showSnack(
-          supplierNotified ? 'Товар удален, поставщик уведомлен' : 'Товар удален',
+          supplierNotified
+              ? 'Товар удален, поставщик уведомлен'
+              : 'Товар удален',
         );
       }
     } catch (e) {
-      _showSnack(
-        _extractErrorMessage(e, fallback: 'Не удалось удалить товар'),
-      );
+      _showSnack(_extractErrorMessage(e, fallback: 'Не удалось удалить товар'));
     } finally {
       if (mounted) {
         setState(() => _updatingIds.remove(product.id));
@@ -174,18 +176,17 @@ class _ModerationPageState extends State<ModerationPage> {
     String? hintText,
     String submitLabel = 'Отправить',
   }) async {
-    final controller = TextEditingController();
-    final result = await showDialog<String>(
+    var draft = '';
+    return showDialog<String>(
       context: context,
       builder: (dialogContext) {
         final colorScheme = Theme.of(dialogContext).colorScheme;
         final hint =
-            hintText ??
-            (requireComment ? 'Причина отклонения' : 'Комментарий');
+            hintText ?? (requireComment ? 'Причина отклонения' : 'Комментарий');
         return StatefulBuilder(
           builder: (context, setDialogState) {
-            final draft = controller.text.trim();
-            final canSubmit = !requireComment || draft.isNotEmpty;
+            final normalizedDraft = draft.trim();
+            final canSubmit = !requireComment || normalizedDraft.isNotEmpty;
             return AlertDialog(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
@@ -197,14 +198,16 @@ class _ModerationPageState extends State<ModerationPage> {
               content: SizedBox(
                 width: 320,
                 child: TextField(
-                  controller: controller,
                   autofocus: true,
                   keyboardType: TextInputType.multiline,
                   textInputAction: TextInputAction.newline,
                   minLines: 3,
                   maxLines: 5,
                   textAlignVertical: TextAlignVertical.top,
-                  onChanged: (_) => setDialogState(() {}),
+                  onChanged: (value) {
+                    draft = value;
+                    setDialogState(() {});
+                  },
                   decoration: InputDecoration(
                     hintText: hint,
                     hintStyle: TextStyle(
@@ -222,9 +225,7 @@ class _ModerationPageState extends State<ModerationPage> {
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide(
-                        color: colorScheme.outlineVariant,
-                      ),
+                      borderSide: BorderSide(color: colorScheme.outlineVariant),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
@@ -251,7 +252,7 @@ class _ModerationPageState extends State<ModerationPage> {
                 ),
                 FilledButton(
                   onPressed: canSubmit
-                      ? () => Navigator.of(dialogContext).pop(draft)
+                      ? () => Navigator.of(dialogContext).pop(normalizedDraft)
                       : null,
                   child: Text(submitLabel),
                 ),
@@ -261,8 +262,6 @@ class _ModerationPageState extends State<ModerationPage> {
         );
       },
     );
-    controller.dispose();
-    return result;
   }
 
   String _extractErrorMessage(Object error, {required String fallback}) {
@@ -280,9 +279,9 @@ class _ModerationPageState extends State<ModerationPage> {
   }
 
   void _showSnack(String message) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    if (!mounted) return;
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    messenger?.showSnackBar(SnackBar(content: Text(message)));
   }
 
   String _quantityLabel(SupplierProduct product) {
@@ -373,43 +372,52 @@ class _ModerationPageState extends State<ModerationPage> {
       ),
       body: Column(
         children: [
-          SizedBox(
-            height: 50,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.fromLTRB(12, 2, 12, 2),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 6, 12, 2),
+            child: Row(
               children: [
-                _StatusChip(
-                  label: 'На проверке',
-                  isActive: _statusFilter == 'pending',
-                  onTap: () {
-                    setState(() => _statusFilter = 'pending');
-                    _loadProducts();
-                  },
+                Expanded(
+                  child: _StatusChip(
+                    label: 'На проверке',
+                    isActive: _statusFilter == 'pending',
+                    onTap: () {
+                      setState(() => _statusFilter = 'pending');
+                      _loadProducts();
+                    },
+                  ),
                 ),
-                _StatusChip(
-                  label: 'Одобрено',
-                  isActive: _statusFilter == 'approved',
-                  onTap: () {
-                    setState(() => _statusFilter = 'approved');
-                    _loadProducts();
-                  },
+                const SizedBox(width: 6),
+                Expanded(
+                  child: _StatusChip(
+                    label: 'Одобрено',
+                    isActive: _statusFilter == 'approved',
+                    onTap: () {
+                      setState(() => _statusFilter = 'approved');
+                      _loadProducts();
+                    },
+                  ),
                 ),
-                _StatusChip(
-                  label: 'Отклонено',
-                  isActive: _statusFilter == 'rejected',
-                  onTap: () {
-                    setState(() => _statusFilter = 'rejected');
-                    _loadProducts();
-                  },
+                const SizedBox(width: 6),
+                Expanded(
+                  child: _StatusChip(
+                    label: 'Отклонено',
+                    isActive: _statusFilter == 'rejected',
+                    onTap: () {
+                      setState(() => _statusFilter = 'rejected');
+                      _loadProducts();
+                    },
+                  ),
                 ),
-                _StatusChip(
-                  label: 'Все',
-                  isActive: _statusFilter == 'all',
-                  onTap: () {
-                    setState(() => _statusFilter = 'all');
-                    _loadProducts();
-                  },
+                const SizedBox(width: 6),
+                Expanded(
+                  child: _StatusChip(
+                    label: 'Все',
+                    isActive: _statusFilter == 'all',
+                    onTap: () {
+                      setState(() => _statusFilter = 'all');
+                      _loadProducts();
+                    },
+                  ),
                 ),
               ],
             ),
@@ -525,6 +533,9 @@ class _ModerationPageState extends State<ModerationPage> {
                                 ),
                               );
                               return Card(
+                                key: ValueKey<String>(
+                                  'moderation-${product.id}',
+                                ),
                                 margin: const EdgeInsets.only(top: 1),
                                 elevation: 0,
                                 shadowColor: colorScheme.shadow.withValues(
@@ -723,40 +734,39 @@ class _ModerationPageState extends State<ModerationPage> {
                                         builder: (context, constraints) {
                                           final isCompact =
                                               constraints.maxWidth < 320;
-                                          final deleteButton =
-                                              OutlinedButton.icon(
-                                                onPressed: isUpdating
-                                                    ? null
-                                                    : () =>
-                                                          _deleteProductForViolation(
-                                                            product,
-                                                          ),
-                                                style: OutlinedButton.styleFrom(
-                                                  foregroundColor: const Color(
-                                                    0xFFB91C1C,
-                                                  ),
-                                                  side: const BorderSide(
-                                                    color: Color(0xFFEF4444),
-                                                  ),
-                                                ),
-                                                icon: isUpdating
-                                                    ? const SizedBox(
-                                                        width: 18,
-                                                        height: 18,
-                                                        child:
-                                                            CircularProgressIndicator(
-                                                              strokeWidth: 2,
-                                                            ),
-                                                      )
-                                                    : const Icon(
-                                                        Icons
-                                                            .delete_outline_rounded,
-                                                        size: 18,
+                                          final deleteButton = OutlinedButton.icon(
+                                            onPressed: isUpdating
+                                                ? null
+                                                : () =>
+                                                      _deleteProductForViolation(
+                                                        product,
                                                       ),
-                                                label: const Text(
-                                                  'Удалить за нарушение',
-                                                ),
-                                              );
+                                            style: OutlinedButton.styleFrom(
+                                              foregroundColor: const Color(
+                                                0xFFB91C1C,
+                                              ),
+                                              side: const BorderSide(
+                                                color: Color(0xFFEF4444),
+                                              ),
+                                            ),
+                                            icon: isUpdating
+                                                ? const SizedBox(
+                                                    width: 18,
+                                                    height: 18,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                          strokeWidth: 2,
+                                                        ),
+                                                  )
+                                                : const Icon(
+                                                    Icons
+                                                        .delete_outline_rounded,
+                                                    size: 18,
+                                                  ),
+                                            label: const Text(
+                                              'Удалить за нарушение',
+                                            ),
+                                          );
 
                                           if (product.moderationStatus !=
                                               'pending') {
@@ -823,7 +833,9 @@ class _ModerationPageState extends State<ModerationPage> {
                                             children: [
                                               Row(
                                                 children: [
-                                                  Expanded(child: approveButton),
+                                                  Expanded(
+                                                    child: approveButton,
+                                                  ),
                                                   const SizedBox(width: 12),
                                                   Expanded(child: rejectButton),
                                                 ],
@@ -869,29 +881,34 @@ class _StatusChip extends StatelessWidget {
     final backgroundColor = isActive
         ? colorScheme.primary.withValues(alpha: 0.15)
         : Colors.transparent;
-    return Padding(
-      padding: const EdgeInsets.only(right: 6, top: 4, bottom: 4),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(10),
-          onTap: onTap,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: backgroundColor,
-              borderRadius: BorderRadius.circular(9),
-              border: Border.all(color: borderColor),
-            ),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: onTap,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(9),
+            border: Border.all(color: borderColor),
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 38),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-              child: Text(
-                label,
-                style: TextStyle(
-                  color: isActive
-                      ? colorScheme.primary
-                      : colorScheme.onSurfaceVariant,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+              child: Center(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: isActive
+                        ? colorScheme.primary
+                        : colorScheme.onSurfaceVariant,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
@@ -968,4 +985,3 @@ class _ModerationMetricRow extends StatelessWidget {
     );
   }
 }
-

@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/reg_screan/register_page.dart';
 import 'package:flutter_project/forgot_screan/forgot_password_page.dart';
@@ -23,11 +23,10 @@ class _LoginPageState extends State<LoginPage> {
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   bool get _isDark => _theme.brightness == Brightness.dark;
-  Color get _pageBg => _theme.scaffoldBackgroundColor;
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _inputFill =>
-      _isDark ? _colorScheme.surfaceVariant : const Color(0xFFF5F5F5);
+      _isDark ? _colorScheme.surfaceContainerHighest : const Color(0xFFF5F5F5);
 
   @override
   void initState() {
@@ -66,9 +65,9 @@ class _LoginPageState extends State<LoginPage> {
     final password = _passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Введите почту и пароль')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Введите почту и пароль')));
       return;
     }
 
@@ -82,10 +81,7 @@ class _LoginPageState extends State<LoginPage> {
           'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
         },
         encoding: utf8,
-        body: {
-          'email': email,
-          'password': password,
-        },
+        body: {'email': email, 'password': password},
       );
 
       if (response.statusCode == 200) {
@@ -140,9 +136,9 @@ class _LoginPageState extends State<LoginPage> {
           _ => 'Не удалось выполнить вход. Попробуйте позже.',
         };
         final message = errorBody.isEmpty ? fallbackMessage : errorBody;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
       }
     } catch (e) {
       if (!mounted) return;
@@ -150,8 +146,9 @@ class _LoginPageState extends State<LoginPage> {
         SnackBar(content: Text('Ошибка подключения к серверу: $e')),
       );
     } finally {
-      if (!mounted) return;
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -346,17 +343,17 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             child: _isLoading
                                 ? const CircularProgressIndicator(
-                              color: Colors.white,
-                            )
+                                    color: Colors.white,
+                                  )
                                 : Text(
-                              'ВОЙТИ',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1,
-                                color: Colors.white,
-                              ),
-                            ),
+                                    'ВОЙТИ',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 1,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -377,7 +374,7 @@ class _LoginPageState extends State<LoginPage> {
                                   padding: EdgeInsets.zero,
                                   minimumSize: Size.zero,
                                   tapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
+                                      MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 child: Text(
                                   'Зарегистрируйтесь',
@@ -403,4 +400,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-

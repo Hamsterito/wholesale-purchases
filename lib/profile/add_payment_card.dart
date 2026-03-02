@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/payment_card_storage.dart';
 import '../services/auth_storage.dart';
@@ -35,7 +35,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
   Color get _pageBg => _theme.scaffoldBackgroundColor;
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _inputFill => _colorScheme.surfaceVariant;
+  Color get _inputFill => _colorScheme.surfaceContainerHighest;
 
   @override
   void initState() {
@@ -515,4 +515,3 @@ int _cursorPosition(String formatted, int digitsBeforeCursor) {
   }
   return formatted.length;
 }
-

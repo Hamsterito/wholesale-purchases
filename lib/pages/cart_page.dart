@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../models/cart_item.dart';
@@ -38,7 +38,7 @@ class _CartPageState extends State<CartPage> {
   Color get _pageBg => _theme.scaffoldBackgroundColor;
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _chipBg => _colorScheme.surfaceVariant;
+  Color get _chipBg => _colorScheme.surfaceContainerHighest;
   Color get _shadowColor => _isDark
       ? Colors.black.withValues(alpha: 0.4)
       : Colors.black.withValues(alpha: 0.04);
@@ -145,10 +145,6 @@ class _CartPageState extends State<CartPage> {
       showAtBottom: true,
       bottomOffset: _bottomMessageOffset,
     );
-  }
-
-  void _clearCart() {
-    _cartStore.clear();
   }
 
   Future<void> _confirmClearCart() async {
@@ -1421,7 +1417,7 @@ class _CartPageState extends State<CartPage> {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: _isDark ? _colorScheme.surfaceVariant : Colors.white,
+        color: _isDark ? _colorScheme.surfaceContainerHighest : Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -1928,10 +1924,8 @@ class _HoverIconButton extends StatefulWidget {
     this.color = Colors.white,
     this.size = 18,
     this.enableRepeat = false,
-    this.repeatInterval = const Duration(milliseconds: 180),
     this.hoverColor,
     this.pressedColor,
-    this.baseColor,
   });
 
   final VoidCallback onTap;
@@ -1939,10 +1933,8 @@ class _HoverIconButton extends StatefulWidget {
   final Color color;
   final double size;
   final bool enableRepeat;
-  final Duration repeatInterval;
   final Color? hoverColor;
   final Color? pressedColor;
-  final Color? baseColor;
 
   @override
   State<_HoverIconButton> createState() => _HoverIconButtonState();
@@ -2043,6 +2035,7 @@ class _PressableHeaderActionState extends State<_PressableHeaderAction> {
 
 class _HoverIconButtonState extends State<_HoverIconButton> {
   static const _animationDuration = Duration(milliseconds: 120);
+  static const _repeatInterval = Duration(milliseconds: 180);
   bool _isHovered = false;
   bool _isPressed = false;
   Timer? _repeatTimer;
@@ -2065,7 +2058,7 @@ class _HoverIconButtonState extends State<_HoverIconButton> {
     if (!widget.enableRepeat) return;
     widget.onTap();
     _repeatTimer?.cancel();
-    _repeatTimer = Timer.periodic(widget.repeatInterval, (_) {
+    _repeatTimer = Timer.periodic(_repeatInterval, (_) {
       if (!mounted || !widget.enableRepeat) {
         _stopRepeat();
         return;
@@ -2096,7 +2089,7 @@ class _HoverIconButtonState extends State<_HoverIconButton> {
     if (_isHovered) {
       return widget.hoverColor ?? Colors.white.withValues(alpha: 0.18);
     }
-    return widget.baseColor ?? Colors.transparent;
+    return Colors.transparent;
   }
 
   @override
@@ -2141,4 +2134,3 @@ class _HoverIconButtonState extends State<_HoverIconButton> {
     );
   }
 }
-
