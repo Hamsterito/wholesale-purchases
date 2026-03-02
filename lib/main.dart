@@ -1,23 +1,138 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_project/login_screan/login.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'login_screen/login.dart';
+import 'services/app_settings.dart';
+import 'services/auth_storage.dart';
+import 'widgets/main_navigation.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AppSettings.init();
+  await AuthStorage.init();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Вход',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Roboto',
+    const primaryColor = Color(0xFF6288D5);
+
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: AppSettings.themeMode,
+      builder: (context, themeMode, _) {
+        return MaterialApp(
+          title: 'Оптовые закупки',
+          debugShowCheckedModeBanner: false,
+          locale: const Locale('ru'),
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('ru'),
+            Locale('en'),
+            Locale('kk'),
+          ],
+          theme: _buildLightTheme(primaryColor),
+          darkTheme: _buildDarkTheme(primaryColor),
+          themeMode: themeMode,
+          home:
+              AuthStorage.isRemembered ? const MainNavigation() : const LoginPage(),
+        );
+      },
+    );
+  }
+
+  ThemeData _buildLightTheme(Color primaryColor) {
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: primaryColor,
+    ).copyWith(
+      primary: primaryColor,
+      onPrimary: Colors.white,
+    );
+
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.light,
+      primaryColor: primaryColor,
+      scaffoldBackgroundColor: const Color(0xFFEAF3FF),
+      fontFamily: 'Roboto',
+      colorScheme: colorScheme,
+      dividerTheme: DividerThemeData(color: colorScheme.outlineVariant),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryColor,
+          foregroundColor: Colors.white,
+        ),
       ),
-      home: const LoginPage(),
-      debugShowCheckedModeBanner: false,
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(foregroundColor: primaryColor),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: primaryColor,
+          side: BorderSide(color: primaryColor),
+        ),
+      ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: colorScheme.onSurface),
+        titleTextStyle: TextStyle(
+          color: colorScheme.onSurface,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  ThemeData _buildDarkTheme(Color primaryColor) {
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: primaryColor,
+      brightness: Brightness.dark,
+    ).copyWith(
+      primary: primaryColor,
+      onPrimary: Colors.white,
+    );
+
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      primaryColor: primaryColor,
+      scaffoldBackgroundColor: const Color(0xFF0F1115),
+      fontFamily: 'Roboto',
+      colorScheme: colorScheme,
+      dividerTheme: DividerThemeData(color: colorScheme.outlineVariant),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryColor,
+          foregroundColor: Colors.white,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(foregroundColor: primaryColor),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: primaryColor,
+          side: BorderSide(color: primaryColor),
+        ),
+      ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: const Color(0xFF0F1115),
+        elevation: 0,
+        iconTheme: IconThemeData(color: colorScheme.onSurface),
+        titleTextStyle: TextStyle(
+          color: colorScheme.onSurface,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     );
   }
 }
+
