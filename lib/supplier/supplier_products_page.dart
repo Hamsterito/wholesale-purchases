@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../models/supplier_product.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
@@ -113,7 +113,10 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
       builder: (context) {
         return AlertDialog(
           title: const Text('Удалить товар?'),
-          content: Text('Товар "${product.name}" будет удалён безвозвратно.'),
+          content: Text(
+            'Товар "${product.name}" будет удалён. '
+            'Если по нему уже есть заказы или отзывы, он только снимется с публикации.',
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
@@ -140,17 +143,45 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
     });
 
     try {
-      await ApiService.deleteSupplierProduct(
+      final result = await ApiService.deleteSupplierProduct(
         productId: product.id,
         userId: userId,
       );
       if (!mounted) return;
+      final action = result['action']?.toString() ?? '';
+      final hiddenMessage = result['message']?.toString().trim();
+
       setState(() {
+        if (action == 'hidden_from_catalog') {
+          _products = _products.map((item) {
+            if (item.id != product.id) {
+              return item;
+            }
+            return item.copyWith(
+              moderationStatus: 'rejected',
+              moderationComment: hiddenMessage?.isNotEmpty == true
+                  ? hiddenMessage
+                  : 'Товар снят с публикации.',
+              stockQuantity: 0,
+            );
+          }).toList();
+          return;
+        }
+
         _products.removeWhere((item) => item.id == product.id);
       });
-      _showSnack('Товар удалён');
-    } catch (_) {
-      _showSnack('Не удалось удалить товар');
+
+      if (action == 'hidden_from_catalog') {
+        _showSnack(
+          hiddenMessage?.isNotEmpty == true
+              ? hiddenMessage!
+              : 'Товар снят с публикации',
+        );
+      } else {
+        _showSnack('Товар удалён');
+      }
+    } catch (e) {
+      _showSnack(_extractErrorMessage(e, fallback: 'Не удалось удалить товар'));
     } finally {
       if (mounted) {
         setState(() {
@@ -463,9 +494,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Мои товары'),
-      ),
+      appBar: AppBar(title: const Text('Мои товары')),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _error != null

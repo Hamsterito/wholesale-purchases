@@ -1,15 +1,59 @@
-﻿import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'login_screen/login.dart';
+import 'services/app_logger.dart';
 import 'services/app_settings.dart';
 import 'services/auth_storage.dart';
 import 'widgets/main_navigation.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await AppSettings.init();
-  await AuthStorage.init();
-  runApp(const MyApp());
+
+  FlutterError.onError = (details) {
+    AppLogger.error(
+      'Unhandled Flutter framework error',
+      scope: 'startup',
+      error: details.exception,
+      stackTrace: details.stack,
+    );
+    FlutterError.presentError(details);
+  };
+
+  PlatformDispatcher.instance.onError = (error, stackTrace) {
+    AppLogger.error(
+      'Unhandled platform error',
+      scope: 'startup',
+      error: error,
+      stackTrace: stackTrace,
+    );
+    return true;
+  };
+
+  await runZonedGuarded(
+    () async {
+      AppLogger.info('Application initialization started', scope: 'startup');
+      await AppSettings.init();
+      AppLogger.info('Application settings initialized', scope: 'startup');
+      await AuthStorage.init();
+      AppLogger.info(
+        'Auth storage initialized: remembered=${AuthStorage.isRemembered}, userId=${AuthStorage.userId}',
+        scope: 'startup',
+      );
+      runApp(const MyApp());
+    },
+    (error, stackTrace) {
+      AppLogger.error(
+        'Unhandled zone error',
+        scope: 'startup',
+        error: error,
+        stackTrace: stackTrace,
+      );
+    },
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -31,16 +75,13 @@ class MyApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('ru'),
-            Locale('en'),
-            Locale('kk'),
-          ],
+          supportedLocales: const [Locale('ru'), Locale('en'), Locale('kk')],
           theme: _buildLightTheme(primaryColor),
           darkTheme: _buildDarkTheme(primaryColor),
           themeMode: themeMode,
-          home:
-              AuthStorage.isRemembered ? const MainNavigation() : const LoginPage(),
+          home: AuthStorage.isRemembered
+              ? const MainNavigation()
+              : const LoginPage(),
         );
       },
     );
@@ -49,10 +90,7 @@ class MyApp extends StatelessWidget {
   ThemeData _buildLightTheme(Color primaryColor) {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: primaryColor,
-    ).copyWith(
-      primary: primaryColor,
-      onPrimary: Colors.white,
-    );
+    ).copyWith(primary: primaryColor, onPrimary: Colors.white);
 
     return ThemeData(
       useMaterial3: true,
@@ -94,10 +132,7 @@ class MyApp extends StatelessWidget {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: primaryColor,
       brightness: Brightness.dark,
-    ).copyWith(
-      primary: primaryColor,
-      onPrimary: Colors.white,
-    );
+    ).copyWith(primary: primaryColor, onPrimary: Colors.white);
 
     return ThemeData(
       useMaterial3: true,
@@ -135,4 +170,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

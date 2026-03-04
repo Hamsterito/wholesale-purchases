@@ -1,4 +1,7 @@
-﻿import 'package:flutter/material.dart';
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+
 import '../models/order.dart';
 import '../pages/order_history_page.dart';
 import '../services/api_service.dart';
@@ -16,7 +19,6 @@ class MyOrdersPage extends StatefulWidget {
 class _MyOrdersPageState extends State<MyOrdersPage>
     with AutoRefreshMixin<MyOrdersPage> {
   static const Color _brandBlue = Color(0xFF6288D5);
-  static const String _fallbackOrderImage = 'assets/coca_cola.jpeg';
   static const Duration _orderCancellationWindow = Duration(hours: 1);
 
   List<Order> _orders = [];
@@ -84,7 +86,9 @@ class _MyOrdersPageState extends State<MyOrdersPage>
 
   @override
   Future<void> onAutoRefresh() async {
-    if (_isLoading || _acceptingOrders.isNotEmpty || _cancelingOrders.isNotEmpty) {
+    if (_isLoading ||
+        _acceptingOrders.isNotEmpty ||
+        _cancelingOrders.isNotEmpty) {
       return;
     }
     await _loadOrders(showLoading: false);
@@ -104,7 +108,8 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     final historyCount = _orders
         .where(
           (order) =>
-              _isAcceptedStatus(order.status) || _isCancelledStatus(order.status),
+              _isAcceptedStatus(order.status) ||
+              _isCancelledStatus(order.status),
         )
         .length;
 
@@ -189,7 +194,9 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     final historyBorderColor = _brandBlue.withValues(
       alpha: _isDark ? 0.98 : 0.9,
     );
-    final historyBackground = _brandBlue.withValues(alpha: _isDark ? 0.1 : 0.04);
+    final historyBackground = _brandBlue.withValues(
+      alpha: _isDark ? 0.1 : 0.04,
+    );
 
     return Container(
       color: _cardBg,
@@ -214,10 +221,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
               decoration: BoxDecoration(
                 color: historyBackground,
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: historyBorderColor,
-                  width: 1.4,
-                ),
+                border: Border.all(color: historyBorderColor, width: 1.4),
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -297,9 +301,9 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   }
 
   Duration _remainingCancellationTime(Order order) {
-    final remaining = order.date.add(_orderCancellationWindow).difference(
-      DateTime.now(),
-    );
+    final remaining = order.date
+        .add(_orderCancellationWindow)
+        .difference(DateTime.now());
     return remaining.isNegative ? Duration.zero : remaining;
   }
 
@@ -646,19 +650,60 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   }
 
   Widget _buildOrderImageContent(OrderItem item) {
-    final url = item.imageUrl.trim();
-    if (url.isEmpty) {
+    var raw = item.imageUrl.trim();
+    if (raw.isEmpty) {
       return _buildOrderImageFallback();
     }
-    if (_isNetworkUrl(url)) {
+
+    if (raw.startsWith('base64:') || raw.startsWith('data:image')) {
+      try {
+        String base64Part = raw;
+
+        if (raw.startsWith('data:image')) {
+          final comma = raw.indexOf(',');
+          if (comma != -1) {
+            base64Part = raw.substring(comma + 1);
+          }
+        } else if (raw.startsWith('base64:')) {
+          base64Part = raw.substring('base64:'.length);
+          final colon = base64Part.indexOf(':');
+          if (colon != -1) {
+            base64Part = base64Part.substring(colon + 1);
+          }
+        }
+
+        final bytes = base64Decode(base64Part);
+        return Image.memory(
+          bytes,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) =>
+              _buildOrderImageFallback(),
+        );
+      } catch (_) {
+        return _buildOrderImageFallback();
+      }
+    }
+
+    if (raw.contains(',')) {
+      raw = raw
+          .split(',')
+          .map((value) => value.trim())
+          .firstWhere((value) => value.isNotEmpty, orElse: () => '');
+      if (raw.isEmpty) {
+        return _buildOrderImageFallback();
+      }
+    }
+
+    if (_isNetworkUrl(raw)) {
       return Image.network(
-        url,
+        raw,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) =>
             _buildOrderImageFallback(),
       );
     }
-    final assetPath = url.startsWith('assets/') ? url : 'assets/$url';
+
+    final assetPath = raw.startsWith('assets/') ? raw : 'assets/$raw';
     return Image.asset(
       assetPath,
       fit: BoxFit.cover,
@@ -667,14 +712,10 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   }
 
   Widget _buildOrderImageFallback() {
-    return Image.asset(
-      _fallbackOrderImage,
-      fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) {
-        return Center(
-          child: Icon(Icons.local_drink, size: 32, color: _mutedText),
-        );
-      },
+    return Container(
+      color: _colorScheme.surfaceContainerHighest,
+      alignment: Alignment.center,
+      child: Icon(Icons.shopping_bag_outlined, size: 24, color: _mutedText),
     );
   }
 
@@ -1064,7 +1105,10 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     });
 
     try {
-      final updatedOrder = await ApiService.cancelOrder(order.id, userId: userId);
+      final updatedOrder = await ApiService.cancelOrder(
+        order.id,
+        userId: userId,
+      );
       if (!mounted) return;
       setState(() {
         _orders = _orders
@@ -1083,9 +1127,9 @@ class _MyOrdersPageState extends State<MyOrdersPage>
       setState(() {
         _cancelingOrders.remove(order.id);
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(_cancelOrderErrorMessage(e))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(_cancelOrderErrorMessage(e))));
     }
   }
 

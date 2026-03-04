@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/reg_screan/register_page.dart';
 import 'package:flutter_project/forgot_screan/forgot_password_page.dart';
-import '../widgets/main_navigation.dart';
-import 'package:http/http.dart' as http;
+import '../services/api_config.dart';
+import '../services/app_http_client.dart';
+import '../services/app_logger.dart';
 import '../services/auth_storage.dart';
+import '../widgets/main_navigation.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -74,8 +76,9 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => _isLoading = true);
 
     try {
-      final url = Uri.parse('http://10.0.2.2:8080/login');
-      final response = await http.post(
+      AppLogger.info('Login started', scope: 'auth');
+      final url = Uri.parse('${ApiConfig.baseUrl}/login');
+      final response = await AppHttpClient.instance.post(
         url,
         headers: const {
           'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
@@ -91,6 +94,10 @@ class _LoginPageState extends State<LoginPage> {
         final userId = int.tryParse(data['id']?.toString() ?? '') ?? 0;
         final name = data['name']?.toString();
         final supplierName = data['supplierName']?.toString();
+        AppLogger.info(
+          'Login succeeded for userId=$userId role=$role',
+          scope: 'auth',
+        );
 
         if (_rememberMe) {
           await AuthStorage.remember(
@@ -127,6 +134,10 @@ class _LoginPageState extends State<LoginPage> {
           MaterialPageRoute(builder: (context) => const MainNavigation()),
         );
       } else {
+        AppLogger.warning(
+          'Login rejected with status ${response.statusCode}',
+          scope: 'auth',
+        );
         if (!mounted) return;
         // Ошибка логина
         final errorBody = utf8.decode(response.bodyBytes).trim();
@@ -140,7 +151,13 @@ class _LoginPageState extends State<LoginPage> {
           context,
         ).showSnackBar(SnackBar(content: Text(message)));
       }
-    } catch (e) {
+    } catch (e, st) {
+      AppLogger.error(
+        'Login request failed',
+        scope: 'auth',
+        error: e,
+        stackTrace: st,
+      );
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Ошибка подключения к серверу: $e')),

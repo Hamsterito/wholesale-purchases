@@ -1,4 +1,4 @@
-	BEGIN;
+﻿	BEGIN;
 
 -- ---------- пользователи ----------
 CREATE TABLE IF NOT EXISTS public.users (
@@ -272,53 +272,7 @@ SET
     sort_order = EXCLUDED.sort_order,
     is_active = EXCLUDED.is_active,
     updated_at = NOW();
-INSERT INTO public.products (
-    name,
-    description,
-    image_url,
-    rating,
-    review_count,
-    category,
-    price_per_unit,
-    min_quantity,
-    supplier_name,
-    delivery_date,
-    delivery_badge
-) VALUES (
-    'Coca-Cola 1 л',
-    'Газированный безалкогольный напиток',
-    'assets/coca_cola.jpeg',
-    4.5,
-    12,
-    'Напитки, Газировка',
-    600,
-    1,
-    'Coca-Cola Казахстан',
-    'завтра',
-    'Четверг 17:00'
-);
 
-INSERT INTO public.orders (status, created_at) VALUES
-    ('В пути', NOW() - INTERVAL '2 days'),
-    ('Доставлен', NOW() - INTERVAL '1 day'),
-    ('Принят', NOW() - INTERVAL '5 days'),
-    ('В пути', NOW() - INTERVAL '3 hours');
-
-INSERT INTO public.order_items (
-    order_id,
-    product_id,
-    name,
-    price,
-    quantity,
-    image_url,
-    is_received
-) VALUES
-    (1, (SELECT id FROM public.products ORDER BY id DESC LIMIT 1), 'Coca-Cola газированный напиток', 3160, 2, 'https://via.placeholder.com/80', false),
-    (1, (SELECT id FROM public.products ORDER BY id DESC LIMIT 1), 'Вода Nestle Pure Life', 1200, 1, 'https://via.placeholder.com/80', false),
-    (2, (SELECT id FROM public.products ORDER BY id DESC LIMIT 1), 'Fanta газированный напиток', 2900, 3, 'https://via.placeholder.com/80', true),
-    (3, (SELECT id FROM public.products ORDER BY id DESC LIMIT 1), 'Sprite газированный напиток', 3000, 1, 'https://via.placeholder.com/80', true),
-    (3, (SELECT id FROM public.products ORDER BY id DESC LIMIT 1), 'Апельсиновый сок Rich', 1500, 2, 'https://via.placeholder.com/80', true),
-    (4, (SELECT id FROM public.products ORDER BY id DESC LIMIT 1), 'Лимонад Тархун', 980, 4, 'https://via.placeholder.com/80', false);
 
 COMMIT;
 

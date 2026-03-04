@@ -1,4 +1,4 @@
-﻿part of 'backend.dart';
+part of 'backend.dart';
 
 Future<void> _recalculateProductRating(
   Connection connection,
@@ -434,9 +434,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
       }
 
       final userResult = await connection.execute(
-        Sql.named(
-          'SELECT id, password FROM users WHERE id = @id LIMIT 1;',
-        ),
+        Sql.named('SELECT id, password FROM users WHERE id = @id LIMIT 1;'),
         parameters: {'id': userId},
       );
       if (userResult.isEmpty) {
@@ -881,31 +879,75 @@ void _registerMutationRoutes(Router router, Connection connection) {
         return Response.forbidden('Только поставщик может удалить свой товар');
       }
 
-      final deleted = await connection.execute(
-        Sql.named('''
-          DELETE FROM products
-          WHERE id = @id AND supplier_user_id = @supplier_user_id
-          RETURNING id;
-        '''),
-        parameters: {'id': productId, 'supplier_user_id': userId},
-      );
+      const hiddenMessage =
+          'Товар снят с публикации, потому что уже участвует в заказах или отзывах.';
 
-      if (deleted.isEmpty) {
-        return Response.notFound('Товар не найден');
+      Future<bool> hideFromCatalog() async {
+        final updated = await connection.execute(
+          Sql.named('''
+            UPDATE products
+            SET moderation_status = 'rejected',
+                moderation_comment = @comment,
+                stock_quantity = 0
+            WHERE id = @id AND supplier_user_id = @supplier_user_id
+            RETURNING id;
+          '''),
+          parameters: {
+            'id': productId,
+            'supplier_user_id': userId,
+            'comment': hiddenMessage,
+          },
+        );
+        return updated.isNotEmpty;
       }
 
-      return Response.ok(
-        jsonEncode({'deleted': true, 'id': productId.toString()}),
-        headers: {'content-type': 'application/json; charset=utf-8'},
-      );
+      try {
+        final deleted = await connection.execute(
+          Sql.named('''
+            DELETE FROM products
+            WHERE id = @id AND supplier_user_id = @supplier_user_id
+            RETURNING id;
+          '''),
+          parameters: {'id': productId, 'supplier_user_id': userId},
+        );
+
+        if (deleted.isEmpty) {
+          return Response.notFound('Товар не найден');
+        }
+
+        return Response.ok(
+          jsonEncode({
+            'deleted': true,
+            'id': productId.toString(),
+            'action': 'hard_deleted',
+          }),
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      } catch (e) {
+        final constraintError = _supplierProductDeleteConstraintMessage(e);
+        if (constraintError == null) {
+          rethrow;
+        }
+
+        final hidden = await hideFromCatalog();
+        if (!hidden) {
+          return Response.notFound('Товар не найден');
+        }
+
+        return Response.ok(
+          jsonEncode({
+            'deleted': true,
+            'id': productId.toString(),
+            'action': 'hidden_from_catalog',
+            'message': hiddenMessage,
+          }),
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      }
     } catch (e, st) {
       final constraintError = _supplierProductDeleteConstraintMessage(e);
       if (constraintError != null) {
-        return Response(
-          409,
-          body: constraintError,
-          headers: _utf8TextHeaders,
-        );
+        return Response(409, body: constraintError, headers: _utf8TextHeaders);
       }
       print('Ошибка удаления товара поставщика: $e\n$st');
       return Response.internalServerError(body: 'Ошибка сервера: $e');
@@ -1204,7 +1246,8 @@ void _registerMutationRoutes(Router router, Connection connection) {
       );
       final hasUnacceptedOrders = linkedOrders.any((row) {
         final status = row.toColumnMap()['status'];
-        return !_isAcceptedOrderStatus(status) && !_isCancelledOrderStatus(status);
+        return !_isAcceptedOrderStatus(status) &&
+            !_isCancelledOrderStatus(status);
       });
 
       var action = 'hard_deleted';
@@ -2595,12 +2638,11 @@ void _registerMutationRoutes(Router router, Connection connection) {
       final item = itemResult.first.toColumnMap();
       final orderItemProductId = _toNullablePositiveInt(item['product_id']);
       if (orderItemProductId == null) {
-        return Response.badRequest(body: 'У позиции заказа отсутствует productId');
+        return Response.badRequest(
+          body: 'У позиции заказа отсутствует productId',
+        );
       }
-      if (
-        payloadProductId != null &&
-        payloadProductId != orderItemProductId
-      ) {
+      if (payloadProductId != null && payloadProductId != orderItemProductId) {
         return Response.badRequest(
           body: 'productId не соответствует товару в заказе',
         );
@@ -2938,4 +2980,3 @@ void _registerMutationRoutes(Router router, Connection connection) {
     }
   });
 }
-

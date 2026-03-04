@@ -1,15 +1,18 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http_package;
 import '../models/product.dart';
 import '../models/order.dart';
 import '../services/api_config.dart';
+import 'app_http_client.dart';
 import '../models/supplier_order.dart';
 import '../models/supplier_product.dart';
 import '../models/user_profile.dart';
 import '../models/user_address.dart';
 import '../models/review_entry.dart';
 import '../models/support_message.dart';
+
+final http = AppHttpClient.instance;
 
 class ApiService {
   static String get baseUrl => ApiConfig.baseUrl;
@@ -806,7 +809,7 @@ class ApiService {
     }
   }
 
-  static Future<void> deleteSupplierProduct({
+  static Future<Map<String, dynamic>> deleteSupplierProduct({
     required String productId,
     required int userId,
   }) async {
@@ -822,7 +825,25 @@ class ApiService {
         Uri.parse('$baseUrl/supplier/products/$productId?userId=$userId'),
       );
 
-      if (response.statusCode != 200 && response.statusCode != 204) {
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes).trim();
+        if (body.isEmpty) {
+          return const <String, dynamic>{'deleted': true};
+        }
+
+        final decoded = jsonDecode(body);
+        if (decoded is Map) {
+          return Map<String, dynamic>.from(decoded);
+        }
+        return const <String, dynamic>{'deleted': true};
+      }
+      if (response.statusCode == 204) {
+        return const <String, dynamic>{'deleted': true};
+      } else {
+        final errorMessage = _extractResponseErrorMessage(response);
+        if (errorMessage != null) {
+          throw Exception(errorMessage);
+        }
         throw Exception(
           'Не удалось выполнить операцию: ${response.statusCode}',
         );
@@ -1462,9 +1483,9 @@ class ApiService {
     Uri uri, {
     required String streamLabel,
   }) async* {
-    final client = http.Client();
+    final client = AppHttpClient.create();
     try {
-      final request = http.Request('GET', uri)
+      final request = http_package.Request('GET', uri)
         ..headers['accept'] = 'text/event-stream';
       final response = await client.send(request);
 
@@ -1552,7 +1573,7 @@ class ApiService {
     }
   }
 
-  static String? _extractResponseErrorMessage(http.Response response) {
+  static String? _extractResponseErrorMessage(http_package.Response response) {
     final body = _decodeBody(response.bodyBytes).trim();
     if (body.isEmpty) {
       return null;

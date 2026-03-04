@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../widgets/main_bottom_nav.dart';
 import 'dart:convert';
 import '../widgets/rating_stars.dart';
@@ -159,40 +159,53 @@ class _ReviewsPageState extends State<ReviewsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final pageBackground = isDark
+        ? theme.scaffoldBackgroundColor
+        : context.reviewsPalette.bgTop;
+
     return Scaffold(
-      backgroundColor: context.reviewsPalette.bgTop,
+      backgroundColor: pageBackground,
       body: Stack(
         children: [
-          Positioned.fill(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    context.reviewsPalette.bgTop,
-                    context.reviewsPalette.bgBottom,
-                  ],
+          if (isDark)
+            Positioned.fill(child: ColoredBox(color: pageBackground))
+          else
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      context.reviewsPalette.bgTop,
+                      context.reviewsPalette.bgBottom,
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            top: -80,
-            right: -40,
-            child: _DecorativeBlob(
-              size: 180,
-              color: context.reviewsPalette.accentSoft.withValues(alpha: 0.65),
+          if (!isDark)
+            Positioned(
+              top: -80,
+              right: -40,
+              child: _DecorativeBlob(
+                size: 180,
+                color: context.reviewsPalette.accentSoft.withValues(
+                  alpha: 0.65,
+                ),
+              ),
             ),
-          ),
-          Positioned(
-            top: 120,
-            left: -60,
-            child: _DecorativeBlob(
-              size: 140,
-              color: context.reviewsPalette.accentMist.withValues(alpha: 0.7),
+          if (!isDark)
+            Positioned(
+              top: 120,
+              left: -60,
+              child: _DecorativeBlob(
+                size: 140,
+                color: context.reviewsPalette.accentMist.withValues(alpha: 0.7),
+              ),
             ),
-          ),
           SafeArea(
             child: Column(
               children: [
@@ -777,7 +790,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       ? context.reviewsPalette.accent
                       : context.reviewsPalette.danger.withValues(alpha: 0.3),
                   icon: isEditing ? Icons.check_rounded : Icons.delete_outline,
-                  onTap: isEditing && _isUpdatingReview ? () {} : (isEditing ? onSave : onDelete),
+                  onTap: isEditing && _isUpdatingReview
+                      ? () {}
+                      : (isEditing ? onSave : onDelete),
                 ),
               ),
             ],
@@ -1559,4 +1574,3 @@ class _ReviewDraft {
 
   const _ReviewDraft({required this.rating, required this.text});
 }
-

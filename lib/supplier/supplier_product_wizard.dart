@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -732,99 +732,149 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   }
 
   Widget _buildPhotosStep() {
-    const previewWidth = 152.0;
-    const previewHeight = 182.0;
     return _StepCard(
       title: 'Фотографии товара',
       subtitle: 'Добавьте несколько фото, как в маркетплейсах.',
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Wrap(
-            spacing: 12,
-            runSpacing: 12,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          const spacing = 12.0;
+          const minPreviewWidth = 156.0;
+          const maxPreviewWidth = 188.0;
+          final availableWidth = constraints.maxWidth.isFinite
+              ? constraints.maxWidth
+              : MediaQuery.sizeOf(context).width - 64;
+          final previewWidth = ((availableWidth - spacing) / 2)
+              .clamp(minPreviewWidth, maxPreviewWidth)
+              .toDouble();
+          final previewHeight = (previewWidth * 1.18).roundToDouble();
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              for (int i = 0; i < _images.length; i++)
-                Stack(
-                  children: [
-                    SmartImage(
+              Wrap(
+                spacing: spacing,
+                runSpacing: spacing,
+                children: [
+                  for (int i = 0; i < _images.length; i++)
+                    _buildPhotoPreview(
                       path: _images[i],
                       width: previewWidth,
                       height: previewHeight,
-                      borderRadius: BorderRadius.circular(16),
+                      onRemove: () => _removeImage(i),
                     ),
-                    Positioned(
-                      top: 6,
-                      right: 6,
-                      child: InkWell(
-                        onTap: () => _removeImage(i),
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.7),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            Icons.close,
-                            color: Colors.white,
-                            size: 14,
-                          ),
-                        ),
+                  _buildAddPhotoTile(
+                    width: previewWidth,
+                    height: previewHeight,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Или вставьте ссылку на фото (https://...)',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _imageUrlController,
+                      decoration: const InputDecoration(
+                        hintText: 'https://...',
                       ),
                     ),
-                  ],
-                ),
-              InkWell(
-                onTap: _pickImages,
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  width: previewWidth,
-                  height: previewHeight,
-                  decoration: BoxDecoration(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.outlineVariant,
-                    ),
                   ),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add_a_photo_outlined),
-                      SizedBox(height: 6),
-                      Text('Добавить', style: TextStyle(fontSize: 12)),
-                    ],
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: _addImageUrl,
+                    child: const Text('Добавить'),
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildPhotoPreview({
+    required String path,
+    required double width,
+    required double height,
+    required VoidCallback onRemove,
+  }) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: colorScheme.outlineVariant),
+            ),
+            padding: const EdgeInsets.all(8),
+            child: SizedBox.expand(
+              child: SmartImage(
+                path: path,
+                fit: BoxFit.contain,
+                borderRadius: BorderRadius.circular(12),
+                placeholder: Center(
+                  child: Icon(
+                    Icons.image_outlined,
+                    size: 42,
+                    color: colorScheme.onSurfaceVariant,
                   ),
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Или вставьте ссылку на фото (https://...)',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _imageUrlController,
-                  decoration: const InputDecoration(hintText: 'https://...'),
+          Positioned(
+            top: 6,
+            right: 6,
+            child: InkWell(
+              onTap: onRemove,
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.7),
+                  shape: BoxShape.circle,
                 ),
+                child: const Icon(Icons.close, color: Colors.white, size: 14),
               ),
-              const SizedBox(width: 8),
-              ElevatedButton(
-                onPressed: _addImageUrl,
-                child: const Text('Добавить'),
-              ),
-            ],
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildAddPhotoTile({required double width, required double height}) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return InkWell(
+      onTap: _pickImages,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: colorScheme.outlineVariant),
+        ),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.add_a_photo_outlined),
+            SizedBox(height: 6),
+            Text('Добавить', style: TextStyle(fontSize: 12)),
+          ],
+        ),
       ),
     );
   }
@@ -1691,4 +1741,3 @@ class _StepCard extends StatelessWidget {
     );
   }
 }
-

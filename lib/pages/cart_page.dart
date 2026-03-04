@@ -605,13 +605,13 @@ class _CartPageState extends State<CartPage> {
   }
 
   String _resolveCartImage(CartItem item) {
-    final imagePath = item.product.imageUrls.isNotEmpty
-        ? item.product.imageUrls.first
-        : '';
-    if (imagePath.contains('coca_cola')) {
-      return 'assets/coca_cola.jpeg';
+    for (final rawPath in item.product.imageUrls) {
+      final imagePath = rawPath.trim();
+      if (imagePath.isNotEmpty) {
+        return imagePath;
+      }
     }
-    return imagePath.isNotEmpty ? imagePath : 'assets/coca_cola.jpeg';
+    return '';
   }
 
   List<Map<String, dynamic>> _buildOrderItemsPayload(List<CartItem> items) {

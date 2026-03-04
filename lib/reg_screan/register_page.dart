@@ -3,7 +3,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
+import '../services/api_config.dart';
+import '../services/app_http_client.dart';
+import '../services/app_logger.dart';
 import '../widgets/phone_input_formatter.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -261,9 +263,9 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> _checkEmailAvailability(String email, int ticket) async {
     try {
       final url = Uri.parse(
-        'http://10.0.2.2:8080/register/check-email',
+        '${ApiConfig.baseUrl}/register/check-email',
       ).replace(queryParameters: {'email': email});
-      final response = await http.get(url);
+      final response = await AppHttpClient.instance.get(url);
 
       if (!mounted || ticket != _emailCheckTicket) {
         return;
@@ -863,9 +865,10 @@ class _RegisterPageState extends State<RegisterPage> {
     setState(() => _isLoading = true);
 
     try {
-      final url = Uri.parse('http://10.0.2.2:8080/register');
+      AppLogger.info('Registration started for role=$role', scope: 'auth');
+      final url = Uri.parse('${ApiConfig.baseUrl}/register');
 
-      final response = await http.post(
+      final response = await AppHttpClient.instance.post(
         url,
         headers: const {
           'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
@@ -886,17 +889,28 @@ class _RegisterPageState extends State<RegisterPage> {
       if (!mounted) return;
 
       if (response.statusCode == 200) {
+        AppLogger.info('Registration succeeded for role=$role', scope: 'auth');
         _showTopSuccess('Регистрация прошла успешно');
         await Future<void>.delayed(const Duration(milliseconds: 600));
         if (!mounted) return;
         Navigator.pop(context);
       } else {
+        AppLogger.warning(
+          'Registration rejected with status ${response.statusCode} for role=$role',
+          scope: 'auth',
+        );
         final cleanMessage = responseBody.trim().isEmpty
             ? 'Сервер вернул ошибку. Попробуйте снова.'
             : responseBody.trim();
         _showTopError('Не удалось завершить регистрацию', [cleanMessage]);
       }
-    } catch (e) {
+    } catch (e, st) {
+      AppLogger.error(
+        'Registration request failed for role=$role',
+        scope: 'auth',
+        error: e,
+        stackTrace: st,
+      );
       if (mounted) {
         _showTopError('Ошибка подключения', ['$e']);
       }
