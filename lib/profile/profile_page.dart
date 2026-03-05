@@ -26,11 +26,15 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late final Future<UserProfile?> _profileFuture;
+  late Future<UserProfile?> _profileFuture;
 
   @override
   void initState() {
     super.initState();
+    _reloadProfile();
+  }
+
+  void _reloadProfile() {
     _profileFuture = _loadProfile();
   }
 
@@ -207,13 +211,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: Icons.person_outline,
                   iconColor: const Color(0xFFE53935),
                   title: 'Личная информация',
-                  onTap: () {
-                    Navigator.push(
+                  onTap: () async {
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const PersonalInfoPage(),
                       ),
                     );
+                    if (!mounted) return;
+                    setState(_reloadProfile);
                   },
                 ),
                 _buildMenuDivider(context),
