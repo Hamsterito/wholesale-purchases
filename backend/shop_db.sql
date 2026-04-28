@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS public.users (
     name        VARCHAR(100) NOT NULL,
     email       VARCHAR(100) NOT NULL UNIQUE,
     password    VARCHAR(100) NOT NULL,
+    is_verified BOOLEAN NOT NULL DEFAULT FALSE,
     role        VARCHAR(20) NOT NULL DEFAULT 'buyer',
     supplier_name VARCHAR(255),
     phone       VARCHAR(20),
@@ -274,6 +275,20 @@ SET
     updated_at = NOW();
 
 
+COMMIT;
+
+-- таблица для хранения одноразовых кодов подтверждения почты
+BEGIN;
+CREATE TABLE IF NOT EXISTS public.email_verifications (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+    code_hash VARCHAR(255) NOT NULL,
+    expires_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    used BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_email_verifications_user_id ON public.email_verifications(user_id);
+CREATE INDEX IF NOT EXISTS idx_email_verifications_expires_at ON public.email_verifications(expires_at);
 COMMIT;
 
 

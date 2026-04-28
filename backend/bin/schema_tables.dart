@@ -141,6 +141,7 @@ const List<Map<String, Object?>> _catalogHierarchySeed = [
 
 Future<void> _ensureDatabaseSchema(Connection connection) async {
   await _ensureUserSchema(connection);
+  await _ensureEmailVerificationSchema(connection);
   await _ensureAddressSchema(connection);
   await _ensureProductSchema(connection);
   await _ensureCategorySchema(connection);
@@ -163,8 +164,32 @@ Future<void> _ensureUserSchema(Connection connection) async {
     ALTER TABLE public.users
       ADD COLUMN IF NOT EXISTS phone VARCHAR(20);
   ''');
+  await connection.execute('''
+    ALTER TABLE public.users
+      ADD COLUMN IF NOT EXISTS is_verified BOOLEAN NOT NULL DEFAULT false;
+  ''');
   await connection.execute(
     'CREATE INDEX IF NOT EXISTS idx_users_role ON public.users(role);',
+  );
+}
+
+Future<void> _ensureEmailVerificationSchema(Connection connection) async {
+  await connection.execute('''
+    CREATE TABLE IF NOT EXISTS public.email_verifications (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+      code_hash VARCHAR(255) NOT NULL,
+      expires_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+      used BOOLEAN NOT NULL DEFAULT false,
+      created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+    );
+  ''');
+
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_email_verifications_user_id ON public.email_verifications(user_id);',
+  );
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_email_verifications_expires_at ON public.email_verifications(expires_at);',
   );
 }
 

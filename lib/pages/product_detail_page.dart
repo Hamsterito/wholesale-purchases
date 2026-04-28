@@ -378,8 +378,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 height: 36,
                 child: FloatingActionButton(
                 heroTag: 'product-detail-scroll-to-top',
-                backgroundColor: _cardBg,
-                foregroundColor: _colorScheme.primary,
+                backgroundColor: _colorScheme.primary,
+                foregroundColor: _cardBg,
                 elevation: 2,
                 onPressed: _scrollToTop,
                   child: const Icon(Icons.arrow_upward_rounded, size: 18),

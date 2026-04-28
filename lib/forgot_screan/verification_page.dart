@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../services/api_config.dart';
+import '../services/app_http_client.dart';
+import '../services/app_logger.dart';
 
 class VerificationPage extends StatefulWidget {
   final String email;
@@ -13,12 +17,12 @@ class VerificationPage extends StatefulWidget {
 
 class _VerificationPageState extends State<VerificationPage> {
   final List<TextEditingController> _controllers = List.generate(
-    4,
+    6,
     (index) => TextEditingController(),
   );
-  final List<FocusNode> _focusNodes = List.generate(4, (index) => FocusNode());
+  final List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
 
-  int _remainingTime = 10;
+  int _remainingTime = 60;
   Timer? _timer;
 
   ThemeData get _theme => Theme.of(context);
@@ -68,8 +72,79 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   void _onCodeChanged(String value, int index) {
-    if (value.isNotEmpty && index < 3) {
+    if (value.isNotEmpty && index < 5) {
       _focusNodes[index + 1].requestFocus();
+    }
+  }
+
+  Future<void> _confirmCode() async {
+    final code = _controllers.map((c) => c.text).join();
+    if (code.length != 4) {
+      AppLogger.warning('Invalid code length: $code', scope: 'auth');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Введите 4-значный код')),
+      );
+      return;
+    }
+
+    try {
+      final url = Uri.parse('${ApiConfig.baseUrl}/confirm-email');
+      final response = await AppHttpClient.instance.post(
+        url,
+        headers: const {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        },
+        encoding: utf8,
+        body: {'email': widget.email, 'code': code},
+      );
+
+      if (!mounted) return;
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Email подтверждён. Теперь можно войти.')),
+        );
+        await Future<void>.delayed(const Duration(milliseconds: 600));
+        if (!mounted) return;
+        Navigator.pop(context);
+      } else {
+        final body = utf8.decode(response.bodyBytes);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(body)));
+      }
+    } catch (e) {
+      AppLogger.error('Error confirming code: $e', scope: 'auth');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Ошибка сети при подтверждении')),
+      );
+    }
+  }
+
+  Future<void> _resendCode() async {
+    try {
+      final url = Uri.parse('${ApiConfig.baseUrl}/resend-verification');
+      final response = await AppHttpClient.instance.post(
+        url,
+        headers: const {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        },
+        encoding: utf8,
+        body: {'email': widget.email},
+      );
+
+      if (!mounted) return;
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Код отправлен повторно')),
+        );
+        _startTimer();
+      } else {
+        final body = utf8.decode(response.bodyBytes);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(body)));
+      }
+    } catch (e) {
+      AppLogger.error('Error resending code: $e', scope: 'auth');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Ошибка сети при повторной отправке')),
+      );
     }
   }
 
@@ -179,7 +254,7 @@ class _VerificationPageState extends State<VerificationPage> {
                                 onPressed: _isButtonDisabled
                                     ? null
                                     : () {
-                                        _startTimer();
+                                        _resendCode();
                                       },
                                 child: Text(
                                   'Отправить снова',
@@ -248,7 +323,7 @@ class _VerificationPageState extends State<VerificationPage> {
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: _confirmCode,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: _isDark
                                 ? _colorScheme.primary

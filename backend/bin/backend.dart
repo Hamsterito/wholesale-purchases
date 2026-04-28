@@ -6,9 +6,15 @@ import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 import 'package:postgres/postgres.dart';
-
+import 'dart:math';
+import 'package:bcrypt/bcrypt.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
+import 'package:dotenv/dotenv.dart';
 part 'schema_tables.dart';
 part 'crud_operations.dart';
+
+final env = DotEnv()..load([File('${Directory.current.path}/.env').path]);
 
 int _toPositiveInt(dynamic value, {int fallback = 0}) {
   if (value is int) {
@@ -117,6 +123,43 @@ String _supplierNameForRole(Object? role, Object? supplierName) {
     return '';
   }
   return supplierName?.toString() ?? '';
+}
+
+String _generateOtpCode() {
+  final rnd = Random.secure();
+  return List<int>.generate(4, (_) => rnd.nextInt(10)).join();
+}
+
+String _hashPassword(String password) => BCrypt.hashpw(password, BCrypt.gensalt());
+
+bool _checkPassword(String password, String hashed) => BCrypt.checkpw(password, hashed);
+
+String _hashOtp(String otp) => BCrypt.hashpw(otp, BCrypt.gensalt());
+
+bool _checkOtp(String otp, String hashed) => BCrypt.checkpw(otp, hashed);
+
+Future<void> _sendVerificationEmail(String toEmail, String code) async {
+  final smtpUser = env['SMTP_USERNAME'];
+  final smtpPass = env['SMTP_PASSWORD'];
+  if (smtpUser == null || smtpPass == null) {
+    print('SMTP credentials not configured in environment variables. Skipping email send.');
+    return;
+  }
+
+  final smtpServer = gmail(smtpUser, smtpPass);
+
+  final message = Message()
+    ..from = Address(smtpUser, 'Wholesale Purchases')
+    ..recipients.add(toEmail)
+    ..subject = 'Код подтверждения почты'
+    ..text = 'Ваш код подтверждения: $code\nКод действителен 10 минут.';
+
+  try {
+    final sendReport = await send(message, smtpServer);
+    print('Verification email sent: $sendReport');
+  } catch (e, st) {
+    print('Failed to send verification email: $e\n$st');
+  }
 }
 
 void _emitSupportEvent({
@@ -2076,10 +2119,8 @@ void main() async {
       }
 
       final result = await connection.execute(
-        Sql.named(
-          'SELECT * FROM users WHERE email = @email AND password = @password',
-        ),
-        parameters: {'email': email, 'password': password},
+        Sql.named('SELECT id, name, email, password, role, supplier_name, is_verified FROM users WHERE email = @email LIMIT 1'),
+        parameters: {'email': email},
       );
 
       if (result.isEmpty) {
@@ -2091,6 +2132,24 @@ void main() async {
       }
 
       final user = result.first.toColumnMap();
+      final storedHash = user['password']?.toString() ?? '';
+      if (!_checkPassword(password, storedHash)) {
+        return Response(
+          401,
+          body: 'Неверная почта или пароль',
+          headers: _utf8TextHeaders,
+        );
+      }
+
+      final isVerified = user['is_verified'] == true;
+      if (!isVerified) {
+        return Response(
+          403,
+          body: 'Email не подтверждён',
+          headers: _utf8TextHeaders,
+        );
+      }
+
       final role = user['role'] ?? _defaultRole;
       return Response.ok(
         jsonEncode({

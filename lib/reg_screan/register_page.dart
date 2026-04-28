@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import '../services/api_config.dart';
 import '../services/app_http_client.dart';
 import '../services/app_logger.dart';
+import '../forgot_screan/verification_page.dart';
 import '../widgets/phone_input_formatter.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -893,7 +894,12 @@ class _RegisterPageState extends State<RegisterPage> {
         _showTopSuccess('Регистрация прошла успешно');
         await Future<void>.delayed(const Duration(milliseconds: 600));
         if (!mounted) return;
-        Navigator.pop(context);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => VerificationPage(email: email),
+          ),
+        );
       } else {
         AppLogger.warning(
           'Registration rejected with status ${response.statusCode} for role=$role',
