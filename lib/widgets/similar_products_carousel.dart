@@ -15,21 +15,17 @@ class SimilarProductsCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (products.isEmpty) return const SizedBox.shrink();
-    final pageBg = Theme.of(context).scaffoldBackgroundColor;
+    final sectionBg = Theme.of(context).colorScheme.surface;
 
     return Container(
-      color: pageBg,
+      color: sectionBg,
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: LayoutBuilder(
         builder: (context, constraints) {
           const gridPadding = 16.0;
           const gridSpacing = 15.0;
-          const listEndPadding = 32.0;
           const cardHeight = 323.0;
-
-          final cardWidth =
-              (constraints.maxWidth - gridPadding * 2 - gridSpacing) / 2;
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,32 +38,27 @@ class SimilarProductsCarousel extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              SizedBox(
-                height: cardHeight,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.only(
-                    left: gridPadding,
-                    right: listEndPadding,
-                  ),
-                  itemCount: products.length,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(width: gridSpacing),
-                  itemBuilder: (context, index) {
-                    final product = products[index];
-                    return SizedBox(
-                      width: cardWidth,
-                      child: ProductCard(
-                        product: product,
-                        compact: false,
-                        enableImageSwipe: false,
-                        onTap: () => onProductTap(product),
-                        onAddToCart: () {},
-                      ),
-                    );
-                  },
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: gridPadding),
+                itemCount: products.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: gridSpacing,
+                  mainAxisSpacing: gridSpacing,
+                  mainAxisExtent: cardHeight,
                 ),
+                itemBuilder: (context, index) {
+                  final product = products[index];
+                  return ProductCard(
+                    product: product,
+                    compact: false,
+                    enableImageSwipe: false,
+                    onTap: () => onProductTap(product),
+                    onAddToCart: () {},
+                  );
+                },
               ),
             ],
           );

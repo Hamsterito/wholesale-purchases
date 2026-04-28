@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/main_bottom_nav.dart';
 import 'dart:convert';
+import '../widgets/expandable_text_block.dart';
 import '../widgets/rating_stars.dart';
 import '../widgets/smart_image.dart';
 import '../services/api_service.dart';
@@ -750,13 +751,15 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: context.reviewsPalette.line),
               ),
-              child: Text(
+              child: ExpandableTextBlock(
                 reviewText.isEmpty ? 'Без текста отзыва' : reviewText,
-                style: TextStyle(
+                key: ValueKey('profile-review-${review.id}'),
+                textStyle: TextStyle(
                   fontSize: 13,
                   color: context.reviewsPalette.ink,
                   height: 1.4,
                 ),
+                actionColor: context.reviewsPalette.accentDark,
               ),
             ),
           const SizedBox(height: 12),

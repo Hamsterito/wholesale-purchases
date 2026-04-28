@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/main_bottom_nav.dart';
 import 'add_payment_card.dart';
 import '../services/payment_card_storage.dart';
@@ -205,22 +206,22 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _buildPaymentOption(
-                  iconPath: 'assets/icons/cash.png',
+                  iconPath: 'assets/icons/cash.svg',
                   label: 'Наличные',
                   value: 'Cash',
                 ),
                 _buildPaymentOption(
-                  iconPath: 'assets/icons/visa.png',
+                  iconPath: 'assets/icons/visa.svg',
                   label: 'Visa',
                   value: 'Visa',
                 ),
                 _buildPaymentOption(
-                  iconPath: 'assets/icons/mastercard.png',
+                  iconPath: 'assets/icons/mastercard.svg',
                   label: 'Mastercard',
                   value: 'Mastercard',
                 ),
                 _buildPaymentOption(
-                  iconPath: 'assets/icons/paypal.png',
+                  iconPath: 'assets/icons/paypal.svg',
                   label: 'PayPal',
                   value: 'Paypal',
                 ),
@@ -529,7 +530,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
           color: badgeBg,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Image.asset(asset, fit: BoxFit.contain),
+        child: _buildAssetIcon(asset, width: 28, height: 18),
       );
     }
     return Container(
@@ -546,9 +547,9 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
   String? _brandAssetFor(String brand) {
     switch (brand.toLowerCase()) {
       case 'visa':
-        return 'assets/icons/visa.png';
+        return 'assets/icons/visa.svg';
       case 'mastercard':
-        return 'assets/icons/mastercard.png';
+        return 'assets/icons/mastercard.svg';
       default:
         return null;
     }
@@ -584,12 +585,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                   ),
                 ),
                 child: Center(
-                  child: Image.asset(
-                    iconPath,
-                    width: 40,
-                    height: 40,
-                    fit: BoxFit.contain,
-                  ),
+                  child: _buildAssetIcon(iconPath, width: 42, height: 42),
                 ),
               ),
               if (isSelected)
@@ -611,6 +607,26 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
           Text(label, style: TextStyle(fontSize: 12, color: _mutedText)),
         ],
       ),
+    );
+  }
+
+  Widget _buildAssetIcon(String assetPath, {double? width, double? height}) {
+    if (assetPath.toLowerCase().endsWith('.svg')) {
+      return SvgPicture.asset(
+        assetPath,
+        width: width,
+        height: height,
+        fit: BoxFit.contain,
+      );
+    }
+
+    return Image.asset(
+      assetPath,
+      width: width,
+      height: height,
+      fit: BoxFit.contain,
+      filterQuality: FilterQuality.high,
+      isAntiAlias: true,
     );
   }
 }

@@ -3,6 +3,7 @@
 import '../models/product.dart';
 import '../models/review_entry.dart';
 import '../services/api_service.dart';
+import '../widgets/expandable_text_block.dart';
 import '../widgets/rating_stars.dart';
 
 class _ProductReviewsPalette {
@@ -96,6 +97,8 @@ class _ReviewsPageState extends State<ReviewsPage> {
   bool _isLoading = false;
   String? _error;
 
+  bool get _isDark => Theme.of(context).brightness == Brightness.dark;
+
   @override
   void initState() {
     super.initState();
@@ -178,6 +181,24 @@ class _ReviewsPageState extends State<ReviewsPage> {
       return 'П';
     }
     return normalized.characters.first.toUpperCase();
+  }
+
+  Color _reviewCardBorder(_ProductReviewsPalette palette) {
+    return Color.alphaBlend(
+      palette.accent.withValues(alpha: _isDark ? 0.24 : 0.12),
+      palette.line,
+    );
+  }
+
+  Color _reviewCardBackground(_ProductReviewsPalette palette) {
+    return Color.alphaBlend(
+      palette.accent.withValues(alpha: _isDark ? 0.18 : 0.08),
+      palette.card,
+    );
+  }
+
+  Color _reviewChipBackground(_ProductReviewsPalette palette) {
+    return palette.accentMist.withValues(alpha: _isDark ? 0.9 : 1);
   }
 
   @override
@@ -521,6 +542,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
 
   Widget _buildReviewCard(ReviewEntry review) {
     final palette = context.productReviewsPalette;
+    final softBorder = _reviewCardBorder(palette);
+    final softPanel = _reviewCardBackground(palette);
+    final chipBg = _reviewChipBackground(palette);
     final name = _reviewerName(review);
     final text = review.reviewText.trim().isEmpty
         ? 'Без текста отзыва'
@@ -528,16 +552,16 @@ class _ReviewsPageState extends State<ReviewsPage> {
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
       decoration: BoxDecoration(
-        color: palette.card,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: palette.line),
+        color: softPanel,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: softBorder),
         boxShadow: [
           BoxShadow(
             color: palette.shadow,
-            blurRadius: 14,
-            offset: const Offset(0, 8),
+            blurRadius: 10,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
@@ -547,24 +571,24 @@ class _ReviewsPageState extends State<ReviewsPage> {
           Row(
             children: [
               Container(
-                width: 36,
-                height: 36,
+                width: 32,
+                height: 32,
                 decoration: BoxDecoration(
-                  color: palette.accentSoft,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: palette.line),
+                  color: chipBg,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: softBorder.withValues(alpha: 0.9)),
                 ),
                 alignment: Alignment.center,
                 child: Text(
                   _initial(name),
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 13,
                     fontWeight: FontWeight.w700,
                     color: palette.accentDark,
                   ),
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   name,
@@ -579,16 +603,16 @@ class _ReviewsPageState extends State<ReviewsPage> {
               ),
               const SizedBox(width: 8),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
-                  color: palette.accentMist,
+                  color: chipBg,
                   borderRadius: BorderRadius.circular(999),
-                  border: Border.all(color: palette.line),
+                  border: Border.all(color: softBorder.withValues(alpha: 0.9)),
                 ),
                 child: Text(
                   _formatDate(review.createdAt),
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 10,
                     fontWeight: FontWeight.w500,
                     color: palette.muted,
                   ),
@@ -596,22 +620,25 @@ class _ReviewsPageState extends State<ReviewsPage> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 7),
           RatingStars(
             rating: review.rating.toDouble(),
-            size: 14,
+            size: 13,
             spacing: 1.5,
             filledColor: _star,
             emptyColor: palette.line,
           ),
           const SizedBox(height: 8),
-          Text(
+          ExpandableTextBlock(
             text,
-            style: TextStyle(
-              fontSize: 13,
-              color: palette.ink,
-              height: 1.4,
+            key: ValueKey('product-review-${review.id}'),
+            textStyle: TextStyle(
+              fontSize: 12,
+              color: palette.muted,
+              height: 1.35,
             ),
+            actionColor: palette.accentDark,
+            actionFontSize: 11,
           ),
         ],
       ),

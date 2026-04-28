@@ -33,13 +33,18 @@ class ProductDetailPage extends StatefulWidget {
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
   static const double _bottomMessageOffset = 150;
+  static const double _stickyBottomVisibilityOffset = 128;
   static const String _shareStubUrl =
       'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
   final Map<String, int> _supplierQuantities = {};
   final Map<String, bool> _supplierAdded = {};
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey _similarProductsKey = GlobalKey();
   List<ReviewEntry> _productReviews = const <ReviewEntry>[];
   bool _isLoadingReviews = false;
   bool _isFavorite = false;
+  bool _showPersistentPriceBar = true;
+  bool _showScrollToTopButton = false;
   late final VoidCallback _favoritesListener;
   String? _selectedSupplierId;
 
@@ -66,6 +71,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_handleScroll);
     _isFavorite = _favoritesStore.contains(widget.product.id);
     _favoritesListener = () {
       final isFav = _favoritesStore.contains(widget.product.id);
@@ -84,10 +90,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       _selectedSupplierId = widget.product.bestSupplier.id;
     }
     _loadProductReviews();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _updateBottomAffordances();
+    });
   }
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _favoritesStore.removeListener(_favoritesListener);
     super.dispose();
   }
@@ -112,7 +123,74 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           ? null
           : widget.product.bestSupplier.id;
       _loadProductReviews();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        _updateBottomAffordances();
+      });
     }
+  }
+
+  void _handleScroll() {
+    if (!_scrollController.hasClients) return;
+    _updateBottomAffordances();
+  }
+
+  bool _handleScrollNotification(ScrollUpdateNotification notification) {
+    final delta = notification.scrollDelta;
+    if (delta == null || delta == 0) {
+      return false;
+    }
+
+    _updateBottomAffordances(scrollDelta: delta);
+    return false;
+  }
+
+  void _updateBottomAffordances({double? scrollDelta}) {
+    final similarContext = _similarProductsKey.currentContext;
+    final viewportHeight = MediaQuery.sizeOf(context).height;
+    final viewportTrigger =
+        viewportHeight - MediaQuery.of(context).padding.bottom - _stickyBottomVisibilityOffset;
+
+    bool isAtSimilarProducts = false;
+    if (similarContext != null) {
+      final renderBox = similarContext.findRenderObject() as RenderBox?;
+      if (renderBox != null && renderBox.hasSize) {
+        final top = renderBox.localToGlobal(Offset.zero).dy;
+        isAtSimilarProducts = top <= viewportTrigger;
+      }
+    }
+
+    final nextShowPriceBar = !isAtSimilarProducts;
+    bool nextShowScrollToTop = _showScrollToTopButton;
+
+    if (!isAtSimilarProducts) {
+      nextShowScrollToTop = false;
+    } else if (scrollDelta != null && scrollDelta < 0) {
+      nextShowScrollToTop = true;
+    } else if (scrollDelta != null && scrollDelta > 0) {
+      nextShowScrollToTop = false;
+    }
+
+    if (nextShowPriceBar == _showPersistentPriceBar &&
+        nextShowScrollToTop == _showScrollToTopButton) {
+      return;
+    }
+
+    setState(() {
+      _showPersistentPriceBar = nextShowPriceBar;
+      _showScrollToTopButton = nextShowScrollToTop;
+    });
+  }
+
+  Future<void> _scrollToTop() async {
+    setState(() {
+      _showScrollToTopButton = false;
+    });
+    await _scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 360),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   Future<void> _loadProductReviews() async {
@@ -221,7 +299,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final bottomScrollPadding = MediaQuery.of(context).padding.bottom + 150;
+    final bottomScrollPadding =
+        MediaQuery.of(context).padding.bottom +
+        (_showPersistentPriceBar ? 150 : 56);
     final ingredients = widget.product.ingredients.trim();
     final description = widget.product.description.trim();
     final characteristics = _filteredCharacteristics();
@@ -230,59 +310,84 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     return Scaffold(
       backgroundColor: _pageBg,
       extendBody: true,
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: bottomScrollPadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildHeroSection(),
-                  _buildTitleBlock(),
-                  _buildAvailabilitySection(),
-                  if (hasNutritionalInfo)
-                    NutritionalInfoCard(
-                      nutritionalInfo: widget.product.nutritionalInfo,
+      body: NotificationListener<ScrollUpdateNotification>(
+        onNotification: _handleScrollNotification,
+        child: CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+            SliverToBoxAdapter(
+              child: AnimatedPadding(
+                duration: const Duration(milliseconds: 260),
+                curve: Curves.easeOutCubic,
+                padding: EdgeInsets.only(bottom: bottomScrollPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildHeroSection(),
+                    _buildTitleBlock(),
+                    _buildAvailabilitySection(),
+                    if (hasNutritionalInfo)
+                      NutritionalInfoCard(
+                        nutritionalInfo: widget.product.nutritionalInfo,
+                      ),
+                    if (ingredients.isNotEmpty)
+                      InfoSection(title: 'Состав', content: ingredients),
+                    if (description.isNotEmpty)
+                      InfoSection(title: 'Описание', content: description),
+                    if (characteristics.isNotEmpty)
+                      _buildCharacteristicsSection(characteristics),
+                    RatingsBreakdown(
+                      rating: widget.product.rating,
+                      reviewCount: _resolvedReviewCount,
+                      distribution: widget.product.ratingDistribution,
+                      reviews: _productReviews,
+                      isLoading: _isLoadingReviews,
+                      onReadAll: _openReviews,
                     ),
-                  if (ingredients.isNotEmpty)
-                    InfoSection(title: 'Состав', content: ingredients),
-                  if (description.isNotEmpty)
-                    InfoSection(title: 'Описание', content: description),
-                  if (characteristics.isNotEmpty)
-                    _buildCharacteristicsSection(characteristics),
-                  RatingsBreakdown(
-                    rating: widget.product.rating,
-                    reviewCount: _resolvedReviewCount,
-                    distribution: widget.product.ratingDistribution,
-                    reviews: _productReviews,
-                    isLoading: _isLoadingReviews,
-                    onReadAll: _openReviews,
-                  ),
-                  if (widget.similarProducts.isNotEmpty)
-                    SimilarProductsCarousel(
-                      products: widget.similarProducts,
-                      onProductTap: (product) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProductDetailPage(
-                              product: product,
-                              similarProducts: widget.similarProducts
-                                  .where((p) => p.id != product.id)
-                                  .toList(),
+                    if (widget.similarProducts.isNotEmpty)
+                      SimilarProductsCarousel(
+                        key: _similarProductsKey,
+                        products: widget.similarProducts,
+                        onProductTap: (product) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProductDetailPage(
+                                product: product,
+                                similarProducts: widget.similarProducts
+                                    .where((p) => p.id != product.id)
+                                    .toList(),
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                  const SizedBox(height: 16),
-                ],
+                          );
+                        },
+                      ),
+                    const SizedBox(height: 8),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
+      floatingActionButton: _showScrollToTopButton
+          ? Padding(
+              padding: const EdgeInsets.only(right: 2, bottom: 8),
+              child: SizedBox(
+                width: 36,
+                height: 36,
+                child: FloatingActionButton(
+                heroTag: 'product-detail-scroll-to-top',
+                backgroundColor: _cardBg,
+                foregroundColor: _colorScheme.primary,
+                elevation: 2,
+                onPressed: _scrollToTop,
+                  child: const Icon(Icons.arrow_upward_rounded, size: 18),
+                ),
+              ),
+            )
+          : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: _buildBottomBar(),
     );
   }
@@ -569,9 +674,32 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-          child: _buildPriceBar(supplier, quantity, totalPrice),
+        TweenAnimationBuilder<double>(
+          duration: const Duration(milliseconds: 280),
+          curve: Curves.easeOutCubic,
+          tween: Tween<double>(
+            begin: 1,
+            end: _showPersistentPriceBar ? 1 : 0,
+          ),
+          builder: (context, value, child) {
+            return ClipRect(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                heightFactor: value,
+                child: IgnorePointer(
+                  ignoring: value < 0.02,
+                  child: Transform.translate(
+                    offset: Offset(0, (1 - value) * 28),
+                    child: Opacity(opacity: value.clamp(0, 1), child: child),
+                  ),
+                ),
+              ),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: _buildPriceBar(supplier, quantity, totalPrice),
+          ),
         ),
         const MainBottomNav(currentIndex: null),
       ],

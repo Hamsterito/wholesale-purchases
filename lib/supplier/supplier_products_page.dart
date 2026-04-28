@@ -20,6 +20,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
   bool _isLoading = true;
   bool _isSubmitting = false;
   final Set<String> _deletingIds = <String>{};
+  final Set<String> _expandedDescriptionIds = <String>{};
   String? _error;
 
   int? get _userId => AuthStorage.userId;
@@ -247,6 +248,20 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
     }
   }
 
+  bool _isDescriptionExpanded(String productId) {
+    return _expandedDescriptionIds.contains(productId);
+  }
+
+  void _toggleDescription(String productId) {
+    setState(() {
+      if (_expandedDescriptionIds.contains(productId)) {
+        _expandedDescriptionIds.remove(productId);
+      } else {
+        _expandedDescriptionIds.add(productId);
+      }
+    });
+  }
+
   Widget _buildProductCard(
     SupplierProduct product, {
     required bool isDeleting,
@@ -281,9 +296,9 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
               children: [
                 SmartImage(
                   path: imagePath,
-                  width: 80,
-                  height: 80,
-                  borderRadius: BorderRadius.circular(16),
+                  width: 96,
+                  height: 108,
+                  borderRadius: BorderRadius.circular(18),
                   placeholder: Container(
                     color: colorScheme.surfaceContainerHighest,
                     alignment: Alignment.center,
@@ -329,16 +344,14 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
                         ],
                       ),
                       const SizedBox(height: 8),
-                      Text(
-                        product.description.isEmpty
+                      _ExpandableDescription(
+                        text: product.description.isEmpty
                             ? 'Описание пока не добавлено'
                             : product.description,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: colorScheme.onSurfaceVariant,
-                          height: 1.35,
-                        ),
+                        isExpanded: _isDescriptionExpanded(product.id),
+                        onToggle: () => _toggleDescription(product.id),
+                        textColor: colorScheme.onSurfaceVariant,
+                        actionColor: colorScheme.primary,
                       ),
                     ],
                   ),
@@ -690,6 +703,76 @@ class _MetricTile extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ExpandableDescription extends StatelessWidget {
+  const _ExpandableDescription({
+    required this.text,
+    required this.isExpanded,
+    required this.onToggle,
+    required this.textColor,
+    required this.actionColor,
+  });
+
+  static const int _collapsedMaxLines = 3;
+
+  final String text;
+  final bool isExpanded;
+  final VoidCallback onToggle;
+  final Color textColor;
+  final Color actionColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final style = TextStyle(color: textColor, height: 1.35);
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final textPainter = TextPainter(
+          text: TextSpan(text: text, style: style),
+          textDirection: Directionality.of(context),
+          maxLines: _collapsedMaxLines,
+        )..layout(
+          maxWidth: constraints.maxWidth.isFinite
+              ? constraints.maxWidth
+              : MediaQuery.sizeOf(context).width,
+        );
+
+        final hasOverflow = textPainter.didExceedMaxLines;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AnimatedSize(
+              duration: const Duration(milliseconds: 180),
+              curve: Curves.easeOutCubic,
+              alignment: Alignment.topCenter,
+              child: Text(
+                text,
+                maxLines: isExpanded ? null : _collapsedMaxLines,
+                overflow: isExpanded ? TextOverflow.visible : TextOverflow.clip,
+                style: style,
+              ),
+            ),
+            if (hasOverflow) ...[
+              const SizedBox(height: 4),
+              GestureDetector(
+                onTap: onToggle,
+                child: Text(
+                  isExpanded ? 'Свернуть' : 'Подробнее',
+                  style: TextStyle(
+                    color: actionColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ],
+        );
+      },
     );
   }
 }

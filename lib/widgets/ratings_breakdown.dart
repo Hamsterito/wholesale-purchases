@@ -118,6 +118,14 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
     return widget.reviews.where((item) => item.rating == stars).length;
   }
 
+  String _initial(String value) {
+    final normalized = value.trim();
+    if (normalized.isEmpty) {
+      return 'П';
+    }
+    return normalized.characters.first.toUpperCase();
+  }
+
   String _formatDate(DateTime value) {
     final day = value.day.toString().padLeft(2, '0');
     final month = value.month.toString().padLeft(2, '0');
@@ -409,6 +417,25 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
           children: [
             Row(
               children: [
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: _trackBg,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: _softBorder.withValues(alpha: 0.9)),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    _initial(title),
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: _brand,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     title,
