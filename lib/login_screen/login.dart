@@ -7,6 +7,7 @@ import '../services/app_http_client.dart';
 import '../services/app_logger.dart';
 import '../services/auth_storage.dart';
 import '../widgets/main_navigation.dart';
+import '../forgot_screan/verification_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -89,7 +90,26 @@ class _LoginPageState extends State<LoginPage> {
 
       if (response.statusCode == 200) {
         final body = utf8.decode(response.bodyBytes);
-        final data = jsonDecode(body) as Map<String, dynamic>;
+        final responseData = jsonDecode(body) as Map<String, dynamic>;
+        if (responseData['success'] != true) {
+          final message = responseData['message']?.toString() ?? 'Unknown error';
+          if (responseData['requiresVerification'] == true) {
+            final email = responseData['email']?.toString() ?? '';
+            // Navigate to verification screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => VerificationPage(email: email),
+              ),
+            );
+            return;
+          }
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(message)),
+          );
+          return;
+        }
+        final data = responseData['user'] as Map<String, dynamic>;
         final role = data['role']?.toString() ?? 'buyer';
         final userId = int.tryParse(data['id']?.toString() ?? '') ?? 0;
         final name = data['name']?.toString();
@@ -141,12 +161,23 @@ class _LoginPageState extends State<LoginPage> {
         if (!mounted) return;
         // Ошибка логина
         final errorBody = utf8.decode(response.bodyBytes).trim();
-        final fallbackMessage = switch (response.statusCode) {
-          400 => 'Проверьте, что почта и пароль заполнены',
-          401 => 'Неверная почта или пароль',
-          _ => 'Не удалось выполнить вход. Попробуйте позже.',
-        };
-        final message = errorBody.isEmpty ? fallbackMessage : errorBody;
+        String message;
+        try {
+          final errorData = jsonDecode(errorBody) as Map<String, dynamic>;
+          if (errorData['success'] == false) {
+            message = errorData['message']?.toString() ?? 'Unknown error';
+          } else {
+            message = errorBody;
+          }
+        } catch (_) {
+          final fallbackMessage = switch (response.statusCode) {
+            400 => 'Проверьте, что почта и пароль заполнены',
+            401 => 'Неверная почта или пароль',
+            403 => 'Доступ запрещён',
+            _ => 'Не удалось выполнить вход. Попробуйте позже.',
+          };
+          message = errorBody.isEmpty ? fallbackMessage : errorBody;
+        }
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(message)));

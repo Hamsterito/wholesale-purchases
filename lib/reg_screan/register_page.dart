@@ -889,18 +889,28 @@ class _RegisterPageState extends State<RegisterPage> {
 
       if (!mounted) return;
 
-      if (response.statusCode == 200) {
-        AppLogger.info('Registration succeeded for role=$role', scope: 'auth');
-        _showTopSuccess('Регистрация прошла успешно');
-        await Future<void>.delayed(const Duration(milliseconds: 600));
-        if (!mounted) return;
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => VerificationPage(email: email),
-          ),
-        );
-      } else {
+      try {
+        final responseData = jsonDecode(responseBody) as Map<String, dynamic>;
+        if (responseData['success'] == true) {
+          AppLogger.info('Registration succeeded for role=$role', scope: 'auth');
+          _showTopSuccess(responseData['message']?.toString() ?? 'Регистрация прошла успешно');
+          await Future<void>.delayed(const Duration(milliseconds: 600));
+          if (!mounted) return;
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => VerificationPage(email: email),
+            ),
+          );
+        } else {
+          AppLogger.warning(
+            'Registration rejected with status ${response.statusCode} for role=$role',
+            scope: 'auth',
+          );
+          final message = responseData['message']?.toString() ?? 'Сервер вернул ошибку';
+          _showTopError('Не удалось завершить регистрацию', [message]);
+        }
+      } catch (_) {
         AppLogger.warning(
           'Registration rejected with status ${response.statusCode} for role=$role',
           scope: 'auth',

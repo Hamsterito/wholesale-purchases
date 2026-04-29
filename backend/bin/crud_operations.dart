@@ -2861,25 +2861,18 @@ void _registerMutationRoutes(Router router, Connection connection) {
 
   router.get('/register/check-email', (Request request) async {
     try {
-      final email = request.url.queryParameters['email']?.trim() ?? '';
+      final email = _normalizeEmail(request.url.queryParameters['email'] ?? '');
       if (email.isEmpty) {
-        return Response.badRequest(
-          body: 'Email is required',
-          headers: _utf8TextHeaders,
-        );
+        return _jsonError('Email is required', 400);
       }
 
-      final emailPattern = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
-      if (!emailPattern.hasMatch(email)) {
-        return Response.badRequest(
-          body: 'Invalid email format',
-          headers: _utf8TextHeaders,
-        );
+      if (!_isValidEmail(email)) {
+        return _jsonError('Invalid email format', 400);
       }
 
       final existing = await connection.execute(
         Sql.named('''
-          SELECT id
+          SELECT id, is_verified
           FROM users
           WHERE email = @email
           LIMIT 1;
@@ -2887,16 +2880,18 @@ void _registerMutationRoutes(Router router, Connection connection) {
         parameters: {'email': email},
       );
 
-      return Response.ok(
-        jsonEncode({'available': existing.isEmpty}),
-        headers: {'content-type': 'application/json; charset=utf-8'},
-      );
+      final available = existing.isEmpty ||
+          existing.first.toColumnMap()['is_verified'] != true;
+      final requiresVerification = existing.isNotEmpty &&
+          existing.first.toColumnMap()['is_verified'] != true;
+
+      return _jsonSuccess('Email checked', {
+        'available': available,
+        'requiresVerification': requiresVerification,
+      });
     } catch (e, st) {
       print('Error while checking email availability: $e\n$st');
-      return Response.internalServerError(
-        body: 'Server error: $e',
-        headers: _utf8TextHeaders,
-      );
+      return _jsonError('Server error', 500);
     }
   });
 
@@ -2906,9 +2901,9 @@ void _registerMutationRoutes(Router router, Connection connection) {
 
       final data = Uri.splitQueryString(body);
 
-      final name = data['name'];
-      final email = data['email'];
-      final password = data['password'];
+      final name = data['name']?.trim() ?? '';
+      final email = _normalizeEmail(data['email'] ?? '');
+      final password = data['password']?.trim() ?? '';
       final role = _normalizeRole(data['role']);
       final supplierName = data['supplier_name']?.trim();
       final persistedSupplierName = role == 'supplier' ? supplierName : null;
@@ -2919,94 +2914,122 @@ void _registerMutationRoutes(Router router, Connection connection) {
           : rawPhone.replaceAll(RegExp(r'\D'), '');
       final phone = phoneDigits.isEmpty ? null : phoneDigits;
 
-      if (name == null || email == null || password == null) {
-        return Response(
-          400,
-          body: 'Не заполнены обязательные поля',
-          headers: _utf8TextHeaders,
-        );
+      if (name.isEmpty || email.isEmpty || password.isEmpty) {
+        return _jsonError('Не заполнены обязательные поля', 400);
+      }
+
+      if (!_isValidEmail(email)) {
+        return _jsonError('Invalid email format', 400);
       }
 
       if (role == 'moderator' && moderatorCode != _moderatorCode) {
-        return Response.forbidden(
-          'Неверный код модератора',
-          headers: _utf8TextHeaders,
-        );
+        return _jsonError('Неверный код модератора', 403);
       }
 
       if (role == 'supplier' &&
           (supplierName == null || supplierName.isEmpty)) {
-        return Response(
-          400,
-          body: 'Для поставщика требуется название',
-          headers: _utf8TextHeaders,
-        );
+        return _jsonError('Для поставщика требуется название', 400);
       }
 
       final existing = await connection.execute(
-        Sql.named('SELECT id FROM users WHERE email = @email LIMIT 1'),
+        Sql.named(
+          'SELECT id, is_verified FROM users WHERE LOWER(email) = @email LIMIT 1',
+        ),
         parameters: {'email': email},
       );
 
-      if (existing.isNotEmpty) {
-        return Response.forbidden(
-          'Email уже зарегистрирован',
-          headers: _utf8TextHeaders,
-        );
-      }
-
       // Hash password before storing
       final hashedPassword = _hashPassword(password);
-
-      final created = await connection.execute(
-        Sql.named('''
-          INSERT INTO users (name, email, password, role, supplier_name, phone, is_verified, created_at)
-          VALUES (@name, @email, @password, @role, @supplier_name, @phone, false, NOW())
-          RETURNING id;
-        '''),
-        parameters: {
-          'name': name,
-          'email': email,
-          'password': hashedPassword,
-          'role': role,
-          'supplier_name': persistedSupplierName,
-          'phone': phone,
-        },
-      );
-
-      final createdMap = created.first.toColumnMap();
-      final userId = createdMap['id'] as int;
-
-      // Generate OTP and save hashed code with expiry
       final otp = _generateOtpCode();
       final otpHash = _hashOtp(otp);
-      final expiresAt = DateTime.now().add(const Duration(minutes: 10));
+      final expiresAt = DateTime.now().toUtc().add(_emailVerificationOtpTtl);
+      late final int userId;
+      var message =
+          'Регистрация успешна. Проверьте почту для подтверждения кода.';
 
-      await connection.execute(
-        Sql.named('''
-          INSERT INTO public.email_verifications (user_id, code_hash, expires_at, used, created_at)
-          VALUES (@user_id, @code_hash, @expires_at, false, NOW())
-        '''),
-        parameters: {
-          'user_id': userId,
-          'code_hash': otpHash,
-          'expires_at': expiresAt,
-        },
-      );
+      if (existing.isNotEmpty) {
+        final user = existing.first.toColumnMap();
+        final isVerified = user['is_verified'] == true;
+
+        if (isVerified) {
+          return _jsonError('Account already exists', 409);
+        }
+
+        userId = user['id'] as int;
+        await connection.runTx((session) async {
+          await session.execute(
+            Sql.named('''
+              UPDATE users
+              SET name = @name,
+                  email = @email,
+                  password = @password,
+                  role = @role,
+                  supplier_name = @supplier_name,
+                  phone = @phone,
+                  is_verified = false
+              WHERE id = @id;
+            '''),
+            parameters: {
+              'id': userId,
+              'name': name,
+              'email': email,
+              'password': hashedPassword,
+              'role': role,
+              'supplier_name': persistedSupplierName,
+              'phone': phone,
+            },
+          );
+
+          await _replacePendingEmailVerificationCode(
+            session,
+            userId: userId,
+            codeHash: otpHash,
+            expiresAt: expiresAt,
+          );
+        });
+
+        message =
+            'Аккаунт не подтверждён. Новый код подтверждения отправлен на почту.';
+      } else {
+        await connection.runTx((session) async {
+          final created = await session.execute(
+            Sql.named('''
+              INSERT INTO users (name, email, password, role, supplier_name, phone, is_verified, created_at)
+              VALUES (@name, @email, @password, @role, @supplier_name, @phone, false, NOW())
+              RETURNING id;
+            '''),
+            parameters: {
+              'name': name,
+              'email': email,
+              'password': hashedPassword,
+              'role': role,
+              'supplier_name': persistedSupplierName,
+              'phone': phone,
+            },
+          );
+
+          final createdMap = created.first.toColumnMap();
+          userId = createdMap['id'] as int;
+
+          await _replacePendingEmailVerificationCode(
+            session,
+            userId: userId,
+            codeHash: otpHash,
+            expiresAt: expiresAt,
+          );
+        });
+      }
 
       // Send email asynchronously (don't block response)
       Future.microtask(() => _sendVerificationEmail(email, otp));
 
-      return Response.ok(
-        'Регистрация успешна. Проверьте почту для подтверждения кода.',
-        headers: _utf8TextHeaders,
-      );
+      return _jsonSuccess(message);
+    } on UniqueViolationException catch (e, st) {
+      print('Email conflict while registering: $e\n$st');
+      return _jsonError('Account already exists', 409);
     } catch (e, st) {
       print('Ошибка при регистрации: $e\n$st');
-      return Response.internalServerError(
-        body: 'Ошибка сервера: $e',
-        headers: _utf8TextHeaders,
-      );
+      return _jsonError('Ошибка сервера', 500);
     }
   });
 
@@ -3015,34 +3038,38 @@ void _registerMutationRoutes(Router router, Connection connection) {
       final body = await request.readAsString();
       final data = Uri.splitQueryString(body);
 
-      final email = data['email']?.trim();
+      final email = _normalizeEmail(data['email'] ?? '');
       final code = data['code']?.trim();
 
-      if (email == null || email.isEmpty || code == null || code.isEmpty) {
-        return Response.badRequest(body: 'Email и код обязательны', headers: _utf8TextHeaders);
+      if (email.isEmpty || code == null || code.isEmpty) {
+        return _jsonError('Email и код обязательны', 400);
+      }
+
+      if (!_isValidEmail(email)) {
+        return _jsonError('Invalid email format', 400);
       }
 
       final userResult = await connection.execute(
-        Sql.named('SELECT id, is_verified FROM users WHERE email = @email LIMIT 1'),
+        Sql.named('SELECT id, is_verified FROM users WHERE LOWER(email) = @email LIMIT 1'),
         parameters: {'email': email},
       );
 
       if (userResult.isEmpty) {
-        return Response.notFound('Пользователь не найден');
+        return _jsonError('Пользователь не найден', 404);
       }
 
       final user = userResult.first.toColumnMap();
       final userId = user['id'] as int;
       final isVerified = user['is_verified'] == true;
       if (isVerified) {
-        return Response.ok('Email уже подтверждён', headers: _utf8TextHeaders);
+        return _jsonSuccess('Email уже подтверждён');
       }
 
       final verResult = await connection.execute(
         Sql.named('''
           SELECT id, code_hash, expires_at, used
           FROM public.email_verifications
-          WHERE user_id = @user_id AND used = false
+          WHERE user_id = @user_id AND used = false AND expires_at > NOW()
           ORDER BY created_at DESC
           LIMIT 1
         '''),
@@ -3050,36 +3077,33 @@ void _registerMutationRoutes(Router router, Connection connection) {
       );
 
       if (verResult.isEmpty) {
-        return Response(400, body: 'Код не найден или истёк', headers: _utf8TextHeaders);
+        return _jsonError('Код не найден или истёк', 400);
       }
 
       final ver = verResult.first.toColumnMap();
       final verId = ver['id'] as int;
-      final expiresAt = ver['expires_at'];
-      if (expiresAt is DateTime && expiresAt.isBefore(DateTime.now())) {
-        return Response(400, body: 'Код истёк', headers: _utf8TextHeaders);
-      }
-
       final codeHash = ver['code_hash']?.toString() ?? '';
       final ok = _checkOtp(code, codeHash);
       if (!ok) {
-        return Response(400, body: 'Неверный код', headers: _utf8TextHeaders);
+        return _jsonError('Неверный код', 400);
       }
 
-      await connection.execute(
-        Sql.named('UPDATE users SET is_verified = true WHERE id = @id'),
-        parameters: {'id': userId},
-      );
+      await connection.runTx((session) async {
+        await session.execute(
+          Sql.named('UPDATE users SET is_verified = true WHERE id = @id'),
+          parameters: {'id': userId},
+        );
 
-      await connection.execute(
-        Sql.named('UPDATE public.email_verifications SET used = true WHERE id = @id'),
-        parameters: {'id': verId},
-      );
+        await session.execute(
+          Sql.named('UPDATE public.email_verifications SET used = true WHERE id = @id'),
+          parameters: {'id': verId},
+        );
+      });
 
-      return Response.ok('Email подтверждён', headers: _utf8TextHeaders);
+      return _jsonSuccess('Email подтверждён');
     } catch (e, st) {
       print('Ошибка подтверждения email: $e\n$st');
-      return Response.internalServerError(body: 'Ошибка сервера', headers: _utf8TextHeaders);
+      return _jsonError('Ошибка сервера', 500);
     }
   });
 
@@ -3087,43 +3111,48 @@ void _registerMutationRoutes(Router router, Connection connection) {
     try {
       final body = await request.readAsString();
       final data = Uri.splitQueryString(body);
-      final email = data['email']?.trim();
-      if (email == null || email.isEmpty) {
-        return Response.badRequest(body: 'Email обязателен', headers: _utf8TextHeaders);
+      final email = _normalizeEmail(data['email'] ?? '');
+      if (email.isEmpty) {
+        return _jsonError('Email обязателен', 400);
+      }
+
+      if (!_isValidEmail(email)) {
+        return _jsonError('Invalid email format', 400);
       }
 
       final userResult = await connection.execute(
-        Sql.named('SELECT id, is_verified FROM users WHERE email = @email LIMIT 1'),
+        Sql.named('SELECT id, is_verified FROM users WHERE LOWER(email) = @email LIMIT 1'),
         parameters: {'email': email},
       );
       if (userResult.isEmpty) {
-        return Response.notFound('Пользователь не найден');
+        return _jsonError('Пользователь не найден', 404);
       }
       final user = userResult.first.toColumnMap();
       final userId = user['id'] as int;
       final isVerified = user['is_verified'] == true;
       if (isVerified) {
-        return Response(400, body: 'Email уже подтверждён', headers: _utf8TextHeaders);
+        return _jsonError('Email уже подтверждён', 400);
       }
 
       final otp = _generateOtpCode();
       final otpHash = _hashOtp(otp);
-      final expiresAt = DateTime.now().add(const Duration(minutes: 10));
+      final expiresAt = DateTime.now().toUtc().add(_emailVerificationOtpTtl);
 
-      await connection.execute(
-        Sql.named('''
-          INSERT INTO public.email_verifications (user_id, code_hash, expires_at, used, created_at)
-          VALUES (@user_id, @code_hash, @expires_at, false, NOW())
-        '''),
-        parameters: {'user_id': userId, 'code_hash': otpHash, 'expires_at': expiresAt},
-      );
+      await connection.runTx((session) async {
+        await _replacePendingEmailVerificationCode(
+          session,
+          userId: userId,
+          codeHash: otpHash,
+          expiresAt: expiresAt,
+        );
+      });
 
       Future.microtask(() => _sendVerificationEmail(email, otp));
 
-      return Response.ok('Код отправлен', headers: _utf8TextHeaders);
+      return _jsonSuccess('Код отправлен');
     } catch (e, st) {
       print('Ошибка при повторной отправке кода: $e\n$st');
-      return Response.internalServerError(body: 'Ошибка сервера', headers: _utf8TextHeaders);
+      return _jsonError('Ошибка сервера', 500);
     }
   });
 }

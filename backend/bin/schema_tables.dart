@@ -179,11 +179,34 @@ Future<void> _ensureEmailVerificationSchema(Connection connection) async {
       id SERIAL PRIMARY KEY,
       user_id INTEGER NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
       code_hash VARCHAR(255) NOT NULL,
-      expires_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+      expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
       used BOOLEAN NOT NULL DEFAULT false,
-      created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+      created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
     );
   ''');
+
+  // Migrate existing column if it exists as WITHOUT TIME ZONE
+  try {
+    await connection.execute('''
+      ALTER TABLE public.email_verifications
+      ALTER COLUMN expires_at TYPE TIMESTAMP WITH TIME ZONE
+      USING expires_at AT TIME ZONE 'UTC';
+    ''');
+  } catch (e) {
+    // Column might already be WITH TIME ZONE, ignore error
+    print('Примечание: миграция email_verifications.expires_at пропущена (возможно уже TIMESTAMPTZ): $e');
+  }
+
+  try {
+    await connection.execute('''
+      ALTER TABLE public.email_verifications
+      ALTER COLUMN created_at TYPE TIMESTAMP WITH TIME ZONE
+      USING created_at AT TIME ZONE 'UTC';
+    ''');
+  } catch (e) {
+    // Column might already be WITH TIME ZONE, ignore error
+    print('Примечание: миграция email_verifications.created_at пропущена (возможно уже TIMESTAMPTZ): $e');
+  }
 
   await connection.execute(
     'CREATE INDEX IF NOT EXISTS idx_email_verifications_user_id ON public.email_verifications(user_id);',

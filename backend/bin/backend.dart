@@ -75,6 +75,10 @@ String _toIso8601OrNow(dynamic value) {
 
 const String _defaultRole = 'buyer';
 const String _moderatorCode = 'MOD123';
+const int _emailVerificationOtpTtlMinutes = 5;
+const Duration _emailVerificationOtpTtl = Duration(
+  minutes: _emailVerificationOtpTtlMinutes,
+);
 const Set<String> _allowedRoles = {'buyer', 'supplier', 'moderator'};
 const Set<String> _allowedSupportChatStatuses = {'open', 'closed'};
 const Set<String> _allowedModerationStatuses = {
@@ -110,6 +114,28 @@ const Map<String, String> _utf8TextHeaders = {
 };
 final StreamController<Map<String, dynamic>> _supportEventsController =
     StreamController<Map<String, dynamic>>.broadcast();
+final RegExp _emailPattern = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
+
+String _normalizeEmail(String email) => email.trim().toLowerCase();
+
+bool _isValidEmail(String email) => _emailPattern.hasMatch(email);
+
+Response _jsonSuccess(String message, [Map<String, dynamic>? data]) {
+  final body = <String, dynamic>{'success': true, 'message': message};
+  if (data != null) body.addAll(data);
+  return Response.ok(
+    jsonEncode(body),
+    headers: {'content-type': 'application/json; charset=utf-8'},
+  );
+}
+
+Response _jsonError(String message, int statusCode) {
+  return Response(
+    statusCode,
+    body: jsonEncode({'success': false, 'message': message}),
+    headers: {'content-type': 'application/json; charset=utf-8'},
+  );
+}
 
 String _normalizeRole(Object? value) {
   final raw = value?.toString().trim().toLowerCase();
@@ -138,6 +164,63 @@ String _hashOtp(String otp) => BCrypt.hashpw(otp, BCrypt.gensalt());
 
 bool _checkOtp(String otp, String hashed) => BCrypt.checkpw(otp, hashed);
 
+Future<void> _replacePendingEmailVerificationCode(
+  Session session, {
+  required int userId,
+  required String codeHash,
+  required DateTime expiresAt,
+}) async {
+  // Mark old unused codes as used and delete expired ones
+  await session.execute(
+    Sql.named('''
+      UPDATE public.email_verifications
+      SET used = true
+      WHERE user_id = @user_id AND used = false;
+    '''),
+    parameters: {'user_id': userId},
+  );
+
+  final expiredResult = await session.execute(
+    Sql.named('''
+      DELETE FROM public.email_verifications
+      WHERE expires_at < NOW();
+    '''),
+  );
+  if (expiredResult.affectedRows > 0) {
+    print('Очищено ${expiredResult.affectedRows} истекших кодов при замене');
+  }
+
+  await session.execute(
+    Sql.named('''
+      INSERT INTO public.email_verifications (user_id, code_hash, expires_at, used, created_at)
+      VALUES (@user_id, @code_hash, @expires_at, false, NOW());
+    '''),
+    parameters: {
+      'user_id': userId,
+      'code_hash': codeHash,
+      'expires_at': expiresAt,
+    },
+  );
+}
+
+Future<void> _cleanupExpiredEmailVerifications(Connection connection) async {
+  print('Запуск очистки истекших кодов подтверждения email...');
+  try {
+    final result = await connection.execute(
+      Sql.named('''
+        DELETE FROM public.email_verifications
+        WHERE expires_at < NOW() AND used = false;
+      '''),
+    );
+    print('Очистка завершена. Удалено ${result.affectedRows} истекших записей.');
+    if (result.affectedRows > 0) {
+      print('Успешно очищено ${result.affectedRows} истекших кодов подтверждения email');
+    }
+  } catch (e, st) {
+    print('Ошибка при очистке истекших кодов подтверждения email: $e\n$st');
+  }
+}
+
 Future<void> _sendVerificationEmail(String toEmail, String code) async {
   final smtpUser = env['SMTP_USERNAME'];
   final smtpPass = env['SMTP_PASSWORD'];
@@ -152,7 +235,8 @@ Future<void> _sendVerificationEmail(String toEmail, String code) async {
     ..from = Address(smtpUser, 'Wholesale Purchases')
     ..recipients.add(toEmail)
     ..subject = 'Код подтверждения почты'
-    ..text = 'Ваш код подтверждения: $code\nКод действителен 10 минут.';
+    ..text =
+        'Ваш код подтверждения: $code\nКод действителен $_emailVerificationOtpTtlMinutes минут.';
 
   try {
     final sendReport = await send(message, smtpServer);
@@ -2105,73 +2189,61 @@ void main() async {
       final body = await request.readAsString();
       final data = Uri.splitQueryString(body);
 
-      final email = data['email']?.trim();
+      final email = _normalizeEmail(data['email'] ?? '');
       final password = data['password']?.trim();
 
-      if (email == null ||
-          email.isEmpty ||
-          password == null ||
-          password.isEmpty) {
-        return Response.badRequest(
-          body: 'Введите почту и пароль',
-          headers: _utf8TextHeaders,
-        );
+      if (email.isEmpty || password == null || password.isEmpty) {
+        return _jsonError('Введите почту и пароль', 400);
+      }
+
+      if (!_isValidEmail(email)) {
+        return _jsonError('Invalid email format', 400);
       }
 
       final result = await connection.execute(
-        Sql.named('SELECT id, name, email, password, role, supplier_name, is_verified FROM users WHERE email = @email LIMIT 1'),
+        Sql.named('SELECT id, name, email, password, role, supplier_name, is_verified FROM users WHERE LOWER(email) = @email LIMIT 1'),
         parameters: {'email': email},
       );
 
       if (result.isEmpty) {
-        return Response(
-          401,
-          body: 'Неверная почта или пароль',
-          headers: _utf8TextHeaders,
-        );
+        return _jsonError('Неверная почта или пароль', 401);
       }
 
       final user = result.first.toColumnMap();
       final storedHash = user['password']?.toString() ?? '';
       if (!_checkPassword(password, storedHash)) {
-        return Response(
-          401,
-          body: 'Неверная почта или пароль',
-          headers: _utf8TextHeaders,
-        );
+        return _jsonError('Неверная почта или пароль', 401);
       }
 
       final isVerified = user['is_verified'] == true;
       if (!isVerified) {
         return Response(
           403,
-          body: 'Email не подтверждён',
-          headers: _utf8TextHeaders,
+          body: jsonEncode({
+            'success': false,
+            'message': 'Email не подтверждён',
+            'requiresVerification': true,
+            'email': email,
+          }),
+          headers: {'content-type': 'application/json; charset=utf-8'},
         );
       }
 
       final role = user['role'] ?? _defaultRole;
-      return Response.ok(
-        jsonEncode({
+      return _jsonSuccess('Login successful', {
+        'user': {
           'id': user['id'],
           'name': user['name'] ?? '',
           'email': user['email'] ?? '',
           'role': role,
           'supplierName': _supplierNameForRole(role, user['supplier_name']),
-        }),
-        headers: {'content-type': 'application/json; charset=utf-8'},
-      );
+        },
+      });
     } on FormatException {
-      return Response.badRequest(
-        body: 'Доступ запрещен',
-        headers: _utf8TextHeaders,
-      );
+      return _jsonError('Доступ запрещен', 400);
     } catch (e, st) {
       print('Ошибка сервера при входе: $e\n$st');
-      return Response.internalServerError(
-        body: 'Не удалось выполнить вход. Попробуйте позже.',
-        headers: _utf8TextHeaders,
-      );
+      return _jsonError('Не удалось выполнить вход. Попробуйте позже.', 500);
     }
   });
 
@@ -2180,6 +2252,11 @@ void main() async {
       .addMiddleware(logRequests())
       .addMiddleware(corsHeaders())
       .addHandler(router.call);
+
+  // Запуск периодической очистки expired OTP кодов (каждую минуту)
+  Timer.periodic(const Duration(minutes: 10), (_) async {
+    await _cleanupExpiredEmailVerifications(connection);
+  });
 
   // Запуск HTTP-сервера
   final server = await serve(handler, InternetAddress.anyIPv4, 8080);
