@@ -30,18 +30,34 @@ class AuthStorage {
   static String _selectedAddressKey(int userId) =>
       '$_selectedAddressKeyPrefix$userId';
 
+  // Инициализация хранилища аутентификации
+  // Вызывается в main() ДО runApp для предотвращения ошибок зоны
   static Future<void> init() async {
-    final prefs = await SharedPreferences.getInstance();
-    _remembered = prefs.getBool(_rememberKey) ?? false;
-    _email = prefs.getString(_emailKey);
-    _role = prefs.getString(_roleKey);
-    _userId = prefs.getInt(_userIdKey);
-    _name = prefs.getString(_nameKey);
-    _supplierName = prefs.getString(_supplierNameKey);
-    if (_userId != null && _userId! > 0) {
-      _selectedAddressId = prefs.getInt(_selectedAddressKey(_userId!));
-    } else {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      _remembered = prefs.getBool(_rememberKey) ?? false;
+      _email = prefs.getString(_emailKey);
+      _role = prefs.getString(_roleKey);
+      _userId = prefs.getInt(_userIdKey);
+      _name = prefs.getString(_nameKey);
+      _supplierName = prefs.getString(_supplierNameKey);
+
+      // Безопасная инициализация selectedAddressId
+      if (_userId != null && _userId! > 0) {
+        _selectedAddressId = prefs.getInt(_selectedAddressKey(_userId!));
+      } else {
+        _selectedAddressId = null;
+      }
+    } catch (e) {
+      // В случае ошибки инициализации сбрасываем все значения
+      _remembered = false;
+      _email = null;
+      _role = null;
+      _userId = null;
+      _name = null;
+      _supplierName = null;
       _selectedAddressId = null;
+      rethrow;
     }
   }
 
