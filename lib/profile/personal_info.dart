@@ -163,7 +163,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
       return 'Введите номер телефона';
     }
     if (digits.length != 11 || !digits.startsWith('7')) {
-      return 'Номер должен быть в формате +7-XXX-XXX-XXXX';
+      return 'Номер должен быть в формате +7-000-000-0000';
     }
     return null;
   }

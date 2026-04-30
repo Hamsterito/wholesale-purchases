@@ -52,6 +52,38 @@ class _RegisterPageState extends State<RegisterPage> {
   );
   static final RegExp _emailRegex = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
 
+  // Helper widget для поля с зарезервированным местом под ошибку
+  Widget _buildFieldWithError({
+    required String label,
+    required Widget field,
+    required String? errorText,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: _labelStyle),
+        const SizedBox(height: 8),
+        field,
+        // Зарезервированное место под ошибку (высота строки текста + отступ)
+        SizedBox(
+          height: errorText != null ? 24 : 24, // Увеличенная фиксированная высота
+          child: errorText != null
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    errorText,
+                    style: TextStyle(
+                      color: _colorScheme.error,
+                      fontSize: 14, // Увеличенный размер шрифта
+                    ),
+                  ),
+                )
+              : null,
+        ),
+      ],
+    );
+  }
+
   List<String> _fieldsForStep(int step) {
     if (step == 0) {
       return const <String>['name', 'email', 'phone'];
@@ -119,7 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
       return 'Введите номер телефона';
     }
     if (digits.length != 11) {
-      return 'Номер должен быть в формате +7-XXX-XXX-XXXX';
+      return 'Номер должен быть в формате +7-000-000-0000';
     }
     if (!digits.startsWith('7')) {
       return 'Номер должен начинаться с +7';
@@ -421,10 +453,10 @@ class _RegisterPageState extends State<RegisterPage> {
     final isError = _topMessageIsError;
     final background = isError
         ? _colorScheme.errorContainer
-        : _colorScheme.tertiaryContainer;
+        : const Color(0xFFE8F5E8); // Светло-зеленый фон для успеха
     final textColor = isError
         ? _colorScheme.onErrorContainer
-        : _colorScheme.onTertiaryContainer;
+        : const Color(0xFF2E7D32); // Темно-зеленый текст для успеха
 
     return Container(
       width: double.infinity,
@@ -441,7 +473,7 @@ class _RegisterPageState extends State<RegisterPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(
-                isError ? Icons.error_outline : Icons.check_circle_outline,
+                isError ? Icons.error_outline : Icons.check_circle,
                 color: textColor,
                 size: 18,
               ),
@@ -452,7 +484,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: TextStyle(
                     color: textColor,
                     fontWeight: FontWeight.w600,
-                    fontSize: 13,
+                    fontSize: 14, // Увеличенный размер для консистентности
                   ),
                 ),
               ),
@@ -465,7 +497,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 padding: const EdgeInsets.only(bottom: 4),
                 child: Text(
                   '- $error',
-                  style: TextStyle(color: textColor, fontSize: 12),
+                  style: TextStyle(color: textColor, fontSize: 14), // Увеличенный размер
                 ),
               ),
             ),
@@ -479,123 +511,175 @@ class _RegisterPageState extends State<RegisterPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('ИМЯ', style: _labelStyle),
-        const SizedBox(height: 8),
-        TextField(
-          controller: _nameController,
-          keyboardType: TextInputType.text,
-          textCapitalization: TextCapitalization.words,
-          onChanged: (_) => _onFieldChanged('name'),
-          decoration: InputDecoration(
-            hintText: 'Введите имя',
-            hintStyle: TextStyle(color: _mutedText),
-            filled: true,
-            fillColor: _inputFill,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide.none,
+        _buildFieldWithError(
+          label: 'ИМЯ',
+          errorText: _fieldErrors['name'],
+          field: TextField(
+            controller: _nameController,
+            keyboardType: TextInputType.text,
+            textCapitalization: TextCapitalization.words,
+            onChanged: (_) => _onFieldChanged('name'),
+            decoration: InputDecoration(
+              hintText: 'Введите имя',
+              hintStyle: TextStyle(color: _mutedText),
+              filled: true,
+              fillColor: _inputFill,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 14,
+              ),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
-            ),
-            errorText: _fieldErrors['name'],
           ),
         ),
         SizedBox(height: fieldGap),
-        Text('ПОЧТА', style: _labelStyle),
-        const SizedBox(height: 8),
-        TextField(
-          controller: _emailController,
-          keyboardType: TextInputType.text,
-          onChanged: (_) => _onFieldChanged('email'),
-          decoration: InputDecoration(
-            hintText: 'primer@pochta.ru',
-            hintStyle: TextStyle(color: _mutedText),
-            filled: true,
-            fillColor: _inputFill,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide.none,
+        _buildFieldWithError(
+          label: 'ПОЧТА',
+          errorText: _fieldErrors['email'],
+          field: TextField(
+            controller: _emailController,
+            keyboardType: TextInputType.text,
+            onChanged: (_) => _onFieldChanged('email'),
+            decoration: InputDecoration(
+              hintText: 'primer@pochta.ru',
+              hintStyle: TextStyle(color: _mutedText),
+              filled: true,
+              fillColor: _inputFill,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 14,
+              ),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
-            ),
-            errorText: _fieldErrors['email'],
           ),
         ),
         SizedBox(height: fieldGap),
-        Text('НОМЕР ТЕЛЕФОНА', style: _labelStyle),
-        const SizedBox(height: 8),
-        TextField(
-          controller: _phoneController,
-          keyboardType: TextInputType.phone,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            LengthLimitingTextInputFormatter(11),
-            const PhoneNumberInputFormatter(),
-          ],
-          onChanged: (_) => _onFieldChanged('phone'),
-          decoration: InputDecoration(
-            hintText: '+7-___-___-____',
-            hintStyle: TextStyle(color: _mutedText),
-            filled: true,
-            fillColor: _inputFill,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide.none,
+        _buildFieldWithError(
+          label: 'НОМЕР ТЕЛЕФОНА',
+          errorText: _fieldErrors['phone'],
+          field: TextField(
+            controller: _phoneController,
+            keyboardType: TextInputType.phone,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(11),
+              const PhoneNumberInputFormatter(),
+            ],
+            onChanged: (_) => _onFieldChanged('phone'),
+            decoration: InputDecoration(
+              hintText: '+7-___-___-____',
+              hintStyle: TextStyle(color: _mutedText),
+              filled: true,
+              fillColor: _inputFill,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 14,
+              ),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
-            ),
-            errorText: _fieldErrors['phone'],
           ),
         ),
         SizedBox(height: fieldGap),
-        Text('РОЛЬ', style: _labelStyle),
-        const SizedBox(height: 8),
-        DropdownButtonFormField<String>(
-          initialValue: _role,
-          items: const [
-            DropdownMenuItem(value: 'buyer', child: Text('Покупатель')),
-            DropdownMenuItem(value: 'supplier', child: Text('Поставщик')),
-            DropdownMenuItem(value: 'moderator', child: Text('Модератор')),
-          ],
-          onChanged: (value) {
-            final nextRole = value ?? 'buyer';
-            if (nextRole == _role) return;
-            setState(() {
-              _role = nextRole;
-              _fieldErrors['supplierName'] = null;
-              _fieldErrors['moderatorCode'] = null;
-            });
-            if (_topMessageIsError && _topMessage != null) {
-              final visibleErrors = <String>{};
-              for (final field in _fieldsForStep(_step)) {
-                final error = _validateField(field);
-                if (error != null) {
-                  visibleErrors.add(error);
+        _buildFieldWithError(
+          label: 'РОЛЬ',
+          errorText: null,
+          field: Container(
+            constraints: const BoxConstraints(minHeight: 48),
+            child: DropdownButtonFormField<String>(
+              initialValue: _role,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: _inputFill,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: const EdgeInsets.only(
+                left: 16,
+                right: 48, // Место для иконки стрелки
+                top: 14,
+                bottom: 14,
+              ),
+              suffixIcon: Icon(
+                Icons.keyboard_arrow_down,
+                color: _mutedText,
+              ),
+            ),
+              style: TextStyle(
+                color: _colorScheme.onSurface,
+                fontSize: 16,
+              ),
+              dropdownColor: _cardBg,
+              icon: const SizedBox.shrink(),
+              menuMaxHeight: 200,
+              elevation: 4,
+              alignment: AlignmentDirectional.centerStart,
+              isExpanded: true, // Расширяем на всю ширину контейнера
+              itemHeight: 48, 
+            items: [
+              DropdownMenuItem(
+                value: 'buyer',
+                child: Text(
+                  'Покупатель',
+                  style: TextStyle(
+                    color: _colorScheme.onSurface,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              DropdownMenuItem(
+                value: 'supplier',
+                child: Text(
+                  'Поставщик',
+                  style: TextStyle(
+                    color: _colorScheme.onSurface,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              DropdownMenuItem(
+                value: 'moderator',
+                child: Text(
+                  'Модератор',
+                  style: TextStyle(
+                    color: _colorScheme.onSurface,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ],
+            onChanged: (value) {
+              final nextRole = value ?? 'buyer';
+              if (nextRole == _role) return;
+              setState(() {
+                _role = nextRole;
+                _fieldErrors['supplierName'] = null;
+                _fieldErrors['moderatorCode'] = null;
+              });
+              if (_topMessageIsError && _topMessage != null) {
+                final visibleErrors = <String>{};
+                for (final field in _fieldsForStep(_step)) {
+                  final error = _validateField(field);
+                  if (error != null) {
+                    visibleErrors.add(error);
+                  }
+                }
+                if (visibleErrors.isEmpty) {
+                  _clearTopMessage();
+                } else {
+                  _showTopError('Проверьте заполнение полей', visibleErrors);
                 }
               }
-              if (visibleErrors.isEmpty) {
-                _clearTopMessage();
-              } else {
-                _showTopError('Проверьте заполнение полей', visibleErrors);
-              }
-            }
-          },
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: _inputFill,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide.none,
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
+            },
             ),
           ),
         ),
@@ -608,27 +692,28 @@ class _RegisterPageState extends State<RegisterPage> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('НАЗВАНИЕ КОМПАНИИ', style: _labelStyle),
-          const SizedBox(height: 8),
-          TextField(
-            controller: _supplierNameController,
-            keyboardType: TextInputType.text,
-            textCapitalization: TextCapitalization.words,
-            onChanged: (_) => _onFieldChanged('supplierName'),
-            decoration: InputDecoration(
-              hintText: 'Например, ТОО Склад Манса',
-              hintStyle: TextStyle(color: _mutedText),
-              filled: true,
-              fillColor: _inputFill,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
+          _buildFieldWithError(
+            label: 'НАЗВАНИЕ КОМПАНИИ',
+            errorText: _fieldErrors['supplierName'],
+            field: TextField(
+              controller: _supplierNameController,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.words,
+              onChanged: (_) => _onFieldChanged('supplierName'),
+              decoration: InputDecoration(
+                hintText: 'Например, ТОО Склад Манса',
+                hintStyle: TextStyle(color: _mutedText),
+                filled: true,
+                fillColor: _inputFill,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
               ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 14,
-              ),
-              errorText: _fieldErrors['supplierName'],
             ),
           ),
           SizedBox(height: fieldGap),
@@ -641,26 +726,27 @@ class _RegisterPageState extends State<RegisterPage> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('КОД МОДЕРАТОРА', style: _labelStyle),
-          const SizedBox(height: 8),
-          TextField(
-            controller: _moderatorCodeController,
-            obscureText: true,
-            onChanged: (_) => _onFieldChanged('moderatorCode'),
-            decoration: InputDecoration(
-              hintText: 'Введите код',
-              hintStyle: TextStyle(color: _mutedText),
-              filled: true,
-              fillColor: _inputFill,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
+          _buildFieldWithError(
+            label: 'КОД МОДЕРАТОРА',
+            errorText: _fieldErrors['moderatorCode'],
+            field: TextField(
+              controller: _moderatorCodeController,
+              obscureText: true,
+              onChanged: (_) => _onFieldChanged('moderatorCode'),
+              decoration: InputDecoration(
+                hintText: 'Введите код',
+                hintStyle: TextStyle(color: _mutedText),
+                filled: true,
+                fillColor: _inputFill,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
               ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 14,
-              ),
-              errorText: _fieldErrors['moderatorCode'],
             ),
           ),
         ],
@@ -675,73 +761,75 @@ class _RegisterPageState extends State<RegisterPage> {
 
   List<Widget> _buildPasswordFields(double fieldGap) {
     return [
-      Text('ПАРОЛЬ', style: _labelStyle),
-      const SizedBox(height: 8),
-      TextField(
-        controller: _passwordController,
-        obscureText: _obscurePassword,
-        onChanged: (_) {
-          _onFieldChanged('password');
-          _onFieldChanged('confirmPassword');
-        },
-        decoration: InputDecoration(
-          hintText: '************',
-          hintStyle: TextStyle(color: _mutedText),
-          filled: true,
-          fillColor: _inputFill,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 14,
-          ),
-          errorText: _fieldErrors['password'],
-          suffixIcon: IconButton(
-            icon: Icon(
-              _obscurePassword ? Icons.visibility_off : Icons.visibility,
-              color: _mutedText,
+      _buildFieldWithError(
+        label: 'ПАРОЛЬ',
+        errorText: _fieldErrors['password'],
+        field: TextField(
+          controller: _passwordController,
+          obscureText: _obscurePassword,
+          onChanged: (_) {
+            _onFieldChanged('password');
+            _onFieldChanged('confirmPassword');
+          },
+          decoration: InputDecoration(
+            hintText: '************',
+            hintStyle: TextStyle(color: _mutedText),
+            filled: true,
+            fillColor: _inputFill,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide.none,
             ),
-            onPressed: () {
-              setState(() {
-                _obscurePassword = !_obscurePassword;
-              });
-            },
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                color: _mutedText,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscurePassword = !_obscurePassword;
+                });
+              },
+            ),
           ),
         ),
       ),
       SizedBox(height: fieldGap),
-      Text('ПОВТОРИТЕ ПАРОЛЬ', style: _labelStyle),
-      const SizedBox(height: 8),
-      TextField(
-        controller: _confirmPasswordController,
-        obscureText: _obscureConfirmPassword,
-        onChanged: (_) => _onFieldChanged('confirmPassword'),
-        decoration: InputDecoration(
-          hintText: '************',
-          hintStyle: TextStyle(color: _mutedText),
-          filled: true,
-          fillColor: _inputFill,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 14,
-          ),
-          errorText: _fieldErrors['confirmPassword'],
-          suffixIcon: IconButton(
-            icon: Icon(
-              _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
-              color: _mutedText,
+      _buildFieldWithError(
+        label: 'ПОВТОРИТЕ ПАРОЛЬ',
+        errorText: _fieldErrors['confirmPassword'],
+        field: TextField(
+          controller: _confirmPasswordController,
+          obscureText: _obscureConfirmPassword,
+          onChanged: (_) => _onFieldChanged('confirmPassword'),
+          decoration: InputDecoration(
+            hintText: '************',
+            hintStyle: TextStyle(color: _mutedText),
+            filled: true,
+            fillColor: _inputFill,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide.none,
             ),
-            onPressed: () {
-              setState(() {
-                _obscureConfirmPassword = !_obscureConfirmPassword;
-              });
-            },
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                color: _mutedText,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscureConfirmPassword = !_obscureConfirmPassword;
+                });
+              },
+            ),
           ),
         ),
       ),

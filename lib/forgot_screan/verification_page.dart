@@ -17,10 +17,10 @@ class VerificationPage extends StatefulWidget {
 
 class _VerificationPageState extends State<VerificationPage> {
   final List<TextEditingController> _controllers = List.generate(
-    6,
+    4,
     (index) => TextEditingController(),
   );
-  final List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
+  final List<FocusNode> _focusNodes = List.generate(4, (index) => FocusNode());
 
   int _remainingTime = 60;
   Timer? _timer;
@@ -72,8 +72,12 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   void _onCodeChanged(String value, int index) {
-    if (value.isNotEmpty && index < 5) {
+    if (value.isNotEmpty && index < 3) {
+      // Переход к следующему полю при вводе цифры
       _focusNodes[index + 1].requestFocus();
+    } else if (value.isEmpty && index > 0) {
+      // Возврат к предыдущему полю при удалении
+      _focusNodes[index - 1].requestFocus();
     }
   }
 
@@ -283,11 +287,12 @@ class _VerificationPageState extends State<VerificationPage> {
 
                       // ПОЛЯ ВВОДА КОДА
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(4, (index) {
                           return Container(
                             width: 65,
                             height: 65,
+                            margin: EdgeInsets.symmetric(horizontal: index == 1 || index == 2 ? 8 : 0),
                             decoration: BoxDecoration(
                               color: _inputFill,
                               borderRadius: BorderRadius.circular(12),
@@ -298,13 +303,14 @@ class _VerificationPageState extends State<VerificationPage> {
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
                               maxLength: 1,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                               ),
                               decoration: const InputDecoration(
                                 counterText: '',
                                 border: InputBorder.none,
+                                contentPadding: EdgeInsets.zero,
                               ),
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
