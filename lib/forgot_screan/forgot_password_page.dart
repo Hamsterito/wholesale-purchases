@@ -1,5 +1,11 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_project/forgot_screan/verification_page.dart';
+import 'forgot_password_verification_page.dart';
+import '../services/api_config.dart';
+import '../services/app_http_client.dart';
+import '../services/app_logger.dart';
+import '../utils/api_response_parser.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -10,6 +16,7 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _emailController = TextEditingController();
+  bool _isLoading = false;
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
@@ -23,6 +30,66 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   void dispose() {
     _emailController.dispose();
     super.dispose();
+  }
+
+
+
+  // Отправляет код сброса пароля на email
+  Future<void> _sendResetCode() async {
+    final email = _emailController.text.trim();
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Введите email')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      final url = Uri.parse('${ApiConfig.baseUrl}/forgot-password/send-code');
+      final response = await AppHttpClient.instance.post(
+        url,
+        headers: const {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        },
+        encoding: utf8,
+        body: {'email': email},
+      );
+
+      if (!mounted) return;
+
+      if (response.statusCode == 200) {
+        // Успешно отправлен код, переходим к экрану верификации
+        final body = utf8.decode(response.bodyBytes);
+        final responseData = parseApiResponseWithData(body);
+        final expiresIn = responseData.data['expires_in'] as int? ?? 60;
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ForgotPasswordVerificationPage(
+              email: email,
+              expiresIn: expiresIn,
+            ),
+          ),
+        );
+      } else {
+        // Ошибка при отправке кода
+        final body = utf8.decode(response.bodyBytes);
+        final message = parseApiMessage(body, fallback: 'Ошибка сервера');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      }
+    } catch (e) {
+      AppLogger.error('Error sending reset code: $e', scope: 'auth');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Ошибка сети')),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   @override
@@ -72,19 +139,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Забыли пароль',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      'Напиши свою почту',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
+                     Text(
+                       'Забыли пароль',
+                       style: TextStyle(
+                         fontSize: 32,
+                         fontWeight: FontWeight.bold,
+                         color: Colors.white,
+                       ),
+                     ),
+                     const SizedBox(height: 12),
+                     const Text(
+                       'Напиши свою почту',
+                       style: TextStyle(fontSize: 16, color: Colors.white),
+                     ),
                   ],
                 ),
               ),
@@ -114,56 +181,49 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        TextField(
-                          controller: _emailController,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            hintText: 'primer@pochta.ru',
-                            hintStyle: TextStyle(color: _mutedText),
-                            filled: true,
-                            fillColor: _inputFill,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide.none,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 14,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 32),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => VerificationPage(
-                                    email: _emailController.text,
-                                  ),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: _isDark
-                                  ? _colorScheme.primary
-                                  : const Color(0xFF2D2D2D),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            child: Text(
-                              'ОТПРАВИТЬ КОД',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1,
-                                color: Colors.white,
-                              ),
-                            ),
+                         TextField(
+                           controller: _emailController,
+                           keyboardType: TextInputType.text,
+                           decoration: InputDecoration(
+                             hintText: 'primer@pochta.ru',
+                             hintStyle: TextStyle(color: _mutedText),
+                             filled: true,
+                             fillColor: _inputFill,
+                             border: OutlineInputBorder(
+                               borderRadius: BorderRadius.circular(8),
+                               borderSide: BorderSide.none,
+                             ),
+                             contentPadding: const EdgeInsets.symmetric(
+                               horizontal: 16,
+                               vertical: 14,
+                             ),
+                           ),
+                         ),
+                         const SizedBox(height: 32),
+                         SizedBox(
+                           width: double.infinity,
+                           height: 50,
+                           child: ElevatedButton(
+                             onPressed: _isLoading ? null : _sendResetCode,
+                             style: ElevatedButton.styleFrom(
+                               backgroundColor: _isDark
+                                   ? _colorScheme.primary
+                                   : const Color(0xFF2D2D2D),
+                               shape: RoundedRectangleBorder(
+                                 borderRadius: BorderRadius.circular(8),
+                               ),
+                             ),
+                             child: _isLoading
+                                 ? const CircularProgressIndicator(color: Colors.white)
+                                 : const Text(
+                                     'ОТПРАВИТЬ КОД',
+                                     style: TextStyle(
+                                       fontSize: 16,
+                                       fontWeight: FontWeight.w600,
+                                       letterSpacing: 1,
+                                       color: Colors.white,
+                                     ),
+                                   ),
                           ),
                         ),
                       ],

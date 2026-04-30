@@ -73,12 +73,19 @@ String _toIso8601OrNow(dynamic value) {
   return (parsed ?? DateTime.now()).toIso8601String();
 }
 
+// Роль пользователя по умолчанию
 const String _defaultRole = 'buyer';
+
+// Секретный код для получения роли модератора
 const String _moderatorCode = 'MOD123';
+
+// Время жизни OTP кода подтверждения email (в минутах)
 const int _emailVerificationOtpTtlMinutes = 5;
 const Duration _emailVerificationOtpTtl = Duration(
   minutes: _emailVerificationOtpTtlMinutes,
 );
+
+// Допустимые роли пользователей
 const Set<String> _allowedRoles = {'buyer', 'supplier', 'moderator'};
 const Set<String> _allowedSupportChatStatuses = {'open', 'closed'};
 const Set<String> _allowedModerationStatuses = {
@@ -116,10 +123,13 @@ final StreamController<Map<String, dynamic>> _supportEventsController =
     StreamController<Map<String, dynamic>>.broadcast();
 final RegExp _emailPattern = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
 
+// Нормализация email: убираем пробелы и приводим к нижнему регистру
 String _normalizeEmail(String email) => email.trim().toLowerCase();
 
+// Проверка валидности email по регулярному выражению
 bool _isValidEmail(String email) => _emailPattern.hasMatch(email);
 
+// Создание успешного JSON ответа
 Response _jsonSuccess(String message, [Map<String, dynamic>? data]) {
   final body = <String, dynamic>{'success': true, 'message': message};
   if (data != null) body.addAll(data);
@@ -129,6 +139,7 @@ Response _jsonSuccess(String message, [Map<String, dynamic>? data]) {
   );
 }
 
+// Создание JSON ответа с ошибкой
 Response _jsonError(String message, int statusCode) {
   return Response(
     statusCode,
@@ -137,6 +148,8 @@ Response _jsonError(String message, int statusCode) {
   );
 }
 
+// Нормализация роли пользователя
+// Если роль недопустимая или пустая, возвращает роль по умолчанию
 String _normalizeRole(Object? value) {
   final raw = value?.toString().trim().toLowerCase();
   if (raw == null || raw.isEmpty) return _defaultRole;
@@ -151,26 +164,33 @@ String _supplierNameForRole(Object? role, Object? supplierName) {
   return supplierName?.toString() ?? '';
 }
 
+// Генерация 4-значного OTP кода
 String _generateOtpCode() {
   final rnd = Random.secure();
   return List<int>.generate(4, (_) => rnd.nextInt(10)).join();
 }
 
+// Хеширование пароля с солью
 String _hashPassword(String password) => BCrypt.hashpw(password, BCrypt.gensalt());
 
+// Проверка пароля с хешем
 bool _checkPassword(String password, String hashed) => BCrypt.checkpw(password, hashed);
 
+// Хеширование OTP кода с солью
 String _hashOtp(String otp) => BCrypt.hashpw(otp, BCrypt.gensalt());
 
+// Проверка OTP кода с хешем
 bool _checkOtp(String otp, String hashed) => BCrypt.checkpw(otp, hashed);
 
+// Замена ожидающего кода подтверждения email
+// Деактивирует старые коды пользователя и создает новый
 Future<void> _replacePendingEmailVerificationCode(
   Session session, {
   required int userId,
   required String codeHash,
   required DateTime expiresAt,
 }) async {
-  // Mark old unused codes as used and delete expired ones
+  // Помечаем старые неиспользованные коды как использованные
   await session.execute(
     Sql.named('''
       UPDATE public.email_verifications
@@ -180,6 +200,7 @@ Future<void> _replacePendingEmailVerificationCode(
     parameters: {'user_id': userId},
   );
 
+  // Удаляем истекшие коды
   final expiredResult = await session.execute(
     Sql.named('''
       DELETE FROM public.email_verifications
@@ -190,6 +211,7 @@ Future<void> _replacePendingEmailVerificationCode(
     print('Очищено ${expiredResult.affectedRows} истекших кодов при замене');
   }
 
+  // Создаем новый код верификации
   await session.execute(
     Sql.named('''
       INSERT INTO public.email_verifications (user_id, code_hash, expires_at, used, created_at)
@@ -203,6 +225,8 @@ Future<void> _replacePendingEmailVerificationCode(
   );
 }
 
+// Периодическая очистка истекших кодов подтверждения email
+// Запускается каждые 10 минут в main()
 Future<void> _cleanupExpiredEmailVerifications(Connection connection) async {
   print('Запуск очистки истекших кодов подтверждения email...');
   try {
@@ -221,16 +245,40 @@ Future<void> _cleanupExpiredEmailVerifications(Connection connection) async {
   }
 }
 
+// Периодическая очистка истекших кодов сброса пароля
+// Запускается каждые 10 минут вместе с очисткой email верификаций
+Future<void> _cleanupExpiredPasswordResets(Connection connection) async {
+  print('Запуск очистки истекших кодов сброса пароля...');
+  try {
+    final result = await connection.execute(
+      Sql.named('''
+        DELETE FROM public.password_resets
+        WHERE expires_at < NOW();
+      '''),
+    );
+    print('Очистка завершена. Удалено ${result.affectedRows} истекших записей сброса пароля.');
+    if (result.affectedRows > 0) {
+      print('Успешно очищено ${result.affectedRows} истекших кодов сброса пароля');
+    }
+  } catch (e, st) {
+    print('Ошибка при очистке истекших кодов сброса пароля: $e\n$st');
+  }
+}
+
+// Отправка email с кодом подтверждения
 Future<void> _sendVerificationEmail(String toEmail, String code) async {
+  // Получаем учетные данные SMTP из переменных окружения
   final smtpUser = env['SMTP_USERNAME'];
   final smtpPass = env['SMTP_PASSWORD'];
   if (smtpUser == null || smtpPass == null) {
-    print('SMTP credentials not configured in environment variables. Skipping email send.');
+    print('SMTP учетные данные не настроены в переменных окружения. Пропускаем отправку email.');
     return;
   }
 
+  // Настраиваем SMTP сервер Gmail
   final smtpServer = gmail(smtpUser, smtpPass);
 
+  // Создаем сообщение
   final message = Message()
     ..from = Address(smtpUser, 'Wholesale Purchases')
     ..recipients.add(toEmail)
@@ -240,9 +288,9 @@ Future<void> _sendVerificationEmail(String toEmail, String code) async {
 
   try {
     final sendReport = await send(message, smtpServer);
-    print('Verification email sent: $sendReport');
+    print('Email с подтверждением отправлен: $sendReport');
   } catch (e, st) {
-    print('Failed to send verification email: $e\n$st');
+    print('Не удалось отправить email с подтверждением: $e\n$st');
   }
 }
 
@@ -1103,8 +1151,9 @@ List<String> _parseImageUrls(Object? value) {
       .toList();
 }
 
+// Главная функция приложения
 void main() async {
-  // Подключение к PostgreSQL
+  // Подключение к базе данных PostgreSQL
   final connection = await Connection.open(
     Endpoint(
       host: 'localhost',
@@ -1118,6 +1167,7 @@ void main() async {
 
   print('Подключение к PostgreSQL выполнено.');
 
+  // Инициализация схемы базы данных (таблицы, индексы)
   try {
     await _ensureDatabaseSchema(connection);
   } catch (e, st) {
@@ -2197,7 +2247,7 @@ void main() async {
       }
 
       if (!_isValidEmail(email)) {
-        return _jsonError('Invalid email format', 400);
+        return _jsonError('Неверный формат электронной почты', 400);
       }
 
       final result = await connection.execute(
@@ -2247,18 +2297,19 @@ void main() async {
     }
   });
 
-  // Middleware (CORS и логирование запросов)
+  // Настройка middleware для обработки CORS и логирования запросов
   final handler = const Pipeline()
       .addMiddleware(logRequests())
       .addMiddleware(corsHeaders())
       .addHandler(router.call);
 
-  // Запуск периодической очистки expired OTP кодов (каждую минуту)
+  // Запуск периодической очистки истекших OTP кодов (каждые 10 минут)
   Timer.periodic(const Duration(minutes: 10), (_) async {
     await _cleanupExpiredEmailVerifications(connection);
+    await _cleanupExpiredPasswordResets(connection);
   });
 
-  // Запуск HTTP-сервера
+  // Запуск HTTP сервера на порту 8080
   final server = await serve(handler, InternetAddress.anyIPv4, 8080);
   print('Сервер запущен: http://${server.address.host}:${server.port}');
 }

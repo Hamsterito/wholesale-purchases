@@ -3155,4 +3155,321 @@ void _registerMutationRoutes(Router router, Connection connection) {
       return _jsonError('Ошибка сервера', 500);
     }
   });
+
+  // Эндпоинт для отправки кода сброса пароля
+  router.post('/forgot-password/send-code', (Request request) async {
+    try {
+      final body = await request.readAsString();
+      final data = Uri.splitQueryString(body);
+      final email = _normalizeEmail(data['email'] ?? '');
+
+      if (email.isEmpty) {
+        return _jsonError('Email обязателен', 400);
+      }
+
+      if (!_isValidEmail(email)) {
+        return _jsonError('Invalid email format', 400);
+      }
+
+      // Проверяем существование пользователя
+      final userResult = await connection.execute(
+        Sql.named('SELECT id FROM users WHERE LOWER(email) = @email LIMIT 1'),
+        parameters: {'email': email},
+      );
+
+      if (userResult.isEmpty) {
+        return _jsonError('Пользователь с таким email не найден', 404);
+      }
+
+      // Очищаем истекшие коды
+      await connection.execute(
+        Sql.named('DELETE FROM password_resets WHERE expires_at < NOW()'),
+      );
+
+      // Проверяем, есть ли активный код для этого email
+      final activeResult = await connection.execute(
+        Sql.named('''
+          SELECT expires_at FROM password_resets
+          WHERE email = @email AND used = false AND expires_at > NOW()
+          ORDER BY created_at DESC
+          LIMIT 1
+        '''),
+        parameters: {'email': email},
+      );
+
+      if (activeResult.isNotEmpty) {
+        // Возвращаем оставшееся время без отправки нового кода
+        final expiresAt = activeResult.first.toColumnMap()['expires_at'] as DateTime;
+        final remainingSeconds = expiresAt.difference(DateTime.now().toUtc()).inSeconds;
+        return _jsonSuccess('Код уже был отправлен', {'expires_in': remainingSeconds > 0 ? remainingSeconds : 0});
+      }
+
+      // Ограничение частоты: проверяем, отправлялся ли код недавно (последняя 1 минута)
+      final recentResult = await connection.execute(
+        Sql.named('''
+          SELECT id FROM password_resets
+          WHERE email = @email AND created_at > NOW() - INTERVAL '1 minute'
+          LIMIT 1
+        '''),
+        parameters: {'email': email},
+      );
+
+      if (recentResult.isNotEmpty) {
+        return _jsonError('Код уже был отправлен недавно. Попробуйте позже.', 429);
+      }
+
+      final otp = _generateOtpCode();
+      final otpHash = _hashOtp(otp);
+      final expiresAt = DateTime.now().toUtc().add(_emailVerificationOtpTtl);
+
+      await connection.execute(
+        Sql.named('''
+          INSERT INTO password_resets (email, code_hash, expires_at, used, created_at)
+          VALUES (@email, @code_hash, @expires_at, false, NOW())
+        '''),
+        parameters: {
+          'email': email,
+          'code_hash': otpHash,
+          'expires_at': expiresAt,
+        },
+      );
+
+      // Отправляем email асинхронно
+      Future.microtask(() => _sendVerificationEmail(email, otp));
+
+      return _jsonSuccess('Код отправлен на вашу почту', {'expires_in': _emailVerificationOtpTtl.inSeconds});
+    } catch (e, st) {
+      print('Ошибка отправки кода восстановления: $e\n$st');
+      return _jsonError('Ошибка сервера', 500);
+    }
+  });
+
+  // Эндпоинт для повторной отправки кода сброса пароля
+  router.post('/forgot-password/resend-code', (Request request) async {
+    try {
+      final body = await request.readAsString();
+      final data = Uri.splitQueryString(body);
+      final email = _normalizeEmail(data['email'] ?? '');
+
+      if (email.isEmpty) {
+        return _jsonError('Email обязателен', 400);
+      }
+
+      if (!_isValidEmail(email)) {
+        return _jsonError('Invalid email format', 400);
+      }
+
+      // Проверяем существование пользователя
+      final userResult = await connection.execute(
+        Sql.named('SELECT id FROM users WHERE LOWER(email) = @email LIMIT 1'),
+        parameters: {'email': email},
+      );
+
+      if (userResult.isEmpty) {
+        return _jsonError('Пользователь с таким email не найден', 404);
+      }
+
+      // Очищаем истекшие коды
+      await connection.execute(
+        Sql.named('DELETE FROM password_resets WHERE expires_at < NOW()'),
+      );
+
+      // Проверяем, есть ли активный код
+      final activeResult = await connection.execute(
+        Sql.named('''
+          SELECT expires_at FROM password_resets
+          WHERE email = @email AND used = false AND expires_at > NOW()
+          ORDER BY created_at DESC
+          LIMIT 1
+        '''),
+        parameters: {'email': email},
+      );
+
+      if (activeResult.isNotEmpty) {
+        return _jsonError('Код ещё активен. Подождите истечения таймера.', 429);
+      }
+
+      // Ограничение частоты: проверяем, отправлялся ли код недавно (последняя 1 минута)
+      final recentResult = await connection.execute(
+        Sql.named('''
+          SELECT id FROM password_resets
+          WHERE email = @email AND created_at > NOW() - INTERVAL '1 minute'
+          LIMIT 1
+        '''),
+        parameters: {'email': email},
+      );
+
+      if (recentResult.isNotEmpty) {
+        return _jsonError('Код уже был отправлен недавно. Попробуйте позже.', 429);
+      }
+
+      final otp = _generateOtpCode();
+      final otpHash = _hashOtp(otp);
+      final expiresAt = DateTime.now().toUtc().add(_emailVerificationOtpTtl);
+
+      // Деактивируем старые неиспользованные коды
+      await connection.execute(
+        Sql.named('''
+          UPDATE password_resets
+          SET used = true
+          WHERE email = @email AND used = false;
+        '''),
+        parameters: {'email': email},
+      );
+
+      await connection.execute(
+        Sql.named('''
+          INSERT INTO password_resets (email, code_hash, expires_at, used, created_at)
+          VALUES (@email, @code_hash, @expires_at, false, NOW())
+        '''),
+        parameters: {
+          'email': email,
+          'code_hash': otpHash,
+          'expires_at': expiresAt,
+        },
+      );
+
+      // Отправляем email асинхронно
+      Future.microtask(() => _sendVerificationEmail(email, otp));
+
+      return _jsonSuccess('Код отправлен повторно', {'expires_in': _emailVerificationOtpTtl.inSeconds});
+    } catch (e, st) {
+      print('Ошибка повторной отправки кода восстановления: $e\n$st');
+      return _jsonError('Ошибка сервера', 500);
+    }
+  });
+
+  // Эндпоинт для верификации кода сброса пароля
+  router.post('/forgot-password/verify-code', (Request request) async {
+    try {
+      final body = await request.readAsString();
+      final data = Uri.splitQueryString(body);
+      final email = _normalizeEmail(data['email'] ?? '');
+      final code = data['code']?.trim();
+
+      if (email.isEmpty || code == null || code.isEmpty) {
+        return _jsonError('Email и код обязательны', 400);
+      }
+
+      if (!_isValidEmail(email)) {
+        return _jsonError('Invalid email format', 400);
+      }
+
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT id, code_hash, expires_at, used
+          FROM password_resets
+          WHERE email = @email AND used = false AND expires_at > NOW()
+          ORDER BY created_at DESC
+          LIMIT 1
+        '''),
+        parameters: {'email': email},
+      );
+
+      if (result.isEmpty) {
+        return _jsonError('Код не найден или истёк', 400);
+      }
+
+      final reset = result.first.toColumnMap();
+      final resetId = reset['id'] as int;
+      final codeHash = reset['code_hash']?.toString() ?? '';
+      final ok = _checkOtp(code, codeHash);
+
+      if (!ok) {
+        return _jsonError('Неверный код', 400);
+      }
+
+      // Помечаем код как использованный
+      await connection.execute(
+        Sql.named('UPDATE password_resets SET used = true WHERE id = @id'),
+        parameters: {'id': resetId},
+      );
+
+      return _jsonSuccess('Код подтверждён');
+    } catch (e, st) {
+      print('Ошибка верификации кода восстановления: $e\n$st');
+      return _jsonError('Ошибка сервера', 500);
+    }
+  });
+
+  // Эндпоинт для сброса пароля
+  router.post('/forgot-password/reset-password', (Request request) async {
+    try {
+      final body = await request.readAsString();
+      final data = Uri.splitQueryString(body);
+      final email = _normalizeEmail(data['email'] ?? '');
+      final code = data['code']?.trim();
+      final newPassword = data['newPassword']?.trim();
+
+      if (email.isEmpty || code == null || code.isEmpty || newPassword == null || newPassword.isEmpty) {
+        return _jsonError('Все поля обязательны', 400);
+      }
+
+      if (!_isValidEmail(email)) {
+        return _jsonError('Invalid email format', 400);
+      }
+
+      if (newPassword.length < 6) {
+        return _jsonError('Пароль должен содержать минимум 6 символов', 400);
+      }
+
+      // Verify code first
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT id, used
+          FROM password_resets
+          WHERE email = @email AND used = true AND expires_at > NOW() - INTERVAL '5 minutes'
+          ORDER BY created_at DESC
+          LIMIT 1
+        '''),
+        parameters: {'email': email},
+      );
+
+      if (result.isEmpty) {
+        return _jsonError('Код не найден или истёк. Запросите новый код.', 400);
+      }
+
+      final reset = result.first.toColumnMap();
+      final resetId = reset['id'] as int;
+
+      // Check if code was used recently (within 5 minutes)
+      final codeHashResult = await connection.execute(
+        Sql.named('''
+          SELECT code_hash FROM password_resets WHERE id = @id
+        '''),
+        parameters: {'id': resetId},
+      );
+
+      if (codeHashResult.isEmpty) {
+        return _jsonError('Код не найден', 400);
+      }
+
+      final codeHash = codeHashResult.first.toColumnMap()['code_hash']?.toString() ?? '';
+      final ok = _checkOtp(code, codeHash);
+
+      if (!ok) {
+        return _jsonError('Неверный код', 400);
+      }
+
+      // Update password
+      final hashedPassword = _hashPassword(newPassword);
+      await connection.runTx((session) async {
+        await session.execute(
+          Sql.named('UPDATE users SET password = @password WHERE LOWER(email) = @email'),
+          parameters: {'email': email, 'password': hashedPassword},
+        );
+
+        // Mark all reset codes for this email as used
+        await session.execute(
+          Sql.named('UPDATE password_resets SET used = true WHERE email = @email'),
+          parameters: {'email': email},
+        );
+      });
+
+      return _jsonSuccess('Пароль успешно изменён');
+    } catch (e, st) {
+      print('Ошибка сброса пароля: $e\n$st');
+      return _jsonError('Ошибка сервера', 500);
+    }
+  });
 }

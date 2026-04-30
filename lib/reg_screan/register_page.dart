@@ -952,7 +952,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final headerTitleSize = isCompact ? 28.0 : 32.0;
     final headerSubtitleSize = isCompact ? 14.0 : 16.0;
     final backBorderColor = const Color(0xFFD2D6E0);
-    final backTextEnabledColor = const Color(0xFF4C6CFF);
+    final backTextEnabledColor = const Color(0xFF6288D5);
     final backTextDisabledColor = const Color(0xFFB6BCC7);
     final primaryButtonColor = const Color(0xFF2E2E2E);
     final primaryButtonDisabled = const Color(0xFF3A3A3A);

@@ -142,6 +142,7 @@ const List<Map<String, Object?>> _catalogHierarchySeed = [
 Future<void> _ensureDatabaseSchema(Connection connection) async {
   await _ensureUserSchema(connection);
   await _ensureEmailVerificationSchema(connection);
+  await _ensurePasswordResetSchema(connection);
   await _ensureAddressSchema(connection);
   await _ensureProductSchema(connection);
   await _ensureCategorySchema(connection);
@@ -213,6 +214,26 @@ Future<void> _ensureEmailVerificationSchema(Connection connection) async {
   );
   await connection.execute(
     'CREATE INDEX IF NOT EXISTS idx_email_verifications_expires_at ON public.email_verifications(expires_at);',
+  );
+}
+
+Future<void> _ensurePasswordResetSchema(Connection connection) async {
+  await connection.execute('''
+    CREATE TABLE IF NOT EXISTS public.password_resets (
+      id SERIAL PRIMARY KEY,
+      email VARCHAR(255) NOT NULL,
+      code_hash VARCHAR(255) NOT NULL,
+      expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+      used BOOLEAN NOT NULL DEFAULT false,
+      created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+    );
+  ''');
+
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_password_resets_email ON public.password_resets(email);',
+  );
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_password_resets_expires_at ON public.password_resets(expires_at);',
   );
 }
 
