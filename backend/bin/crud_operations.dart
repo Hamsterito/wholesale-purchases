@@ -223,7 +223,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
     try {
       final userId = int.tryParse(id);
       if (userId == null) {
-        return Response.badRequest(body: 'Invalid user id');
+        return Response.badRequest(body: 'Неверный ID пользователя');
       }
 
       final body = await request.readAsString();
@@ -278,7 +278,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
         }
         final emailPattern = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
         if (!emailPattern.hasMatch(nextEmail)) {
-          return Response.badRequest(body: 'Invalid email format');
+          return Response.badRequest(body: 'Неверный формат email');
         }
 
         final duplicate = await connection.execute(
@@ -302,9 +302,9 @@ void _registerMutationRoutes(Router router, Connection connection) {
         if (digits.isEmpty) {
           nextPhone = null;
         } else {
-          if (digits.length != 11 || !digits.startsWith('7')) {
-            return Response.badRequest(body: 'Invalid phone format');
-          }
+            if (digits.length != 11 || !digits.startsWith('7')) {
+              return Response.badRequest(body: 'Неверный формат телефона');
+            }
           nextPhone = digits;
         }
       }
@@ -364,7 +364,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
         headers: {'content-type': 'application/json; charset=utf-8'},
       );
     } on FormatException {
-      return Response.badRequest(body: 'Invalid JSON');
+      return Response.badRequest(body: 'Неверный JSON');
     } catch (e, st) {
       print('Error updating user profile: $e\n$st');
       return Response.internalServerError(body: 'Server error: $e');
@@ -2867,7 +2867,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
       }
 
       if (!_isValidEmail(email)) {
-        return _jsonError('Invalid email format', 400);
+        return _jsonError('Неверный формат email', 400);
       }
 
       final existing = await connection.execute(
@@ -2919,7 +2919,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
       }
 
       if (!_isValidEmail(email)) {
-        return _jsonError('Invalid email format', 400);
+        return _jsonError('Неверный формат email', 400);
       }
 
       if (role == 'moderator' && moderatorCode != _moderatorCode) {
@@ -3046,7 +3046,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
       }
 
       if (!_isValidEmail(email)) {
-        return _jsonError('Invalid email format', 400);
+        return _jsonError('Неверный формат email', 400);
       }
 
       final userResult = await connection.execute(
@@ -3117,7 +3117,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
       }
 
       if (!_isValidEmail(email)) {
-        return _jsonError('Invalid email format', 400);
+        return _jsonError('Неверный формат email', 400);
       }
 
       final userResult = await connection.execute(
@@ -3168,7 +3168,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
       }
 
       if (!_isValidEmail(email)) {
-        return _jsonError('Invalid email format', 400);
+        return _jsonError('Неверный формат email', 400);
       }
 
       // Проверяем существование пользователя
@@ -3256,7 +3256,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
       }
 
       if (!_isValidEmail(email)) {
-        return _jsonError('Invalid email format', 400);
+        return _jsonError('Неверный формат email', 400);
       }
 
       // Проверяем существование пользователя
@@ -3352,7 +3352,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
       }
 
       if (!_isValidEmail(email)) {
-        return _jsonError('Invalid email format', 400);
+        return _jsonError('Неверный формат email', 400);
       }
 
       final result = await connection.execute(
@@ -3406,7 +3406,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
       }
 
       if (!_isValidEmail(email)) {
-        return _jsonError('Invalid email format', 400);
+        return _jsonError('Неверный формат email', 400);
       }
 
       if (newPassword.length < 6) {

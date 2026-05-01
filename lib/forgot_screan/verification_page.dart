@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import '../services/api_config.dart';
 import '../services/app_http_client.dart';
 import '../services/app_logger.dart';
@@ -16,11 +16,8 @@ class VerificationPage extends StatefulWidget {
 }
 
 class _VerificationPageState extends State<VerificationPage> {
-  final List<TextEditingController> _controllers = List.generate(
-    4,
-    (index) => TextEditingController(),
-  );
-  final List<FocusNode> _focusNodes = List.generate(4, (index) => FocusNode());
+  final TextEditingController _pinController = TextEditingController();
+  late StreamController<ErrorAnimationType> _errorController;
 
   int _remainingTime = 60;
   Timer? _timer;
@@ -37,11 +34,12 @@ class _VerificationPageState extends State<VerificationPage> {
   @override
   void initState() {
     super.initState();
+    _errorController = StreamController<ErrorAnimationType>();
     _startTimer();
   }
 
   void _startTimer() {
-    _remainingTime = 10;
+    _remainingTime = 60;
     _isButtonDisabled = true;
 
     _timer?.cancel();
@@ -61,30 +59,21 @@ class _VerificationPageState extends State<VerificationPage> {
 
   @override
   void dispose() {
-    for (var controller in _controllers) {
-      controller.dispose();
-    }
-    for (var node in _focusNodes) {
-      node.dispose();
-    }
+    _pinController.dispose();
+    _errorController.close();
     _timer?.cancel();
     super.dispose();
   }
 
-  void _onCodeChanged(String value, int index) {
-    if (value.isNotEmpty && index < 3) {
-      // Переход к следующему полю при вводе цифры
-      _focusNodes[index + 1].requestFocus();
-    } else if (value.isEmpty && index > 0) {
-      // Возврат к предыдущему полю при удалении
-      _focusNodes[index - 1].requestFocus();
-    }
+  void _onPinCompleted(String code) {
+    _confirmCode();
   }
 
   Future<void> _confirmCode() async {
-    final code = _controllers.map((c) => c.text).join();
+    final code = _pinController.text.trim();
     if (code.length != 4) {
       AppLogger.warning('Invalid code length: $code', scope: 'auth');
+      _errorController.add(ErrorAnimationType.shake);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Введите 4-значный код')),
       );
@@ -254,6 +243,14 @@ class _VerificationPageState extends State<VerificationPage> {
                           ),
                           Row(
                             children: [
+                              Text(
+                                _isButtonDisabled ? '$_remainingTime секунд' : '',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: _mutedText,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
                               TextButton(
                                 onPressed: _isButtonDisabled
                                     ? null
@@ -271,14 +268,6 @@ class _VerificationPageState extends State<VerificationPage> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 4),
-                              Text(
-                                _isButtonDisabled ? '$_remainingTime сек' : '',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: _mutedText,
-                                ),
-                              ),
                             ],
                           ),
                         ],
@@ -286,41 +275,41 @@ class _VerificationPageState extends State<VerificationPage> {
                       const SizedBox(height: 16),
 
                       // ПОЛЯ ВВОДА КОДА
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(4, (index) {
-                          return Container(
-                            width: 65,
-                            height: 65,
-                            margin: EdgeInsets.symmetric(horizontal: index == 1 || index == 2 ? 8 : 0),
-                            decoration: BoxDecoration(
-                              color: _inputFill,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: TextField(
-                              controller: _controllers[index],
-                              focusNode: _focusNodes[index],
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.number,
-                              maxLength: 1,
-                              style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              decoration: const InputDecoration(
-                                counterText: '',
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.zero,
-                              ),
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                              ],
-                              onChanged: (value) {
-                                _onCodeChanged(value, index);
-                              },
-                            ),
-                          );
-                        }),
+                      PinCodeTextField(
+                        appContext: context,
+                        controller: _pinController,
+                        length: 4,
+                        animationType: AnimationType.fade,
+                        pinTheme: PinTheme(
+                          shape: PinCodeFieldShape.box,
+                          borderRadius: BorderRadius.circular(12),
+                          fieldHeight: 65,
+                          fieldWidth: 65,
+                          activeFillColor: _inputFill,
+                          inactiveFillColor: _inputFill,
+                          selectedFillColor: _inputFill,
+                          activeColor: _colorScheme.primary,
+                          inactiveColor: Colors.transparent,
+                          selectedColor: _colorScheme.primary,
+                          borderWidth: 2,
+                        ),
+                        cursorColor: _colorScheme.primary,
+                        cursorHeight: 32,
+                        cursorWidth: 2,
+                        animationDuration: const Duration(milliseconds: 50),
+                        animationCurve: Curves.easeInOut,
+                        enableActiveFill: true,
+                        keyboardType: TextInputType.number,
+                        textStyle: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        onCompleted: _onPinCompleted,
+                        errorAnimationController: _errorController,
+                        beforeTextPaste: (text) {
+                          final digits = text?.replaceAll(RegExp(r'\D'), '') ?? '';
+                          return digits.length == 4;
+                        },
                       ),
                       const SizedBox(height: 32),
 

@@ -80,7 +80,7 @@ const String _defaultRole = 'buyer';
 const String _moderatorCode = 'MOD123';
 
 // Время жизни OTP кода подтверждения email (в минутах)
-const int _emailVerificationOtpTtlMinutes = 5;
+const int _emailVerificationOtpTtlMinutes = 1;
 const Duration _emailVerificationOtpTtl = Duration(
   minutes: _emailVerificationOtpTtlMinutes,
 );

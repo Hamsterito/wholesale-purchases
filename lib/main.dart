@@ -11,79 +11,66 @@ import 'services/auth_storage.dart';
 import 'widgets/main_navigation.dart';
 
 // Главная функция приложения Flutter
-// Важно: WidgetsFlutterBinding.ensureInitialized() ДО любых async операций
-Future<void> main() async {
-  // Инициализация Flutter bindings ДО любых async операций
-  // Это предотвращает ошибки с Binding/debugCheckZone
-  WidgetsFlutterBinding.ensureInitialized();
+void main() {
+  runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
 
-  // Настройка обработки ошибок
-  FlutterError.onError = (details) {
-    AppLogger.error(
-      'Unhandled Flutter framework error',
-      scope: 'startup',
-      error: details.exception,
-      stackTrace: details.stack,
-    );
-    FlutterError.presentError(details);
-  };
-
-  PlatformDispatcher.instance.onError = (error, stackTrace) {
-    AppLogger.error(
-      'Unhandled platform error',
-      scope: 'startup',
-      error: error,
-      stackTrace: stackTrace,
-    );
-    return true;
-  };
-
-  // Инициализация приложения с обработкой ошибок
-  try {
-    AppLogger.info('Application initialization started', scope: 'startup');
-
-    // Все async операции ДО runApp - это критично для предотвращения ошибок зоны
-    await AppSettings.init();
-    AppLogger.info('Application settings initialized', scope: 'startup');
-
-    await AuthStorage.init();
-    AppLogger.info(
-      'Auth storage initialized: remembered=${AuthStorage.isRemembered}, userId=${AuthStorage.userId}',
-      scope: 'startup',
-    );
-
-    // Запуск приложения в защищенной зоне после полной инициализации
-    runZonedGuarded(
-      () => runApp(const MyApp()),
-      (error, stackTrace) {
+      FlutterError.onError = (details) {
         AppLogger.error(
-          'Unhandled zone error',
+          'Unhandled Flutter framework error',
+          scope: 'startup',
+          error: details.exception,
+          stackTrace: details.stack,
+        );
+        FlutterError.presentError(details);
+      };
+
+      PlatformDispatcher.instance.onError = (error, stackTrace) {
+        AppLogger.error(
+          'Unhandled platform error',
           scope: 'startup',
           error: error,
           stackTrace: stackTrace,
         );
-      },
-    );
-  } catch (error, stackTrace) {
-    AppLogger.error(
-      'Application initialization failed',
-      scope: 'startup',
-      error: error,
-      stackTrace: stackTrace,
-    );
-    // В случае критической ошибки запускаем приложение с fallback экраном
-    runZonedGuarded(
-      () => runApp(const _ErrorApp()),
-      (error, stackTrace) {
+        return true;
+      };
+
+      // Инициализация приложения с обработкой ошибок
+      try {
+        AppLogger.info('Application initialization started', scope: 'startup');
+
+        await AppSettings.init();
+        AppLogger.info('Application settings initialized', scope: 'startup');
+
+        await AuthStorage.init();
+        AppLogger.info(
+          'Auth storage initialized: remembered=${AuthStorage.isRemembered}, userId=${AuthStorage.userId}',
+          scope: 'startup',
+        );
+
+        //Запуск приложения после полной инициализации
+        runApp(const MyApp());
+      } catch (error, stackTrace) {
         AppLogger.error(
-          'Fallback app error',
+          'Application initialization failed',
           scope: 'startup',
           error: error,
           stackTrace: stackTrace,
         );
-      },
-    );
-  }
+        // В случае критической ошибки запускаем приложение с fallback экраном
+        runApp(const _ErrorApp());
+      }
+    },
+    (error, stackTrace) {
+      AppLogger.error(
+        'Unhandled zone error',
+        scope: 'startup',
+        error: error,
+        stackTrace: stackTrace,
+      );
+    },
+  );
 }
 
 /// Fallback приложение в случае критической ошибки инициализации
