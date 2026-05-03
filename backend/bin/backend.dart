@@ -11,6 +11,7 @@ import 'package:bcrypt/bcrypt.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:dotenv/dotenv.dart';
+import 'package:excel/excel.dart';
 part 'schema_tables.dart';
 part 'crud_operations.dart';
 
@@ -1167,7 +1168,6 @@ void main() async {
 
   print('Подключение к PostgreSQL выполнено.');
 
-  // Инициализация схемы базы данных (таблицы, индексы)
   try {
     await _ensureDatabaseSchema(connection);
   } catch (e, st) {
@@ -2032,80 +2032,100 @@ void main() async {
   });
 
   router.get('/orders', (Request request) async {
-    try {
-      final userIdRaw = request.url.queryParameters['userId'];
-      final userId = int.tryParse(userIdRaw ?? '');
-      if (userIdRaw != null && userId == null) {
-        return Response.badRequest(
-          body: 'Идентификатор пользователя указан некорректно',
-        );
-      }
+    final params = request.url.queryParameters;
+    final userIdRaw = params['userId'];
+    final startDateStr = params['startDate'];
+    final endDateStr = params['endDate'];
 
-      final ordersResult = userId == null
-          ? await connection.execute(
-              'SELECT * FROM orders ORDER BY created_at DESC;',
+    final userId = _toPositiveInt(userIdRaw);
+    if (userId == 0) {
+      return Response.badRequest(body: 'userId must be a positive integer');
+    }
+
+    String query = '''
+      SELECT
+        o.id,
+        o.created_at,
+        o.status,
+        o.delivery_address,
+        o.user_id,
+        COALESCE(
+          json_agg(
+            json_build_object(
+              'id', oi.id,
+              'order_id', oi.order_id,
+              'name', oi.name,
+              'price', oi.price,
+              'quantity', oi.quantity,
+              'image_url', oi.image_url,
+              'supplier_name', oi.supplier_name,
+              'is_received', oi.is_received
             )
-          : await connection.execute(
-              Sql.named(
-                'SELECT * FROM orders WHERE user_id = @user_id ORDER BY created_at DESC;',
-              ),
-              parameters: {'user_id': userId},
-            );
+          ) FILTER (WHERE oi.id IS NOT NULL),
+          '[]'::json
+        ) as items
+      FROM orders o
+      LEFT JOIN order_items oi ON o.id = oi.order_id
+      WHERE o.user_id = @user_id::int
+    ''';
+    final Map<String, dynamic> parameters = <String, dynamic>{'user_id': userId};
 
-      final ordersRows = ordersResult.map((row) => row.toColumnMap()).toList();
-      if (ordersRows.isEmpty) {
-        return Response.ok(
-          jsonEncode([]),
-          headers: {'content-type': 'application/json; charset=utf-8'},
-        );
-      }
+    if (startDateStr != null && endDateStr != null) {
+      // Парсим даты и добавляем время для корректного сравнения
+      final startDate = DateTime.parse(startDateStr);
+      final endDate = DateTime.parse(endDateStr);
+      final startDateTime = DateTime(startDate.year, startDate.month, startDate.day, 0, 0, 0);
+      final endDateTime = DateTime(endDate.year, endDate.month, endDate.day, 23, 59, 59);
 
-      final orderIds = ordersRows.map((row) => row['id'] as int).toList();
-      final itemsResult = await connection.execute(
-        Sql.named(
-          'SELECT * FROM order_items WHERE order_id = ANY(@ids) ORDER BY id;',
-        ),
-        parameters: {'ids': orderIds},
-      );
+      query += '''
+        AND o.created_at >= @start_date::timestamp 
+        AND o.created_at <= @end_date::timestamp
+      ''';
+      parameters['start_date'] = startDateTime.toIso8601String();
+      parameters['end_date'] = endDateTime.toIso8601String();
+    }
 
-      final itemsByOrderId = <int, List<Map<String, dynamic>>>{};
-      for (final row in itemsResult) {
-        final map = row.toColumnMap();
-        final orderId = map['order_id'] as int;
-        itemsByOrderId.putIfAbsent(orderId, () => []);
-        itemsByOrderId[orderId]!.add({
-          'id': map['id']?.toString() ?? '',
-          'productId': map['product_id']?.toString() ?? '',
-          'name': map['name'] ?? '',
-          'price': map['price'] ?? 0,
-          'quantity': map['quantity'] ?? 0,
-          'imageUrl': map['image_url'] ?? '',
-          'supplierName': map['supplier_name'] ?? '',
-          'isReceived': map['is_received'] ?? false,
-        });
-      }
+    query += '''
+      GROUP BY o.id, o.created_at, o.status, o.delivery_address, o.user_id
+      ORDER BY o.created_at DESC
+    ''';
 
-      final orders = ordersRows.map((map) {
-        final orderId = map['id'] as int;
-        return {
-          'id': orderId.toString(),
-          'date': (map['created_at'] as DateTime).toIso8601String(),
-          'status': map['status'] ?? '',
-          'deliveryAddress': map['delivery_address'] ?? '',
-          'items': itemsByOrderId[orderId] ?? [],
-        };
+    final result = await connection.execute(
+      Sql.named(query),
+      parameters: parameters,
+    );
+
+    final orders = result.map((row) {
+      final map = row.toColumnMap();
+
+      // 🔥 FIX: нормализуем items
+      final items = (map['items'] as List<dynamic>? ?? []).map((item) {
+        final m = Map<String, dynamic>.from(item);
+
+        // image_url → всегда строка или null
+        m['image_url'] = m['image_url']?.toString();
+
+        // 🔥 FIX: is_received → bool
+        m['is_received'] = m['is_received'] == true;
+
+        return m;
       }).toList();
 
-      return Response.ok(
-        jsonEncode(orders),
-        headers: {'content-type': 'application/json; charset=utf-8'},
-      );
-    } catch (e, st) {
-      print('Ошибка сервера: $e\n$st');
-      return Response.internalServerError(body: 'Некорректный запрос');
-    }
-  });
+      map['items'] = items;
 
+      // Convert DateTime fields to ISO strings for JSON serialization
+      if (map['created_at'] is DateTime) {
+        map['created_at'] = (map['created_at'] as DateTime).toIso8601String();
+      }
+
+      return map;
+    }).toList();
+
+    return Response.ok(
+      jsonEncode(orders),
+      headers: {'content-type': 'application/json; charset=utf-8'},
+    );
+  });
   router.get('/reviews', (Request request) async {
     try {
       final userIdRaw = request.url.queryParameters['userId'];
@@ -2122,8 +2142,8 @@ void main() async {
         return Response.badRequest(body: 'Некорректный запрос');
       }
 
-      final filters = <String>[];
-      final parameters = <String, dynamic>{};
+      final List<String> filters = <String>[];
+      final Map<String, dynamic> parameters = <String, dynamic>{};
       if (userId != null) {
         filters.add('r.user_id = @user_id');
         parameters['user_id'] = userId;

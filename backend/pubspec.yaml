@@ -16,6 +16,7 @@ dependencies:
   bcrypt: ^1.2.0
   mailer: ^6.2.0
   dotenv: ^4.2.0
+  excel: ^4.0.3
 
 
 dev_dependencies:

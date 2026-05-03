@@ -1,11 +1,15 @@
-﻿import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+﻿import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import '../models/order.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../widgets/date_range_picker_dialog.dart' as custom_picker;
 import 'dart:convert';
+import 'package:file_saver/file_saver.dart';
+// ignore: deprecated_member_use
+import 'dart:html' as html;
 
 class OrderHistoryPage extends StatefulWidget {
   const OrderHistoryPage({super.key});
@@ -44,7 +48,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     startAutoRefresh();
   }
 
-  Future<void> _loadOrders({bool showLoading = true}) async {
+  Future<void> _loadOrders({bool showLoading = true, DateTime? startDate, DateTime? endDate}) async {
     try {
       final userId = AuthStorage.userId;
       if (userId == null || userId == 0) {
@@ -64,7 +68,11 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         });
       }
 
-      final orders = await ApiService.getOrders(userId: userId);
+      final orders = await ApiService.getOrders(
+        userId: userId,
+        startDate: startDate ?? _rangeStart,
+        endDate: endDate ?? _rangeEnd,
+      );
       if (!mounted) return;
 
       setState(() {
@@ -147,14 +155,28 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
             ),
           ),
           const SizedBox(height: 12),
-          Row(
-            children: [
-              _buildDateBox(_rangeStart, onTap: () => _pickDateRange()),
-              const SizedBox(width: 12),
-              _buildDateBox(_rangeEnd, onTap: () => _pickDateRange()),
-              const SizedBox(width: 12),
-              _buildIconBox(onTap: () => _pickDateRange()),
-            ],
+          InkWell(
+            onTap: _pickDateRange,
+            borderRadius: BorderRadius.circular(8),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+              decoration: BoxDecoration(
+                border: Border.all(color: _borderColor),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      '${_formatShortDate(_rangeStart)} - ${_formatShortDate(_rangeEnd)}',
+                      style: TextStyle(fontSize: 14, color: _colorScheme.onSurface),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(Icons.calendar_today, size: 20, color: _colorScheme.onSurface),
+                ],
+              ),
+            ),
           ),
           const SizedBox(height: 16),
           SizedBox(
@@ -184,49 +206,8 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     );
   }
 
-  Widget _buildDateBox(DateTime date, {VoidCallback? onTap}) {
-    final text = _formatShortDate(date);
-    return Expanded(
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(8),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-            decoration: BoxDecoration(
-              border: Border.all(color: _borderColor),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              text,
-              style: TextStyle(fontSize: 14, color: _colorScheme.onSurface),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
-  Widget _buildIconBox({VoidCallback? onTap}) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: _borderColor),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(8),
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Icon(Icons.tune, size: 20, color: _colorScheme.onSurface),
-          ),
-        ),
-      ),
-    );
-  }
+
 
   Widget _buildPeriodTabs() {
     return Container(
@@ -289,6 +270,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         _rangeStart = start;
         _rangeEnd = end;
       });
+      _loadOrders();
     } else {
       _selectedPeriod = period;
       _rangeStart = start;
@@ -297,25 +279,22 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
   }
 
   Future<void> _pickDateRange() async {
-    final initialStart = _rangeStart;
-    final initialEnd = _rangeEnd.isBefore(_rangeStart)
-        ? _rangeStart
-        : _rangeEnd;
-    final now = DateTime.now();
-    final picked = await showDateRangePicker(
+    final initialRange = DateTimeRange(start: _rangeStart, end: _rangeEnd);
+    final picked = await showDialog<DateTimeRange>(
       context: context,
-      firstDate: DateTime(now.year - 5),
-      lastDate: DateTime(now.year + 1),
-      initialDateRange: DateTimeRange(start: initialStart, end: initialEnd),
+      builder: (context) => custom_picker.CustomDateRangePickerDialog(initialRange: initialRange),
     );
     if (!mounted || picked == null) {
       return;
     }
+    final newStart = _startOfDay(picked.start);
+    final newEnd = _startOfDay(picked.end);
     setState(() {
       _selectedPeriod = _periodCustom;
-      _rangeStart = _startOfDay(picked.start);
-      _rangeEnd = _startOfDay(picked.end);
+      _rangeStart = newStart;
+      _rangeEnd = newEnd;
     });
+    _loadOrders(startDate: newStart, endDate: newEnd);
   }
 
   Widget _buildHistoryContent() {
@@ -323,7 +302,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       return const Center(child: CircularProgressIndicator(color: _brandBlue));
     }
 
-    final orders = _filteredOrders();
+    final orders = _orders;
 
     return RefreshIndicator(
       color: _brandBlue,
@@ -514,9 +493,78 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
   Widget _buildExpandedDetails(Order order) {
     final statusColor = _statusColor(order.status);
     final hasAddress = order.deliveryAddress.trim().isNotEmpty;
+    final canAccept = !_isAcceptedStatus(order.status) && !_isCancelledStatus(order.status);
+    final effectiveReceived = _isAcceptedStatus(order.status)
+        ? order.items.length
+        : order.receivedItemsCount;
     final receivedSummary = order.items.isEmpty
         ? 'нет товаров'
-        : '${order.receivedItemsCount}/${order.items.length} поз.';
+        : '$effectiveReceived/${order.items.length} поз.';
+
+    final children = <Widget>[
+      _buildOrderDetailRow(
+        icon: _isCancelledStatus(order.status)
+            ? Icons.cancel_outlined
+            : Icons.verified_rounded,
+        label: 'Статус',
+        value: order.status,
+        valueColor: statusColor,
+      ),
+      const SizedBox(height: 10),
+      _buildOrderDetailRow(
+        icon: Icons.calendar_month_rounded,
+        label: 'Дата заказа',
+        value: _formatShortDate(order.date),
+      ),
+      const SizedBox(height: 10),
+      _buildOrderDetailRow(
+        icon: Icons.list_alt_rounded,
+        label: 'Товарных позиций',
+        value: '${order.items.length}',
+      ),
+      const SizedBox(height: 10),
+      _buildOrderDetailRow(
+        icon: Icons.widgets_outlined,
+        label: 'Единиц товара',
+        value: '${order.totalUnits} шт.',
+      ),
+      const SizedBox(height: 10),
+      _buildOrderDetailRow(
+        icon: Icons.task_alt_rounded,
+        label: 'Подтверждено',
+        value: receivedSummary,
+      ),
+    ];
+
+    if (hasAddress) {
+      children.addAll([
+        const SizedBox(height: 10),
+        Divider(height: 1, color: _borderColor.withValues(alpha: 0.8)),
+        const SizedBox(height: 10),
+        _buildOrderDetailRow(
+          icon: Icons.location_on_outlined,
+          label: 'Адрес доставки',
+          value: order.deliveryAddress.trim(),
+          multilineValue: true,
+        ),
+      ]);
+    }
+
+    if (canAccept) {
+      children.addAll([
+        const SizedBox(height: 10),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: () async {
+              await ApiService.acceptOrder(order.id.toString());
+              await _loadOrders();
+            },
+            child: Text('Подтвердить получение'),
+          ),
+        ),
+      ]);
+    }
 
     return Container(
       width: double.infinity,
@@ -528,51 +576,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildOrderDetailRow(
-            icon: _isCancelledStatus(order.status)
-                ? Icons.cancel_outlined
-                : Icons.verified_rounded,
-            label: 'Статус',
-            value: order.status,
-            valueColor: statusColor,
-          ),
-          const SizedBox(height: 10),
-          _buildOrderDetailRow(
-            icon: Icons.calendar_month_rounded,
-            label: 'Дата заказа',
-            value: _formatShortDate(order.date),
-          ),
-          const SizedBox(height: 10),
-          _buildOrderDetailRow(
-            icon: Icons.list_alt_rounded,
-            label: 'Товарных позиций',
-            value: '${order.items.length}',
-          ),
-          const SizedBox(height: 10),
-          _buildOrderDetailRow(
-            icon: Icons.widgets_outlined,
-            label: 'Единиц товара',
-            value: '${order.totalUnits} шт.',
-          ),
-          const SizedBox(height: 10),
-          _buildOrderDetailRow(
-            icon: Icons.task_alt_rounded,
-            label: 'Подтверждено',
-            value: receivedSummary,
-          ),
-          if (hasAddress) ...[
-            const SizedBox(height: 10),
-            Divider(height: 1, color: _borderColor.withValues(alpha: 0.8)),
-            const SizedBox(height: 10),
-            _buildOrderDetailRow(
-              icon: Icons.location_on_outlined,
-              label: 'Адрес доставки',
-              value: order.deliveryAddress.trim(),
-              multilineValue: true,
-            ),
-          ],
-        ],
+        children: children,
       ),
     );
   }
@@ -690,39 +694,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
                                   ),
                                 ),
                               ],
-                              const SizedBox(height: 6),
-                              Wrap(
-                                spacing: 8,
-                                runSpacing: 6,
-                                children: [
-                                  _buildMetaBadge(
-                                    icon: Icons.inventory_2_outlined,
-                                    text: '${item.quantity} шт.',
-                                  ),
-                                  _buildMetaBadge(
-                                    icon: item.isReceived
-                                        ? Icons.task_alt_rounded
-                                        : Icons.hourglass_empty_rounded,
-                                    text: item.isReceived
-                                        ? 'Принят'
-                                        : 'Ожидает',
-                                    textColor: item.isReceived
-                                        ? const Color(0xFF2E7D32)
-                                        : _mutedText,
-                                    backgroundColor: item.isReceived
-                                        ? const Color(
-                                            0xFF2E7D32,
-                                          ).withValues(alpha: 0.12)
-                                        : _colorScheme.surfaceContainerHighest
-                                              .withValues(alpha: 0.45),
-                                    borderColor: item.isReceived
-                                        ? const Color(
-                                            0xFF2E7D32,
-                                          ).withValues(alpha: 0.3)
-                                        : _borderColor.withValues(alpha: 0.7),
-                                  ),
-                                ],
-                              ),
+                              
                             ],
                           ),
                         ),
@@ -754,7 +726,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
   }
 
   Widget _buildItemImage(OrderItem item) {
-    var raw = item.imageUrl.trim();
+    var raw = (item.imageUrl ?? '').toString().trim();
     if (raw.isEmpty) return _buildItemImageFallback();
 
     if (raw.startsWith('base64:') || raw.startsWith('data:image')) {
@@ -800,6 +772,18 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       );
     }
 
+    // 🔥 если это просто base64 без префикса
+    if (raw.isNotEmpty && !raw.startsWith('assets/')) {
+      try {
+        final bytes = base64Decode(raw);
+        return Image.memory(
+          bytes,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => _buildItemImageFallback(),
+        );
+      } catch (_) {}
+    }
+
     final assetPath = raw.startsWith('assets/') ? raw : 'assets/$raw';
     return Image.asset(
       assetPath,
@@ -843,70 +827,63 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         normalized == 'canceled';
   }
 
-  bool _isWithinSelectedRange(DateTime date) {
-    final day = _startOfDay(date);
-    if (day.isBefore(_rangeStart)) {
-      return false;
-    }
-    if (day.isAfter(_rangeEnd)) {
-      return false;
-    }
-    return true;
-  }
+
 
   DateTime _startOfDay(DateTime date) {
     return DateTime(date.year, date.month, date.day);
   }
 
-  List<Order> _filteredOrders() {
-    final result = _orders
-        .where(
-          (order) =>
-              _isAcceptedStatus(order.status) ||
-              _isCancelledStatus(order.status),
-        )
-        .where((order) => _isWithinSelectedRange(order.date))
-        .toList();
-    result.sort((a, b) => b.date.compareTo(a.date));
-    return result;
-  }
+
 
   Future<void> _exportToExcel() async {
-    final orders = _filteredOrders();
-    final startLabel = _formatShortDate(_rangeStart);
-    final endLabel = _formatShortDate(_rangeEnd);
-
-    final buffer = StringBuffer()..writeln('Дата,Заказ,Сумма,Статус,Товары');
-    for (final order in orders) {
-      buffer.writeln(
-        [
-          _csvEscape(_formatShortDate(order.date)),
-          _csvEscape(order.id),
-          _csvEscape(order.totalAmount.toString()),
-          _csvEscape(order.status),
-          _csvEscape(_formatItems(order.items)),
-        ].join(','),
+    final userId = AuthStorage.userId;
+    if (userId == null || userId == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Необходимо авторизоваться')),
       );
-    }
-
-    await Clipboard.setData(ClipboardData(text: buffer.toString()));
-
-    if (!mounted) {
       return;
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Экспортировано $startLabel – $endLabel: ${orders.length} заказов (в буфер обмена).',
-        ),
-      ),
-    );
+
+    try {
+      final bytes = await ApiService.exportOrdersExcel(
+        userId: userId,
+        startDate: _rangeStart,
+        endDate: _rangeEnd,
+      );
+
+      final fileName = 'orders_export_${_formatShortDate(_rangeStart)}_to_${_formatShortDate(_rangeEnd)}.xlsx';
+
+      if (kIsWeb) {
+        // For web, use browser download
+        final blob = html.Blob([bytes]);
+        final url = html.Url.createObjectUrlFromBlob(blob);
+        html.AnchorElement(href: url)
+          ..setAttribute('download', fileName)
+          ..click();
+        html.Url.revokeObjectUrl(url);
+      } else {
+        // For mobile, use file_saver
+        await FileSaver.instance.saveAs(
+          name: fileName,
+          bytes: bytes,
+          ext: 'xlsx',
+          mimeType: MimeType.microsoftExcel,
+        );
+      }
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Файл сохранён')),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Ошибка экспорта: $e')),
+      );
+    }
   }
 
-  String _csvEscape(String value) {
-    final escaped = value.replaceAll('"', '""');
-    return '"$escaped"';
-  }
+
 
   Color _statusColor(String status) {
     if (_isAcceptedStatus(status)) {
@@ -944,10 +921,5 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     return value < 0 ? '-$formatted' : formatted;
   }
 
-  String _formatItems(List<OrderItem> items) {
-    if (items.isEmpty) {
-      return 'Нет товаров';
-    }
-    return items.map((item) => '${item.name} ${item.quantity} шт').join(', ');
-  }
+
 }

@@ -45,23 +45,27 @@ class _VerificationPageState extends State<VerificationPage> {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_remainingTime == 0) {
-        setState(() {
-          _isButtonDisabled = false;
-        });
+        if (mounted) {
+          setState(() {
+            _isButtonDisabled = false;
+          });
+        }
         timer.cancel();
       } else {
-        setState(() {
-          _remainingTime--;
-        });
+        if (mounted) {
+          setState(() {
+            _remainingTime--;
+          });
+        }
       }
     });
   }
 
   @override
   void dispose() {
-    _pinController.dispose();
-    _errorController.close();
     _timer?.cancel();
+    _errorController.close();
+    _pinController.dispose();
     super.dispose();
   }
 

@@ -306,6 +306,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     ).showSnackBar(SnackBar(content: Text(message)));
   }
 
+
   @override
   Future<void> onAutoRefresh() async {
     if (_isLoading || _updatingOrderIds.isNotEmpty) return;
@@ -1042,41 +1043,6 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
                                   fontWeight: FontWeight.w700,
                                   fontSize: 14,
                                 ),
-                              ),
-                              const SizedBox(height: 6),
-                              Wrap(
-                                spacing: 8,
-                                runSpacing: 6,
-                                children: [
-                                  _buildMetaBadge(
-                                    icon: Icons.inventory_2_outlined,
-                                    text: '${item.quantity} шт.',
-                                  ),
-                                  _buildMetaBadge(
-                                    icon: item.isReceived
-                                        ? Icons.task_alt_rounded
-                                        : Icons.hourglass_empty_rounded,
-                                    text: item.isReceived
-                                        ? 'Принят'
-                                        : 'Ожидает',
-                                    textColor: item.isReceived
-                                        ? const Color(0xFF2E7D32)
-                                        : colorScheme.onSurfaceVariant,
-                                    backgroundColor: item.isReceived
-                                        ? const Color(
-                                            0xFF2E7D32,
-                                          ).withValues(alpha: 0.12)
-                                        : colorScheme.surfaceContainerHighest
-                                              .withValues(alpha: 0.45),
-                                    borderColor: item.isReceived
-                                        ? const Color(
-                                            0xFF2E7D32,
-                                          ).withValues(alpha: 0.3)
-                                        : colorScheme.outlineVariant.withValues(
-                                            alpha: 0.7,
-                                          ),
-                                  ),
-                                ],
                               ),
                             ],
                           ),

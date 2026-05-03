@@ -338,19 +338,19 @@ class _ProductCardState extends State<ProductCard> {
               physics: enableImageSwipe
                   ? const PageScrollPhysics()
                   : const NeverScrollableScrollPhysics(),
-              itemCount: widget.product.imageUrls.isNotEmpty
-                  ? widget.product.imageUrls.length
-                  : 1,
-              onPageChanged: (index) {
-                setState(() {
-                  _imageIndex = index;
-                });
-              },
-              itemBuilder: (context, index) {
-                final images = widget.product.imageUrls.isNotEmpty
-                    ? widget.product.imageUrls
-                    : [''];
-                final path = images[index];
+               itemCount: widget.product.imageUrls.isNotEmpty
+                   ? widget.product.imageUrls.length
+                   : 1,
+               onPageChanged: (index) {
+                 setState(() {
+                   _imageIndex = index;
+                 });
+               },
+               itemBuilder: (context, index) {
+                 final images = widget.product.imageUrls.isNotEmpty
+                     ? widget.product.imageUrls
+                     : [''];
+                 final path = images[index];
                 return SmartImage(
                   path: path,
                   width: double.infinity,

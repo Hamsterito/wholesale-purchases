@@ -51,24 +51,28 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_remainingTime == 0) {
         // Таймер истек, активируем кнопку повторной отправки
-        setState(() {
-          _isButtonDisabled = false;
-        });
+        if (mounted) {
+          setState(() {
+            _isButtonDisabled = false;
+          });
+        }
         timer.cancel();
       } else {
         // Уменьшаем оставшееся время
-        setState(() {
-          _remainingTime--;
-        });
+        if (mounted) {
+          setState(() {
+            _remainingTime--;
+          });
+        }
       }
     });
   }
 
   @override
   void dispose() {
-    _pinController.dispose();
-    _errorController.close();
     _timer?.cancel();
+    _errorController.close();
+    _pinController.dispose();
     super.dispose();
   }
 
@@ -87,7 +91,9 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
       return;
     }
 
-    setState(() => _isLoading = true);
+    if (mounted) {
+      setState(() => _isLoading = true);
+    }
 
     try {
       final url = Uri.parse('${ApiConfig.baseUrl}/forgot-password/verify-code');

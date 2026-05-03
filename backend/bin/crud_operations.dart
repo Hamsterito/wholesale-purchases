@@ -2085,6 +2085,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
                    p.stock_quantity,
                    p.max_quantity,
                    p.name,
+                   p.image_url,
                    EXISTS(
                      SELECT 1
                      FROM order_items oi
@@ -2207,8 +2208,6 @@ void _registerMutationRoutes(Router router, Connection connection) {
 
         final price = _toPositiveInt(item['price']);
         final quantity = _toPositiveInt(item['quantity'], fallback: 1);
-        final imageUrl = item['imageUrl']?.toString() ?? '';
-        final isReceived = item['isReceived'] == true;
         final parsedProductId = _toNullablePositiveInt(
           item['productId'] ?? item['product_id'],
         );
@@ -2228,6 +2227,8 @@ void _registerMutationRoutes(Router router, Connection connection) {
             headers: _utf8TextHeaders,
           );
         }
+        final imageUrl = item['imageUrl']?.toString() ?? productRow['image_url']?.toString() ?? '';
+        final isReceived = item['isReceived'] == true;
         final supplierUserId =
             _toNullablePositiveInt(item['supplierUserId']) ??
             _toNullablePositiveInt(productRow['supplier_user_id']);
@@ -3469,6 +3470,134 @@ void _registerMutationRoutes(Router router, Connection connection) {
       return _jsonSuccess('Пароль успешно изменён');
     } catch (e, st) {
       print('Ошибка сброса пароля: $e\n$st');
+      return _jsonError('Ошибка сервера', 500);
+    }
+  });
+
+  router.post('/export/orders/excel', (Request request) async {
+    try {
+      final body = await request.readAsString();
+      final decoded = jsonDecode(body);
+      if (decoded is! Map) {
+        return _jsonError('Ожидается JSON объект', 400);
+      }
+      final payload = Map<String, dynamic>.from(decoded);
+
+      final userId = _toPositiveInt(payload['userId']);
+      final startDateRaw = payload['startDate'];
+      final endDateRaw = payload['endDate'];
+
+      if (userId == 0) {
+        return _jsonError('userId обязателен', 400);
+      }
+      if (startDateRaw == null || endDateRaw == null) {
+        return _jsonError('startDate и endDate обязательны', 400);
+      }
+
+      final startDateRawDt = _toNullableDateTime(startDateRaw);
+      final endDateRawDt = _toNullableDateTime(endDateRaw);
+
+      if (startDateRawDt == null || endDateRawDt == null) {
+        return _jsonError('Неверный формат дат', 400);
+      }
+
+      final startDate = startDateRawDt;
+      final endDate = endDateRawDt;
+
+      if (startDate.isAfter(endDate)) {
+        return _jsonError('startDate не может быть позже endDate', 400);
+      }
+
+      // Добавляем время для корректного сравнения
+      final startDateTime = DateTime(startDate.year, startDate.month, startDate.day, 0, 0, 0);
+      final endDateTime = DateTime(endDate.year, endDate.month, endDate.day, 23, 59, 59);
+
+      // Fetch order data
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT
+            o.id as order_id,
+            o.created_at as order_date,
+            o.status as order_status,
+            u.name as client_name,
+            oi.name as service_name,
+            oi.price as price,
+            oi.quantity as quantity
+          FROM orders o
+          JOIN users u ON o.user_id = u.id
+          JOIN order_items oi ON o.id = oi.order_id
+          WHERE o.user_id = @user_id AND o.created_at >= @start_date AND o.created_at <= @end_date
+          ORDER BY o.id, oi.id
+        '''),
+        parameters: {
+          'user_id': userId,
+          'start_date': startDateTime.toIso8601String(),
+          'end_date': endDateTime.toIso8601String(),
+        },
+      );
+
+      // Generate Excel
+      final excel = Excel.createExcel();
+      final sheet = excel['Orders'];
+
+      // Add headers
+      sheet.cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0)).value = TextCellValue('ID заказа');
+      sheet.cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: 0)).value = TextCellValue('Клиент');
+      sheet.cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: 0)).value = TextCellValue('Товар');
+      sheet.cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: 0)).value = TextCellValue('Цена');
+      sheet.cell(CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: 0)).value = TextCellValue('Дата');
+      sheet.cell(CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: 0)).value = TextCellValue('Статус');
+
+      // Style headers
+      for (var col = 0; col < 6; col++) {
+        final cell = sheet.cell(CellIndex.indexByColumnRow(columnIndex: col, rowIndex: 0));
+        cell.cellStyle = CellStyle(
+          bold: true,
+          fontFamily: getFontFamily(FontFamily.Calibri),
+        );
+      }
+
+      // Add data
+      for (var i = 0; i < result.length; i++) {
+        final row = result[i].toColumnMap();
+        final orderId = row['order_id'].toString();
+        final clientName = row['client_name'] ?? '';
+        final serviceName = row['service_name'] ?? '';
+        final price = _toPositiveInt(row['price']);
+        final orderDate = row['order_date'];
+        final orderStatus = row['order_status'] ?? '';
+
+        String formattedDate = '';
+        if (orderDate is DateTime) {
+          formattedDate = '${orderDate.day.toString().padLeft(2, '0')}.${orderDate.month.toString().padLeft(2, '0')}.${orderDate.year}';
+        }
+
+        sheet.cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: i + 1)).value = TextCellValue(orderId);
+        sheet.cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: i + 1)).value = TextCellValue(clientName);
+        sheet.cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: i + 1)).value = TextCellValue(serviceName);
+        sheet.cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: i + 1)).value = IntCellValue(price);
+        sheet.cell(CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: i + 1)).value = TextCellValue(formattedDate);
+        sheet.cell(CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: i + 1)).value = TextCellValue(orderStatus);
+      }
+
+      // Auto-fit columns
+      for (var col = 0; col < 6; col++) {
+        sheet.setColumnAutoFit(col);
+      }
+
+      // Encode to bytes
+      final bytes = excel.encode();
+
+      return Response(
+        200,
+        body: bytes,
+        headers: {
+          'content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'content-disposition': 'attachment; filename="orders_export.xlsx"',
+        },
+      );
+    } catch (e, st) {
+      print('Ошибка экспорта заказов: $e\n$st');
       return _jsonError('Ошибка сервера', 500);
     }
   });

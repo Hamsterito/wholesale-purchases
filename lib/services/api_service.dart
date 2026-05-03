@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http_package;
 import '../models/product.dart';
@@ -177,11 +178,23 @@ class ApiService {
     }
   }
 
-  static Future<List<Order>> getOrders({int? userId}) async {
+  static Future<List<Order>> getOrders({
+    int? userId,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     try {
-      final uri = (userId != null && userId > 0)
-          ? Uri.parse('$baseUrl/orders?userId=$userId')
-          : Uri.parse('$baseUrl/orders');
+      final queryParams = <String, String>{};
+      if (userId != null && userId > 0) {
+        queryParams['userId'] = userId.toString();
+      }
+      if (startDate != null) {
+        queryParams['startDate'] = startDate.toIso8601String();
+      }
+      if (endDate != null) {
+        queryParams['endDate'] = endDate.toIso8601String();
+      }
+      final uri = Uri.parse('$baseUrl/orders').replace(queryParameters: queryParams);
       final response = await http.get(uri);
 
       if (response.statusCode == 200) {
@@ -1606,6 +1619,33 @@ class ApiService {
     }
 
     return body;
+  }
+
+  static Future<Uint8List> exportOrdersExcel({
+    required int userId,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/export/orders/excel'),
+        headers: {'content-type': 'application/json'},
+        body: jsonEncode({
+          'userId': userId,
+          'startDate': startDate.toIso8601String(),
+          'endDate': endDate.toIso8601String(),
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return Uint8List.fromList(response.bodyBytes);
+      } else {
+        throw Exception('Не удалось экспортировать заказы: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Ошибка при экспорте заказов: $e');
+      rethrow;
+    }
   }
 
   static String _decodeBody(List<int> bytes) {

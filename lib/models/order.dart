@@ -31,7 +31,7 @@ class Order {
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
       id: json['id']?.toString() ?? '',
-      date: _parseDate(json['date']),
+      date: _parseDate(json['created_at']),
       status: json['status'] ?? '',
       deliveryAddress:
           json['deliveryAddress']?.toString() ??
@@ -96,8 +96,8 @@ class OrderItem {
           '',
       price: json['price'] ?? 0,
       quantity: json['quantity'] ?? 0,
-      imageUrl: json['imageUrl'] ?? '',
-      isReceived: json['isReceived'] ?? false,
+      imageUrl: json['imageUrl']?.toString() ?? json['image_url']?.toString() ?? '',
+      isReceived: json['isReceived'] ?? json['is_received'] ?? false,
     );
   }
 }
