@@ -10,6 +10,7 @@ class ExpandableTextBlock extends StatefulWidget {
     this.moreLabel = 'Подробнее',
     this.lessLabel = 'Свернуть',
     this.actionFontSize = 12,
+    this.onExpansionChanged,
   });
 
   final String text;
@@ -19,6 +20,7 @@ class ExpandableTextBlock extends StatefulWidget {
   final String moreLabel;
   final String lessLabel;
   final double actionFontSize;
+  final ValueChanged<bool>? onExpansionChanged;
 
   @override
   State<ExpandableTextBlock> createState() => _ExpandableTextBlockState();
@@ -32,6 +34,7 @@ class _ExpandableTextBlockState extends State<ExpandableTextBlock> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.text != widget.text && _isExpanded) {
       _isExpanded = false;
+      widget.onExpansionChanged?.call(false);
     }
   }
 
@@ -69,12 +72,13 @@ class _ExpandableTextBlockState extends State<ExpandableTextBlock> {
             ),
             if (hasOverflow) ...[
               const SizedBox(height: 4),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _isExpanded = !_isExpanded;
-                  });
-                },
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isExpanded = !_isExpanded;
+                    });
+                    widget.onExpansionChanged?.call(_isExpanded);
+                  },
                 child: Text(
                   _isExpanded ? widget.lessLabel : widget.moreLabel,
                   style: TextStyle(

@@ -3601,4 +3601,118 @@ void _registerMutationRoutes(Router router, Connection connection) {
       return _jsonError('Ошибка сервера', 500);
     }
   });
+
+  // POST /questions (создание вопроса)
+  router.post('/products/<productId>/questions', (Request request, String productId) async {
+    try {
+      final pid = int.tryParse(productId);
+      if (pid == null) return Response.badRequest(body: 'Invalid product id');
+
+      final body = await request.readAsString();
+      final decoded = jsonDecode(body);
+      if (decoded is! Map) return Response.badRequest(body: 'Expected JSON');
+      final payload = Map<String, dynamic>.from(decoded);
+
+      final userId = _toPositiveInt(payload['userId']);
+      final questionText = payload['questionText']?.toString().trim() ?? '';
+      if (questionText.length < 10 || questionText.length > 500) {
+        return Response.badRequest(body: 'Question text must be 10-500 characters');
+      }
+
+      // Проверка существования товара
+      final prodCheck = await connection.execute(
+        Sql.named('SELECT id FROM products WHERE id = @id'),
+        parameters: {'id': pid}
+      );
+      if (prodCheck.isEmpty) return Response(404, body: 'Product not found');
+
+      // Rate limiting: не более 5 вопросов от пользователя за последний час на товар
+      final recentCheck = await connection.execute(
+        Sql.named('''SELECT COUNT(*) as cnt FROM questions
+          WHERE user_id = @uid AND product_id = @pid AND created_at > NOW() - INTERVAL '1 hour'
+        '''),
+        parameters: {'uid': userId, 'pid': pid}
+      );
+      final recentCount = _toPositiveInt(recentCheck.first.toColumnMap()['cnt']);
+      if (recentCount >= 5) {
+        return Response(429, body: 'Too many questions. Please wait.', headers: _utf8TextHeaders);
+      }
+
+      final inserted = await connection.execute(
+        Sql.named('''INSERT INTO questions (product_id, user_id, question_text)
+          VALUES (@pid, @uid, @text) RETURNING id, created_at'''),
+        parameters: {'pid': pid, 'uid': userId, 'text': questionText}
+      );
+      final map = inserted.first.toColumnMap();
+      final id = map['id'].toString();
+      final createdAt = (map['created_at'] as DateTime).toIso8601String();
+
+      return Response(201, body: jsonEncode({'questionId': id, 'createdAt': createdAt}),
+        headers: {'content-type': 'application/json; charset=utf-8'});
+    } on FormatException {
+      return Response.badRequest(body: 'Invalid JSON');
+    } catch (e, st) {
+      print('Error creating question: $e\n$st');
+      return Response.internalServerError(body: 'Server error');
+    }
+  });
+
+  // POST /questions/<id>/answer (ответ поставщика)
+  router.post('/questions/<id>/answer', (Request request, String id) async {
+    try {
+      final questionId = int.tryParse(id);
+      if (questionId == null) return Response.badRequest(body: 'Invalid question id');
+
+      final body = await request.readAsString();
+      final decoded = jsonDecode(body);
+      if (decoded is! Map) return Response.badRequest(body: 'Expected JSON');
+      final payload = Map<String, dynamic>.from(decoded);
+
+      final supplierUserId = _toPositiveInt(payload['supplierUserId']);
+      final answerText = payload['answerText']?.toString().trim() ?? '';
+      if (answerText.length < 10 || answerText.length > 1000) {
+        return Response.badRequest(body: 'Answer text must be 10-1000 characters');
+      }
+
+      // Проверка, что вопрос относится к продукту данного поставщика
+      final check = await connection.execute(
+        Sql.named('''SELECT q.id FROM questions q
+          JOIN products p ON q.product_id = p.id
+          WHERE q.id = @qid AND p.supplier_user_id = @suid
+        '''),
+        parameters: {'qid': questionId, 'suid': supplierUserId}
+      );
+      if (check.isEmpty) return Response(403, body: 'Forbidden');
+
+      // Вставка ответа (используем ON CONFLICT для безопасности)
+      await connection.execute(
+        Sql.named('''INSERT INTO question_answers (question_id, supplier_user_id, answer_text)
+          VALUES (@qid, @suid, @text)
+          ON CONFLICT (question_id) DO UPDATE SET answer_text = EXCLUDED.answer_text, answered_at = NOW()
+        '''),
+        parameters: {'qid': questionId, 'suid': supplierUserId, 'text': answerText}
+      );
+
+      // Обновить флаг is_answered
+      await connection.execute(
+        Sql.named('UPDATE questions SET is_answered = true WHERE id = @qid'),
+        parameters: {'qid': questionId}
+      );
+
+      final result = await connection.execute(
+        Sql.named('''SELECT id, answered_at FROM question_answers WHERE question_id = @qid'''),
+        parameters: {'qid': questionId}
+      );
+      final map = result.first.toColumnMap();
+      return Response(201, body: jsonEncode({
+        'answerId': map['id'].toString(),
+        'answeredAt': (map['answered_at'] as DateTime).toIso8601String()
+      }), headers: {'content-type': 'application/json; charset=utf-8'});
+    } on FormatException {
+      return Response.badRequest(body: 'Invalid JSON');
+    } catch (e, st) {
+      print('Error answering: $e\n$st');
+      return Response.internalServerError(body: 'Server error');
+    }
+  });
 }

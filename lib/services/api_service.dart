@@ -13,6 +13,7 @@ import '../models/user_address.dart';
 import '../models/review_entry.dart';
 import '../models/support_message.dart';
 
+
 final http = AppHttpClient.instance;
 
 class ApiService {
@@ -1645,6 +1646,50 @@ class ApiService {
     } catch (e) {
       debugPrint('Ошибка при экспорте заказов: $e');
       rethrow;
+    }
+  }
+
+  static Future<Map<String, dynamic>> getProductQuestions({
+    required String productId,
+    int page = 1,
+    int limit = 20,
+  }) async {
+    final uri = Uri.parse('$baseUrl/products/$productId/questions?page=$page&limit=$limit');
+    final response = await http.get(uri);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } else {
+      throw Exception('Не удалось загрузить вопросы');
+    }
+  }
+
+  static Future<void> askQuestion({
+    required String productId,
+    required int userId,
+    required String questionText,
+  }) async {
+    final uri = Uri.parse('$baseUrl/products/$productId/questions');
+    final response = await http.post(uri, body: jsonEncode({
+      'userId': userId,
+      'questionText': questionText,
+    }));
+    if (response.statusCode != 201) {
+      throw Exception('Не удалось задать вопрос');
+    }
+  }
+
+  static Future<void> answerQuestion({
+    required int questionId,
+    required int supplierUserId,
+    required String answerText,
+  }) async {
+    final uri = Uri.parse('$baseUrl/questions/$questionId/answer');
+    final response = await http.post(uri, body: jsonEncode({
+      'supplierUserId': supplierUserId,
+      'answerText': answerText,
+    }));
+    if (response.statusCode != 201) {
+      throw Exception('Не удалось ответить');
     }
   }
 

@@ -3,8 +3,9 @@
 import '../models/product.dart';
 import '../models/review_entry.dart';
 import '../services/api_service.dart';
-import '../widgets/expandable_text_block.dart';
 import '../widgets/rating_stars.dart';
+import '../widgets/expandable_text_block.dart';
+import '../widgets/main_bottom_nav.dart';
 
 class _ProductReviewsPalette {
   const _ProductReviewsPalette({
@@ -97,8 +98,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
   bool _isLoading = false;
   String? _error;
 
-  bool get _isDark => Theme.of(context).brightness == Brightness.dark;
-
   @override
   void initState() {
     super.initState();
@@ -183,23 +182,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
     return normalized.characters.first.toUpperCase();
   }
 
-  Color _reviewCardBorder(_ProductReviewsPalette palette) {
-    return Color.alphaBlend(
-      palette.accent.withValues(alpha: _isDark ? 0.24 : 0.12),
-      palette.line,
-    );
-  }
-
-  Color _reviewCardBackground(_ProductReviewsPalette palette) {
-    return Color.alphaBlend(
-      palette.accent.withValues(alpha: _isDark ? 0.18 : 0.08),
-      palette.card,
-    );
-  }
-
-  Color _reviewChipBackground(_ProductReviewsPalette palette) {
-    return palette.accentMist.withValues(alpha: _isDark ? 0.9 : 1);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -252,6 +234,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
           ),
         ],
       ),
+      bottomNavigationBar: const MainBottomNav(currentIndex: null),
     );
   }
 
@@ -449,14 +432,14 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 alignment: Alignment.centerLeft,
                 child: FractionallySizedBox(
                   widthFactor: ratio,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(999),
-                      gradient: const LinearGradient(
-                        colors: [_star, Color(0xFFF2A900)],
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(999),
+                        gradient: LinearGradient(
+                          colors: [_star, _star],
+                        ),
                       ),
                     ),
-                  ),
                 ),
               ),
             ),
@@ -542,104 +525,64 @@ class _ReviewsPageState extends State<ReviewsPage> {
 
   Widget _buildReviewCard(ReviewEntry review) {
     final palette = context.productReviewsPalette;
-    final softBorder = _reviewCardBorder(palette);
-    final softPanel = _reviewCardBackground(palette);
-    final chipBg = _reviewChipBackground(palette);
     final name = _reviewerName(review);
-    final text = review.reviewText.trim().isEmpty
-        ? 'Без текста отзыва'
-        : review.reviewText.trim();
+    final text = review.reviewText.trim().isEmpty ? 'Без текста' : review.reviewText.trim();
+    final dateStr = _formatDate(review.createdAt); // DD.MM.YYYY
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: softPanel,
+        color: palette.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: softBorder),
+        border: Border.all(color: palette.line.withValues(alpha: 0.5)),
         boxShadow: [
-          BoxShadow(
-            color: palette.shadow,
-            blurRadius: 10,
-            offset: const Offset(0, 6),
-          ),
+          BoxShadow(color: palette.shadow, blurRadius: 10, offset: const Offset(0, 6)),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Верхняя строка: аватар + имя/дата + звёзды
           Row(
             children: [
-              Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  color: chipBg,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: softBorder.withValues(alpha: 0.9)),
-                ),
-                alignment: Alignment.center,
+              CircleAvatar(
+                radius: 20,
+                backgroundColor: palette.accentSoft,
                 child: Text(
                   _initial(name),
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: palette.accentDark,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: const Color(0xFF6288D5)),
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 12),
               Expanded(
-                child: Text(
-                  name,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: palette.ink,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(name, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: palette.ink)),
+                    const SizedBox(height: 2),
+                    Text(dateStr, style: TextStyle(fontSize: 12, color: palette.muted)),
+                  ],
                 ),
               ),
-              const SizedBox(width: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  color: chipBg,
-                  borderRadius: BorderRadius.circular(999),
-                  border: Border.all(color: softBorder.withValues(alpha: 0.9)),
-                ),
-                child: Text(
-                  _formatDate(review.createdAt),
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                    color: palette.muted,
-                  ),
-                ),
+              RatingStars(
+                rating: review.rating.toDouble(),
+                size: 16,
+                spacing: 2,
+                filledColor: _star,
+                emptyColor: palette.line,
               ),
             ],
           ),
-          const SizedBox(height: 7),
-          RatingStars(
-            rating: review.rating.toDouble(),
-            size: 13,
-            spacing: 1.5,
-            filledColor: _star,
-            emptyColor: palette.line,
-          ),
-          const SizedBox(height: 8),
-          ExpandableTextBlock(
-            text,
-            key: ValueKey('product-review-${review.id}'),
-            textStyle: TextStyle(
-              fontSize: 12,
-              color: palette.muted,
-              height: 1.35,
-            ),
-            actionColor: palette.accentDark,
-            actionFontSize: 11,
-          ),
+           const SizedBox(height: 12),
+           ExpandableTextBlock(
+             text,
+             textStyle: TextStyle(fontSize: 14, color: palette.ink, height: 1.4),
+             actionColor: palette.accent,
+             collapsedMaxLines: 3,
+             moreLabel: 'Подробнее',
+             lessLabel: 'Свернуть',
+           ),
         ],
       ),
     );

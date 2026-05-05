@@ -150,6 +150,7 @@ Future<void> _ensureDatabaseSchema(Connection connection) async {
   await _ensureOrderItemsSchema(connection);
   await _ensureReviewSchema(connection);
   await _ensureSupportSchema(connection);
+  await _ensureQuestionsSchema(connection);
 }
 
 Future<void> _ensureUserSchema(Connection connection) async {
@@ -969,5 +970,45 @@ Future<void> _ensureOrderSchema(Connection connection) async {
   await connection.execute(
     'CREATE INDEX IF NOT EXISTS idx_order_items_order_id ON public.order_items(order_id);',
   );
+}
+
+Future<void> _ensureQuestionsSchema(Connection connection) async {
+  // Таблица вопросов
+  await connection.execute('''
+    CREATE TABLE IF NOT EXISTS public.questions (
+      id SERIAL PRIMARY KEY,
+      product_id INTEGER NOT NULL REFERENCES public.products(id) ON DELETE CASCADE,
+      user_id INTEGER NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+      question_text TEXT NOT NULL CHECK (char_length(question_text) >= 10 AND char_length(question_text) <= 500),
+      created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+      is_answered BOOLEAN NOT NULL DEFAULT false
+    );
+  ''');
+
+  await connection.execute('''
+    CREATE INDEX IF NOT EXISTS idx_questions_product_id ON public.questions(product_id);
+  ''');
+  await connection.execute('''
+    CREATE INDEX IF NOT EXISTS idx_questions_user_id ON public.questions(user_id);
+  ''');
+  await connection.execute('''
+    CREATE INDEX IF NOT EXISTS idx_questions_created_at ON public.questions(created_at DESC);
+  ''');
+
+  // Таблица ответов
+  await connection.execute('''
+    CREATE TABLE IF NOT EXISTS public.question_answers (
+      id SERIAL PRIMARY KEY,
+      question_id INTEGER NOT NULL REFERENCES public.questions(id) ON DELETE CASCADE,
+      supplier_user_id INTEGER NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+      answer_text TEXT NOT NULL CHECK (char_length(answer_text) >= 10 AND char_length(answer_text) <= 1000),
+      answered_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+      UNIQUE (question_id)
+    );
+  ''');
+
+  await connection.execute('''
+    CREATE INDEX IF NOT EXISTS idx_question_answers_question_id ON public.question_answers(question_id);
+  ''');
 }
 

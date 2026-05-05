@@ -2252,6 +2252,81 @@ void main() async {
     }
   });
 
+  // Получить вопросы по productId
+  router.get('/products/<productId>/questions', (Request request, String productId) async {
+    final pid = int.tryParse(productId);
+    if (pid == null) return Response.badRequest(body: 'Invalid product id');
+
+    final page = int.tryParse(request.url.queryParameters['page'] ?? '1') ?? 1;
+    final limit = int.tryParse(request.url.queryParameters['limit'] ?? '20') ?? 20;
+    final offset = (page - 1) * limit;
+
+    try {
+      // Основной запрос с LEFT JOIN на ответы и поставщика
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT
+            q.id, q.product_id, q.user_id, q.question_text, q.created_at, q.is_answered,
+            u.name as user_name, u.email as user_email, -- аватарки нет в users, используем инициалы на клиенте
+            qa.id as answer_id, qa.answer_text, qa.answered_at,
+            us.name as supplier_name, us.id as supplier_id
+          FROM questions q
+          JOIN users u ON q.user_id = u.id
+          LEFT JOIN question_answers qa ON q.id = qa.question_id
+          LEFT JOIN users us ON qa.supplier_user_id = us.id
+          WHERE q.product_id = @product_id
+          ORDER BY q.created_at DESC
+          LIMIT @limit OFFSET @offset
+        '''),
+        parameters: {'product_id': pid, 'limit': limit, 'offset': offset},
+      );
+
+      final countResult = await connection.execute(
+        Sql.named('SELECT COUNT(*) FROM questions WHERE product_id = @pid'),
+        parameters: {'pid': pid},
+      );
+      final total = _toPositiveInt(countResult.first.toColumnMap()['count']);
+
+      final questions = result.map((row) {
+        final map = row.toColumnMap();
+        final createdAt = map['created_at'];
+        String? createdAtIso = (createdAt is DateTime) ? createdAt.toIso8601String() : null;
+        final answeredAt = map['answered_at'];
+        String? answeredAtIso = (answeredAt is DateTime) ? answeredAt.toIso8601String() : null;
+
+        final answerDto = map['answer_id'] != null ? {
+          'id': map['answer_id'].toString(),
+          'questionId': map['id'].toString(),
+          'supplierId': map['supplier_id']?.toString(),
+          'supplierName': map['supplier_name'] ?? '',
+          'answerText': map['answer_text'] ?? '',
+          'answeredAt': answeredAtIso,
+        } : null;
+
+        return {
+          'id': map['id'].toString(),
+          'productId': map['product_id'].toString(),
+          'userId': map['user_id'].toString(),
+          'userName': map['user_name'] ?? 'Пользователь',
+          'questionText': map['question_text'] ?? '',
+          'createdAt': createdAtIso,
+          'isAnswered': map['is_answered'] == true,
+          'answer': answerDto,
+        };
+      }).toList();
+
+      return Response.ok(jsonEncode({
+        'questions': questions,
+        'total': total,
+        'page': page,
+        'limit': limit,
+      }), headers: {'content-type': 'application/json; charset=utf-8'});
+    } catch (e, st) {
+      print('Error fetching questions: $e\n$st');
+      return Response.internalServerError(body: 'Server error');
+    }
+  });
+
   _registerMutationRoutes(router, connection);
 
   router.post('/login', (Request request) async {
