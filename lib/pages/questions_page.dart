@@ -1,8 +1,77 @@
 import 'package:flutter/material.dart';
 import '../models/question.dart';
 import '../services/api_service.dart';
+import '../services/auth_storage.dart';
 import '../widgets/question_card.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../widgets/smart_image.dart';
+
+enum _PageState { loading, error, empty, data }
+
+class _QuestionsPaletteColors {
+  final Color bgTop;
+  final Color bgBottom;
+  final Color ink;
+  final Color muted;
+  final Color card;
+  final Color line;
+  final Color accent;
+  final Color accentDark;
+  final Color accentSoft;
+  final Color accentMist;
+  final Color danger;
+  final Color shadow;
+
+  const _QuestionsPaletteColors({
+    required this.bgTop,
+    required this.bgBottom,
+    required this.ink,
+    required this.muted,
+    required this.card,
+    required this.line,
+    required this.accent,
+    required this.accentDark,
+    required this.accentSoft,
+    required this.accentMist,
+    required this.danger,
+    required this.shadow,
+  });
+
+  static const light = _QuestionsPaletteColors(
+    bgTop: Color(0xFFF6F8FF),
+    bgBottom: Color(0xFFEFF3FF),
+    ink: Color(0xFF1B1E2B),
+    muted: Color(0xFF6D748A),
+    card: Color(0xFFFFFFFF),
+    line: Color(0xFFE3E8F3),
+    accent: Color(0xFF6288D5),
+    accentDark: Color(0xFF4F70C6),
+    accentSoft: Color(0xFFDCE6FA),
+    accentMist: Color(0xFFF0F4FF),
+    danger: Color(0xFFE4572E),
+    shadow: Color(0x14000000),
+  );
+
+  static const dark = _QuestionsPaletteColors(
+    bgTop: Color(0xFF0F141F),
+    bgBottom: Color(0xFF141B2B),
+    ink: Color(0xFFE9EDFF),
+    muted: Color(0xFF9AA3B6),
+    card: Color(0xFF1A2336),
+    line: Color(0xFF2B364D),
+    accent: Color(0xFF6288D5),
+    accentDark: Color(0xFF9BB6FF),
+    accentSoft: Color(0xFF243251),
+    accentMist: Color(0xFF1A243A),
+    danger: Color(0xFFFF6B4A),
+    shadow: Color(0x66000000),
+  );
+
+  static _QuestionsPaletteColors of(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    return brightness == Brightness.dark ? dark : light;
+  }
+}
 
 class QuestionsPage extends StatefulWidget {
   final String productId;
@@ -22,11 +91,13 @@ class QuestionsPage extends StatefulWidget {
 
 class _QuestionsPageState extends State<QuestionsPage> {
   final List<Question> _questions = [];
-  bool _isLoading = true;
+  _PageState _pageState = _PageState.loading;
+  String _errorMessage = '';
   int _totalQuestions = 0;
   int _page = 1;
   final int _limit = 20;
   bool _hasMore = true;
+  bool _isLoadingMore = false;
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _questionController = TextEditingController();
 
@@ -45,24 +116,34 @@ class _QuestionsPageState extends State<QuestionsPage> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+    if (_questions.isEmpty || _isLoadingMore || !_hasMore) return;
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
       _fetchQuestions(loadMore: true);
     }
   }
 
   Future<void> _fetchQuestions({bool loadMore = false}) async {
-    if (_isLoading || (!_hasMore && loadMore)) return;
-    setState(() => _isLoading = true);
+    if (_isLoadingMore || (!_hasMore && loadMore)) return;
+
+    if (!loadMore) {
+      setState(() => _pageState = _PageState.loading);
+    } else {
+      setState(() => _isLoadingMore = true);
+    }
+
     try {
       final data = await ApiService.getProductQuestions(
         productId: widget.productId,
         page: loadMore ? _page : 1,
         limit: _limit,
       );
+
       final List<Question> fetched = (data['questions'] as List)
           .map((q) => Question.fromJson(q))
           .toList();
       final total = data['total'] as int;
+
       if (mounted) {
         setState(() {
           _totalQuestions = total;
@@ -70,12 +151,23 @@ class _QuestionsPageState extends State<QuestionsPage> {
           _questions.addAll(fetched);
           _hasMore = _questions.length < total;
           _page = loadMore ? _page + 1 : 2;
+
+          if (!loadMore) {
+            _pageState = _questions.isEmpty
+                ? _PageState.empty
+                : _PageState.data;
+          }
+          _isLoadingMore = false;
         });
       }
     } catch (e) {
-      // ignore
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() {
+          _errorMessage = 'Ошибка загрузки вопросов: $e';
+          _pageState = _PageState.error;
+          _isLoadingMore = false;
+        });
+      }
     }
   }
 
@@ -84,137 +176,567 @@ class _QuestionsPageState extends State<QuestionsPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
-      ),
-      builder: (ctx) => Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(ctx).viewInsets.bottom),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (widget.productImage.isNotEmpty) ...[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                child: Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        widget.productImage,
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => const Icon(Icons.image),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        widget.productName,
-                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Divider(height: 1),
-            ],
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-              child: TextField(
-                controller: _questionController,
-                maxLines: 5,
-                maxLength: 500,
-                decoration: InputDecoration(
-                  hintText: 'Введите ваш вопрос...',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-              child: ElevatedButton(
-                onPressed: () async {
-                  final text = _questionController.text.trim();
-                  if (text.length < 10) return;
-                  Navigator.pop(ctx);
-                  await ApiService.askQuestion(
-                    productId: widget.productId,
-                    userId: 1,
-                    questionText: text,
-                  );
-                  _fetchQuestions();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF6288D5),
-                  minimumSize: const Size.fromHeight(44),
-                ),
-                child: const Text('Отправить'),
-              ),
-            ),
-          ],
-        ),
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => _AskQuestionModal(
+        productId: widget.productId,
+        productName: widget.productName,
+        productImage: widget.productImage,
+        questionController: _questionController,
+        onSuccess: () {
+          Navigator.pop(ctx);
+          _fetchQuestions();
+        },
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final palette = _QuestionsPaletteColors.of(context);
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final pageBackground = isDark
+        ? theme.scaffoldBackgroundColor
+        : palette.bgTop;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Вопросы о товаре'),
-        actions: [
-          TextButton(
-            onPressed: _showAskModal,
-            child: const Text('Задать вопрос'),
+      backgroundColor: pageBackground,
+      body: Stack(
+        children: [
+          if (isDark)
+            Positioned.fill(child: ColoredBox(color: pageBackground))
+          else
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [palette.bgTop, palette.bgBottom],
+                  ),
+                ),
+              ),
+            ),
+          SafeArea(
+            child: Column(
+              children: [
+                _buildHeader(context, palette),
+                Expanded(child: _buildBody(palette)),
+              ],
+            ),
           ),
         ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(36),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Text(
-              '$_totalQuestions вопросов',
-              style: TextStyle(
-                fontSize: 13,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _showAskModal,
+        backgroundColor: palette.accent,
+        foregroundColor: Colors.white,
+        icon: const Icon(Icons.help_outline),
+        label: const Text('Задать вопрос'),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      bottomNavigationBar: const MainBottomNav(currentIndex: null),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context, _QuestionsPaletteColors palette) {
+    return Container(
+      color: palette.card,
+      padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Transform.translate(
+            offset: const Offset(-6, 0),
+            child: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(Icons.arrow_back, color: palette.ink),
+              tooltip: 'Назад',
+              style: IconButton.styleFrom(
+                minimumSize: const Size(32, 32),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                padding: EdgeInsets.zero,
               ),
             ),
           ),
-        ),
-      ),
-      body: RefreshIndicator(
-        onRefresh: () => _fetchQuestions(),
-        child: _questions.isEmpty && !_isLoading
-            ? Center(
-                child: Text(
-                  'Пока нет вопросов. Задайте первый вопрос!',
+          const SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Вопросы о товаре',
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: palette.ink,
+                    letterSpacing: 0.2,
                   ),
                 ),
-              )
-            : ListView.builder(
-                controller: _scrollController,
-                itemCount: _questions.length + (_isLoading ? 1 : 0),
-                itemBuilder: (context, index) {
-                  if (index == _questions.length) {
-                    return const Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  }
-                  return QuestionCard(question: _questions[index]);
-                },
-              ),
+                const SizedBox(height: 4),
+                Text(
+                  '$_totalQuestions всего',
+                  style: TextStyle(fontSize: 12, color: palette.muted),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: null),
+    );
+  }
+
+  Widget _buildBody(_QuestionsPaletteColors palette) {
+    switch (_pageState) {
+      case _PageState.loading:
+        return const Center(child: CircularProgressIndicator());
+
+      case _PageState.error:
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error_outline, size: 48, color: palette.muted),
+              const SizedBox(height: 16),
+              Text(
+                'Ошибка',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: palette.ink,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Text(
+                  _errorMessage,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14, color: palette.muted),
+                ),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () => _fetchQuestions(),
+                child: const Text('Повторить'),
+              ),
+            ],
+          ),
+        );
+
+      case _PageState.empty:
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.help_outline, size: 48, color: palette.muted),
+              const SizedBox(height: 16),
+              Text(
+                'Нет вопросов',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: palette.ink,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Будьте первым, кто задаст вопрос!',
+                style: TextStyle(fontSize: 14, color: palette.muted),
+              ),
+              const SizedBox(height: 24),
+              FilledButton.icon(
+                onPressed: _showAskModal,
+                icon: const Icon(Icons.help_outline),
+                label: const Text('Задать вопрос'),
+              ),
+            ],
+          ),
+        );
+
+      case _PageState.data:
+        return RefreshIndicator(
+          onRefresh: () => _fetchQuestions(),
+          child: ListView.builder(
+            controller: _scrollController,
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+            itemCount: _questions.length + (_isLoadingMore ? 1 : 0),
+            itemBuilder: (context, index) {
+              if (index == _questions.length) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: QuestionCard(
+                  question: _questions[index],
+                  palette: palette,
+                ),
+              );
+            },
+          ),
+        );
+    }
+  }
+}
+
+class _AskQuestionModal extends StatefulWidget {
+  final String productId;
+  final String productName;
+  final String productImage;
+  final TextEditingController questionController;
+  final VoidCallback onSuccess;
+
+  const _AskQuestionModal({
+    required this.productId,
+    required this.productName,
+    required this.productImage,
+    required this.questionController,
+    required this.onSuccess,
+  });
+
+  @override
+  State<_AskQuestionModal> createState() => _AskQuestionModalState();
+}
+
+class _AskQuestionModalState extends State<_AskQuestionModal> {
+  bool _isSubmitting = false;
+  String? _validationError;
+  String? _submissionError;
+
+  static const int _minLength = 10;
+  static const int _maxLength = 250;
+
+  @override
+  void initState() {
+    super.initState();
+    _validateInput();
+  }
+
+  void _validateInput() {
+    final text = widget.questionController.text.trim();
+    setState(() {
+      if (text.isEmpty) {
+        _validationError = null;
+      } else if (text.length < _minLength) {
+        _validationError =
+            'Минимум $_minLength символов (${text.length}/$_minLength)';
+      } else {
+        _validationError = null;
+      }
+      _submissionError = null;
+    });
+  }
+
+  bool get _isValid {
+    final text = widget.questionController.text.trim();
+    return text.length >= _minLength && text.length <= _maxLength;
+  }
+
+  Future<void> _submitQuestion() async {
+    if (!_isValid || _isSubmitting) return;
+
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      if (mounted) {
+        setState(() {
+          _submissionError = 'Вы не авторизованы';
+        });
+      }
+      return;
+    }
+
+    setState(() => _isSubmitting = true);
+
+    try {
+      await ApiService.askQuestion(
+        productId: widget.productId,
+        userId: userId,
+        questionText: widget.questionController.text.trim(),
+      );
+
+      if (mounted) {
+        widget.onSuccess();
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _submissionError = e.toString().replaceFirst('Exception: ', '');
+          _isSubmitting = false;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = _QuestionsPaletteColors.of(context);
+    final questionText = widget.questionController.text;
+    final answerLength = questionText.length;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: palette.card,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Handle bar
+              Center(
+                child: Container(
+                  margin: const EdgeInsets.only(top: 8),
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: palette.line,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+
+              // Title
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                child: Text(
+                  'Задать вопрос',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: palette.ink,
+                  ),
+                ),
+              ),
+
+              // Product preview
+              if (widget.productImage.isNotEmpty) ...[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: SmartImage(
+                          path: widget.productImage,
+                          width: 48,
+                          height: 48,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Товар',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: palette.muted,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              widget.productName,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: palette.ink,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(color: palette.line, height: 1),
+              ],
+
+              // Question input
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Ваш вопрос',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: palette.muted,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: widget.questionController,
+                      onChanged: (_) => _validateInput(),
+                      maxLines: 5,
+                      maxLength: _maxLength,
+                      enabled: !_isSubmitting,
+                      style: TextStyle(color: palette.ink),
+                      decoration: InputDecoration(
+                        hintText:
+                            'Введите ваш вопрос (минимум $_minLength символов)',
+                        hintStyle: TextStyle(color: palette.muted),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: palette.line),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: palette.line),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: palette.accent,
+                            width: 2,
+                          ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: palette.danger),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: palette.danger,
+                            width: 2,
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: palette.bgTop,
+                        contentPadding: const EdgeInsets.all(12),
+                        counterText: '',
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '$answerLength/$_maxLength',
+                          style: TextStyle(fontSize: 12, color: palette.muted),
+                        ),
+                        if (_validationError != null)
+                          Text(
+                            _validationError!,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: palette.danger,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              // Error message
+              if (_submissionError != null) ...[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: palette.danger.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: palette.danger.withValues(alpha: 0.38),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.error_outline,
+                          size: 18,
+                          color: palette.danger,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            _submissionError!,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: palette.danger,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+
+              // Buttons
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: _isSubmitting
+                            ? null
+                            : () => Navigator.pop(context),
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(44),
+                          side: BorderSide(color: palette.line),
+                        ),
+                        child: Text(
+                          'Отмена',
+                          style: TextStyle(color: palette.ink),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _isSubmitting
+                          ? FilledButton(
+                              onPressed: null,
+                              style: FilledButton.styleFrom(
+                                backgroundColor: palette.accent,
+                                minimumSize: const Size.fromHeight(44),
+                              ),
+                              child: const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : FilledButton(
+                              onPressed: _isValid ? _submitQuestion : null,
+                              style: FilledButton.styleFrom(
+                                backgroundColor: palette.accent,
+                                minimumSize: const Size.fromHeight(44),
+                              ),
+                              child: const Text('Отправить'),
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

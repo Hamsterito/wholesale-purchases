@@ -172,10 +172,12 @@ String _generateOtpCode() {
 }
 
 // Хеширование пароля с солью
-String _hashPassword(String password) => BCrypt.hashpw(password, BCrypt.gensalt());
+String _hashPassword(String password) =>
+    BCrypt.hashpw(password, BCrypt.gensalt());
 
 // Проверка пароля с хешем
-bool _checkPassword(String password, String hashed) => BCrypt.checkpw(password, hashed);
+bool _checkPassword(String password, String hashed) =>
+    BCrypt.checkpw(password, hashed);
 
 // Хеширование OTP кода с солью
 String _hashOtp(String otp) => BCrypt.hashpw(otp, BCrypt.gensalt());
@@ -237,9 +239,13 @@ Future<void> _cleanupExpiredEmailVerifications(Connection connection) async {
         WHERE expires_at < NOW() AND used = false;
       '''),
     );
-    print('Очистка завершена. Удалено ${result.affectedRows} истекших записей.');
+    print(
+      'Очистка завершена. Удалено ${result.affectedRows} истекших записей.',
+    );
     if (result.affectedRows > 0) {
-      print('Успешно очищено ${result.affectedRows} истекших кодов подтверждения email');
+      print(
+        'Успешно очищено ${result.affectedRows} истекших кодов подтверждения email',
+      );
     }
   } catch (e, st) {
     print('Ошибка при очистке истекших кодов подтверждения email: $e\n$st');
@@ -257,9 +263,13 @@ Future<void> _cleanupExpiredPasswordResets(Connection connection) async {
         WHERE expires_at < NOW();
       '''),
     );
-    print('Очистка завершена. Удалено ${result.affectedRows} истекших записей сброса пароля.');
+    print(
+      'Очистка завершена. Удалено ${result.affectedRows} истекших записей сброса пароля.',
+    );
     if (result.affectedRows > 0) {
-      print('Успешно очищено ${result.affectedRows} истекших кодов сброса пароля');
+      print(
+        'Успешно очищено ${result.affectedRows} истекших кодов сброса пароля',
+      );
     }
   } catch (e, st) {
     print('Ошибка при очистке истекших кодов сброса пароля: $e\n$st');
@@ -272,7 +282,9 @@ Future<void> _sendVerificationEmail(String toEmail, String code) async {
   final smtpUser = env['SMTP_USERNAME'];
   final smtpPass = env['SMTP_PASSWORD'];
   if (smtpUser == null || smtpPass == null) {
-    print('SMTP учетные данные не настроены в переменных окружения. Пропускаем отправку email.');
+    print(
+      'SMTP учетные данные не настроены в переменных окружения. Пропускаем отправку email.',
+    );
     return;
   }
 
@@ -700,12 +712,10 @@ String? _supplierProductDeleteConstraintMessage(Object error) {
     return null;
   }
 
-  if (
-    text.contains('fk_order_items_product_id') ||
-    text.contains('fk_reviews_product_id') ||
-    text.contains('order_items_product_id_fkey') ||
-    text.contains('reviews_product_id_fkey')
-  ) {
+  if (text.contains('fk_order_items_product_id') ||
+      text.contains('fk_reviews_product_id') ||
+      text.contains('order_items_product_id_fkey') ||
+      text.contains('reviews_product_id_fkey')) {
     return 'Нельзя удалить товар: он уже участвует в заказах или отзывах.';
   }
 
@@ -1687,6 +1697,116 @@ void main() async {
     }
   });
 
+  // GET /supplier/questions - Получить пагинированные вопросы для продуктов поставщика
+  router.get('/supplier/questions', (Request request) async {
+    try {
+      final userIdRaw = request.url.queryParameters['userId'];
+      final userId = int.tryParse(userIdRaw ?? '');
+      if (userId == null || userId <= 0) {
+        return Response.badRequest(
+          body: jsonEncode({'error': 'userId must be a positive integer'}),
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      }
+
+      // Verify user exists and is a supplier
+      final userResult = await connection.execute(
+        Sql.named('SELECT id, role FROM users WHERE id = @id'),
+        parameters: {'id': userId},
+      );
+      if (userResult.isEmpty) {
+        return Response(
+          401,
+          body: jsonEncode({'error': 'Authentication required'}),
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      }
+
+      final user = userResult.first.toColumnMap();
+      if ((user['role'] ?? _defaultRole) != 'supplier') {
+        return Response(
+          403,
+          body: jsonEncode({
+            'error': 'You do not have permission to view these reviews',
+          }),
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      }
+
+      // Parse pagination parameters
+      final page =
+          int.tryParse(request.url.queryParameters['page'] ?? '1') ?? 1;
+      final limit =
+          int.tryParse(request.url.queryParameters['limit'] ?? '20') ?? 20;
+      final offset = (page - 1) * limit;
+
+      // Query reviews for supplier's products
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT
+            r.id, r.order_id, r.order_item_id, r.product_id, r.rating, r.review_text, r.created_at,
+            p.name as product_name, p.image_url as product_image,
+            u.name as reviewer_name
+          FROM reviews r
+          JOIN products p ON r.product_id = p.id
+          JOIN users u ON r.user_id = u.id
+          WHERE p.supplier_user_id = @supplier_user_id
+          ORDER BY r.created_at DESC
+          LIMIT @limit OFFSET @offset
+        '''),
+        parameters: {
+          'supplier_user_id': userId,
+          'limit': limit,
+          'offset': offset,
+        },
+      );
+
+      // Get total count
+      final countResult = await connection.execute(
+        Sql.named('''
+          SELECT COUNT(*) as cnt FROM reviews r
+          JOIN products p ON r.product_id = p.id
+          WHERE p.supplier_user_id = @supplier_user_id
+        '''),
+        parameters: {'supplier_user_id': userId},
+      );
+      final total = _toPositiveInt(countResult.first.toColumnMap()['cnt']);
+
+      // Map results to response format
+      final reviews = result.map((row) {
+        final map = row.toColumnMap();
+        final createdAt = map['created_at'];
+        String? createdAtIso = (createdAt is DateTime)
+            ? createdAt.toIso8601String()
+            : null;
+
+        return {
+          'id': map['id'].toString(),
+          'orderId': map['order_id'].toString(),
+          'orderItemId': map['order_item_id'].toString(),
+          'productId': map['product_id'].toString(),
+          'productName': map['product_name'] ?? '',
+          'productImage': map['product_image'] ?? '',
+          'reviewerName': map['reviewer_name'] ?? 'Пользователь',
+          'rating': map['rating'] ?? 0,
+          'reviewText': map['review_text'] ?? '',
+          'createdAt': createdAtIso,
+        };
+      }).toList();
+
+      return Response.ok(
+        jsonEncode({'reviews': reviews, 'total': total}),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Error fetching supplier reviews: $e\n$st');
+      return Response.internalServerError(
+        body: jsonEncode({'error': 'Internal server error'}),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    }
+  });
+
   router.get('/moderation/products', (Request request) async {
     try {
       final status = request.url.queryParameters['status'];
@@ -2068,14 +2188,30 @@ void main() async {
       LEFT JOIN order_items oi ON o.id = oi.order_id
       WHERE o.user_id = @user_id::int
     ''';
-    final Map<String, dynamic> parameters = <String, dynamic>{'user_id': userId};
+    final Map<String, dynamic> parameters = <String, dynamic>{
+      'user_id': userId,
+    };
 
     if (startDateStr != null && endDateStr != null) {
       // Парсим даты и добавляем время для корректного сравнения
       final startDate = DateTime.parse(startDateStr);
       final endDate = DateTime.parse(endDateStr);
-      final startDateTime = DateTime(startDate.year, startDate.month, startDate.day, 0, 0, 0);
-      final endDateTime = DateTime(endDate.year, endDate.month, endDate.day, 23, 59, 59);
+      final startDateTime = DateTime(
+        startDate.year,
+        startDate.month,
+        startDate.day,
+        0,
+        0,
+        0,
+      );
+      final endDateTime = DateTime(
+        endDate.year,
+        endDate.month,
+        endDate.day,
+        23,
+        59,
+        59,
+      );
 
       query += '''
         AND o.created_at >= @start_date::timestamp 
@@ -2253,12 +2389,16 @@ void main() async {
   });
 
   // Получить вопросы по productId
-  router.get('/products/<productId>/questions', (Request request, String productId) async {
+  router.get('/products/<productId>/questions', (
+    Request request,
+    String productId,
+  ) async {
     final pid = int.tryParse(productId);
     if (pid == null) return Response.badRequest(body: 'Invalid product id');
 
     final page = int.tryParse(request.url.queryParameters['page'] ?? '1') ?? 1;
-    final limit = int.tryParse(request.url.queryParameters['limit'] ?? '20') ?? 20;
+    final limit =
+        int.tryParse(request.url.queryParameters['limit'] ?? '20') ?? 20;
     final offset = (page - 1) * limit;
 
     try {
@@ -2290,18 +2430,24 @@ void main() async {
       final questions = result.map((row) {
         final map = row.toColumnMap();
         final createdAt = map['created_at'];
-        String? createdAtIso = (createdAt is DateTime) ? createdAt.toIso8601String() : null;
+        String? createdAtIso = (createdAt is DateTime)
+            ? createdAt.toIso8601String()
+            : null;
         final answeredAt = map['answered_at'];
-        String? answeredAtIso = (answeredAt is DateTime) ? answeredAt.toIso8601String() : null;
+        String? answeredAtIso = (answeredAt is DateTime)
+            ? answeredAt.toIso8601String()
+            : null;
 
-        final answerDto = map['answer_id'] != null ? {
-          'id': map['answer_id'].toString(),
-          'questionId': map['id'].toString(),
-          'supplierId': map['supplier_id']?.toString(),
-          'supplierName': map['supplier_name'] ?? '',
-          'answerText': map['answer_text'] ?? '',
-          'answeredAt': answeredAtIso,
-        } : null;
+        final answerDto = map['answer_id'] != null
+            ? {
+                'id': map['answer_id'].toString(),
+                'questionId': map['id'].toString(),
+                'supplierId': map['supplier_id']?.toString(),
+                'supplierName': map['supplier_name'] ?? '',
+                'answerText': map['answer_text'] ?? '',
+                'answeredAt': answeredAtIso,
+              }
+            : null;
 
         return {
           'id': map['id'].toString(),
@@ -2315,15 +2461,58 @@ void main() async {
         };
       }).toList();
 
-      return Response.ok(jsonEncode({
-        'questions': questions,
-        'total': total,
-        'page': page,
-        'limit': limit,
-      }), headers: {'content-type': 'application/json; charset=utf-8'});
+      return Response.ok(
+        jsonEncode({
+          'questions': questions,
+          'total': total,
+          'page': page,
+          'limit': limit,
+        }),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
     } catch (e, st) {
       print('Error fetching questions: $e\n$st');
       return Response.internalServerError(body: 'Server error');
+    }
+  });
+
+  // Добавить новый вопрос (POST)
+  router.post('/products/<productId>/questions', (
+    Request request,
+    String productId,
+  ) async {
+    try {
+      final pid = int.tryParse(productId);
+      final payload = await request.readAsString();
+      final data = jsonDecode(payload);
+
+      final userId = data['userId'];
+      final text = data['questionText']?.toString().trim();
+
+      if (pid == null || userId == null || text == null || text.isEmpty) {
+        return Response.badRequest(
+          body: 'Missing required fields',
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      }
+
+      await connection.execute(
+        Sql.named(
+          'INSERT INTO questions (product_id, user_id, question_text) VALUES (@pid, @uid, @text)',
+        ),
+        parameters: {'pid': pid, 'uid': userId, 'text': text},
+      );
+
+      return Response.ok(
+        jsonEncode({'message': 'Question added successfully'}),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, stack) {
+      print('Error posting question: $e\n$stack');
+      return Response.internalServerError(
+        body: 'Failed to add question',
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
     }
   });
 
@@ -2346,7 +2535,9 @@ void main() async {
       }
 
       final result = await connection.execute(
-        Sql.named('SELECT id, name, email, password, role, supplier_name, is_verified FROM users WHERE LOWER(email) = @email LIMIT 1'),
+        Sql.named(
+          'SELECT id, name, email, password, role, supplier_name, is_verified FROM users WHERE LOWER(email) = @email LIMIT 1',
+        ),
         parameters: {'email': email},
       );
 
@@ -2408,4 +2599,3 @@ void main() async {
   final server = await serve(handler, InternetAddress.anyIPv4, 8080);
   print('Сервер запущен: http://${server.address.host}:${server.port}');
 }
-

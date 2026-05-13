@@ -48,7 +48,11 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     startAutoRefresh();
   }
 
-  Future<void> _loadOrders({bool showLoading = true, DateTime? startDate, DateTime? endDate}) async {
+  Future<void> _loadOrders({
+    bool showLoading = true,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     try {
       final userId = AuthStorage.userId;
       if (userId == null || userId == 0) {
@@ -113,10 +117,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         backgroundColor: _cardBg,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: _colorScheme.onSurface,
-          ),
+          icon: Icon(Icons.arrow_back, color: _colorScheme.onSurface),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -169,11 +170,18 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
                   Expanded(
                     child: Text(
                       '${_formatShortDate(_rangeStart)} - ${_formatShortDate(_rangeEnd)}',
-                      style: TextStyle(fontSize: 14, color: _colorScheme.onSurface),
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: _colorScheme.onSurface,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Icon(Icons.calendar_today, size: 20, color: _colorScheme.onSurface),
+                  Icon(
+                    Icons.calendar_today,
+                    size: 20,
+                    color: _colorScheme.onSurface,
+                  ),
                 ],
               ),
             ),
@@ -205,9 +213,6 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       ),
     );
   }
-
-
-
 
   Widget _buildPeriodTabs() {
     return Container(
@@ -282,7 +287,8 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     final initialRange = DateTimeRange(start: _rangeStart, end: _rangeEnd);
     final picked = await showDialog<DateTimeRange>(
       context: context,
-      builder: (context) => custom_picker.CustomDateRangePickerDialog(initialRange: initialRange),
+      builder: (context) =>
+          custom_picker.CustomDateRangePickerDialog(initialRange: initialRange),
     );
     if (!mounted || picked == null) {
       return;
@@ -493,7 +499,8 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
   Widget _buildExpandedDetails(Order order) {
     final statusColor = _statusColor(order.status);
     final hasAddress = order.deliveryAddress.trim().isNotEmpty;
-    final canAccept = !_isAcceptedStatus(order.status) && !_isCancelledStatus(order.status);
+    final canAccept =
+        !_isAcceptedStatus(order.status) && !_isCancelledStatus(order.status);
     final effectiveReceived = _isAcceptedStatus(order.status)
         ? order.items.length
         : order.receivedItemsCount;
@@ -694,7 +701,6 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
                                   ),
                                 ),
                               ],
-                              
                             ],
                           ),
                         ),
@@ -726,7 +732,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
   }
 
   Widget _buildItemImage(OrderItem item) {
-    var raw = (item.imageUrl ?? '').toString().trim();
+    var raw = item.imageUrl.trim();
     if (raw.isEmpty) return _buildItemImageFallback();
 
     if (raw.startsWith('base64:') || raw.startsWith('data:image')) {
@@ -736,7 +742,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         if (raw.startsWith('data:image')) {
           final comma = raw.indexOf(',');
           if (comma != -1) base64Part = raw.substring(comma + 1);
-        } else if (raw.startsWith('base64:')) {
+        } else {
           base64Part = raw.substring('base64:'.length);
 
           final colon = base64Part.indexOf(':');
@@ -757,10 +763,10 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     }
 
     if (raw.contains(',')) {
-      raw = raw.split(',').map((e) => e.trim()).firstWhere(
-        (e) => e.isNotEmpty,
-        orElse: () => '',
-      );
+      raw = raw
+          .split(',')
+          .map((e) => e.trim())
+          .firstWhere((e) => e.isNotEmpty, orElse: () => '');
       if (raw.isEmpty) return _buildItemImageFallback();
     }
 
@@ -783,6 +789,8 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         );
       } catch (_) {}
     }
+
+    if (raw.isEmpty) return _buildItemImageFallback();
 
     final assetPath = raw.startsWith('assets/') ? raw : 'assets/$raw';
     return Image.asset(
@@ -827,13 +835,9 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         normalized == 'canceled';
   }
 
-
-
   DateTime _startOfDay(DateTime date) {
     return DateTime(date.year, date.month, date.day);
   }
-
-
 
   Future<void> _exportToExcel() async {
     final userId = AuthStorage.userId;
@@ -851,7 +855,8 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         endDate: _rangeEnd,
       );
 
-      final fileName = 'orders_export_${_formatShortDate(_rangeStart)}_to_${_formatShortDate(_rangeEnd)}.xlsx';
+      final fileName =
+          'orders_export_${_formatShortDate(_rangeStart)}_to_${_formatShortDate(_rangeEnd)}.xlsx';
 
       if (kIsWeb) {
         // For web, use browser download
@@ -872,18 +877,16 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       }
 
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Файл сохранён')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Файл сохранён')));
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Ошибка экспорта: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Ошибка экспорта: $e')));
     }
   }
-
-
 
   Color _statusColor(String status) {
     if (_isAcceptedStatus(status)) {
@@ -901,12 +904,6 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     return const Color(0xFFFF9800);
   }
 
-  String _formatShortDate(DateTime date) {
-    final day = date.day.toString().padLeft(2, '0');
-    final month = date.month.toString().padLeft(2, '0');
-    return '$day.$month.${date.year}';
-  }
-
   String _formatMoney(int value) {
     final digits = value.abs().toString();
     final buffer = StringBuffer();
@@ -921,5 +918,10 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     return value < 0 ? '-$formatted' : formatted;
   }
 
-
+  String _formatShortDate(DateTime date) {
+    final day = date.day.toString().padLeft(2, '0');
+    final month = date.month.toString().padLeft(2, '0');
+    final year = date.year.toString();
+    return '$day.$month.$year';
+  }
 }

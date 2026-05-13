@@ -92,21 +92,26 @@ class _LoginPageState extends State<LoginPage> {
         final body = utf8.decode(response.bodyBytes);
         final responseData = jsonDecode(body) as Map<String, dynamic>;
         if (responseData['success'] != true) {
-          final message = responseData['message']?.toString() ?? 'Unknown error';
+          final message =
+              responseData['message']?.toString() ?? 'Unknown error';
           if (responseData['requiresVerification'] == true) {
             final email = responseData['email']?.toString() ?? '';
             // Navigate to verification screen
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => VerificationPage(email: email),
-              ),
-            );
+            if (mounted) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VerificationPage(email: email),
+                ),
+              );
+            }
             return;
           }
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(message)),
-          );
+          if (mounted) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(message)));
+          }
           return;
         }
         final data = responseData['user'] as Map<String, dynamic>;

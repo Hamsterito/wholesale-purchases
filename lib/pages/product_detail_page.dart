@@ -20,7 +20,7 @@ import '../widgets/rating_stars.dart';
 import 'reviews_page.dart';
 import 'questions_page.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
-
+import '../utils/date_formatter.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Product product;
@@ -36,7 +36,8 @@ class ProductDetailPage extends StatefulWidget {
   State<ProductDetailPage> createState() => _ProductDetailPageState();
 }
 
-class _ProductDetailPageState extends State<ProductDetailPage> with TickerProviderStateMixin {
+class _ProductDetailPageState extends State<ProductDetailPage>
+    with TickerProviderStateMixin {
   static const double _bottomMessageOffset = 150;
   static const double _stickyBottomVisibilityOffset = 128;
   static const String _shareStubUrl =
@@ -49,15 +50,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
   bool _isLoadingReviews = false;
   List<Question> _productQuestions = [];
   bool _isLoadingQuestions = false;
-    int _totalQuestions = 0;
-    TabController? _tabController;
-    bool _isFavorite = false;
+  int _totalQuestions = 0;
+  TabController? _tabController;
+  bool _isFavorite = false;
   bool _showPersistentPriceBar = true;
   bool _showScrollToTopButton = false;
   late final VoidCallback _favoritesListener;
   String? _selectedSupplierId;
   late final PageController _pageController;
-  int _currentPage = 0;
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
@@ -169,7 +169,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
     final similarContext = _similarProductsKey.currentContext;
     final viewportHeight = MediaQuery.sizeOf(context).height;
     final viewportTrigger =
-        viewportHeight - MediaQuery.of(context).padding.bottom - _stickyBottomVisibilityOffset;
+        viewportHeight -
+        MediaQuery.of(context).padding.bottom -
+        _stickyBottomVisibilityOffset;
 
     bool isAtSimilarProducts = false;
     if (similarContext != null) {
@@ -363,7 +365,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
         MediaQuery.of(context).padding.bottom +
         (_showPersistentPriceBar ? 150 : 56);
     final ingredients = widget.product.ingredients.trim();
-    final description = widget.product.description.trim();
     final characteristics = _filteredCharacteristics();
     final hasNutritionalInfo = _hasNutritionalInfo();
 
@@ -392,37 +393,38 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                       ),
                     if (ingredients.isNotEmpty)
                       InfoSection(title: 'Состав', content: ingredients),
-                    if (description.isNotEmpty)
-                      InfoSection(title: 'Описание', content: description),
-                     if (characteristics.isNotEmpty)
-                         _buildCharacteristicsSection(characteristics),
-                     _buildStatsButtonsRow(),
-                       Container(
-                        color: _cardBg,
-                        margin: const EdgeInsets.only(top: 8),
-                        child: Column(
-                          children: [
-                            TabBar(
-                              controller: _tabController,
-                              indicatorColor: const Color(0xFF6288D5),
-                              indicatorWeight: 3,
-                              labelColor: _colorScheme.onSurface,
-                              unselectedLabelColor: _colorScheme.onSurfaceVariant,
-                              labelStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-                              tabs: [
-                                Tab(text: 'Оценки ($_resolvedReviewCount)'),
-                                Tab(text: 'Вопросы ($_totalQuestions)'),
-                              ],
+                    if (characteristics.isNotEmpty)
+                      _buildCharacteristicsSection(characteristics),
+                    _buildStatsButtonsRow(),
+                    Container(
+                      color: _cardBg,
+                      margin: const EdgeInsets.only(top: 8),
+                      child: Column(
+                        children: [
+                          TabBar(
+                            controller: _tabController,
+                            indicatorColor: const Color(0xFF6288D5),
+                            indicatorWeight: 3,
+                            labelColor: _colorScheme.onSurface,
+                            unselectedLabelColor: _colorScheme.onSurfaceVariant,
+                            labelStyle: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
                             ),
-                            AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 200),
-                              child: _tabController!.index == 0
-                                  ? _buildReviewsPreview()
-                                  : _buildQuestionsPreview(),
-                            ),
-                          ],
-                        ),
+                            tabs: [
+                              Tab(text: 'Оценки ($_resolvedReviewCount)'),
+                              Tab(text: 'Вопросы ($_totalQuestions)'),
+                            ],
+                          ),
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 200),
+                            child: _tabController!.index == 0
+                                ? _buildReviewsPreview()
+                                : _buildQuestionsPreview(),
+                          ),
+                        ],
                       ),
+                    ),
                     if (widget.similarProducts.isNotEmpty)
                       SimilarProductsCarousel(
                         key: _similarProductsKey,
@@ -456,11 +458,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                 width: 36,
                 height: 36,
                 child: FloatingActionButton(
-                heroTag: 'product-detail-scroll-to-top',
-                backgroundColor: _colorScheme.primary,
-                foregroundColor: _cardBg,
-                elevation: 2,
-                onPressed: _scrollToTop,
+                  heroTag: 'product-detail-scroll-to-top',
+                  backgroundColor: _colorScheme.primary,
+                  foregroundColor: _cardBg,
+                  elevation: 2,
+                  onPressed: _scrollToTop,
                   child: const Icon(Icons.arrow_upward_rounded, size: 18),
                 ),
               ),
@@ -586,7 +588,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
           ),
           const SizedBox(height: 4),
           _buildProductTitle(),
-          const SizedBox(height: 6),
+          const SizedBox(height: 2),
           CategoryTags(categories: widget.product.categories),
         ],
       ),
@@ -756,10 +758,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
         TweenAnimationBuilder<double>(
           duration: const Duration(milliseconds: 280),
           curve: Curves.easeOutCubic,
-          tween: Tween<double>(
-            begin: 1,
-            end: _showPersistentPriceBar ? 1 : 0,
-          ),
+          tween: Tween<double>(begin: 1, end: _showPersistentPriceBar ? 1 : 0),
           builder: (context, value, child) {
             return ClipRect(
               child: Align(
@@ -979,9 +978,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
   }
 
   Widget _buildReviewsPreview() {
-    if (_isLoadingReviews) return const Center(child: CircularProgressIndicator());
+    if (_isLoadingReviews) {
+      return const Center(child: CircularProgressIndicator());
+    }
     final preview = _randomPreview(_productReviews, 5);
-    
+
     if (preview.isEmpty) {
       return _buildEmptyState(
         icon: Icons.star_outline,
@@ -989,16 +990,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
         subtitle: 'Оценить товар можно только после ее покупки',
       );
     }
-    
+
     return ExpandablePageView.builder(
       controller: PageController(viewportFraction: 0.94),
       itemCount: preview.length,
-      padEnds: false, 
+      padEnds: false,
       physics: const BouncingScrollPhysics(),
       animationDuration: const Duration(milliseconds: 300),
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.only(left: 5, top: 10, bottom: 10),
+          padding: const EdgeInsets.only(left: 16, top: 10, bottom: 10),
           child: ReviewPreviewCard(
             review: preview[index],
             onOpenAll: _openReviews,
@@ -1009,9 +1010,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
   }
 
   Widget _buildQuestionsPreview() {
-    if (_isLoadingQuestions) return const Center(child: CircularProgressIndicator());
+    if (_isLoadingQuestions) {
+      return const Center(child: CircularProgressIndicator());
+    }
     final preview = _randomPreview(_productQuestions, 3);
-    
+
     if (preview.isEmpty) {
       return _buildEmptyState(
         icon: Icons.help_outline,
@@ -1022,19 +1025,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
         onButtonPressed: _openAllQuestions,
       );
     }
-    
+
     return ExpandablePageView.builder(
-      controller: PageController(viewportFraction: 0.85),
+      controller: PageController(viewportFraction: 0.94),
       itemCount: preview.length,
       padEnds: false,
       physics: const BouncingScrollPhysics(),
       animationDuration: const Duration(milliseconds: 300),
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.only(left: 16, top: 12, bottom: 12),
+          padding: const EdgeInsets.only(left: 16, top: 10, bottom: 10),
           child: QuestionPreviewCard(
-            question: preview[index], 
-            onOpenAll: _openAllQuestions
+            question: preview[index],
+            onOpenAll: _openAllQuestions,
           ),
         );
       },
@@ -1150,11 +1153,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
           CircleAvatar(
             radius: 32,
             backgroundColor: Color.fromRGBO(98, 136, 213, 0.1),
-            child: Icon(
-              icon,
-              size: 40,
-              color: const Color(0xFF6288D5),
-            ),
+            child: Icon(icon, size: 40, color: const Color(0xFF6288D5)),
           ),
           const SizedBox(height: 16),
           Text(
@@ -1215,10 +1214,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
     );
   }
 
-
-
-
-
   Future<void> _shareProductStub() async {
     final box = context.findRenderObject() as RenderBox?;
     await Share.share(
@@ -1235,7 +1230,11 @@ class ReviewPreviewCard extends StatefulWidget {
   final ReviewEntry review;
   final VoidCallback onOpenAll;
 
-  const ReviewPreviewCard({super.key, required this.review, required this.onOpenAll});
+  const ReviewPreviewCard({
+    super.key,
+    required this.review,
+    required this.onOpenAll,
+  });
 
   @override
   State<ReviewPreviewCard> createState() => _ReviewPreviewCardState();
@@ -1253,10 +1252,7 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
   }
 
   String _formatDate(DateTime value) {
-    final day = value.day.toString().padLeft(2, '0');
-    final month = value.month.toString().padLeft(2, '0');
-    final year = value.year.toString().padLeft(4, '0');
-    return '$day.$month.$year';
+    return DateFormatter.formatDate(value);
   }
 
   String _initial(String value) {
@@ -1267,34 +1263,51 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
     return normalized.characters.first.toUpperCase();
   }
 
-
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
     final name = _reviewerName(widget.review);
-    final text = widget.review.reviewText.trim().isEmpty ? 'Без текста' : widget.review.reviewText.trim();
+    final text = widget.review.reviewText.trim().isEmpty
+        ? 'Без текста'
+        : widget.review.reviewText.trim();
     final dateStr = _formatDate(widget.review.createdAt);
 
+    // Create palette similar to QuestionCard
+    final palette = _createPalette(cs);
+
     return Container(
-      margin: const EdgeInsets.only(right: 5.0),
-      padding: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: palette['card'],
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(
+          color: (palette['line'] as Color).withValues(alpha: 0.5),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: palette['shadow'] as Color,
+            blurRadius: 10,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Верхняя строка: аватар + имя/дата + звёзды
           Row(
             children: [
               CircleAvatar(
                 radius: 20,
-                backgroundColor: Colors.blue.shade100,
+                backgroundColor: palette['accentSoft'],
                 child: Text(
                   _initial(name),
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF6288D5)),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: palette['accent'],
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
@@ -1302,92 +1315,116 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black)),
+                    Text(
+                      name,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: palette['ink'],
+                      ),
+                    ),
                     const SizedBox(height: 2),
-                    Text(dateStr, style: TextStyle(fontSize: 12, color: Colors.grey)),
+                    Text(
+                      dateStr,
+                      style: TextStyle(fontSize: 12, color: palette['muted']),
+                    ),
                   ],
                 ),
               ),
-              // Звёзды справа
               RatingStars(
                 rating: widget.review.rating.toDouble(),
                 size: 16,
                 spacing: 2,
-                filledColor: const Color(0xFFFFA000),
-                emptyColor: Colors.grey.shade300,
+                filledColor: palette['star'] as Color,
+                emptyColor: palette['line'] as Color,
               ),
             ],
           ),
           const SizedBox(height: 12),
-
-          // Умный блок текста
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final span = TextSpan(text: text, style: const TextStyle(fontSize: 14, height: 1.4));
-              final tp = TextPainter(text: span, maxLines: 3, textDirection: TextDirection.ltr);
-              tp.layout(maxWidth: constraints.maxWidth);
-              final isLongText = tp.didExceedMaxLines;
-
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      text,
-                      maxLines: _isExpanded ? null : 3,
-                      overflow: _isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 14, height: 1.4, color: Colors.black87),
-                    ),
-
-                    // Кнопка Подробнее / Свернуть
-                    if (isLongText && !_isExpanded)
-                      GestureDetector(
-                        onTap: () => setState(() => _isExpanded = true),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 3.0),
-                          child: Text(
-                            'Подробнее',
-                            style: const TextStyle(color: Color(0xFF6288D5), fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-
-                    // Кнопка "Перейти ко всем" появляется ТОЛЬКО если текст раскрыт ИЛИ если он изначально короткий
-                    if (!_isLongTextButCollapsed(isLongText))
-                      Padding(
-                        padding: const EdgeInsets.only(top: 3),
-                        child: GestureDetector(
-                          onTap: widget.onOpenAll,
-                          child: const Text(
-                            'Перейти ко всем отзывам',
-                            style: TextStyle(
-                              color: Color(0xFF6288D5),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
-                );
-              },
+          // Review text
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 15,
+              color: palette['ink'],
+              height: 1.4,
+              fontWeight: FontWeight.w500,
             ),
-          ],
-        ),
+            maxLines: _isExpanded ? null : 3,
+            overflow: _isExpanded
+                ? TextOverflow.visible
+                : TextOverflow.ellipsis,
+          ),
+          // Expand/Collapse button
+          if (_hasLongText(text) && !_isExpanded)
+            GestureDetector(
+              onTap: () => setState(() => _isExpanded = true),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 3.0),
+                child: Text(
+                  'Подробнее',
+                  style: TextStyle(
+                    color: palette['accent'],
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ),
+          // Open all reviews button
+          if (!_isLongTextButCollapsed(text))
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: GestureDetector(
+                onTap: widget.onOpenAll,
+                child: Text(
+                  'Перейти ко всем отзывам',
+                  style: TextStyle(
+                    color: palette['accent'],
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 
-  // Вспомогательная логика: текст длинный, но сейчас свернут?
-  bool _isLongTextButCollapsed(bool isLongText) {
-    return isLongText && !_isExpanded;
+  bool _hasLongText(String text) {
+    return text.split('\n').length > 3 || text.length > 150;
+  }
+
+  bool _isLongTextButCollapsed(String text) {
+    return _hasLongText(text) && !_isExpanded;
+  }
+
+  Map<String, dynamic> _createPalette(ColorScheme cs) {
+    final isDark = cs.brightness == Brightness.dark;
+    return {
+      'card': Colors.white,
+      'line': cs.outlineVariant,
+      'ink': cs.onSurface,
+      'muted': cs.onSurfaceVariant,
+      'accent': const Color(0xFF6288D5),
+      'accentSoft': const Color(0xFF6288D5).withValues(alpha: 0.12),
+      'accentMist': const Color(0xFF6288D5).withValues(alpha: 0.08),
+      'star': const Color(0xFFF4B740),
+      'shadow': cs.onSurface.withValues(alpha: isDark ? 0.3 : 0.08),
+    };
   }
 }
-
 
 class QuestionPreviewCard extends StatefulWidget {
   final Question question;
   final VoidCallback onOpenAll;
 
-  const QuestionPreviewCard({super.key, required this.question, required this.onOpenAll});
+  const QuestionPreviewCard({
+    super.key,
+    required this.question,
+    required this.onOpenAll,
+  });
 
   @override
   State<QuestionPreviewCard> createState() => _QuestionPreviewCardState();
@@ -1397,9 +1434,7 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
   bool _isExpanded = false;
 
   String _formatDate(DateTime date) {
-    final months = ['января','февраля','марта','апреля','мая','июня',
-                    'июля','августа','сентября','октября','ноября','декабря'];
-    return '${date.day} ${months[date.month-1]}, ${date.hour.toString().padLeft(2,'0')}:${date.minute.toString().padLeft(2,'0')}';
+    return DateFormatter.formatDate(date);
   }
 
   @override
@@ -1408,156 +1443,140 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
     final cs = theme.colorScheme;
     final name = widget.question.userName;
     final date = _formatDate(widget.question.createdAt);
+
+    final palette = _createPalette(cs);
+
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       decoration: BoxDecoration(
-        color: cs.surface,
-        border: Border(bottom: BorderSide(color: cs.outlineVariant.withOpacity(0.3))),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: (palette['line'] as Color).withValues(alpha: 0.5),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: palette['shadow'] as Color,
+            blurRadius: 10,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Аватар + имя + дата
+          // Top row: Avatar + name/time
           Row(
             children: [
               CircleAvatar(
-                radius: 18,
-                backgroundColor: cs.surfaceContainerHighest,
-                child: Text(name[0].toUpperCase(), style: TextStyle(color: const Color(0xFF6288D5), fontWeight: FontWeight.w600)),
+                radius: 20,
+                backgroundColor: palette['accentSoft'],
+                child: Text(
+                  name[0].toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: palette['accent'],
+                  ),
+                ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-                    Text(date, style: TextStyle(fontSize: 12, color: cs.onSurfaceVariant)),
+                    Text(
+                      name,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: palette['ink'],
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      date,
+                      style: TextStyle(fontSize: 12, color: palette['muted']),
+                    ),
                   ],
                 ),
               ),
             ],
           ),
           const SizedBox(height: 12),
-
-          // Умный блок текста для вопроса
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final span = TextSpan(text: widget.question.questionText, style: TextStyle(fontSize: 15, height: 1.4));
-              final tp = TextPainter(
-                text: span,
-                maxLines: 2,
-                textDirection: TextDirection.ltr,
-              );
-              tp.layout(maxWidth: constraints.maxWidth);
-
-              final isQuestionOverflowing = tp.didExceedMaxLines;
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.question.questionText,
-                    maxLines: _isExpanded ? null : 2,
-                    overflow: _isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 15, height: 1.4),
-                  ),
-
-                  if (isQuestionOverflowing && !_isExpanded)
-                    GestureDetector(
-                      onTap: () => setState(() => _isExpanded = true),
-                      child: const Padding(
-                        padding: EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          'Подробнее',
-                          style: TextStyle(color: Color(0xFF6288D5), fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ),
-
-                  // Ответ продавца
-                  if (widget.question.answer != null) ...[
-                    const SizedBox(height: 12),
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: cs.surfaceContainerHighest.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color(0xFF6288D5).withOpacity(0.2)),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.store_rounded, size: 16, color: const Color(0xFF6288D5)),
-                              const SizedBox(width: 6),
-                              Text('Ответ продавца', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: const Color(0xFF6288D5))),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          LayoutBuilder(
-                            builder: (context, constraints) {
-                              final answerSpan = TextSpan(text: widget.question.answer!.answerText, style: const TextStyle(fontSize: 14, height: 1.4));
-                              final answerTp = TextPainter(
-                                text: answerSpan,
-                                maxLines: 2,
-                                textDirection: TextDirection.ltr,
-                              );
-                              answerTp.layout(maxWidth: constraints.maxWidth);
-
-                              final isAnswerOverflowing = answerTp.didExceedMaxLines;
-
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    widget.question.answer!.answerText,
-                                    maxLines: _isExpanded ? null : 2,
-                                    overflow: _isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 14, height: 1.4),
-                                  ),
-                                  if (isAnswerOverflowing && !_isExpanded)
-                                    GestureDetector(
-                                      onTap: () => setState(() => _isExpanded = true),
-                                      child: const Padding(
-                                        padding: EdgeInsets.only(top: 4.0),
-                                        child: Text(
-                                          'Подробнее',
-                                          style: TextStyle(color: Color(0xFF6288D5), fontWeight: FontWeight.w600),
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-
-                  if (!isQuestionOverflowing || _isExpanded)
-            Padding(
-                      padding: const EdgeInsets.only(top: 3),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: TextButton.icon(
-                          onPressed: widget.onOpenAll,
-                          icon: const Icon(Icons.arrow_forward, size: 18),
-                          label: const Text('Перейти ко всем вопросам'),
-                          style: TextButton.styleFrom(foregroundColor: const Color(0xFF6288D5)),
-                        ),
-                      ),
-                    ),
-                ],
-              );
-            },
+          // Question text
+          Text(
+            widget.question.questionText,
+            style: TextStyle(
+              fontSize: 15,
+              color: palette['ink'],
+              height: 1.4,
+              fontWeight: FontWeight.w500,
+            ),
+            maxLines: _isExpanded ? null : 3,
+            overflow: _isExpanded
+                ? TextOverflow.visible
+                : TextOverflow.ellipsis,
           ),
+          // Expand/Collapse button
+          if (_hasLongText(widget.question.questionText) && !_isExpanded)
+            GestureDetector(
+              onTap: () => setState(() => _isExpanded = true),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 0.0),
+                child: Text(
+                  'Подробнее',
+                  style: TextStyle(
+                    color: palette['accent'],
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ),
+          // Open all questions button
+          if (!_isLongTextButCollapsed(widget.question.questionText))
+            Padding(
+              padding: const EdgeInsets.only(top: 0),
+              child: GestureDetector(
+                onTap: widget.onOpenAll,
+                child: Text(
+                  'Перейти ко всем вопросам',
+                  style: TextStyle(
+                    color: palette['accent'],
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
+  }
+
+  bool _hasLongText(String text) {
+    return text.split('\n').length > 3 || text.length > 150;
+  }
+
+  bool _isLongTextButCollapsed(String text) {
+    return _hasLongText(text) && !_isExpanded;
+  }
+
+  Map<String, dynamic> _createPalette(ColorScheme cs) {
+    final isDark = cs.brightness == Brightness.dark;
+    return {
+      'card': Colors.white,
+      'line': cs.outlineVariant,
+      'ink': cs.onSurface,
+      'muted': cs.onSurfaceVariant,
+      'accent': const Color(0xFF6288D5),
+      'accentSoft': const Color(0xFF6288D5).withValues(alpha: 0.12),
+      'accentMist': const Color(0xFF6288D5).withValues(alpha: 0.08),
+      'star': const Color(0xFFF4B740),
+      'shadow': cs.onSurface.withValues(alpha: isDark ? 0.3 : 0.08),
+    };
   }
 }
 

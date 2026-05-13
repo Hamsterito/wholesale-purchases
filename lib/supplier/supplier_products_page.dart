@@ -6,6 +6,7 @@ import '../utils/auto_refresh.dart';
 import '../widgets/main_bottom_nav.dart';
 import '../widgets/smart_image.dart';
 import 'supplier_product_wizard.dart';
+import 'supplier_qa_page.dart';
 
 class SupplierProductsPage extends StatefulWidget {
   const SupplierProductsPage({super.key});
@@ -192,6 +193,15 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
     }
   }
 
+  void _navigateToQA(SupplierProduct product) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SupplierQAPage(productIdFilter: product.id),
+      ),
+    );
+  }
+
   String _extractErrorMessage(Object error, {required String fallback}) {
     final raw = error.toString().trim();
     if (raw.isEmpty) {
@@ -313,37 +323,48 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        product.name.isEmpty ? 'Без названия' : product.name,
-                        style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 8),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
+                      const SizedBox(),
+                      Row(
                         children: [
-                          _BadgeChip(
-                            label: _statusLabel(product.moderationStatus),
-                            icon: _statusIcon(product.moderationStatus),
-                            foregroundColor: statusColor,
-                            backgroundColor: statusColor.withValues(
-                              alpha: 0.12,
+                          Expanded(
+                            child: Text(
+                              product.name.isEmpty
+                                  ? 'Без названия'
+                                  : product.name,
+                              style: const TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            borderColor: statusColor.withValues(alpha: 0.3),
                           ),
-                          if (product.categories.isNotEmpty)
-                            _BadgeChip(
-                              label: product.categories.first,
-                              icon: Icons.sell_outlined,
+                          IconButton(
+                            onPressed: _isSubmitting || isDeleting
+                                ? null
+                                : () => _deleteProduct(product),
+                            icon: isDeleting
+                                ? const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : const Icon(
+                                    Icons.delete_outline_rounded,
+                                    size: 22,
+                                  ),
+                            color: const Color(0xFFB91C1C),
+                            iconSize: 16,
+                            constraints: const BoxConstraints(
+                              minWidth: 0,
+                              minHeight: 0,
                             ),
+                          ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
                       _ExpandableDescription(
                         text: product.description.isEmpty
                             ? 'Описание пока не добавлено'
@@ -355,6 +376,24 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
                       ),
                     ],
                   ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _BadgeChip(
+                  label: _statusLabel(product.moderationStatus),
+                  icon: _statusIcon(product.moderationStatus),
+                  foregroundColor: statusColor,
+                  backgroundColor: statusColor.withValues(alpha: 0.12),
+                  borderColor: statusColor.withValues(alpha: 0.3),
+                ),
+                ...product.categories.map(
+                  (category) =>
+                      _BadgeChip(label: category, icon: Icons.sell_outlined),
                 ),
               ],
             ),
@@ -386,18 +425,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
                 ),
               ],
             ),
-            if (product.categories.length > 1) ...[
-              const SizedBox(height: 12),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: product.categories
-                    .skip(1)
-                    .take(3)
-                    .map((category) => _BadgeChip(label: category))
-                    .toList(),
-              ),
-            ],
+
             if (product.moderationComment.isNotEmpty) ...[
               const SizedBox(height: 12),
               Container(
@@ -455,23 +483,15 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: FilledButton.tonalIcon(
+                  child: FilledButton.icon(
                     onPressed: _isSubmitting || isDeleting
                         ? null
-                        : () => _deleteProduct(product),
-                    icon: isDeleting
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.delete_outline_rounded, size: 18),
-                    label: Text(isDeleting ? 'Удаление...' : 'Удалить'),
+                        : () => _navigateToQA(product),
+                    icon: const Icon(Icons.help_outline, size: 18),
+                    label: const Text('Q&A'),
                     style: FilledButton.styleFrom(
-                      foregroundColor: const Color(0xFFB91C1C),
-                      backgroundColor: const Color(
-                        0xFFEF4444,
-                      ).withValues(alpha: 0.15),
+                      backgroundColor: const Color(0xFF6288D5),
+                      foregroundColor: Colors.white,
                       disabledForegroundColor: colorScheme.onSurfaceVariant,
                       disabledBackgroundColor:
                           colorScheme.surfaceContainerHighest,
@@ -730,15 +750,16 @@ class _ExpandableDescription extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final textPainter = TextPainter(
-          text: TextSpan(text: text, style: style),
-          textDirection: Directionality.of(context),
-          maxLines: _collapsedMaxLines,
-        )..layout(
-          maxWidth: constraints.maxWidth.isFinite
-              ? constraints.maxWidth
-              : MediaQuery.sizeOf(context).width,
-        );
+        final textPainter =
+            TextPainter(
+              text: TextSpan(text: text, style: style),
+              textDirection: Directionality.of(context),
+              maxLines: _collapsedMaxLines,
+            )..layout(
+              maxWidth: constraints.maxWidth.isFinite
+                  ? constraints.maxWidth
+                  : MediaQuery.sizeOf(context).width,
+            );
 
         final hasOverflow = textPainter.didExceedMaxLines;
 
@@ -757,7 +778,7 @@ class _ExpandableDescription extends StatelessWidget {
               ),
             ),
             if (hasOverflow) ...[
-              const SizedBox(height: 4),
+              const SizedBox(height: 2),
               GestureDetector(
                 onTap: onToggle,
                 child: Text(

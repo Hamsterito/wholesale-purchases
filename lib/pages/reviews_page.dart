@@ -6,6 +6,7 @@ import '../services/api_service.dart';
 import '../widgets/rating_stars.dart';
 import '../widgets/expandable_text_block.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../utils/date_formatter.dart';
 
 class _ProductReviewsPalette {
   const _ProductReviewsPalette({
@@ -160,10 +161,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   }
 
   String _formatDate(DateTime value) {
-    final day = value.day.toString().padLeft(2, '0');
-    final month = value.month.toString().padLeft(2, '0');
-    final year = value.year.toString().padLeft(4, '0');
-    return '$day.$month.$year';
+    return DateFormatter.formatDate(value);
   }
 
   String _reviewerName(ReviewEntry review) {
@@ -181,7 +179,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
     }
     return normalized.characters.first.toUpperCase();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -202,22 +199,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
               ),
             ),
           ),
-          Positioned(
-            top: -80,
-            right: -40,
-            child: _DecorativeBlob(
-              size: 180,
-              color: palette.accentSoft.withValues(alpha: 0.68),
-            ),
-          ),
-          Positioned(
-            top: 120,
-            left: -55,
-            child: _DecorativeBlob(
-              size: 135,
-              color: palette.accentMist.withValues(alpha: 0.7),
-            ),
-          ),
+
           SafeArea(
             child: Column(
               children: [
@@ -225,7 +207,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 Expanded(
                   child: _isLoading
                       ? Center(
-                          child: CircularProgressIndicator(color: palette.accent),
+                          child: CircularProgressIndicator(
+                            color: palette.accent,
+                          ),
                         )
                       : _buildContent(),
                 ),
@@ -242,65 +226,57 @@ class _ReviewsPageState extends State<ReviewsPage> {
     final palette = context.productReviewsPalette;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(Icons.arrow_back, color: palette.ink),
-            tooltip: 'Назад',
-            style: IconButton.styleFrom(
-              minimumSize: const Size(32, 32),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              padding: EdgeInsets.zero,
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
+        decoration: BoxDecoration(
+          color: palette.card,
+          borderRadius: BorderRadius.zero,
+          border: Border.all(color: palette.line),
+          boxShadow: [
+            BoxShadow(
+              color: palette.shadow,
+              blurRadius: 10,
+              offset: const Offset(0, 6),
             ),
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Отзывы',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
-                    color: palette.ink,
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(Icons.arrow_back, color: palette.ink),
+              tooltip: 'Назад',
+              style: IconButton.styleFrom(
+                minimumSize: const Size(32, 32),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                padding: EdgeInsets.zero,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Отзывы',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: palette.ink,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  'Оценок: $_effectiveReviewCount',
-                  style: TextStyle(fontSize: 12, color: palette.muted),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-            decoration: BoxDecoration(
-              color: palette.accentSoft,
-              borderRadius: BorderRadius.circular(999),
-              border: Border.all(color: palette.line),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  _averageRating.toStringAsFixed(1),
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: palette.accentDark,
+                  const SizedBox(height: 2),
+                  Text(
+                    'Оценок: $_effectiveReviewCount',
+                    style: TextStyle(fontSize: 12, color: palette.muted),
                   ),
-                ),
-                const SizedBox(width: 3),
-                const Icon(Icons.star_rounded, size: 14, color: _star),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -313,7 +289,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
       onRefresh: _loadReviews,
       child: ListView(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
+        padding: const EdgeInsets.fromLTRB(0, 4, 0, 24),
         children: [
           _buildSummaryCard(),
           if (_error != null) ...[
@@ -372,7 +348,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
                   ),
                 ),
                 const SizedBox(height: 2),
-                Text('/5', style: TextStyle(fontSize: 13, color: palette.muted)),
+                Text(
+                  '/5',
+                  style: TextStyle(fontSize: 13, color: palette.muted),
+                ),
                 const SizedBox(height: 8),
                 Text(
                   'Оценок: $_effectiveReviewCount',
@@ -432,14 +411,12 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 alignment: Alignment.centerLeft,
                 child: FractionallySizedBox(
                   widthFactor: ratio,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(999),
-                        gradient: LinearGradient(
-                          colors: [_star, _star],
-                        ),
-                      ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(999),
+                      gradient: LinearGradient(colors: [_star, _star]),
                     ),
+                  ),
                 ),
               ),
             ),
@@ -526,8 +503,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
   Widget _buildReviewCard(ReviewEntry review) {
     final palette = context.productReviewsPalette;
     final name = _reviewerName(review);
-    final text = review.reviewText.trim().isEmpty ? 'Без текста' : review.reviewText.trim();
-    final dateStr = _formatDate(review.createdAt); // DD.MM.YYYY
+    final text = review.reviewText.trim().isEmpty
+        ? 'Без текста'
+        : review.reviewText.trim();
+    final dateStr = _formatDate(review.createdAt);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -537,7 +516,11 @@ class _ReviewsPageState extends State<ReviewsPage> {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: palette.line.withValues(alpha: 0.5)),
         boxShadow: [
-          BoxShadow(color: palette.shadow, blurRadius: 10, offset: const Offset(0, 6)),
+          BoxShadow(
+            color: palette.shadow,
+            blurRadius: 10,
+            offset: const Offset(0, 6),
+          ),
         ],
       ),
       child: Column(
@@ -551,7 +534,11 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 backgroundColor: palette.accentSoft,
                 child: Text(
                   _initial(name),
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: const Color(0xFF6288D5)),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF6288D5),
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
@@ -559,9 +546,19 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: palette.ink)),
+                    Text(
+                      name,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: palette.ink,
+                      ),
+                    ),
                     const SizedBox(height: 2),
-                    Text(dateStr, style: TextStyle(fontSize: 12, color: palette.muted)),
+                    Text(
+                      dateStr,
+                      style: TextStyle(fontSize: 12, color: palette.muted),
+                    ),
                   ],
                 ),
               ),
@@ -574,33 +571,17 @@ class _ReviewsPageState extends State<ReviewsPage> {
               ),
             ],
           ),
-           const SizedBox(height: 12),
-           ExpandableTextBlock(
-             text,
-             textStyle: TextStyle(fontSize: 14, color: palette.ink, height: 1.4),
-             actionColor: palette.accent,
-             collapsedMaxLines: 3,
-             moreLabel: 'Подробнее',
-             lessLabel: 'Свернуть',
-           ),
+          const SizedBox(height: 12),
+          ExpandableTextBlock(
+            text,
+            textStyle: TextStyle(fontSize: 14, color: palette.ink, height: 1.4),
+            actionColor: palette.accent,
+            collapsedMaxLines: 3,
+            moreLabel: 'Подробнее',
+            lessLabel: 'Свернуть',
+          ),
         ],
       ),
-    );
-  }
-}
-
-class _DecorativeBlob extends StatelessWidget {
-  const _DecorativeBlob({required this.size, required this.color});
-
-  final double size;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(shape: BoxShape.circle, color: color),
     );
   }
 }

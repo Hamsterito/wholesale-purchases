@@ -1,82 +1,147 @@
 import 'package:flutter/material.dart';
 import '../models/question.dart';
 import 'expandable_text_block.dart';
+import '../utils/date_formatter.dart';
 
 class QuestionCard extends StatelessWidget {
   final Question question;
-  const QuestionCard({Key? key, required this.question}) : super(key: key);
+  final dynamic palette;
+
+  const QuestionCard({
+    super.key,
+    required this.question,
+    required this.palette,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
     final name = question.userName;
-    final date = _formatDate(question.createdAt);
+    final relativeTime = DateFormatter.formatDate(question.createdAt);
+    final avatarInitial = name.isNotEmpty ? name[0].toUpperCase() : '?';
+    final questionText = question.questionText.trim().isEmpty
+        ? 'Без текста'
+        : question.questionText.trim();
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: cs.surface,
-        border: Border(bottom: BorderSide(color: cs.outlineVariant.withOpacity(0.3))),
+        color: palette.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: palette.line.withValues(alpha: 0.5)),
+        boxShadow: [
+          BoxShadow(
+            color: palette.shadow,
+            blurRadius: 10,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Аватар + имя + дата
           Row(
             children: [
               CircleAvatar(
-                radius: 18,
-                backgroundColor: cs.surfaceContainerHighest,
-                child: Text(name[0].toUpperCase(), style: TextStyle(color: const Color(0xFF6288D5), fontWeight: FontWeight.w600)),
+                radius: 20,
+                backgroundColor: palette.accentSoft,
+                child: Text(
+                  avatarInitial,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: palette.accent,
+                  ),
+                ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-                    Text(date, style: TextStyle(fontSize: 12, color: cs.onSurfaceVariant)),
+                    Text(
+                      name,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: palette.ink,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      relativeTime,
+                      style: TextStyle(fontSize: 12, color: palette.muted),
+                    ),
                   ],
                 ),
               ),
             ],
           ),
-           const SizedBox(height: 12),
-           ExpandableTextBlock(
-             question.questionText,
-             textStyle: TextStyle(fontSize: 15, height: 1.4),
-             actionColor: const Color(0xFF6288D5),
-             collapsedMaxLines: 2,
-             actionFontSize: 11,
-           ),
-          // Ответ продавца
+          const SizedBox(height: 12),
+          ExpandableTextBlock(
+            questionText,
+            textStyle: TextStyle(
+              fontSize: 15,
+              color: palette.ink,
+              height: 1.4,
+              fontWeight: FontWeight.w500,
+            ),
+            actionColor: palette.accent,
+            collapsedMaxLines: 3,
+            moreLabel: 'Подробнее',
+            lessLabel: 'Свернуть',
+          ),
           if (question.answer != null) ...[
             const SizedBox(height: 12),
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: cs.surfaceContainerHighest.withOpacity(0.3),
+                color: palette.accentMist,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFF6288D5).withOpacity(0.2)),
+                border: Border.all(color: palette.line.withValues(alpha: 0.5)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.store_rounded, size: 16, color: const Color(0xFF6288D5)),
+                      Icon(
+                        Icons.store_rounded,
+                        size: 16,
+                        color: palette.accent,
+                      ),
                       const SizedBox(width: 6),
-                      Text('Ответ продавца', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: const Color(0xFF6288D5))),
+                      Text(
+                        'Ответ продавца',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                          color: palette.accent,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          question.answer!.supplierName,
+                          style: TextStyle(fontSize: 11, color: palette.muted),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
-                   const SizedBox(height: 8),
-                   ExpandableTextBlock(
-                     question.answer!.answerText,
-                     textStyle: const TextStyle(fontSize: 14, height: 1.4),
-                     actionColor: const Color(0xFF6288D5),
-                     collapsedMaxLines: 2,
-                     actionFontSize: 11,
-                   ),
+                  const SizedBox(height: 8),
+                  ExpandableTextBlock(
+                    question.answer!.answerText,
+                    textStyle: TextStyle(
+                      fontSize: 15,
+                      color: palette.ink,
+                      height: 1.4,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    actionColor: palette.accent,
+                    collapsedMaxLines: 3,
+                    moreLabel: 'Подробнее',
+                    lessLabel: 'Свернуть',
+                  ),
                 ],
               ),
             ),
@@ -84,11 +149,5 @@ class QuestionCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _formatDate(DateTime date) {
-    final months = ['января','февраля','марта','апреля','мая','июня',
-                    'июля','августа','сентября','октября','ноября','декабря'];
-    return '${date.day} ${months[date.month-1]}, ${date.hour.toString().padLeft(2,'0')}:${date.minute.toString().padLeft(2,'0')}';
   }
 }

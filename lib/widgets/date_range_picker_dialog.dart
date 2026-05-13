@@ -4,10 +4,11 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 class CustomDateRangePickerDialog extends StatefulWidget {
   final DateTimeRange? initialRange;
 
-  const CustomDateRangePickerDialog({Key? key, this.initialRange}) : super(key: key);
+  const CustomDateRangePickerDialog({super.key, this.initialRange});
 
   @override
-  State<CustomDateRangePickerDialog> createState() => _CustomDateRangePickerDialogState();
+  State<CustomDateRangePickerDialog> createState() =>
+      _CustomDateRangePickerDialogState();
 }
 
 class _QuickFilterButton extends StatelessWidget {
@@ -28,12 +29,15 @@ class _QuickFilterButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(20),
-        splashColor: primaryColor.withOpacity(0.2),
-        highlightColor: primaryColor.withOpacity(0.1),
+        splashColor: primaryColor.withValues(alpha: 0.2),
+        highlightColor: primaryColor.withValues(alpha: 0.1),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           decoration: BoxDecoration(
-            border: Border.all(color: primaryColor.withOpacity(0.5), width: 1),
+            border: Border.all(
+              color: primaryColor.withValues(alpha: 0.5),
+              width: 1,
+            ),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
@@ -50,7 +54,8 @@ class _QuickFilterButton extends StatelessWidget {
   }
 }
 
-class _CustomDateRangePickerDialogState extends State<CustomDateRangePickerDialog> {
+class _CustomDateRangePickerDialogState
+    extends State<CustomDateRangePickerDialog> {
   late DateRangePickerController _controller;
   late PickerDateRange _selectedRange;
 
@@ -162,7 +167,11 @@ class _CustomDateRangePickerDialogState extends State<CustomDateRangePickerDialo
           children: [
             Text(
               'Выберите диапазон дат',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
             const SizedBox(height: 16),
             // Quick filters
@@ -203,27 +212,66 @@ class _CustomDateRangePickerDialogState extends State<CustomDateRangePickerDialo
                 showNavigationArrow: true,
                 navigationMode: DateRangePickerNavigationMode.snap,
                 headerStyle: DateRangePickerHeaderStyle(
-                  textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor),
+                  textStyle: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
                 monthCellStyle: DateRangePickerMonthCellStyle(
-                  textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.onSurface),
-                  todayTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
-                  disabledDatesTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3)),
+                  textStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  todayTextStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  disabledDatesTextStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.3),
+                  ),
                 ),
                 yearCellStyle: DateRangePickerYearCellStyle(
-                  textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.onSurface),
-                  todayTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
+                  textStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  todayTextStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
-                selectionTextStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-                rangeTextStyle: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
+                selectionTextStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+                rangeTextStyle: TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
                 selectionColor: Theme.of(context).primaryColor,
                 startRangeSelectionColor: Theme.of(context).primaryColor,
                 endRangeSelectionColor: Theme.of(context).primaryColor,
-                rangeSelectionColor: Theme.of(context).primaryColor.withOpacity(0.1),
+                rangeSelectionColor: Theme.of(
+                  context,
+                ).primaryColor.withValues(alpha: 0.1),
                 todayHighlightColor: Theme.of(context).primaryColor,
                 monthViewSettings: DateRangePickerMonthViewSettings(
                   viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                    textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    textStyle: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                   ),
                   enableSwipeSelection: false,
                 ),
@@ -238,11 +286,17 @@ class _CustomDateRangePickerDialogState extends State<CustomDateRangePickerDialo
               ),
               child: Row(
                 children: [
-                  Icon(Icons.calendar_today, color: Theme.of(context).primaryColor),
+                  Icon(
+                    Icons.calendar_today,
+                    color: Theme.of(context).primaryColor,
+                  ),
                   const SizedBox(width: 8),
                   Text(
                     _getSelectedRangeText(),
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -265,7 +319,10 @@ class _CustomDateRangePickerDialogState extends State<CustomDateRangePickerDialo
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 20,
+                    ),
                   ),
                   child: const Text('Сохранить'),
                 ),

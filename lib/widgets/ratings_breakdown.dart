@@ -37,8 +37,9 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
   Color get _cardBg => _colorScheme.surface;
   Color get _ink => _colorScheme.onSurface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _trackBg =>
-      _colorScheme.surfaceContainerHighest.withValues(alpha: _isDark ? 0.78 : 0.9);
+  Color get _trackBg => _colorScheme.surfaceContainerHighest.withValues(
+    alpha: _isDark ? 0.78 : 0.9,
+  );
   Color get _softBorder => Color.alphaBlend(
     _brand.withValues(alpha: _isDark ? 0.24 : 0.12),
     _colorScheme.outlineVariant,
@@ -383,11 +384,7 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
           Expanded(
             child: Text(
               'Пока нет отзывов. Станьте первым, кто оценит товар.',
-              style: TextStyle(
-                fontSize: 12,
-                color: _mutedText,
-                height: 1.3,
-              ),
+              style: TextStyle(fontSize: 12, color: _mutedText, height: 1.3),
             ),
           ),
         ],
@@ -423,7 +420,9 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
                   decoration: BoxDecoration(
                     color: _trackBg,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: _softBorder.withValues(alpha: 0.9)),
+                    border: Border.all(
+                      color: _softBorder.withValues(alpha: 0.9),
+                    ),
                   ),
                   alignment: Alignment.center,
                   child: Text(
@@ -482,11 +481,7 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
               text,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 12,
-                color: _mutedText,
-                height: 1.35,
-              ),
+              style: TextStyle(fontSize: 12, color: _mutedText, height: 1.35),
             ),
           ],
         ),

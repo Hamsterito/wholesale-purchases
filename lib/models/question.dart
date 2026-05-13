@@ -7,6 +7,8 @@ class Question {
   final DateTime createdAt;
   final bool isAnswered;
   final QuestionAnswer? answer;
+  final String productName;
+  final String productImage;
 
   Question({
     required this.id,
@@ -17,6 +19,8 @@ class Question {
     required this.createdAt,
     required this.isAnswered,
     this.answer,
+    required this.productName,
+    required this.productImage,
   });
 
   factory Question.fromJson(Map<String, dynamic> json) {
@@ -29,6 +33,8 @@ class Question {
       createdAt: DateTime.parse(json['createdAt']),
       isAnswered: json['isAnswered'] ?? false,
       answer: json['answer'] != null ? QuestionAnswer.fromJson(json['answer']) : null,
+      productName: json['productName'] ?? '',
+      productImage: json['productImage'] ?? '',
     );
   }
 
@@ -41,6 +47,8 @@ class Question {
         'createdAt': createdAt.toIso8601String(),
         'isAnswered': isAnswered,
         'answer': answer?.toJson(),
+        'productName': productName,
+        'productImage': productImage,
       };
 }
 

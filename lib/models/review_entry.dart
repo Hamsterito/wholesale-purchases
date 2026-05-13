@@ -1,3 +1,32 @@
+class ReviewResponse {
+  final String id;
+  final String reviewId;
+  final String supplierId;
+  final String supplierName;
+  final String responseText;
+  final DateTime respondedAt;
+
+  ReviewResponse({
+    required this.id,
+    required this.reviewId,
+    required this.supplierId,
+    required this.supplierName,
+    required this.responseText,
+    required this.respondedAt,
+  });
+
+  factory ReviewResponse.fromJson(Map<String, dynamic> json) {
+    return ReviewResponse(
+      id: json['id']?.toString() ?? '',
+      reviewId: json['reviewId']?.toString() ?? '',
+      supplierId: json['supplierId']?.toString() ?? '',
+      supplierName: json['supplierName']?.toString() ?? '',
+      responseText: json['responseText']?.toString() ?? '',
+      respondedAt: ReviewEntry._parseDate(json['respondedAt'] ?? json['date']),
+    );
+  }
+}
+
 class ReviewEntry {
   final String id;
   final String orderId;
@@ -9,6 +38,7 @@ class ReviewEntry {
   final int rating;
   final String reviewText;
   final DateTime createdAt;
+  final ReviewResponse? response;
 
   ReviewEntry({
     required this.id,
@@ -21,6 +51,7 @@ class ReviewEntry {
     required this.rating,
     required this.reviewText,
     required this.createdAt,
+    this.response,
   });
 
   factory ReviewEntry.fromJson(Map<String, dynamic> json) {
@@ -35,10 +66,17 @@ class ReviewEntry {
       rating: _parseInt(json['rating']),
       reviewText: json['reviewText']?.toString() ?? '',
       createdAt: _parseDate(json['createdAt'] ?? json['date']),
+      response: json['response'] != null
+          ? ReviewResponse.fromJson(json['response'] as Map<String, dynamic>)
+          : null,
     );
   }
 
-  ReviewEntry copyWith({int? rating, String? reviewText}) {
+  ReviewEntry copyWith({
+    int? rating,
+    String? reviewText,
+    ReviewResponse? response,
+  }) {
     return ReviewEntry(
       id: id,
       orderId: orderId,
@@ -50,6 +88,7 @@ class ReviewEntry {
       rating: rating ?? this.rating,
       reviewText: reviewText ?? this.reviewText,
       createdAt: createdAt,
+      response: response ?? this.response,
     );
   }
 

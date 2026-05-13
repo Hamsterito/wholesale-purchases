@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http_package;
 import '../models/product.dart';
@@ -12,7 +11,6 @@ import '../models/user_profile.dart';
 import '../models/user_address.dart';
 import '../models/review_entry.dart';
 import '../models/support_message.dart';
-
 
 final http = AppHttpClient.instance;
 
@@ -195,7 +193,9 @@ class ApiService {
       if (endDate != null) {
         queryParams['endDate'] = endDate.toIso8601String();
       }
-      final uri = Uri.parse('$baseUrl/orders').replace(queryParameters: queryParams);
+      final uri = Uri.parse(
+        '$baseUrl/orders',
+      ).replace(queryParameters: queryParams);
       final response = await http.get(uri);
 
       if (response.statusCode == 200) {
@@ -1641,7 +1641,9 @@ class ApiService {
       if (response.statusCode == 200) {
         return Uint8List.fromList(response.bodyBytes);
       } else {
-        throw Exception('Не удалось экспортировать заказы: ${response.statusCode}');
+        throw Exception(
+          'Не удалось экспортировать заказы: ${response.statusCode}',
+        );
       }
     } catch (e) {
       debugPrint('Ошибка при экспорте заказов: $e');
@@ -1654,12 +1656,54 @@ class ApiService {
     int page = 1,
     int limit = 20,
   }) async {
-    final uri = Uri.parse('$baseUrl/products/$productId/questions?page=$page&limit=$limit');
-    final response = await http.get(uri);
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body) as Map<String, dynamic>;
-    } else {
-      throw Exception('Не удалось загрузить вопросы');
+    final normalizedProductId = productId.trim();
+    if (normalizedProductId.isEmpty) {
+      throw ArgumentError('productId не должен быть пустым');
+    }
+
+    try {
+      final uri = Uri.parse(
+        '$baseUrl/products/$normalizedProductId/questions?page=$page&limit=$limit',
+      );
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        final decoded = jsonDecode(body) as Map<String, dynamic>;
+
+        // Validate response structure
+        if (!decoded.containsKey('questions') ||
+            !decoded.containsKey('total')) {
+          throw Exception(
+            'Неверный формат ответа сервера: отсутствуют поля questions или total',
+          );
+        }
+
+        final questions = decoded['questions'];
+        if (questions is! List) {
+          throw Exception(
+            'Неверный формат ответа сервера: questions должен быть списком',
+          );
+        }
+
+        final total = decoded['total'];
+        if (total is! int) {
+          throw Exception(
+            'Неверный формат ответа сервера: total должен быть числом',
+          );
+        }
+
+        return decoded;
+      } else {
+        final errorMessage = _extractResponseErrorMessage(response);
+        if (errorMessage != null) {
+          throw Exception(errorMessage);
+        }
+        throw Exception('Не удалось загрузить вопросы: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Ошибка при загрузке вопросов: $e');
+      rethrow;
     }
   }
 
@@ -1668,13 +1712,46 @@ class ApiService {
     required int userId,
     required String questionText,
   }) async {
-    final uri = Uri.parse('$baseUrl/products/$productId/questions');
-    final response = await http.post(uri, body: jsonEncode({
-      'userId': userId,
-      'questionText': questionText,
-    }));
-    if (response.statusCode != 201) {
-      throw Exception('Не удалось задать вопрос');
+    final normalizedProductId = productId.trim();
+    final normalizedQuestionText = questionText.trim();
+
+    if (normalizedProductId.isEmpty) {
+      throw ArgumentError('productId не должен быть пустым');
+    }
+    if (userId <= 0) {
+      throw ArgumentError('userId должен быть положительным');
+    }
+    if (normalizedQuestionText.isEmpty) {
+      throw ArgumentError('Вопрос не должен быть пустым');
+    }
+    if (normalizedQuestionText.length < 10) {
+      throw ArgumentError('Вопрос должен содержать минимум 10 символов');
+    }
+
+    try {
+      final uri = Uri.parse('$baseUrl/products/$normalizedProductId/questions');
+      final response = await http.post(
+        uri,
+        headers: const {'Content-Type': 'application/json; charset=utf-8'},
+        body: jsonEncode({
+          'userId': userId,
+          'questionText': normalizedQuestionText,
+        }),
+      );
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        return;
+      }
+
+      final errorMessage = _extractResponseErrorMessage(response);
+      if (errorMessage != null) {
+        throw Exception(errorMessage);
+      }
+
+      throw Exception('Не удалось задать вопрос: ${response.statusCode}');
+    } catch (e) {
+      debugPrint('Ошибка при отправке вопроса: $e');
+      rethrow;
     }
   }
 
@@ -1684,12 +1761,207 @@ class ApiService {
     required String answerText,
   }) async {
     final uri = Uri.parse('$baseUrl/questions/$questionId/answer');
-    final response = await http.post(uri, body: jsonEncode({
-      'supplierUserId': supplierUserId,
-      'answerText': answerText,
-    }));
+    final response = await http.post(
+      uri,
+      body: jsonEncode({
+        'supplierUserId': supplierUserId,
+        'answerText': answerText,
+      }),
+    );
     if (response.statusCode != 201) {
       throw Exception('Не удалось ответить');
+    }
+  }
+
+  static Future<Map<String, dynamic>> getSupplierQuestions({
+    required int userId,
+    int page = 1,
+    int limit = 20,
+  }) async {
+    if (userId <= 0) {
+      throw ArgumentError('userId должен быть положительным');
+    }
+
+    try {
+      final queryParams = <String, String>{
+        'userId': userId.toString(),
+        'page': page.toString(),
+        'limit': limit.toString(),
+      };
+      final uri = Uri.parse(
+        '$baseUrl/supplier/questions',
+      ).replace(queryParameters: queryParams);
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        final decoded = jsonDecode(body) as Map<String, dynamic>;
+        return {
+          'questions': decoded['questions'] ?? [],
+          'total': decoded['total'] ?? 0,
+        };
+      } else {
+        throw Exception('Не удалось загрузить вопросы: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Ошибка при загрузке вопросов: $e');
+      rethrow;
+    }
+  }
+
+  static Future<Map<String, dynamic>> getSupplierReviews({
+    required int userId,
+    int page = 1,
+    int limit = 20,
+  }) async {
+    if (userId <= 0) {
+      throw ArgumentError('userId должен быть положительным');
+    }
+
+    try {
+      final queryParams = <String, String>{
+        'userId': userId.toString(),
+        'page': page.toString(),
+        'limit': limit.toString(),
+      };
+      final uri = Uri.parse(
+        '$baseUrl/supplier/reviews',
+      ).replace(queryParameters: queryParams);
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        final decoded = jsonDecode(body) as Map<String, dynamic>;
+        return {
+          'reviews': decoded['reviews'] ?? [],
+          'total': decoded['total'] ?? 0,
+        };
+      } else {
+        throw Exception('Не удалось загрузить отзывы: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Ошибка при загрузке отзывов: $e');
+      rethrow;
+    }
+  }
+
+  static Future<void> updateQuestionAnswer({
+    required String questionId,
+    required int supplierUserId,
+    required String answerText,
+  }) async {
+    final normalizedQuestionId = questionId.trim();
+    if (normalizedQuestionId.isEmpty) {
+      throw ArgumentError('questionId не должен быть пустым');
+    }
+    if (supplierUserId <= 0) {
+      throw ArgumentError('supplierUserId должен быть положительным');
+    }
+    final normalizedAnswerText = answerText.trim();
+    if (normalizedAnswerText.isEmpty) {
+      throw ArgumentError('answerText не должен быть пустым');
+    }
+
+    try {
+      final response = await http.patch(
+        Uri.parse('$baseUrl/questions/$normalizedQuestionId/answer'),
+        headers: const {'content-type': 'application/json; charset=utf-8'},
+        body: jsonEncode({
+          'supplierUserId': supplierUserId,
+          'answerText': normalizedAnswerText,
+        }),
+      );
+
+      if (response.statusCode != 200) {
+        final errorMessage = _extractResponseErrorMessage(response);
+        if (errorMessage != null) {
+          throw Exception(errorMessage);
+        }
+        throw Exception('Не удалось обновить ответ: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Ошибка при обновлении ответа: $e');
+      rethrow;
+    }
+  }
+
+  static Future<void> respondToReview({
+    required String reviewId,
+    required int supplierUserId,
+    required String responseText,
+  }) async {
+    final normalizedReviewId = reviewId.trim();
+    if (normalizedReviewId.isEmpty) {
+      throw ArgumentError('reviewId не должен быть пустым');
+    }
+    if (supplierUserId <= 0) {
+      throw ArgumentError('supplierUserId должен быть положительным');
+    }
+    final normalizedResponseText = responseText.trim();
+    if (normalizedResponseText.isEmpty) {
+      throw ArgumentError('responseText не должен быть пустым');
+    }
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/reviews/$normalizedReviewId/response'),
+        headers: const {'content-type': 'application/json; charset=utf-8'},
+        body: jsonEncode({
+          'supplierUserId': supplierUserId,
+          'responseText': normalizedResponseText,
+        }),
+      );
+
+      if (response.statusCode != 201 && response.statusCode != 200) {
+        final errorMessage = _extractResponseErrorMessage(response);
+        if (errorMessage != null) {
+          throw Exception(errorMessage);
+        }
+        throw Exception('Не удалось отправить ответ: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Ошибка при отправке ответа на отзыв: $e');
+      rethrow;
+    }
+  }
+
+  static Future<void> updateReviewResponse({
+    required String reviewId,
+    required int supplierUserId,
+    required String responseText,
+  }) async {
+    final normalizedReviewId = reviewId.trim();
+    if (normalizedReviewId.isEmpty) {
+      throw ArgumentError('reviewId не должен быть пустым');
+    }
+    if (supplierUserId <= 0) {
+      throw ArgumentError('supplierUserId должен быть положительным');
+    }
+    final normalizedResponseText = responseText.trim();
+    if (normalizedResponseText.isEmpty) {
+      throw ArgumentError('responseText не должен быть пустым');
+    }
+
+    try {
+      final response = await http.patch(
+        Uri.parse('$baseUrl/reviews/$normalizedReviewId/response'),
+        headers: const {'content-type': 'application/json; charset=utf-8'},
+        body: jsonEncode({
+          'supplierUserId': supplierUserId,
+          'responseText': normalizedResponseText,
+        }),
+      );
+
+      if (response.statusCode != 200) {
+        final errorMessage = _extractResponseErrorMessage(response);
+        if (errorMessage != null) {
+          throw Exception(errorMessage);
+        }
+        throw Exception('Не удалось обновить ответ: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Ошибка при обновлении ответа на отзыв: $e');
+      rethrow;
     }
   }
 

@@ -6,8 +6,9 @@ mixin AutoRefreshMixin<T extends StatefulWidget> on State<T> {
   bool _isRefreshing = false;
   bool _autoRefreshActive = false;
   bool _isObserverAttached = false;
-  late final _AutoRefreshObserver _observer =
-      _AutoRefreshObserver(_handleLifecycleState);
+  late final _AutoRefreshObserver _observer = _AutoRefreshObserver(
+    _handleLifecycleState,
+  );
 
   @protected
   Duration get autoRefreshInterval => const Duration(seconds: 20);
@@ -81,7 +82,7 @@ mixin AutoRefreshMixin<T extends StatefulWidget> on State<T> {
     if (route != null && !route.isCurrent) {
       return false;
     }
-    return TickerMode.of(context);
+    return TickerMode.valuesOf(context).enabled;
   }
 
   Future<void> _tick() async {

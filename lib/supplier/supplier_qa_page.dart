@@ -1,0 +1,1527 @@
+import 'package:flutter/material.dart';
+import '../models/question.dart';
+import '../models/review_entry.dart';
+import '../models/product.dart';
+import '../services/api_service.dart';
+import '../services/auth_storage.dart';
+import '../widgets/rating_stars.dart';
+import '../widgets/supplier_qa_answer_modal.dart';
+import '../widgets/supplier_qa_response_modal.dart';
+import '../widgets/expandable_text_block.dart';
+import '../utils/date_formatter.dart';
+
+class _SupplierQAPalette {
+  const _SupplierQAPalette({
+    required this.bgTop,
+    required this.bgBottom,
+    required this.card,
+    required this.line,
+    required this.ink,
+    required this.muted,
+    required this.accent,
+    required this.accentDark,
+    required this.accentSoft,
+    required this.accentMist,
+    required this.success,
+    required this.danger,
+    required this.star,
+    required this.shadow,
+  });
+
+  final Color bgTop;
+  final Color bgBottom;
+  final Color card;
+  final Color line;
+  final Color ink;
+  final Color muted;
+  final Color accent;
+  final Color accentDark;
+  final Color accentSoft;
+  final Color accentMist;
+  final Color success;
+  final Color danger;
+  final Color star;
+  final Color shadow;
+
+  static const light = _SupplierQAPalette(
+    bgTop: Color(0xFFF6F8FF),
+    bgBottom: Color(0xFFEFF3FF),
+    card: Color(0xFFFFFFFF),
+    line: Color(0xFFE3E8F3),
+    ink: Color(0xFF1B1E2B),
+    muted: Color(0xFF6D748A),
+    accent: Color(0xFF6288D5),
+    accentDark: Color(0xFF4F70C6),
+    accentSoft: Color(0xFFDCE6FA),
+    accentMist: Color(0xFFF0F4FF),
+    success: Color(0xFF4CAF50),
+    danger: Color(0xFFE4572E),
+    star: Color(0xFFF4B740),
+    shadow: Color(0x14000000),
+  );
+
+  static const dark = _SupplierQAPalette(
+    bgTop: Color(0xFF0F141F),
+    bgBottom: Color(0xFF141B2B),
+    card: Color(0xFF1A2336),
+    line: Color(0xFF2B364D),
+    ink: Color(0xFFE9EDFF),
+    muted: Color(0xFF9AA3B6),
+    accent: Color(0xFF6288D5),
+    accentDark: Color(0xFF9BB6FF),
+    accentSoft: Color(0xFF243251),
+    accentMist: Color(0xFF1A243A),
+    success: Color(0xFF66BB6A),
+    danger: Color(0xFFFF6B4A),
+    star: Color(0xFFF4B740),
+    shadow: Color(0x66000000),
+  );
+
+  static _SupplierQAPalette of(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    return brightness == Brightness.dark ? dark : light;
+  }
+}
+
+extension _SupplierQAPaletteX on BuildContext {
+  _SupplierQAPalette get qaPagePalette => _SupplierQAPalette.of(this);
+}
+
+class SupplierQAPage extends StatefulWidget {
+  final String? productIdFilter;
+  final Function(int)? onUnansweredCountChanged;
+
+  const SupplierQAPage({
+    super.key,
+    this.productIdFilter,
+    this.onUnansweredCountChanged,
+  });
+
+  @override
+  State<SupplierQAPage> createState() => _SupplierQAPageState();
+}
+
+enum _PageState { loading, error, empty, data }
+
+enum _TabType { questions, reviews }
+
+class _SupplierQAPageState extends State<SupplierQAPage> {
+  final List<Question> _questions = [];
+  final List<ReviewEntry> _reviews = [];
+  final Map<String, Product> _productMap = {};
+  _PageState _pageState = _PageState.loading;
+  String? _errorMessage;
+  int _unansweredCount = 0;
+  int _page = 1;
+  final int _limit = 20;
+  bool _hasMore = true;
+  bool _isLoadingMore = false;
+  final ScrollController _scrollController = ScrollController();
+  _TabType _selectedTab = _TabType.questions;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_questions.isEmpty && _reviews.isEmpty) return;
+    if (_isLoadingMore || !_hasMore) return;
+
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      _loadData(loadMore: true);
+    }
+  }
+
+  Future<void> _loadData({bool loadMore = false}) async {
+    if (_isLoadingMore && loadMore) return;
+
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      setState(() {
+        _errorMessage = 'Вы не авторизованы';
+        _pageState = _PageState.error;
+      });
+      return;
+    }
+
+    if (loadMore) {
+      setState(() => _isLoadingMore = true);
+    } else {
+      setState(() => _pageState = _PageState.loading);
+    }
+
+    try {
+      if (!loadMore) {
+        await _loadSupplierProducts(userId);
+      }
+
+      await Future.wait([
+        _loadQuestions(userId, loadMore: loadMore),
+        _loadReviews(userId, loadMore: loadMore),
+      ]);
+
+      if (mounted) {
+        setState(() {
+          _calculateUnansweredCount();
+          if (_questions.isEmpty && _reviews.isEmpty) {
+            _pageState = _PageState.empty;
+          } else {
+            _pageState = _PageState.data;
+          }
+          _errorMessage = null;
+          _isLoadingMore = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _errorMessage = e.toString().replaceFirst('Exception: ', '');
+          _pageState = _PageState.error;
+          _isLoadingMore = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _loadSupplierProducts(int userId) async {
+    try {
+      final products = await ApiService.getSupplierProducts(userId: userId);
+      for (final product in products) {
+        _productMap[product.id] = Product(
+          id: product.id,
+          name: product.name,
+          description: product.description,
+          imageUrls: product.imageUrls,
+          rating: 0,
+          reviewCount: 0,
+          categories: [],
+          nutritionalInfo: NutritionalInfo(
+            calories: 0,
+            protein: 0,
+            fat: 0,
+            carbohydrates: 0,
+          ),
+          ingredients: '',
+          characteristics: {},
+          suppliers: [],
+          similarProducts: [],
+          ratingDistribution: [],
+        );
+      }
+    } catch (e) {
+      debugPrint('Не удалось загрузить товары поставщика: $e');
+    }
+  }
+
+  Future<void> _loadQuestions(int userId, {bool loadMore = false}) async {
+    try {
+      final data = await ApiService.getSupplierQuestions(
+        userId: userId,
+        page: loadMore ? _page : 1,
+        limit: _limit,
+      );
+
+      final List<Question> fetched = (data['questions'] as List)
+          .map((q) => Question.fromJson(q as Map<String, dynamic>))
+          .toList();
+
+      final filtered = widget.productIdFilter != null
+          ? fetched.where((q) => q.productId == widget.productIdFilter).toList()
+          : fetched;
+
+      final total = data['total'] as int;
+
+      if (mounted) {
+        setState(() {
+          if (!loadMore) {
+            _questions.clear();
+            _page = 1;
+          }
+          _questions.addAll(filtered);
+          _hasMore = _questions.length < total;
+          if (!loadMore) {
+            _page = 2;
+          } else {
+            _page++;
+          }
+        });
+      }
+    } catch (e) {
+      debugPrint('Ошибка загрузки вопросов: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> _loadReviews(int userId, {bool loadMore = false}) async {
+    try {
+      final data = await ApiService.getSupplierReviews(
+        userId: userId,
+        page: loadMore ? _page : 1,
+        limit: _limit,
+      );
+
+      final List<ReviewEntry> fetched = (data['reviews'] as List)
+          .map((r) => ReviewEntry.fromJson(r as Map<String, dynamic>))
+          .toList();
+
+      final filtered = widget.productIdFilter != null
+          ? fetched.where((r) => r.productId == widget.productIdFilter).toList()
+          : fetched;
+
+      final total = data['total'] as int;
+
+      if (mounted) {
+        setState(() {
+          if (!loadMore) {
+            _reviews.clear();
+            _page = 1;
+          }
+          _reviews.addAll(filtered);
+          _hasMore = _reviews.length < total;
+          if (!loadMore) {
+            _page = 2;
+          } else {
+            _page++;
+          }
+        });
+      }
+    } catch (e) {
+      debugPrint('Ошибка загрузки отзывов: $e');
+      rethrow;
+    }
+  }
+
+  void _calculateUnansweredCount() {
+    _unansweredCount = _questions.where((q) => !q.isAnswered).length;
+    widget.onUnansweredCountChanged?.call(_unansweredCount);
+  }
+
+  void _showAnswerModal(Question question) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => SupplierQAAnswerModal(
+        question: question,
+        product:
+            _productMap[question.productId] ??
+            Product(
+              id: question.productId,
+              name: question.productName,
+              description: '',
+              imageUrls: [question.productImage],
+              rating: 0,
+              reviewCount: 0,
+              categories: [],
+              nutritionalInfo: NutritionalInfo(
+                calories: 0,
+                protein: 0,
+                fat: 0,
+                carbohydrates: 0,
+              ),
+              ingredients: '',
+              characteristics: {},
+              suppliers: [],
+              similarProducts: [],
+              ratingDistribution: [],
+            ),
+        existingAnswer: question.answer?.answerText,
+        onSubmit: (answerText) => question.isAnswered
+            ? _editAnswer(question, answerText)
+            : _submitAnswer(question, answerText),
+      ),
+    );
+  }
+
+  void _showResponseModal(ReviewEntry review) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => SupplierQAResponseModal(
+        review: review,
+        product:
+            _productMap[review.productId] ??
+            Product(
+              id: review.productId,
+              name: review.productName,
+              description: '',
+              imageUrls: [review.productImage],
+              rating: 0,
+              reviewCount: 0,
+              categories: [],
+              nutritionalInfo: NutritionalInfo(
+                calories: 0,
+                protein: 0,
+                fat: 0,
+                carbohydrates: 0,
+              ),
+              ingredients: '',
+              characteristics: {},
+              suppliers: [],
+              similarProducts: [],
+              ratingDistribution: [],
+            ),
+        existingResponse: review.response?.responseText,
+        onSubmit: (responseText) => review.response != null
+            ? _editResponse(review, responseText)
+            : _submitResponse(review, responseText),
+      ),
+    );
+  }
+
+  Future<void> _submitAnswer(Question question, String answerText) async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Ошибка: вы не авторизованы')),
+        );
+      }
+      return;
+    }
+
+    try {
+      final questionId = int.tryParse(question.id) ?? 0;
+      await ApiService.answerQuestion(
+        questionId: questionId,
+        supplierUserId: userId,
+        answerText: answerText,
+      );
+
+      if (mounted) {
+        final questionIndex = _questions.indexWhere((q) => q.id == question.id);
+        if (questionIndex != -1) {
+          final updatedQuestion = Question(
+            id: question.id,
+            productId: question.productId,
+            userId: question.userId,
+            userName: question.userName,
+            questionText: question.questionText,
+            createdAt: question.createdAt,
+            isAnswered: true,
+            answer: QuestionAnswer(
+              id: '',
+              questionId: question.id,
+              supplierId: userId.toString(),
+              supplierName: 'Поставщик',
+              answerText: answerText,
+              answeredAt: DateTime.now(),
+            ),
+            productName: question.productName,
+            productImage: question.productImage,
+          );
+
+          setState(() {
+            _questions[questionIndex] = updatedQuestion;
+            _calculateUnansweredCount();
+          });
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Ответ отправлен успешно')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _editAnswer(Question question, String newAnswerText) async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Ошибка: вы не авторизованы')),
+        );
+      }
+      return;
+    }
+
+    try {
+      await ApiService.updateQuestionAnswer(
+        questionId: question.id,
+        supplierUserId: userId,
+        answerText: newAnswerText,
+      );
+
+      if (mounted) {
+        final questionIndex = _questions.indexWhere((q) => q.id == question.id);
+        if (questionIndex != -1) {
+          final updatedQuestion = Question(
+            id: question.id,
+            productId: question.productId,
+            userId: question.userId,
+            userName: question.userName,
+            questionText: question.questionText,
+            createdAt: question.createdAt,
+            isAnswered: true,
+            answer: QuestionAnswer(
+              id: question.answer?.id ?? '',
+              questionId: question.id,
+              supplierId: userId.toString(),
+              supplierName: question.answer?.supplierName ?? 'Поставщик',
+              answerText: newAnswerText,
+              answeredAt: DateTime.now(),
+            ),
+            productName: question.productName,
+            productImage: question.productImage,
+          );
+
+          setState(() {
+            _questions[questionIndex] = updatedQuestion;
+          });
+        }
+
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Ответ обновлен успешно')));
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _submitResponse(ReviewEntry review, String responseText) async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Ошибка: вы не авторизованы')),
+        );
+      }
+      return;
+    }
+
+    try {
+      await ApiService.respondToReview(
+        reviewId: review.id,
+        supplierUserId: userId,
+        responseText: responseText,
+      );
+
+      if (mounted) {
+        final reviewIndex = _reviews.indexWhere((r) => r.id == review.id);
+        if (reviewIndex != -1) {
+          final updatedReview = ReviewEntry(
+            id: review.id,
+            orderId: review.orderId,
+            orderItemId: review.orderItemId,
+            productId: review.productId,
+            productName: review.productName,
+            productImage: review.productImage,
+            reviewerName: review.reviewerName,
+            rating: review.rating,
+            reviewText: review.reviewText,
+            createdAt: review.createdAt,
+            response: ReviewResponse(
+              id: '',
+              reviewId: review.id,
+              supplierId: userId.toString(),
+              supplierName: 'Поставщик',
+              responseText: responseText,
+              respondedAt: DateTime.now(),
+            ),
+          );
+
+          setState(() {
+            _reviews[reviewIndex] = updatedReview;
+          });
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Ответ отправлен успешно')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _editResponse(ReviewEntry review, String newResponseText) async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Ошибка: вы не авторизованы')),
+        );
+      }
+      return;
+    }
+
+    try {
+      await ApiService.updateReviewResponse(
+        reviewId: review.id,
+        supplierUserId: userId,
+        responseText: newResponseText,
+      );
+
+      if (mounted) {
+        final reviewIndex = _reviews.indexWhere((r) => r.id == review.id);
+        if (reviewIndex != -1) {
+          final updatedReview = ReviewEntry(
+            id: review.id,
+            orderId: review.orderId,
+            orderItemId: review.orderItemId,
+            productId: review.productId,
+            productName: review.productName,
+            productImage: review.productImage,
+            reviewerName: review.reviewerName,
+            rating: review.rating,
+            reviewText: review.reviewText,
+            createdAt: review.createdAt,
+            response: ReviewResponse(
+              id: review.response?.id ?? '',
+              reviewId: review.id,
+              supplierId: userId.toString(),
+              supplierName: review.response?.supplierName ?? 'Поставщик',
+              responseText: newResponseText,
+              respondedAt: DateTime.now(),
+            ),
+          );
+
+          setState(() {
+            _reviews[reviewIndex] = updatedReview;
+          });
+        }
+
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Ответ обновлен успешно')));
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.qaPagePalette;
+
+    return Scaffold(
+      backgroundColor: palette.bgTop,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [palette.bgTop, palette.bgBottom],
+                ),
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Column(
+              children: [
+                _buildHeader(context, palette),
+                Expanded(child: _buildContent(palette)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context, _SupplierQAPalette palette) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
+      decoration: BoxDecoration(
+        color: palette.card,
+        border: Border.all(color: palette.line),
+        boxShadow: [
+          BoxShadow(
+            color: palette.shadow,
+            blurRadius: 10,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (widget.productIdFilter != null)
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: Icon(Icons.arrow_back, color: palette.ink),
+                  tooltip: 'Назад',
+                  style: IconButton.styleFrom(
+                    minimumSize: const Size(32, 32),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    padding: EdgeInsets.zero,
+                  ),
+                ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Q&A',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: palette.ink,
+                      ),
+                    ),
+                    if (_unansweredCount > 0)
+                      Text(
+                        'Без ответов: $_unansweredCount',
+                        style: TextStyle(fontSize: 12, color: palette.muted),
+                      ),
+                  ],
+                ),
+              ),
+              IconButton(
+                onPressed: () => _loadData(),
+                icon: const Icon(Icons.refresh),
+                color: palette.accent,
+                tooltip: 'Обновить',
+                style: IconButton.styleFrom(
+                  minimumSize: const Size(32, 32),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  padding: EdgeInsets.zero,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: SegmentedButton<_TabType>(
+              segments: [
+                ButtonSegment(
+                  value: _TabType.questions,
+                  label: Text('Вопросы'),
+                  icon: const Icon(Icons.help_outline),
+                ),
+                ButtonSegment(
+                  value: _TabType.reviews,
+                  label: Text('Отзывы'),
+                  icon: const Icon(Icons.star_outline),
+                ),
+              ],
+              selected: {_selectedTab},
+              onSelectionChanged: (Set<_TabType> newSelection) {
+                setState(() {
+                  _selectedTab = newSelection.first;
+                });
+              },
+              style: SegmentedButton.styleFrom(
+                backgroundColor: palette.bgBottom,
+                foregroundColor: palette.muted,
+                selectedForegroundColor: palette.card,
+                selectedBackgroundColor: palette.accent,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContent(_SupplierQAPalette palette) {
+    switch (_pageState) {
+      case _PageState.loading:
+        return Center(child: CircularProgressIndicator(color: palette.accent));
+
+      case _PageState.error:
+        return RefreshIndicator(
+          color: palette.accent,
+          onRefresh: () => _loadData(),
+          child: ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
+            children: [
+              _buildErrorBanner(_errorMessage ?? 'Неизвестная ошибка', palette),
+              const SizedBox(height: 24),
+              Center(
+                child: FilledButton.icon(
+                  onPressed: () => _loadData(),
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Повторить'),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: palette.accent,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+
+      case _PageState.empty:
+        return RefreshIndicator(
+          color: palette.accent,
+          onRefresh: () => _loadData(),
+          child: ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
+            children: [_buildEmptyState(palette)],
+          ),
+        );
+
+      case _PageState.data:
+        return RefreshIndicator(
+          color: palette.accent,
+          onRefresh: () => _loadData(),
+          child: ListView(
+            controller: _scrollController,
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+            children: _buildSectionedContent(palette),
+          ),
+        );
+    }
+  }
+
+  List<Widget> _buildSectionedContent(_SupplierQAPalette palette) {
+    final unansweredQuestions = _questions.where((q) => !q.isAnswered).toList();
+    final answeredQuestions = _questions.where((q) => q.isAnswered).toList();
+
+    final widgets = <Widget>[];
+
+    if (_selectedTab == _TabType.questions) {
+      if (unansweredQuestions.isNotEmpty) {
+        widgets.add(
+          _buildSectionHeader(
+            'Вопросы без ответов',
+            unansweredQuestions.length,
+            palette,
+          ),
+        );
+        for (final question in unansweredQuestions) {
+          widgets.add(
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: _buildQuestionCard(question, palette),
+            ),
+          );
+        }
+        widgets.add(const SizedBox(height: 12));
+      }
+
+      if (answeredQuestions.isNotEmpty) {
+        widgets.add(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: () =>
+                    _navigateToAnsweredQuestions(answeredQuestions),
+                style: FilledButton.styleFrom(
+                  backgroundColor: palette.accent,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+                icon: const Icon(Icons.check_circle_outline),
+                label: Text(
+                  'Отвеченные вопросы (${answeredQuestions.length})',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      if (unansweredQuestions.isEmpty && answeredQuestions.isEmpty) {
+        widgets.add(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            child: Center(
+              child: Text(
+                'Нет вопросов',
+                style: TextStyle(fontSize: 14, color: palette.muted),
+              ),
+            ),
+          ),
+        );
+      }
+    } else {
+      if (_reviews.isNotEmpty) {
+        widgets.add(_buildSectionHeader('Отзывы', _reviews.length, palette));
+        for (final review in _reviews) {
+          widgets.add(
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: _buildReviewCard(review, palette),
+            ),
+          );
+        }
+      } else {
+        widgets.add(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            child: Center(
+              child: Text(
+                'Нет отзывов',
+                style: TextStyle(fontSize: 14, color: palette.muted),
+              ),
+            ),
+          ),
+        );
+      }
+    }
+
+    if (_isLoadingMore) {
+      widgets.add(
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: CircularProgressIndicator(color: palette.accent),
+          ),
+        ),
+      );
+    }
+
+    return widgets;
+  }
+
+  Widget _buildSectionHeader(
+    String title,
+    int count,
+    _SupplierQAPalette palette,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: palette.ink,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: palette.accentMist,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              '$count',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: palette.accent,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildQuestionCard(Question question, _SupplierQAPalette palette) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: palette.card,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: palette.line.withValues(alpha: 0.5)),
+        boxShadow: [
+          BoxShadow(
+            color: palette.shadow,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 18,
+                backgroundColor: palette.accentSoft,
+                child: Text(
+                  question.userName.isNotEmpty
+                      ? question.userName[0].toUpperCase()
+                      : '?',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: palette.accent,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      question.userName,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: palette.ink,
+                      ),
+                    ),
+                    Text(
+                      DateFormatter.formatDate(question.createdAt),
+                      style: TextStyle(fontSize: 11, color: palette.muted),
+                    ),
+                  ],
+                ),
+              ),
+              if (!question.isAnswered)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: palette.danger.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    'Без ответа',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: palette.danger,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          ExpandableTextBlock(
+            question.questionText.trim().isEmpty
+                ? 'Без текста'
+                : question.questionText.trim(),
+            textStyle: TextStyle(fontSize: 14, color: palette.ink, height: 1.4),
+            actionColor: palette.accent,
+            collapsedMaxLines: 3,
+            moreLabel: 'Подробнее',
+            lessLabel: 'Свернуть',
+          ),
+          if (question.isAnswered && question.answer != null) ...[
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: palette.accentMist,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: palette.line.withValues(alpha: 0.3)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.store_rounded,
+                        size: 14,
+                        color: palette.accent,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        'Ответ продавца',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 11,
+                          color: palette.accent,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  ExpandableTextBlock(
+                    question.answer!.answerText,
+                    textStyle: TextStyle(
+                      fontSize: 13,
+                      color: palette.ink,
+                      height: 1.4,
+                    ),
+                    actionColor: palette.accent,
+                    collapsedMaxLines: 2,
+                    moreLabel: 'Подробнее',
+                    lessLabel: 'Свернуть',
+                  ),
+                ],
+              ),
+            ),
+          ] else if (!question.isAnswered) ...[
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: () => _showAnswerModal(question),
+                style: FilledButton.styleFrom(
+                  backgroundColor: palette.accent,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                ),
+                icon: const Icon(Icons.reply, size: 16),
+                label: const Text('Ответить'),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReviewCard(ReviewEntry review, _SupplierQAPalette palette) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: palette.card,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: palette.line.withValues(alpha: 0.5)),
+        boxShadow: [
+          BoxShadow(
+            color: palette.shadow,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 18,
+                backgroundColor: palette.accentSoft,
+                child: Text(
+                  review.reviewerName.isNotEmpty
+                      ? review.reviewerName[0].toUpperCase()
+                      : '?',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: palette.accent,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      review.reviewerName,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: palette.ink,
+                      ),
+                    ),
+                    Text(
+                      DateFormatter.formatDate(review.createdAt),
+                      style: TextStyle(fontSize: 11, color: palette.muted),
+                    ),
+                  ],
+                ),
+              ),
+              RatingStars(
+                rating: review.rating.toDouble(),
+                filledColor: palette.star,
+                emptyColor: palette.muted.withValues(alpha: 0.3),
+                size: 14,
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          ExpandableTextBlock(
+            review.reviewText.trim().isEmpty
+                ? 'Без текста'
+                : review.reviewText.trim(),
+            textStyle: TextStyle(fontSize: 14, color: palette.ink, height: 1.4),
+            actionColor: palette.accent,
+            collapsedMaxLines: 3,
+            moreLabel: 'Подробнее',
+            lessLabel: 'Свернуть',
+          ),
+          if (review.response != null) ...[
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: palette.accentMist,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: palette.line.withValues(alpha: 0.3)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.store_rounded,
+                        size: 14,
+                        color: palette.accent,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        'Ответ продавца',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 11,
+                          color: palette.accent,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  ExpandableTextBlock(
+                    review.response!.responseText,
+                    textStyle: TextStyle(
+                      fontSize: 13,
+                      color: palette.ink,
+                      height: 1.4,
+                    ),
+                    actionColor: palette.accent,
+                    collapsedMaxLines: 2,
+                    moreLabel: 'Подробнее',
+                    lessLabel: 'Свернуть',
+                  ),
+                ],
+              ),
+            ),
+          ] else ...[
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: () => _showResponseModal(review),
+                style: FilledButton.styleFrom(
+                  backgroundColor: palette.accent,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                ),
+                icon: const Icon(Icons.reply, size: 16),
+                label: const Text('Ответить'),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorBanner(String message, _SupplierQAPalette palette) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: palette.danger.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: palette.danger.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.error_outline, color: palette.danger, size: 20),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              message,
+              style: TextStyle(
+                fontSize: 13,
+                color: palette.danger,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyState(_SupplierQAPalette palette) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.inbox_outlined,
+            size: 64,
+            color: palette.muted.withValues(alpha: 0.5),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            _selectedTab == _TabType.questions ? 'Нет вопросов' : 'Нет отзывов',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: palette.ink,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _selectedTab == _TabType.questions
+                ? 'Покупатели еще не задавали вопросы'
+                : 'Покупатели еще не оставляли отзывы',
+            style: TextStyle(fontSize: 13, color: palette.muted),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _navigateToAnsweredQuestions(List<Question> answeredQuestions) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => _AnsweredQuestionsPage(
+          questions: answeredQuestions,
+          palette: context.qaPagePalette,
+        ),
+      ),
+    );
+  }
+}
+
+class _AnsweredQuestionsPage extends StatelessWidget {
+  final List<Question> questions;
+  final _SupplierQAPalette palette;
+
+  const _AnsweredQuestionsPage({
+    required this.questions,
+    required this.palette,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: palette.bgTop,
+      appBar: AppBar(
+        backgroundColor: palette.card,
+        title: Text(
+          'Отвеченные вопросы',
+          style: TextStyle(color: palette.ink, fontWeight: FontWeight.w700),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: palette.ink),
+          onPressed: () => Navigator.pop(context),
+        ),
+        elevation: 0,
+        scrolledUnderElevation: 0,
+      ),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [palette.bgTop, palette.bgBottom],
+                ),
+              ),
+            ),
+          ),
+          ListView.builder(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+            itemCount: questions.length,
+            itemBuilder: (context, index) {
+              final question = questions[index];
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: palette.card,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: palette.line.withValues(alpha: 0.5),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: palette.shadow,
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 18,
+                            backgroundColor: palette.accentSoft,
+                            child: Text(
+                              question.userName.isNotEmpty
+                                  ? question.userName[0].toUpperCase()
+                                  : '?',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: palette.accent,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  question.userName,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: palette.ink,
+                                  ),
+                                ),
+                                Text(
+                                  DateFormatter.formatDate(question.createdAt),
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: palette.muted,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: palette.success.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              'Отвечено',
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                                color: palette.success,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      ExpandableTextBlock(
+                        question.questionText.trim().isEmpty
+                            ? 'Без текста'
+                            : question.questionText.trim(),
+                        textStyle: TextStyle(
+                          fontSize: 14,
+                          color: palette.ink,
+                          height: 1.4,
+                        ),
+                        actionColor: palette.accent,
+                        collapsedMaxLines: 3,
+                        moreLabel: 'Подробнее',
+                        lessLabel: 'Свернуть',
+                      ),
+                      if (question.answer != null) ...[
+                        const SizedBox(height: 12),
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: palette.accentMist,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: palette.line.withValues(alpha: 0.3),
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.store_rounded,
+                                    size: 14,
+                                    color: palette.accent,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    'Ответ продавца',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 11,
+                                      color: palette.accent,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              ExpandableTextBlock(
+                                question.answer!.answerText,
+                                textStyle: TextStyle(
+                                  fontSize: 13,
+                                  color: palette.ink,
+                                  height: 1.4,
+                                ),
+                                actionColor: palette.accent,
+                                collapsedMaxLines: 2,
+                                moreLabel: 'Подробнее',
+                                lessLabel: 'Свернуть',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

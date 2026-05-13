@@ -7,6 +7,7 @@ import '../widgets/smart_image.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
 import '../models/review_entry.dart';
+import '../utils/date_formatter.dart';
 
 class _ReviewsPalette {
   final Color bgTop;
@@ -187,26 +188,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 ),
               ),
             ),
-          if (!isDark)
-            Positioned(
-              top: -80,
-              right: -40,
-              child: _DecorativeBlob(
-                size: 180,
-                color: context.reviewsPalette.accentSoft.withValues(
-                  alpha: 0.65,
-                ),
-              ),
-            ),
-          if (!isDark)
-            Positioned(
-              top: 120,
-              left: -60,
-              child: _DecorativeBlob(
-                size: 140,
-                color: context.reviewsPalette.accentMist.withValues(alpha: 0.7),
-              ),
-            ),
+
           SafeArea(
             child: Column(
               children: [
@@ -222,8 +204,8 @@ class _ReviewsPageState extends State<ReviewsPage> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
+    return Container(
+      padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -338,7 +320,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
       color: context.reviewsPalette.accent,
       onRefresh: () => _loadReviews(showLoading: false),
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
+        padding: const EdgeInsets.fromLTRB(0, 4, 0, 24),
         children: children,
       ),
     );
@@ -422,7 +404,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
 
   Widget _buildPendingCard(PendingReviewItem item) {
     final isSubmitting = _submittingPending.contains(item.orderItemId);
-    final orderDate = _formatShortDate(item.orderDate);
+    final orderDate = DateFormatter.formatDate(item.orderDate);
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -537,8 +519,8 @@ class _ReviewsPageState extends State<ReviewsPage> {
 
   Widget _buildProductImage(String imageUrl) {
     return Container(
-      width: 80,
-      height: 80,
+      width: 100,
+      height: 100,
       padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
         color: context.reviewsPalette.accentMist,
@@ -634,7 +616,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
     required VoidCallback onSave,
     required VoidCallback onDelete,
   }) {
-    final dateLabel = _formatShortDate(review.createdAt);
+    final dateLabel = DateFormatter.formatDate(review.createdAt);
     final ratingValue = isEditing ? _editingRating : review.rating;
     final reviewText = review.reviewText.trim();
 
@@ -666,7 +648,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                     Text(
                       review.productName,
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: context.reviewsPalette.ink,
                         height: 1.18,
@@ -755,7 +737,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 reviewText.isEmpty ? 'Без текста отзыва' : reviewText,
                 key: ValueKey('profile-review-${review.id}'),
                 textStyle: TextStyle(
-                  fontSize: 13,
+                  fontSize: 15,
                   color: context.reviewsPalette.ink,
                   height: 1.4,
                 ),
@@ -1230,12 +1212,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
     }
   }
 
-  String _formatShortDate(DateTime date) {
-    final day = date.day.toString().padLeft(2, '0');
-    final month = date.month.toString().padLeft(2, '0');
-    return '$day.$month.${date.year}';
-  }
-
   List<String> _extractImageCandidates(String raw) {
     final trimmed = raw.trim();
     if (trimmed.isEmpty) {
@@ -1378,22 +1354,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
           duration: const Duration(seconds: 2),
         ),
       );
-  }
-}
-
-class _DecorativeBlob extends StatelessWidget {
-  const _DecorativeBlob({required this.size, required this.color});
-
-  final double size;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-    );
   }
 }
 
