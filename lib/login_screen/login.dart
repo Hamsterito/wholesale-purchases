@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
               responseData['message']?.toString() ?? 'Unknown error';
           if (responseData['requiresVerification'] == true) {
             final email = responseData['email']?.toString() ?? '';
-            // Navigate to verification screen
+            // Переход на экран верификации
             if (mounted) {
               Navigator.push(
                 context,

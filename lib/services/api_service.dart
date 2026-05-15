@@ -1972,4 +1972,266 @@ class ApiService {
       return utf8.decode(bytes, allowMalformed: true);
     }
   }
+
+  // Методы для статистики поставщика
+  static Future<Map<String, dynamic>> fetchSupplierStatsSummary({
+    required int userId,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    if (userId <= 0) {
+      throw ArgumentError('userId должен быть положительным');
+    }
+
+    try {
+      final queryParams = <String, String>{'userId': userId.toString()};
+      if (startDate != null) {
+        queryParams['startDate'] = startDate.toIso8601String();
+      }
+      if (endDate != null) {
+        queryParams['endDate'] = endDate.toIso8601String();
+      }
+
+      final uri = Uri.parse(
+        '$baseUrl/supplier/statistics/summary',
+      ).replace(queryParameters: queryParams);
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        return jsonDecode(body) as Map<String, dynamic>;
+      } else {
+        throw Exception(
+          'Не удалось загрузить сводку статистики: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      debugPrint('Ошибка при загрузке сводки статистики: $e');
+      rethrow;
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> fetchSupplierRevenueHistory({
+    required int userId,
+  }) async {
+    if (userId <= 0) {
+      throw ArgumentError('userId должен быть положительным');
+    }
+
+    try {
+      final queryParams = <String, String>{'userId': userId.toString()};
+
+      final uri = Uri.parse(
+        '$baseUrl/supplier/statistics/revenue-history',
+      ).replace(queryParameters: queryParams);
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        final decoded = jsonDecode(body);
+        if (decoded is List) {
+          return List<Map<String, dynamic>>.from(decoded);
+        }
+        return [];
+      } else {
+        throw Exception(
+          'Не удалось загрузить историю выручки: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      debugPrint('Ошибка при загрузке истории выручки: $e');
+      rethrow;
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> fetchSupplierRevenueDaily({
+    required int userId,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) async {
+    if (userId <= 0) {
+      throw ArgumentError('userId должен быть положительным');
+    }
+
+    try {
+      final queryParams = <String, String>{
+        'userId': userId.toString(),
+        'startDate': startDate.toIso8601String(),
+        'endDate': endDate.toIso8601String(),
+      };
+
+      final uri = Uri.parse(
+        '$baseUrl/supplier/statistics/revenue-daily',
+      ).replace(queryParameters: queryParams);
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        final decoded = jsonDecode(body);
+        if (decoded is List) {
+          return List<Map<String, dynamic>>.from(decoded);
+        }
+        return [];
+      } else {
+        throw Exception(
+          'Не удалось загрузить дневную выручку: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      debugPrint('Ошибка при загрузке дневной выручки: $e');
+      rethrow;
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> fetchSupplierTopProducts({
+    required int userId,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    if (userId <= 0) {
+      throw ArgumentError('userId должен быть положительным');
+    }
+
+    try {
+      final queryParams = <String, String>{'userId': userId.toString()};
+      if (startDate != null) {
+        queryParams['startDate'] = startDate.toIso8601String();
+      }
+      if (endDate != null) {
+        queryParams['endDate'] = endDate.toIso8601String();
+      }
+
+      final uri = Uri.parse(
+        '$baseUrl/supplier/statistics/top-products',
+      ).replace(queryParameters: queryParams);
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        final decoded = jsonDecode(body);
+        if (decoded is List) {
+          return List<Map<String, dynamic>>.from(decoded);
+        }
+        return [];
+      } else {
+        throw Exception(
+          'Не удалось загрузить топ товаров: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      debugPrint('Ошибка при загрузке топ товаров: $e');
+      rethrow;
+    }
+  }
+
+  static Future<Map<String, dynamic>> fetchSupplierOrderStats({
+    required int userId,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    if (userId <= 0) {
+      throw ArgumentError('userId должен быть положительным');
+    }
+
+    try {
+      final queryParams = <String, String>{'userId': userId.toString()};
+      if (startDate != null) {
+        queryParams['startDate'] = startDate.toIso8601String();
+      }
+      if (endDate != null) {
+        queryParams['endDate'] = endDate.toIso8601String();
+      }
+
+      final uri = Uri.parse(
+        '$baseUrl/supplier/statistics/order-stats',
+      ).replace(queryParameters: queryParams);
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        return jsonDecode(body) as Map<String, dynamic>;
+      } else {
+        throw Exception(
+          'Не удалось загрузить статистику заказов: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      debugPrint('Ошибка при загрузке статистики заказов: $e');
+      rethrow;
+    }
+  }
+
+  static Future<Map<String, dynamic>> fetchSupplierBuyerStats({
+    required int userId,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    if (userId <= 0) {
+      throw ArgumentError('userId должен быть положительным');
+    }
+
+    try {
+      final queryParams = <String, String>{'userId': userId.toString()};
+      if (startDate != null) {
+        queryParams['startDate'] = startDate.toIso8601String();
+      }
+      if (endDate != null) {
+        queryParams['endDate'] = endDate.toIso8601String();
+      }
+
+      final uri = Uri.parse(
+        '$baseUrl/supplier/statistics/buyer-stats',
+      ).replace(queryParameters: queryParams);
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        return jsonDecode(body) as Map<String, dynamic>;
+      } else {
+        throw Exception(
+          'Не удалось загрузить статистику покупателей: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      debugPrint('Ошибка при загрузке статистики покупателей: $e');
+      rethrow;
+    }
+  }
+
+  static Future<Map<String, dynamic>> fetchSupplierRatingStats({
+    required int userId,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    if (userId <= 0) {
+      throw ArgumentError('userId должен быть положительным');
+    }
+
+    try {
+      final queryParams = <String, String>{'userId': userId.toString()};
+      if (startDate != null) {
+        queryParams['startDate'] = startDate.toIso8601String();
+      }
+      if (endDate != null) {
+        queryParams['endDate'] = endDate.toIso8601String();
+      }
+
+      final uri = Uri.parse(
+        '$baseUrl/supplier/statistics/rating-stats',
+      ).replace(queryParameters: queryParams);
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        return jsonDecode(body) as Map<String, dynamic>;
+      } else {
+        throw Exception(
+          'Не удалось загрузить статистику рейтингов: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      debugPrint('Ошибка при загрузке статистики рейтингов: $e');
+      rethrow;
+    }
+  }
 }

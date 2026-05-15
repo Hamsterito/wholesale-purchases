@@ -206,6 +206,18 @@ class _ReviewsPageState extends State<ReviewsPage> {
   Widget _buildHeader(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
+      decoration: BoxDecoration(
+        color: context.reviewsPalette.card,
+        borderRadius: BorderRadius.zero,
+        border: Border.all(color: context.reviewsPalette.line),
+        boxShadow: [
+          BoxShadow(
+            color: context.reviewsPalette.shadow,
+            blurRadius: 10,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -249,21 +261,24 @@ class _ReviewsPageState extends State<ReviewsPage> {
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: context.reviewsPalette.accentSoft,
-              borderRadius: BorderRadius.circular(999),
-            ),
-            child: Text(
-              '${_reviews.length} всего',
-              style: TextStyle(
-                color: context.reviewsPalette.accentDark,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
+        Padding(
+  padding: const EdgeInsets.only(top: 8),
+  child: Container(
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+    decoration: BoxDecoration(
+      color: context.reviewsPalette.accentSoft,
+      borderRadius: BorderRadius.circular(999),
+    ),
+    child: Text(
+      '${_reviews.length} всего',
+      style: TextStyle(
+        color: context.reviewsPalette.accentDark,
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+  ),
+)
         ],
       ),
     );
@@ -286,11 +301,27 @@ class _ReviewsPageState extends State<ReviewsPage> {
     }
 
     children.add(
-      _buildSectionTitle(
-        title: 'Ваши отзывы',
-        subtitle: _reviews.isEmpty
-            ? 'Пока нет отзывов'
-            : 'Всего: ${_reviews.length}',
+      Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+        decoration: BoxDecoration(
+          color: context.reviewsPalette.card,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: context.reviewsPalette.line),
+          boxShadow: [
+            BoxShadow(
+              color: context.reviewsPalette.shadow,
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+            ),
+          ],
+        ),
+        child: _buildSectionTitle(
+          title: 'Ваши отзывы',
+          subtitle: _reviews.isEmpty
+              ? 'Пока нет отзывов'
+              : 'Всего: ${_reviews.length}',
+        ),
       ),
     );
     children.add(SizedBox(height: 12));
@@ -385,11 +416,27 @@ class _ReviewsPageState extends State<ReviewsPage> {
 
   Widget _buildPendingSection() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _buildSectionTitle(
-          title: 'Ожидают отзывов',
-          subtitle: 'Оцените покупки -это помогает другим',
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+          decoration: BoxDecoration(
+            color: context.reviewsPalette.card,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: context.reviewsPalette.line),
+            boxShadow: [
+              BoxShadow(
+                color: context.reviewsPalette.shadow,
+                blurRadius: 20,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: _buildSectionTitle(
+            title: 'Ожидают отзывов',
+            subtitle: 'Оцените покупки - это помогает другим',
+          ),
         ),
         SizedBox(height: 12),
         ..._pending.map(
@@ -406,6 +453,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
     final isSubmitting = _submittingPending.contains(item.orderItemId);
     final orderDate = DateFormatter.formatDate(item.orderDate);
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: context.reviewsPalette.card,
@@ -430,54 +478,52 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      item.productName,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: context.reviewsPalette.ink,
-                        height: 1.22,
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: item.productName,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: context.reviewsPalette.ink,
+                              height: 1.22,
+                            ),
+                          ),
+                          if (item.supplierName.trim().isNotEmpty) ...[
+                            TextSpan(
+                              text: ' - ${item.supplierName.trim()}',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: context.reviewsPalette.muted,
+                                height: 1.22,
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 7),
-                    Row(
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 6,
                       children: [
-                        Icon(
-                          Icons.receipt_long_outlined,
-                          size: 13,
-                          color: context.reviewsPalette.muted,
+                        _buildMetaPill(
+                          icon: Icons.event_outlined,
+                          label: orderDate,
                         ),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            'Заказ ${item.orderId} · $orderDate',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: context.reviewsPalette.muted,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                        _buildMetaPill(
+                          icon: Icons.receipt_long_outlined,
+                          label: 'Заказ ${item.orderId}',
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Container(height: 1, color: context.reviewsPalette.line),
-          const SizedBox(height: 10),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _buildInfoChip('${item.quantity} шт'),
-              if (item.supplierName.trim().isNotEmpty)
-                _buildInfoChip(item.supplierName.trim()),
             ],
           ),
           const SizedBox(height: 12),
@@ -494,25 +540,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildInfoChip(String label) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: context.reviewsPalette.accentMist,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: context.reviewsPalette.line),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontSize: 11,
-          color: context.reviewsPalette.accentDark,
-          fontWeight: FontWeight.w600,
-        ),
       ),
     );
   }
@@ -621,6 +648,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
     final reviewText = review.reviewText.trim();
 
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
       decoration: BoxDecoration(
         color: context.reviewsPalette.card,
@@ -645,13 +673,30 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      review.productName,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: context.reviewsPalette.ink,
-                        height: 1.18,
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: review.productName,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                              color: context.reviewsPalette.ink,
+                              height: 1.18,
+                            ),
+                          ),
+                          if (review.supplierName.trim().isNotEmpty) ...[
+                            TextSpan(
+                              text: ' - ${review.supplierName.trim()}',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: context.reviewsPalette.muted,
+                                height: 1.18,
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -665,10 +710,12 @@ class _ReviewsPageState extends State<ReviewsPage> {
                           icon: Icons.event_outlined,
                           label: dateLabel,
                         ),
-                        _buildMetaPill(
-                          icon: Icons.rate_review_outlined,
-                          label: 'Ваш отзыв',
-                        ),
+                        if (review.orderId.isNotEmpty) ...[
+                          _buildMetaPill(
+                            icon: Icons.receipt_long_outlined,
+                            label: 'Заказ ${review.orderId}',
+                          ),
+                        ],
                       ],
                     ),
                   ],
@@ -842,12 +889,263 @@ class _ReviewsPageState extends State<ReviewsPage> {
   }
 
   void _startEdit(int index) {
-    FocusManager.instance.primaryFocus?.unfocus();
+    _openEditReviewSheet(index);
+  }
+
+  Future<void> _openEditReviewSheet(int index) async {
+    final review = _reviews[index];
+    final draft = await showModalBottomSheet<_ReviewDraft>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        final controller = TextEditingController(text: review.reviewText);
+        int rating = review.rating;
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+            return Padding(
+              padding: EdgeInsets.only(bottom: bottomInset),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+                decoration: BoxDecoration(
+                  color: context.reviewsPalette.card,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: context.reviewsPalette.line,
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Row(
+                      children: [
+                        _buildProductImage(review.productImage),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: review.productName,
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: context.reviewsPalette.ink,
+                                      ),
+                                    ),
+                                    if (review.supplierName
+                                        .trim()
+                                        .isNotEmpty) ...[
+                                      TextSpan(
+                                        text:
+                                            ' - ${review.supplierName.trim()}',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: context.reviewsPalette.muted,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'Оцените товар',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: context.reviewsPalette.ink,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    _buildStarRow(
+                      rating: rating,
+                      size: 24,
+                      onSelect: (value) {
+                        setModalState(() {
+                          rating = value;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'Ваш отзыв',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: context.reviewsPalette.ink,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    TextField(
+                      controller: controller,
+                      keyboardType: TextInputType.text,
+                      maxLines: 4,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: context.reviewsPalette.ink,
+                        height: 1.4,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: 'Поделитесь впечатлениями',
+                        hintStyle: TextStyle(
+                          color: context.reviewsPalette.muted,
+                        ),
+                        filled: true,
+                        fillColor: context.reviewsPalette.accentMist,
+                        contentPadding: const EdgeInsets.all(12),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: context.reviewsPalette.line,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: context.reviewsPalette.line,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: context.reviewsPalette.accent,
+                            width: 1.4,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 48,
+                            child: ElevatedButton(
+                              onPressed: () => Navigator.pop(context),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    context.reviewsPalette.accentMist,
+                                foregroundColor:
+                                    context.reviewsPalette.accentDark,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  side: BorderSide(
+                                    color: context.reviewsPalette.line,
+                                  ),
+                                ),
+                                elevation: 0,
+                              ),
+                              child: Text(
+                                'Отмена',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: SizedBox(
+                            height: 48,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(
+                                  context,
+                                  _ReviewDraft(
+                                    rating: rating,
+                                    text: controller.text.trim(),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: context.reviewsPalette.accent,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                elevation: 0,
+                              ),
+                              child: Text(
+                                'Изменить',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+
+    if (draft == null) {
+      return;
+    }
+
+    await _submitEditReview(index, draft);
+  }
+
+  Future<void> _submitEditReview(int index, _ReviewDraft draft) async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId == 0) {
+      _showSnack('Войдите, чтобы редактировать отзыв');
+      return;
+    }
+
+    if (_isUpdatingReview) {
+      return;
+    }
+
     setState(() {
-      _editingIndex = index;
-      _editingRating = _reviews[index].rating;
-      _editController.text = _reviews[index].reviewText;
+      _isUpdatingReview = true;
     });
+
+    try {
+      final updated = await ApiService.updateReview(
+        reviewId: _reviews[index].id,
+        userId: userId,
+        rating: draft.rating,
+        reviewText: draft.text,
+      );
+      if (!mounted) return;
+      setState(() {
+        _reviews[index] = updated;
+        _isUpdatingReview = false;
+      });
+      _showSnack('Отзыв обновлен');
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _isUpdatingReview = false;
+      });
+      _showSnack('Не удалось сохранить отзыв');
+    }
   }
 
   void _cancelEdit() {
@@ -942,13 +1240,31 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         _buildProductImage(item.productImage),
                         SizedBox(width: 12),
                         Expanded(
-                          child: Text(
-                            item.productName,
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: context.reviewsPalette.ink,
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: item.productName,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: context.reviewsPalette.ink,
+                                  ),
+                                ),
+                                if (item.supplierName.trim().isNotEmpty) ...[
+                                  TextSpan(
+                                    text: ' - ${item.supplierName.trim()}',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                      color: context.reviewsPalette.muted,
+                                    ),
+                                  ),
+                                ],
+                              ],
                             ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],

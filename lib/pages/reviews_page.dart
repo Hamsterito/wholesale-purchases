@@ -580,6 +580,67 @@ class _ReviewsPageState extends State<ReviewsPage> {
             moreLabel: 'Подробнее',
             lessLabel: 'Свернуть',
           ),
+          // Ответ поставщика (если есть)
+          if (review.response != null) ...[
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: palette.accentMist,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: palette.line.withValues(alpha: 0.5)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.store_rounded,
+                        size: 16,
+                        color: palette.accent,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        'Ответ продавца',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                          color: palette.accent,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          review.response!.supplierName,
+                          style: TextStyle(fontSize: 11, color: palette.muted),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  ExpandableTextBlock(
+                    review.response!.responseText,
+                    textStyle: TextStyle(
+                      fontSize: 14,
+                      color: palette.ink,
+                      height: 1.4,
+                    ),
+                    actionColor: palette.accent,
+                    collapsedMaxLines: 3,
+                    moreLabel: 'Подробнее',
+                    lessLabel: 'Свернуть',
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    _formatDate(review.response!.respondedAt),
+                    style: TextStyle(fontSize: 11, color: palette.muted),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ],
       ),
     );

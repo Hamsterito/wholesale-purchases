@@ -42,30 +42,34 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     final confirmPassword = _confirmPasswordController.text.trim();
 
     if (password.isEmpty || confirmPassword.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Заполните все поля')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Заполните все поля')));
       return;
     }
 
     if (password.length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Пароль должен содержать минимум 6 символов')),
+        const SnackBar(
+          content: Text('Пароль должен содержать минимум 6 символов'),
+        ),
       );
       return;
     }
 
     if (password != confirmPassword) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Пароли не совпадают')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Пароли не совпадают')));
       return;
     }
 
     setState(() => _isLoading = true);
 
     try {
-      final url = Uri.parse('${ApiConfig.baseUrl}/forgot-password/reset-password');
+      final url = Uri.parse(
+        '${ApiConfig.baseUrl}/forgot-password/reset-password',
+      );
       final response = await AppHttpClient.instance.post(
         url,
         headers: const {
@@ -82,24 +86,26 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       if (!mounted) return;
 
       if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Пароль успешно изменён')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Пароль успешно изменён')));
         await Future<void>.delayed(const Duration(milliseconds: 600));
         if (!mounted) return;
 
-        // Navigate back to login
+        // Возврат на экран входа
         Navigator.of(context).popUntil((route) => route.isFirst);
       } else {
         final body = utf8.decode(response.bodyBytes);
         final message = parseApiMessage(body, fallback: 'Ошибка сервера');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
       }
     } catch (e) {
       AppLogger.error('Error resetting password: $e', scope: 'auth');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Ошибка сети')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Ошибка сети')));
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -214,7 +220,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 color: _mutedText,
                               ),
                               onPressed: () {
@@ -253,12 +261,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                                _obscureConfirmPassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 color: _mutedText,
                               ),
                               onPressed: () {
                                 setState(() {
-                                  _obscureConfirmPassword = !_obscureConfirmPassword;
+                                  _obscureConfirmPassword =
+                                      !_obscureConfirmPassword;
                                 });
                               },
                             ),
@@ -279,7 +290,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                               ),
                             ),
                             child: _isLoading
-                                ? const CircularProgressIndicator(color: Colors.white)
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
                                 : Text(
                                     'СОХРАНИТЬ ПАРОЛЬ',
                                     style: TextStyle(

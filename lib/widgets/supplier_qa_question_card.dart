@@ -45,7 +45,7 @@ class SupplierQAQuestionCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Product header
+          // Заголовок товара
           Row(
             children: [
               ClipRRect(
@@ -82,7 +82,7 @@ class SupplierQAQuestionCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          // Question text
+          // Текст вопроса
           Text(
             question.questionText,
             style: TextStyle(
@@ -93,12 +93,12 @@ class SupplierQAQuestionCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          // Date
+          // Дата
           Text(
             _formatDate(question.createdAt),
             style: TextStyle(fontSize: 11, color: palette.muted),
           ),
-          // Answer section (if answered)
+          // Секция ответа (если отвечено)
           if (question.isAnswered && question.answer != null) ...[
             const SizedBox(height: 12),
             Container(
@@ -149,7 +149,7 @@ class SupplierQAQuestionCard extends StatelessWidget {
             ),
           ],
           const SizedBox(height: 12),
-          // Action buttons
+          // Кнопки действий
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

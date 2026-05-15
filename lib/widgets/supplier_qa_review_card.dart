@@ -117,7 +117,7 @@ class SupplierQAReviewCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Product header with image on left, name and stars on right
+          // Заголовок товара с изображением слева, названием и звездами справа
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -151,7 +151,7 @@ class SupplierQAReviewCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        // Stars in top-right corner
+                        // Звезды в правом верхнем углу
                         RatingStars(
                           rating: review.rating.toDouble(),
                           size: 14,
@@ -161,7 +161,7 @@ class SupplierQAReviewCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 6),
-                    // User name below product name
+                    // Имя пользователя под названием товара
                     Text(
                       review.reviewerName,
                       style: TextStyle(fontSize: 11, color: palette.muted),
@@ -172,7 +172,7 @@ class SupplierQAReviewCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          // Review text in black (ink color)
+          // Текст отзыва черным цветом (цвет чернил)
           ExpandableTextBlock(
             review.reviewText,
             textStyle: TextStyle(fontSize: 13, color: palette.ink, height: 1.4),
@@ -182,12 +182,12 @@ class SupplierQAReviewCard extends StatelessWidget {
             lessLabel: 'Свернуть',
           ),
           const SizedBox(height: 8),
-          // Date
+          // Дата
           Text(
             _formatDate(review.createdAt),
             style: TextStyle(fontSize: 11, color: palette.muted),
           ),
-          // Response section (if exists)
+          // Секция ответа (если существует)
           if (hasResponse && responseText != null) ...[
             const SizedBox(height: 12),
             Container(
@@ -240,7 +240,7 @@ class SupplierQAReviewCard extends StatelessWidget {
               ),
             ),
           ],
-          // Action buttons
+          // Кнопки действий
           const SizedBox(height: 12),
           _buildActionButtons(context, palette),
         ],
@@ -253,7 +253,7 @@ class SupplierQAReviewCard extends StatelessWidget {
     _SupplierQAReviewCardPalette palette,
   ) {
     if (hasResponse) {
-      // Show Edit Response and Delete buttons
+      // Показать кнопки "Изменить ответ" и "Удалить"
       return Row(
         children: [
           Expanded(
@@ -285,7 +285,7 @@ class SupplierQAReviewCard extends StatelessWidget {
         ],
       );
     } else {
-      // Show Respond button
+      // Показать кнопку "Ответить"
       return SizedBox(
         width: double.infinity,
         child: FilledButton(

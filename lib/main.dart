@@ -3,12 +3,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'login_screen/login.dart';
-import 'services/app_logger.dart';
-import 'services/app_settings.dart';
-import 'services/auth_storage.dart';
-import 'widgets/main_navigation.dart';
+import 'package:flutter_project/login_screen/login.dart';
+import 'package:flutter_project/services/app_logger.dart';
+import 'package:flutter_project/services/app_settings.dart';
+import 'package:flutter_project/services/auth_storage.dart';
+import 'package:flutter_project/widgets/main_navigation.dart';
 
 // Главная функция приложения Flutter
 void main() {
@@ -39,6 +40,17 @@ void main() {
       // Инициализация приложения с обработкой ошибок
       try {
         AppLogger.info('Application initialization started', scope: 'startup');
+
+        // Загружаем переменные окружения из .env файла
+        try {
+          await dotenv.load(fileName: '.env');
+          AppLogger.info('Environment variables loaded', scope: 'startup');
+        } catch (e) {
+          AppLogger.warning(
+            'Failed to load .env file, using defaults',
+            scope: 'startup',
+          );
+        }
 
         await AppSettings.init();
         AppLogger.info('Application settings initialized', scope: 'startup');
@@ -89,18 +101,11 @@ class _ErrorApp extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.error_outline,
-                  size: 64,
-                  color: Colors.red,
-                ),
+                const Icon(Icons.error_outline, size: 64, color: Colors.red),
                 const SizedBox(height: 16),
                 const Text(
                   'Ошибка запуска приложения',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),

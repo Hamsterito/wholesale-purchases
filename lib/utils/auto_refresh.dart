@@ -38,7 +38,7 @@ mixin AutoRefreshMixin<T extends StatefulWidget> on State<T> {
     if (!_autoRefreshActive) return;
     if (state == AppLifecycleState.resumed) {
       _scheduleTimer();
-      // ignore: unawaited_futures
+      // игнорируем unawaited_futures
       _tick();
       return;
     }

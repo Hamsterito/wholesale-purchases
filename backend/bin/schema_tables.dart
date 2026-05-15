@@ -149,6 +149,7 @@ Future<void> _ensureDatabaseSchema(Connection connection) async {
   await _ensureOrderSchema(connection);
   await _ensureOrderItemsSchema(connection);
   await _ensureReviewSchema(connection);
+  await _ensureSupplierReviewResponsesSchema(connection);
   await _ensureSupportSchema(connection);
   await _ensureQuestionsSchema(connection);
 }
@@ -187,7 +188,7 @@ Future<void> _ensureEmailVerificationSchema(Connection connection) async {
     );
   ''');
 
-  // Migrate existing column if it exists as WITHOUT TIME ZONE
+  // Мигрируем существующую колонку, если она WITHOUT TIME ZONE
   try {
     await connection.execute('''
       ALTER TABLE public.email_verifications
@@ -195,8 +196,10 @@ Future<void> _ensureEmailVerificationSchema(Connection connection) async {
       USING expires_at AT TIME ZONE 'UTC';
     ''');
   } catch (e) {
-    // Column might already be WITH TIME ZONE, ignore error
-    print('Примечание: миграция email_verifications.expires_at пропущена (возможно уже TIMESTAMPTZ): $e');
+    // Колонка уже может быть WITH TIME ZONE, игнорируем ошибку
+    print(
+      'Примечание: миграция email_verifications.expires_at пропущена (возможно уже TIMESTAMPTZ): $e',
+    );
   }
 
   try {
@@ -206,8 +209,10 @@ Future<void> _ensureEmailVerificationSchema(Connection connection) async {
       USING created_at AT TIME ZONE 'UTC';
     ''');
   } catch (e) {
-    // Column might already be WITH TIME ZONE, ignore error
-    print('Примечание: миграция email_verifications.created_at пропущена (возможно уже TIMESTAMPTZ): $e');
+    // Колонка уже может быть WITH TIME ZONE, игнорируем ошибку
+    print(
+      'Примечание: миграция email_verifications.created_at пропущена (возможно уже TIMESTAMPTZ): $e',
+    );
   }
 
   await connection.execute(
@@ -761,6 +766,21 @@ Future<void> _ensureReviewSchema(Connection connection) async {
   );
 }
 
+Future<void> _ensureSupplierReviewResponsesSchema(Connection connection) async {
+  await connection.execute('''
+    CREATE TABLE IF NOT EXISTS public.supplier_review_responses (
+      id SERIAL PRIMARY KEY,
+      review_id INTEGER NOT NULL UNIQUE REFERENCES public.reviews(id) ON DELETE CASCADE,
+      response_text TEXT NOT NULL,
+      created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+    );
+  ''');
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_supplier_review_responses_review_id ON public.supplier_review_responses(review_id);',
+  );
+}
+
 Future<void> _ensureSupportSchema(Connection connection) async {
   await connection.execute('''
     CREATE TABLE IF NOT EXISTS public.support_chats (
@@ -1011,4 +1031,3 @@ Future<void> _ensureQuestionsSchema(Connection connection) async {
     CREATE INDEX IF NOT EXISTS idx_question_answers_question_id ON public.question_answers(question_id);
   ''');
 }
-

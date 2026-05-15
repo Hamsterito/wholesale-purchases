@@ -242,44 +242,23 @@ class _QuestionsPageState extends State<QuestionsPage> {
   Widget _buildHeader(BuildContext context, _QuestionsPaletteColors palette) {
     return Container(
       color: palette.card,
-      padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
-      child: Row(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Transform.translate(
-            offset: const Offset(-6, 0),
-            child: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: Icon(Icons.arrow_back, color: palette.ink),
-              tooltip: 'Назад',
-              style: IconButton.styleFrom(
-                minimumSize: const Size(32, 32),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                padding: EdgeInsets.zero,
-              ),
+          Text(
+            'Вопросы о товаре',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+              color: palette.ink,
+              letterSpacing: 0.2,
             ),
           ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Вопросы о товаре',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: palette.ink,
-                    letterSpacing: 0.2,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '$_totalQuestions всего',
-                  style: TextStyle(fontSize: 12, color: palette.muted),
-                ),
-              ],
-            ),
+          const SizedBox(height: 4),
+          Text(
+            '$_totalQuestions всего',
+            style: TextStyle(fontSize: 12, color: palette.muted),
           ),
         ],
       ),

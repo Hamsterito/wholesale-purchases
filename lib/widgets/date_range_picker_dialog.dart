@@ -174,7 +174,7 @@ class _CustomDateRangePickerDialogState
               ),
             ),
             const SizedBox(height: 16),
-            // Quick filters
+            // Быстрые фильтры
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

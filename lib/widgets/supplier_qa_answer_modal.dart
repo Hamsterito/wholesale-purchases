@@ -104,7 +104,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Handle bar
+              // Полоска-ручка
               Center(
                 child: Container(
                   margin: const EdgeInsets.only(top: 8),
@@ -129,7 +129,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
                 ),
               ),
 
-              // Product preview
+              // Превью товара
               if (widget.product.imageUrls.isNotEmpty) ...[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
@@ -176,7 +176,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
                 Divider(color: palette.line, height: 1),
               ],
 
-              // Question section
+              // Секция вопроса
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                 child: Column(
@@ -292,7 +292,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
                 ),
               ),
 
-              // Error message
+              // Сообщение об ошибке
               if (_submissionError != null) ...[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
@@ -328,7 +328,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
                 ),
               ],
 
-              // Buttons
+              // Кнопки
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
                 child: Row(

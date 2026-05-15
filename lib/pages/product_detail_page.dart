@@ -1273,7 +1273,7 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
         : widget.review.reviewText.trim();
     final dateStr = _formatDate(widget.review.createdAt);
 
-    // Create palette similar to QuestionCard
+    // Создаем палитру, похожую на QuestionCard
     final palette = _createPalette(cs);
 
     return Container(
@@ -1341,7 +1341,7 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
             ],
           ),
           const SizedBox(height: 12),
-          // Review text
+          // Текст отзыва
           Text(
             text,
             style: TextStyle(
@@ -1355,7 +1355,7 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
                 ? TextOverflow.visible
                 : TextOverflow.ellipsis,
           ),
-          // Expand/Collapse button
+          // Кнопка "Развернуть/Свернуть"
           if (_hasLongText(text) && !_isExpanded)
             GestureDetector(
               onTap: () => setState(() => _isExpanded = true),
@@ -1371,7 +1371,7 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
                 ),
               ),
             ),
-          // Open all reviews button
+          // Кнопка открытия всех отзывов
           if (!_isLongTextButCollapsed(text))
             Padding(
               padding: const EdgeInsets.only(top: 4),
@@ -1466,7 +1466,7 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Top row: Avatar + name/time
+          // Верхняя строка: Аватар + имя/время
           Row(
             children: [
               CircleAvatar(
@@ -1505,7 +1505,7 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
             ],
           ),
           const SizedBox(height: 12),
-          // Question text
+          // Текст вопроса
           Text(
             widget.question.questionText,
             style: TextStyle(
@@ -1535,7 +1535,7 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
                 ),
               ),
             ),
-          // Open all questions button
+          // Кнопка открытия всех вопросов
           if (!_isLongTextButCollapsed(widget.question.questionText))
             Padding(
               padding: const EdgeInsets.only(top: 0),

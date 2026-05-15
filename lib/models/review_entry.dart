@@ -39,6 +39,7 @@ class ReviewEntry {
   final String reviewText;
   final DateTime createdAt;
   final ReviewResponse? response;
+  final String supplierName;
 
   ReviewEntry({
     required this.id,
@@ -52,6 +53,7 @@ class ReviewEntry {
     required this.reviewText,
     required this.createdAt,
     this.response,
+    this.supplierName = '',
   });
 
   factory ReviewEntry.fromJson(Map<String, dynamic> json) {
@@ -69,6 +71,7 @@ class ReviewEntry {
       response: json['response'] != null
           ? ReviewResponse.fromJson(json['response'] as Map<String, dynamic>)
           : null,
+      supplierName: json['supplierName']?.toString() ?? '',
     );
   }
 
@@ -89,6 +92,7 @@ class ReviewEntry {
       reviewText: reviewText ?? this.reviewText,
       createdAt: createdAt,
       response: response ?? this.response,
+      supplierName: supplierName,
     );
   }
 

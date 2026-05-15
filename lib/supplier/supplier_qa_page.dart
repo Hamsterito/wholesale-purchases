@@ -8,6 +8,7 @@ import '../widgets/rating_stars.dart';
 import '../widgets/supplier_qa_answer_modal.dart';
 import '../widgets/supplier_qa_response_modal.dart';
 import '../widgets/expandable_text_block.dart';
+import '../widgets/main_bottom_nav.dart';
 import '../utils/date_formatter.dart';
 
 class _SupplierQAPalette {
@@ -663,6 +664,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
           ),
         ],
       ),
+      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
     );
   }
 

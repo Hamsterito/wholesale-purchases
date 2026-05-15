@@ -94,7 +94,7 @@ class PaymentCardStorage {
       return cards;
     }
 
-    // One-time migration from legacy shared key to the first authorized user.
+    // Одноразовая миграция из устаревшего общего ключа к первому авторизованному пользователю
     final migrated = prefs.getBool(_legacyMigratedKey) ?? false;
     if (migrated) {
       return [];

@@ -859,7 +859,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
           'orders_export_${_formatShortDate(_rangeStart)}_to_${_formatShortDate(_rangeEnd)}.xlsx';
 
       if (kIsWeb) {
-        // For web, use browser download
+        // Для веба используем загрузку через браузер
         final blob = html.Blob([bytes]);
         final url = html.Url.createObjectUrlFromBlob(blob);
         html.AnchorElement(href: url)
@@ -867,7 +867,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
           ..click();
         html.Url.revokeObjectUrl(url);
       } else {
-        // For mobile, use file_saver
+        // Для мобильных устройств используем file_saver
         await FileSaver.instance.saveAs(
           name: fileName,
           bytes: bytes,

@@ -302,9 +302,9 @@ void _registerMutationRoutes(Router router, Connection connection) {
         if (digits.isEmpty) {
           nextPhone = null;
         } else {
-            if (digits.length != 11 || !digits.startsWith('7')) {
-              return Response.badRequest(body: 'Неверный формат телефона');
-            }
+          if (digits.length != 11 || !digits.startsWith('7')) {
+            return Response.badRequest(body: 'Неверный формат телефона');
+          }
           nextPhone = digits;
         }
       }
@@ -2227,7 +2227,10 @@ void _registerMutationRoutes(Router router, Connection connection) {
             headers: _utf8TextHeaders,
           );
         }
-        final imageUrl = item['imageUrl']?.toString() ?? productRow['image_url']?.toString() ?? '';
+        final imageUrl =
+            item['imageUrl']?.toString() ??
+            productRow['image_url']?.toString() ??
+            '';
         final isReceived = item['isReceived'] == true;
         final supplierUserId =
             _toNullablePositiveInt(item['supplierUserId']) ??
@@ -2881,9 +2884,11 @@ void _registerMutationRoutes(Router router, Connection connection) {
         parameters: {'email': email},
       );
 
-      final available = existing.isEmpty ||
+      final available =
+          existing.isEmpty ||
           existing.first.toColumnMap()['is_verified'] != true;
-      final requiresVerification = existing.isNotEmpty &&
+      final requiresVerification =
+          existing.isNotEmpty &&
           existing.first.toColumnMap()['is_verified'] != true;
 
       return _jsonSuccess('Email checked', {
@@ -2939,7 +2944,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
         parameters: {'email': email},
       );
 
-      // Hash password before storing
+      // Хешируем пароль перед сохранением
       final hashedPassword = _hashPassword(password);
       final otp = _generateOtpCode();
       final otpHash = _hashOtp(otp);
@@ -3021,7 +3026,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
         });
       }
 
-      // Send email asynchronously (don't block response)
+      // Отправляем email асинхронно (не блокируем ответ)
       Future.microtask(() => _sendVerificationEmail(email, otp));
 
       return _jsonSuccess(message);
@@ -3051,7 +3056,9 @@ void _registerMutationRoutes(Router router, Connection connection) {
       }
 
       final userResult = await connection.execute(
-        Sql.named('SELECT id, is_verified FROM users WHERE LOWER(email) = @email LIMIT 1'),
+        Sql.named(
+          'SELECT id, is_verified FROM users WHERE LOWER(email) = @email LIMIT 1',
+        ),
         parameters: {'email': email},
       );
 
@@ -3096,7 +3103,9 @@ void _registerMutationRoutes(Router router, Connection connection) {
         );
 
         await session.execute(
-          Sql.named('UPDATE public.email_verifications SET used = true WHERE id = @id'),
+          Sql.named(
+            'UPDATE public.email_verifications SET used = true WHERE id = @id',
+          ),
           parameters: {'id': verId},
         );
       });
@@ -3122,7 +3131,9 @@ void _registerMutationRoutes(Router router, Connection connection) {
       }
 
       final userResult = await connection.execute(
-        Sql.named('SELECT id, is_verified FROM users WHERE LOWER(email) = @email LIMIT 1'),
+        Sql.named(
+          'SELECT id, is_verified FROM users WHERE LOWER(email) = @email LIMIT 1',
+        ),
         parameters: {'email': email},
       );
       if (userResult.isEmpty) {
@@ -3200,9 +3211,14 @@ void _registerMutationRoutes(Router router, Connection connection) {
 
       if (activeResult.isNotEmpty) {
         // Возвращаем оставшееся время без отправки нового кода
-        final expiresAt = activeResult.first.toColumnMap()['expires_at'] as DateTime;
-        final remainingSeconds = expiresAt.difference(DateTime.now().toUtc()).inSeconds;
-        return _jsonSuccess('Код уже был отправлен', {'expires_in': remainingSeconds > 0 ? remainingSeconds : 0});
+        final expiresAt =
+            activeResult.first.toColumnMap()['expires_at'] as DateTime;
+        final remainingSeconds = expiresAt
+            .difference(DateTime.now().toUtc())
+            .inSeconds;
+        return _jsonSuccess('Код уже был отправлен', {
+          'expires_in': remainingSeconds > 0 ? remainingSeconds : 0,
+        });
       }
 
       // Ограничение частоты: проверяем, отправлялся ли код недавно (последняя 1 минута)
@@ -3216,7 +3232,10 @@ void _registerMutationRoutes(Router router, Connection connection) {
       );
 
       if (recentResult.isNotEmpty) {
-        return _jsonError('Код уже был отправлен недавно. Попробуйте позже.', 429);
+        return _jsonError(
+          'Код уже был отправлен недавно. Попробуйте позже.',
+          429,
+        );
       }
 
       final otp = _generateOtpCode();
@@ -3238,7 +3257,9 @@ void _registerMutationRoutes(Router router, Connection connection) {
       // Отправляем email асинхронно
       Future.microtask(() => _sendVerificationEmail(email, otp));
 
-      return _jsonSuccess('Код отправлен на вашу почту', {'expires_in': _emailVerificationOtpTtl.inSeconds});
+      return _jsonSuccess('Код отправлен на вашу почту', {
+        'expires_in': _emailVerificationOtpTtl.inSeconds,
+      });
     } catch (e, st) {
       print('Ошибка отправки кода восстановления: $e\n$st');
       return _jsonError('Ошибка сервера', 500);
@@ -3301,7 +3322,10 @@ void _registerMutationRoutes(Router router, Connection connection) {
       );
 
       if (recentResult.isNotEmpty) {
-        return _jsonError('Код уже был отправлен недавно. Попробуйте позже.', 429);
+        return _jsonError(
+          'Код уже был отправлен недавно. Попробуйте позже.',
+          429,
+        );
       }
 
       final otp = _generateOtpCode();
@@ -3333,7 +3357,9 @@ void _registerMutationRoutes(Router router, Connection connection) {
       // Отправляем email асинхронно
       Future.microtask(() => _sendVerificationEmail(email, otp));
 
-      return _jsonSuccess('Код отправлен повторно', {'expires_in': _emailVerificationOtpTtl.inSeconds});
+      return _jsonSuccess('Код отправлен повторно', {
+        'expires_in': _emailVerificationOtpTtl.inSeconds,
+      });
     } catch (e, st) {
       print('Ошибка повторной отправки кода восстановления: $e\n$st');
       return _jsonError('Ошибка сервера', 500);
@@ -3402,7 +3428,11 @@ void _registerMutationRoutes(Router router, Connection connection) {
       final code = data['code']?.trim();
       final newPassword = data['newPassword']?.trim();
 
-      if (email.isEmpty || code == null || code.isEmpty || newPassword == null || newPassword.isEmpty) {
+      if (email.isEmpty ||
+          code == null ||
+          code.isEmpty ||
+          newPassword == null ||
+          newPassword.isEmpty) {
         return _jsonError('Все поля обязательны', 400);
       }
 
@@ -3414,7 +3444,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
         return _jsonError('Пароль должен содержать минимум 6 символов', 400);
       }
 
-      // Verify code first
+      // Сначала проверяем код
       final result = await connection.execute(
         Sql.named('''
           SELECT id, used
@@ -3433,7 +3463,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
       final reset = result.first.toColumnMap();
       final resetId = reset['id'] as int;
 
-      // Check if code was used recently (within 5 minutes)
+      // Проверяем, был ли код использован недавно (в течение 5 минут)
       final codeHashResult = await connection.execute(
         Sql.named('''
           SELECT code_hash FROM password_resets WHERE id = @id
@@ -3445,24 +3475,29 @@ void _registerMutationRoutes(Router router, Connection connection) {
         return _jsonError('Код не найден', 400);
       }
 
-      final codeHash = codeHashResult.first.toColumnMap()['code_hash']?.toString() ?? '';
+      final codeHash =
+          codeHashResult.first.toColumnMap()['code_hash']?.toString() ?? '';
       final ok = _checkOtp(code, codeHash);
 
       if (!ok) {
         return _jsonError('Неверный код', 400);
       }
 
-      // Update password
+      // Обновляем пароль
       final hashedPassword = _hashPassword(newPassword);
       await connection.runTx((session) async {
         await session.execute(
-          Sql.named('UPDATE users SET password = @password WHERE LOWER(email) = @email'),
+          Sql.named(
+            'UPDATE users SET password = @password WHERE LOWER(email) = @email',
+          ),
           parameters: {'email': email, 'password': hashedPassword},
         );
 
-        // Mark all reset codes for this email as used
+        // Помечаем все коды сброса для этого email как использованные
         await session.execute(
-          Sql.named('UPDATE password_resets SET used = true WHERE email = @email'),
+          Sql.named(
+            'UPDATE password_resets SET used = true WHERE email = @email',
+          ),
           parameters: {'email': email},
         );
       });
@@ -3509,10 +3544,24 @@ void _registerMutationRoutes(Router router, Connection connection) {
       }
 
       // Добавляем время для корректного сравнения
-      final startDateTime = DateTime(startDate.year, startDate.month, startDate.day, 0, 0, 0);
-      final endDateTime = DateTime(endDate.year, endDate.month, endDate.day, 23, 59, 59);
+      final startDateTime = DateTime(
+        startDate.year,
+        startDate.month,
+        startDate.day,
+        0,
+        0,
+        0,
+      );
+      final endDateTime = DateTime(
+        endDate.year,
+        endDate.month,
+        endDate.day,
+        23,
+        59,
+        59,
+      );
 
-      // Fetch order data
+      // Получаем данные заказов
       final result = await connection.execute(
         Sql.named('''
           SELECT
@@ -3536,28 +3585,54 @@ void _registerMutationRoutes(Router router, Connection connection) {
         },
       );
 
-      // Generate Excel
+      // Генерируем Excel
       final excel = Excel.createExcel();
       final sheet = excel['Orders'];
 
-      // Add headers
-      sheet.cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0)).value = TextCellValue('ID заказа');
-      sheet.cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: 0)).value = TextCellValue('Клиент');
-      sheet.cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: 0)).value = TextCellValue('Товар');
-      sheet.cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: 0)).value = TextCellValue('Цена');
-      sheet.cell(CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: 0)).value = TextCellValue('Дата');
-      sheet.cell(CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: 0)).value = TextCellValue('Статус');
+      // Добавляем заголовки
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0))
+          .value = TextCellValue(
+        'ID заказа',
+      );
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: 0))
+          .value = TextCellValue(
+        'Клиент',
+      );
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: 0))
+          .value = TextCellValue(
+        'Товар',
+      );
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: 0))
+          .value = TextCellValue(
+        'Цена',
+      );
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: 0))
+          .value = TextCellValue(
+        'Дата',
+      );
+      sheet
+          .cell(CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: 0))
+          .value = TextCellValue(
+        'Статус',
+      );
 
-      // Style headers
+      // Стилизуем заголовки
       for (var col = 0; col < 6; col++) {
-        final cell = sheet.cell(CellIndex.indexByColumnRow(columnIndex: col, rowIndex: 0));
+        final cell = sheet.cell(
+          CellIndex.indexByColumnRow(columnIndex: col, rowIndex: 0),
+        );
         cell.cellStyle = CellStyle(
           bold: true,
           fontFamily: getFontFamily(FontFamily.Calibri),
         );
       }
 
-      // Add data
+      // Добавляем данные
       for (var i = 0; i < result.length; i++) {
         final row = result[i].toColumnMap();
         final orderId = row['order_id'].toString();
@@ -3569,30 +3644,56 @@ void _registerMutationRoutes(Router router, Connection connection) {
 
         String formattedDate = '';
         if (orderDate is DateTime) {
-          formattedDate = '${orderDate.day.toString().padLeft(2, '0')}.${orderDate.month.toString().padLeft(2, '0')}.${orderDate.year}';
+          formattedDate =
+              '${orderDate.day.toString().padLeft(2, '0')}.${orderDate.month.toString().padLeft(2, '0')}.${orderDate.year}';
         }
 
-        sheet.cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: i + 1)).value = TextCellValue(orderId);
-        sheet.cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: i + 1)).value = TextCellValue(clientName);
-        sheet.cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: i + 1)).value = TextCellValue(serviceName);
-        sheet.cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: i + 1)).value = IntCellValue(price);
-        sheet.cell(CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: i + 1)).value = TextCellValue(formattedDate);
-        sheet.cell(CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: i + 1)).value = TextCellValue(orderStatus);
+        sheet
+            .cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: i + 1))
+            .value = TextCellValue(
+          orderId,
+        );
+        sheet
+            .cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: i + 1))
+            .value = TextCellValue(
+          clientName,
+        );
+        sheet
+            .cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: i + 1))
+            .value = TextCellValue(
+          serviceName,
+        );
+        sheet
+            .cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: i + 1))
+            .value = IntCellValue(
+          price,
+        );
+        sheet
+            .cell(CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: i + 1))
+            .value = TextCellValue(
+          formattedDate,
+        );
+        sheet
+            .cell(CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: i + 1))
+            .value = TextCellValue(
+          orderStatus,
+        );
       }
 
-      // Auto-fit columns
+      // Автоподбор ширины колонок
       for (var col = 0; col < 6; col++) {
         sheet.setColumnAutoFit(col);
       }
 
-      // Encode to bytes
+      // Кодируем в байты
       final bytes = excel.encode();
 
       return Response(
         200,
         body: bytes,
         headers: {
-          'content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'content-type':
+              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
           'content-disposition': 'attachment; filename="orders_export.xlsx"',
         },
       );
@@ -3603,7 +3704,10 @@ void _registerMutationRoutes(Router router, Connection connection) {
   });
 
   // POST /questions (создание вопроса)
-  router.post('/products/<productId>/questions', (Request request, String productId) async {
+  router.post('/products/<productId>/questions', (
+    Request request,
+    String productId,
+  ) async {
     try {
       final pid = int.tryParse(productId);
       if (pid == null) return Response.badRequest(body: 'Invalid product id');
@@ -3616,39 +3720,50 @@ void _registerMutationRoutes(Router router, Connection connection) {
       final userId = _toPositiveInt(payload['userId']);
       final questionText = payload['questionText']?.toString().trim() ?? '';
       if (questionText.length < 10 || questionText.length > 500) {
-        return Response.badRequest(body: 'Question text must be 10-500 characters');
+        return Response.badRequest(
+          body: 'Question text must be 10-500 characters',
+        );
       }
 
       // Проверка существования товара
       final prodCheck = await connection.execute(
         Sql.named('SELECT id FROM products WHERE id = @id'),
-        parameters: {'id': pid}
+        parameters: {'id': pid},
       );
       if (prodCheck.isEmpty) return Response(404, body: 'Product not found');
 
-      // Rate limiting: не более 5 вопросов от пользователя за последний час на товар
+      // Ограничение частоты: не более 5 вопросов от пользователя за последний час на товар
       final recentCheck = await connection.execute(
         Sql.named('''SELECT COUNT(*) as cnt FROM questions
           WHERE user_id = @uid AND product_id = @pid AND created_at > NOW() - INTERVAL '1 hour'
         '''),
-        parameters: {'uid': userId, 'pid': pid}
+        parameters: {'uid': userId, 'pid': pid},
       );
-      final recentCount = _toPositiveInt(recentCheck.first.toColumnMap()['cnt']);
+      final recentCount = _toPositiveInt(
+        recentCheck.first.toColumnMap()['cnt'],
+      );
       if (recentCount >= 5) {
-        return Response(429, body: 'Too many questions. Please wait.', headers: _utf8TextHeaders);
+        return Response(
+          429,
+          body: 'Too many questions. Please wait.',
+          headers: _utf8TextHeaders,
+        );
       }
 
       final inserted = await connection.execute(
         Sql.named('''INSERT INTO questions (product_id, user_id, question_text)
           VALUES (@pid, @uid, @text) RETURNING id, created_at'''),
-        parameters: {'pid': pid, 'uid': userId, 'text': questionText}
+        parameters: {'pid': pid, 'uid': userId, 'text': questionText},
       );
       final map = inserted.first.toColumnMap();
       final id = map['id'].toString();
       final createdAt = (map['created_at'] as DateTime).toIso8601String();
 
-      return Response(201, body: jsonEncode({'questionId': id, 'createdAt': createdAt}),
-        headers: {'content-type': 'application/json; charset=utf-8'});
+      return Response(
+        201,
+        body: jsonEncode({'questionId': id, 'createdAt': createdAt}),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
     } on FormatException {
       return Response.badRequest(body: 'Invalid JSON');
     } catch (e, st) {
@@ -3661,7 +3776,8 @@ void _registerMutationRoutes(Router router, Connection connection) {
   router.post('/questions/<id>/answer', (Request request, String id) async {
     try {
       final questionId = int.tryParse(id);
-      if (questionId == null) return Response.badRequest(body: 'Invalid question id');
+      if (questionId == null)
+        return Response.badRequest(body: 'Invalid question id');
 
       final body = await request.readAsString();
       final decoded = jsonDecode(body);
@@ -3671,7 +3787,9 @@ void _registerMutationRoutes(Router router, Connection connection) {
       final supplierUserId = _toPositiveInt(payload['supplierUserId']);
       final answerText = payload['answerText']?.toString().trim() ?? '';
       if (answerText.length < 10 || answerText.length > 1000) {
-        return Response.badRequest(body: 'Answer text must be 10-1000 characters');
+        return Response.badRequest(
+          body: 'Answer text must be 10-1000 characters',
+        );
       }
 
       // Проверка, что вопрос относится к продукту данного поставщика
@@ -3680,39 +3798,220 @@ void _registerMutationRoutes(Router router, Connection connection) {
           JOIN products p ON q.product_id = p.id
           WHERE q.id = @qid AND p.supplier_user_id = @suid
         '''),
-        parameters: {'qid': questionId, 'suid': supplierUserId}
+        parameters: {'qid': questionId, 'suid': supplierUserId},
       );
       if (check.isEmpty) return Response(403, body: 'Forbidden');
 
       // Вставка ответа (используем ON CONFLICT для безопасности)
       await connection.execute(
-        Sql.named('''INSERT INTO question_answers (question_id, supplier_user_id, answer_text)
+        Sql.named(
+          '''INSERT INTO question_answers (question_id, supplier_user_id, answer_text)
           VALUES (@qid, @suid, @text)
           ON CONFLICT (question_id) DO UPDATE SET answer_text = EXCLUDED.answer_text, answered_at = NOW()
-        '''),
-        parameters: {'qid': questionId, 'suid': supplierUserId, 'text': answerText}
+        ''',
+        ),
+        parameters: {
+          'qid': questionId,
+          'suid': supplierUserId,
+          'text': answerText,
+        },
       );
 
       // Обновить флаг is_answered
       await connection.execute(
         Sql.named('UPDATE questions SET is_answered = true WHERE id = @qid'),
-        parameters: {'qid': questionId}
+        parameters: {'qid': questionId},
       );
 
       final result = await connection.execute(
-        Sql.named('''SELECT id, answered_at FROM question_answers WHERE question_id = @qid'''),
-        parameters: {'qid': questionId}
+        Sql.named(
+          '''SELECT id, answered_at FROM question_answers WHERE question_id = @qid''',
+        ),
+        parameters: {'qid': questionId},
       );
       final map = result.first.toColumnMap();
-      return Response(201, body: jsonEncode({
-        'answerId': map['id'].toString(),
-        'answeredAt': (map['answered_at'] as DateTime).toIso8601String()
-      }), headers: {'content-type': 'application/json; charset=utf-8'});
+      return Response(
+        201,
+        body: jsonEncode({
+          'answerId': map['id'].toString(),
+          'answeredAt': (map['answered_at'] as DateTime).toIso8601String(),
+        }),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
     } on FormatException {
       return Response.badRequest(body: 'Invalid JSON');
     } catch (e, st) {
       print('Error answering: $e\n$st');
       return Response.internalServerError(body: 'Server error');
+    }
+  });
+
+  // POST /reviews/{id}/response - Добавить ответ поставщика на отзыв
+  router.post('/reviews/<reviewId>/response', (
+    Request request,
+    String reviewId,
+  ) async {
+    try {
+      final body = await request.readAsString();
+      final decoded = jsonDecode(body);
+      if (decoded is! Map) {
+        return Response.badRequest(body: 'Expected JSON object');
+      }
+      final payload = Map<String, dynamic>.from(decoded);
+
+      final supplierUserId = _toPositiveInt(payload['supplierUserId']);
+      if (supplierUserId == 0) {
+        return Response.badRequest(body: 'Supplier user ID is required');
+      }
+
+      final responseText = (payload['responseText'] ?? '').toString().trim();
+      if (responseText.isEmpty) {
+        return Response.badRequest(body: 'Response text is required');
+      }
+
+      final reviewIdInt = int.tryParse(reviewId);
+      if (reviewIdInt == null || reviewIdInt <= 0) {
+        return Response.badRequest(body: 'Invalid review ID');
+      }
+
+      // Проверяем, что отзыв принадлежит товару поставщика
+      final reviewResult = await connection.execute(
+        Sql.named('''
+          SELECT r.id, oi.supplier_user_id
+          FROM reviews r
+          JOIN order_items oi ON r.order_item_id = oi.id
+          WHERE r.id = @review_id
+          LIMIT 1;
+        '''),
+        parameters: {'review_id': reviewIdInt},
+      );
+
+      if (reviewResult.isEmpty) {
+        return Response.notFound('Review not found');
+      }
+
+      final review = reviewResult.first.toColumnMap();
+      if (_toPositiveInt(review['supplier_user_id']) != supplierUserId) {
+        return Response.forbidden('You cannot respond to this review');
+      }
+
+      // Добавляем или обновляем ответ поставщика
+      final created = await connection.execute(
+        Sql.named('''
+          INSERT INTO supplier_review_responses (review_id, response_text, created_at, updated_at)
+          VALUES (@review_id, @response_text, NOW(), NOW())
+          ON CONFLICT (review_id) DO UPDATE SET
+            response_text = EXCLUDED.response_text,
+            updated_at = NOW()
+          RETURNING id, created_at, updated_at;
+        '''),
+        parameters: {'review_id': reviewIdInt, 'response_text': responseText},
+      );
+
+      if (created.isEmpty) {
+        return Response.internalServerError(body: 'Failed to create response');
+      }
+
+      final responseMap = created.first.toColumnMap();
+      return Response(
+        201,
+        body: jsonEncode({
+          'id': responseMap['id'].toString(),
+          'reviewId': reviewIdInt.toString(),
+          'responseText': responseText,
+          'createdAt': (responseMap['created_at'] as DateTime)
+              .toIso8601String(),
+        }),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } on FormatException {
+      return Response.badRequest(body: 'Invalid JSON');
+    } catch (e, st) {
+      print('Error creating review response: $e\n$st');
+      return Response.internalServerError(body: 'Server error: $e');
+    }
+  });
+
+  // PATCH /reviews/{id}/response - Обновить ответ поставщика на отзыв
+  router.patch('/reviews/<reviewId>/response', (
+    Request request,
+    String reviewId,
+  ) async {
+    try {
+      final body = await request.readAsString();
+      final decoded = jsonDecode(body);
+      if (decoded is! Map) {
+        return Response.badRequest(body: 'Expected JSON object');
+      }
+      final payload = Map<String, dynamic>.from(decoded);
+
+      final supplierUserId = _toPositiveInt(payload['supplierUserId']);
+      if (supplierUserId == 0) {
+        return Response.badRequest(body: 'Supplier user ID is required');
+      }
+
+      final responseText = (payload['responseText'] ?? '').toString().trim();
+      if (responseText.isEmpty) {
+        return Response.badRequest(body: 'Response text is required');
+      }
+
+      final reviewIdInt = int.tryParse(reviewId);
+      if (reviewIdInt == null || reviewIdInt <= 0) {
+        return Response.badRequest(body: 'Invalid review ID');
+      }
+
+      // Проверяем, что отзыв принадлежит товару поставщика
+      final reviewResult = await connection.execute(
+        Sql.named('''
+          SELECT r.id, oi.supplier_user_id
+          FROM reviews r
+          JOIN order_items oi ON r.order_item_id = oi.id
+          WHERE r.id = @review_id
+          LIMIT 1;
+        '''),
+        parameters: {'review_id': reviewIdInt},
+      );
+
+      if (reviewResult.isEmpty) {
+        return Response.notFound('Review not found');
+      }
+
+      final review = reviewResult.first.toColumnMap();
+      if (_toPositiveInt(review['supplier_user_id']) != supplierUserId) {
+        return Response.forbidden('You cannot update this response');
+      }
+
+      // Обновляем ответ поставщика
+      final updated = await connection.execute(
+        Sql.named('''
+          UPDATE supplier_review_responses
+          SET response_text = @response_text
+          WHERE review_id = @review_id
+          RETURNING id, created_at;
+        '''),
+        parameters: {'review_id': reviewIdInt, 'response_text': responseText},
+      );
+
+      if (updated.isEmpty) {
+        return Response.notFound('Response not found');
+      }
+
+      final responseMap = updated.first.toColumnMap();
+      return Response.ok(
+        jsonEncode({
+          'id': responseMap['id'].toString(),
+          'reviewId': reviewIdInt.toString(),
+          'responseText': responseText,
+          'createdAt': (responseMap['created_at'] as DateTime)
+              .toIso8601String(),
+        }),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } on FormatException {
+      return Response.badRequest(body: 'Invalid JSON');
+    } catch (e, st) {
+      print('Error updating review response: $e\n$st');
+      return Response.internalServerError(body: 'Server error: $e');
     }
   });
 }

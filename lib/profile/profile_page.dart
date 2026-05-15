@@ -12,6 +12,7 @@ import '../profile/favorites_page.dart';
 import '../pages/order_history_page.dart';
 import '../supplier/supplier_products_page.dart';
 import '../supplier/supplier_orders_page.dart';
+import '../supplier/supplier_statistics_page.dart';
 import '../moderator/moderation_page.dart';
 import '../moderator/support_chats_page.dart';
 import '../services/auth_storage.dart';
@@ -61,10 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   String _resolveName(UserProfile? profile) {
-    return _pickValue([
-      profile?.name,
-      AuthStorage.name,
-    ], 'Пользователь');
+    return _pickValue([profile?.name, AuthStorage.name], 'Пользователь');
   }
 
   bool _isSupplierRole(String? role) {
@@ -473,6 +471,22 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         ),
       );
+      items.add(
+        _buildMenuItem(
+          context: context,
+          icon: Icons.analytics_outlined,
+          iconColor: const Color(0xFF6288D5),
+          title: 'Статистика',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SupplierStatisticsPage(),
+              ),
+            );
+          },
+        ),
+      );
     }
 
     if (isModerator) {
@@ -587,4 +601,3 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-

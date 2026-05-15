@@ -781,6 +781,25 @@ Map<String, dynamic> _reviewRowToDto(Map<String, dynamic> map) {
     createdAtIso = createdAt.toIso8601String();
   }
 
+  // Подготавливаем данные ответа поставщика, если они есть
+  Map<String, dynamic>? responseData;
+  if (map['response_id'] != null) {
+    String? respondedAtIso;
+    final respondedAt = map['response_created_at'];
+    if (respondedAt is DateTime) {
+      respondedAtIso = respondedAt.toIso8601String();
+    }
+
+    responseData = {
+      'id': map['response_id']?.toString() ?? '',
+      'reviewId': map['id']?.toString() ?? '',
+      'supplierId': map['response_supplier_id']?.toString() ?? '',
+      'supplierName': map['response_supplier_name'] ?? '',
+      'responseText': map['response_text'] ?? '',
+      if (respondedAtIso != null) 'respondedAt': respondedAtIso,
+    };
+  }
+
   return {
     'id': map['id']?.toString() ?? '',
     'orderId': map['order_id']?.toString() ?? '',
@@ -791,7 +810,9 @@ Map<String, dynamic> _reviewRowToDto(Map<String, dynamic> map) {
     'rating': map['rating'] ?? 0,
     'reviewText': map['review_text'] ?? '',
     'reviewerName': map['reviewer_name'] ?? '',
+    'supplierName': map['supplier_name'] ?? '',
     if (createdAtIso != null) 'createdAt': createdAtIso,
+    if (responseData != null) 'response': responseData,
   };
 }
 
@@ -1059,7 +1080,7 @@ Map<String, String> _parseCharacteristics(Object? value) {
       }
     }
   } catch (_) {
-    // Fallback to simple key:value parsing below.
+    // Откат к простому парсингу key:value ниже
   }
 
   final result = <String, String>{};
@@ -1709,7 +1730,7 @@ void main() async {
         );
       }
 
-      // Verify user exists and is a supplier
+      // Проверяем, что пользователь существует и является поставщиком
       final userResult = await connection.execute(
         Sql.named('SELECT id, role FROM users WHERE id = @id'),
         parameters: {'id': userId},
@@ -1733,14 +1754,14 @@ void main() async {
         );
       }
 
-      // Parse pagination parameters
+      // Парсим параметры пагинации
       final page =
           int.tryParse(request.url.queryParameters['page'] ?? '1') ?? 1;
       final limit =
           int.tryParse(request.url.queryParameters['limit'] ?? '20') ?? 20;
       final offset = (page - 1) * limit;
 
-      // Query reviews for supplier's products
+      // Запрашиваем отзывы для товаров поставщика
       final result = await connection.execute(
         Sql.named('''
           SELECT
@@ -1761,7 +1782,7 @@ void main() async {
         },
       );
 
-      // Get total count
+      // Получаем общее количество
       final countResult = await connection.execute(
         Sql.named('''
           SELECT COUNT(*) as cnt FROM reviews r
@@ -1772,7 +1793,7 @@ void main() async {
       );
       final total = _toPositiveInt(countResult.first.toColumnMap()['cnt']);
 
-      // Map results to response format
+      // Преобразуем результаты в формат ответа
       final reviews = result.map((row) {
         final map = row.toColumnMap();
         final createdAt = map['created_at'];
@@ -1804,6 +1825,574 @@ void main() async {
         body: jsonEncode({'error': 'Internal server error'}),
         headers: {'content-type': 'application/json; charset=utf-8'},
       );
+    }
+  });
+
+  // GET /supplier/statistics/summary - Обзор продаж поставщика
+  router.get('/supplier/statistics/summary', (Request request) async {
+    try {
+      final userIdRaw = request.url.queryParameters['userId'];
+      final userId = int.tryParse(userIdRaw ?? '');
+      if (userId == null || userId <= 0) {
+        return Response.badRequest(
+          body: jsonEncode({'error': 'userId must be a positive integer'}),
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      }
+
+      // Проверяем, что пользователь является поставщиком
+      final userResult = await connection.execute(
+        Sql.named('SELECT id, role FROM users WHERE id = @id'),
+        parameters: {'id': userId},
+      );
+      if (userResult.isEmpty ||
+          (userResult.first.toColumnMap()['role'] ?? _defaultRole) !=
+              'supplier') {
+        return Response.forbidden('Access denied');
+      }
+
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT
+            COALESCE(SUM(oi.price * oi.quantity), 0) as total_revenue,
+            COALESCE(SUM(CASE WHEN DATE_TRUNC('month', o.created_at) = DATE_TRUNC('month', NOW()) THEN oi.price * oi.quantity ELSE 0 END), 0) as monthly_revenue,
+            COALESCE(SUM(CASE WHEN DATE_TRUNC('week', o.created_at) = DATE_TRUNC('week', NOW()) THEN oi.price * oi.quantity ELSE 0 END), 0) as weekly_revenue,
+            COUNT(DISTINCT o.id) as total_orders,
+            CASE WHEN COUNT(DISTINCT o.id) > 0 THEN COALESCE(SUM(oi.price * oi.quantity), 0) / COUNT(DISTINCT o.id) ELSE 0 END as average_order_value
+          FROM order_items oi
+          JOIN orders o ON oi.order_id = o.id
+          WHERE oi.supplier_user_id = @supplier_user_id;
+        '''),
+        parameters: {'supplier_user_id': userId},
+      );
+
+      if (result.isEmpty) {
+        return Response.ok(
+          jsonEncode({
+            'totalRevenue': 0,
+            'monthlyRevenue': 0,
+            'weeklyRevenue': 0,
+            'totalOrders': 0,
+            'averageOrderValue': 0,
+          }),
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      }
+
+      final row = result.first.toColumnMap();
+      return Response.ok(
+        jsonEncode({
+          'totalRevenue': _toPositiveInt(row['total_revenue']),
+          'monthlyRevenue': _toPositiveInt(row['monthly_revenue']),
+          'weeklyRevenue': _toPositiveInt(row['weekly_revenue']),
+          'totalOrders': _toPositiveInt(row['total_orders']),
+          'averageOrderValue': _toPositiveInt(row['average_order_value']),
+        }),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Error fetching supplier stats summary: $e\n$st');
+      return Response.internalServerError(
+        body: jsonEncode({'error': 'Internal server error'}),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    }
+  });
+
+  // GET /supplier/statistics/revenue-history - История доходов по месяцам
+  router.get('/supplier/statistics/revenue-history', (Request request) async {
+    try {
+      final userIdRaw = request.url.queryParameters['userId'];
+      final userId = int.tryParse(userIdRaw ?? '');
+      if (userId == null || userId <= 0) {
+        return Response.badRequest(body: 'Invalid userId');
+      }
+
+      final monthsRaw = request.url.queryParameters['months'];
+      final months = int.tryParse(monthsRaw ?? '6') ?? 6;
+
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT
+            DATE_TRUNC('month', o.created_at)::date as month,
+            COALESCE(SUM(oi.price * oi.quantity), 0) as revenue
+          FROM order_items oi
+          JOIN orders o ON oi.order_id = o.id
+          WHERE oi.supplier_user_id = @supplier_user_id
+            AND o.created_at >= NOW() - INTERVAL '1 month' * @months
+          GROUP BY DATE_TRUNC('month', o.created_at)
+          ORDER BY month ASC;
+        '''),
+        parameters: {'supplier_user_id': userId, 'months': months},
+      );
+
+      final history = result.map((row) {
+        final map = row.toColumnMap();
+        final month = map['month'] as DateTime;
+        return {
+          'month': '${month.month.toString().padLeft(2, '0')}.${month.year}',
+          'revenue': _toPositiveInt(map['revenue']),
+        };
+      }).toList();
+
+      return Response.ok(
+        jsonEncode(history),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Error fetching revenue history: $e\n$st');
+      return Response.internalServerError();
+    }
+  });
+
+  // GET /supplier/statistics/revenue-daily - Дневная выручка
+  router.get('/supplier/statistics/revenue-daily', (Request request) async {
+    try {
+      final userIdRaw = request.url.queryParameters['userId'];
+      final startRaw = request.url.queryParameters['startDate'];
+      final endRaw = request.url.queryParameters['endDate'];
+
+      final userId = int.tryParse(userIdRaw ?? '');
+      if (userId == null || userId <= 0) {
+        return Response.badRequest(body: 'Invalid userId');
+      }
+
+      final startDate = DateTime.tryParse(startRaw ?? '');
+      final endDate = DateTime.tryParse(endRaw ?? '');
+      if (startDate == null || endDate == null) {
+        return Response.badRequest(body: 'startDate and endDate are required');
+      }
+      if (startDate.isAfter(endDate)) {
+        return Response.badRequest(body: 'startDate must be before endDate');
+      }
+
+      // Устанавливаем границы дня
+      final start = DateTime(startDate.year, startDate.month, startDate.day);
+      final end = DateTime(
+        endDate.year,
+        endDate.month,
+        endDate.day,
+        23,
+        59,
+        59,
+      );
+
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT
+            DATE(o.created_at) as day,
+            COALESCE(SUM(oi.price * oi.quantity), 0) as revenue
+          FROM order_items oi
+          JOIN orders o ON oi.order_id = o.id
+          WHERE oi.supplier_user_id = @supplier_user_id
+            AND o.created_at BETWEEN @start AND @end
+          GROUP BY DATE(o.created_at)
+          ORDER BY day ASC;
+        '''),
+        parameters: {'supplier_user_id': userId, 'start': start, 'end': end},
+      );
+
+      final dailyData = result.map((row) {
+        final map = row.toColumnMap();
+        final day = map['day'] as DateTime;
+        return {
+          'date': day.toIso8601String(),
+          'revenue': _toPositiveInt(map['revenue']),
+        };
+      }).toList();
+
+      return Response.ok(
+        jsonEncode(dailyData),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Error fetching daily revenue: $e\n$st');
+      return Response.internalServerError();
+    }
+  });
+
+  // GET /supplier/statistics/top-products - Топ товаров по продажам
+  router.get('/supplier/statistics/top-products', (Request request) async {
+    try {
+      final userIdRaw = request.url.queryParameters['userId'];
+      final userId = int.tryParse(userIdRaw ?? '');
+      if (userId == null || userId <= 0) {
+        return Response.badRequest(body: 'Invalid userId');
+      }
+
+      final limitRaw = request.url.queryParameters['limit'];
+      final limit = int.tryParse(limitRaw ?? '5') ?? 5;
+
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT
+            p.id,
+            p.name as product_name,
+            SUM(oi.quantity) as units_sold,
+            COALESCE(SUM(oi.price * oi.quantity), 0) as revenue
+          FROM order_items oi
+          JOIN products p ON oi.product_id = p.id
+          WHERE oi.supplier_user_id = @supplier_user_id
+          GROUP BY p.id, p.name
+          ORDER BY units_sold DESC
+          LIMIT @limit;
+        '''),
+        parameters: {'supplier_user_id': userId, 'limit': limit},
+      );
+
+      final products = result.map((row) {
+        final map = row.toColumnMap();
+        return {
+          'productId': (map['id'] ?? '').toString(),
+          'productName': map['product_name'] ?? '',
+          'unitsSold': _toPositiveInt(map['units_sold']),
+          'revenue': _toPositiveInt(map['revenue']),
+        };
+      }).toList();
+
+      return Response.ok(
+        jsonEncode(products),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Error fetching top products: $e\n$st');
+      return Response.internalServerError();
+    }
+  });
+
+  // GET /supplier/statistics/order-stats - Статистика заказов
+  router.get('/supplier/statistics/order-stats', (Request request) async {
+    try {
+      final userIdRaw = request.url.queryParameters['userId'];
+      final userId = int.tryParse(userIdRaw ?? '');
+      if (userId == null || userId <= 0) {
+        return Response.badRequest(body: 'Invalid userId');
+      }
+
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT
+            COUNT(DISTINCT o.id) as total_orders,
+            SUM(CASE WHEN o.status ILIKE '%принят%' OR o.status = 'accepted' THEN 1 ELSE 0 END) as confirmed_count,
+            SUM(CASE WHEN o.status ILIKE '%отмен%' OR o.status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_count,
+            SUM(CASE WHEN DATE_TRUNC('month', o.created_at) = DATE_TRUNC('month', NOW()) THEN 1 ELSE 0 END) as this_month_count,
+            SUM(CASE WHEN DATE_TRUNC('month', o.created_at) = DATE_TRUNC('month', NOW() - INTERVAL '1 month') THEN 1 ELSE 0 END) as last_month_count,
+            COALESCE(AVG(EXTRACT(DAY FROM NOW() - o.created_at)), 0) as average_fulfillment_days
+          FROM order_items oi
+          JOIN orders o ON oi.order_id = o.id
+          WHERE oi.supplier_user_id = @supplier_user_id;
+        '''),
+        parameters: {'supplier_user_id': userId},
+      );
+
+      if (result.isEmpty) {
+        return Response.ok(
+          jsonEncode({
+            'totalOrders': 0,
+            'pendingCount': 0,
+            'confirmedCount': 0,
+            'shippedCount': 0,
+            'deliveredCount': 0,
+            'cancelledCount': 0,
+            'averageFulfillmentDays': 0,
+            'thisMonthCount': 0,
+            'lastMonthCount': 0,
+            'recentOrders': [],
+          }),
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      }
+
+      final row = result.first.toColumnMap();
+
+      // Получаем недавние заказы
+      final recentResult = await connection.execute(
+        Sql.named('''
+          SELECT DISTINCT
+            o.id,
+            o.created_at,
+            o.status,
+            COALESCE(SUM(oi.price * oi.quantity), 0) as total_amount
+          FROM order_items oi
+          JOIN orders o ON oi.order_id = o.id
+          WHERE oi.supplier_user_id = @supplier_user_id
+          GROUP BY o.id, o.created_at, o.status
+          ORDER BY o.created_at DESC
+          LIMIT 5;
+        '''),
+        parameters: {'supplier_user_id': userId},
+      );
+
+      final recentOrders = recentResult.map((r) {
+        final m = r.toColumnMap();
+        return {
+          'orderId': m['id'],
+          'date': (m['created_at'] as DateTime).toIso8601String(),
+          'status': m['status'] ?? '',
+          'totalAmount': _toPositiveInt(m['total_amount']),
+        };
+      }).toList();
+
+      return Response.ok(
+        jsonEncode({
+          'totalOrders': _toPositiveInt(row['total_orders']),
+          'pendingCount': 0,
+          'confirmedCount': _toPositiveInt(row['confirmed_count']),
+          'shippedCount': 0,
+          'deliveredCount': 0,
+          'cancelledCount': _toPositiveInt(row['cancelled_count']),
+          'averageFulfillmentDays': _toPositiveInt(
+            row['average_fulfillment_days'],
+          ),
+          'thisMonthCount': _toPositiveInt(row['this_month_count']),
+          'lastMonthCount': _toPositiveInt(row['last_month_count']),
+          'recentOrders': recentOrders,
+        }),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Error fetching order stats: $e\n$st');
+      return Response.internalServerError();
+    }
+  });
+
+  // GET /supplier/statistics/buyer-stats - Статистика покупателей
+  router.get('/supplier/statistics/buyer-stats', (Request request) async {
+    try {
+      final userIdRaw = request.url.queryParameters['userId'];
+      final userId = int.tryParse(userIdRaw ?? '');
+      if (userId == null || userId <= 0) {
+        return Response.badRequest(body: 'Invalid userId');
+      }
+
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT
+            COUNT(DISTINCT buyer_stats.user_id) as total_buyers,
+            SUM(CASE WHEN buyer_stats.buyer_order_count > 1 THEN 1 ELSE 0 END) as repeat_buyers
+          FROM (
+            SELECT
+              o.user_id,
+              COUNT(*) as buyer_order_count
+            FROM order_items oi
+            JOIN orders o ON oi.order_id = o.id
+            WHERE oi.supplier_user_id = @supplier_user_id
+            GROUP BY o.user_id
+          ) buyer_stats;
+        '''),
+        parameters: {'supplier_user_id': userId},
+      );
+
+      final totalBuyers = result.isNotEmpty
+          ? _toPositiveInt(result.first.toColumnMap()['total_buyers'])
+          : 0;
+      final repeatBuyers = result.isNotEmpty
+          ? _toPositiveInt(result.first.toColumnMap()['repeat_buyers'])
+          : 0;
+      final repeatPercentage = totalBuyers > 0
+          ? ((repeatBuyers / totalBuyers) * 100).toInt()
+          : 0;
+
+      // Получаем новых покупателей за этот месяц
+      final newBuyersResult = await connection.execute(
+        Sql.named('''
+          SELECT COUNT(DISTINCT o.user_id) as new_buyers
+          FROM order_items oi
+          JOIN orders o ON oi.order_id = o.id
+          WHERE oi.supplier_user_id = @supplier_user_id
+            AND DATE_TRUNC('month', o.created_at) = DATE_TRUNC('month', NOW());
+        '''),
+        parameters: {'supplier_user_id': userId},
+      );
+
+      final newBuyers = newBuyersResult.isNotEmpty
+          ? _toPositiveInt(newBuyersResult.first.toColumnMap()['new_buyers'])
+          : 0;
+
+      return Response.ok(
+        jsonEncode({
+          'totalBuyers': totalBuyers,
+          'repeatBuyers': repeatBuyers,
+          'repeatBuyersPercentage': repeatPercentage,
+          'newBuyersThisMonth': newBuyers,
+        }),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Error fetching buyer stats: $e\n$st');
+      return Response.internalServerError();
+    }
+  });
+
+  // GET /supplier/statistics/rating-stats - Статистика рейтингов и отзывов
+  router.get('/supplier/statistics/rating-stats', (Request request) async {
+    try {
+      final userIdRaw = request.url.queryParameters['userId'];
+      final userId = int.tryParse(userIdRaw ?? '');
+      if (userId == null || userId <= 0) {
+        return Response.badRequest(body: 'Invalid userId');
+      }
+
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT
+            COUNT(*) as total_reviews,
+            AVG(r.rating) as average_rating,
+            SUM(CASE WHEN r.rating = 5 THEN 1 ELSE 0 END) as five_star_count,
+            SUM(CASE WHEN r.rating = 4 THEN 1 ELSE 0 END) as four_star_count,
+            SUM(CASE WHEN r.rating = 3 THEN 1 ELSE 0 END) as three_star_count,
+            SUM(CASE WHEN r.rating = 2 THEN 1 ELSE 0 END) as two_star_count,
+            SUM(CASE WHEN r.rating = 1 THEN 1 ELSE 0 END) as one_star_count
+          FROM reviews r
+          JOIN order_items oi ON r.order_item_id = oi.id
+          WHERE oi.supplier_user_id = @supplier_user_id;
+        '''),
+        parameters: {'supplier_user_id': userId},
+      );
+
+      final totalReviews = result.isNotEmpty
+          ? _toPositiveInt(result.first.toColumnMap()['total_reviews'])
+          : 0;
+      final avgRating = result.isNotEmpty
+          ? _toNonNegativeDouble(result.first.toColumnMap()['average_rating'])
+          : 0.0;
+
+      // Получаем недавние отзывы
+      final recentResult = await connection.execute(
+        Sql.named('''
+          SELECT
+            p.name as product_name,
+            r.rating,
+            SUBSTRING(r.review_text, 1, 100) as comment_snippet
+          FROM reviews r
+          JOIN order_items oi ON r.order_item_id = oi.id
+          JOIN products p ON r.product_id = p.id
+          WHERE oi.supplier_user_id = @supplier_user_id
+          ORDER BY r.created_at DESC
+          LIMIT 3;
+        '''),
+        parameters: {'supplier_user_id': userId},
+      );
+
+      final recentReviews = recentResult.map((r) {
+        final m = r.toColumnMap();
+        return {
+          'productName': m['product_name'] ?? '',
+          'rating': _toPositiveInt(m['rating']),
+          'commentSnippet': m['comment_snippet'] ?? '',
+        };
+      }).toList();
+
+      return Response.ok(
+        jsonEncode({
+          'totalReviews': totalReviews,
+          'averageRating': avgRating,
+          'fiveStarCount': result.isNotEmpty
+              ? _toPositiveInt(result.first.toColumnMap()['five_star_count'])
+              : 0,
+          'fourStarCount': result.isNotEmpty
+              ? _toPositiveInt(result.first.toColumnMap()['four_star_count'])
+              : 0,
+          'threeStarCount': result.isNotEmpty
+              ? _toPositiveInt(result.first.toColumnMap()['three_star_count'])
+              : 0,
+          'twoStarCount': result.isNotEmpty
+              ? _toPositiveInt(result.first.toColumnMap()['two_star_count'])
+              : 0,
+          'oneStarCount': result.isNotEmpty
+              ? _toPositiveInt(result.first.toColumnMap()['one_star_count'])
+              : 0,
+          'recentReviews': recentReviews,
+        }),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Error fetching rating stats: $e\n$st');
+      return Response.internalServerError();
+    }
+  });
+
+  // GET /supplier/reviews - Получить отзывы для товаров поставщика с пагинацией
+  router.get('/supplier/reviews', (Request request) async {
+    try {
+      final userIdRaw = request.url.queryParameters['userId'];
+      final pageRaw = request.url.queryParameters['page'];
+      final limitRaw = request.url.queryParameters['limit'];
+
+      final userId = int.tryParse(userIdRaw ?? '');
+      final page = int.tryParse(pageRaw ?? '1') ?? 1;
+      final limit = int.tryParse(limitRaw ?? '20') ?? 20;
+
+      if (userId == null || userId <= 0) {
+        return Response.badRequest(body: 'Invalid userId');
+      }
+
+      if (page < 1) {
+        return Response.badRequest(body: 'Invalid page');
+      }
+      if (limit < 1 || limit > 100) {
+        return Response.badRequest(body: 'Invalid limit');
+      }
+
+      final offset = (page - 1) * limit;
+
+      // Получить общее количество отзывов для товаров поставщика
+      final countResult = await connection.execute(
+        Sql.named('''
+          SELECT COUNT(*) as total
+          FROM reviews r
+          JOIN order_items oi ON r.order_item_id = oi.id
+          WHERE oi.supplier_user_id = @supplier_user_id;
+        '''),
+        parameters: {'supplier_user_id': userId},
+      );
+
+      final total = countResult.isNotEmpty
+          ? _toPositiveInt(countResult.first.toColumnMap()['total'])
+          : 0;
+
+      // Получить отзывы с пагинацией
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT
+            r.id,
+            r.order_id,
+            r.order_item_id,
+            r.product_id,
+            p.name as product_name,
+            p.image_url as product_image,
+            oi.name as order_item_name,
+            oi.image_url as order_item_image,
+            r.rating,
+            r.review_text,
+            u.name as reviewer_name,
+            r.created_at
+          FROM reviews r
+          JOIN order_items oi ON r.order_item_id = oi.id
+          LEFT JOIN products p ON p.id = r.product_id
+          LEFT JOIN users u ON u.id = r.user_id
+          WHERE oi.supplier_user_id = @supplier_user_id
+          ORDER BY r.created_at DESC
+          LIMIT @limit OFFSET @offset;
+        '''),
+        parameters: {
+          'supplier_user_id': userId,
+          'limit': limit,
+          'offset': offset,
+        },
+      );
+
+      final reviews = result
+          .map((row) => _reviewRowToDto(row.toColumnMap()))
+          .toList();
+
+      return Response.ok(
+        jsonEncode({'reviews': reviews, 'total': total}),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Ошибка при загрузке отзывов поставщика: $e\n$st');
+      return Response.internalServerError();
     }
   });
 
@@ -2249,7 +2838,7 @@ void main() async {
 
       map['items'] = items;
 
-      // Convert DateTime fields to ISO strings for JSON serialization
+      // Преобразуем поля DateTime в ISO строки для JSON сериализации
       if (map['created_at'] is DateTime) {
         map['created_at'] = (map['created_at'] as DateTime).toIso8601String();
       }
@@ -2299,11 +2888,19 @@ void main() async {
                  COALESCE(p.image_url, oi.image_url) AS product_image,
                  oi.name AS order_item_name,
                  oi.image_url AS order_item_image,
-                 u.name AS reviewer_name
+                 oi.supplier_name,
+                 u.name AS reviewer_name,
+                 srr.id AS response_id,
+                 srr.response_text,
+                 srr.created_at AS response_created_at,
+                 supplier_user.id AS response_supplier_id,
+                 supplier_user.supplier_name AS response_supplier_name
           FROM reviews r
           LEFT JOIN order_items oi ON oi.id = r.order_item_id
           LEFT JOIN products p ON p.id = r.product_id
           LEFT JOIN users u ON u.id = r.user_id
+          LEFT JOIN supplier_review_responses srr ON srr.review_id = r.id
+          LEFT JOIN users supplier_user ON oi.supplier_user_id = supplier_user.id
           $whereClause
           ORDER BY r.created_at DESC;
         '''),
@@ -2321,6 +2918,63 @@ void main() async {
     } catch (e, st) {
       print('Ошибка сервера: $e\n$st');
       return Response.internalServerError(body: 'Некорректный запрос');
+    }
+  });
+
+  // GET /reviews/{id}/response - Получить ответ поставщика на отзыв
+  router.get('/reviews/<reviewId>/response', (
+    Request request,
+    String reviewId,
+  ) async {
+    try {
+      final reviewIdInt = int.tryParse(reviewId);
+      if (reviewIdInt == null || reviewIdInt <= 0) {
+        return Response.badRequest(body: 'Invalid review ID');
+      }
+
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT
+            srr.id,
+            srr.review_id,
+            srr.response_text,
+            srr.created_at,
+            srr.updated_at,
+            u.supplier_name
+          FROM supplier_review_responses srr
+          JOIN reviews r ON srr.review_id = r.id
+          JOIN order_items oi ON r.order_item_id = oi.id
+          JOIN users u ON oi.supplier_user_id = u.id
+          WHERE srr.review_id = @review_id
+          LIMIT 1;
+        '''),
+        parameters: {'review_id': reviewIdInt},
+      );
+
+      if (result.isEmpty) {
+        return Response.ok(
+          jsonEncode(null),
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      }
+
+      final responseMap = result.first.toColumnMap();
+      return Response.ok(
+        jsonEncode({
+          'id': responseMap['id'].toString(),
+          'reviewId': responseMap['review_id'].toString(),
+          'responseText': responseMap['response_text'] ?? '',
+          'supplierName': responseMap['supplier_name'] ?? '',
+          'createdAt': (responseMap['created_at'] as DateTime)
+              .toIso8601String(),
+          'updatedAt': (responseMap['updated_at'] as DateTime)
+              .toIso8601String(),
+        }),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Ошибка при получении ответа на отзыв: $e\n$st');
+      return Response.internalServerError(body: 'Server error');
     }
   });
 
@@ -2409,7 +3063,7 @@ void main() async {
             q.id, q.product_id, q.user_id, q.question_text, q.created_at, q.is_answered,
             u.name as user_name, u.email as user_email, -- аватарки нет в users, используем инициалы на клиенте
             qa.id as answer_id, qa.answer_text, qa.answered_at,
-            us.name as supplier_name, us.id as supplier_id
+            us.supplier_name as supplier_name, us.id as supplier_id
           FROM questions q
           JOIN users u ON q.user_id = u.id
           LEFT JOIN question_answers qa ON q.id = qa.question_id

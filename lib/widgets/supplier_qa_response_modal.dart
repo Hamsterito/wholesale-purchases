@@ -118,7 +118,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Handle bar
+              // Полоска-ручка
               Center(
                 child: Container(
                   margin: const EdgeInsets.only(top: 8),
@@ -131,7 +131,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                 ),
               ),
 
-              // Header
+              // Заголовок
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: Text(
@@ -144,7 +144,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                 ),
               ),
 
-              // Product preview
+              // Превью товара
               if (widget.product.imageUrls.isNotEmpty) ...[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
@@ -191,7 +191,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                 Divider(color: palette.line, height: 1),
               ],
 
-              // Review section
+              // Секция отзыва
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                 child: Column(
@@ -248,7 +248,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                 ),
               ),
 
-              // Response input section
+              // Секция ввода ответа
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: Column(
@@ -328,7 +328,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                 ),
               ),
 
-              // Error message
+              // Сообщение об ошибке
               if (_submissionError != null) ...[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
@@ -364,7 +364,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                 ),
               ],
 
-              // Buttons
+              // Кнопки
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
                 child: Row(

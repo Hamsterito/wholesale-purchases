@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
         _filteredProducts = _filterProducts(_products);
       });
     } catch (_) {
-      // Leave default tabs when category tree is unavailable.
+      // Оставляем вкладки по умолчанию, когда дерево категорий недоступно
     }
   }
 
@@ -1104,4 +1104,3 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
     super.dispose();
   }
 }
-

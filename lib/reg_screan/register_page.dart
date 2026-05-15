@@ -52,7 +52,7 @@ class _RegisterPageState extends State<RegisterPage> {
   );
   static final RegExp _emailRegex = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
 
-  // Helper widget для поля с зарезервированным местом под ошибку
+  // Вспомогательный виджет для поля с зарезервированным местом под ошибку
   Widget _buildFieldWithError({
     required String label,
     required Widget field,
@@ -66,7 +66,9 @@ class _RegisterPageState extends State<RegisterPage> {
         field,
         // Зарезервированное место под ошибку (высота строки текста + отступ)
         SizedBox(
-          height: errorText != null ? 24 : 24, // Увеличенная фиксированная высота
+          height: errorText != null
+              ? 24
+              : 24, // Увеличенная фиксированная высота
           child: errorText != null
               ? Padding(
                   padding: const EdgeInsets.only(top: 4),
@@ -497,7 +499,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 padding: const EdgeInsets.only(bottom: 4),
                 child: Text(
                   '- $error',
-                  style: TextStyle(color: textColor, fontSize: 14), // Увеличенный размер
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: 14,
+                  ), // Увеличенный размер
                 ),
               ),
             ),
@@ -596,90 +601,84 @@ class _RegisterPageState extends State<RegisterPage> {
             constraints: const BoxConstraints(minHeight: 48),
             child: DropdownButtonFormField<String>(
               initialValue: _role,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: _inputFill,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: _inputFill,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.only(
+                  left: 16,
+                  right: 48, // Место для иконки стрелки
+                  top: 14,
+                  bottom: 14,
+                ),
+                suffixIcon: Icon(Icons.keyboard_arrow_down, color: _mutedText),
               ),
-              contentPadding: const EdgeInsets.only(
-                left: 16,
-                right: 48, // Место для иконки стрелки
-                top: 14,
-                bottom: 14,
-              ),
-              suffixIcon: Icon(
-                Icons.keyboard_arrow_down,
-                color: _mutedText,
-              ),
-            ),
-              style: TextStyle(
-                color: _colorScheme.onSurface,
-                fontSize: 16,
-              ),
+              style: TextStyle(color: _colorScheme.onSurface, fontSize: 16),
               dropdownColor: _cardBg,
               icon: const SizedBox.shrink(),
               menuMaxHeight: 200,
               elevation: 4,
               alignment: AlignmentDirectional.centerStart,
               isExpanded: true, // Расширяем на всю ширину контейнера
-              itemHeight: 48, 
-            items: [
-              DropdownMenuItem(
-                value: 'buyer',
-                child: Text(
-                  'Покупатель',
-                  style: TextStyle(
-                    color: _colorScheme.onSurface,
-                    fontSize: 16,
+              itemHeight: 48,
+              items: [
+                DropdownMenuItem(
+                  value: 'buyer',
+                  child: Text(
+                    'Покупатель',
+                    style: TextStyle(
+                      color: _colorScheme.onSurface,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
-              ),
-              DropdownMenuItem(
-                value: 'supplier',
-                child: Text(
-                  'Поставщик',
-                  style: TextStyle(
-                    color: _colorScheme.onSurface,
-                    fontSize: 16,
+                DropdownMenuItem(
+                  value: 'supplier',
+                  child: Text(
+                    'Поставщик',
+                    style: TextStyle(
+                      color: _colorScheme.onSurface,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
-              ),
-              DropdownMenuItem(
-                value: 'moderator',
-                child: Text(
-                  'Модератор',
-                  style: TextStyle(
-                    color: _colorScheme.onSurface,
-                    fontSize: 16,
+                DropdownMenuItem(
+                  value: 'moderator',
+                  child: Text(
+                    'Модератор',
+                    style: TextStyle(
+                      color: _colorScheme.onSurface,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
-              ),
-            ],
-            onChanged: (value) {
-              final nextRole = value ?? 'buyer';
-              if (nextRole == _role) return;
-              setState(() {
-                _role = nextRole;
-                _fieldErrors['supplierName'] = null;
-                _fieldErrors['moderatorCode'] = null;
-              });
-              if (_topMessageIsError && _topMessage != null) {
-                final visibleErrors = <String>{};
-                for (final field in _fieldsForStep(_step)) {
-                  final error = _validateField(field);
-                  if (error != null) {
-                    visibleErrors.add(error);
+              ],
+              onChanged: (value) {
+                final nextRole = value ?? 'buyer';
+                if (nextRole == _role) return;
+                setState(() {
+                  _role = nextRole;
+                  _fieldErrors['supplierName'] = null;
+                  _fieldErrors['moderatorCode'] = null;
+                });
+                if (_topMessageIsError && _topMessage != null) {
+                  final visibleErrors = <String>{};
+                  for (final field in _fieldsForStep(_step)) {
+                    final error = _validateField(field);
+                    if (error != null) {
+                      visibleErrors.add(error);
+                    }
+                  }
+                  if (visibleErrors.isEmpty) {
+                    _clearTopMessage();
+                  } else {
+                    _showTopError('Проверьте заполнение полей', visibleErrors);
                   }
                 }
-                if (visibleErrors.isEmpty) {
-                  _clearTopMessage();
-                } else {
-                  _showTopError('Проверьте заполнение полей', visibleErrors);
-                }
-              }
-            },
+              },
             ),
           ),
         ),
@@ -821,7 +820,9 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             suffixIcon: IconButton(
               icon: Icon(
-                _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                _obscureConfirmPassword
+                    ? Icons.visibility_off
+                    : Icons.visibility,
                 color: _mutedText,
               ),
               onPressed: () {
@@ -980,8 +981,13 @@ class _RegisterPageState extends State<RegisterPage> {
       try {
         final responseData = jsonDecode(responseBody) as Map<String, dynamic>;
         if (responseData['success'] == true) {
-          AppLogger.info('Registration succeeded for role=$role', scope: 'auth');
-          _showTopSuccess(responseData['message']?.toString() ?? 'Регистрация прошла успешно');
+          AppLogger.info(
+            'Registration succeeded for role=$role',
+            scope: 'auth',
+          );
+          _showTopSuccess(
+            responseData['message']?.toString() ?? 'Регистрация прошла успешно',
+          );
           await Future<void>.delayed(const Duration(milliseconds: 600));
           if (!mounted) return;
           Navigator.pushReplacement(
@@ -995,7 +1001,8 @@ class _RegisterPageState extends State<RegisterPage> {
             'Registration rejected with status ${response.statusCode} for role=$role',
             scope: 'auth',
           );
-          final message = responseData['message']?.toString() ?? 'Сервер вернул ошибку';
+          final message =
+              responseData['message']?.toString() ?? 'Сервер вернул ошибку';
           _showTopError('Не удалось завершить регистрацию', [message]);
         }
       } catch (_) {
