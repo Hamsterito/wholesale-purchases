@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import '../widgets/main_bottom_nav.dart';
 import 'dart:convert';
 import '../widgets/expandable_text_block.dart';
@@ -9,82 +10,7 @@ import '../services/auth_storage.dart';
 import '../models/review_entry.dart';
 import '../utils/date_formatter.dart';
 
-class _ReviewsPalette {
-  final Color bgTop;
-  final Color bgBottom;
-  final Color ink;
-  final Color muted;
-  final Color card;
-  final Color line;
-  final Color accent;
-  final Color accentDark;
-  final Color accentSoft;
-  final Color accentMist;
-  final Color star;
-  final Color danger;
-  final Color dangerSoft;
-  final Color shadow;
 
-  const _ReviewsPalette({
-    required this.bgTop,
-    required this.bgBottom,
-    required this.ink,
-    required this.muted,
-    required this.card,
-    required this.line,
-    required this.accent,
-    required this.accentDark,
-    required this.accentSoft,
-    required this.accentMist,
-    required this.star,
-    required this.danger,
-    required this.dangerSoft,
-    required this.shadow,
-  });
-
-  static const light = _ReviewsPalette(
-    bgTop: Color(0xFFF6F8FF),
-    bgBottom: Color(0xFFEFF3FF),
-    ink: Color(0xFF1B1E2B),
-    muted: Color(0xFF6D748A),
-    card: Color(0xFFFFFFFF),
-    line: Color(0xFFE3E8F3),
-    accent: Color(0xFF6288D5),
-    accentDark: Color(0xFF4F70C6),
-    accentSoft: Color(0xFFDCE6FA),
-    accentMist: Color(0xFFF0F4FF),
-    star: Color(0xFFF4B740),
-    danger: Color(0xFFE4572E),
-    dangerSoft: Color(0xFFFDE8E2),
-    shadow: Color(0x14000000),
-  );
-
-  static const dark = _ReviewsPalette(
-    bgTop: Color(0xFF0F141F),
-    bgBottom: Color(0xFF141B2B),
-    ink: Color(0xFFE9EDFF),
-    muted: Color(0xFF9AA3B6),
-    card: Color(0xFF1A2336),
-    line: Color(0xFF2B364D),
-    accent: Color(0xFF6288D5),
-    accentDark: Color(0xFF9BB6FF),
-    accentSoft: Color(0xFF243251),
-    accentMist: Color(0xFF1A243A),
-    star: Color(0xFFF4B740),
-    danger: Color(0xFFFF6B4A),
-    dangerSoft: Color(0xFF3A1E1A),
-    shadow: Color(0x66000000),
-  );
-
-  static _ReviewsPalette of(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    return brightness == Brightness.dark ? dark : light;
-  }
-}
-
-extension _ReviewsPaletteX on BuildContext {
-  _ReviewsPalette get reviewsPalette => _ReviewsPalette.of(this);
-}
 
 class ReviewsPage extends StatefulWidget {
   const ReviewsPage({super.key});
@@ -165,7 +91,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
     final isDark = theme.brightness == Brightness.dark;
     final pageBackground = isDark
         ? theme.scaffoldBackgroundColor
-        : context.reviewsPalette.bgTop;
+        : context.colorPalette.bgTop;
 
     return Scaffold(
       backgroundColor: pageBackground,
@@ -181,8 +107,8 @@ class _ReviewsPageState extends State<ReviewsPage> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      context.reviewsPalette.bgTop,
-                      context.reviewsPalette.bgBottom,
+                      context.colorPalette.bgTop,
+                      context.colorPalette.bgBottom,
                     ],
                   ),
                 ),
@@ -207,12 +133,12 @@ class _ReviewsPageState extends State<ReviewsPage> {
     return Container(
       padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
       decoration: BoxDecoration(
-        color: context.reviewsPalette.card,
+        color: context.colorPalette.card,
         borderRadius: BorderRadius.zero,
-        border: Border.all(color: context.reviewsPalette.line),
+        border: Border.all(color: context.colorPalette.line),
         boxShadow: [
           BoxShadow(
-            color: context.reviewsPalette.shadow,
+            color: context.colorPalette.shadow,
             blurRadius: 10,
             offset: const Offset(0, 6),
           ),
@@ -225,7 +151,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
             offset: const Offset(-6, 0),
             child: IconButton(
               onPressed: () => Navigator.pop(context),
-              icon: Icon(Icons.arrow_back, color: context.reviewsPalette.ink),
+              icon: Icon(Icons.arrow_back, color: context.colorPalette.ink),
               tooltip: 'Назад',
               style: IconButton.styleFrom(
                 minimumSize: const Size(32, 32),
@@ -244,7 +170,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
-                    color: context.reviewsPalette.ink,
+                    color: context.colorPalette.ink,
                     letterSpacing: 0.2,
                   ),
                 ),
@@ -255,7 +181,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       : 'Все отзывы о покупках',
                   style: TextStyle(
                     fontSize: 12,
-                    color: context.reviewsPalette.muted,
+                    color: context.colorPalette.muted,
                   ),
                 ),
               ],
@@ -266,13 +192,13 @@ class _ReviewsPageState extends State<ReviewsPage> {
   child: Container(
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
     decoration: BoxDecoration(
-      color: context.reviewsPalette.accentSoft,
+      color: context.colorPalette.accentSoft,
       borderRadius: BorderRadius.circular(999),
     ),
     child: Text(
       '${_reviews.length} всего',
       style: TextStyle(
-        color: context.reviewsPalette.accentDark,
+        color: context.colorPalette.accentDark,
         fontSize: 12,
         fontWeight: FontWeight.w600,
       ),
@@ -287,7 +213,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   Widget _buildContent() {
     if (_isLoading) {
       return Center(
-        child: CircularProgressIndicator(color: context.reviewsPalette.accent),
+        child: CircularProgressIndicator(color: context.colorPalette.accent),
       );
     }
 
@@ -305,12 +231,12 @@ class _ReviewsPageState extends State<ReviewsPage> {
         margin: const EdgeInsets.symmetric(horizontal: 8),
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
         decoration: BoxDecoration(
-          color: context.reviewsPalette.card,
+          color: context.colorPalette.card,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: context.reviewsPalette.line),
+          border: Border.all(color: context.colorPalette.line),
           boxShadow: [
             BoxShadow(
-              color: context.reviewsPalette.shadow,
+              color: context.colorPalette.shadow,
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -348,7 +274,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
     }
 
     return RefreshIndicator(
-      color: context.reviewsPalette.accent,
+      color: context.colorPalette.accent,
       onRefresh: () => _loadReviews(showLoading: false),
       child: ListView(
         padding: const EdgeInsets.fromLTRB(0, 4, 0, 24),
@@ -366,14 +292,14 @@ class _ReviewsPageState extends State<ReviewsPage> {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,
-            color: context.reviewsPalette.ink,
+            color: context.colorPalette.ink,
           ),
         ),
         if (subtitle != null) ...[
           SizedBox(height: 4),
           Text(
             subtitle,
-            style: TextStyle(fontSize: 12, color: context.reviewsPalette.muted),
+            style: TextStyle(fontSize: 12, color: context.colorPalette.muted),
           ),
         ],
       ],
@@ -385,17 +311,17 @@ class _ReviewsPageState extends State<ReviewsPage> {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: context.reviewsPalette.dangerSoft,
+        color: context.colorPalette.error.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: context.reviewsPalette.danger.withValues(alpha: 0.4),
+          color: context.colorPalette.error.withValues(alpha: 0.4),
         ),
       ),
       child: Row(
         children: [
           Icon(
             Icons.info_outline,
-            color: context.reviewsPalette.danger,
+            color: context.colorPalette.error,
             size: 20,
           ),
           SizedBox(width: 8),
@@ -404,7 +330,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
               message,
               style: TextStyle(
                 fontSize: 13,
-                color: context.reviewsPalette.danger,
+                color: context.colorPalette.error,
                 height: 1.3,
               ),
             ),
@@ -422,12 +348,12 @@ class _ReviewsPageState extends State<ReviewsPage> {
           margin: const EdgeInsets.symmetric(horizontal: 8),
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
           decoration: BoxDecoration(
-            color: context.reviewsPalette.card,
+            color: context.colorPalette.card,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: context.reviewsPalette.line),
+            border: Border.all(color: context.colorPalette.line),
             boxShadow: [
               BoxShadow(
-                color: context.reviewsPalette.shadow,
+                color: context.colorPalette.shadow,
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -456,12 +382,12 @@ class _ReviewsPageState extends State<ReviewsPage> {
       margin: const EdgeInsets.symmetric(horizontal: 8),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: context.reviewsPalette.card,
+        color: context.colorPalette.card,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: context.reviewsPalette.line),
+        border: Border.all(color: context.colorPalette.line),
         boxShadow: [
           BoxShadow(
-            color: context.reviewsPalette.shadow,
+            color: context.colorPalette.shadow,
             blurRadius: 14,
             offset: const Offset(0, 8),
           ),
@@ -486,7 +412,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
-                              color: context.reviewsPalette.ink,
+                              color: context.colorPalette.ink,
                               height: 1.22,
                             ),
                           ),
@@ -496,7 +422,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
-                                color: context.reviewsPalette.muted,
+                                color: context.colorPalette.muted,
                                 height: 1.22,
                               ),
                             ),
@@ -531,9 +457,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
             opacity: isSubmitting ? 0.6 : 1,
             child: _ActionButton(
               label: isSubmitting ? 'Отправляем...' : 'Оставить отзыв',
-              background: context.reviewsPalette.accent,
+              background: context.colorPalette.accent,
               foreground: Colors.white,
-              borderColor: context.reviewsPalette.accent,
+              borderColor: context.colorPalette.accent,
               icon: Icons.rate_review_outlined,
               expand: true,
               onTap: isSubmitting ? () {} : () => _openReviewSheet(item),
@@ -550,9 +476,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
       height: 100,
       padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
-        color: context.reviewsPalette.accentMist,
+        color: context.colorPalette.accentMist,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.reviewsPalette.line),
+        border: Border.all(color: context.colorPalette.line),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
@@ -574,12 +500,12 @@ class _ReviewsPageState extends State<ReviewsPage> {
         isAntiAlias: true,
         errorBuilder: (context, error, stackTrace) {
           return Container(
-            color: context.reviewsPalette.accentMist,
+            color: context.colorPalette.accentMist,
             alignment: Alignment.center,
             child: Icon(
               Icons.shopping_bag_outlined,
               size: 24,
-              color: context.reviewsPalette.muted,
+              color: context.colorPalette.muted,
             ),
           );
         },
@@ -592,11 +518,11 @@ class _ReviewsPageState extends State<ReviewsPage> {
       margin: const EdgeInsets.symmetric(horizontal: 8),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: context.reviewsPalette.card,
+        color: context.colorPalette.card,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: context.reviewsPalette.shadow,
+            color: context.colorPalette.shadow,
             blurRadius: 20,
             offset: Offset(0, 10),
           ),
@@ -608,7 +534,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
           Icon(
             Icons.rate_review_outlined,
             size: 40,
-            color: context.reviewsPalette.accent,
+            color: context.colorPalette.accent,
           ),
           SizedBox(height: 12),
           Text(
@@ -616,7 +542,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: context.reviewsPalette.ink,
+              color: context.colorPalette.ink,
             ),
           ),
           SizedBox(height: 6),
@@ -625,7 +551,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 12,
-              color: context.reviewsPalette.muted,
+              color: context.colorPalette.muted,
               height: 1.4,
             ),
           ),
@@ -651,12 +577,12 @@ class _ReviewsPageState extends State<ReviewsPage> {
       margin: const EdgeInsets.symmetric(horizontal: 8),
       padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
       decoration: BoxDecoration(
-        color: context.reviewsPalette.card,
+        color: context.colorPalette.card,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: context.reviewsPalette.line),
+        border: Border.all(color: context.colorPalette.line),
         boxShadow: [
           BoxShadow(
-            color: context.reviewsPalette.shadow,
+            color: context.colorPalette.shadow,
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -681,7 +607,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w700,
-                              color: context.reviewsPalette.ink,
+                              color: context.colorPalette.ink,
                               height: 1.18,
                             ),
                           ),
@@ -691,7 +617,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
-                                color: context.reviewsPalette.muted,
+                                color: context.colorPalette.muted,
                                 height: 1.18,
                               ),
                             ),
@@ -724,7 +650,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
             ],
           ),
           const SizedBox(height: 12),
-          Container(height: 1, color: context.reviewsPalette.line),
+          Container(height: 1, color: context.colorPalette.line),
           const SizedBox(height: 10),
           _buildStarRow(
             rating: ratingValue,
@@ -745,27 +671,27 @@ class _ReviewsPageState extends State<ReviewsPage> {
               maxLines: 4,
               style: TextStyle(
                 fontSize: 13,
-                color: context.reviewsPalette.ink,
+                color: context.colorPalette.ink,
                 height: 1.4,
               ),
               decoration: InputDecoration(
                 hintText: 'Текст отзыва',
-                hintStyle: TextStyle(color: context.reviewsPalette.muted),
+                hintStyle: TextStyle(color: context.colorPalette.muted),
                 filled: true,
-                fillColor: context.reviewsPalette.accentMist,
+                fillColor: context.colorPalette.accentMist,
                 contentPadding: const EdgeInsets.all(12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide(color: context.reviewsPalette.line),
+                  borderSide: BorderSide(color: context.colorPalette.line),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide(color: context.reviewsPalette.line),
+                  borderSide: BorderSide(color: context.colorPalette.line),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
                   borderSide: BorderSide(
-                    color: context.reviewsPalette.accent,
+                    color: context.colorPalette.accent,
                     width: 1.4,
                   ),
                 ),
@@ -776,19 +702,19 @@ class _ReviewsPageState extends State<ReviewsPage> {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
-                color: context.reviewsPalette.accentMist,
+                color: context.colorPalette.accentMist,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: context.reviewsPalette.line),
+                border: Border.all(color: context.colorPalette.line),
               ),
               child: ExpandableTextBlock(
                 reviewText.isEmpty ? 'Без текста отзыва' : reviewText,
                 key: ValueKey('profile-review-${review.id}'),
                 textStyle: TextStyle(
                   fontSize: 15,
-                  color: context.reviewsPalette.ink,
+                  color: context.colorPalette.ink,
                   height: 1.4,
                 ),
-                actionColor: context.reviewsPalette.accentDark,
+                actionColor: context.colorPalette.accentDark,
               ),
             ),
           const SizedBox(height: 12),
@@ -797,11 +723,11 @@ class _ReviewsPageState extends State<ReviewsPage> {
               Expanded(
                 child: _ActionButton(
                   label: isEditing ? 'Отмена' : 'Редактировать',
-                  background: context.reviewsPalette.accentMist,
-                  foreground: context.reviewsPalette.accentDark,
+                  background: context.colorPalette.accentMist,
+                  foreground: context.colorPalette.accentDark,
                   borderColor: isEditing
-                      ? context.reviewsPalette.line
-                      : context.reviewsPalette.accentSoft,
+                      ? context.colorPalette.line
+                      : context.colorPalette.accentSoft,
                   icon: isEditing ? Icons.close_rounded : Icons.edit_outlined,
                   onTap: isEditing ? onCancel : onEdit,
                 ),
@@ -813,14 +739,14 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       ? (_isUpdatingReview ? 'Сохраняем...' : 'Сохранить')
                       : 'Удалить',
                   background: isEditing
-                      ? context.reviewsPalette.accent
-                      : context.reviewsPalette.dangerSoft,
+                      ? context.colorPalette.accent
+                      : context.colorPalette.error.withValues(alpha: 0.12),
                   foreground: isEditing
                       ? Colors.white
-                      : context.reviewsPalette.danger,
+                      : context.colorPalette.error,
                   borderColor: isEditing
-                      ? context.reviewsPalette.accent
-                      : context.reviewsPalette.danger.withValues(alpha: 0.3),
+                      ? context.colorPalette.accent
+                      : context.colorPalette.error.withValues(alpha: 0.3),
                   icon: isEditing ? Icons.check_rounded : Icons.delete_outline,
                   onTap: isEditing && _isUpdatingReview
                       ? () {}
@@ -838,20 +764,20 @@ class _ReviewsPageState extends State<ReviewsPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: context.reviewsPalette.accentMist,
+        color: context.colorPalette.accentMist,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: context.reviewsPalette.line),
+        border: Border.all(color: context.colorPalette.line),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 12, color: context.reviewsPalette.muted),
+          Icon(icon, size: 12, color: context.colorPalette.muted),
           const SizedBox(width: 4),
           Text(
             label,
             style: TextStyle(
               fontSize: 11,
-              color: context.reviewsPalette.muted,
+              color: context.colorPalette.muted,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -870,8 +796,8 @@ class _ReviewsPageState extends State<ReviewsPage> {
         rating: rating.toDouble(),
         size: size,
         spacing: 2,
-        filledColor: context.reviewsPalette.star,
-        emptyColor: context.reviewsPalette.line,
+        filledColor: context.colorPalette.star,
+        emptyColor: context.colorPalette.line,
       );
     }
 
@@ -880,8 +806,8 @@ class _ReviewsPageState extends State<ReviewsPage> {
         final isFilled = index < rating;
         final icon = isFilled ? Icons.star_rounded : Icons.star_outline_rounded;
         final color = isFilled
-            ? context.reviewsPalette.star
-            : context.reviewsPalette.line;
+            ? context.colorPalette.star
+            : context.colorPalette.line;
         final star = Icon(icon, color: color, size: size);
         return GestureDetector(onTap: () => onSelect(index + 1), child: star);
       }),
@@ -909,7 +835,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
               child: Container(
                 padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
                 decoration: BoxDecoration(
-                  color: context.reviewsPalette.card,
+                  color: context.colorPalette.card,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                 ),
                 child: Column(
@@ -921,7 +847,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         width: 40,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: context.reviewsPalette.line,
+                          color: context.colorPalette.line,
                           borderRadius: BorderRadius.circular(999),
                         ),
                       ),
@@ -943,7 +869,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
-                                        color: context.reviewsPalette.ink,
+                                        color: context.colorPalette.ink,
                                       ),
                                     ),
                                     if (review.supplierName
@@ -955,7 +881,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                                         style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w400,
-                                          color: context.reviewsPalette.muted,
+                                          color: context.colorPalette.muted,
                                         ),
                                       ),
                                     ],
@@ -975,7 +901,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: context.reviewsPalette.ink,
+                        color: context.colorPalette.ink,
                       ),
                     ),
                     SizedBox(height: 8),
@@ -994,7 +920,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: context.reviewsPalette.ink,
+                        color: context.colorPalette.ink,
                       ),
                     ),
                     SizedBox(height: 8),
@@ -1004,33 +930,33 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       maxLines: 4,
                       style: TextStyle(
                         fontSize: 14,
-                        color: context.reviewsPalette.ink,
+                        color: context.colorPalette.ink,
                         height: 1.4,
                       ),
                       decoration: InputDecoration(
                         hintText: 'Поделитесь впечатлениями',
                         hintStyle: TextStyle(
-                          color: context.reviewsPalette.muted,
+                          color: context.colorPalette.muted,
                         ),
                         filled: true,
-                        fillColor: context.reviewsPalette.accentMist,
+                        fillColor: context.colorPalette.accentMist,
                         contentPadding: const EdgeInsets.all(12),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                            color: context.reviewsPalette.line,
+                            color: context.colorPalette.line,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                            color: context.reviewsPalette.line,
+                            color: context.colorPalette.line,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                            color: context.reviewsPalette.accent,
+                            color: context.colorPalette.accent,
                             width: 1.4,
                           ),
                         ),
@@ -1046,13 +972,13 @@ class _ReviewsPageState extends State<ReviewsPage> {
                               onPressed: () => Navigator.pop(context),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    context.reviewsPalette.accentMist,
+                                    context.colorPalette.accentMist,
                                 foregroundColor:
-                                    context.reviewsPalette.accentDark,
+                                    context.colorPalette.accentDark,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   side: BorderSide(
-                                    color: context.reviewsPalette.line,
+                                    color: context.colorPalette.line,
                                   ),
                                 ),
                                 elevation: 0,
@@ -1079,7 +1005,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                                 );
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: context.reviewsPalette.accent,
+                                backgroundColor: context.colorPalette.accent,
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -1217,7 +1143,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
               child: Container(
                 padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
                 decoration: BoxDecoration(
-                  color: context.reviewsPalette.card,
+                  color: context.colorPalette.card,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                 ),
                 child: Column(
@@ -1229,7 +1155,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         width: 40,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: context.reviewsPalette.line,
+                          color: context.colorPalette.line,
                           borderRadius: BorderRadius.circular(999),
                         ),
                       ),
@@ -1248,7 +1174,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
-                                    color: context.reviewsPalette.ink,
+                                    color: context.colorPalette.ink,
                                   ),
                                 ),
                                 if (item.supplierName.trim().isNotEmpty) ...[
@@ -1257,7 +1183,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w400,
-                                      color: context.reviewsPalette.muted,
+                                      color: context.colorPalette.muted,
                                     ),
                                   ),
                                 ],
@@ -1275,7 +1201,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: context.reviewsPalette.ink,
+                        color: context.colorPalette.ink,
                       ),
                     ),
                     SizedBox(height: 8),
@@ -1294,7 +1220,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: context.reviewsPalette.ink,
+                        color: context.colorPalette.ink,
                       ),
                     ),
                     SizedBox(height: 8),
@@ -1309,12 +1235,12 @@ class _ReviewsPageState extends State<ReviewsPage> {
                           labelStyle: TextStyle(
                             fontSize: 12,
                             color: selected
-                                ? context.reviewsPalette.accentDark
-                                : context.reviewsPalette.muted,
+                                ? context.colorPalette.accentDark
+                                : context.colorPalette.muted,
                             fontWeight: FontWeight.w600,
                           ),
-                          selectedColor: context.reviewsPalette.accentSoft,
-                          backgroundColor: context.reviewsPalette.accentMist,
+                          selectedColor: context.colorPalette.accentSoft,
+                          backgroundColor: context.colorPalette.accentMist,
                           onSelected: (value) {
                             setModalState(() {
                               if (value) {
@@ -1339,33 +1265,33 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       maxLines: 4,
                       style: TextStyle(
                         fontSize: 14,
-                        color: context.reviewsPalette.ink,
+                        color: context.colorPalette.ink,
                         height: 1.4,
                       ),
                       decoration: InputDecoration(
                         hintText: 'Поделитесь впечатлениями',
                         hintStyle: TextStyle(
-                          color: context.reviewsPalette.muted,
+                          color: context.colorPalette.muted,
                         ),
                         filled: true,
-                        fillColor: context.reviewsPalette.accentMist,
+                        fillColor: context.colorPalette.accentMist,
                         contentPadding: const EdgeInsets.all(12),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                            color: context.reviewsPalette.line,
+                            color: context.colorPalette.line,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                            color: context.reviewsPalette.line,
+                            color: context.colorPalette.line,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                            color: context.reviewsPalette.accent,
+                            color: context.colorPalette.accent,
                             width: 1.4,
                           ),
                         ),
@@ -1386,7 +1312,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: context.reviewsPalette.accent,
+                          backgroundColor: context.colorPalette.accent,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -1743,12 +1669,12 @@ class _DeleteReviewDialog extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 24),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: context.reviewsPalette.card,
+            color: context.colorPalette.card,
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: context.reviewsPalette.line),
+            border: Border.all(color: context.colorPalette.line),
             boxShadow: [
               BoxShadow(
-                color: context.reviewsPalette.shadow,
+                color: context.colorPalette.shadow,
                 blurRadius: 18,
                 offset: Offset(0, 10),
               ),
@@ -1761,7 +1687,7 @@ class _DeleteReviewDialog extends StatelessWidget {
               Text(
                 'Удалить отзыв?',
                 style: TextStyle(
-                  color: context.reviewsPalette.ink,
+                  color: context.colorPalette.ink,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
@@ -1770,7 +1696,7 @@ class _DeleteReviewDialog extends StatelessWidget {
               Text(
                 'Это действие нельзя отменить.',
                 style: TextStyle(
-                  color: context.reviewsPalette.muted,
+                  color: context.colorPalette.muted,
                   fontSize: 13,
                   height: 1.4,
                 ),
@@ -1781,9 +1707,9 @@ class _DeleteReviewDialog extends StatelessWidget {
                   Expanded(
                     child: _DialogActionButton(
                       label: 'Отмена',
-                      background: context.reviewsPalette.accentMist,
-                      foreground: context.reviewsPalette.accentDark,
-                      borderColor: context.reviewsPalette.line,
+                      background: context.colorPalette.accentMist,
+                      foreground: context.colorPalette.accentDark,
+                      borderColor: context.colorPalette.line,
                       onTap: onCancel,
                     ),
                   ),
@@ -1791,9 +1717,9 @@ class _DeleteReviewDialog extends StatelessWidget {
                   Expanded(
                     child: _DialogActionButton(
                       label: 'Удалить',
-                      background: context.reviewsPalette.danger,
+                      background: context.colorPalette.error,
                       foreground: Colors.white,
-                      borderColor: context.reviewsPalette.danger,
+                      borderColor: context.colorPalette.error,
                       onTap: onConfirm,
                     ),
                   ),

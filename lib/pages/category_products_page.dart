@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import '../models/product.dart';
 import '../services/api_service.dart';
 import '../widgets/main_bottom_nav.dart';
@@ -30,7 +31,7 @@ class _CategoryProductsPageState extends State<CategoryProductsPage>
   ColorScheme get _colorScheme => _theme.colorScheme;
   bool get _isDark => _theme.brightness == Brightness.dark;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText =>
       _colorScheme.onSurfaceVariant.withValues(alpha: _isDark ? 0.9 : 0.7);
 
@@ -120,8 +121,8 @@ class _CategoryProductsPageState extends State<CategoryProductsPage>
 
   Widget _buildContent() {
     if (_isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(color: Color(0xFF6288D5)),
+      return Center(
+        child: CircularProgressIndicator(color: context.colorPalette.accent),
       );
     }
 
@@ -141,7 +142,7 @@ class _CategoryProductsPageState extends State<CategoryProductsPage>
             ElevatedButton(
               onPressed: _loadProducts,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF6288D5),
+                backgroundColor: context.colorPalette.accent,
               ),
               child: const Text('Повторить'),
             ),
@@ -160,7 +161,7 @@ class _CategoryProductsPageState extends State<CategoryProductsPage>
     }
 
     return RefreshIndicator(
-      color: const Color(0xFF6288D5),
+      color: context.colorPalette.accent,
       onRefresh: _loadProducts,
       child: GridView.builder(
         padding: const EdgeInsets.all(16),
@@ -209,4 +210,3 @@ class _CategoryProductsPageState extends State<CategoryProductsPage>
     super.dispose();
   }
 }
-

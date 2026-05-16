@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import 'package:flutter/services.dart';
 import '../services/payment_card_storage.dart';
 import '../services/auth_storage.dart';
@@ -33,7 +34,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _inputFill => _colorScheme.surfaceContainerHighest;
 
@@ -214,7 +215,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    const primaryColor = Color(0xFF6288D5);
+    final primaryColor = context.colorPalette.accent;
     const fieldContentPadding = EdgeInsets.symmetric(
       horizontal: 12,
       vertical: 16,

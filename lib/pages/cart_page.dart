@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../models/cart_item.dart';
@@ -10,6 +10,7 @@ import '../services/api_service.dart';
 import '../services/auth_storage.dart';
 import '../services/cart_store.dart';
 import '../services/payment_card_storage.dart';
+import '../theme/app_color_palette.dart';
 import '../widgets/top_message.dart';
 import '../widgets/smart_image.dart';
 
@@ -23,9 +24,6 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  static const Color _brandBlue = Color(0xFF6288D5);
-  static const Color _payAllBlue = Color(0xFF2D2D2D);
-  static const Color _payAllDark = Color(0xFF6B88FF);
   static const double _bottomMessageOffset = 146;
 
   late final CartStore _cartStore = CartStore.instance;
@@ -36,13 +34,12 @@ class _CartPageState extends State<CartPage> {
   ColorScheme get _colorScheme => _theme.colorScheme;
   bool get _isDark => _theme.brightness == Brightness.dark;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _chipBg => _colorScheme.surfaceContainerHighest;
   Color get _shadowColor => _isDark
       ? Colors.black.withValues(alpha: 0.4)
       : Colors.black.withValues(alpha: 0.04);
-  Color get _payAllColor => _isDark ? _payAllDark : _payAllBlue;
 
   @override
   void initState() {
@@ -163,7 +160,7 @@ class _CartPageState extends State<CartPage> {
             ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFEF4444),
+                backgroundColor: context.colorPalette.error,
                 foregroundColor: Colors.white,
               ),
               child: const Text('Очистить'),
@@ -221,7 +218,7 @@ class _CartPageState extends State<CartPage> {
             ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
               style: ElevatedButton.styleFrom(
-                backgroundColor: _brandBlue,
+                backgroundColor: context.colorPalette.accent,
                 foregroundColor: Colors.white,
               ),
               child: const Text('Оплатить'),
@@ -365,7 +362,7 @@ class _CartPageState extends State<CartPage> {
               child: Container(
                 padding: EdgeInsets.fromLTRB(16, 12, 16, 12 + bottomInset),
                 decoration: BoxDecoration(
-                  color: colorScheme.surface,
+                  color: context.colorPalette.card,
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(24),
                   ),
@@ -435,7 +432,7 @@ class _CartPageState extends State<CartPage> {
                       child: ElevatedButton(
                         onPressed: () => Navigator.pop(context, selectedMethod),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: _brandBlue,
+                          backgroundColor: context.colorPalette.accent,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
@@ -466,7 +463,9 @@ class _CartPageState extends State<CartPage> {
     required bool isSelected,
     required VoidCallback onTap,
   }) {
-    final borderColor = isSelected ? _brandBlue : Colors.transparent;
+    final borderColor = isSelected
+        ? context.colorPalette.accent
+        : Colors.transparent;
     return Material(
       color: _cardBg,
       borderRadius: BorderRadius.circular(14),
@@ -485,10 +484,10 @@ class _CartPageState extends State<CartPage> {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: _brandBlue.withValues(alpha: 0.12),
+                  color: context.colorPalette.accent.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(icon, color: _brandBlue),
+                child: Icon(icon, color: context.colorPalette.accent),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -516,7 +515,11 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
               if (isSelected)
-                Icon(Icons.check_circle, color: _brandBlue, size: 20),
+                Icon(
+                  Icons.check_circle,
+                  color: context.colorPalette.accent,
+                  size: 20,
+                ),
             ],
           ),
         ),
@@ -537,12 +540,16 @@ class _CartPageState extends State<CartPage> {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: _brandBlue.withValues(alpha: 0.1),
+        color: context.colorPalette.accent.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
-          Icon(Icons.check_circle, color: _brandBlue, size: 18),
+          Icon(
+            Icons.check_circle,
+            color: context.colorPalette.accent,
+            size: 18,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -648,7 +655,7 @@ class _CartPageState extends State<CartPage> {
       showTopMessage(
         context,
         message,
-        backgroundColor: const Color(0xFFEF4444),
+        backgroundColor: context.colorPalette.error,
         duration: const Duration(seconds: 3),
       );
       return;
@@ -747,7 +754,7 @@ class _CartPageState extends State<CartPage> {
                 constraints: BoxConstraints(maxHeight: maxHeight),
                 padding: EdgeInsets.fromLTRB(16, 12, 16, 12 + bottomInset),
                 decoration: BoxDecoration(
-                  color: colorScheme.surface,
+                  color: context.colorPalette.card,
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(24),
                   ),
@@ -833,11 +840,10 @@ class _CartPageState extends State<CartPage> {
                             ? null
                             : () => Navigator.pop(context, selectedAddress),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: _brandBlue,
+                          backgroundColor: context.colorPalette.accent,
                           foregroundColor: Colors.white,
-                          disabledBackgroundColor: _brandBlue.withValues(
-                            alpha: 0.35,
-                          ),
+                          disabledBackgroundColor: context.colorPalette.accent
+                              .withValues(alpha: 0.35),
                           disabledForegroundColor: Colors.white.withValues(
                             alpha: 0.8,
                           ),
@@ -871,12 +877,16 @@ class _CartPageState extends State<CartPage> {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: _brandBlue.withValues(alpha: 0.1),
+        color: context.colorPalette.accent.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
-          Icon(Icons.check_circle, color: _brandBlue, size: 18),
+          Icon(
+            Icons.check_circle,
+            color: context.colorPalette.accent,
+            size: 18,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -933,7 +943,9 @@ class _CartPageState extends State<CartPage> {
     final displayAddress = address.displayAddress.isEmpty
         ? 'Без адреса'
         : address.displayAddress;
-    final borderColor = isSelected ? _brandBlue : Colors.transparent;
+    final borderColor = isSelected
+        ? context.colorPalette.accent
+        : Colors.transparent;
     return Material(
       color: _cardBg,
       borderRadius: BorderRadius.circular(14),
@@ -952,10 +964,13 @@ class _CartPageState extends State<CartPage> {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: _brandBlue.withValues(alpha: 0.12),
+                  color: context.colorPalette.accent.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(_resolveAddressIcon(address), color: _brandBlue),
+                child: Icon(
+                  _resolveAddressIcon(address),
+                  color: context.colorPalette.accent,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -983,7 +998,11 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
               if (isSelected)
-                Icon(Icons.check_circle, color: _brandBlue, size: 20),
+                Icon(
+                  Icons.check_circle,
+                  color: context.colorPalette.accent,
+                  size: 20,
+                ),
             ],
           ),
         ),
@@ -1275,7 +1294,7 @@ class _CartPageState extends State<CartPage> {
     return _PressableHeaderAction(
       label: label,
       onTap: onTap,
-      color: _brandBlue,
+      color: context.colorPalette.accent,
     );
   }
 
@@ -1293,9 +1312,15 @@ class _CartPageState extends State<CartPage> {
             child: ElevatedButton(
               onPressed: canCheckout ? _placeAllOrders : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor: _payAllColor,
+                backgroundColor: _isDark
+                    ? context.colorPalette.accentMist
+                    : context.colorPalette.accent,
                 foregroundColor: Colors.white,
-                disabledBackgroundColor: _payAllColor.withValues(alpha: 0.5),
+                disabledBackgroundColor:
+                    (_isDark
+                            ? context.colorPalette.accentMist
+                            : context.colorPalette.accent)
+                        .withValues(alpha: 0.5),
                 disabledForegroundColor: Colors.white.withValues(alpha: 0.8),
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 minimumSize: const Size.fromHeight(buttonHeight),
@@ -1366,7 +1391,9 @@ class _CartPageState extends State<CartPage> {
       margin: const EdgeInsets.only(bottom: 16, top: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: _brandBlue,
+        color: _isDark
+            ? context.colorPalette.accentMist
+            : context.colorPalette.accent,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -1417,7 +1444,9 @@ class _CartPageState extends State<CartPage> {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: _isDark ? _colorScheme.surfaceContainerHighest : Colors.white,
+        color: _isDark
+            ? _colorScheme.surfaceContainerHighest
+            : context.colorPalette.card,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -1439,7 +1468,7 @@ class _CartPageState extends State<CartPage> {
                         fontWeight: FontWeight.w600,
                         color: _isDark
                             ? _colorScheme.onSurface
-                            : const Color(0xFF1E293B),
+                            : context.colorPalette.ink,
                       ),
                     ),
                   ),
@@ -1461,7 +1490,7 @@ class _CartPageState extends State<CartPage> {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: _isDark ? _mutedText : const Color(0xFF475569),
+                color: _isDark ? _mutedText : context.colorPalette.muted,
               ),
             ),
         ],
@@ -1477,9 +1506,9 @@ class _CartPageState extends State<CartPage> {
         onTap: () => _removeSummaryItem(item),
         icon: Icons.delete_outline,
         size: 18,
-        color: const Color(0xFFDC2626),
-        hoverColor: const Color(0xFFDC2626).withValues(alpha: 0.12),
-        pressedColor: const Color(0xFFDC2626).withValues(alpha: 0.2),
+        color: context.colorPalette.error,
+        hoverColor: context.colorPalette.error.withValues(alpha: 0.12),
+        pressedColor: context.colorPalette.error.withValues(alpha: 0.2),
       ),
     );
   }
@@ -1603,9 +1632,11 @@ class _CartPageState extends State<CartPage> {
                 ? null
                 : () => _placeOrderForSupplier(supplierId),
             style: ElevatedButton.styleFrom(
-              backgroundColor: _brandBlue,
+              backgroundColor: context.colorPalette.accent,
               foregroundColor: Colors.white,
-              disabledBackgroundColor: _brandBlue.withValues(alpha: 0.55),
+              disabledBackgroundColor: context.colorPalette.accent.withValues(
+                alpha: 0.55,
+              ),
               disabledForegroundColor: Colors.white.withValues(alpha: 0.86),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               minimumSize: const Size(150, 40),
@@ -1669,7 +1700,7 @@ class _CartPageState extends State<CartPage> {
             width: 104,
             height: 120,
             decoration: BoxDecoration(
-              color: const Color(0xFF1F1F1F),
+              color: context.colorPalette.card,
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
@@ -1692,11 +1723,11 @@ class _CartPageState extends State<CartPage> {
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: double.infinity,
-                        placeholder: const Center(
+                        placeholder: Center(
                           child: Icon(
                             Icons.image,
                             size: 28,
-                            color: Color(0xFF9CA3AF),
+                            color: context.colorPalette.muted,
                           ),
                         ),
                       ),
@@ -1831,7 +1862,7 @@ class _CartPageState extends State<CartPage> {
       constraints: const BoxConstraints(minWidth: 130),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: _brandBlue,
+        color: context.colorPalette.accent,
         borderRadius: BorderRadius.circular(_buttonRadius),
       ),
       child: Row(
@@ -1877,9 +1908,9 @@ class _CartPageState extends State<CartPage> {
         onTap: () => _removeItem(supplierId, index),
         icon: Icons.delete_outline,
         size: 20,
-        color: const Color(0xFFDC2626),
-        hoverColor: const Color(0xFFDC2626).withValues(alpha: 0.12),
-        pressedColor: const Color(0xFFDC2626).withValues(alpha: 0.2),
+        color: context.colorPalette.error,
+        hoverColor: context.colorPalette.error.withValues(alpha: 0.12),
+        pressedColor: context.colorPalette.error.withValues(alpha: 0.2),
       ),
     );
   }
@@ -1893,9 +1924,9 @@ class _CartPageState extends State<CartPage> {
       ),
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 12,
-          color: _brandBlue,
+          color: context.colorPalette.accent,
           fontWeight: FontWeight.w500,
         ),
       ),

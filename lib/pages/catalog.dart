@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import '../services/api_service.dart';
 import 'category_products_page.dart';
 import '../widgets/main_bottom_nav.dart';
@@ -52,7 +53,7 @@ class _CatalogPageState extends State<CatalogPage> {
   ColorScheme get _colorScheme => _theme.colorScheme;
   bool get _isDark => _theme.brightness == Brightness.dark;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _surfaceVariant => _colorScheme.surfaceContainerHighest;
   Color get _shadowColor => _isDark
@@ -363,8 +364,8 @@ class _CatalogPageState extends State<CatalogPage> {
 
   Widget _buildMainCategoryList() {
     if (_isLoadingCategories) {
-      return const Center(
-        child: CircularProgressIndicator(color: Color(0xFF6288D5)),
+      return Center(
+        child: CircularProgressIndicator(color: context.colorPalette.accent),
       );
     }
 
@@ -629,7 +630,7 @@ class _SubcategoriesPageState extends State<_SubcategoriesPage> {
 
   Widget _buildSubcategoryTile(_SubcategoryData data) {
     return Material(
-      color: _colorScheme.surface,
+      color: context.colorPalette.card,
       borderRadius: BorderRadius.circular(14),
       child: InkWell(
         borderRadius: BorderRadius.circular(14),

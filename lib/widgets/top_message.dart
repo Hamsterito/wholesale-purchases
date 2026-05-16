@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+import '../theme/app_color_palette.dart';
+
 OverlayEntry? _topMessageEntry;
 Timer? _topMessageTimer;
 GlobalKey<_TopMessageBannerState>? _topMessageKey;
@@ -8,7 +10,7 @@ GlobalKey<_TopMessageBannerState>? _topMessageKey;
 void showTopMessage(
   BuildContext context,
   String message, {
-  Color backgroundColor = const Color(0xFF6288D5),
+  Color? backgroundColor,
   Duration duration = const Duration(seconds: 2),
   String? actionText,
   VoidCallback? onAction,
@@ -46,9 +48,13 @@ void showTopMessage(
 
   _topMessageEntry = OverlayEntry(
     builder: (context) {
+      final palette = context.colorPalette;
+      // Если фон не передан — используем акцентный цвет из палитры
+      final resolvedBackground = backgroundColor ?? palette.accent;
       final mediaPadding = MediaQuery.of(context).padding;
-      final resolvedBottom =
-          showAtBottom ? mediaPadding.bottom + 8 + bottomOffset : null;
+      final resolvedBottom = showAtBottom
+          ? mediaPadding.bottom + 8 + bottomOffset
+          : null;
       return Positioned(
         top: showAtBottom ? null : mediaPadding.top + 8,
         bottom: resolvedBottom,
@@ -57,7 +63,7 @@ void showTopMessage(
         child: _TopMessageBanner(
           key: _topMessageKey,
           message: message,
-          backgroundColor: backgroundColor,
+          backgroundColor: resolvedBackground,
           duration: duration,
           actionText: actionText,
           onAction: actionCallback,
@@ -133,7 +139,10 @@ class _TopMessageBannerState extends State<_TopMessageBanner>
     final beginOffset = widget.fromBottom
         ? const Offset(0, 0.3)
         : const Offset(0, -0.3);
-    _offset = Tween<Offset>(begin: beginOffset, end: Offset.zero).animate(curve);
+    _offset = Tween<Offset>(
+      begin: beginOffset,
+      end: Offset.zero,
+    ).animate(curve);
     _fade = Tween<double>(begin: 0, end: 1).animate(curve);
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.dismissed && _isHiding) {
@@ -161,6 +170,7 @@ class _TopMessageBannerState extends State<_TopMessageBanner>
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.colorPalette;
     final hasAction = widget.actionText != null && widget.onAction != null;
     final showCountdown =
         widget.showCountdown && widget.duration > Duration.zero;
@@ -168,6 +178,9 @@ class _TopMessageBannerState extends State<_TopMessageBanner>
     const countdownSize = 28.0;
     const bannerPadding = EdgeInsets.symmetric(horizontal: 14, vertical: 10);
     final bannerHeight = countdownSize + bannerPadding.vertical;
+    // Белый цвет используется для текста и иконок на цветном фоне баннера
+    // для обеспечения хорошей контрастности в обеих темах
+    const textColor = Colors.white;
     return Material(
       color: Colors.transparent,
       child: SlideTransition(
@@ -183,7 +196,7 @@ class _TopMessageBannerState extends State<_TopMessageBanner>
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.2),
+                  color: palette.shadow,
                   blurRadius: 12,
                   offset: const Offset(0, 6),
                 ),
@@ -194,8 +207,8 @@ class _TopMessageBannerState extends State<_TopMessageBanner>
                 if (showCountdown) ...[
                   _CountdownRing(
                     duration: widget.duration,
-                    color: Colors.white,
-                    textColor: Colors.white,
+                    color: textColor,
+                    textColor: textColor,
                     size: countdownSize,
                   ),
                   const SizedBox(width: 10),
@@ -206,7 +219,7 @@ class _TopMessageBannerState extends State<_TopMessageBanner>
                     maxLines: widget.maxLines,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: textColor,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -224,7 +237,7 @@ class _TopMessageBannerState extends State<_TopMessageBanner>
                       child: Text(
                         widget.actionText!,
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: textColor,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -236,9 +249,9 @@ class _TopMessageBannerState extends State<_TopMessageBanner>
                   InkWell(
                     onTap: () => hide(),
                     borderRadius: BorderRadius.circular(16),
-                    child: const Padding(
-                      padding: EdgeInsets.all(4),
-                      child: Icon(Icons.close, color: Colors.white, size: 18),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Icon(Icons.close, color: textColor, size: 18),
                     ),
                   ),
                 ],
@@ -275,10 +288,8 @@ class _CountdownRingState extends State<_CountdownRing>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    )..forward();
+    _controller = AnimationController(vsync: this, duration: widget.duration)
+      ..forward();
   }
 
   @override
@@ -293,8 +304,10 @@ class _CountdownRingState extends State<_CountdownRing>
       animation: _controller,
       builder: (context, _) {
         final progress = 1.0 - _controller.value;
-        final secondsLeft =
-            (widget.duration.inSeconds * progress).ceil().clamp(0, 99);
+        final secondsLeft = (widget.duration.inSeconds * progress).ceil().clamp(
+          0,
+          99,
+        );
         return SizedBox(
           width: widget.size,
           height: widget.size,

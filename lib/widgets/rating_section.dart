@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import '../utils/ru_plural.dart';
 import 'rating_stars.dart';
 
@@ -16,13 +17,11 @@ class RatingSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final cardBg = colorScheme.surface;
-    final mutedText = colorScheme.onSurfaceVariant;
+    final palette = context.colorPalette;
     return InkWell(
       onTap: onTap,
       child: Container(
-        color: cardBg,
+        color: palette.card,
         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
         child: Row(
           children: [
@@ -31,6 +30,7 @@ class RatingSection extends StatelessWidget {
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
+                color: palette.ink,
               ),
             ),
             const SizedBox(width: 8),
@@ -38,24 +38,19 @@ class RatingSection extends StatelessWidget {
               rating: rating,
               size: 14,
               spacing: 1,
-              filledColor: const Color(0xFFF5B400),
-              emptyColor: mutedText,
+              filledColor: palette.star,
+              emptyColor: palette.muted,
             ),
             const SizedBox(width: 8),
             Text(
               reviewsLabel(reviewCount),
-              style: TextStyle(
-                fontSize: 12,
-                color: mutedText,
-              ),
+              style: TextStyle(fontSize: 12, color: palette.muted),
             ),
             const SizedBox(width: 4),
-            Icon(Icons.chevron_right, size: 18, color: mutedText),
+            Icon(Icons.chevron_right, size: 18, color: palette.muted),
           ],
         ),
       ),
     );
   }
 }
-
-

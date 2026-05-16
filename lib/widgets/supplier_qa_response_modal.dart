@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/review_entry.dart';
 import '../models/product.dart';
+import '../theme/app_color_palette.dart';
 import './smart_image.dart';
 
 class SupplierQAResponseModal extends StatefulWidget {
@@ -87,13 +88,13 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
     }
   }
 
-  Widget _buildStarRating(int rating) {
+  Widget _buildStarRating(int rating, AppColorPalette palette) {
     return Row(
       children: List.generate(5, (index) {
         return Icon(
           index < rating ? Icons.star : Icons.star_outline,
           size: 16,
-          color: const Color(0xFFFFC107),
+          color: palette.star,
         );
       }),
     );
@@ -101,7 +102,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = _SupplierQAPalette.of(context);
+    final palette = context.colorPalette;
     final responseLength = _responseController.text.length;
 
     return Container(
@@ -229,7 +230,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                                   color: palette.ink,
                                 ),
                               ),
-                              _buildStarRating(widget.review.rating),
+                              _buildStarRating(widget.review.rating, palette),
                             ],
                           ),
                           const SizedBox(height: 8),
@@ -291,12 +292,12 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                         ),
                         errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: palette.danger),
+                          borderSide: BorderSide(color: palette.error),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                            color: palette.danger,
+                            color: palette.error,
                             width: 2,
                           ),
                         ),
@@ -319,7 +320,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                             _validationError!,
                             style: TextStyle(
                               fontSize: 12,
-                              color: palette.danger,
+                              color: palette.error,
                             ),
                           ),
                       ],
@@ -335,10 +336,10 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: palette.danger.withValues(alpha: 0.12),
+                      color: palette.error.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: palette.danger.withValues(alpha: 0.38),
+                        color: palette.error.withValues(alpha: 0.38),
                       ),
                     ),
                     child: Row(
@@ -346,7 +347,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                         Icon(
                           Icons.error_outline,
                           size: 18,
-                          color: palette.danger,
+                          color: palette.error,
                         ),
                         const SizedBox(width: 8),
                         Expanded(
@@ -354,7 +355,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                             _submissionError!,
                             style: TextStyle(
                               fontSize: 12,
-                              color: palette.danger,
+                              color: palette.error,
                             ),
                           ),
                         ),
@@ -421,70 +422,5 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
         ),
       ),
     );
-  }
-}
-
-class _SupplierQAPalette {
-  const _SupplierQAPalette({
-    required this.bgTop,
-    required this.bgBottom,
-    required this.card,
-    required this.line,
-    required this.ink,
-    required this.muted,
-    required this.accent,
-    required this.accentDark,
-    required this.accentSoft,
-    required this.accentMist,
-    required this.danger,
-    required this.shadow,
-  });
-
-  final Color bgTop;
-  final Color bgBottom;
-  final Color card;
-  final Color line;
-  final Color ink;
-  final Color muted;
-  final Color accent;
-  final Color accentDark;
-  final Color accentSoft;
-  final Color accentMist;
-  final Color danger;
-  final Color shadow;
-
-  static const light = _SupplierQAPalette(
-    bgTop: Color(0xFFF6F8FF),
-    bgBottom: Color(0xFFEFF3FF),
-    card: Color(0xFFFFFFFF),
-    line: Color(0xFFE3E8F3),
-    ink: Color(0xFF1B1E2B),
-    muted: Color(0xFF6D748A),
-    accent: Color(0xFF6288D5),
-    accentDark: Color(0xFF4F70C6),
-    accentSoft: Color(0xFFDCE6FA),
-    accentMist: Color(0xFFF0F4FF),
-    danger: Color(0xFFE4572E),
-    shadow: Color(0x14000000),
-  );
-
-  static const dark = _SupplierQAPalette(
-    bgTop: Color(0xFF0F141F),
-    bgBottom: Color(0xFF141B2B),
-    card: Color(0xFF1A2336),
-    line: Color(0xFF2B364D),
-    ink: Color(0xFFE9EDFF),
-    muted: Color(0xFF9AA3B6),
-    accent: Color(0xFF6288D5),
-    accentDark: Color(0xFF9BB6FF),
-    accentSoft: Color(0xFF243251),
-    accentMist: Color(0xFF1A243A),
-    danger: Color(0xFFFF6B4A),
-    shadow: Color(0x66000000),
-  );
-
-  static _SupplierQAPalette of(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    return brightness == Brightness.dark ? dark : light;
   }
 }

@@ -6,6 +6,7 @@ import '../models/cart_item.dart';
 import '../models/product.dart';
 import '../services/cart_store.dart';
 import '../services/favorites_store.dart';
+import '../theme/app_color_palette.dart';
 import '../utils/ru_plural.dart';
 import 'rating_stars.dart';
 import 'top_message.dart';
@@ -83,13 +84,11 @@ class _ProductCardState extends State<ProductCard> {
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
-  bool get _isDark => _theme.brightness == Brightness.dark;
-  Color get _cardBg => _colorScheme.surface;
+  AppColorPalette get _palette => context.colorPalette;
+  Color get _cardBg => _palette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _surfaceVariant => _colorScheme.surfaceContainerHighest;
-  Color get _shadowColor => _isDark
-      ? Colors.black.withValues(alpha: 0.35)
-      : Colors.black.withValues(alpha: 0.08);
+  Color get _shadowColor => _palette.shadow;
   final PageController _pageController = PageController();
   bool _isInCart = false;
   int _selectedQuantity = 0;
@@ -243,7 +242,7 @@ class _ProductCardState extends State<ProductCard> {
         showTopMessage(
           context,
           'Нет в наличии: ${product.name}',
-          backgroundColor: const Color(0xFFEF4444),
+          backgroundColor: _palette.error,
         );
       }
       return;
@@ -262,7 +261,7 @@ class _ProductCardState extends State<ProductCard> {
         showTopMessage(
           context,
           'Удалено из корзины: ${product.name}',
-          backgroundColor: const Color(0xFFEF4444),
+          backgroundColor: _palette.error,
         );
       }
       return;
@@ -284,7 +283,7 @@ class _ProductCardState extends State<ProductCard> {
       showTopMessage(
         context,
         'Добавлено в корзину: ${product.name} -$selected шт.',
-        backgroundColor: const Color(0xFF6288D5),
+        backgroundColor: _palette.accent,
       );
     }
   }
@@ -299,7 +298,7 @@ class _ProductCardState extends State<ProductCard> {
       context: context,
       isScrollControlled: true,
       backgroundColor: _cardBg,
-      barrierColor: Colors.black.withValues(alpha: 0.32),
+      barrierColor: _palette.shadow.withValues(alpha: 0.32),
       isDismissible: true,
       enableDrag: true,
       shape: const RoundedRectangleBorder(
@@ -338,19 +337,19 @@ class _ProductCardState extends State<ProductCard> {
               physics: enableImageSwipe
                   ? const PageScrollPhysics()
                   : const NeverScrollableScrollPhysics(),
-               itemCount: widget.product.imageUrls.isNotEmpty
-                   ? widget.product.imageUrls.length
-                   : 1,
-               onPageChanged: (index) {
-                 setState(() {
-                   _imageIndex = index;
-                 });
-               },
-               itemBuilder: (context, index) {
-                 final images = widget.product.imageUrls.isNotEmpty
-                     ? widget.product.imageUrls
-                     : [''];
-                 final path = images[index];
+              itemCount: widget.product.imageUrls.isNotEmpty
+                  ? widget.product.imageUrls.length
+                  : 1,
+              onPageChanged: (index) {
+                setState(() {
+                  _imageIndex = index;
+                });
+              },
+              itemBuilder: (context, index) {
+                final images = widget.product.imageUrls.isNotEmpty
+                    ? widget.product.imageUrls
+                    : [''];
+                final path = images[index];
                 return SmartImage(
                   path: path,
                   width: double.infinity,
@@ -369,14 +368,18 @@ class _ProductCardState extends State<ProductCard> {
           right: 0,
           child: IconButton(
             icon: _isFavorite
-                ? Icon(Icons.favorite, color: Color(0xFF6288D5), size: 29)
+                ? Icon(Icons.favorite, color: _palette.accent, size: 29)
                 : Stack(
                     alignment: Alignment.center,
-                    children: const [
-                      Icon(Icons.favorite, color: Color(0x80BFC5CF), size: 29),
+                    children: [
+                      Icon(
+                        Icons.favorite,
+                        color: _palette.muted.withValues(alpha: 0.5),
+                        size: 29,
+                      ),
                       Icon(
                         Icons.favorite_border,
-                        color: Color(0xFF6288D5),
+                        color: _palette.accent,
                         size: 29,
                       ),
                     ],
@@ -393,7 +396,7 @@ class _ProductCardState extends State<ProductCard> {
                 showTopMessage(
                   context,
                   'Добавлено в избранное',
-                  backgroundColor: const Color(0xFF6288D5),
+                  backgroundColor: _palette.accent,
                   showClose: !showFavoritesUndo,
                 );
               } else {
@@ -401,7 +404,7 @@ class _ProductCardState extends State<ProductCard> {
                   showTopMessage(
                     context,
                     'Удалено из избранного',
-                    backgroundColor: const Color(0xFFEF4444),
+                    backgroundColor: _palette.error,
                     duration: const Duration(seconds: 3),
                     actionText: 'Отменить',
                     showCountdown: true,
@@ -419,7 +422,7 @@ class _ProductCardState extends State<ProductCard> {
                   showTopMessage(
                     context,
                     'Удалено из избранного',
-                    backgroundColor: const Color(0xFFEF4444),
+                    backgroundColor: _palette.error,
                     showClose: !showFavoritesUndo,
                   );
                 }
@@ -436,7 +439,7 @@ class _ProductCardState extends State<ProductCard> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
               decoration: BoxDecoration(
-                color: const Color(0xFF6288D5).withValues(alpha: 0.9),
+                color: _palette.accent.withValues(alpha: 0.9),
                 borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(8),
                 ),
@@ -477,7 +480,7 @@ class _ProductCardState extends State<ProductCard> {
             height: 6,
             decoration: BoxDecoration(
               color: active
-                  ? const Color(0xFF6288D5)
+                  ? _palette.accent
                   : _mutedText.withValues(alpha: 0.35),
               borderRadius: BorderRadius.circular(999),
             ),
@@ -901,7 +904,7 @@ class _ProductCardState extends State<ProductCard> {
           rating: product.rating,
           size: compact ? 11 : 12,
           spacing: 0.5,
-          filledColor: const Color(0xFFF5B400),
+          filledColor: _palette.star,
           emptyColor: _mutedText.withValues(alpha: 0.7),
         ),
         const SizedBox(width: 4),
@@ -932,16 +935,14 @@ class _ProductCardState extends State<ProductCard> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
-                color: const Color(0xFF6288D5).withValues(alpha: 0.15),
+                color: _palette.accent.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Text(
                 isAvailable ? '$totalPrice \u20B8' : 'Нет в наличии',
                 style: TextStyle(
                   fontSize: compact ? 10 : 11,
-                  color: isAvailable
-                      ? const Color(0xFF6288D5)
-                      : const Color(0xFFEF4444),
+                  color: isAvailable ? _palette.accent : _palette.error,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -994,7 +995,7 @@ class _ProductCardState extends State<ProductCard> {
                           ? (_isInCart ? Icons.close : Icons.add)
                           : Icons.block_outlined,
                       key: ValueKey<bool>(_isInCart),
-                      color: isAvailable ? const Color(0xFF6288D5) : _mutedText,
+                      color: isAvailable ? _palette.accent : _mutedText,
                       size: compact ? 22 : 26,
                     ),
                   ),
@@ -1006,7 +1007,7 @@ class _ProductCardState extends State<ProductCard> {
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF6288D5),
+                          color: _palette.accent,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         constraints: const BoxConstraints(
@@ -1063,7 +1064,6 @@ class _QuantityPickerSheet extends StatefulWidget {
 }
 
 class _QuantityPickerSheetState extends State<_QuantityPickerSheet> {
-  static const Color _brandBlue = Color(0xFF6288D5);
   static const Duration _repeatInterval = Duration(milliseconds: 180);
 
   late int _quantity;
@@ -1072,14 +1072,12 @@ class _QuantityPickerSheetState extends State<_QuantityPickerSheet> {
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
-  bool get _isDark => _theme.brightness == Brightness.dark;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _borderColor => _colorScheme.outlineVariant;
   Color get _surfaceVariant => _colorScheme.surfaceContainerHighest;
-  Color get _shadowColor => _isDark
-      ? Colors.black.withValues(alpha: 0.35)
-      : Colors.black.withValues(alpha: 0.08);
+  Color get _shadowColor => context.colorPalette.shadow;
+  AppColorPalette get _palette => context.colorPalette;
   int? get _effectiveMax {
     final max = widget.maxQuantity;
     if (max == null) return null;
@@ -1255,7 +1253,7 @@ class _QuantityPickerSheetState extends State<_QuantityPickerSheet> {
                 Navigator.pop(context, normalized);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: _brandBlue,
+                backgroundColor: _palette.accent,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 shape: RoundedRectangleBorder(
@@ -1361,7 +1359,7 @@ class _QuantityPickerSheetState extends State<_QuantityPickerSheet> {
       onLongPressEnd: enabled ? (_) => _stopRepeat() : null,
       onLongPressCancel: enabled ? _stopRepeat : null,
       child: Material(
-        color: enabled ? _brandBlue : _surfaceVariant,
+        color: enabled ? _palette.accent : _surfaceVariant,
         shape: const CircleBorder(),
         child: InkWell(
           customBorder: const CircleBorder(),
@@ -1380,4 +1378,3 @@ class _QuantityPickerSheetState extends State<_QuantityPickerSheet> {
     );
   }
 }
-

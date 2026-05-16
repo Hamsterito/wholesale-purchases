@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import '../services/app_settings.dart';
 import '../widgets/main_bottom_nav.dart';
 import 'change_password_page.dart';
@@ -69,7 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 12),
           Container(
             decoration: BoxDecoration(
-              color: colorScheme.surface,
+              color: context.colorPalette.card,
               borderRadius: BorderRadius.circular(12),
             ),
             child: _buildSwitchTile(
@@ -92,7 +93,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 12),
           Container(
             decoration: BoxDecoration(
-              color: colorScheme.surface,
+              color: context.colorPalette.card,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
@@ -123,7 +124,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 12),
           Container(
             decoration: BoxDecoration(
-              color: colorScheme.surface,
+              color: context.colorPalette.card,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
@@ -151,7 +152,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 12),
           Container(
             decoration: BoxDecoration(
-              color: colorScheme.surface,
+              color: context.colorPalette.card,
               borderRadius: BorderRadius.circular(12),
             ),
             child: _buildActionTile(

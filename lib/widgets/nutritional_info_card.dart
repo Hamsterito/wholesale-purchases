@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import '../models/product.dart';
+import '../theme/app_color_palette.dart';
 
 class NutritionalInfoCard extends StatelessWidget {
   final NutritionalInfo nutritionalInfo;
@@ -8,12 +9,10 @@ class NutritionalInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final cardBg = colorScheme.surface;
-    final mutedText = colorScheme.onSurfaceVariant;
+    final palette = context.colorPalette;
 
     return Container(
-      color: cardBg,
+      color: palette.card,
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -21,12 +20,16 @@ class NutritionalInfoCard extends StatelessWidget {
         children: [
           Text(
             'Пищевая ценность',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: palette.ink,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             'В 100 граммах:',
-            style: TextStyle(fontSize: 12, color: mutedText),
+            style: TextStyle(fontSize: 12, color: palette.muted),
           ),
           const SizedBox(height: 12),
           Row(
@@ -75,26 +78,28 @@ class NutritionalInfoCard extends StatelessWidget {
     required String value,
     required String label,
   }) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final surfaceContainer = colorScheme.surfaceContainerHighest;
-    final mutedText = colorScheme.onSurfaceVariant;
+    final palette = context.colorPalette;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
-        color: surfaceContainer,
+        color: palette.accentMist,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         children: [
           Text(
             value,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: palette.ink,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             label,
-            style: TextStyle(fontSize: 11, color: mutedText),
+            style: TextStyle(fontSize: 11, color: palette.muted),
             textAlign: TextAlign.center,
           ),
         ],

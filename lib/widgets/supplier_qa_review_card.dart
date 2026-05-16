@@ -5,68 +5,7 @@ import 'smart_image.dart';
 import 'rating_stars.dart';
 import 'expandable_text_block.dart';
 import '../utils/date_formatter.dart';
-
-class _SupplierQAReviewCardPalette {
-  const _SupplierQAReviewCardPalette({
-    required this.card,
-    required this.line,
-    required this.ink,
-    required this.muted,
-    required this.accent,
-    required this.accentSoft,
-    required this.accentMist,
-    required this.success,
-    required this.danger,
-    required this.shadow,
-  });
-
-  final Color card;
-  final Color line;
-  final Color ink;
-  final Color muted;
-  final Color accent;
-  final Color accentSoft;
-  final Color accentMist;
-  final Color success;
-  final Color danger;
-  final Color shadow;
-
-  static const light = _SupplierQAReviewCardPalette(
-    card: Color(0xFFFFFFFF),
-    line: Color(0xFFE3E8F3),
-    ink: Color(0xFF1B1E2B),
-    muted: Color(0xFF6D748A),
-    accent: Color(0xFF6288D5),
-    accentSoft: Color(0xFFDCE6FA),
-    accentMist: Color(0xFFF0F4FF),
-    success: Color(0xFF4CAF50),
-    danger: Color(0xFFE4572E),
-    shadow: Color(0x14000000),
-  );
-
-  static const dark = _SupplierQAReviewCardPalette(
-    card: Color(0xFF1A2336),
-    line: Color(0xFF2B364D),
-    ink: Color(0xFFE9EDFF),
-    muted: Color(0xFF9AA3B6),
-    accent: Color(0xFF6288D5),
-    accentSoft: Color(0xFF243251),
-    accentMist: Color(0xFF1A243A),
-    success: Color(0xFF66BB6A),
-    danger: Color(0xFFFF6B4A),
-    shadow: Color(0x66000000),
-  );
-
-  static _SupplierQAReviewCardPalette of(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    return brightness == Brightness.dark ? dark : light;
-  }
-}
-
-extension _SupplierQAReviewCardPaletteX on BuildContext {
-  _SupplierQAReviewCardPalette get supplierQAReviewCardPalette =>
-      _SupplierQAReviewCardPalette.of(this);
-}
+import '../theme/app_color_palette.dart';
 
 class SupplierQAReviewCard extends StatelessWidget {
   final ReviewEntry review;
@@ -98,7 +37,7 @@ class SupplierQAReviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.supplierQAReviewCardPalette;
+    final palette = context.colorPalette;
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -248,10 +187,7 @@ class SupplierQAReviewCard extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButtons(
-    BuildContext context,
-    _SupplierQAReviewCardPalette palette,
-  ) {
+  Widget _buildActionButtons(BuildContext context, AppColorPalette palette) {
     if (hasResponse) {
       // Показать кнопки "Изменить ответ" и "Удалить"
       return Row(
@@ -277,10 +213,10 @@ class SupplierQAReviewCard extends StatelessWidget {
           OutlinedButton(
             onPressed: onDelete,
             style: OutlinedButton.styleFrom(
-              side: BorderSide(color: palette.danger),
+              side: BorderSide(color: palette.error),
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
             ),
-            child: Icon(Icons.delete_outline, size: 18, color: palette.danger),
+            child: Icon(Icons.delete_outline, size: 18, color: palette.error),
           ),
         ],
       );

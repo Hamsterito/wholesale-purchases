@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import '../models/supplier_product.dart';
 import 'support_chats_page.dart';
 import '../services/api_service.dart';
@@ -64,11 +65,11 @@ class _ModerationPageState extends State<ModerationPage> {
   Color _statusColor(String status) {
     switch (status) {
       case 'approved':
-        return const Color(0xFF16A34A);
+        return context.colorPalette.success;
       case 'rejected':
-        return const Color(0xFFEF4444);
+        return context.colorPalette.error;
       default:
-        return const Color(0xFFF59E0B);
+        return context.colorPalette.warning;
     }
   }
 
@@ -745,8 +746,8 @@ class _ModerationPageState extends State<ModerationPage> {
                                               foregroundColor: const Color(
                                                 0xFFB91C1C,
                                               ),
-                                              side: const BorderSide(
-                                                color: Color(0xFFEF4444),
+                                              side: BorderSide(
+                                                color: context.colorPalette.error,
                                               ),
                                             ),
                                             icon: isUpdating
@@ -802,8 +803,8 @@ class _ModerationPageState extends State<ModerationPage> {
                                                   foregroundColor: const Color(
                                                     0xFFEF4444,
                                                   ),
-                                                  side: const BorderSide(
-                                                    color: Color(0xFFEF4444),
+                                                  side: BorderSide(
+                                                    color: context.colorPalette.error,
                                                   ),
                                                 ),
                                                 icon: const Icon(

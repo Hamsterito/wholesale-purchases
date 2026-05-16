@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import '../models/product.dart';
+import '../theme/app_color_palette.dart';
 import '../widgets/product_card.dart';
 
 class SimilarProductsCarousel extends StatelessWidget {
@@ -15,10 +16,10 @@ class SimilarProductsCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (products.isEmpty) return const SizedBox.shrink();
-    final sectionBg = Theme.of(context).colorScheme.surface;
+    final palette = context.colorPalette;
 
     return Container(
-      color: sectionBg,
+      color: palette.card,
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: LayoutBuilder(
@@ -30,11 +31,15 @@ class SimilarProductsCarousel extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: gridPadding),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: gridPadding),
                 child: Text(
                   'Похожие товары',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: palette.ink,
+                  ),
                 ),
               ),
               const SizedBox(height: 12),
@@ -67,4 +72,3 @@ class SimilarProductsCarousel extends StatelessWidget {
     );
   }
 }
-

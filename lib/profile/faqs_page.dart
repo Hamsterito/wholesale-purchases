@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import '../widgets/main_bottom_nav.dart';
 
 class FAQsPage extends StatefulWidget {
@@ -17,43 +18,52 @@ class _FAQsPageState extends State<FAQsPage> {
   ColorScheme get _colorScheme => _theme.colorScheme;
   bool get _isDark => _theme.brightness == Brightness.dark;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _shadowColor =>
-      _isDark ? Colors.black.withValues(alpha: 0.35) : Colors.black.withValues(alpha: 0.05);
+  Color get _shadowColor => _isDark
+      ? Colors.black.withValues(alpha: 0.35)
+      : Colors.black.withValues(alpha: 0.05);
 
   final List<Map<String, String>> _faqs = [
     {
       'question': 'Как сделать заказ?',
-      'answer': 'Чтобы сделать заказ, выберите товары из каталога, добавьте их в корзину и оформите заказ, указав адрес доставки и способ оплаты.'
+      'answer':
+          'Чтобы сделать заказ, выберите товары из каталога, добавьте их в корзину и оформите заказ, указав адрес доставки и способ оплаты.',
     },
     {
       'question': 'Какие способы оплаты доступны?',
-      'answer': 'Мы принимаем оплату наличными, банковскими картами (Visa, Mastercard), а также через PayPal.'
+      'answer':
+          'Мы принимаем оплату наличными, банковскими картами (Visa, Mastercard), а также через PayPal.',
     },
     {
       'question': 'Сколько времени занимает доставка?',
-      'answer': 'Стандартная доставка занимает 1-3 рабочих дня. Экспресс-доставка доступна в течение 24 часов.'
+      'answer':
+          'Стандартная доставка занимает 1-3 рабочих дня. Экспресс-доставка доступна в течение 24 часов.',
     },
     {
       'question': 'Могу ли я отменить заказ?',
-      'answer': 'Вы можете отменить заказ в течение 30 минут после оформления. После этого заказ уже будет передан на склад для сборки.'
+      'answer':
+          'Вы можете отменить заказ в течение 30 минут после оформления. После этого заказ уже будет передан на склад для сборки.',
     },
     {
       'question': 'Как изменить адрес доставки?',
-      'answer': 'Вы можете изменить адрес доставки в разделе "Профиль" -> "Адреса". Также можно указать новый адрес при оформлении заказа.'
+      'answer':
+          'Вы можете изменить адрес доставки в разделе "Профиль" -> "Адреса". Также можно указать новый адрес при оформлении заказа.',
     },
     {
       'question': 'Что делать если товар не подошел?',
-      'answer': 'Вы можете вернуть товар в течение 14 дней с момента получения. Свяжитесь с нашей службой поддержки для оформления возврата.'
+      'answer':
+          'Вы можете вернуть товар в течение 14 дней с момента получения. Свяжитесь с нашей службой поддержки для оформления возврата.',
     },
     {
       'question': 'Как связаться с поддержкой?',
-      'answer': 'Вы можете связаться с нами через раздел "Техподдержка" в приложении, по электронной почте или по телефону горячей линии.'
+      'answer':
+          'Вы можете связаться с нами через раздел "Техподдержка" в приложении, по электронной почте или по телефону горячей линии.',
     },
     {
       'question': 'Есть ли минимальная сумма заказа?',
-      'answer': 'Минимальная сумма заказа составляет 500 ₸. При заказе от 5000 ₸ доставка бесплатная.'
+      'answer':
+          'Минимальная сумма заказа составляет 500 ₸. При заказе от 5000 ₸ доставка бесплатная.',
     },
   ];
 
@@ -169,9 +179,7 @@ class _FAQsPageState extends State<FAQsPage> {
                               ),
                             ),
                           )
-                        : const SizedBox.shrink(
-                            key: ValueKey('collapsed'),
-                          ),
+                        : const SizedBox.shrink(key: ValueKey('collapsed')),
                   ),
                 ],
               ),
@@ -183,4 +191,3 @@ class _FAQsPageState extends State<FAQsPage> {
     );
   }
 }
-

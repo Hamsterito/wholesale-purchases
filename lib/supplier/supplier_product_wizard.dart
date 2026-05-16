@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import '../models/supplier_product.dart';
 import '../services/api_service.dart';
+import '../theme/app_color_palette.dart';
 import '../widgets/smart_image.dart';
 
 class SupplierProductWizardPage extends StatefulWidget {
@@ -585,7 +586,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 _error!,
-                style: const TextStyle(color: Color(0xFFEF4444)),
+                style: TextStyle(color: context.colorPalette.error),
               ),
             ),
         ],
@@ -1608,7 +1609,7 @@ class _StepHeader extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-      color: colorScheme.surface,
+      color: context.colorPalette.card,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1711,7 +1712,7 @@ class _StepCard extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
-        color: colorScheme.surface,
+        color: context.colorPalette.card,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(

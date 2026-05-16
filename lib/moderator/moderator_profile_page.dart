@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import '../login_screen/login.dart';
 import '../services/auth_storage.dart';
 
@@ -32,7 +33,7 @@ class ModeratorProfilePage extends StatelessWidget {
           ElevatedButton(
             onPressed: () => _logout(context),
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFEF4444),
+              backgroundColor: context.colorPalette.error,
               foregroundColor: Colors.white,
             ),
             child: const Text('Выйти'),

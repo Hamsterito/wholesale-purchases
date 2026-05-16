@@ -1,77 +1,13 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../models/question.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
+import '../theme/app_color_palette.dart';
 import '../widgets/question_card.dart';
 import '../widgets/main_bottom_nav.dart';
 import '../widgets/smart_image.dart';
 
 enum _PageState { loading, error, empty, data }
-
-class _QuestionsPaletteColors {
-  final Color bgTop;
-  final Color bgBottom;
-  final Color ink;
-  final Color muted;
-  final Color card;
-  final Color line;
-  final Color accent;
-  final Color accentDark;
-  final Color accentSoft;
-  final Color accentMist;
-  final Color danger;
-  final Color shadow;
-
-  const _QuestionsPaletteColors({
-    required this.bgTop,
-    required this.bgBottom,
-    required this.ink,
-    required this.muted,
-    required this.card,
-    required this.line,
-    required this.accent,
-    required this.accentDark,
-    required this.accentSoft,
-    required this.accentMist,
-    required this.danger,
-    required this.shadow,
-  });
-
-  static const light = _QuestionsPaletteColors(
-    bgTop: Color(0xFFF6F8FF),
-    bgBottom: Color(0xFFEFF3FF),
-    ink: Color(0xFF1B1E2B),
-    muted: Color(0xFF6D748A),
-    card: Color(0xFFFFFFFF),
-    line: Color(0xFFE3E8F3),
-    accent: Color(0xFF6288D5),
-    accentDark: Color(0xFF4F70C6),
-    accentSoft: Color(0xFFDCE6FA),
-    accentMist: Color(0xFFF0F4FF),
-    danger: Color(0xFFE4572E),
-    shadow: Color(0x14000000),
-  );
-
-  static const dark = _QuestionsPaletteColors(
-    bgTop: Color(0xFF0F141F),
-    bgBottom: Color(0xFF141B2B),
-    ink: Color(0xFFE9EDFF),
-    muted: Color(0xFF9AA3B6),
-    card: Color(0xFF1A2336),
-    line: Color(0xFF2B364D),
-    accent: Color(0xFF6288D5),
-    accentDark: Color(0xFF9BB6FF),
-    accentSoft: Color(0xFF243251),
-    accentMist: Color(0xFF1A243A),
-    danger: Color(0xFFFF6B4A),
-    shadow: Color(0x66000000),
-  );
-
-  static _QuestionsPaletteColors of(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    return brightness == Brightness.dark ? dark : light;
-  }
-}
 
 class QuestionsPage extends StatefulWidget {
   final String productId;
@@ -192,7 +128,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = _QuestionsPaletteColors.of(context);
+    final palette = context.colorPalette;
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final pageBackground = isDark
@@ -239,33 +175,44 @@ class _QuestionsPageState extends State<QuestionsPage> {
     );
   }
 
-  Widget _buildHeader(BuildContext context, _QuestionsPaletteColors palette) {
+  Widget _buildHeader(BuildContext context, AppColorPalette palette) {
     return Container(
       color: palette.card,
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.fromLTRB(0, 12, 16, 12),
+      child: Row(
         children: [
-          Text(
-            'Вопросы о товаре',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: palette.ink,
-              letterSpacing: 0.2,
-            ),
+          IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context),
+            color: palette.ink,
           ),
-          const SizedBox(height: 4),
-          Text(
-            '$_totalQuestions всего',
-            style: TextStyle(fontSize: 12, color: palette.muted),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Вопросы о товаре',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: palette.ink,
+                    letterSpacing: 0.2,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '$_totalQuestions всего',
+                  style: TextStyle(fontSize: 12, color: palette.muted),
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildBody(_QuestionsPaletteColors palette) {
+  Widget _buildBody(AppColorPalette palette) {
     switch (_pageState) {
       case _PageState.loading:
         return const Center(child: CircularProgressIndicator());
@@ -453,7 +400,7 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = _QuestionsPaletteColors.of(context);
+    final palette = context.colorPalette;
     final questionText = widget.questionController.text;
     final answerLength = questionText.length;
 
@@ -587,12 +534,12 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
                         ),
                         errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: palette.danger),
+                          borderSide: BorderSide(color: palette.error),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                            color: palette.danger,
+                            color: palette.error,
                             width: 2,
                           ),
                         ),
@@ -615,7 +562,7 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
                             _validationError!,
                             style: TextStyle(
                               fontSize: 12,
-                              color: palette.danger,
+                              color: palette.error,
                             ),
                           ),
                       ],
@@ -631,10 +578,10 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: palette.danger.withValues(alpha: 0.12),
+                      color: palette.error.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: palette.danger.withValues(alpha: 0.38),
+                        color: palette.error.withValues(alpha: 0.38),
                       ),
                     ),
                     child: Row(
@@ -642,7 +589,7 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
                         Icon(
                           Icons.error_outline,
                           size: 18,
-                          color: palette.danger,
+                          color: palette.error,
                         ),
                         const SizedBox(width: 8),
                         Expanded(
@@ -650,7 +597,7 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
                             _submissionError!,
                             style: TextStyle(
                               fontSize: 12,
-                              color: palette.danger,
+                              color: palette.error,
                             ),
                           ),
                         ),

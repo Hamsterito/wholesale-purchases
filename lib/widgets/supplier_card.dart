@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/product.dart';
+import '../theme/app_color_palette.dart';
 import '../utils/ru_plural.dart';
 
 class SupplierCard extends StatelessWidget {
@@ -21,18 +22,14 @@ class SupplierCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final totalPrice = supplier.pricePerUnit * quantity;
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final cardBg = colorScheme.surface;
-    final mutedText = colorScheme.onSurfaceVariant;
-    final borderColor = colorScheme.outlineVariant;
+    final palette = context.colorPalette;
 
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: cardBg,
+        color: palette.card,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: borderColor),
+        border: Border.all(color: palette.line),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,6 +46,7 @@ class SupplierCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
+                        color: palette.ink,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -59,21 +57,19 @@ class SupplierCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
+                            color: palette.ink,
                           ),
                         ),
                         const SizedBox(width: 4),
                         ...List.generate(
                           5,
-                          (index) => Icon(
-                            Icons.star,
-                            size: 12,
-                            color: Color(0xFFF5B400),
-                          ),
+                          (index) =>
+                              Icon(Icons.star, size: 12, color: palette.star),
                         ),
                         const SizedBox(width: 4),
                         Text(
                           reviewsLabel(supplier.reviewCount),
-                          style: TextStyle(fontSize: 11, color: mutedText),
+                          style: TextStyle(fontSize: 11, color: palette.muted),
                         ),
                       ],
                     ),
@@ -87,8 +83,8 @@ class SupplierCard extends StatelessWidget {
                   onPressed: onSelect,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isSelected
-                        ? const Color(0xFF22C55E)
-                        : const Color(0xFF6288D5),
+                        ? palette.success
+                        : palette.accent,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     shape: RoundedRectangleBorder(
@@ -110,10 +106,14 @@ class SupplierCard extends StatelessWidget {
             children: [
               Text(
                 '${supplier.pricePerUnit} \u20B8',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: palette.ink,
+                ),
               ),
               const SizedBox(width: 4),
-              Text('шт', style: TextStyle(fontSize: 12, color: mutedText)),
+              Text('шт', style: TextStyle(fontSize: 12, color: palette.muted)),
             ],
           ),
           const SizedBox(height: 6),
@@ -122,14 +122,14 @@ class SupplierCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF6288D5).withValues(alpha: 0.12),
+                  color: palette.accentSoft,
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
                   '$totalPrice \u20B8',
                   style: TextStyle(
                     fontSize: 11,
-                    color: Color(0xFF6288D5),
+                    color: palette.accent,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -137,19 +137,23 @@ class SupplierCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 '$quantity шт.',
-                style: TextStyle(fontSize: 12, color: mutedText),
+                style: TextStyle(fontSize: 12, color: palette.muted),
               ),
             ],
           ),
           const SizedBox(height: 8),
           Row(
             children: [
-              Icon(Icons.local_shipping_outlined, size: 14, color: mutedText),
+              Icon(
+                Icons.local_shipping_outlined,
+                size: 14,
+                color: palette.muted,
+              ),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
                   '${supplier.deliveryInfo}, ${supplier.deliveryDate}',
-                  style: TextStyle(fontSize: 12, color: mutedText),
+                  style: TextStyle(fontSize: 12, color: palette.muted),
                 ),
               ),
             ],

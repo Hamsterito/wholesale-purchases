@@ -1,6 +1,7 @@
 ﻿import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 
 import '../models/support_message.dart';
 import '../services/api_service.dart';
@@ -144,7 +145,7 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: isOpen ? const Color(0xFFDDF7E8) : const Color(0xFFFFE5E5),
+        color: isOpen ? context.colorPalette.success.withValues(alpha: 0.15) : context.colorPalette.error.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
@@ -152,7 +153,7 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
         style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w600,
-          color: isOpen ? const Color(0xFF1A7F4B) : const Color(0xFFB42318),
+          color: isOpen ? context.colorPalette.success : context.colorPalette.error,
         ),
       ),
     );
@@ -173,19 +174,19 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
-    final selectedBackground = const Color(0xFF6288D5);
+    final selectedBackground = context.colorPalette.accent;
     final selectedForeground = Colors.white;
     final unselectedBackground = isDark
         ? colorScheme.surfaceContainerHigh.withValues(alpha: 0.55)
-        : const Color(0xFFE9EFFB);
+        : context.colorPalette.accentMist;
     final unselectedForeground = isDark
         ? colorScheme.onSurfaceVariant.withValues(alpha: 0.95)
-        : const Color(0xFF4B5A78);
+        : context.colorPalette.muted;
     final borderColor = selected
         ? selectedBackground.withValues(alpha: isDark ? 0.98 : 0.9)
         : isDark
         ? colorScheme.outline.withValues(alpha: 0.75)
-        : const Color(0xFFC9D5ED);
+        : context.colorPalette.line;
 
     return Expanded(
       child: FilledButton(
@@ -689,8 +690,8 @@ class _ModeratorSupportDialogPageState
                   ),
                   decoration: BoxDecoration(
                     color: _isChatClosed
-                        ? const Color(0xFFFFE5E5)
-                        : const Color(0xFFDDF7E8),
+                        ? context.colorPalette.error.withValues(alpha: 0.15)
+                        : context.colorPalette.success.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(999),
                   ),
                   child: Text(
@@ -699,8 +700,8 @@ class _ModeratorSupportDialogPageState
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
                       color: _isChatClosed
-                          ? const Color(0xFFB42318)
-                          : const Color(0xFF1A7F4B),
+                          ? context.colorPalette.error
+                          : context.colorPalette.success,
                     ),
                   ),
                 ),
@@ -714,12 +715,12 @@ class _ModeratorSupportDialogPageState
           if (_isChatClosed && (_chat?.closeReason.trim().isNotEmpty ?? false))
             Container(
               width: double.infinity,
-              color: const Color(0xFFFFF4F4),
+              color: context.colorPalette.error.withValues(alpha: 0.08),
               padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
               child: Text(
                 'Причина закрытия: ${_chat!.closeReason}',
-                style: const TextStyle(
-                  color: Color(0xFF9F1239),
+                style: TextStyle(
+                  color: context.colorPalette.error,
                   fontWeight: FontWeight.w600,
                 ),
               ),

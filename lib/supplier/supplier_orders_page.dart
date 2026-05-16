@@ -2,6 +2,7 @@
 import '../models/supplier_order.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
+import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/main_bottom_nav.dart';
 import 'dart:convert';
@@ -17,7 +18,6 @@ class SupplierOrdersPage extends StatefulWidget {
 
 class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     with AutoRefreshMixin<SupplierOrdersPage> {
-  static const Color _brandBlue = Color(0xFF6288D5);
   static const List<String> _supplierFlowStatuses = [
     'Собирается',
     'В пути',
@@ -152,12 +152,13 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
   }
 
   Color _statusColor(String status) {
-    if (_isAssemblingStatus(status)) return const Color(0xFFF59E0B);
-    if (_isInTransitStatus(status)) return const Color(0xFF2563EB);
-    if (_isDeliveredStatus(status)) return const Color(0xFF10B981);
-    if (_isAcceptedStatus(status)) return const Color(0xFF15803D);
-    if (_isCancelledStatus(status)) return const Color(0xFFD32F2F);
-    return const Color(0xFF6B7280);
+    final palette = AppColorPalette.of(context);
+    if (_isAssemblingStatus(status)) return palette.statusPending;
+    if (_isInTransitStatus(status)) return palette.statusShipped;
+    if (_isDeliveredStatus(status)) return palette.statusDelivered;
+    if (_isAcceptedStatus(status)) return palette.statusDelivered;
+    if (_isCancelledStatus(status)) return palette.statusCancelled;
+    return palette.muted;
   }
 
   IconData _statusIcon(String status) {
@@ -306,7 +307,6 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     ).showSnackBar(SnackBar(content: Text(message)));
   }
 
-
   @override
   Future<void> onAutoRefresh() async {
     if (_isLoading || _updatingOrderIds.isNotEmpty) return;
@@ -433,7 +433,8 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     required VoidCallback onTap,
   }) {
     final colorScheme = Theme.of(context).colorScheme;
-    final selectedColor = _brandBlue;
+    final palette = AppColorPalette.of(context);
+    final selectedColor = palette.primary;
     final unselectedBorderColor = colorScheme.outlineVariant.withValues(
       alpha: 0.85,
     );
@@ -499,9 +500,10 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
 
   Widget _buildOrderCard(SupplierOrder order, {required bool isUpdating}) {
     final colorScheme = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
     final statusColor = _statusColor(order.status);
     final isHistoryOrder = _isHistoryStatus(order.status);
-    final surfaceColor = colorScheme.surface;
+    final surfaceColor = palette.card;
     final cardRadius = isHistoryOrder ? 18.0 : 20.0;
     final borderColor = isHistoryOrder
         ? statusColor.withValues(alpha: 0.24)
@@ -514,7 +516,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
         border: Border.all(color: borderColor),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: palette.shadow,
             blurRadius: isHistoryOrder ? 10 : 14,
             offset: isHistoryOrder ? const Offset(0, 4) : const Offset(0, 6),
           ),
@@ -653,12 +655,13 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
   }
 
   Widget _buildPriceBadge(String amountText) {
+    final palette = AppColorPalette.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: _brandBlue,
+        color: palette.primary,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: _brandBlue.withValues(alpha: 0.92)),
+        border: Border.all(color: palette.primary.withValues(alpha: 0.92)),
       ),
       child: Text(
         amountText,
@@ -666,8 +669,8 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
         maxLines: 1,
         overflow: TextOverflow.fade,
         softWrap: false,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: palette.card,
           fontSize: 13,
           fontWeight: FontWeight.w800,
         ),
@@ -951,7 +954,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              color: colorScheme.surface,
+              color: context.colorPalette.card,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: colorScheme.outlineVariant.withValues(alpha: 0.45),
@@ -1105,10 +1108,10 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     }
 
     if (raw.contains(',')) {
-      raw = raw.split(',').map((e) => e.trim()).firstWhere(
-        (e) => e.isNotEmpty,
-        orElse: () => '',
-      );
+      raw = raw
+          .split(',')
+          .map((e) => e.trim())
+          .firstWhere((e) => e.isNotEmpty, orElse: () => '');
       if (raw.isEmpty) return _buildSupplierItemImageFallback();
     }
 
@@ -1307,4 +1310,3 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     );
   }
 }
-

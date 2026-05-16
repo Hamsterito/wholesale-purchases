@@ -1,7 +1,8 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import 'package:flutter/services.dart';
 import '../services/api_config.dart';
 import '../services/app_http_client.dart';
@@ -41,10 +42,10 @@ class _RegisterPageState extends State<RegisterPage> {
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   bool get _isDark => _theme.brightness == Brightness.dark;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _inputFill =>
-      _isDark ? _colorScheme.surfaceContainerHighest : const Color(0xFFF5F5F5);
+      _isDark ? _colorScheme.surfaceContainerHighest : context.colorPalette.bgTop;
   TextStyle get _labelStyle => const TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w600,
@@ -455,10 +456,10 @@ class _RegisterPageState extends State<RegisterPage> {
     final isError = _topMessageIsError;
     final background = isError
         ? _colorScheme.errorContainer
-        : const Color(0xFFE8F5E8); // Светло-зеленый фон для успеха
+        : context.colorPalette.success.withValues(alpha: 0.12); // Светло-зеленый фон для успеха
     final textColor = isError
         ? _colorScheme.onErrorContainer
-        : const Color(0xFF2E7D32); // Темно-зеленый текст для успеха
+        : context.colorPalette.success; // Темно-зеленый текст для успеха
 
     return Container(
       width: double.infinity,
@@ -1035,8 +1036,8 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final gradientColors = _isDark
-        ? const [Color(0xFF1B2434), Color(0xFF0F1115)]
-        : const [Color(0xFF6288D5), Color(0xFF5A8BC5)];
+        ? [context.colorPalette.bgBottom, context.colorPalette.bgTop]
+        : [context.colorPalette.accent, context.colorPalette.accentDark];
     final media = MediaQuery.of(context);
     final isCompact = media.size.height < 720;
     final formPadding = EdgeInsets.all(isCompact ? 20 : 32);
@@ -1046,11 +1047,11 @@ class _RegisterPageState extends State<RegisterPage> {
     final formFlex = isCompact ? 8 : 7;
     final headerTitleSize = isCompact ? 28.0 : 32.0;
     final headerSubtitleSize = isCompact ? 14.0 : 16.0;
-    final backBorderColor = const Color(0xFFD2D6E0);
-    final backTextEnabledColor = const Color(0xFF6288D5);
-    final backTextDisabledColor = const Color(0xFFB6BCC7);
-    final primaryButtonColor = const Color(0xFF2E2E2E);
-    final primaryButtonDisabled = const Color(0xFF3A3A3A);
+    final backBorderColor = context.colorPalette.line;
+    final backTextEnabledColor = context.colorPalette.accent;
+    final backTextDisabledColor = context.colorPalette.muted;
+    final primaryButtonColor = context.colorPalette.ink;
+    final primaryButtonDisabled = context.colorPalette.ink;
     final buttonRadius = BorderRadius.circular(28);
     final backButtonStyle = ButtonStyle(
       minimumSize: const WidgetStatePropertyAll(Size.fromHeight(48)),

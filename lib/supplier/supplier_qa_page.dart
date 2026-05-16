@@ -10,83 +10,7 @@ import '../widgets/supplier_qa_response_modal.dart';
 import '../widgets/expandable_text_block.dart';
 import '../widgets/main_bottom_nav.dart';
 import '../utils/date_formatter.dart';
-
-class _SupplierQAPalette {
-  const _SupplierQAPalette({
-    required this.bgTop,
-    required this.bgBottom,
-    required this.card,
-    required this.line,
-    required this.ink,
-    required this.muted,
-    required this.accent,
-    required this.accentDark,
-    required this.accentSoft,
-    required this.accentMist,
-    required this.success,
-    required this.danger,
-    required this.star,
-    required this.shadow,
-  });
-
-  final Color bgTop;
-  final Color bgBottom;
-  final Color card;
-  final Color line;
-  final Color ink;
-  final Color muted;
-  final Color accent;
-  final Color accentDark;
-  final Color accentSoft;
-  final Color accentMist;
-  final Color success;
-  final Color danger;
-  final Color star;
-  final Color shadow;
-
-  static const light = _SupplierQAPalette(
-    bgTop: Color(0xFFF6F8FF),
-    bgBottom: Color(0xFFEFF3FF),
-    card: Color(0xFFFFFFFF),
-    line: Color(0xFFE3E8F3),
-    ink: Color(0xFF1B1E2B),
-    muted: Color(0xFF6D748A),
-    accent: Color(0xFF6288D5),
-    accentDark: Color(0xFF4F70C6),
-    accentSoft: Color(0xFFDCE6FA),
-    accentMist: Color(0xFFF0F4FF),
-    success: Color(0xFF4CAF50),
-    danger: Color(0xFFE4572E),
-    star: Color(0xFFF4B740),
-    shadow: Color(0x14000000),
-  );
-
-  static const dark = _SupplierQAPalette(
-    bgTop: Color(0xFF0F141F),
-    bgBottom: Color(0xFF141B2B),
-    card: Color(0xFF1A2336),
-    line: Color(0xFF2B364D),
-    ink: Color(0xFFE9EDFF),
-    muted: Color(0xFF9AA3B6),
-    accent: Color(0xFF6288D5),
-    accentDark: Color(0xFF9BB6FF),
-    accentSoft: Color(0xFF243251),
-    accentMist: Color(0xFF1A243A),
-    success: Color(0xFF66BB6A),
-    danger: Color(0xFFFF6B4A),
-    star: Color(0xFFF4B740),
-    shadow: Color(0x66000000),
-  );
-
-  static _SupplierQAPalette of(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    return brightness == Brightness.dark ? dark : light;
-  }
-}
-
-extension _SupplierQAPaletteX on BuildContext {
-  _SupplierQAPalette get qaPagePalette => _SupplierQAPalette.of(this);
-}
+import '../theme/app_color_palette.dart';
 
 class SupplierQAPage extends StatefulWidget {
   final String? productIdFilter;
@@ -637,7 +561,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.qaPagePalette;
+    final palette = context.colorPalette;
 
     return Scaffold(
       backgroundColor: palette.bgTop,
@@ -668,7 +592,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     );
   }
 
-  Widget _buildHeader(BuildContext context, _SupplierQAPalette palette) {
+  Widget _buildHeader(BuildContext context, AppColorPalette palette) {
     return Container(
       padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
       decoration: BoxDecoration(
@@ -768,7 +692,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     );
   }
 
-  Widget _buildContent(_SupplierQAPalette palette) {
+  Widget _buildContent(AppColorPalette palette) {
     switch (_pageState) {
       case _PageState.loading:
         return Center(child: CircularProgressIndicator(color: palette.accent));
@@ -822,7 +746,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     }
   }
 
-  List<Widget> _buildSectionedContent(_SupplierQAPalette palette) {
+  List<Widget> _buildSectionedContent(AppColorPalette palette) {
     final unansweredQuestions = _questions.where((q) => !q.isAnswered).toList();
     final answeredQuestions = _questions.where((q) => q.isAnswered).toList();
 
@@ -928,11 +852,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     return widgets;
   }
 
-  Widget _buildSectionHeader(
-    String title,
-    int count,
-    _SupplierQAPalette palette,
-  ) {
+  Widget _buildSectionHeader(String title, int count, AppColorPalette palette) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
       child: Row(
@@ -966,7 +886,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     );
   }
 
-  Widget _buildQuestionCard(Question question, _SupplierQAPalette palette) {
+  Widget _buildQuestionCard(Question question, AppColorPalette palette) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -1027,7 +947,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: palette.danger.withValues(alpha: 0.1),
+                    color: palette.error.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
@@ -1035,7 +955,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
-                      color: palette.danger,
+                      color: palette.error,
                     ),
                   ),
                 ),
@@ -1118,7 +1038,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     );
   }
 
-  Widget _buildReviewCard(ReviewEntry review, _SupplierQAPalette palette) {
+  Widget _buildReviewCard(ReviewEntry review, AppColorPalette palette) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -1257,24 +1177,24 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     );
   }
 
-  Widget _buildErrorBanner(String message, _SupplierQAPalette palette) {
+  Widget _buildErrorBanner(String message, AppColorPalette palette) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: palette.danger.withValues(alpha: 0.1),
+        color: palette.error.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: palette.danger.withValues(alpha: 0.3)),
+        border: Border.all(color: palette.error.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
-          Icon(Icons.error_outline, color: palette.danger, size: 20),
+          Icon(Icons.error_outline, color: palette.error, size: 20),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               message,
               style: TextStyle(
                 fontSize: 13,
-                color: palette.danger,
+                color: palette.error,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -1284,7 +1204,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     );
   }
 
-  Widget _buildEmptyState(_SupplierQAPalette palette) {
+  Widget _buildEmptyState(AppColorPalette palette) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -1321,7 +1241,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
       MaterialPageRoute(
         builder: (context) => _AnsweredQuestionsPage(
           questions: answeredQuestions,
-          palette: context.qaPagePalette,
+          palette: context.colorPalette,
         ),
       ),
     );
@@ -1330,7 +1250,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
 
 class _AnsweredQuestionsPage extends StatelessWidget {
   final List<Question> questions;
-  final _SupplierQAPalette palette;
+  final AppColorPalette palette;
 
   const _AnsweredQuestionsPage({
     required this.questions,

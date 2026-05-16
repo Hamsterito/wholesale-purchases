@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import '../models/question.dart';
+import '../theme/app_color_palette.dart';
 import 'expandable_text_block.dart';
 import '../utils/date_formatter.dart';
 
 class QuestionCard extends StatelessWidget {
   final Question question;
-  final dynamic palette;
+  final AppColorPalette palette;
 
   const QuestionCard({
     super.key,

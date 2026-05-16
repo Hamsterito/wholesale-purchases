@@ -10,6 +10,7 @@ import 'package:flutter_project/services/app_logger.dart';
 import 'package:flutter_project/services/app_settings.dart';
 import 'package:flutter_project/services/auth_storage.dart';
 import 'package:flutter_project/widgets/main_navigation.dart';
+import 'package:flutter_project/theme/app_color_palette.dart';
 
 // Главная функция приложения Flutter
 void main() {
@@ -163,7 +164,7 @@ class MyApp extends StatelessWidget {
       useMaterial3: true,
       brightness: Brightness.light,
       primaryColor: primaryColor,
-      scaffoldBackgroundColor: const Color(0xFFEAF3FF),
+      scaffoldBackgroundColor: AppColorPalette.light.bgTop,
       fontFamily: 'Roboto',
       colorScheme: colorScheme,
       dividerTheme: DividerThemeData(color: colorScheme.outlineVariant),
@@ -183,7 +184,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColorPalette.light.card,
         elevation: 0,
         iconTheme: IconThemeData(color: colorScheme.onSurface),
         titleTextStyle: TextStyle(
@@ -205,7 +206,7 @@ class MyApp extends StatelessWidget {
       useMaterial3: true,
       brightness: Brightness.dark,
       primaryColor: primaryColor,
-      scaffoldBackgroundColor: const Color(0xFF0F1115),
+      scaffoldBackgroundColor: AppColorPalette.dark.bgTop,
       fontFamily: 'Roboto',
       colorScheme: colorScheme,
       dividerTheme: DividerThemeData(color: colorScheme.outlineVariant),
@@ -225,7 +226,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: const Color(0xFF0F1115),
+        backgroundColor: AppColorPalette.dark.bgTop,
         elevation: 0,
         iconTheme: IconThemeData(color: colorScheme.onSurface),
         titleTextStyle: TextStyle(

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 
 class SmartImage extends StatefulWidget {
   const SmartImage({
@@ -107,16 +108,13 @@ class _SmartImageState extends State<SmartImage> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.colorPalette;
     final safePlaceholder =
         widget.placeholder ??
         Container(
-          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          color: palette.accentMist,
           alignment: Alignment.center,
-          child: Icon(
-            Icons.image,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-            size: 48,
-          ),
+          child: Icon(Icons.image, color: palette.muted, size: 48),
         );
 
     final path = widget.path.trim();

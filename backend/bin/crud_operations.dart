@@ -3776,8 +3776,9 @@ void _registerMutationRoutes(Router router, Connection connection) {
   router.post('/questions/<id>/answer', (Request request, String id) async {
     try {
       final questionId = int.tryParse(id);
-      if (questionId == null)
+      if (questionId == null) {
         return Response.badRequest(body: 'Invalid question id');
+      }
 
       final body = await request.readAsString();
       final decoded = jsonDecode(body);

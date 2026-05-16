@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import '../models/user_address.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
@@ -13,8 +14,6 @@ class MyAddressesPage extends StatefulWidget {
 }
 
 class _MyAddressesPageState extends State<MyAddressesPage> {
-  static const Color _primaryColor = Color(0xFF6288D5);
-
   List<UserAddress> _addresses = [];
   int? _selectedAddressId;
   bool _isLoading = true;
@@ -24,8 +23,8 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
   ColorScheme get _colorScheme => _theme.colorScheme;
   bool get _isDark => _theme.brightness == Brightness.dark;
   Color get _pageBg =>
-      _isDark ? _theme.scaffoldBackgroundColor : const Color(0xFFF3F6FB);
-  Color get _cardBg => _colorScheme.surface;
+      _isDark ? _theme.scaffoldBackgroundColor : context.colorPalette.bgTop;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
 
   @override
@@ -173,10 +172,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
     }
 
     try {
-      await ApiService.deleteUserAddress(
-        userId: userId,
-        addressId: address.id,
-      );
+      await ApiService.deleteUserAddress(userId: userId, addressId: address.id);
 
       if (!mounted) return;
       final remainingAddresses = _addresses
@@ -226,7 +222,9 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final primarySoft = _primaryColor.withValues(alpha: _isDark ? 0.18 : 0.12);
+    final primarySoft = context.colorPalette.accent.withValues(
+      alpha: _isDark ? 0.18 : 0.12,
+    );
 
     return Scaffold(
       backgroundColor: _pageBg,
@@ -248,38 +246,43 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
         actions: [
           IconButton(
             onPressed: _isSaving ? null : () => _openAddressEditor(),
-            icon: const Icon(Icons.add_circle_outline, color: _primaryColor),
+            icon: Icon(
+              Icons.add_circle_outline,
+              color: context.colorPalette.accent,
+            ),
             tooltip: 'Добавить адрес',
           ),
           const SizedBox(width: 6),
         ],
       ),
       body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(color: _primaryColor),
+          ? Center(
+              child: CircularProgressIndicator(
+                color: context.colorPalette.accent,
+              ),
             )
           : _addresses.isEmpty
-              ? _buildEmptyState()
-              : ListView.separated(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: _addresses.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
-                  itemBuilder: (context, index) {
-                    final entry = _addresses[index];
-                    return _buildAddressCard(
-                      context: context,
-                      icon: _resolveIcon(entry),
-                      iconColor: _primaryColor,
-                      iconBgColor: primarySoft,
-                      title: entry.displayTitle,
-                      address: entry.displayAddress,
-                      isSelected: entry.id == _selectedAddressId,
-                      onTap: () => _selectAddress(entry.id),
-                      onEdit: () => _openAddressEditor(address: entry),
-                      onDelete: () => _confirmDelete(entry),
-                    );
-                  },
-                ),
+          ? _buildEmptyState()
+          : ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: _addresses.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                final entry = _addresses[index];
+                return _buildAddressCard(
+                  context: context,
+                  icon: _resolveIcon(entry),
+                  iconColor: context.colorPalette.accent,
+                  iconBgColor: primarySoft,
+                  title: entry.displayTitle,
+                  address: entry.displayAddress,
+                  isSelected: entry.id == _selectedAddressId,
+                  onTap: () => _selectAddress(entry.id),
+                  onEdit: () => _openAddressEditor(address: entry),
+                  onDelete: () => _confirmDelete(entry),
+                );
+              },
+            ),
       bottomNavigationBar: const MainBottomNav(currentIndex: 3),
     );
   }
@@ -303,7 +306,11 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.location_on_outlined, size: 36, color: _primaryColor),
+            Icon(
+              Icons.location_on_outlined,
+              size: 36,
+              color: context.colorPalette.accent,
+            ),
             const SizedBox(height: 12),
             Text(
               'Адресов пока нет',
@@ -317,10 +324,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
             Text(
               'Добавьте адрес, чтобы оформить заказ быстрее.',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12,
-                color: _mutedText,
-              ),
+              style: TextStyle(fontSize: 12, color: _mutedText),
             ),
             const SizedBox(height: 16),
             SizedBox(
@@ -328,7 +332,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
               child: ElevatedButton(
                 onPressed: _isSaving ? null : () => _openAddressEditor(),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: _primaryColor,
+                  backgroundColor: context.colorPalette.accent,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
@@ -357,7 +361,9 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
     required VoidCallback onEdit,
     required VoidCallback onDelete,
   }) {
-    final borderColor = isSelected ? _primaryColor : Colors.transparent;
+    final borderColor = isSelected
+        ? context.colorPalette.accent
+        : Colors.transparent;
     final shadowColor = _isDark
         ? Colors.black.withValues(alpha: 0.35)
         : Colors.black.withValues(alpha: 0.06);
@@ -422,9 +428,9 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
                 children: [
                   IconButton(
                     onPressed: onEdit,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.edit_outlined,
-                      color: _primaryColor,
+                      color: context.colorPalette.accent,
                       size: 20,
                     ),
                     padding: EdgeInsets.zero,
@@ -434,9 +440,9 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
                   const SizedBox(width: 12),
                   IconButton(
                     onPressed: onDelete,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.delete_outline,
-                      color: _primaryColor,
+                      color: context.colorPalette.accent,
                       size: 20,
                     ),
                     padding: EdgeInsets.zero,
@@ -468,7 +474,7 @@ class _DeleteAddressDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final bg = colorScheme.surface;
+    final bg = context.colorPalette.card;
     final titleColor = colorScheme.onSurface;
     final bodyColor = colorScheme.onSurfaceVariant;
     final outlineColor = colorScheme.outline.withValues(alpha: 0.6);
@@ -514,11 +520,7 @@ class _DeleteAddressDialog extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 'Адрес "$title" будет удален без возможности восстановления.',
-                style: TextStyle(
-                  color: bodyColor,
-                  fontSize: 13,
-                  height: 1.4,
-                ),
+                style: TextStyle(color: bodyColor, fontSize: 13, height: 1.4),
               ),
               const SizedBox(height: 16),
               Row(
@@ -591,5 +593,3 @@ class _DeleteDialogActionButton extends StatelessWidget {
     );
   }
 }
-
-

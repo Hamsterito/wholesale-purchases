@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/product.dart';
+import '../theme/app_color_palette.dart';
 import '../widgets/product_card.dart';
 import '../services/api_service.dart';
 import '../utils/search_normalizer.dart';
@@ -43,7 +44,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _borderColor => _colorScheme.outlineVariant;
   Color get _surfaceVariant => _colorScheme.surfaceContainerHighest;
@@ -184,8 +185,8 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
 
   Widget _buildContent() {
     if (_isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(color: Color(0xFF6288D5)),
+      return Center(
+        child: CircularProgressIndicator(color: context.colorPalette.accent),
       );
     }
 
@@ -205,7 +206,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
             ElevatedButton(
               onPressed: _loadProducts,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF6288D5),
+                backgroundColor: context.colorPalette.accent,
               ),
               child: const Text('Повторить'),
             ),
@@ -323,7 +324,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                         ),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? const Color(0xFF6288D5)
+                              ? context.colorPalette.accent
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -353,7 +354,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
 
   Widget _buildProductGrid() {
     return RefreshIndicator(
-      color: const Color(0xFF6288D5),
+      color: context.colorPalette.accent,
       onRefresh: _loadProducts,
       child: GridView.builder(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
@@ -746,7 +747,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                         toController.text = priceRange.end.toInt().toString();
                       });
                     },
-                    activeColor: const Color(0xFF6288D5),
+                    activeColor: context.colorPalette.accent,
                     labels: RangeLabels(
                       '${priceRange.start.toInt()} \u20B8',
                       maxUnlimited
@@ -830,7 +831,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                               minRating = value;
                             });
                           },
-                          activeColor: const Color(0xFF6288D5),
+                          activeColor: context.colorPalette.accent,
                         ),
                       ),
                     ],
@@ -852,7 +853,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF6288D5),
+                        backgroundColor: context.colorPalette.accent,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         shape: RoundedRectangleBorder(
@@ -885,7 +886,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
               width: 8,
               height: 8,
               decoration: BoxDecoration(
-                color: const Color(0xFF6288D5),
+                color: context.colorPalette.accent,
                 shape: BoxShape.circle,
                 border: Border.all(color: _cardBg, width: 1),
               ),
@@ -963,7 +964,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
     required bool selected,
     required VoidCallback onTap,
   }) {
-    const activeColor = Color(0xFF6288D5);
+    final activeColor = context.colorPalette.accent;
     final borderColor = selected ? activeColor : _borderColor;
     final bgColor = selected
         ? activeColor.withValues(alpha: 0.15)
@@ -995,7 +996,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
     required bool selected,
     required VoidCallback onTap,
   }) {
-    const activeColor = Color(0xFF6288D5);
+    final activeColor = context.colorPalette.accent;
     return ListTile(
       dense: true,
       leading: Icon(icon, color: selected ? activeColor : _mutedText, size: 20),
@@ -1008,7 +1009,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
         ),
       ),
       trailing: selected
-          ? const Icon(Icons.check, color: activeColor, size: 20)
+          ? Icon(Icons.check, color: activeColor, size: 20)
           : null,
       onTap: onTap,
     );

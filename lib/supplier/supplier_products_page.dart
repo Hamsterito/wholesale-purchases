@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/supplier_product.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
+import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/main_bottom_nav.dart';
 import '../widgets/smart_image.dart';
@@ -25,6 +26,8 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
   String? _error;
 
   int? get _userId => AuthStorage.userId;
+
+  bool get _isDark => Theme.of(context).brightness == Brightness.dark;
 
   @override
   void initState() {
@@ -127,7 +130,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
             TextButton(
               onPressed: () => Navigator.pop(context, true),
               style: TextButton.styleFrom(
-                foregroundColor: const Color(0xFFEF4444),
+                foregroundColor: AppColorPalette.of(context).error,
               ),
               child: const Text('Удалить'),
             ),
@@ -226,13 +229,14 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
   }
 
   Color _statusColor(String status) {
+    final palette = AppColorPalette.of(context);
     switch (status) {
       case 'approved':
-        return const Color(0xFF16A34A);
+        return palette.success;
       case 'rejected':
-        return const Color(0xFFEF4444);
+        return palette.error;
       default:
-        return const Color(0xFFF59E0B);
+        return palette.warning;
     }
   }
 
@@ -277,6 +281,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
     required bool isDeleting,
   }) {
     final colorScheme = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
     final statusColor = _statusColor(product.moderationStatus);
     final imagePath = product.imageUrls.isNotEmpty
         ? product.imageUrls.first
@@ -285,12 +290,12 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colorScheme.surface,
+        color: palette.card,
         borderRadius: BorderRadius.circular(22),
         border: Border.all(color: statusColor.withValues(alpha: 0.25)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
+            color: palette.shadow,
             blurRadius: 16,
             offset: const Offset(0, 8),
           ),
@@ -355,7 +360,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
                                     Icons.delete_outline_rounded,
                                     size: 22,
                                   ),
-                            color: const Color(0xFFB91C1C),
+                            color: palette.error,
                             iconSize: 16,
                             constraints: const BoxConstraints(
                               minWidth: 0,
@@ -490,7 +495,9 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
                     icon: const Icon(Icons.help_outline, size: 18),
                     label: const Text('Q&A'),
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF6288D5),
+                      backgroundColor: _isDark
+                          ? palette.accentMist
+                          : palette.accent,
                       foregroundColor: Colors.white,
                       disabledForegroundColor: colorScheme.onSurfaceVariant,
                       disabledBackgroundColor:
@@ -608,7 +615,9 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
             ? null
             : () => _openProductWizard(),
         tooltip: 'Добавить товар',
-        backgroundColor: const Color(0xFF6288D5),
+        backgroundColor: _isDark
+            ? AppColorPalette.of(context).accentMist
+            : AppColorPalette.of(context).accent,
         foregroundColor: Colors.white,
         child: const Icon(Icons.add_rounded),
       ),

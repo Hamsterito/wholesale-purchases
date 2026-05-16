@@ -1,6 +1,7 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 
 import '../models/order.dart';
 import '../pages/order_history_page.dart';
@@ -18,7 +19,7 @@ class MyOrdersPage extends StatefulWidget {
 
 class _MyOrdersPageState extends State<MyOrdersPage>
     with AutoRefreshMixin<MyOrdersPage> {
-  static const Color _brandBlue = Color(0xFF6288D5);
+  
   static const Duration _orderCancellationWindow = Duration(hours: 1);
 
   List<Order> _orders = [];
@@ -30,7 +31,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   ColorScheme get _colorScheme => _theme.colorScheme;
   bool get _isDark => _theme.brightness == Brightness.dark;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _borderColor => _colorScheme.outlineVariant;
   Color get _shadowColor => _isDark
@@ -143,8 +144,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     int historyCount,
   ) {
     if (_isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(color: Color(0xFF6288D5)),
+      return Center(child: CircularProgressIndicator(color: context.colorPalette.accent),
       );
     }
 
@@ -153,7 +153,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
         _buildHistoryButton(context, historyCount),
         Expanded(
           child: RefreshIndicator(
-            color: const Color(0xFF6288D5),
+            color: context.colorPalette.accent,
             onRefresh: _loadOrders,
             child: _buildOrdersList(activeOrders),
           ),
@@ -191,10 +191,10 @@ class _MyOrdersPageState extends State<MyOrdersPage>
         ? 'История заказов ($historyCount)'
         : 'История заказов';
 
-    final historyBorderColor = _brandBlue.withValues(
+    final historyBorderColor = context.colorPalette.accent.withValues(
       alpha: _isDark ? 0.98 : 0.9,
     );
-    final historyBackground = _brandBlue.withValues(
+    final historyBackground = context.colorPalette.accent.withValues(
       alpha: _isDark ? 0.1 : 0.04,
     );
 
@@ -322,21 +322,21 @@ class _MyOrdersPageState extends State<MyOrdersPage>
 
   Color _statusTextColor(String status) {
     if (_isDeliveredStatus(status)) {
-      return const Color(0xFF4CAF50);
+      return context.colorPalette.statusDelivered;
     }
     if (_isInTransitStatus(status)) {
-      return const Color(0xFF6288D5);
+      return context.colorPalette.accent;
     }
     if (_isProcessingStatus(status)) {
-      return const Color(0xFFF59E0B);
+      return context.colorPalette.statusPending;
     }
     if (_isAcceptedStatus(status)) {
-      return const Color(0xFF2E7D32);
+      return context.colorPalette.success;
     }
     if (_isCancelledStatus(status)) {
-      return const Color(0xFFD32F2F);
+      return context.colorPalette.statusCancelled;
     }
-    return const Color(0xFFFF9800);
+    return context.colorPalette.statusPending;
   }
 
   Color _statusBackgroundColor(String status) {
@@ -555,7 +555,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                             });
                           }
                         : null,
-                    activeColor: _brandBlue,
+                    activeColor: context.colorPalette.accent,
                     checkColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
@@ -568,7 +568,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                         return _borderColor;
                       }
                       if (states.contains(WidgetState.selected)) {
-                        return _brandBlue;
+                        return context.colorPalette.accent;
                       }
                       return Colors.transparent;
                     }),
@@ -814,7 +814,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                 ),
                 label: Text(selectLabel),
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: _brandBlue,
+                  foregroundColor: context.colorPalette.accent,
                   side: BorderSide(color: _borderColor),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
@@ -837,7 +837,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                       ? null
                       : () => _confirmAcceptOrder(order),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: _brandBlue,
+                    backgroundColor: context.colorPalette.accent,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 22),
                     shape: RoundedRectangleBorder(
@@ -875,8 +875,8 @@ class _MyOrdersPageState extends State<MyOrdersPage>
       icon: const Icon(Icons.cancel_outlined, size: 18),
       label: Text(isCancelling ? 'Отменяем...' : 'Отменить заказ'),
       style: OutlinedButton.styleFrom(
-        foregroundColor: const Color(0xFFD32F2F),
-        side: const BorderSide(color: Color(0xFFD32F2F)),
+        foregroundColor: context.colorPalette.statusCancelled,
+        side: BorderSide(color: context.colorPalette.statusCancelled),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -989,7 +989,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                       child: ElevatedButton(
                         onPressed: () => Navigator.pop(context, true),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: _brandBlue,
+                          backgroundColor: context.colorPalette.accent,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(

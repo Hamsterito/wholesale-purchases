@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 
 class NavColors {
   final Color background;
@@ -12,20 +13,12 @@ class NavColors {
   });
 
   factory NavColors.of(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final isDark = theme.brightness == Brightness.dark;
-    const brandBlue = Color(0xFF6288D5);
-    final background = colorScheme.surface;
-    final foreground = brandBlue;
-    final foregroundMuted = isDark
-        ? colorScheme.onSurface.withValues(alpha: 0.82)
-        : Colors.black;
+    final palette = AppColorPalette.of(context);
 
     return NavColors(
-      background: background,
-      foreground: foreground,
-      foregroundMuted: foregroundMuted,
+      background: palette.card,
+      foreground: palette.accent,
+      foregroundMuted: palette.muted,
     );
   }
 }

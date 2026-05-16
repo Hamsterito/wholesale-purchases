@@ -3,80 +3,11 @@
 import '../models/product.dart';
 import '../models/review_entry.dart';
 import '../services/api_service.dart';
+import '../theme/app_color_palette.dart';
 import '../widgets/rating_stars.dart';
 import '../widgets/expandable_text_block.dart';
 import '../widgets/main_bottom_nav.dart';
 import '../utils/date_formatter.dart';
-
-class _ProductReviewsPalette {
-  const _ProductReviewsPalette({
-    required this.bgTop,
-    required this.bgBottom,
-    required this.card,
-    required this.line,
-    required this.ink,
-    required this.muted,
-    required this.accent,
-    required this.accentDark,
-    required this.accentSoft,
-    required this.accentMist,
-    required this.danger,
-    required this.shadow,
-  });
-
-  final Color bgTop;
-  final Color bgBottom;
-  final Color card;
-  final Color line;
-  final Color ink;
-  final Color muted;
-  final Color accent;
-  final Color accentDark;
-  final Color accentSoft;
-  final Color accentMist;
-  final Color danger;
-  final Color shadow;
-
-  static const light = _ProductReviewsPalette(
-    bgTop: Color(0xFFF6F8FF),
-    bgBottom: Color(0xFFEFF3FF),
-    card: Color(0xFFFFFFFF),
-    line: Color(0xFFE3E8F3),
-    ink: Color(0xFF1B1E2B),
-    muted: Color(0xFF6D748A),
-    accent: Color(0xFF6288D5),
-    accentDark: Color(0xFF4F70C6),
-    accentSoft: Color(0xFFDCE6FA),
-    accentMist: Color(0xFFF0F4FF),
-    danger: Color(0xFFE4572E),
-    shadow: Color(0x14000000),
-  );
-
-  static const dark = _ProductReviewsPalette(
-    bgTop: Color(0xFF0F141F),
-    bgBottom: Color(0xFF141B2B),
-    card: Color(0xFF1A2336),
-    line: Color(0xFF2B364D),
-    ink: Color(0xFFE9EDFF),
-    muted: Color(0xFF9AA3B6),
-    accent: Color(0xFF6288D5),
-    accentDark: Color(0xFF9BB6FF),
-    accentSoft: Color(0xFF243251),
-    accentMist: Color(0xFF1A243A),
-    danger: Color(0xFFFF6B4A),
-    shadow: Color(0x66000000),
-  );
-
-  static _ProductReviewsPalette of(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
-    return brightness == Brightness.dark ? dark : light;
-  }
-}
-
-extension _ProductReviewsPaletteX on BuildContext {
-  _ProductReviewsPalette get productReviewsPalette =>
-      _ProductReviewsPalette.of(this);
-}
 
 class ReviewsPage extends StatefulWidget {
   const ReviewsPage({
@@ -93,8 +24,6 @@ class ReviewsPage extends StatefulWidget {
 }
 
 class _ReviewsPageState extends State<ReviewsPage> {
-  static const Color _star = Color(0xFFF5B400);
-
   late List<ReviewEntry> _reviews;
   bool _isLoading = false;
   String? _error;
@@ -182,7 +111,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.productReviewsPalette;
+    final palette = context.colorPalette;
 
     return Scaffold(
       backgroundColor: palette.bgTop,
@@ -223,7 +152,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    final palette = context.productReviewsPalette;
+    final palette = context.colorPalette;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -282,7 +211,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   }
 
   Widget _buildContent() {
-    final palette = context.productReviewsPalette;
+    final palette = context.colorPalette;
 
     return RefreshIndicator(
       color: palette.accent,
@@ -307,7 +236,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   }
 
   Widget _buildSummaryCard() {
-    final palette = context.productReviewsPalette;
+    final palette = context.colorPalette;
     final total = _reviews.length;
 
     return Container(
@@ -380,7 +309,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   }
 
   Widget _buildRatingBar(int stars, int count, {required int total}) {
-    final palette = context.productReviewsPalette;
+    final palette = context.colorPalette;
     final ratio = total > 0 ? (count / total).clamp(0.0, 1.0).toDouble() : 0.0;
 
     return Padding(
@@ -398,7 +327,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
               ),
             ),
           ),
-          const Icon(Icons.star_rounded, size: 13, color: _star),
+          Icon(Icons.star_rounded, size: 13, color: palette.star),
           const SizedBox(width: 8),
           Expanded(
             child: Container(
@@ -414,7 +343,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(999),
-                      gradient: LinearGradient(colors: [_star, _star]),
+                      gradient: LinearGradient(
+                        colors: [palette.star, palette.star],
+                      ),
                     ),
                   ),
                 ),
@@ -436,23 +367,23 @@ class _ReviewsPageState extends State<ReviewsPage> {
   }
 
   Widget _buildErrorBanner(String text) {
-    final palette = context.productReviewsPalette;
+    final palette = context.colorPalette;
 
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: palette.danger.withValues(alpha: 0.12),
+        color: palette.error.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: palette.danger.withValues(alpha: 0.38)),
+        border: Border.all(color: palette.error.withValues(alpha: 0.38)),
       ),
       child: Row(
         children: [
-          Icon(Icons.error_outline, size: 18, color: palette.danger),
+          Icon(Icons.error_outline, size: 18, color: palette.error),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               text,
-              style: TextStyle(fontSize: 12, color: palette.danger),
+              style: TextStyle(fontSize: 12, color: palette.error),
             ),
           ),
         ],
@@ -461,7 +392,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   }
 
   Widget _buildEmptyState() {
-    final palette = context.productReviewsPalette;
+    final palette = context.colorPalette;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
@@ -501,7 +432,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   }
 
   Widget _buildReviewCard(ReviewEntry review) {
-    final palette = context.productReviewsPalette;
+    final palette = context.colorPalette;
     final name = _reviewerName(review);
     final text = review.reviewText.trim().isEmpty
         ? 'Без текста'
@@ -537,7 +468,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: const Color(0xFF6288D5),
+                    color: palette.accent,
                   ),
                 ),
               ),
@@ -566,7 +497,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 rating: review.rating.toDouble(),
                 size: 16,
                 spacing: 2,
-                filledColor: _star,
+                filledColor: palette.star,
                 emptyColor: palette.line,
               ),
             ],

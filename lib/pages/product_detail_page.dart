@@ -13,7 +13,7 @@ import '../widgets/main_bottom_nav.dart';
 import '../widgets/nutritional_info_card.dart';
 import '../widgets/product_image_carousel.dart';
 import '../widgets/rating_section.dart';
-
+import '../theme/app_color_palette.dart';
 import '../widgets/similar_products_carousel.dart';
 import '../widgets/top_message.dart';
 import '../widgets/rating_stars.dart';
@@ -61,19 +61,13 @@ class _ProductDetailPageState extends State<ProductDetailPage>
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
-  bool get _isDark => _theme.brightness == Brightness.dark;
-  Color get _pageBg {
-    final base = _theme.scaffoldBackgroundColor;
-    final overlay = Colors.black.withValues(alpha: _isDark ? 0.06 : 0.04);
-    return Color.alphaBlend(overlay, base);
-  }
+  AppColorPalette get _palette => context.colorPalette;
 
-  Color get _cardBg => _colorScheme.surface;
-  Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _borderColor => _colorScheme.outlineVariant;
-  Color get _shadowColor => _isDark
-      ? Colors.black.withValues(alpha: 0.35)
-      : Colors.black.withValues(alpha: 0.08);
+  Color get _pageBg => _palette.bgTop;
+  Color get _cardBg => _palette.card;
+  Color get _mutedText => _palette.muted;
+  Color get _borderColor => _palette.line;
+  Color get _shadowColor => _palette.shadow;
   FavoritesStore get _favoritesStore => FavoritesStore.instance;
   int get _resolvedReviewCount => _productReviews.isNotEmpty
       ? _productReviews.length
@@ -318,7 +312,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       showTopMessage(
         context,
         'Нет в наличии',
-        backgroundColor: const Color(0xFFEF4444),
+        backgroundColor: _palette.error,
         showAtBottom: true,
         bottomOffset: _bottomMessageOffset,
       );
@@ -336,7 +330,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     showTopMessage(
       context,
       'Добавлено в корзину: ${widget.product.name}',
-      backgroundColor: const Color(0xFF6288D5),
+      backgroundColor: _palette.accent,
       showAtBottom: true,
       bottomOffset: _bottomMessageOffset,
     );
@@ -353,7 +347,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     showTopMessage(
       context,
       'Удалено из корзины: ${widget.product.name}',
-      backgroundColor: const Color(0xFFEF4444),
+      backgroundColor: _palette.error,
       showAtBottom: true,
       bottomOffset: _bottomMessageOffset,
     );
@@ -403,10 +397,10 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                         children: [
                           TabBar(
                             controller: _tabController,
-                            indicatorColor: const Color(0xFF6288D5),
+                            indicatorColor: _palette.accent,
                             indicatorWeight: 3,
-                            labelColor: _colorScheme.onSurface,
-                            unselectedLabelColor: _colorScheme.onSurfaceVariant,
+                            labelColor: _palette.ink,
+                            unselectedLabelColor: _palette.muted,
                             labelStyle: const TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
@@ -499,7 +493,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                 children: [
                   _buildIconPill(
                     icon: _isFavorite ? Icons.favorite : Icons.favorite_border,
-                    iconColor: const Color(0xFF6288D5),
+                    iconColor: _palette.accent,
                     onTap: () {
                       final added = _favoritesStore.toggle(widget.product);
                       setState(() {
@@ -509,7 +503,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                         showTopMessage(
                           context,
                           '\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e \u0432 \u0438\u0437\u0431\u0440\u0430\u043d\u043d\u043e\u0435',
-                          backgroundColor: const Color(0xFF6288D5),
+                          backgroundColor: _palette.accent,
                           showAtBottom: true,
                           bottomOffset: _bottomMessageOffset,
                         );
@@ -517,7 +511,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                         showTopMessage(
                           context,
                           '\u0423\u0434\u0430\u043b\u0435\u043d\u043e \u0438\u0437 \u0438\u0437\u0431\u0440\u0430\u043d\u043d\u043e\u0433\u043e',
-                          backgroundColor: const Color(0xFFEF4444),
+                          backgroundColor: _palette.error,
                           showAtBottom: true,
                           duration: const Duration(seconds: 3),
                           showClose: true,
@@ -601,10 +595,10 @@ class _ProductDetailPageState extends State<ProductDetailPage>
         color: _cardBg,
         margin: const EdgeInsets.only(top: 8),
         padding: const EdgeInsets.all(16),
-        child: const Text(
+        child: Text(
           'Нет в наличии',
           style: TextStyle(
-            color: Color(0xFFEF4444),
+            color: _palette.error,
             fontSize: 15,
             fontWeight: FontWeight.w700,
           ),
@@ -626,18 +620,19 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           Expanded(
             child: Text(
               '${supplier.pricePerUnit} ₸/шт',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: _palette.ink,
+              ),
             ),
           ),
           const SizedBox(width: 12),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color:
-                  (isAvailable
-                          ? const Color(0xFF16A34A)
-                          : const Color(0xFFEF4444))
-                      .withValues(alpha: 0.12),
+              color: (isAvailable ? _palette.accent : _palette.error)
+                  .withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(999),
             ),
             child: Text(
@@ -645,9 +640,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   ? 'В наличии: ${supplier.stockQuantity} шт.'
                   : 'Нет в наличии',
               style: TextStyle(
-                color: isAvailable
-                    ? const Color(0xFF16A34A)
-                    : const Color(0xFFEF4444),
+                color: isAvailable ? _palette.accent : _palette.error,
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
               ),
@@ -789,11 +782,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     final isAdded = (_supplierAdded[supplier.id] ?? false) && isAvailable;
     const outOfStockButtonWidth = 164.0;
     const outOfStockButtonHeight = 57.0;
-    final barColor = !isAvailable
-        ? const Color(0xFF9CA3AF)
-        : isAdded
-        ? const Color(0xFF22C55E)
-        : const Color(0xFF6288D5);
+    final barColor = !isAvailable ? _palette.muted : _palette.accent;
     final accentColor = barColor;
 
     return Container(
@@ -1045,6 +1034,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   }
 
   Widget _buildStatsButtonsRow() {
+    final palette = context.colorPalette;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(5, 12, 5, 8),
       child: Row(
@@ -1052,7 +1043,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           _buildStatButton(
             onTap: _openReviews,
             icon: Icons.star_rounded,
-            iconColor: const Color(0xFF6288D5),
+            iconColor: palette.accent,
             value: widget.product.rating.toString(),
             label: '$_resolvedReviewCount оценок',
           ),
@@ -1060,7 +1051,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           _buildStatButton(
             onTap: _openAllQuestions,
             icon: Icons.mode_comment_outlined,
-            iconColor: const Color(0xFF6288D5),
+            iconColor: palette.accent,
             value: '$_totalQuestions',
             label: 'вопросов',
           ),
@@ -1076,6 +1067,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     required String value,
     required String label,
   }) {
+    final palette = context.colorPalette;
+
     return Expanded(
       child: InkWell(
         onTap: onTap,
@@ -1083,11 +1076,11 @@ class _ProductDetailPageState extends State<ProductDetailPage>
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: palette.card,
             borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
+                color: palette.shadow,
                 blurRadius: 4,
                 offset: const Offset(0, 2),
               ),
@@ -1099,15 +1092,15 @@ class _ProductDetailPageState extends State<ProductDetailPage>
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(icon, color: iconColor, size: 18),
+                  Icon(icon, color: palette.accent, size: 18),
                   const SizedBox(width: 4),
                   Flexible(
                     child: Text(
                       value,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
-                        color: Colors.black87,
+                        color: palette.ink,
                         height: 1.1,
                       ),
                       textAlign: TextAlign.center,
@@ -1119,7 +1112,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                 label,
                 style: TextStyle(
                   fontSize: 12,
-                  color: Colors.grey.shade500,
+                  color: palette.muted,
                   height: 1.1,
                 ),
                 textAlign: TextAlign.center,
@@ -1139,40 +1132,38 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     String? buttonText,
     VoidCallback? onButtonPressed,
   }) {
+    final palette = context.colorPalette;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: palette.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: palette.line),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           CircleAvatar(
             radius: 32,
-            backgroundColor: Color.fromRGBO(98, 136, 213, 0.1),
-            child: Icon(icon, size: 40, color: const Color(0xFF6288D5)),
+            backgroundColor: palette.accentMist,
+            child: Icon(icon, size: 40, color: palette.accent),
           ),
           const SizedBox(height: 16),
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: Colors.black87,
+              color: palette.ink,
             ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
           Text(
             subtitle,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.grey,
-              height: 1.4,
-            ),
+            style: TextStyle(fontSize: 14, color: palette.muted, height: 1.4),
             textAlign: TextAlign.center,
           ),
           if (showButton) ...[
@@ -1180,15 +1171,15 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             OutlinedButton(
               onPressed: onButtonPressed,
               style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Color(0xFF6288D5)),
+                side: BorderSide(color: palette.accent),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
               child: Text(
                 buttonText!,
-                style: const TextStyle(
-                  color: Color(0xFF6288D5),
+                style: TextStyle(
+                  color: palette.accent,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -1265,29 +1256,23 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
+    final palette = context.colorPalette;
     final name = _reviewerName(widget.review);
     final text = widget.review.reviewText.trim().isEmpty
         ? 'Без текста'
         : widget.review.reviewText.trim();
     final dateStr = _formatDate(widget.review.createdAt);
 
-    // Создаем палитру, похожую на QuestionCard
-    final palette = _createPalette(cs);
-
     return Container(
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       decoration: BoxDecoration(
-        color: palette['card'],
+        color: palette.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: (palette['line'] as Color).withValues(alpha: 0.5),
-        ),
+        border: Border.all(color: palette.line.withValues(alpha: 0.5)),
         boxShadow: [
           BoxShadow(
-            color: palette['shadow'] as Color,
+            color: palette.shadow,
             blurRadius: 10,
             offset: const Offset(0, 6),
           ),
@@ -1300,13 +1285,13 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
             children: [
               CircleAvatar(
                 radius: 20,
-                backgroundColor: palette['accentSoft'],
+                backgroundColor: palette.accentMist,
                 child: Text(
                   _initial(name),
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: palette['accent'],
+                    color: palette.accent,
                   ),
                 ),
               ),
@@ -1320,13 +1305,13 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
-                        color: palette['ink'],
+                        color: palette.ink,
                       ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       dateStr,
-                      style: TextStyle(fontSize: 12, color: palette['muted']),
+                      style: TextStyle(fontSize: 12, color: palette.muted),
                     ),
                   ],
                 ),
@@ -1335,8 +1320,8 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
                 rating: widget.review.rating.toDouble(),
                 size: 16,
                 spacing: 2,
-                filledColor: palette['star'] as Color,
-                emptyColor: palette['line'] as Color,
+                filledColor: palette.star,
+                emptyColor: palette.line,
               ),
             ],
           ),
@@ -1346,7 +1331,7 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
             text,
             style: TextStyle(
               fontSize: 15,
-              color: palette['ink'],
+              color: palette.ink,
               height: 1.4,
               fontWeight: FontWeight.w500,
             ),
@@ -1364,7 +1349,7 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
                 child: Text(
                   'Подробнее',
                   style: TextStyle(
-                    color: palette['accent'],
+                    color: palette.accent,
                     fontWeight: FontWeight.w600,
                     fontSize: 13,
                   ),
@@ -1380,7 +1365,7 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
                 child: Text(
                   'Перейти ко всем отзывам',
                   style: TextStyle(
-                    color: palette['accent'],
+                    color: palette.accent,
                     fontWeight: FontWeight.w600,
                     fontSize: 13,
                   ),
@@ -1398,21 +1383,6 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
 
   bool _isLongTextButCollapsed(String text) {
     return _hasLongText(text) && !_isExpanded;
-  }
-
-  Map<String, dynamic> _createPalette(ColorScheme cs) {
-    final isDark = cs.brightness == Brightness.dark;
-    return {
-      'card': Colors.white,
-      'line': cs.outlineVariant,
-      'ink': cs.onSurface,
-      'muted': cs.onSurfaceVariant,
-      'accent': const Color(0xFF6288D5),
-      'accentSoft': const Color(0xFF6288D5).withValues(alpha: 0.12),
-      'accentMist': const Color(0xFF6288D5).withValues(alpha: 0.08),
-      'star': const Color(0xFFF4B740),
-      'shadow': cs.onSurface.withValues(alpha: isDark ? 0.3 : 0.08),
-    };
   }
 }
 
@@ -1439,25 +1409,20 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
+    final palette = context.colorPalette;
     final name = widget.question.userName;
     final date = _formatDate(widget.question.createdAt);
-
-    final palette = _createPalette(cs);
 
     return Container(
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: palette.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: (palette['line'] as Color).withValues(alpha: 0.5),
-        ),
+        border: Border.all(color: palette.line.withValues(alpha: 0.5)),
         boxShadow: [
           BoxShadow(
-            color: palette['shadow'] as Color,
+            color: palette.shadow,
             blurRadius: 10,
             offset: const Offset(0, 6),
           ),
@@ -1471,13 +1436,13 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
             children: [
               CircleAvatar(
                 radius: 20,
-                backgroundColor: palette['accentSoft'],
+                backgroundColor: palette.accentMist,
                 child: Text(
                   name[0].toUpperCase(),
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: palette['accent'],
+                    color: palette.accent,
                   ),
                 ),
               ),
@@ -1491,13 +1456,13 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
-                        color: palette['ink'],
+                        color: palette.ink,
                       ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       date,
-                      style: TextStyle(fontSize: 12, color: palette['muted']),
+                      style: TextStyle(fontSize: 12, color: palette.muted),
                     ),
                   ],
                 ),
@@ -1510,7 +1475,7 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
             widget.question.questionText,
             style: TextStyle(
               fontSize: 15,
-              color: palette['ink'],
+              color: palette.ink,
               height: 1.4,
               fontWeight: FontWeight.w500,
             ),
@@ -1528,7 +1493,7 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
                 child: Text(
                   'Подробнее',
                   style: TextStyle(
-                    color: palette['accent'],
+                    color: palette.accent,
                     fontWeight: FontWeight.w600,
                     fontSize: 13,
                   ),
@@ -1544,7 +1509,7 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
                 child: Text(
                   'Перейти ко всем вопросам',
                   style: TextStyle(
-                    color: palette['accent'],
+                    color: palette.accent,
                     fontWeight: FontWeight.w600,
                     fontSize: 13,
                   ),
@@ -1562,21 +1527,6 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
 
   bool _isLongTextButCollapsed(String text) {
     return _hasLongText(text) && !_isExpanded;
-  }
-
-  Map<String, dynamic> _createPalette(ColorScheme cs) {
-    final isDark = cs.brightness == Brightness.dark;
-    return {
-      'card': Colors.white,
-      'line': cs.outlineVariant,
-      'ink': cs.onSurface,
-      'muted': cs.onSurfaceVariant,
-      'accent': const Color(0xFF6288D5),
-      'accentSoft': const Color(0xFF6288D5).withValues(alpha: 0.12),
-      'accentMist': const Color(0xFF6288D5).withValues(alpha: 0.08),
-      'star': const Color(0xFFF4B740),
-      'shadow': cs.onSurface.withValues(alpha: isDark ? 0.3 : 0.08),
-    };
   }
 }
 

@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import '../profile/personal_info.dart';
 import '../profile/my_addresses.dart';
 import '../login_screen/login.dart';
@@ -144,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
               return Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: colorScheme.surface,
+                  color: context.colorPalette.card,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -199,7 +200,7 @@ class _ProfilePageState extends State<ProfilePage> {
           // Личная информация и адреса
           Container(
             decoration: BoxDecoration(
-              color: colorScheme.surface,
+              color: context.colorPalette.card,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
@@ -207,7 +208,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildMenuItem(
                   context: context,
                   icon: Icons.person_outline,
-                  iconColor: const Color(0xFFE53935),
+                  iconColor: context.colorPalette.error,
                   title: 'Личная информация',
                   onTap: () async {
                     await Navigator.push(
@@ -224,7 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildMenuItem(
                   context: context,
                   icon: Icons.location_on_outlined,
-                  iconColor: const Color(0xFFFFB300),
+                  iconColor: context.colorPalette.warning,
                   title: 'Адреса',
                   onTap: () {
                     Navigator.push(
@@ -244,7 +245,7 @@ class _ProfilePageState extends State<ProfilePage> {
           // Оплаты
           Container(
             decoration: BoxDecoration(
-              color: colorScheme.surface,
+              color: context.colorPalette.card,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
@@ -252,7 +253,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildMenuItem(
                   context: context,
                   icon: Icons.shopping_cart_outlined,
-                  iconColor: const Color(0xFF43A047),
+                  iconColor: context.colorPalette.success,
                   title: 'Мои заказы',
                   onTap: () {
                     Navigator.push(
@@ -267,7 +268,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildMenuItem(
                   context: context,
                   icon: Icons.history_rounded,
-                  iconColor: const Color(0xFF5C6BC0),
+                  iconColor: context.colorPalette.info,
                   title: 'История заказов',
                   onTap: () {
                     Navigator.push(
@@ -282,7 +283,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildMenuItem(
                   context: context,
                   icon: Icons.credit_card,
-                  iconColor: const Color(0xFF2E7D32),
+                  iconColor: context.colorPalette.success,
                   title: 'Способ оплаты',
                   onTap: () {
                     Navigator.push(
@@ -301,13 +302,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
           Container(
             decoration: BoxDecoration(
-              color: colorScheme.surface,
+              color: context.colorPalette.card,
               borderRadius: BorderRadius.circular(12),
             ),
             child: _buildMenuItem(
               context: context,
               icon: Icons.favorite_outline,
-              iconColor: const Color(0xFF3949AB),
+              iconColor: context.colorPalette.accent,
               title: '\u0418\u0437\u0431\u0440\u0430\u043d\u043d\u043e\u0435',
               onTap: () {
                 Navigator.push(
@@ -324,7 +325,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
           Container(
             decoration: BoxDecoration(
-              color: colorScheme.surface,
+              color: context.colorPalette.card,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
@@ -332,7 +333,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildMenuItem(
                   context: context,
                   icon: Icons.help_outline,
-                  iconColor: const Color(0xFFFB8C00),
+                  iconColor: context.colorPalette.warning,
                   title: 'Вопросы и ответы',
                   onTap: () {
                     Navigator.push(
@@ -345,7 +346,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildMenuItem(
                   context: context,
                   icon: Icons.rate_review_outlined,
-                  iconColor: const Color(0xFF1E88E5),
+                  iconColor: context.colorPalette.info,
                   title: 'Ваши отзывы',
                   onTap: () {
                     Navigator.push(
@@ -361,7 +362,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildMenuItem(
                   context: context,
                   icon: Icons.settings_outlined,
-                  iconColor: const Color(0xFF5E35B1),
+                  iconColor: context.colorPalette.secondary,
                   title: 'Настройки',
                   onTap: () {
                     Navigator.push(
@@ -381,13 +382,13 @@ class _ProfilePageState extends State<ProfilePage> {
           // Техподдержка
           Container(
             decoration: BoxDecoration(
-              color: colorScheme.surface,
+              color: context.colorPalette.card,
               borderRadius: BorderRadius.circular(12),
             ),
             child: _buildMenuItem(
               context: context,
               icon: Icons.support_agent_outlined,
-              iconColor: const Color(0xFF00C853),
+              iconColor: context.colorPalette.success,
               title: 'Техподдержка',
               onTap: () {
                 Navigator.push(
@@ -403,13 +404,13 @@ class _ProfilePageState extends State<ProfilePage> {
           // Выход
           Container(
             decoration: BoxDecoration(
-              color: colorScheme.surface,
+              color: context.colorPalette.card,
               borderRadius: BorderRadius.circular(12),
             ),
             child: _buildMenuItem(
               context: context,
               icon: Icons.logout,
-              iconColor: const Color(0xFFE53935),
+              iconColor: context.colorPalette.error,
               title: 'Выйти',
               onTap: () async {
                 await AuthStorage.forget();
@@ -435,7 +436,6 @@ class _ProfilePageState extends State<ProfilePage> {
     if (!isSupplier && !isModerator) {
       return const SizedBox.shrink();
     }
-    final colorScheme = Theme.of(context).colorScheme;
     final items = <Widget>[];
 
     if (isSupplier) {
@@ -443,7 +443,7 @@ class _ProfilePageState extends State<ProfilePage> {
         _buildMenuItem(
           context: context,
           icon: Icons.inventory_2_outlined,
-          iconColor: const Color(0xFF1E88E5),
+          iconColor: context.colorPalette.info,
           title: 'Мои товары (поставщик)',
           onTap: () {
             Navigator.push(
@@ -459,7 +459,7 @@ class _ProfilePageState extends State<ProfilePage> {
         _buildMenuItem(
           context: context,
           icon: Icons.receipt_long,
-          iconColor: const Color(0xFF43A047),
+          iconColor: context.colorPalette.success,
           title: 'Заказы поставщика',
           onTap: () {
             Navigator.push(
@@ -475,7 +475,7 @@ class _ProfilePageState extends State<ProfilePage> {
         _buildMenuItem(
           context: context,
           icon: Icons.analytics_outlined,
-          iconColor: const Color(0xFF6288D5),
+          iconColor: context.colorPalette.accent,
           title: 'Статистика',
           onTap: () {
             Navigator.push(
@@ -494,7 +494,7 @@ class _ProfilePageState extends State<ProfilePage> {
         _buildMenuItem(
           context: context,
           icon: Icons.fact_check_outlined,
-          iconColor: const Color(0xFFF57C00),
+          iconColor: context.colorPalette.warning,
           title: 'Модерация товаров',
           onTap: () {
             Navigator.push(
@@ -508,7 +508,7 @@ class _ProfilePageState extends State<ProfilePage> {
         _buildMenuItem(
           context: context,
           icon: Icons.forum_outlined,
-          iconColor: const Color(0xFF00897B),
+          iconColor: context.colorPalette.tertiary,
           title: 'Чаты техподдержки',
           onTap: () {
             Navigator.push(
@@ -532,7 +532,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Container(
       decoration: BoxDecoration(
-        color: colorScheme.surface,
+        color: context.colorPalette.card,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(children: children),

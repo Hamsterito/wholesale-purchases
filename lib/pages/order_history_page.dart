@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import '../models/order.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
+import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/main_bottom_nav.dart';
 import '../widgets/date_range_picker_dialog.dart' as custom_picker;
 import 'dart:convert';
 import 'package:file_saver/file_saver.dart';
-// ignore: deprecated_member_use
-import 'dart:html' as html;
 
 class OrderHistoryPage extends StatefulWidget {
   const OrderHistoryPage({super.key});
@@ -20,7 +19,6 @@ class OrderHistoryPage extends StatefulWidget {
 
 class _OrderHistoryPageState extends State<OrderHistoryPage>
     with AutoRefreshMixin<OrderHistoryPage> {
-  static const Color _brandBlue = Color(0xFF6288D5);
   static const _periodDay = 'За день';
   static const _periodWeek = 'Неделя';
   static const _periodMonth = 'Месяц';
@@ -36,7 +34,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _borderColor => _colorScheme.outlineVariant;
 
@@ -148,7 +146,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Период',
+            'Фильтр',
             style: TextStyle(
               fontSize: 14,
               color: _colorScheme.onSurface,
@@ -193,7 +191,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
             child: ElevatedButton(
               onPressed: _exportToExcel,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF6288D5),
+                backgroundColor: context.colorPalette.accent,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -244,7 +242,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         style: TextStyle(
           fontSize: 14,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-          color: isSelected ? const Color(0xFF6288D5) : _mutedText,
+          color: isSelected ? context.colorPalette.accent : _mutedText,
         ),
       ),
     );
@@ -305,13 +303,15 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
 
   Widget _buildHistoryContent() {
     if (_isLoading) {
-      return const Center(child: CircularProgressIndicator(color: _brandBlue));
+      return Center(
+        child: CircularProgressIndicator(color: context.colorPalette.accent),
+      );
     }
 
     final orders = _orders;
 
     return RefreshIndicator(
-      color: _brandBlue,
+      color: context.colorPalette.accent,
       onRefresh: _loadOrders,
       child: orders.isEmpty
           ? ListView(
@@ -319,7 +319,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
               children: [
                 Center(
                   child: Text(
-                    'Нету заказов',
+                    'Нет заказов',
                     style: TextStyle(color: _mutedText, fontSize: 15),
                   ),
                 ),
@@ -411,9 +411,11 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: _brandBlue,
+        color: context.colorPalette.accent,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: _brandBlue.withValues(alpha: 0.92)),
+        border: Border.all(
+          color: context.colorPalette.accent.withValues(alpha: 0.92),
+        ),
       ),
       child: Text(
         amountText,
@@ -441,11 +443,11 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         ),
         _buildMetaBadge(
           icon: Icons.view_agenda_outlined,
-          text: '${order.items.length} поз.',
+          text: '${order.items.length} шт.',
         ),
         _buildMetaBadge(
           icon: Icons.shopping_cart_outlined,
-          text: '${order.totalUnits} шт.',
+          text: '${order.totalUnits} ед.',
         ),
         _buildMetaBadge(
           icon: _isCancelledStatus(order.status)
@@ -505,8 +507,8 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         ? order.items.length
         : order.receivedItemsCount;
     final receivedSummary = order.items.isEmpty
-        ? 'нет товаров'
-        : '$effectiveReceived/${order.items.length} поз.';
+        ? 'Нет товаров'
+        : '$effectiveReceived/${order.items.length} шт.';
 
     final children = <Widget>[
       _buildOrderDetailRow(
@@ -526,19 +528,19 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       const SizedBox(height: 10),
       _buildOrderDetailRow(
         icon: Icons.list_alt_rounded,
-        label: 'Товарных позиций',
+        label: 'Количество товаров',
         value: '${order.items.length}',
       ),
       const SizedBox(height: 10),
       _buildOrderDetailRow(
         icon: Icons.widgets_outlined,
-        label: 'Единиц товара',
-        value: '${order.totalUnits} шт.',
+        label: 'Общее кол-во',
+        value: '${order.totalUnits} ед.',
       ),
       const SizedBox(height: 10),
       _buildOrderDetailRow(
         icon: Icons.task_alt_rounded,
-        label: 'Подтверждено',
+        label: 'Получено',
         value: receivedSummary,
       ),
     ];
@@ -778,7 +780,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       );
     }
 
-    // 🔥 если это просто base64 без префикса
+    // Если это base64 или сетевой URL
     if (raw.isNotEmpty && !raw.startsWith('assets/')) {
       try {
         final bytes = base64Decode(raw);
@@ -820,17 +822,18 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
 
   bool _isAcceptedStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized == 'принят' ||
-        normalized == 'принята' ||
+    return normalized == 'доставлен' ||
+        normalized == 'получено' ||
         normalized == 'принято' ||
-        normalized == 'приняты' ||
+        normalized == 'принят' ||
+        normalized == 'завершено' ||
         normalized == 'accepted' ||
         normalized == 'received';
   }
 
   bool _isCancelledStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized.contains('отмен') ||
+    return normalized.contains('отмена') ||
         normalized == 'cancelled' ||
         normalized == 'canceled';
   }
@@ -842,9 +845,9 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
   Future<void> _exportToExcel() async {
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Необходимо авторизоваться')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Требуется авторизация')));
       return;
     }
 
@@ -859,15 +862,16 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
           'orders_export_${_formatShortDate(_rangeStart)}_to_${_formatShortDate(_rangeEnd)}.xlsx';
 
       if (kIsWeb) {
-        // Для веба используем загрузку через браузер
-        final blob = html.Blob([bytes]);
-        final url = html.Url.createObjectUrlFromBlob(blob);
-        html.AnchorElement(href: url)
-          ..setAttribute('download', fileName)
-          ..click();
-        html.Url.revokeObjectUrl(url);
+        // Для веб используем встроенный метод скачивания
+        // Браузер сам скачает файл, если есть доступ к API
+        await FileSaver.instance.saveAs(
+          name: fileName,
+          bytes: bytes,
+          ext: 'xlsx',
+          mimeType: MimeType.microsoftExcel,
+        );
       } else {
-        // Для мобильных устройств используем file_saver
+        // Для мобильных используем встроенный file_saver
         await FileSaver.instance.saveAs(
           name: fileName,
           bytes: bytes,
@@ -879,7 +883,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Файл сохранён')));
+      ).showSnackBar(const SnackBar(content: Text('Файл загружен')));
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
@@ -889,19 +893,20 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
   }
 
   Color _statusColor(String status) {
+    final palette = context.colorPalette;
     if (_isAcceptedStatus(status)) {
-      return const Color(0xFF2E7D32);
+      return palette.statusDelivered;
     }
     if (_isCancelledStatus(status)) {
-      return const Color(0xFFD32F2F);
+      return palette.statusCancelled;
     }
     final normalized = _normalizeStatus(status);
     if (normalized == 'доставлен' ||
         normalized == 'доставлено' ||
         normalized == 'delivered') {
-      return const Color(0xFF4CAF50);
+      return palette.statusDelivered;
     }
-    return const Color(0xFFFF9800);
+    return palette.statusPending;
   }
 
   String _formatMoney(int value) {

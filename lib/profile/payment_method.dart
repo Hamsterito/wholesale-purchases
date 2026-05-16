@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/main_bottom_nav.dart';
 import 'add_payment_card.dart';
@@ -22,7 +23,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
 
   @override
@@ -175,7 +176,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
 
   @override
   Widget build(BuildContext context) {
-    const primaryColor = Color(0xFF6288D5);
+    final primaryColor = context.colorPalette.accent;
 
     return Scaffold(
       backgroundColor: _pageBg,
@@ -390,7 +391,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
 
   Widget _buildSavedCardTile(PaymentCard card) {
     final isSelected = _selectedCardId == card.id;
-    const primaryColor = Color(0xFF6288D5);
+    final primaryColor = context.colorPalette.accent;
     final borderColor = isSelected
         ? primaryColor
         : _colorScheme.surfaceContainerHighest;
@@ -494,7 +495,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFF6288D5),
+              foregroundColor: context.colorPalette.accent,
             ),
             child: const Text('Удалить'),
           ),
@@ -561,7 +562,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
     required String value,
   }) {
     final isSelected = _selectedTopMethod == value;
-    const primaryColor = Color(0xFF6288D5);
+    final primaryColor = context.colorPalette.accent;
 
     return GestureDetector(
       onTap: () {

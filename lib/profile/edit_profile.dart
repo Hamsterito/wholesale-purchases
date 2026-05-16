@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import 'package:flutter/services.dart';
 import '../widgets/phone_input_formatter.dart';
 import '../widgets/main_bottom_nav.dart';
@@ -28,7 +29,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _inputFill => _colorScheme.surfaceContainerHighest;
 
   @override
@@ -58,7 +59,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    const primaryColor = Color(0xFF6288D5);
+    final primaryColor = context.colorPalette.accent;
 
     return Scaffold(
       backgroundColor: _pageBg,

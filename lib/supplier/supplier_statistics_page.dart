@@ -11,6 +11,7 @@ import '../services/statistics_cache_service.dart';
 import '../widgets/date_range_picker_dialog.dart';
 import '../utils/month_year_parser.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../theme/app_color_palette.dart';
 
 // Вспомогательные классы данных
 
@@ -289,11 +290,14 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
       if (!mounted) return;
 
       // Обрабатываем специфичные типы ошибок от AiService
-      String errorMessage = 'Не удалось сформировать AI-резюме';
+      String? errorMessage;
 
       if (e is AiException) {
         // Используем пользовательское сообщение об ошибке, если оно доступно
-        errorMessage = e.userMessage ?? errorMessage;
+        // Если userMessage null (например, при ошибке лимита), не показываем ошибку
+        errorMessage = e.userMessage;
+      } else {
+        errorMessage = 'Не удалось сформировать AI-резюме';
       }
 
       setState(() {
@@ -331,12 +335,12 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
     return Scaffold(
-      backgroundColor: cs.surfaceContainerLowest,
-      appBar: _buildAppBar(cs),
+      backgroundColor: palette.bgTop,
+      appBar: _buildAppBar(palette),
       body: RefreshIndicator(
-        color: cs.primary,
+        color: palette.primary,
         onRefresh: _handleRefresh,
         child: _buildBody(),
       ),
@@ -344,11 +348,12 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     );
   }
 
-  PreferredSizeWidget _buildAppBar(ColorScheme cs) {
+  PreferredSizeWidget _buildAppBar(AppColorPalette palette) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return AppBar(
       elevation: 0,
       scrolledUnderElevation: 1,
-      backgroundColor: cs.surface,
+      backgroundColor: isDark ? palette.accentMist : palette.card,
       surfaceTintColor: Colors.transparent,
       titleSpacing: 20,
       title: Column(
@@ -359,14 +364,14 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 20,
-              color: cs.onSurface,
+              color: palette.ink,
             ),
           ),
           Text(
             'Аналитика продаж',
             style: TextStyle(
               fontSize: 12,
-              color: cs.onSurface.withValues(alpha: 0.45),
+              color: palette.ink.withValues(alpha: 0.45),
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -374,7 +379,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
       ),
       actions: [
         IconButton(
-          icon: Icon(Icons.refresh_rounded, color: cs.primary),
+          icon: Icon(Icons.refresh_rounded, color: palette.primary),
           onPressed: _handleRefresh,
           tooltip: 'Обновить',
         ),
@@ -428,7 +433,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
   // Состояние ошибки
 
   Widget _buildErrorState() {
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(40),
@@ -439,10 +444,14 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
               width: 72,
               height: 72,
               decoration: BoxDecoration(
-                color: cs.errorContainer,
+                color: palette.error.withValues(alpha: 0.15),
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.cloud_off_rounded, size: 36, color: cs.error),
+              child: Icon(
+                Icons.cloud_off_rounded,
+                size: 36,
+                color: palette.error,
+              ),
             ),
             const SizedBox(height: 20),
             Text(
@@ -450,7 +459,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
-                color: cs.onSurface.withValues(alpha: 0.75),
+                color: palette.ink.withValues(alpha: 0.75),
               ),
             ),
             const SizedBox(height: 20),
@@ -468,13 +477,13 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
   // Фильтр по дате
 
   Widget _buildDateFilter() {
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
     final hasRange = _selectedDateRange != null;
     return Container(
       decoration: BoxDecoration(
-        color: cs.surface,
+        color: palette.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.45)),
+        border: Border.all(color: palette.line.withValues(alpha: 0.45)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       child: Row(
@@ -482,10 +491,14 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
           Container(
             padding: const EdgeInsets.all(7),
             decoration: BoxDecoration(
-              color: cs.primaryContainer,
+              color: palette.accentSoft,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(Icons.date_range_rounded, size: 15, color: cs.primary),
+            child: Icon(
+              Icons.date_range_rounded,
+              size: 15,
+              color: palette.primary,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -497,8 +510,8 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                 fontSize: 13,
                 fontWeight: hasRange ? FontWeight.w500 : FontWeight.normal,
                 color: hasRange
-                    ? cs.primary
-                    : cs.onSurface.withValues(alpha: 0.55),
+                    ? palette.primary
+                    : palette.ink.withValues(alpha: 0.55),
               ),
             ),
           ),
@@ -512,13 +525,13 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                     child: Container(
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
-                        color: cs.surfaceContainerHighest,
+                        color: palette.bgTop,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Icon(
                         Icons.close_rounded,
                         size: 13,
-                        color: cs.onSurface.withValues(alpha: 0.5),
+                        color: palette.ink.withValues(alpha: 0.5),
                       ),
                     ),
                   ),
@@ -530,13 +543,13 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
   }
 
   Widget _chipButton(String label, {required VoidCallback onTap}) {
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: cs.primaryContainer,
+          color: palette.accentSoft,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
@@ -544,7 +557,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w500,
-            color: cs.primary,
+            color: palette.primary,
           ),
         ),
       ),
@@ -568,10 +581,11 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
   }
 
   Widget _skeleton(double h) {
+    final palette = AppColorPalette.of(context);
     return Container(
       height: h,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        color: palette.bgBottom,
         borderRadius: BorderRadius.circular(20),
       ),
     );
@@ -583,35 +597,38 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     if (_statsSummary == null) return const SizedBox.shrink();
     final s = _statsSummary!;
 
+    final palette = AppColorPalette.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     // Цвета подобраны под брендовую палитру приложения
     final metrics = [
       _MetricData(
         'Общая выручка',
         _fmtCurrency(s.totalRevenue),
         Icons.payments_rounded,
-        const Color(0xFF6288D5), // primary blue
-        const Color(0xFFEFF6FF),
+        palette.primary,
+        isDark ? palette.accentMist : palette.accentSoft,
       ),
       _MetricData(
         'Выручка за месяц',
         _fmtCurrency(s.monthlyRevenue),
         Icons.trending_up_rounded,
-        const Color(0xFF059669), // success green
-        const Color(0xFFECFDF5),
+        palette.tertiary,
+        isDark ? palette.accentMist : Color(0xFFD1F4E8),
       ),
       _MetricData(
         'За неделю',
         _fmtCurrency(s.weeklyRevenue),
         Icons.bar_chart_rounded,
-        const Color(0xFFD97706), // dark orange
-        const Color(0xFFFFFBEB),
+        palette.warning,
+        isDark ? palette.accentMist : Color(0xFFFDF8E8),
       ),
       _MetricData(
         'Всего заказов',
         s.totalOrders.toString(),
         Icons.shopping_bag_rounded,
-        const Color(0xFF8B5CF6), // purple (confirmed)
-        const Color(0xFFF5F3FF),
+        palette.secondary,
+        isDark ? palette.accentMist : Color(0xFFEDE9FE),
       ),
     ];
 
@@ -640,7 +657,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                   'Средний чек',
                   _fmtCurrency(s.averageOrderValue),
                   Icons.receipt_long_rounded,
-                  const Color(0xFFDB2777), // rose
+                  palette.error,
                 ),
               ]
             : <Widget>[]),
@@ -765,7 +782,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
       );
     }
 
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
     final chartData = _chartData!;
 
     return _card(
@@ -782,7 +799,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
               drawVerticalLine: false,
               horizontalInterval: chartData.maxY / 4,
               getDrawingHorizontalLine: (_) => FlLine(
-                color: cs.outlineVariant.withValues(alpha: 0.25),
+                color: palette.line.withValues(alpha: 0.25),
                 strokeWidth: 1,
                 dashArray: [4, 4],
               ),
@@ -809,7 +826,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                         chartData.labels[i],
                         style: TextStyle(
                           fontSize: 10,
-                          color: cs.onSurface.withValues(alpha: 0.4),
+                          color: palette.ink.withValues(alpha: 0.4),
                         ),
                       ),
                     );
@@ -824,7 +841,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                     _formatYAxis(v, chartData.maxY),
                     style: TextStyle(
                       fontSize: 10,
-                      color: cs.onSurface.withValues(alpha: 0.4),
+                      color: palette.ink.withValues(alpha: 0.4),
                     ),
                   ),
                 ),
@@ -836,15 +853,15 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                 spots: chartData.spots,
                 isCurved: true,
                 curveSmoothness: 0.35,
-                color: cs.primary,
+                color: palette.primary,
                 barWidth: 2.5,
                 dotData: FlDotData(
                   show: true,
                   getDotPainter: (_, __, ___, ____) => FlDotCirclePainter(
                     radius: 4,
-                    color: cs.surface,
+                    color: palette.card,
                     strokeWidth: 2.5,
-                    strokeColor: cs.primary,
+                    strokeColor: palette.primary,
                   ),
                 ),
                 belowBarData: BarAreaData(
@@ -853,8 +870,8 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      cs.primary.withValues(alpha: 0.18),
-                      cs.primary.withValues(alpha: 0.0),
+                      palette.primary.withValues(alpha: 0.18),
+                      palette.primary.withValues(alpha: 0.0),
                     ],
                   ),
                 ),
@@ -872,7 +889,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     required IconData icon,
     required String message,
   }) {
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
     return _card(
       title: title,
       icon: icon,
@@ -883,7 +900,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             message,
             style: TextStyle(
               fontSize: 14,
-              color: cs.onSurface.withValues(alpha: 0.45),
+              color: palette.ink.withValues(alpha: 0.45),
             ),
           ),
         ),
@@ -897,19 +914,15 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     if (_orderStats == null) return const SizedBox.shrink();
     final o = _orderStats!;
     final total = o.totalOrders > 0 ? o.totalOrders : 1;
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
 
     // Цвета статусов соответствуют смысловой нагрузке и палитре
     final statuses = [
-      _StatusData('Доставлены', o.deliveredCount, const Color(0xFF059669)),
-      _StatusData(
-        'Отправлены',
-        o.shippedCount,
-        const Color(0xFF6288D5),
-      ), // primary blue
-      _StatusData('Подтверждены', o.confirmedCount, const Color(0xFF8B5CF6)),
-      _StatusData('Ожидают', o.pendingCount, const Color(0xFFF59E0B)),
-      _StatusData('Отменены', o.cancelledCount, const Color(0xFFEF4444)),
+      _StatusData('Доставлены', o.deliveredCount, palette.statusDelivered),
+      _StatusData('Отправлены', o.shippedCount, palette.statusShipped),
+      _StatusData('Подтверждены', o.confirmedCount, palette.secondary),
+      _StatusData('Ожидают', o.pendingCount, palette.statusPending),
+      _StatusData('Отменены', o.cancelledCount, palette.statusCancelled),
     ];
 
     return _card(
@@ -975,7 +988,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                               '$pct%',
                               style: TextStyle(
                                 fontSize: 10,
-                                color: cs.onSurface.withValues(alpha: 0.4),
+                                color: palette.ink.withValues(alpha: 0.4),
                               ),
                             ),
                           ),
@@ -990,7 +1003,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
           const SizedBox(height: 16),
           Container(
             decoration: BoxDecoration(
-              color: cs.surfaceContainerHigh,
+              color: palette.bgBottom,
               borderRadius: BorderRadius.circular(12),
             ),
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
@@ -1011,7 +1024,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
   }
 
   Widget _miniStat(String label, String value) {
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -1024,7 +1037,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
           label,
           style: TextStyle(
             fontSize: 10,
-            color: cs.onSurface.withValues(alpha: 0.45),
+            color: palette.ink.withValues(alpha: 0.45),
           ),
         ),
       ],
@@ -1045,7 +1058,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
 
   Widget _buildTopProductsCard() {
     if (_topProducts.isEmpty) return const SizedBox.shrink();
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
 
     final maxRevenue = _topProducts.isNotEmpty
         ? _topProducts.map((p) => p.revenue).reduce(math.max).toDouble()
@@ -1091,7 +1104,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
-                              color: cs.primary,
+                              color: palette.primary,
                             ),
                           ),
                         ],
@@ -1102,15 +1115,15 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                         child: LinearProgressIndicator(
                           value: pct,
                           minHeight: 6,
-                          backgroundColor: cs.surfaceContainerHighest,
+                          backgroundColor: palette.bgBottom,
                           valueColor: AlwaysStoppedAnimation(
                             rank == 1
-                                ? const Color(0xFFF59E0B) // gold
+                                ? palette.star
                                 : rank == 2
-                                ? const Color(0xFF94A3B8) // silver
+                                ? palette.muted
                                 : rank == 3
-                                ? const Color(0xFFCD7F32) // bronze
-                                : cs.primary.withValues(alpha: 0.55),
+                                ? palette.warning
+                                : palette.primary.withValues(alpha: 0.55),
                           ),
                         ),
                       ),
@@ -1119,7 +1132,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                         '${p.unitsSold} шт. продано',
                         style: TextStyle(
                           fontSize: 11,
-                          color: cs.onSurface.withValues(alpha: 0.45),
+                          color: palette.ink.withValues(alpha: 0.45),
                         ),
                       ),
                     ],
@@ -1134,18 +1147,15 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
   }
 
   Widget _rankBadge(int rank) {
+    final palette = AppColorPalette.of(context);
+    // Используем палитру для всех рангов: золото, серебро, бронза (warning)
     final data = {
-      1: [const Color(0xFFFFB300), const Color(0xFFFFF8E1)],
-      2: [const Color(0xFF94A3B8), const Color(0xFFF1F5F9)],
-      3: [const Color(0xFFCD7F32), const Color(0xFFFAF0E6)],
+      1: [palette.star, palette.accentMist],
+      2: [palette.muted, palette.accentMist],
+      3: [palette.warning, palette.accentMist],
     };
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final c =
-        data[rank] ??
-        [
-          Theme.of(context).colorScheme.primary,
-          Theme.of(context).colorScheme.primaryContainer,
-        ];
+    final c = data[rank] ?? [palette.primary, palette.accentMist];
     final bg = isDark ? c[0].withValues(alpha: 0.2) : c[1];
 
     return Container(
@@ -1185,17 +1195,13 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
 
   Widget _buildBuyersCard() {
     final b = _buyerStats!;
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
 
     return _surfaceContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _cardHeader(
-            'Покупатели',
-            Icons.people_alt_rounded,
-            const Color(0xFF6288D5), // primary blue
-          ),
+          _cardHeader('Покупатели', Icons.people_alt_rounded, palette.primary),
           const SizedBox(height: 14),
           _row2('Всего', b.totalBuyers.toString()),
           const SizedBox(height: 7),
@@ -1208,8 +1214,8 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             child: LinearProgressIndicator(
               value: (b.repeatBuyersPercentage / 100.0).clamp(0.0, 1.0),
               minHeight: 7,
-              backgroundColor: cs.surfaceContainerHighest,
-              valueColor: const AlwaysStoppedAnimation(Color(0xFF6288D5)),
+              backgroundColor: palette.bgBottom,
+              valueColor: AlwaysStoppedAnimation(palette.primary),
             ),
           ),
           const SizedBox(height: 4),
@@ -1217,7 +1223,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             '${b.repeatBuyersPercentage}% постоянных',
             style: TextStyle(
               fontSize: 10,
-              color: cs.onSurface.withValues(alpha: 0.45),
+              color: palette.ink.withValues(alpha: 0.45),
             ),
           ),
         ],
@@ -1227,23 +1233,23 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
 
   Widget _buildRatingCard() {
     final r = _ratingStats!;
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
 
     return _surfaceContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _cardHeader('Рейтинг', Icons.star_rounded, const Color(0xFFF59E0B)),
+          _cardHeader('Рейтинг', Icons.star_rounded, palette.star),
           const SizedBox(height: 14),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 r.totalReviews > 0 ? r.averageRating.toStringAsFixed(1) : '—',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.w800,
-                  color: Color(0xFFF59E0B),
+                  color: palette.star,
                 ),
               ),
               Padding(
@@ -1252,7 +1258,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                   '/5',
                   style: TextStyle(
                     fontSize: 13,
-                    color: cs.onSurface.withValues(alpha: 0.4),
+                    color: palette.ink.withValues(alpha: 0.4),
                   ),
                 ),
               ),
@@ -1262,7 +1268,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             '${r.totalReviews} отзывов',
             style: TextStyle(
               fontSize: 11,
-              color: cs.onSurface.withValues(alpha: 0.45),
+              color: palette.ink.withValues(alpha: 0.45),
             ),
           ),
           const SizedBox(height: 12),
@@ -1293,11 +1299,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                     ),
                   ),
                   const SizedBox(width: 3),
-                  const Icon(
-                    Icons.star_rounded,
-                    size: 9,
-                    color: Color(0xFFF59E0B),
-                  ),
+                  Icon(Icons.star_rounded, size: 9, color: palette.star),
                   const SizedBox(width: 6),
                   Expanded(
                     child: ClipRRect(
@@ -1305,10 +1307,8 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                       child: LinearProgressIndicator(
                         value: pct,
                         minHeight: 5,
-                        backgroundColor: cs.surfaceContainerHighest,
-                        valueColor: const AlwaysStoppedAnimation(
-                          Color(0xFFF59E0B),
-                        ),
+                        backgroundColor: palette.bgBottom,
+                        valueColor: AlwaysStoppedAnimation(palette.star),
                       ),
                     ),
                   ),
@@ -1319,7 +1319,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                       count.toString(),
                       style: TextStyle(
                         fontSize: 10,
-                        color: cs.onSurface.withValues(alpha: 0.5),
+                        color: palette.ink.withValues(alpha: 0.5),
                       ),
                     ),
                   ),
@@ -1338,7 +1338,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     if (_orderStats == null || _orderStats!.recentOrders.isEmpty) {
       return const SizedBox.shrink();
     }
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
 
     return _card(
       title: 'Последние заказы',
@@ -1349,11 +1349,9 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             margin: const EdgeInsets.only(bottom: 8),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              color: cs.surfaceContainerLowest,
+              color: palette.bgTop,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: cs.outlineVariant.withValues(alpha: 0.3),
-              ),
+              border: Border.all(color: palette.line.withValues(alpha: 0.3)),
             ),
             child: Row(
               children: [
@@ -1361,14 +1359,14 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                   width: 36,
                   height: 36,
                   decoration: BoxDecoration(
-                    color: cs.primaryContainer,
+                    color: palette.accentSoft,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   alignment: Alignment.center,
                   child: Icon(
                     Icons.local_shipping_rounded,
                     size: 16,
-                    color: cs.primary,
+                    color: palette.primary,
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -1387,7 +1385,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                         _fmtDate(order.date),
                         style: TextStyle(
                           fontSize: 11,
-                          color: cs.onSurface.withValues(alpha: 0.45),
+                          color: palette.ink.withValues(alpha: 0.45),
                         ),
                       ),
                     ],
@@ -1401,7 +1399,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
-                        color: cs.primary,
+                        color: palette.primary,
                       ),
                     ),
                     _statusBadge(order.status),
@@ -1417,26 +1415,27 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
 
   // Цвета статусов синхронизированы с основной палитрой
   Widget _statusBadge(String status) {
+    final palette = AppColorPalette.of(context);
     Color color;
     switch (status.toLowerCase()) {
       case 'delivered':
       case 'доставлен':
-        color = const Color(0xFF059669);
+        color = palette.statusDelivered;
         break;
       case 'shipped':
       case 'отправлен':
-        color = const Color(0xFF6288D5); // primary blue
+        color = palette.statusShipped;
         break;
       case 'cancelled':
       case 'отменён':
-        color = const Color(0xFFEF4444);
+        color = palette.statusCancelled;
         break;
       case 'pending':
       case 'ожидает':
-        color = const Color(0xFFF59E0B);
+        color = palette.statusPending;
         break;
       default:
-        color = const Color(0xFF8B5CF6);
+        color = palette.secondary;
     }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
@@ -1461,7 +1460,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     if (_ratingStats == null || _ratingStats!.recentReviews.isEmpty) {
       return const SizedBox.shrink();
     }
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
 
     return _card(
       title: 'Последние отзывы',
@@ -1472,11 +1471,9 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             margin: const EdgeInsets.only(bottom: 10),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: cs.surfaceContainerLowest,
+              color: palette.bgTop,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: cs.outlineVariant.withValues(alpha: 0.3),
-              ),
+              border: Border.all(color: palette.line.withValues(alpha: 0.3)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1503,7 +1500,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                               ? Icons.star_rounded
                               : Icons.star_outline_rounded,
                           size: 13,
-                          color: const Color(0xFFF59E0B),
+                          color: palette.star,
                         ),
                       ),
                     ),
@@ -1518,7 +1515,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                     style: TextStyle(
                       fontSize: 12,
                       height: 1.45,
-                      color: cs.onSurface.withValues(alpha: 0.6),
+                      color: palette.ink.withValues(alpha: 0.6),
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -1535,13 +1532,18 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
   // AI-резюме
 
   Widget _buildAiSummaryCard() {
-    final cs = Theme.of(context).colorScheme;
+    // Не показываем карточку, если нет ни резюме, ни ошибки, ни загрузки
+    if (!_isLoadingAiSummary && _aiSummary == null && _aiSummaryError == null) {
+      return const SizedBox.shrink();
+    }
+
+    final palette = AppColorPalette.of(context);
 
     return Container(
       decoration: BoxDecoration(
-        color: cs.surface,
+        color: palette.card,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: cs.primary.withValues(alpha: 0.18)),
+        border: Border.all(color: palette.primary.withValues(alpha: 0.18)),
       ),
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -1556,7 +1558,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                   vertical: 5,
                 ),
                 decoration: BoxDecoration(
-                  color: cs.primaryContainer,
+                  color: palette.accentSoft,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -1565,7 +1567,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                     Icon(
                       Icons.auto_awesome_rounded,
                       size: 13,
-                      color: cs.primary,
+                      color: palette.primary,
                     ),
                     const SizedBox(width: 5),
                     Text(
@@ -1573,7 +1575,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: cs.primary,
+                        color: palette.primary,
                       ),
                     ),
                   ],
@@ -1595,7 +1597,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                       height: 16,
                       child: CircularProgressIndicator(
                         strokeWidth: 2.5,
-                        color: cs.primary,
+                        color: palette.primary,
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -1604,7 +1606,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: cs.primary,
+                        color: palette.primary,
                       ),
                     ),
                   ],
@@ -1621,12 +1623,16 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
           ] else if (_aiSummaryError != null) ...[
             Row(
               children: [
-                Icon(Icons.error_outline_rounded, size: 16, color: cs.error),
+                Icon(
+                  Icons.error_outline_rounded,
+                  size: 16,
+                  color: palette.error,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     _aiSummaryError!,
-                    style: TextStyle(fontSize: 13, color: cs.error),
+                    style: TextStyle(fontSize: 13, color: palette.error),
                   ),
                 ),
               ],
@@ -1649,28 +1655,25 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: cs.primaryContainer.withValues(alpha: 0.3),
+                color: palette.accentSoft.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: cs.primary.withValues(alpha: 0.1)),
+                border: Border.all(
+                  color: palette.primary.withValues(alpha: 0.1),
+                ),
               ),
               child: Text(
                 _aiSummary!,
                 style: TextStyle(
                   fontSize: 14,
                   height: 1.7,
-                  color: cs.onSurface.withValues(alpha: 0.87),
+                  color: palette.ink.withValues(alpha: 0.87),
                   letterSpacing: 0.2,
                 ),
               ),
             )
+          // Если нет ни резюме, ни ошибки — ничего не показываем
           else
-            Text(
-              'Резюме будет доступно после загрузки данных.',
-              style: TextStyle(
-                fontSize: 13,
-                color: cs.onSurface.withValues(alpha: 0.4),
-              ),
-            ),
+            const SizedBox.shrink(),
         ],
       ),
     );
@@ -1679,12 +1682,12 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
   // Вспомогательные функции разметки
 
   Widget _buildSkeletonLine({required double width}) {
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
     return Container(
       height: 14,
       width: width,
       decoration: BoxDecoration(
-        color: cs.surfaceContainerHighest.withValues(alpha: 0.5),
+        color: palette.bgBottom.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(7),
       ),
     );
@@ -1695,12 +1698,12 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     required IconData icon,
     required Widget child,
   }) {
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
     return Container(
       decoration: BoxDecoration(
-        color: cs.surface,
+        color: palette.card,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.3)),
+        border: Border.all(color: palette.line.withValues(alpha: 0.3)),
       ),
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -1715,30 +1718,30 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
   }
 
   Widget _surfaceContainer({required Widget child}) {
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: cs.surface,
+        color: palette.card,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.3)),
+        border: Border.all(color: palette.line.withValues(alpha: 0.3)),
       ),
       child: child,
     );
   }
 
   Widget _sectionTitle(String text, IconData icon) {
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
     return Row(
       children: [
-        Icon(icon, size: 16, color: cs.primary),
+        Icon(icon, size: 16, color: palette.primary),
         const SizedBox(width: 8),
         Text(
           text,
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
-            color: cs.onSurface,
+            color: palette.ink,
           ),
         ),
       ],
@@ -1773,7 +1776,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
   }
 
   Widget _row2(String label, String value) {
-    final cs = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -1781,7 +1784,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
           label,
           style: TextStyle(
             fontSize: 12,
-            color: cs.onSurface.withValues(alpha: 0.55),
+            color: palette.ink.withValues(alpha: 0.55),
           ),
         ),
         Text(

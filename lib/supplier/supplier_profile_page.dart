@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import '../login_screen/login.dart';
 import '../services/auth_storage.dart';
+import '../theme/app_color_palette.dart';
 
 class SupplierProfilePage extends StatelessWidget {
   const SupplierProfilePage({super.key});
@@ -16,14 +17,13 @@ class SupplierProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppColorPalette.of(context);
     final name = AuthStorage.name ?? 'Поставщик';
     final email = AuthStorage.email ?? '-';
     final supplierName = AuthStorage.supplierName ?? '-';
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Профиль поставщика'),
-      ),
+      appBar: AppBar(title: const Text('Профиль поставщика')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -34,7 +34,7 @@ class SupplierProfilePage extends StatelessWidget {
           ElevatedButton(
             onPressed: () => _logout(context),
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFEF4444),
+              backgroundColor: palette.error,
               foregroundColor: Colors.white,
             ),
             child: const Text('Выйти'),
@@ -53,33 +53,23 @@ class _InfoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppColorPalette.of(context);
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: palette.card,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.outlineVariant,
-        ),
+        border: Border.all(color: palette.line),
       ),
       child: Row(
         children: [
           Expanded(
-            child: Text(
-              label,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-            ),
+            child: Text(label, style: TextStyle(color: palette.muted)),
           ),
-          Text(
-            value,
-            style: const TextStyle(fontWeight: FontWeight.w600),
-          ),
+          Text(value, style: const TextStyle(fontWeight: FontWeight.w600)),
         ],
       ),
     );
   }
 }
-

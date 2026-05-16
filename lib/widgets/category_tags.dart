@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 
 class CategoryTags extends StatelessWidget {
   final List<String> categories;
@@ -7,17 +8,11 @@ class CategoryTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final isDark = theme.brightness == Brightness.dark;
-    final chipBg = isDark
-        ? colorScheme.primary.withValues(alpha: 0.22)
-        : colorScheme.surfaceContainerHighest;
-    final chipText = colorScheme.primary;
+    final palette = context.colorPalette;
 
     return Container(
       width: double.infinity,
-      color: colorScheme.surface,
+      color: palette.card,
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 2),
       child: Wrap(
         spacing: 8,
@@ -26,14 +21,14 @@ class CategoryTags extends StatelessWidget {
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: chipBg,
+              color: palette.accentSoft,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Text(
               category,
               style: TextStyle(
                 fontSize: 12,
-                color: chipText,
+                color: palette.accent,
                 fontWeight: FontWeight.w500,
               ),
             ),

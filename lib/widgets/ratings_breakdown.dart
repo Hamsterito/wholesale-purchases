@@ -2,6 +2,7 @@
 
 import '../models/product.dart';
 import '../models/review_entry.dart';
+import '../theme/app_color_palette.dart';
 import 'rating_stars.dart';
 
 class RatingsBreakdown extends StatefulWidget {
@@ -27,27 +28,20 @@ class RatingsBreakdown extends StatefulWidget {
 }
 
 class _RatingsBreakdownState extends State<RatingsBreakdown> {
-  static const Color _brand = Color(0xFF6288D5);
-  static const Color _star = Color(0xFFF5B400);
+  AppColorPalette get _palette => context.colorPalette;
+  bool get _isDark => Theme.of(context).brightness == Brightness.dark;
 
-  ThemeData get _theme => Theme.of(context);
-  ColorScheme get _colorScheme => _theme.colorScheme;
-  bool get _isDark => _theme.brightness == Brightness.dark;
-
-  Color get _cardBg => _colorScheme.surface;
-  Color get _ink => _colorScheme.onSurface;
-  Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _trackBg => _colorScheme.surfaceContainerHighest.withValues(
-    alpha: _isDark ? 0.78 : 0.9,
-  );
-  Color get _softBorder => Color.alphaBlend(
-    _brand.withValues(alpha: _isDark ? 0.24 : 0.12),
-    _colorScheme.outlineVariant,
-  );
-  Color get _softPanel => Color.alphaBlend(
-    _brand.withValues(alpha: _isDark ? 0.18 : 0.08),
-    _cardBg,
-  );
+  // Цвета берём из единой палитры приложения
+  Color get _brand => _palette.accent;
+  Color get _star => _palette.star;
+  Color get _cardBg => _palette.card;
+  Color get _ink => _palette.ink;
+  Color get _mutedText => _palette.muted;
+  // Подложка под индикатор прогресса — мягкая линия из палитры,
+  // в тёмной теме чуть приглушаем, чтобы трек не сливался с фоном
+  Color get _trackBg => _palette.line.withValues(alpha: _isDark ? 0.78 : 0.9);
+  Color get _softBorder => _palette.line;
+  Color get _softPanel => _palette.accentMist;
 
   late final PageController _pageController;
   int _pageIndex = 0;
@@ -166,7 +160,7 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
           _buildSummary(),
           const SizedBox(height: 14),
           if (widget.isLoading)
-            const SizedBox(
+            SizedBox(
               height: 126,
               child: Center(
                 child: CircularProgressIndicator(
@@ -330,7 +324,7 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
               ),
             ),
           ),
-          const Icon(Icons.star_rounded, size: 13, color: _star),
+          Icon(Icons.star_rounded, size: 13, color: _star),
           const SizedBox(width: 8),
           Expanded(
             child: Container(
@@ -346,8 +340,10 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(999),
-                      gradient: const LinearGradient(
-                        colors: [_star, Color(0xFFF2A900)],
+                      // Градиент собираем из звёздного цвета и более тёплого
+                      // оттенка warning — он близок к прежнему 0xFFF2A900
+                      gradient: LinearGradient(
+                        colors: [_star, _palette.warning],
                       ),
                     ),
                   ),

@@ -1,6 +1,7 @@
 ﻿import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 
 import '../models/support_message.dart';
 import '../services/api_service.dart';
@@ -260,8 +261,8 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
                 Container(
                   width: double.infinity,
                   color: _isChatClosed
-                      ? const Color(0xFFFFF4F4)
-                      : const Color(0xFFF3F8FF),
+                      ? context.colorPalette.error.withValues(alpha: 0.12)
+                      : context.colorPalette.info.withValues(alpha: 0.12),
                   padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
                   child: Text(
                     _isChatClosed
@@ -269,8 +270,8 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
                         : 'Чат открыт. Техподдержка ответит в этом окне.',
                     style: TextStyle(
                       color: _isChatClosed
-                          ? const Color(0xFF9F1239)
-                          : const Color(0xFF2457A7),
+                          ? context.colorPalette.error
+                          : context.colorPalette.info,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -355,7 +356,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
                     decoration: BoxDecoration(
-                      color: colorScheme.surface,
+                      color: context.colorPalette.card,
                       border: Border(
                         top: BorderSide(color: colorScheme.outlineVariant),
                       ),
@@ -445,4 +446,3 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
     super.dispose();
   }
 }
-

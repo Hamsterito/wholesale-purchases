@@ -1,6 +1,7 @@
-import 'dart:async';
+﻿import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 
 import '../models/support_message.dart';
 import '../services/api_service.dart';
@@ -16,8 +17,6 @@ class SupportPage extends StatefulWidget {
 }
 
 class _SupportPageState extends State<SupportPage> {
-  static const Color _primaryColor = Color(0xFF6288D5);
-  static const Color _primaryDark = Color(0xFF4F6FBF);
   static const int _supportStartHour = 9;
   static const int _supportEndHour = 21;
   static const Duration _supportUtcOffset = Duration(hours: 5);
@@ -238,7 +237,9 @@ class _SupportPageState extends State<SupportPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: isError ? const Color(0xFFEF4444) : _primaryColor,
+        backgroundColor: isError
+            ? context.colorPalette.error
+            : context.colorPalette.accent,
       ),
     );
   }
@@ -249,22 +250,22 @@ class _SupportPageState extends State<SupportPage> {
     final colorScheme = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
     final pageBackground = theme.scaffoldBackgroundColor;
-    final cardBackground = colorScheme.surface;
+    final cardBackground = context.colorPalette.card;
     final textPrimary = colorScheme.onSurface;
     final textMuted = colorScheme.onSurfaceVariant;
     final fieldFill = isDark
-        ? const Color(0xFF171D28)
-        : const Color(0xFFF4F6FB);
+        ? context.colorPalette.bgTop
+        : context.colorPalette.bgTop;
     final fieldBorder = isDark
         ? colorScheme.outlineVariant
-        : const Color(0xFFE1E7F3);
+        : context.colorPalette.line;
     final cardShadow = isDark
         ? Colors.black.withValues(alpha: 0.35)
-        : const Color(0x14000000);
+        : context.colorPalette.shadow;
     final baseFieldDecoration = _baseFieldDecoration(
       fillColor: fieldFill,
       borderColor: fieldBorder,
-      focusColor: _primaryColor,
+      focusColor: context.colorPalette.accent,
       hintColor: textMuted,
     );
 
@@ -291,10 +292,15 @@ class _SupportPageState extends State<SupportPage> {
           children: [
             Container(
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [_primaryColor, _primaryDark],
+                  colors: Theme.of(context).brightness == Brightness.dark
+                      ? [const Color(0xFF1A243A), const Color(0xFF1A243A)]
+                      : [
+                          context.colorPalette.accent,
+                          context.colorPalette.accentDark,
+                        ],
                 ),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
@@ -326,10 +332,7 @@ class _SupportPageState extends State<SupportPage> {
                   const SizedBox(height: 12),
                   Text(
                     _supportAvailabilityText,
-                    style: const TextStyle(
-                      color: Color(0xFFE3ECFF),
-                      fontSize: 14,
-                    ),
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
                   ),
                   const SizedBox(height: 20),
                   _buildContactItem(Icons.phone, '+7 (777) 123-45-67'),
@@ -388,7 +391,7 @@ class _SupportPageState extends State<SupportPage> {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Text(
                         _threadError!,
-                        style: const TextStyle(color: Color(0xFFEF4444)),
+                        style: TextStyle(color: context.colorPalette.error),
                       ),
                     ),
                   if (_chat != null) ...[
@@ -400,16 +403,22 @@ class _SupportPageState extends State<SupportPage> {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFDDF7E8),
+                          color: context.colorPalette.success.withValues(
+                            alpha: 0.15,
+                          ),
                           borderRadius: BorderRadius.circular(14),
-                          border: Border.all(color: const Color(0xFFB7EBCF)),
+                          border: Border.all(
+                            color: context.colorPalette.success.withValues(
+                              alpha: 0.4,
+                            ),
+                          ),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Активный чат открыт',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: Color(0xFF1A7F4B),
+                            color: context.colorPalette.success,
                           ),
                         ),
                       ),
@@ -443,14 +452,16 @@ class _SupportPageState extends State<SupportPage> {
                             style: TextStyle(fontWeight: FontWeight.w700),
                           ),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: _primaryColor,
+                            backgroundColor: context.colorPalette.accent,
                             foregroundColor: Colors.white,
                             elevation: 2,
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            shadowColor: _primaryColor.withValues(alpha: 0.3),
+                            shadowColor: context.colorPalette.accent.withValues(
+                              alpha: 0.3,
+                            ),
                           ),
                         ),
                       ),
@@ -545,12 +556,14 @@ class _SupportPageState extends State<SupportPage> {
                     child: ElevatedButton(
                       onPressed: _isSending ? null : _submit,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: _primaryColor,
+                        backgroundColor: context.colorPalette.accent,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
                         elevation: 2,
-                        shadowColor: _primaryColor.withValues(alpha: 0.3),
+                        shadowColor: context.colorPalette.accent.withValues(
+                          alpha: 0.3,
+                        ),
                       ),
                       child: _isSending
                           ? const SizedBox(

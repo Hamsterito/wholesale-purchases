@@ -21,11 +21,18 @@ class AiService {
   static const int _maxRetries = 3;
   static const Duration _timeout = Duration(seconds: 45);
 
-  // Список моделей для fallback (пробуем по очереди при ошибках)
+  // Список моделей для fallback (пробуем по очереди при ошибках лимита)
   static const List<String> _fallbackModels = [
     'google/gemma-4-31b-it:free',
     'deepseek/deepseek-v4-flash:free',
-    'google/gemma-4-26b-a4b-it:free',
+    'nvidia/nemotron-3-super-120b-a12b:free',
+    'openai/gpt-oss-120b:free',
+    'openai/gpt-oss-20b:free',
+    'z-ai/glm-4.5-air:free',
+    'nvidia/nemotron-3-nano-30b-a3b:free',
+    'arcee-ai/trinity-large-thinking:free',
+    'minimax/minimax-m2.5:free',
+    'baidu/cobuddy:free',
   ];
 
   /// Генерирует резюме производительности поставщика на русском языке
@@ -123,6 +130,15 @@ class AiService {
           userMessage: 'Проверьте подключение к интернету',
         );
       } on AiException catch (e) {
+        // Если это ошибка лимита (429), пробуем другую модель без повторов
+        if (_isRateLimitError(e.message)) {
+          AppLogger.info(
+            'Лимит запросов для модели $model, переходим на другую',
+            scope: 'ai',
+          );
+          rethrow; // Выбрасываем, чтобы перейти на следующую модель в generateSupplierSummary
+        }
+
         if (_shouldRetry(e.message) && attempt < _maxRetries - 1) {
           final delaySeconds = 1 << attempt; // 2^attempt
           AppLogger.info(
@@ -157,10 +173,8 @@ class AiService {
     }
 
     if (response.statusCode == 429) {
-      throw AiException(
-        message: 'Rate limit exceeded',
-        userMessage: 'Превышен лимит запросов. Попробуем другую модель',
-      );
+      // Ошибка лимита - выбрасываем без userMessage, чтобы не показывать пользователю
+      throw AiException(message: 'Rate limit exceeded', userMessage: null);
     }
 
     if (response.statusCode >= 500) {
@@ -268,6 +282,11 @@ class AiService {
     // Повторяем для транзиентных ошибок (429, 5xx)
     // OpenRouter free иногда временно возвращает 429
     return message.contains('Server error') || message.contains('Rate limit');
+  }
+
+  /// Проверяет, является ли ошибка ошибкой лимита запросов
+  static bool _isRateLimitError(String message) {
+    return message.contains('Rate limit');
   }
 
   /// Конструирует промпт на английском языке на основе статистики

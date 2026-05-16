@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import 'package:flutter/services.dart';
 import '../widgets/phone_input_formatter.dart';
 import '../widgets/main_bottom_nav.dart';
@@ -15,7 +16,7 @@ class PersonalInfoPage extends StatefulWidget {
 
 class _PersonalInfoPageState extends State<PersonalInfoPage>
     with TickerProviderStateMixin {
-  static const _primaryColor = Color(0xFF6288D5);
+  
   static final RegExp _emailRegex = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
 
   late final TextEditingController _nameController;
@@ -26,7 +27,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _inputFill => _colorScheme.surfaceContainerHighest;
   Color get _borderColor => _colorScheme.outlineVariant;
@@ -490,7 +491,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
             });
           },
           child: ListTile(
-            leading: Icon(icon, color: _primaryColor, size: 24),
+            leading: Icon(icon, color: context.colorPalette.accent, size: 24),
             title: Text(
               title,
               style: TextStyle(
@@ -582,7 +583,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                               child: ElevatedButton(
                                 onPressed: _isSavingProfile ? null : onSave,
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: _primaryColor,
+                                  backgroundColor: context.colorPalette.accent,
                                   foregroundColor: Colors.white,
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 12,

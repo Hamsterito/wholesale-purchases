@@ -1,5 +1,6 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import 'package:flutter_project/reg_screan/register_page.dart';
 import 'package:flutter_project/forgot_screan/forgot_password_page.dart';
 import '../services/api_config.dart';
@@ -29,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _inputFill =>
-      _isDark ? _colorScheme.surfaceContainerHighest : const Color(0xFFF5F5F5);
+      _isDark ? _colorScheme.surfaceContainerHighest : context.colorPalette.bgTop;
 
   @override
   void initState() {
@@ -208,8 +209,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final gradientColors = _isDark
-        ? const [Color(0xFF1B2434), Color(0xFF0F1115)]
-        : const [Color(0xFF6288D5), Color(0xFF5A8BC5)];
+        ? [context.colorPalette.bgBottom, context.colorPalette.bgTop]
+        : [context.colorPalette.accent, context.colorPalette.accentDark];
 
     return Scaffold(
       body: Container(
@@ -389,7 +390,7 @@ class _LoginPageState extends State<LoginPage> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: _isDark
                                   ? _colorScheme.primary
-                                  : const Color(0xFF2D2D2D),
+                                  : context.colorPalette.ink,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),

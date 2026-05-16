@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import 'smart_image.dart';
 
 class ProductImageCarousel extends StatefulWidget {
@@ -14,12 +15,6 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
   int _currentIndex = 0;
   final PageController _pageController = PageController();
 
-  ThemeData get _theme => Theme.of(context);
-  ColorScheme get _colorScheme => _theme.colorScheme;
-  Color get _cardBg => _colorScheme.surface;
-  Color get _surfaceContainer => _colorScheme.surfaceContainerHighest;
-  Color get _mutedText => _colorScheme.onSurfaceVariant;
-
   List<String> _normalizedImages() {
     final images = widget.imageUrls
         .map((url) => url.trim())
@@ -30,12 +25,13 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppColorPalette.of(context);
     final images = _normalizedImages();
 
     return Container(
-      color: _cardBg,
+      color: palette.card,
       child: Container(
-        color: _surfaceContainer,
+        color: palette.bgBottom,
         height: 400,
         child: Stack(
           children: [
@@ -56,7 +52,7 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
                       fit: BoxFit.cover,
                       width: double.infinity,
                       height: double.infinity,
-                      placeholder: _buildPlaceholder(),
+                      placeholder: _buildPlaceholder(palette),
                     ),
                   );
                 },
@@ -78,8 +74,8 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(999),
                         color: _currentIndex == index
-                            ? const Color(0xFF6288D5)
-                            : Colors.white.withValues(alpha: 0.7),
+                            ? palette.accent
+                            : palette.card.withValues(alpha: 0.7),
                       ),
                     );
                   }),
@@ -91,10 +87,10 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
     );
   }
 
-  Widget _buildPlaceholder() {
+  Widget _buildPlaceholder(AppColorPalette palette) {
     return Container(
-      color: _surfaceContainer,
-      child: Icon(Icons.image, size: 100, color: _mutedText),
+      color: palette.bgBottom,
+      child: Icon(Icons.image, size: 100, color: palette.muted),
     );
   }
 

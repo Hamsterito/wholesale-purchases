@@ -1,5 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 
+import '../theme/app_color_palette.dart';
+
 class RoleBottomBar extends StatelessWidget {
   const RoleBottomBar({
     super.key,
@@ -20,9 +22,9 @@ class RoleBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    const accentColor = Color(0xFF6288D5);
-    final shadowColor = Colors.black.withValues(alpha: 0.12);
+    final palette = context.colorPalette;
+    final accentColor = palette.accent;
+    final shadowColor = palette.shadow;
     return SafeArea(
       top: false,
       child: Padding(
@@ -30,7 +32,7 @@ class RoleBottomBar extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: colorScheme.surface,
+            color: palette.card,
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
@@ -49,7 +51,7 @@ class RoleBottomBar extends StatelessWidget {
                   label: Text(homeLabel),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: accentColor,
-                    side: const BorderSide(color: accentColor),
+                    side: BorderSide(color: accentColor),
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
@@ -88,4 +90,3 @@ class RoleBottomBar extends StatelessWidget {
     );
   }
 }
-

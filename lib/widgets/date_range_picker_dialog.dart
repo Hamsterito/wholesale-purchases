@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import '../theme/app_color_palette.dart';
 
 class CustomDateRangePickerDialog extends StatefulWidget {
   final DateTimeRange? initialRange;
@@ -156,12 +157,17 @@ class _CustomDateRangePickerDialogState
 
   @override
   Widget build(BuildContext context) {
+    final palette = AppColorPalette.of(context);
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
         constraints: const BoxConstraints(maxWidth: 400),
         padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: palette.card,
+          borderRadius: BorderRadius.circular(16),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -170,7 +176,7 @@ class _CustomDateRangePickerDialogState
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: Theme.of(context).primaryColor,
+                color: palette.accent,
               ),
             ),
             const SizedBox(height: 16),
@@ -181,22 +187,22 @@ class _CustomDateRangePickerDialogState
                 _QuickFilterButton(
                   label: 'Сегодня',
                   onTap: () => _applyQuickFilter('Сегодня'),
-                  primaryColor: Theme.of(context).primaryColor,
+                  primaryColor: palette.accent,
                 ),
                 _QuickFilterButton(
                   label: 'Неделя',
                   onTap: () => _applyQuickFilter('Неделя'),
-                  primaryColor: Theme.of(context).primaryColor,
+                  primaryColor: palette.accent,
                 ),
                 _QuickFilterButton(
                   label: 'Месяц',
                   onTap: () => _applyQuickFilter('Месяц'),
-                  primaryColor: Theme.of(context).primaryColor,
+                  primaryColor: palette.accent,
                 ),
                 _QuickFilterButton(
                   label: 'Квартал',
                   onTap: () => _applyQuickFilter('Квартал'),
-                  primaryColor: Theme.of(context).primaryColor,
+                  primaryColor: palette.accent,
                 ),
               ],
             ),
@@ -215,62 +221,55 @@ class _CustomDateRangePickerDialogState
                   textStyle: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: Theme.of(context).primaryColor,
+                    color: palette.accent,
                   ),
                 ),
                 monthCellStyle: DateRangePickerMonthCellStyle(
                   textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: palette.ink,
                   ),
                   todayTextStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
+                    color: palette.accent,
                   ),
                   disabledDatesTextStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.3),
+                    color: palette.muted.withValues(alpha: 0.5),
                   ),
                 ),
                 yearCellStyle: DateRangePickerYearCellStyle(
                   textStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: palette.ink,
                   ),
                   todayTextStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
+                    color: palette.accent,
                   ),
                 ),
-                selectionTextStyle: const TextStyle(
+                selectionTextStyle: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: palette.card,
                 ),
-                rangeTextStyle: TextStyle(
-                  fontSize: 16,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-                selectionColor: Theme.of(context).primaryColor,
-                startRangeSelectionColor: Theme.of(context).primaryColor,
-                endRangeSelectionColor: Theme.of(context).primaryColor,
-                rangeSelectionColor: Theme.of(
-                  context,
-                ).primaryColor.withValues(alpha: 0.1),
-                todayHighlightColor: Theme.of(context).primaryColor,
+                rangeTextStyle: TextStyle(fontSize: 16, color: palette.ink),
+                selectionColor: palette.accent,
+                startRangeSelectionColor: palette.accent,
+                endRangeSelectionColor: palette.accent,
+                rangeSelectionColor: palette.accentMist,
+                todayHighlightColor: palette.accent,
                 monthViewSettings: DateRangePickerMonthViewSettings(
                   viewHeaderStyle: DateRangePickerViewHeaderStyle(
                     textStyle: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      color: palette.muted,
                     ),
                   ),
                   enableSwipeSelection: false,
@@ -281,21 +280,19 @@ class _CustomDateRangePickerDialogState
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: const Color(0xFFF5F5F5),
+                color: palette.accentMist,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
                 children: [
-                  Icon(
-                    Icons.calendar_today,
-                    color: Theme.of(context).primaryColor,
-                  ),
+                  Icon(Icons.calendar_today, color: palette.accent),
                   const SizedBox(width: 8),
                   Text(
                     _getSelectedRangeText(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
+                      color: palette.ink,
                     ),
                   ),
                 ],
@@ -306,19 +303,25 @@ class _CustomDateRangePickerDialogState
               children: [
                 TextButton(
                   onPressed: _clearSelection,
-                  child: const Text('Очистить'),
+                  child: Text(
+                    'Очистить',
+                    style: TextStyle(color: palette.accent),
+                  ),
                 ),
                 const Spacer(),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('Отмена'),
+                  child: Text(
+                    'Отмена',
+                    style: TextStyle(color: palette.accent),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 ElevatedButton(
                   onPressed: _saveSelection,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    foregroundColor: Colors.white,
+                    backgroundColor: palette.accent,
+                    foregroundColor: palette.card,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 20,

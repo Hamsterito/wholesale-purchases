@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import '../widgets/main_bottom_nav.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
@@ -24,7 +25,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _inputFill => _colorScheme.surfaceContainerHighest;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
 
@@ -169,7 +170,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    const primaryColor = Color(0xFF6288D5);
+    final primaryColor = context.colorPalette.accent;
     const fieldContentPadding = EdgeInsets.symmetric(
       horizontal: 12,
       vertical: 16,

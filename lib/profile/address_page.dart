@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import 'package:flutter/services.dart';
 import '../models/user_address.dart';
 
@@ -35,7 +36,7 @@ class _AddressPageState extends State<AddressPage> {
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _inputFill => _colorScheme.surfaceContainerHighest;
 
@@ -68,7 +69,7 @@ class _AddressPageState extends State<AddressPage> {
 
   @override
   Widget build(BuildContext context) {
-    const primaryColor = Color(0xFF6288D5);
+    final primaryColor = context.colorPalette.accent;
     final isEditing = widget.initial != null;
     final titleText = isEditing ? 'Редактировать адрес' : 'Добавить адрес';
 
@@ -243,7 +244,7 @@ class _AddressPageState extends State<AddressPage> {
 
   Widget _buildTypeButton({required String value, required String label}) {
     final isSelected = _selectedType == value;
-    const primaryColor = Color(0xFF6288D5);
+    final primaryColor = context.colorPalette.accent;
 
     return Expanded(
       child: InkWell(

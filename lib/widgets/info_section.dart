@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 
 class InfoSection extends StatelessWidget {
   final String title;
@@ -8,14 +9,11 @@ class InfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final cardBg = colorScheme.surface;
-    final mutedText = colorScheme.onSurfaceVariant;
+    final palette = context.colorPalette;
 
     return Container(
       width: double.infinity,
-      color: cardBg,
+      color: palette.card,
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -23,16 +21,16 @@ class InfoSection extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: palette.ink,
+            ),
           ),
           const SizedBox(height: 10),
           Text(
             content,
-            style: TextStyle(
-              fontSize: 13,
-              color: mutedText,
-              height: 1.4,
-            ),
+            style: TextStyle(fontSize: 13, color: palette.muted, height: 1.4),
           ),
         ],
       ),

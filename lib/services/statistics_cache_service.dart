@@ -1,3 +1,4 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../models/supplier_stats.dart';

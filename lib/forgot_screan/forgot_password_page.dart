@@ -1,6 +1,7 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import '../theme/app_color_palette.dart';
 import 'forgot_password_verification_page.dart';
 import '../services/api_config.dart';
 import '../services/app_http_client.dart';
@@ -24,7 +25,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _inputFill =>
-      _isDark ? _colorScheme.surfaceContainerHighest : const Color(0xFFF5F5F5);
+      _isDark ? _colorScheme.surfaceContainerHighest : context.colorPalette.bgTop;
 
   @override
   void dispose() {
@@ -95,8 +96,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     final gradientColors = _isDark
-        ? const [Color(0xFF1B2434), Color(0xFF0F1115)]
-        : const [Color(0xFF6288D5), Color(0xFF5A8BC5)];
+        ? [context.colorPalette.bgBottom, context.colorPalette.bgTop]
+        : [context.colorPalette.accent, context.colorPalette.accentDark];
 
     return Scaffold(
       body: Container(
@@ -208,7 +209,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                              style: ElevatedButton.styleFrom(
                                backgroundColor: _isDark
                                    ? _colorScheme.primary
-                                   : const Color(0xFF2D2D2D),
+                                   : context.colorPalette.ink,
                                shape: RoundedRectangleBorder(
                                  borderRadius: BorderRadius.circular(8),
                                ),
