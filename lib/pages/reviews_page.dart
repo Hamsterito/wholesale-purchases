@@ -213,24 +213,65 @@ class _ReviewsPageState extends State<ReviewsPage> {
   Widget _buildContent() {
     final palette = context.colorPalette;
 
+    // Фиксированные слоты перед карточками отзывов:
+    // 0 — сводная карточка рейтинга
+    // 1 — баннер ошибки (только если есть ошибка) или отступ
+    // 2 — отступ перед списком (только когда нет ошибки)
+    // Далее — сами отзывы (или заглушка «нет отзывов»)
+    final bool hasError = _error != null;
+    // Количество слотов до отзывов: сводка + (ошибка ? 2 : 1) отступ
+    const int headerSlots = 1; // сводная карточка
+    final int errorSlots = hasError ? 2 : 0; // отступ + баннер ошибки
+    const int spacerSlots = 1; // отступ перед списком отзывов
+    final int reviewSlots = _reviews.isEmpty ? 1 : _reviews.length;
+
+    final int totalItems = headerSlots + errorSlots + spacerSlots + reviewSlots;
+
     return RefreshIndicator(
       color: palette.accent,
       onRefresh: _loadReviews,
-      child: ListView(
+      // ListView.builder строит только видимые элементы — ленивая загрузка
+      child: ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(0, 4, 0, 24),
-        children: [
-          _buildSummaryCard(),
-          if (_error != null) ...[
-            const SizedBox(height: 12),
-            _buildErrorBanner(_error!),
-          ],
-          const SizedBox(height: 12),
-          if (_reviews.isEmpty)
-            _buildEmptyState()
-          else
-            ..._reviews.map(_buildReviewCard),
-        ],
+        itemCount: totalItems,
+        itemBuilder: (context, index) {
+          // Слот 0: сводная карточка рейтинга
+          if (index == 0) {
+            return _buildSummaryCard();
+          }
+
+          int cursor = headerSlots;
+
+          // Слоты ошибки (если есть)
+          if (hasError) {
+            if (index == cursor) {
+              return const SizedBox(height: 12);
+            }
+            cursor++;
+            if (index == cursor) {
+              return _buildErrorBanner(_error!);
+            }
+            cursor++;
+          }
+
+          // Отступ перед списком отзывов
+          if (index == cursor) {
+            return const SizedBox(height: 12);
+          }
+          cursor++;
+
+          // Слоты отзывов
+          final reviewIndex = index - cursor;
+          if (_reviews.isEmpty) {
+            return _buildEmptyState();
+          }
+          return KeyedSubtree(
+            // Стабильный ключ предотвращает лишние перестройки при обновлении
+            key: ValueKey(_reviews[reviewIndex].id),
+            child: _buildReviewCard(_reviews[reviewIndex]),
+          );
+        },
       ),
     );
   }

@@ -30,9 +30,14 @@ class SmartImage extends StatefulWidget {
 }
 
 class _SmartImageState extends State<SmartImage> {
-  static const int _decodedCacheLimit = 120;
+  // Ограничение кэша по размеру, а не по количеству — иначе при большом числе
+  // изображений высокого разрешения память растёт неконтролируемо
+  static const int _maxCacheBytes = 50 * 1024 * 1024; // 50 МБ
   static final LinkedHashMap<String, Uint8List?> _decodedCache =
       LinkedHashMap<String, Uint8List?>();
+  // Отдельная карта размеров, чтобы не пересчитывать при каждом вытеснении
+  static final Map<String, int> _cacheSizeBytes = {};
+  static int _currentCacheBytes = 0;
 
   Uint8List? _decodedBytes;
   bool _isDecoding = false;
@@ -99,12 +104,28 @@ class _SmartImageState extends State<SmartImage> {
   }
 
   void _writeToCache(String path, Uint8List? bytes) {
-    _decodedCache.remove(path);
+    // Если запись уже есть — сначала вычитаем её старый размер
+    if (_decodedCache.containsKey(path)) {
+      _currentCacheBytes -= _cacheSizeBytes.remove(path) ?? 0;
+      _decodedCache.remove(path);
+    }
+
+    final entryBytes = bytes?.length ?? 0;
     _decodedCache[path] = bytes;
-    while (_decodedCache.length > _decodedCacheLimit) {
-      _decodedCache.remove(_decodedCache.keys.first);
+    _cacheSizeBytes[path] = entryBytes;
+    _currentCacheBytes += entryBytes;
+
+    // Вытесняем самые старые записи, пока не уложимся в лимит
+    while (_currentCacheBytes > _maxCacheBytes && _decodedCache.isNotEmpty) {
+      final oldestKey = _decodedCache.keys.first;
+      _currentCacheBytes -= _cacheSizeBytes.remove(oldestKey) ?? 0;
+      _decodedCache.remove(oldestKey);
     }
   }
+
+  /// Текущий размер кэша в байтах (для мониторинга).
+  // ignore: unused_element
+  static int get currentCacheBytes => _currentCacheBytes;
 
   @override
   Widget build(BuildContext context) {

@@ -9,6 +9,10 @@ class CartStore extends ChangeNotifier {
 
   final Map<String, List<CartItem>> _itemsBySupplier = {};
 
+  // Гранулярные слушатели по productId — чтобы виджеты подписывались только
+  // на изменения конкретного товара, а не перестраивались при любом изменении корзины
+  final Map<String, List<VoidCallback>> _productListeners = {};
+
   Map<String, List<CartItem>> get itemsBySupplier {
     return _itemsBySupplier.map(
       (key, value) => MapEntry(key, List<CartItem>.unmodifiable(value)),
@@ -43,6 +47,28 @@ class CartStore extends ChangeNotifier {
     return total;
   }
 
+  void addProductListener(String productId, VoidCallback listener) {
+    _productListeners.putIfAbsent(productId, () => []).add(listener);
+  }
+
+  void removeProductListener(String productId, VoidCallback listener) {
+    _productListeners[productId]?.remove(listener);
+    if (_productListeners[productId]?.isEmpty ?? false) {
+      _productListeners.remove(productId);
+    }
+  }
+
+  // Уведомляем только тех, кто подписан на конкретный товар — избегаем
+  // каскадных перестроек всех карточек при изменении одной позиции
+  void notifyListenersForProduct(String productId) {
+    final listeners = _productListeners[productId];
+    if (listeners == null) return;
+    // Копируем список перед итерацией на случай, если слушатель отпишется внутри колбэка
+    for (final listener in List<VoidCallback>.from(listeners)) {
+      listener();
+    }
+  }
+
   int _applyQuantityBounds({
     required int quantity,
     required int min,
@@ -54,10 +80,7 @@ class CartStore extends ChangeNotifier {
     return safeMin > effectiveMax ? effectiveMax : safeMin;
   }
 
-  bool contains({
-    required String supplierId,
-    required String productId,
-  }) {
+  bool contains({required String supplierId, required String productId}) {
     final items = _itemsBySupplier[supplierId];
     if (items == null) return false;
     return items.any((item) => item.product.id == productId);
@@ -77,16 +100,13 @@ class CartStore extends ChangeNotifier {
     final index = items.indexWhere((item) => item.product.id == product.id);
     if (index == -1) {
       items.add(
-        CartItem(
-          product: product,
-          supplier: supplier,
-          quantity: safeQuantity,
-        ),
+        CartItem(product: product, supplier: supplier, quantity: safeQuantity),
       );
     } else {
       items[index] = items[index].copyWith(quantity: safeQuantity);
     }
     notifyListeners();
+    notifyListenersForProduct(product.id);
   }
 
   void updateQuantity({
@@ -109,12 +129,10 @@ class CartStore extends ChangeNotifier {
     );
     items[index] = items[index].copyWith(quantity: safeQuantity);
     notifyListeners();
+    notifyListenersForProduct(productId);
   }
 
-  void removeItem({
-    required String supplierId,
-    required String productId,
-  }) {
+  void removeItem({required String supplierId, required String productId}) {
     final items = _itemsBySupplier[supplierId];
     if (items == null) return;
     items.removeWhere((item) => item.product.id == productId);
@@ -122,6 +140,7 @@ class CartStore extends ChangeNotifier {
       _itemsBySupplier.remove(supplierId);
     }
     notifyListeners();
+    notifyListenersForProduct(productId);
   }
 
   void clear() {

@@ -26,14 +26,22 @@ class QuestionsPage extends StatefulWidget {
 }
 
 class _QuestionsPageState extends State<QuestionsPage> {
+  // Только текущая + следующая страница хранятся в памяти
   final List<Question> _questions = [];
   _PageState _pageState = _PageState.loading;
   String _errorMessage = '';
   int _totalQuestions = 0;
-  int _page = 1;
+
+  // Номер следующей страницы для загрузки
+  int _nextPage = 1;
   final int _limit = 20;
   bool _hasMore = true;
   bool _isLoadingMore = false;
+
+  // Смещение первого элемента в _questions относительно всего списка
+  // (нужно для корректного отображения позиции при виртуальном скролле)
+  int _windowOffset = 0;
+
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _questionController = TextEditingController();
 
@@ -53,8 +61,9 @@ class _QuestionsPageState extends State<QuestionsPage> {
 
   void _onScroll() {
     if (_questions.isEmpty || _isLoadingMore || !_hasMore) return;
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
+    // Загружаем следующую страницу при достижении 80% списка
+    final position = _scrollController.position;
+    if (position.pixels >= position.maxScrollExtent * 0.8) {
       _fetchQuestions(loadMore: true);
     }
   }
@@ -69,9 +78,10 @@ class _QuestionsPageState extends State<QuestionsPage> {
     }
 
     try {
+      final pageToLoad = loadMore ? _nextPage : 1;
       final data = await ApiService.getProductQuestions(
         productId: widget.productId,
-        page: loadMore ? _page : 1,
+        page: pageToLoad,
         limit: _limit,
       );
 
@@ -83,10 +93,25 @@ class _QuestionsPageState extends State<QuestionsPage> {
       if (mounted) {
         setState(() {
           _totalQuestions = total;
-          if (!loadMore) _questions.clear();
+
+          if (!loadMore) {
+            // Первая загрузка: сбрасываем окно
+            _questions.clear();
+            _windowOffset = 0;
+            _nextPage = 2;
+          } else {
+            // Подгрузка следующей страницы: выбрасываем старые страницы,
+            // оставляем только текущую + новую (две страницы в памяти)
+            if (_questions.length > _limit) {
+              final removed = _questions.length - _limit;
+              _questions.removeRange(0, removed);
+              _windowOffset += removed;
+            }
+            _nextPage = pageToLoad + 1;
+          }
+
           _questions.addAll(fetched);
-          _hasMore = _questions.length < total;
-          _page = loadMore ? _page + 1 : 2;
+          _hasMore = (_windowOffset + _questions.length) < total;
 
           if (!loadMore) {
             _pageState = _questions.isEmpty
@@ -177,15 +202,33 @@ class _QuestionsPageState extends State<QuestionsPage> {
 
   Widget _buildHeader(BuildContext context, AppColorPalette palette) {
     return Container(
-      color: palette.card,
-      padding: const EdgeInsets.fromLTRB(0, 12, 16, 12),
+      padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
+      decoration: BoxDecoration(
+        color: palette.card,
+        borderRadius: BorderRadius.zero,
+        border: Border.all(color: palette.line),
+        boxShadow: [
+          BoxShadow(
+            color: palette.shadow,
+            blurRadius: 10,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           IconButton(
-            icon: const Icon(Icons.arrow_back),
             onPressed: () => Navigator.pop(context),
-            color: palette.ink,
+            icon: Icon(Icons.arrow_back, color: palette.ink),
+            tooltip: 'Назад',
+            style: IconButton.styleFrom(
+              minimumSize: const Size(32, 32),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: EdgeInsets.zero,
+            ),
           ),
+          const SizedBox(width: 8),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,13 +236,12 @@ class _QuestionsPageState extends State<QuestionsPage> {
                 Text(
                   'Вопросы о товаре',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: palette.ink,
-                    letterSpacing: 0.2,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 2),
                 Text(
                   '$_totalQuestions всего',
                   style: TextStyle(fontSize: 12, color: palette.muted),
@@ -296,11 +338,13 @@ class _QuestionsPageState extends State<QuestionsPage> {
                   ),
                 );
               }
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: QuestionCard(
-                  question: _questions[index],
-                  palette: palette,
+              final question = _questions[index];
+              return KeyedSubtree(
+                // Стабильный ключ предотвращает лишние перестройки при сдвиге окна
+                key: ValueKey(question.id),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: QuestionCard(question: question, palette: palette),
                 ),
               );
             },

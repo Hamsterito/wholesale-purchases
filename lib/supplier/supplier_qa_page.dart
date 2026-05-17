@@ -30,9 +30,52 @@ enum _PageState { loading, error, empty, data }
 
 enum _TabType { questions, reviews }
 
+// Типы элементов для ленивого рендеринга списка
+sealed class _QAListItem {
+  const _QAListItem();
+}
+
+final class _SectionHeaderItem extends _QAListItem {
+  final String title;
+  final int count;
+  const _SectionHeaderItem(this.title, this.count);
+}
+
+final class _QuestionItem extends _QAListItem {
+  final Question question;
+  const _QuestionItem(this.question);
+}
+
+final class _ReviewItem extends _QAListItem {
+  final ReviewEntry review;
+  const _ReviewItem(this.review);
+}
+
+final class _AnsweredButtonItem extends _QAListItem {
+  final List<Question> answeredQuestions;
+  const _AnsweredButtonItem(this.answeredQuestions);
+}
+
+final class _EmptyTabItem extends _QAListItem {
+  final String message;
+  const _EmptyTabItem(this.message);
+}
+
+final class _LoadingMoreItem extends _QAListItem {
+  const _LoadingMoreItem();
+}
+
+final class _SpacerItem extends _QAListItem {
+  final double height;
+  const _SpacerItem(this.height);
+}
+
 class _SupplierQAPageState extends State<SupplierQAPage> {
   final List<Question> _questions = [];
   final List<ReviewEntry> _reviews = [];
+  // Индексы для O(1) поиска по id вместо O(n) indexWhere
+  final Map<String, Question> _questionsById = {};
+  final Map<String, ReviewEntry> _reviewsById = {};
   final Map<String, Product> _productMap = {};
   _PageState _pageState = _PageState.loading;
   String? _errorMessage;
@@ -86,10 +129,6 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     }
 
     try {
-      if (!loadMore) {
-        await _loadSupplierProducts(userId);
-      }
-
       await Future.wait([
         _loadQuestions(userId, loadMore: loadMore),
         _loadReviews(userId, loadMore: loadMore),
@@ -148,6 +187,18 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     }
   }
 
+  // Загружаем данные о товаре только когда они реально нужны (при открытии модала).
+  // Если товар уже в кэше — сразу возвращаем, иначе подгружаем весь список
+  // поставщика и заполняем кэш, чтобы следующие открытия были мгновенными.
+  Future<void> _ensureProductLoaded(String productId) async {
+    if (_productMap.containsKey(productId)) return;
+
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) return;
+
+    await _loadSupplierProducts(userId);
+  }
+
   Future<void> _loadQuestions(int userId, {bool loadMore = false}) async {
     try {
       final data = await ApiService.getSupplierQuestions(
@@ -170,9 +221,13 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
         setState(() {
           if (!loadMore) {
             _questions.clear();
+            _questionsById.clear();
             _page = 1;
           }
           _questions.addAll(filtered);
+          for (final q in filtered) {
+            _questionsById[q.id] = q;
+          }
           _hasMore = _questions.length < total;
           if (!loadMore) {
             _page = 2;
@@ -209,9 +264,13 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
         setState(() {
           if (!loadMore) {
             _reviews.clear();
+            _reviewsById.clear();
             _page = 1;
           }
           _reviews.addAll(filtered);
+          for (final r in filtered) {
+            _reviewsById[r.id] = r;
+          }
           _hasMore = _reviews.length < total;
           if (!loadMore) {
             _page = 2;
@@ -231,7 +290,11 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     widget.onUnansweredCountChanged?.call(_unansweredCount);
   }
 
-  void _showAnswerModal(Question question) {
+  Future<void> _showAnswerModal(Question question) async {
+    await _ensureProductLoaded(question.productId);
+
+    if (!mounted) return;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -267,7 +330,11 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     );
   }
 
-  void _showResponseModal(ReviewEntry review) {
+  Future<void> _showResponseModal(ReviewEntry review) async {
+    await _ensureProductLoaded(review.productId);
+
+    if (!mounted) return;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -323,7 +390,10 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
       );
 
       if (mounted) {
-        final questionIndex = _questions.indexWhere((q) => q.id == question.id);
+        final existing = _questionsById[question.id];
+        final questionIndex = existing != null
+            ? _questions.indexOf(existing)
+            : -1;
         if (questionIndex != -1) {
           final updatedQuestion = Question(
             id: question.id,
@@ -347,6 +417,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
 
           setState(() {
             _questions[questionIndex] = updatedQuestion;
+            _questionsById[updatedQuestion.id] = updatedQuestion;
             _calculateUnansweredCount();
           });
         }
@@ -387,7 +458,10 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
       );
 
       if (mounted) {
-        final questionIndex = _questions.indexWhere((q) => q.id == question.id);
+        final existing = _questionsById[question.id];
+        final questionIndex = existing != null
+            ? _questions.indexOf(existing)
+            : -1;
         if (questionIndex != -1) {
           final updatedQuestion = Question(
             id: question.id,
@@ -411,6 +485,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
 
           setState(() {
             _questions[questionIndex] = updatedQuestion;
+            _questionsById[updatedQuestion.id] = updatedQuestion;
           });
         }
 
@@ -450,7 +525,10 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
       );
 
       if (mounted) {
-        final reviewIndex = _reviews.indexWhere((r) => r.id == review.id);
+        final existingReview = _reviewsById[review.id];
+        final reviewIndex = existingReview != null
+            ? _reviews.indexOf(existingReview)
+            : -1;
         if (reviewIndex != -1) {
           final updatedReview = ReviewEntry(
             id: review.id,
@@ -475,6 +553,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
 
           setState(() {
             _reviews[reviewIndex] = updatedReview;
+            _reviewsById[updatedReview.id] = updatedReview;
           });
         }
 
@@ -514,7 +593,10 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
       );
 
       if (mounted) {
-        final reviewIndex = _reviews.indexWhere((r) => r.id == review.id);
+        final existingReview = _reviewsById[review.id];
+        final reviewIndex = existingReview != null
+            ? _reviews.indexOf(existingReview)
+            : -1;
         if (reviewIndex != -1) {
           final updatedReview = ReviewEntry(
             id: review.id,
@@ -539,6 +621,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
 
           setState(() {
             _reviews[reviewIndex] = updatedReview;
+            _reviewsById[updatedReview.id] = updatedReview;
           });
         }
 
@@ -733,123 +816,118 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
         );
 
       case _PageState.data:
+        // Строим плоский список элементов один раз, чтобы ListView.builder
+        // мог рендерить только видимые карточки
+        final items = _buildListItems();
         return RefreshIndicator(
           color: palette.accent,
           onRefresh: () => _loadData(),
-          child: ListView(
+          child: ListView.builder(
             controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-            children: _buildSectionedContent(palette),
+            itemCount: items.length,
+            itemBuilder: (context, index) =>
+                _buildListItemWidget(items[index], palette),
           ),
         );
     }
   }
 
-  List<Widget> _buildSectionedContent(AppColorPalette palette) {
-    final unansweredQuestions = _questions.where((q) => !q.isAnswered).toList();
-    final answeredQuestions = _questions.where((q) => q.isAnswered).toList();
-
-    final widgets = <Widget>[];
+  /// Формирует плоский список типизированных элементов для текущей вкладки.
+  /// Разделение на типы позволяет itemBuilder строить виджеты лениво.
+  List<_QAListItem> _buildListItems() {
+    final items = <_QAListItem>[];
 
     if (_selectedTab == _TabType.questions) {
-      if (unansweredQuestions.isNotEmpty) {
-        widgets.add(
-          _buildSectionHeader(
-            'Вопросы без ответов',
-            unansweredQuestions.length,
-            palette,
-          ),
-        );
-        for (final question in unansweredQuestions) {
-          widgets.add(
-            Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: _buildQuestionCard(question, palette),
-            ),
-          );
+      final unanswered = _questions.where((q) => !q.isAnswered).toList();
+      final answered = _questions.where((q) => q.isAnswered).toList();
+
+      if (unanswered.isNotEmpty) {
+        items.add(_SectionHeaderItem('Вопросы без ответов', unanswered.length));
+        for (final q in unanswered) {
+          items.add(_QuestionItem(q));
         }
-        widgets.add(const SizedBox(height: 12));
+        items.add(const _SpacerItem(12));
       }
 
-      if (answeredQuestions.isNotEmpty) {
-        widgets.add(
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: SizedBox(
-              width: double.infinity,
-              child: FilledButton.icon(
-                onPressed: () =>
-                    _navigateToAnsweredQuestions(answeredQuestions),
-                style: FilledButton.styleFrom(
-                  backgroundColor: palette.accent,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-                icon: const Icon(Icons.check_circle_outline),
-                label: Text(
-                  'Отвеченные вопросы (${answeredQuestions.length})',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
+      if (answered.isNotEmpty) {
+        items.add(_AnsweredButtonItem(answered));
       }
 
-      if (unansweredQuestions.isEmpty && answeredQuestions.isEmpty) {
-        widgets.add(
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24),
-            child: Center(
-              child: Text(
-                'Нет вопросов',
-                style: TextStyle(fontSize: 14, color: palette.muted),
-              ),
-            ),
-          ),
-        );
+      if (unanswered.isEmpty && answered.isEmpty) {
+        items.add(const _EmptyTabItem('Нет вопросов'));
       }
     } else {
       if (_reviews.isNotEmpty) {
-        widgets.add(_buildSectionHeader('Отзывы', _reviews.length, palette));
-        for (final review in _reviews) {
-          widgets.add(
-            Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: _buildReviewCard(review, palette),
-            ),
-          );
+        items.add(_SectionHeaderItem('Отзывы', _reviews.length));
+        for (final r in _reviews) {
+          items.add(_ReviewItem(r));
         }
       } else {
-        widgets.add(
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24),
-            child: Center(
-              child: Text(
-                'Нет отзывов',
-                style: TextStyle(fontSize: 14, color: palette.muted),
-              ),
-            ),
-          ),
-        );
+        items.add(const _EmptyTabItem('Нет отзывов'));
       }
     }
 
     if (_isLoadingMore) {
-      widgets.add(
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: CircularProgressIndicator(color: palette.accent),
-          ),
-        ),
-      );
+      items.add(const _LoadingMoreItem());
     }
 
-    return widgets;
+    return items;
+  }
+
+  Widget _buildListItemWidget(_QAListItem item, AppColorPalette palette) {
+    return switch (item) {
+      _SectionHeaderItem(:final title, :final count) => _buildSectionHeader(
+        title,
+        count,
+        palette,
+      ),
+      _QuestionItem(:final question) => Padding(
+        key: ValueKey('q_${question.id}'),
+        padding: const EdgeInsets.only(bottom: 12),
+        child: _buildQuestionCard(question, palette),
+      ),
+      _ReviewItem(:final review) => Padding(
+        key: ValueKey('r_${review.id}'),
+        padding: const EdgeInsets.only(bottom: 12),
+        child: _buildReviewCard(review, palette),
+      ),
+      _AnsweredButtonItem(:final answeredQuestions) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: SizedBox(
+          width: double.infinity,
+          child: FilledButton.icon(
+            onPressed: () => _navigateToAnsweredQuestions(answeredQuestions),
+            style: FilledButton.styleFrom(
+              backgroundColor: palette.accent,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+            ),
+            icon: const Icon(Icons.check_circle_outline),
+            label: Text(
+              'Отвеченные вопросы (${answeredQuestions.length})',
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            ),
+          ),
+        ),
+      ),
+      _EmptyTabItem(:final message) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 24),
+        child: Center(
+          child: Text(
+            message,
+            style: TextStyle(fontSize: 14, color: palette.muted),
+          ),
+        ),
+      ),
+      _LoadingMoreItem() => Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: CircularProgressIndicator(color: palette.accent),
+        ),
+      ),
+      _SpacerItem(:final height) => SizedBox(height: height),
+    };
   }
 
   Widget _buildSectionHeader(String title, int count, AppColorPalette palette) {

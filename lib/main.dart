@@ -124,34 +124,64 @@ class _ErrorApp extends StatelessWidget {
   }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class _AppHome extends StatelessWidget {
+  const _AppHome();
 
   @override
   Widget build(BuildContext context) {
-    const primaryColor = Color(0xFF6288D5);
+    return AuthStorage.isRemembered
+        ? const MainNavigation()
+        : const LoginPage();
+  }
+}
 
-    return ValueListenableBuilder<ThemeMode>(
-      valueListenable: AppSettings.themeMode,
-      builder: (context, themeMode, _) {
-        return MaterialApp(
-          title: 'Оптовые закупки',
-          debugShowCheckedModeBanner: false,
-          locale: const Locale('ru'),
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('ru'), Locale('en'), Locale('kk')],
-          theme: _buildLightTheme(primaryColor),
-          darkTheme: _buildDarkTheme(primaryColor),
-          themeMode: themeMode,
-          home: AuthStorage.isRemembered
-              ? const MainNavigation()
-              : const LoginPage(),
-        );
-      },
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  // Кэшируем темы — они не зависят от themeMode и не должны пересоздаваться
+  static const Color _primaryColor = Color(0xFF6288D5);
+  late final ThemeData _lightTheme = _buildLightTheme(_primaryColor);
+  late final ThemeData _darkTheme = _buildDarkTheme(_primaryColor);
+
+  @override
+  void initState() {
+    super.initState();
+    // Подписываемся на изменения темы; setState обновляет только themeMode
+    AppSettings.themeMode.addListener(_onThemeChanged);
+  }
+
+  @override
+  void dispose() {
+    AppSettings.themeMode.removeListener(_onThemeChanged);
+    super.dispose();
+  }
+
+  void _onThemeChanged() {
+    // Минимальный rebuild: только параметр themeMode у MaterialApp меняется
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Оптовые закупки',
+      debugShowCheckedModeBanner: false,
+      locale: const Locale('ru'),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('ru'), Locale('en'), Locale('kk')],
+      theme: _lightTheme,
+      darkTheme: _darkTheme,
+      themeMode: AppSettings.themeMode.value,
+      home: const _AppHome(),
     );
   }
 

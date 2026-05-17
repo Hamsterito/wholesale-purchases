@@ -12,6 +12,64 @@ import 'product_detail_page.dart';
 
 enum SortField { price, rating }
 
+// Ключ кэша фильтрации — сравниваем все параметры разом,
+// чтобы не пересчитывать результат при одинаковом наборе фильтров
+class _FilterCacheKey {
+  final int productCount;
+  final double rangeStart;
+  final double rangeEnd;
+  final bool maxUnlimited;
+  final double minRating;
+  final int tabIndex;
+  final bool onlyDiscounted;
+  final String searchQuery;
+  final SortField sortField;
+  final bool sortAscending;
+
+  const _FilterCacheKey({
+    required this.productCount,
+    required this.rangeStart,
+    required this.rangeEnd,
+    required this.maxUnlimited,
+    required this.minRating,
+    required this.tabIndex,
+    required this.onlyDiscounted,
+    required this.searchQuery,
+    required this.sortField,
+    required this.sortAscending,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! _FilterCacheKey) return false;
+    return productCount == other.productCount &&
+        rangeStart == other.rangeStart &&
+        rangeEnd == other.rangeEnd &&
+        maxUnlimited == other.maxUnlimited &&
+        minRating == other.minRating &&
+        tabIndex == other.tabIndex &&
+        onlyDiscounted == other.onlyDiscounted &&
+        searchQuery == other.searchQuery &&
+        sortField == other.sortField &&
+        sortAscending == other.sortAscending;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    productCount,
+    rangeStart,
+    rangeEnd,
+    maxUnlimited,
+    minRating,
+    tabIndex,
+    onlyDiscounted,
+    searchQuery,
+    sortField,
+    sortAscending,
+  );
+}
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -40,6 +98,11 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
   bool _onlyDiscounted = false;
   SortField _sortField = SortField.price;
   bool _sortAscending = true;
+
+  // Кэш последнего результата фильтрации — избегаем повторного прохода
+  // по всему списку при одинаковых параметрах (актуально при 500+ товарах)
+  List<Product>? _filterCache;
+  _FilterCacheKey? _filterCacheKey;
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
@@ -148,6 +211,9 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
       setState(() {
         _products = products;
         _searchIndex = searchIndex;
+        // Сбрасываем кэш фильтрации — данные изменились
+        _filterCache = null;
+        _filterCacheKey = null;
         _syncFilterBounds(products);
         _filteredProducts = _filterProducts(products);
         _errorMessage = null;
@@ -448,6 +514,67 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
     final maxUnlimited = priceMaxUnlimited ?? _priceMaxUnlimited;
     final query = searchQuery ?? _searchQuery;
 
+    // Проверяем кэш только когда фильтруем основной список с текущими параметрами.
+    // Для превью в шторке фильтров (переданы явные параметры) кэш не используем.
+    final isDefaultCall =
+        priceRange == null &&
+        minRating == null &&
+        selectedTabIndex == null &&
+        onlyDiscounted == null &&
+        priceMaxUnlimited == null &&
+        searchQuery == null &&
+        identical(source, _products);
+
+    if (isDefaultCall) {
+      final key = _FilterCacheKey(
+        productCount: source.length,
+        rangeStart: range.start,
+        rangeEnd: range.end,
+        maxUnlimited: maxUnlimited,
+        minRating: rating,
+        tabIndex: tabIndex,
+        onlyDiscounted: discountOnly,
+        searchQuery: query,
+        sortField: _sortField,
+        sortAscending: _sortAscending,
+      );
+      if (_filterCacheKey == key && _filterCache != null) {
+        return _filterCache!;
+      }
+      final result = _computeFilteredProducts(
+        source,
+        range: range,
+        rating: rating,
+        tabIndex: tabIndex,
+        discountOnly: discountOnly,
+        maxUnlimited: maxUnlimited,
+        query: query,
+      );
+      _filterCache = result;
+      _filterCacheKey = key;
+      return result;
+    }
+
+    return _computeFilteredProducts(
+      source,
+      range: range,
+      rating: rating,
+      tabIndex: tabIndex,
+      discountOnly: discountOnly,
+      maxUnlimited: maxUnlimited,
+      query: query,
+    );
+  }
+
+  List<Product> _computeFilteredProducts(
+    List<Product> source, {
+    required RangeValues range,
+    required double rating,
+    required int tabIndex,
+    required bool discountOnly,
+    required bool maxUnlimited,
+    required String query,
+  }) {
     final filtered = source.where((product) {
       if (!_matchesSearch(product, query)) return false;
       if (!_matchesSelectedCategory(product, tabIndex)) return false;

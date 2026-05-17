@@ -79,7 +79,6 @@ class _ProductCardState extends State<ProductCard> {
   bool _isFavorite = false;
   int _imageIndex = 0;
   late final VoidCallback _favoritesListener;
-  late final VoidCallback _cartListener;
   final CartStore _cartStore = CartStore.instance;
 
   ThemeData get _theme => Theme.of(context);
@@ -92,6 +91,8 @@ class _ProductCardState extends State<ProductCard> {
   final PageController _pageController = PageController();
   bool _isInCart = false;
   int _selectedQuantity = 0;
+  // Плоский индекс корзины по productId — O(1) вместо вложенного перебора
+  final Map<String, CartItem> _cartItemsByProductId = {};
   FavoritesStore get _favoritesStore => FavoritesStore.instance;
 
   Product get product => widget.product;
@@ -108,6 +109,7 @@ class _ProductCardState extends State<ProductCard> {
   void initState() {
     super.initState();
     _isFavorite = _favoritesStore.contains(widget.product.id);
+    _rebuildCartIndex();
     final initialQuantity = _findCartQuantity();
     _isInCart = initialQuantity != null;
     _selectedQuantity = initialQuantity ?? 0;
@@ -119,12 +121,10 @@ class _ProductCardState extends State<ProductCard> {
         });
       }
     };
-    _cartListener = () {
-      if (!mounted) return;
-      _syncCartState();
-    };
     _favoritesStore.addListener(_favoritesListener);
-    _cartStore.addListener(_cartListener);
+    // Подписываемся только на изменения конкретного товара — не перестраиваем
+    // карточку при добавлении/удалении других позиций в корзине
+    _cartStore.addProductListener(product.id, _onCartChanged);
   }
 
   @override
@@ -138,18 +138,22 @@ class _ProductCardState extends State<ProductCard> {
         });
       }
     }
+    _rebuildCartIndex();
     _syncCartState();
   }
 
-  int? _findCartQuantity() {
-    for (final List<CartItem> items in _cartStore.itemsBySupplier.values) {
+  // Перестраиваем плоский индекс из структуры корзины по поставщикам
+  void _rebuildCartIndex() {
+    _cartItemsByProductId.clear();
+    for (final items in _cartStore.itemsBySupplier.values) {
       for (final item in items) {
-        if (item.product.id == product.id) {
-          return item.quantity;
-        }
+        _cartItemsByProductId[item.product.id] = item;
       }
     }
-    return null;
+  }
+
+  int? _findCartQuantity() {
+    return _cartItemsByProductId[product.id]?.quantity;
   }
 
   void _syncCartState() {
@@ -163,6 +167,12 @@ class _ProductCardState extends State<ProductCard> {
       _isInCart = isInCart;
       _selectedQuantity = selectedQuantity;
     });
+  }
+
+  void _onCartChanged() {
+    if (!mounted) return;
+    _rebuildCartIndex();
+    _syncCartState();
   }
 
   @override
@@ -1042,7 +1052,7 @@ class _ProductCardState extends State<ProductCard> {
   @override
   void dispose() {
     _favoritesStore.removeListener(_favoritesListener);
-    _cartStore.removeListener(_cartListener);
+    _cartStore.removeProductListener(product.id, _onCartChanged);
     _pageController.dispose();
     super.dispose();
   }
