@@ -8,6 +8,8 @@ class RatingStars extends StatelessWidget {
   final Color emptyColor;
   final Color? halfColor;
   final double spacing;
+  final bool showContainer;
+  final bool showLabel;
 
   const RatingStars({
     super.key,
@@ -18,6 +20,8 @@ class RatingStars extends StatelessWidget {
     this.size = 14,
     this.halfColor,
     this.spacing = 0,
+    this.showContainer = false,
+    this.showLabel = false,
   });
 
   double get _clampedRating => rating.clamp(0, maxStars).toDouble();
@@ -33,8 +37,7 @@ class RatingStars extends StatelessWidget {
     return 0;
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildStars() {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(maxStars, (index) {
@@ -54,6 +57,43 @@ class RatingStars extends StatelessWidget {
           child: Icon(icon, size: size, color: color),
         );
       }),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!showContainer) {
+      return _buildStars();
+    }
+
+    // Красивый контейнер со звёздами и рейтингом
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainer,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildStars(),
+          if (showLabel) ...[
+            const SizedBox(width: 6),
+            Text(
+              rating.toStringAsFixed(1),
+              style: TextStyle(
+                fontSize: size + 2,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
+          ],
+        ],
+      ),
     );
   }
 }

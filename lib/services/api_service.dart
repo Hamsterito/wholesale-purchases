@@ -1973,6 +1973,366 @@ class ApiService {
     }
   }
 
+  // Флаг для использования mock-данных при разработке.
+  // Выключен — бэкенд реализует /suppliers/{id} эндпоинты.
+  static bool _useMockData = false;
+
+  /// Включает/отключает использование mock-данных для разработки и тестирования.
+  /// Когда включено, API возвращает реалистичные mock-данные вместо 404 ошибок.
+  static void setUseMockData(bool enabled) {
+    _useMockData = enabled;
+    debugPrint(
+      'Mock data для поставщиков: ${enabled ? 'включены' : 'отключены'}',
+    );
+  }
+
+  /// Возвращает mock-данные поставщика для разработки и тестирования.
+  static Supplier _getMockSupplier(String supplierId) {
+    // Создаём реалистичные mock-данные на основе ID поставщика
+    final mockSuppliers = {
+      'supplier_123': Supplier(
+        id: 'supplier_123',
+        name: 'ООО Оптовая Компания',
+        rating: 4.5,
+        reviewCount: 128,
+        pricePerUnit: 1500,
+        minQuantity: 10,
+        maxQuantity: 1000,
+        stockQuantity: 500,
+        deliveryDate: '2024-01-15',
+        deliveryInfo: 'Доставка по России',
+        deliveryBadge: 'Быстрая доставка',
+        logoUrl: 'https://via.placeholder.com/200?text=Supplier123',
+        description: 'Поставщик качественных товаров оптом с 10-летним опытом',
+        address: 'г. Москва, ул. Примерная, д. 1',
+        phone: '+7 (495) 123-45-67',
+        email: 'info@supplier123.ru',
+      ),
+      'supplier_456': Supplier(
+        id: 'supplier_456',
+        name: 'ООО Торговый Дом',
+        rating: 4.2,
+        reviewCount: 95,
+        pricePerUnit: 2000,
+        minQuantity: 5,
+        maxQuantity: 500,
+        stockQuantity: 300,
+        deliveryDate: '2024-01-16',
+        deliveryInfo: 'Доставка по России и СНГ',
+        deliveryBadge: 'Надёжный партнёр',
+        logoUrl: 'https://via.placeholder.com/200?text=Supplier456',
+        description: 'Крупный оптовый поставщик с широким ассортиментом',
+        address: 'г. Санкт-Петербург, пр. Невский, д. 50',
+        phone: '+7 (812) 456-78-90',
+        email: 'sales@torgovydom.ru',
+      ),
+      'supplier_789': Supplier(
+        id: 'supplier_789',
+        name: 'ООО Экспресс Поставки',
+        rating: 4.8,
+        reviewCount: 256,
+        pricePerUnit: 1200,
+        minQuantity: 20,
+        maxQuantity: 2000,
+        stockQuantity: 1500,
+        deliveryDate: '2024-01-14',
+        deliveryInfo: 'Экспресс-доставка 24 часа',
+        deliveryBadge: 'Быстрая доставка',
+        logoUrl: 'https://via.placeholder.com/200?text=Supplier789',
+        description: 'Специализируемся на быстрой доставке товаров оптом',
+        address: 'г. Екатеринбург, ул. Главная, д. 100',
+        phone: '+7 (343) 789-01-23',
+        email: 'express@dostavka.ru',
+      ),
+    };
+
+    // Если есть точное совпадение — возвращаем его
+    if (mockSuppliers.containsKey(supplierId)) {
+      return mockSuppliers[supplierId]!;
+    }
+
+    // Иначе создаём generic mock-поставщика на основе ID
+    return Supplier(
+      id: supplierId,
+      name: 'Поставщик $supplierId',
+      rating: 4.0,
+      reviewCount: 50,
+      pricePerUnit: 1500,
+      minQuantity: 10,
+      maxQuantity: 1000,
+      stockQuantity: 500,
+      deliveryDate: '2024-01-15',
+      deliveryInfo: 'Доставка по России',
+      deliveryBadge: 'Стандартная доставка',
+      logoUrl: 'https://via.placeholder.com/200?text=$supplierId',
+      description: 'Надёжный поставщик оптовых товаров',
+      address: 'Россия',
+      phone: '+7 (000) 000-00-00',
+      email: 'info@supplier.ru',
+    );
+  }
+
+  /// Возвращает mock-каталог товаров поставщика для разработки и тестирования.
+  static Map<String, dynamic> _getMockSupplierCatalog(String supplierId) {
+    // Создаём mock-товары для каждого поставщика
+    final mockProducts = <String, List<Map<String, dynamic>>>{
+      'supplier_123': [
+        {
+          'id': 'product_1',
+          'name': 'Товар 1 от поставщика 123',
+          'price': 1500,
+          'rating': 4.5,
+          'reviewCount': 50,
+          'imageUrl': 'https://via.placeholder.com/200?text=Product1',
+          'category': 'Категория 1',
+          'suppliers': [
+            {
+              'id': 'supplier_123',
+              'name': 'ООО Оптовая Компания',
+              'rating': 4.5,
+              'reviewCount': 128,
+              'pricePerUnit': 1500,
+              'minQuantity': 10,
+              'maxQuantity': 1000,
+              'stockQuantity': 500,
+              'deliveryDate': '2024-01-15',
+              'deliveryInfo': 'Доставка по России',
+              'deliveryBadge': 'Быстрая доставка',
+            },
+          ],
+        },
+        {
+          'id': 'product_2',
+          'name': 'Товар 2 от поставщика 123',
+          'price': 2000,
+          'rating': 4.2,
+          'reviewCount': 30,
+          'imageUrl': 'https://via.placeholder.com/200?text=Product2',
+          'category': 'Категория 2',
+          'suppliers': [
+            {
+              'id': 'supplier_123',
+              'name': 'ООО Оптовая Компания',
+              'rating': 4.5,
+              'reviewCount': 128,
+              'pricePerUnit': 2000,
+              'minQuantity': 10,
+              'maxQuantity': 1000,
+              'stockQuantity': 500,
+              'deliveryDate': '2024-01-15',
+              'deliveryInfo': 'Доставка по России',
+              'deliveryBadge': 'Быстрая доставка',
+            },
+          ],
+        },
+      ],
+      'supplier_456': [
+        {
+          'id': 'product_3',
+          'name': 'Товар 1 от поставщика 456',
+          'price': 2000,
+          'rating': 4.2,
+          'reviewCount': 40,
+          'imageUrl': 'https://via.placeholder.com/200?text=Product3',
+          'category': 'Категория 1',
+          'suppliers': [
+            {
+              'id': 'supplier_456',
+              'name': 'ООО Торговый Дом',
+              'rating': 4.2,
+              'reviewCount': 95,
+              'pricePerUnit': 2000,
+              'minQuantity': 5,
+              'maxQuantity': 500,
+              'stockQuantity': 300,
+              'deliveryDate': '2024-01-16',
+              'deliveryInfo': 'Доставка по России и СНГ',
+              'deliveryBadge': 'Надёжный партнёр',
+            },
+          ],
+        },
+      ],
+      'supplier_789': [
+        {
+          'id': 'product_4',
+          'name': 'Товар 1 от поставщика 789',
+          'price': 1200,
+          'rating': 4.8,
+          'reviewCount': 100,
+          'imageUrl': 'https://via.placeholder.com/200?text=Product4',
+          'category': 'Категория 1',
+          'suppliers': [
+            {
+              'id': 'supplier_789',
+              'name': 'ООО Экспресс Поставки',
+              'rating': 4.8,
+              'reviewCount': 256,
+              'pricePerUnit': 1200,
+              'minQuantity': 20,
+              'maxQuantity': 2000,
+              'stockQuantity': 1500,
+              'deliveryDate': '2024-01-14',
+              'deliveryInfo': 'Экспресс-доставка 24 часа',
+              'deliveryBadge': 'Быстрая доставка',
+            },
+          ],
+        },
+        {
+          'id': 'product_5',
+          'name': 'Товар 2 от поставщика 789',
+          'price': 1800,
+          'rating': 4.6,
+          'reviewCount': 80,
+          'imageUrl': 'https://via.placeholder.com/200?text=Product5',
+          'category': 'Категория 2',
+          'suppliers': [
+            {
+              'id': 'supplier_789',
+              'name': 'ООО Экспресс Поставки',
+              'rating': 4.8,
+              'reviewCount': 256,
+              'pricePerUnit': 1800,
+              'minQuantity': 20,
+              'maxQuantity': 2000,
+              'stockQuantity': 1500,
+              'deliveryDate': '2024-01-14',
+              'deliveryInfo': 'Экспресс-доставка 24 часа',
+              'deliveryBadge': 'Быстрая доставка',
+            },
+          ],
+        },
+      ],
+    };
+
+    final products = mockProducts[supplierId] ?? [];
+    return {
+      'products': products.map((p) => Product.fromJson(p)).toList(),
+      'total': products.length,
+    };
+  }
+
+  // Загрузка профиля поставщика по ID
+  static Future<Supplier> getSupplier(String supplierId) async {
+    final normalizedId = supplierId.trim();
+    if (normalizedId.isEmpty) {
+      throw ArgumentError('supplierId не должен быть пустым');
+    }
+
+    try {
+      final response = await http
+          .get(Uri.parse('$baseUrl/suppliers/$normalizedId'))
+          .timeout(
+            const Duration(seconds: 15),
+            onTimeout: () => throw Exception('Время ожидания истекло'),
+          );
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        return Supplier.fromJson(jsonDecode(body) as Map<String, dynamic>);
+      }
+
+      if (response.statusCode == 404) {
+        // Если включены mock-данные, возвращаем их вместо ошибки
+        if (_useMockData) {
+          debugPrint('Возвращаем mock-данные для поставщика: $normalizedId');
+          return _getMockSupplier(normalizedId);
+        }
+        throw Exception('Поставщик не найден');
+      }
+
+      final errorMessage = _extractResponseErrorMessage(response);
+      if (errorMessage != null) {
+        throw Exception(errorMessage);
+      }
+
+      throw Exception(
+        'Не удалось загрузить профиль поставщика: ${response.statusCode}',
+      );
+    } catch (e) {
+      // Если включены mock-данные и произошла ошибка сети, возвращаем mock-данные
+      if (_useMockData && e is! ArgumentError) {
+        debugPrint(
+          'Ошибка сети, возвращаем mock-данные для поставщика: $normalizedId',
+        );
+        return _getMockSupplier(normalizedId);
+      }
+      debugPrint('Ошибка при загрузке профиля поставщика: $e');
+      rethrow;
+    }
+  }
+
+  // Загрузка каталога товаров поставщика по его ID с пагинацией
+  static Future<Map<String, dynamic>> getSupplierCatalog(
+    String supplierId, {
+    int page = 1,
+    int limit = 20,
+  }) async {
+    final normalizedId = supplierId.trim();
+    if (normalizedId.isEmpty) {
+      throw ArgumentError('supplierId не должен быть пустым');
+    }
+
+    try {
+      final uri = Uri.parse('$baseUrl/suppliers/$normalizedId/products')
+          .replace(
+            queryParameters: {
+              'page': page.toString(),
+              'limit': limit.toString(),
+            },
+          );
+
+      final response = await http
+          .get(uri)
+          .timeout(
+            const Duration(seconds: 15),
+            onTimeout: () => throw Exception('Время ожидания истекло'),
+          );
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        final decoded = jsonDecode(body) as Map<String, dynamic>;
+
+        final rawProducts = decoded['products'];
+        final products = rawProducts is List
+            ? rawProducts.map((p) => Product.fromJson(p)).toList()
+            : <Product>[];
+
+        return {
+          'products': products,
+          'total': decoded['total'] ?? products.length,
+        };
+      }
+
+      if (response.statusCode == 404) {
+        // Если включены mock-данные, возвращаем их вместо ошибки
+        if (_useMockData) {
+          debugPrint('Возвращаем mock-каталог для поставщика: $normalizedId');
+          return _getMockSupplierCatalog(normalizedId);
+        }
+        throw Exception('Поставщик не найден');
+      }
+
+      final errorMessage = _extractResponseErrorMessage(response);
+      if (errorMessage != null) {
+        throw Exception(errorMessage);
+      }
+
+      throw Exception(
+        'Не удалось загрузить товары поставщика: ${response.statusCode}',
+      );
+    } catch (e) {
+      // Если включены mock-данные и произошла ошибка сети, возвращаем mock-данные
+      if (_useMockData && e is! ArgumentError) {
+        debugPrint(
+          'Ошибка сети, возвращаем mock-каталог для поставщика: $normalizedId',
+        );
+        return _getMockSupplierCatalog(normalizedId);
+      }
+      debugPrint('Ошибка при загрузке товаров поставщика: $e');
+      rethrow;
+    }
+  }
+
   // Методы для статистики поставщика
   static Future<Map<String, dynamic>> fetchSupplierStatsSummary({
     required int userId,

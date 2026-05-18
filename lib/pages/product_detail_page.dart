@@ -19,6 +19,7 @@ import '../widgets/top_message.dart';
 import '../widgets/rating_stars.dart';
 import 'reviews_page.dart';
 import 'questions_page.dart';
+import 'supplier_profile_page.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import '../utils/date_formatter.dart';
 
@@ -614,39 +615,87 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     return Container(
       color: _cardBg,
       margin: const EdgeInsets.only(top: 8),
-      padding: const EdgeInsets.all(16),
-      child: Row(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Text(
-              '${supplier.pricePerUnit} ₸/шт',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: _palette.ink,
+          // Название поставщика — тап открывает его профиль
+          InkWell(
+            onTap: () => _openSupplierProfile(supplier),
+            borderRadius: BorderRadius.circular(8),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Row(
+                children: [
+                  Icon(Icons.store_outlined, size: 16, color: _palette.accent),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      supplier.name,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: _palette.accent,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Icon(Icons.chevron_right, size: 16, color: _palette.accent),
+                ],
               ),
             ),
           ),
-          const SizedBox(width: 12),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: (isAvailable ? _palette.accent : _palette.error)
-                  .withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(999),
-            ),
-            child: Text(
-              isAvailable
-                  ? 'В наличии: ${supplier.stockQuantity} шт.'
-                  : 'Нет в наличии',
-              style: TextStyle(
-                color: isAvailable ? _palette.accent : _palette.error,
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  '${supplier.pricePerUnit} ₸/шт',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: _palette.ink,
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(width: 12),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: (isAvailable ? _palette.accent : _palette.error)
+                      .withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(999),
+                ),
+                child: Text(
+                  isAvailable
+                      ? 'В наличии: ${supplier.stockQuantity} шт.'
+                      : 'Нет в наличии',
+                  style: TextStyle(
+                    color: isAvailable ? _palette.accent : _palette.error,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
+      ),
+    );
+  }
+
+  /// Открывает страницу профиля поставщика.
+  void _openSupplierProfile(Supplier supplier) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SupplierProfilePage(
+          supplierId: supplier.id,
+          initialSupplier: supplier,
+        ),
       ),
     );
   }
@@ -1251,7 +1300,7 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
     if (normalized.isEmpty) {
       return 'П';
     }
-    return normalized.characters.first.toUpperCase();
+    return normalized[0].toUpperCase();
   }
 
   @override

@@ -9,6 +9,7 @@ import 'package:flutter_project/login_screen/login.dart';
 import 'package:flutter_project/services/app_logger.dart';
 import 'package:flutter_project/services/app_settings.dart';
 import 'package:flutter_project/services/auth_storage.dart';
+import 'package:flutter_project/services/favorites_store.dart';
 import 'package:flutter_project/widgets/main_navigation.dart';
 import 'package:flutter_project/theme/app_color_palette.dart';
 
@@ -61,6 +62,9 @@ void main() {
           'Auth storage initialized: remembered=${AuthStorage.isRemembered}, userId=${AuthStorage.userId}',
           scope: 'startup',
         );
+
+        await FavoritesStore.instance.loadFromStorage();
+        AppLogger.info('Favorites loaded from storage', scope: 'startup');
 
         //Запуск приложения после полной инициализации
         runApp(const MyApp());

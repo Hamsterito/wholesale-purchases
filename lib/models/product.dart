@@ -35,9 +35,7 @@ class Product {
     if (suppliers.isEmpty) {
       throw Exception('Нет доступных поставщиков');
     }
-    return suppliers.reduce((a, b) => 
-      a.pricePerUnit < b.pricePerUnit ? a : b
-    );
+    return suppliers.reduce((a, b) => a.pricePerUnit < b.pricePerUnit ? a : b);
   }
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -50,8 +48,9 @@ class Product {
     final characteristics = <String, String>{};
     if (rawCharacteristics is Map) {
       rawCharacteristics.forEach((key, value) {
-        characteristics[normalize(key.toString())] =
-            normalize(value.toString());
+        characteristics[normalize(key.toString())] = normalize(
+          value.toString(),
+        );
       });
     }
 
@@ -66,15 +65,18 @@ class Product {
       nutritionalInfo: NutritionalInfo.fromJson(json['nutritionalInfo'] ?? {}),
       ingredients: normalize(json['ingredients']?.toString() ?? ''),
       characteristics: characteristics,
-      suppliers: (json['suppliers'] as List?)
+      suppliers:
+          (json['suppliers'] as List?)
               ?.map((s) => Supplier.fromJson(s))
               .toList() ??
           [],
-      similarProducts: (json['similarProducts'] as List?)
+      similarProducts:
+          (json['similarProducts'] as List?)
               ?.map((p) => Product.fromJson(p))
               .toList() ??
           [],
-      ratingDistribution: (json['ratingDistribution'] as List?)
+      ratingDistribution:
+          (json['ratingDistribution'] as List?)
               ?.map((r) => RatingDistribution.fromJson(r))
               .toList() ??
           [],
@@ -118,6 +120,13 @@ class Supplier {
   final String deliveryInfo;
   final String deliveryBadge;
 
+  // Поля профиля поставщика — могут отсутствовать в старых ответах API
+  final String? logoUrl;
+  final String? description;
+  final String? address;
+  final String? phone;
+  final String? email;
+
   Supplier({
     required this.id,
     required this.name,
@@ -130,6 +139,11 @@ class Supplier {
     required this.deliveryDate,
     required this.deliveryInfo,
     required this.deliveryBadge,
+    this.logoUrl,
+    this.description,
+    this.address,
+    this.phone,
+    this.email,
   });
 
   int getTotalPrice(int quantity) {
@@ -202,6 +216,12 @@ class Supplier {
       deliveryDate: normalize(json['deliveryDate']?.toString() ?? ''),
       deliveryInfo: normalize(json['deliveryInfo']?.toString() ?? ''),
       deliveryBadge: normalize(json['deliveryBadge']?.toString() ?? ''),
+      // Новые поля профиля — null если отсутствуют в JSON (обратная совместимость)
+      logoUrl: json['logoUrl']?.toString(),
+      description: json['description']?.toString(),
+      address: json['address']?.toString(),
+      phone: json['phone']?.toString(),
+      email: json['email']?.toString(),
     );
   }
 }
@@ -210,10 +230,7 @@ class RatingDistribution {
   final int stars;
   final int count;
 
-  RatingDistribution({
-    required this.stars,
-    required this.count,
-  });
+  RatingDistribution({required this.stars, required this.count});
 
   factory RatingDistribution.fromJson(Map<String, dynamic> json) {
     return RatingDistribution(
@@ -223,3 +240,21 @@ class RatingDistribution {
   }
 }
 
+// Ответ API для полного профиля поставщика — объединяет данные компании и её товары
+class SupplierProfile {
+  final Supplier supplier;
+  final List<Product> products;
+
+  SupplierProfile({required this.supplier, required this.products});
+
+  factory SupplierProfile.fromJson(Map<String, dynamic> json) {
+    return SupplierProfile(
+      supplier: Supplier.fromJson(json['supplier']),
+      products:
+          (json['products'] as List?)
+              ?.map((p) => Product.fromJson(p))
+              .toList() ??
+          [],
+    );
+  }
+}

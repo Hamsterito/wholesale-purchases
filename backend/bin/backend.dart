@@ -1590,6 +1590,194 @@ void main() async {
     }
   });
 
+  // GET /suppliers/<id> — профиль поставщика для покупателя
+  router.get('/suppliers/<id>', (Request request, String id) async {
+    final supplierId = int.tryParse(id);
+    if (supplierId == null || supplierId <= 0) {
+      return _jsonError('Некорректный идентификатор поставщика', 400);
+    }
+
+    try {
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT u.id, u.name, u.supplier_name, u.email, u.phone,
+                 COALESCE(AVG(r.rating), 0) AS rating,
+                 COUNT(DISTINCT r.id) AS review_count
+          FROM users u
+          LEFT JOIN products p ON p.supplier_user_id = u.id
+          LEFT JOIN reviews r ON r.product_id = p.id
+          WHERE u.id = @id AND u.role = 'supplier'
+          GROUP BY u.id, u.name, u.supplier_name, u.email, u.phone;
+        '''),
+        parameters: {'id': supplierId},
+      );
+
+      if (result.isEmpty) {
+        return _jsonError('Поставщик не найден', 404);
+      }
+
+      final row = result.first.toColumnMap();
+      final displayName = (row['supplier_name']?.toString() ?? '').isNotEmpty
+          ? row['supplier_name'].toString()
+          : (row['name']?.toString() ?? 'Поставщик');
+
+      final dto = {
+        'id': supplierId.toString(),
+        'name': displayName,
+        'rating': _toNonNegativeDouble(row['rating']),
+        'reviewCount': _toPositiveInt(row['review_count']),
+        'logoUrl': null,
+        'description': null,
+        'address': null,
+        'phone': row['phone']?.toString(),
+        'email': row['email']?.toString(),
+        'pricePerUnit': 0,
+        'minQuantity': 1,
+        'maxQuantity': null,
+        'stockQuantity': 0,
+        'deliveryDate': '',
+        'deliveryInfo': 'Доставка по согласованию',
+        'deliveryBadge': '',
+      };
+
+      return Response.ok(
+        jsonEncode(dto),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Ошибка при загрузке профиля поставщика: $e\n$st');
+      return Response.internalServerError(body: 'Ошибка сервера');
+    }
+  });
+
+  // GET /suppliers/<id>/products — товары поставщика для покупателя
+  router.get('/suppliers/<id>/products', (Request request, String id) async {
+    final supplierId = int.tryParse(id);
+    if (supplierId == null || supplierId <= 0) {
+      return _jsonError('Некорректный идентификатор поставщика', 400);
+    }
+
+    final page = int.tryParse(request.url.queryParameters['page'] ?? '1') ?? 1;
+    final limit =
+        int.tryParse(request.url.queryParameters['limit'] ?? '20') ?? 20;
+    final offset = (page - 1) * limit;
+
+    try {
+      // Проверяем что поставщик существует
+      final supplierCheck = await connection.execute(
+        Sql.named(
+          "SELECT id FROM users WHERE id = @id AND role = 'supplier' LIMIT 1;",
+        ),
+        parameters: {'id': supplierId},
+      );
+      if (supplierCheck.isEmpty) {
+        return _jsonError('Поставщик не найден', 404);
+      }
+
+      // Считаем общее количество товаров
+      final countResult = await connection.execute(
+        Sql.named('''
+          SELECT COUNT(*) AS total
+          FROM products
+          WHERE supplier_user_id = @supplier_id
+            AND (moderation_status = 'approved' OR moderation_status IS NULL);
+        '''),
+        parameters: {'supplier_id': supplierId},
+      );
+      final total = _toPositiveInt(countResult.first.toColumnMap()['total']);
+
+      // Загружаем товары с пагинацией
+      final productsResult = await connection.execute(
+        Sql.named('''
+          SELECT p.*,
+                 EXISTS(
+                   SELECT 1 FROM order_items oi WHERE oi.product_id = p.id
+                 ) AS has_orders,
+                 COALESCE(AVG(r.rating), 0) AS avg_rating,
+                 COUNT(DISTINCT r.id) AS review_count
+          FROM products p
+          LEFT JOIN reviews r ON r.product_id = p.id
+          WHERE p.supplier_user_id = @supplier_id
+            AND (p.moderation_status = 'approved' OR p.moderation_status IS NULL)
+          GROUP BY p.id
+          ORDER BY p.id DESC
+          LIMIT @limit OFFSET @offset;
+        '''),
+        parameters: {
+          'supplier_id': supplierId,
+          'limit': limit,
+          'offset': offset,
+        },
+      );
+
+      final products = productsResult.map((row) {
+        final map = row.toColumnMap();
+        final productId = _toPositiveInt(map['id']);
+        final parsedImages = _parseImageUrls(map['image_url']);
+        final imageUrls = parsedImages.isNotEmpty
+            ? parsedImages
+            : ['assets/coca_cola.jpeg'];
+        final hasOrders = map['has_orders'] == true;
+        final rawStock = _toPositiveInt(map['stock_quantity']);
+        final legacyMax = _toPositiveInt(map['max_quantity']);
+        final stockQuantity = rawStock > 0
+            ? rawStock
+            : (!hasOrders ? legacyMax : 0);
+        var minQuantity = _toPositiveInt(map['min_quantity'], fallback: 1);
+        if (stockQuantity > 0 && minQuantity > stockQuantity) {
+          minQuantity = stockQuantity;
+        }
+        final avgRating = _toNonNegativeDouble(map['avg_rating']);
+        final reviewCount = _toPositiveInt(map['review_count']);
+
+        return {
+          'id': productId.toString(),
+          'name': (map['name'] ?? '').toString(),
+          'description': (map['description'] ?? '').toString(),
+          'imageUrls': imageUrls,
+          'rating': avgRating,
+          'reviewCount': reviewCount,
+          'categories': _parseCategories(map['category']),
+          'nutritionalInfo': {
+            'calories': _toNonNegativeDouble(map['nutrition_calories']),
+            'protein': _toNonNegativeDouble(map['nutrition_protein']),
+            'fat': _toNonNegativeDouble(map['nutrition_fat']),
+            'carbohydrates': _toNonNegativeDouble(
+              map['nutrition_carbohydrates'],
+            ),
+          },
+          'ingredients': map['ingredients']?.toString() ?? '',
+          'characteristics': _parseCharacteristics(map['characteristics']),
+          'suppliers': [
+            {
+              'id': supplierId.toString(),
+              'name': map['supplier_name'] ?? 'Поставщик',
+              'rating': avgRating,
+              'reviewCount': reviewCount,
+              'pricePerUnit': _toPositiveInt(map['price_per_unit']),
+              'minQuantity': minQuantity,
+              'maxQuantity': stockQuantity > 0 ? stockQuantity : null,
+              'stockQuantity': stockQuantity,
+              'deliveryDate': map['delivery_date'] ?? '',
+              'deliveryInfo': 'Доставка по согласованию',
+              'deliveryBadge': map['delivery_badge'] ?? '',
+            },
+          ],
+          'similarProducts': const <Map<String, dynamic>>[],
+          'ratingDistribution': const <Map<String, dynamic>>[],
+        };
+      }).toList();
+
+      return Response.ok(
+        jsonEncode({'products': products, 'total': total}),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Ошибка при загрузке товаров поставщика: $e\n$st');
+      return Response.internalServerError(body: 'Ошибка сервера');
+    }
+  });
+
   router.get('/supplier/products', (Request request) async {
     try {
       final userIdRaw = request.url.queryParameters['userId'];
