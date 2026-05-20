@@ -2,11 +2,14 @@
 import '../theme/app_color_palette.dart';
 import '../login_screen/login.dart';
 import '../services/auth_storage.dart';
+import '../services/notification_service.dart';
 
 class ModeratorProfilePage extends StatelessWidget {
   const ModeratorProfilePage({super.key});
 
   Future<void> _logout(BuildContext context) async {
+    // Сначала очищаем уведомления — пока userId ещё доступен в AuthStorage
+    await NotificationService().clearForLogout();
     await AuthStorage.forget();
     if (!context.mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
@@ -21,9 +24,7 @@ class ModeratorProfilePage extends StatelessWidget {
     final email = AuthStorage.email ?? '-';
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Профиль модератора'),
-      ),
+      appBar: AppBar(title: const Text('Профиль модератора')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -58,9 +59,7 @@ class _InfoTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.outlineVariant,
-        ),
+        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
       ),
       child: Row(
         children: [
@@ -72,13 +71,9 @@ class _InfoTile extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            value,
-            style: const TextStyle(fontWeight: FontWeight.w600),
-          ),
+          Text(value, style: const TextStyle(fontWeight: FontWeight.w600)),
         ],
       ),
     );
   }
 }
-

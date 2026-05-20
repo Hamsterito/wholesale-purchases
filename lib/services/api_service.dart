@@ -11,6 +11,7 @@ import '../models/user_profile.dart';
 import '../models/user_address.dart';
 import '../models/review_entry.dart';
 import '../models/support_message.dart';
+import '../models/notification.dart';
 
 final http = AppHttpClient.instance;
 
@@ -2593,5 +2594,205 @@ class ApiService {
       debugPrint('Ошибка при загрузке статистики рейтингов: $e');
       rethrow;
     }
+  }
+
+  // Методы для работы с уведомлениями
+
+  /// Загружает счётчики уведомлений, собирая данные из существующих эндпоинтов параллельно.
+  /// Отдельного эндпоинта /notifications/counts на бэкенде нет.
+  /// [role] — роль пользователя ('buyer', 'supplier', 'moderator') для фильтрации запросов.
+  static Future<NotificationCounts> getNotificationCounts({
+    required int userId,
+    String role = '',
+  }) async {
+    if (userId <= 0) {
+      throw ArgumentError('userId должен быть положительным');
+    }
+
+    // Запускаем только те запросы, которые нужны для роли пользователя
+    final futures = await Future.wait([
+      _fetchUnreadMessagesCount(userId),
+      // У покупателя и поставщика заказы лежат в разных эндпоинтах,
+      // поэтому используем разные методы загрузки
+      role == 'buyer'
+          ? _fetchPendingOrdersCount(userId)
+          : role == 'supplier'
+          ? _fetchPendingSupplierOrdersCount(userId)
+          : Future.value(0),
+      role == 'buyer' ? _fetchPendingReviewsCount(userId) : Future.value(0),
+      role == 'supplier' || role == 'moderator'
+          ? _fetchPendingModerationsCount()
+          : Future.value(0),
+      // Доставленные заказы — только для покупателя
+      role == 'buyer' ? _fetchDeliveredOrdersCount(userId) : Future.value(0),
+    ]);
+
+    return NotificationCounts(
+      unreadMessages: futures[0],
+      pendingOrders: futures[1],
+      pendingReviews: futures[2],
+      pendingModerations: futures[3],
+      deliveredOrders: futures[4],
+    );
+  }
+
+  /// Считает открытые чаты поддержки, где последнее сообщение от модератора
+  /// (т.е. пользователь ещё не ответил — есть что прочитать).
+  static Future<int> _fetchUnreadMessagesCount(int userId) async {
+    try {
+      final thread = await getSupportThread(userId: userId).timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => throw Exception('Таймаут'),
+      );
+      if (thread.chat == null || !thread.chat!.isOpen) return 0;
+      // Если последнее сообщение от модератора — значит пользователь не ответил
+      if (thread.messages.isEmpty) return 0;
+      final lastMsg = thread.messages.last;
+      return lastMsg.isFromModerator ? 1 : 0;
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  /// Считает заказы в активных статусах (не завершены и не отменены).
+  /// Принятые заказы ("Принят", "accepted", "received") считаются финальными
+  /// и не попадают в счётчик ожидающих.
+  static Future<int> _fetchPendingOrdersCount(int userId) async {
+    try {
+      final orders = await getOrders(userId: userId).timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => throw Exception('Таймаут'),
+      );
+      return orders.where((o) {
+        final s = o.status.trim().toLowerCase();
+        final isDone =
+            s == 'доставлен' ||
+            s == 'получено' ||
+            s == 'delivered' ||
+            s == 'принят' ||
+            s == 'принята' ||
+            s == 'принято' ||
+            s == 'приняты' ||
+            s == 'accepted' ||
+            s == 'received' ||
+            s == 'завершено' ||
+            s == 'completed';
+        final isCancelled =
+            s.contains('отмена') ||
+            s == 'cancelled' ||
+            s == 'отменён' ||
+            s == 'отменен';
+        return !isDone && !isCancelled;
+      }).length;
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  /// Считает заказы поставщика, ожидающие действия:
+  /// заказы со статусом "Собирается" / "В пути" / etc.
+  /// (не завершённые покупателем и не отменённые).
+  /// Использует /supplier/orders, а не /orders — это разные эндпоинты.
+  static Future<int> _fetchPendingSupplierOrdersCount(int userId) async {
+    try {
+      final orders = await getSupplierOrders(userId: userId).timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => throw Exception('Таймаут'),
+      );
+      return orders.where((o) {
+        final s = o.status.trim().toLowerCase();
+        // "Принят" покупателем = заказ закрыт для поставщика
+        final isDone =
+            s == 'доставлен' ||
+            s == 'получено' ||
+            s == 'delivered' ||
+            s == 'принят' ||
+            s == 'принята' ||
+            s == 'принято' ||
+            s == 'приняты' ||
+            s == 'accepted' ||
+            s == 'received' ||
+            s == 'завершено' ||
+            s == 'completed';
+        final isCancelled =
+            s.contains('отмена') ||
+            s == 'cancelled' ||
+            s == 'отменён' ||
+            s == 'отменен';
+        return !isDone && !isCancelled;
+      }).length;
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  /// Считает доставленные заказы покупателя, которые ещё не подтверждены как полученные.
+  /// Статус "Доставлен" означает, что товар привезли, но покупатель ещё не нажал "Получил".
+  static Future<int> _fetchDeliveredOrdersCount(int userId) async {
+    try {
+      final orders = await getOrders(userId: userId).timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => throw Exception('Таймаут'),
+      );
+      return orders.where((o) {
+        final s = o.status.trim().toLowerCase();
+        return s == 'доставлен' || s == 'delivered';
+      }).length;
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  /// Считает товары, ожидающие отзыва от покупателя.
+  static Future<int> _fetchPendingReviewsCount(int userId) async {
+    try {
+      final items = await getPendingReviews(userId: userId).timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => throw Exception('Таймаут'),
+      );
+      return items.length;
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  /// Считает товары на модерации со статусом pending.
+  static Future<int> _fetchPendingModerationsCount() async {
+    try {
+      final products = await getModerationProducts(status: 'pending').timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => throw Exception('Таймаут'),
+      );
+      return products.length;
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  /// Отмечает сообщение поддержки как прочитанное.
+  /// Бэкенд не поддерживает этот эндпоинт — счётчик обновляется локально в NotificationService.
+  static Future<void> markMessageAsRead({
+    required int userId,
+    required int messageId,
+  }) async {
+    // no-op: отдельного эндпоинта нет, локальное уменьшение счётчика делает NotificationService
+  }
+
+  /// Отмечает заказ как просмотренный.
+  /// Бэкенд не поддерживает этот эндпоинт — счётчик обновляется локально в NotificationService.
+  static Future<void> markOrderAsReviewed({
+    required int userId,
+    required String orderId,
+  }) async {
+    // no-op: отдельного эндпоинта нет, локальное уменьшение счётчика делает NotificationService
+  }
+
+  /// Скрывает уведомление определённого типа.
+  /// Бэкенд не поддерживает этот эндпоинт — счётчик обновляется локально в NotificationService.
+  static Future<void> dismissNotification({
+    required int userId,
+    required String notificationType,
+  }) async {
+    // no-op: отдельного эндпоинта нет, локальное уменьшение счётчика делает NotificationService
   }
 }

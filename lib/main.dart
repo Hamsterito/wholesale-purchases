@@ -10,6 +10,7 @@ import 'package:flutter_project/services/app_logger.dart';
 import 'package:flutter_project/services/app_settings.dart';
 import 'package:flutter_project/services/auth_storage.dart';
 import 'package:flutter_project/services/favorites_store.dart';
+import 'package:flutter_project/services/notification_service.dart';
 import 'package:flutter_project/widgets/main_navigation.dart';
 import 'package:flutter_project/theme/app_color_palette.dart';
 
@@ -65,6 +66,20 @@ void main() {
 
         await FavoritesStore.instance.loadFromStorage();
         AppLogger.info('Favorites loaded from storage', scope: 'startup');
+
+        // Инициализируем сервис уведомлений — ошибка не должна блокировать запуск
+        try {
+          await NotificationService().initialize();
+          AppLogger.info('NotificationService initialized', scope: 'startup');
+        } catch (e, st) {
+          // Логируем, но не прерываем запуск: значки просто покажут 0
+          AppLogger.error(
+            'NotificationService initialization failed, badges will show 0',
+            scope: 'startup',
+            error: e,
+            stackTrace: st,
+          );
+        }
 
         //Запуск приложения после полной инициализации
         runApp(const MyApp());
@@ -162,6 +177,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     AppSettings.themeMode.removeListener(_onThemeChanged);
+    // NotificationService — singleton, живёт всё время приложения.
+    // Его dispose() здесь не вызываем: при hot reload это бы привело к
+    // обращению к освобождённым ValueNotifier-ам после восстановления MyApp.
     super.dispose();
   }
 

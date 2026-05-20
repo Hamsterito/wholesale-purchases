@@ -19,6 +19,8 @@ import '../moderator/support_chats_page.dart';
 import '../services/auth_storage.dart';
 import '../services/api_service.dart';
 import '../models/user_profile.dart';
+import '../services/notification_service.dart';
+import '../utils/ru_plural.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -142,46 +144,51 @@ class _ProfilePageState extends State<ProfilePage> {
               final profile = snapshot.data;
               final name = _resolveName(profile);
               final subtitle = _resolveSubtitle(profile);
-              return Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: context.colorPalette.card,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 35,
-                      backgroundColor: colorScheme.surfaceContainerHighest,
-                      child: Icon(
-                        Icons.person,
-                        size: 36,
-                        color: colorScheme.onSurfaceVariant,
-                      ),
+              return Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: context.colorPalette.card,
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    const SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
                       children: [
-                        Text(
-                          name,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          subtitle,
-                          style: TextStyle(
-                            fontSize: 14,
+                        CircleAvatar(
+                          radius: 35,
+                          backgroundColor: colorScheme.surfaceContainerHighest,
+                          child: Icon(
+                            Icons.person,
+                            size: 36,
                             color: colorScheme.onSurfaceVariant,
                           ),
                         ),
+                        const SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              name,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              subtitle,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               );
             },
           ),
@@ -255,13 +262,22 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: Icons.shopping_cart_outlined,
                   iconColor: context.colorPalette.success,
                   title: 'Мои заказы',
-                  onTap: () {
-                    Navigator.push(
+                  badge: ValueListenableBuilder<int>(
+                    valueListenable: NotificationService().deliveredOrdersCount,
+                    builder: (context, count, _) =>
+                        _buildInlineBadge(context, count),
+                  ),
+                  onTap: () async {
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const MyOrdersPage(),
                       ),
                     );
+                    // Синхронизируем счётчики после возврата с экрана заказов
+                    if (mounted) {
+                      NotificationService().refreshNotifications();
+                    }
                   },
                 ),
                 _buildMenuDivider(context),
@@ -348,14 +364,23 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: Icons.rate_review_outlined,
                   iconColor: context.colorPalette.info,
                   title: 'Ваши отзывы',
-                  onTap: () {
-                    Navigator.push(
+                  badge: ValueListenableBuilder<int>(
+                    valueListenable: NotificationService().pendingReviewsCount,
+                    builder: (context, count, _) =>
+                        _buildInlineBadge(context, count),
+                  ),
+                  onTap: () async {
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
                             const profile_reviews.ReviewsPage(),
                       ),
                     );
+                    // Синхронизируем счётчики после возврата со страницы отзывов
+                    if (mounted) {
+                      NotificationService().refreshNotifications();
+                    }
                   },
                 ),
                 _buildMenuDivider(context),
@@ -390,11 +415,20 @@ class _ProfilePageState extends State<ProfilePage> {
               icon: Icons.support_agent_outlined,
               iconColor: context.colorPalette.success,
               title: 'Техподдержка',
-              onTap: () {
-                Navigator.push(
+              badge: ValueListenableBuilder<int>(
+                valueListenable: NotificationService().unreadMessagesCount,
+                builder: (context, count, _) =>
+                    _buildInlineBadge(context, count),
+              ),
+              onTap: () async {
+                await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SupportPage()),
                 );
+                // Синхронизируем счётчики после возврата из техподдержки
+                if (mounted) {
+                  NotificationService().refreshNotifications();
+                }
               },
             ),
           ),
@@ -413,6 +447,8 @@ class _ProfilePageState extends State<ProfilePage> {
               iconColor: context.colorPalette.error,
               title: 'Выйти',
               onTap: () async {
+                // Сначала очищаем уведомления — пока userId ещё доступен в AuthStorage
+                await NotificationService().clearForLogout();
                 await AuthStorage.forget();
                 if (!context.mounted) return;
                 Navigator.pushReplacement(
@@ -461,13 +497,22 @@ class _ProfilePageState extends State<ProfilePage> {
           icon: Icons.receipt_long,
           iconColor: context.colorPalette.success,
           title: 'Заказы поставщика',
-          onTap: () {
-            Navigator.push(
+          // Значок показывает количество заказов, ожидающих действия поставщика
+          badge: ValueListenableBuilder<int>(
+            valueListenable: NotificationService().pendingSupplierOrdersCount,
+            builder: (context, count, _) => _buildInlineBadge(context, count),
+          ),
+          onTap: () async {
+            await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const SupplierOrdersPage(),
               ),
             );
+            // Обновляем счётчик после возврата — поставщик мог принять заказы
+            if (mounted) {
+              NotificationService().refreshNotifications();
+            }
           },
         ),
       );
@@ -539,6 +584,49 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  /// Строит инлайн-значок уведомлений для пунктов меню.
+  /// В отличие от NotificationBadge (который использует Positioned),
+  /// этот виджет можно размещать прямо в Row.
+  Widget _buildInlineBadge(BuildContext context, int count) {
+    if (count == 0) return const SizedBox.shrink();
+
+    final label = count > 99 ? '99+' : count.toString();
+
+    return Semantics(
+      label:
+          '$count ${pluralizeRu(count, 'уведомление', 'уведомления', 'уведомлений')}',
+      child: Container(
+        constraints: const BoxConstraints(minWidth: 18),
+        height: 18,
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        decoration: BoxDecoration(
+          color: context.colorPalette.error,
+          borderRadius: BorderRadius.circular(9),
+          boxShadow: [
+            BoxShadow(
+              color: context.colorPalette.shadow,
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: const TextStyle(
+              // Colors.white — допустимое исключение для контраста на цветном фоне
+              color: Colors.white,
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Roboto',
+              height: 1.0,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildMenuDivider(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return Divider(
@@ -557,6 +645,8 @@ class _ProfilePageState extends State<ProfilePage> {
     required VoidCallback onTap,
     Color? iconColor,
     bool showArrow = true,
+    // Опциональный значок уведомлений — отображается справа от названия пункта
+    Widget? badge,
   }) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
@@ -580,13 +670,18 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(width: 16),
             Expanded(
-              child: Text(
-                title,
-                style: textTheme.bodyMedium?.copyWith(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: colorScheme.onSurface,
-                ),
+              child: Row(
+                children: [
+                  Text(
+                    title,
+                    style: textTheme.bodyMedium?.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: colorScheme.onSurface,
+                    ),
+                  ),
+                  if (badge != null) ...[const SizedBox(width: 8), badge],
+                ],
               ),
             ),
             if (showArrow)

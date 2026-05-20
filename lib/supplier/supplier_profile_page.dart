@@ -1,12 +1,16 @@
 ﻿import 'package:flutter/material.dart';
 import '../login_screen/login.dart';
 import '../services/auth_storage.dart';
+import '../services/notification_service.dart';
 import '../theme/app_color_palette.dart';
 
 class SupplierProfilePage extends StatelessWidget {
   const SupplierProfilePage({super.key});
 
   Future<void> _logout(BuildContext context) async {
+    // Сначала очищаем сервис уведомлений, пока userId ещё доступен —
+    // иначе следующий пользователь увидит чужие счётчики
+    await NotificationService().clearForLogout();
     await AuthStorage.forget();
     if (!context.mounted) return;
     Navigator.of(context).pushAndRemoveUntil(

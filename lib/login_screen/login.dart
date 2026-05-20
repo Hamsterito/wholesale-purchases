@@ -1,4 +1,5 @@
-﻿import 'dart:convert';
+﻿import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import 'package:flutter_project/reg_screan/register_page.dart';
@@ -7,6 +8,7 @@ import '../services/api_config.dart';
 import '../services/app_http_client.dart';
 import '../services/app_logger.dart';
 import '../services/auth_storage.dart';
+import '../services/notification_service.dart';
 import '../widgets/main_navigation.dart';
 import '../forgot_screan/verification_page.dart';
 
@@ -29,8 +31,9 @@ class _LoginPageState extends State<LoginPage> {
   bool get _isDark => _theme.brightness == Brightness.dark;
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _inputFill =>
-      _isDark ? _colorScheme.surfaceContainerHighest : context.colorPalette.bgTop;
+  Color get _inputFill => _isDark
+      ? _colorScheme.surfaceContainerHighest
+      : context.colorPalette.bgTop;
 
   @override
   void initState() {
@@ -154,6 +157,10 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         );
+
+        // Инициализируем сервис уведомлений для нового пользователя.
+        // Не блокируем переход — initialize отработает в фоне
+        unawaited(NotificationService().initialize());
 
         Navigator.pushReplacement(
           context,
