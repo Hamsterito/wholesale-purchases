@@ -1,5 +1,8 @@
 ﻿import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
+import '../models/message.dart';
 import '../models/order.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
@@ -301,6 +304,10 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     _loadOrders(startDate: newStart, endDate: newEnd);
   }
 
+  bool _isHistoryStatus(String status) {
+    return _isAcceptedStatus(status) || _isCancelledStatus(status);
+  }
+
   Widget _buildHistoryContent() {
     if (_isLoading) {
       return Center(
@@ -308,18 +315,22 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       );
     }
 
-    final orders = _orders;
+    // Страница — архив завершённых заказов: показываем только принятые
+    // и отменённые. Активные живут отдельно в `lib/profile/zakazi.dart`.
+    final visibleOrders = _orders
+        .where((o) => _isHistoryStatus(o.status))
+        .toList();
 
     return RefreshIndicator(
       color: context.colorPalette.accent,
       onRefresh: _loadOrders,
-      child: orders.isEmpty
+      child: visibleOrders.isEmpty
           ? ListView(
               padding: const EdgeInsets.all(24),
               children: [
                 Center(
                   child: Text(
-                    'Нет заказов',
+                    'История пока пустая',
                     style: TextStyle(color: _mutedText, fontSize: 15),
                   ),
                 ),
@@ -327,8 +338,9 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
             )
           : ListView.builder(
               padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
-              itemCount: orders.length,
-              itemBuilder: (context, index) => _buildOrderItem(orders[index]),
+              itemCount: visibleOrders.length,
+              itemBuilder: (context, index) =>
+                  _buildOrderItem(visibleOrders[index]),
             ),
     );
   }
@@ -501,8 +513,6 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
   Widget _buildExpandedDetails(Order order) {
     final statusColor = _statusColor(order.status);
     final hasAddress = order.deliveryAddress.trim().isNotEmpty;
-    final canAccept =
-        !_isAcceptedStatus(order.status) && !_isCancelledStatus(order.status);
     final effectiveReceived = _isAcceptedStatus(order.status)
         ? order.items.length
         : order.receivedItemsCount;
@@ -555,22 +565,6 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
           label: 'Адрес доставки',
           value: order.deliveryAddress.trim(),
           multilineValue: true,
-        ),
-      ]);
-    }
-
-    if (canAccept) {
-      children.addAll([
-        const SizedBox(height: 10),
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () async {
-              await ApiService.acceptOrder(order.id.toString());
-              await _loadOrders();
-            },
-            child: Text('Подтвердить получение'),
-          ),
         ),
       ]);
     }
@@ -833,7 +827,9 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
 
   bool _isCancelledStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized.contains('отмена') ||
+    // Корень 'отмен' покрывает и существительное «отмена», и причастия
+    // «отменён»/«отменен»/«отменено»/«отменена» — без зависимости от буквы ё/е.
+    return normalized.contains('отмен') ||
         normalized == 'cancelled' ||
         normalized == 'canceled';
   }
@@ -845,9 +841,18 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
   Future<void> _exportToExcel() async {
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
-      ScaffoldMessenger.of(
+      AppMessageSnackBar.show(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Требуется авторизация')));
+        Message(
+          id: const Uuid().v4(),
+          type: MessageType.notification,
+          severity: MessageSeverity.error,
+          title: '',
+          body: 'Требуется авторизация',
+          timestamp: DateTime.now(),
+          language: 'ru',
+        ),
+      );
       return;
     }
 
@@ -881,14 +886,32 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       }
 
       if (!mounted) return;
-      ScaffoldMessenger.of(
+      AppMessageSnackBar.show(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Файл загружен')));
+        Message(
+          id: const Uuid().v4(),
+          type: MessageType.notification,
+          severity: MessageSeverity.info,
+          title: '',
+          body: 'Файл загружен',
+          timestamp: DateTime.now(),
+          language: 'ru',
+        ),
+      );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
+      AppMessageSnackBar.show(
         context,
-      ).showSnackBar(SnackBar(content: Text('Ошибка экспорта: $e')));
+        Message(
+          id: const Uuid().v4(),
+          type: MessageType.notification,
+          severity: MessageSeverity.error,
+          title: '',
+          body: 'Ошибка экспорта: $e',
+          timestamp: DateTime.now(),
+          language: 'ru',
+        ),
+      );
     }
   }
 

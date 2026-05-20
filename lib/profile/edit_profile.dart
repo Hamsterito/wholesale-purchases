@@ -1,6 +1,9 @@
 ﻿import 'package:flutter/material.dart';
-import '../theme/app_color_palette.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
+import '../models/message.dart';
+import '../theme/app_color_palette.dart';
 import '../widgets/phone_input_formatter.dart';
 import '../widgets/main_bottom_nav.dart';
 
@@ -153,11 +156,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
               child: ElevatedButton(
                 onPressed: () {
                   if (!_isValidPhone(_phoneController.text)) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          '\u041d\u043e\u043c\u0435\u0440 \u0434\u043e\u043b\u0436\u0435\u043d \u0431\u044b\u0442\u044c \u0432 \u0444\u043e\u0440\u043c\u0430\u0442\u0435 +7-XXX-XXX-XXXX',
-                        ),
+                    AppMessageSnackBar.show(
+                      context,
+                      Message(
+                        id: const Uuid().v4(),
+                        type: MessageType.notification,
+                        severity: MessageSeverity.warning,
+                        title: '',
+                        body:
+                            '\u041d\u043e\u043c\u0435\u0440 \u0434\u043e\u043b\u0436\u0435\u043d \u0431\u044b\u0442\u044c \u0432 \u0444\u043e\u0440\u043c\u0430\u0442\u0435 +7-XXX-XXX-XXXX',
+                        timestamp: DateTime.now(),
+                        language: 'ru',
                       ),
                     );
                     return;

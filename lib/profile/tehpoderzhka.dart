@@ -1,8 +1,11 @@
 ﻿import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 
+import '../models/message.dart';
 import '../models/support_message.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
@@ -234,14 +237,16 @@ class _SupportPageState extends State<SupportPage> {
   }
 
   void _showSnack(String message, {bool isError = false}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: isError
-            ? context.colorPalette.error
-            : context.colorPalette.accent,
-      ),
+    final msg = Message(
+      id: const Uuid().v4(),
+      type: MessageType.notification,
+      severity: isError ? MessageSeverity.error : MessageSeverity.info,
+      title: '',
+      body: message,
+      timestamp: DateTime.now(),
+      language: 'ru',
     );
+    AppMessageSnackBar.show(context, msg);
   }
 
   @override

@@ -1,10 +1,13 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 import 'package:flutter/services.dart';
 import '../widgets/phone_input_formatter.dart';
 import '../widgets/main_bottom_nav.dart';
 import '../services/auth_storage.dart';
 import '../services/api_service.dart';
+import '../models/message.dart';
 import '../models/user_profile.dart';
 
 class PersonalInfoPage extends StatefulWidget {
@@ -16,7 +19,6 @@ class PersonalInfoPage extends StatefulWidget {
 
 class _PersonalInfoPageState extends State<PersonalInfoPage>
     with TickerProviderStateMixin {
-  
   static final RegExp _emailRegex = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
 
   late final TextEditingController _nameController;
@@ -130,11 +132,21 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
     return text;
   }
 
-  void _showSnack(String message) {
+  void _showSnack(
+    String message, {
+    MessageSeverity severity = MessageSeverity.info,
+  }) {
     if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    final msg = Message(
+      id: const Uuid().v4(),
+      type: MessageType.notification,
+      severity: severity,
+      title: '',
+      body: message,
+      timestamp: DateTime.now(),
+      language: 'ru',
+    );
+    AppMessageSnackBar.show(context, msg);
   }
 
   String? _validateName(String value) {
@@ -233,7 +245,10 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
       FocusScope.of(context).unfocus();
       _showSnack(successMessage);
     } catch (e) {
-      _showSnack('Не удалось сохранить: ${_errorMessage(e)}');
+      _showSnack(
+        'Не удалось сохранить: ${_errorMessage(e)}',
+        severity: MessageSeverity.error,
+      );
     } finally {
       if (mounted) {
         setState(() {
@@ -247,7 +262,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
     final name = _nameController.text.trim();
     final validationError = _validateName(name);
     if (validationError != null) {
-      _showSnack(validationError);
+      _showSnack(validationError, severity: MessageSeverity.warning);
       return;
     }
     await _saveProfile(name: name, successMessage: 'Имя сохранено');
@@ -257,7 +272,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
     final email = _emailController.text.trim();
     final validationError = _validateEmail(email);
     if (validationError != null) {
-      _showSnack(validationError);
+      _showSnack(validationError, severity: MessageSeverity.warning);
       return;
     }
     await _saveProfile(email: email, successMessage: 'Email сохранен');
@@ -267,7 +282,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
     final digits = _phoneController.text.replaceAll(RegExp(r'\D'), '');
     final validationError = _validatePhoneDigits(digits);
     if (validationError != null) {
-      _showSnack(validationError);
+      _showSnack(validationError, severity: MessageSeverity.warning);
       return;
     }
     await _saveProfile(phone: digits, successMessage: 'Номер сохранен');
@@ -280,7 +295,10 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
 
     final companyName = _companyController.text.trim();
     if (companyName.isEmpty) {
-      _showSnack('Введите название компании');
+      _showSnack(
+        'Введите название компании',
+        severity: MessageSeverity.warning,
+      );
       return;
     }
 
@@ -539,8 +557,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                               ? (_) => onSave()
                               : null,
                           decoration: InputDecoration(
-                            hintText:
-                                'Введите новое значение',
+                            hintText: 'Введите новое значение',
                             filled: true,
                             fillColor: _inputFill,
                             border: OutlineInputBorder(
@@ -614,4 +631,3 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
     );
   }
 }
-

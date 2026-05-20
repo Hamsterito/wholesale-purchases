@@ -1,8 +1,11 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/main_bottom_nav.dart';
 import 'add_payment_card.dart';
+import '../models/message.dart';
 import '../services/payment_card_storage.dart';
 import '../services/auth_storage.dart';
 
@@ -169,9 +172,18 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
     if (!mounted) {
       return;
     }
-    ScaffoldMessenger.of(
+    AppMessageSnackBar.show(
       context,
-    ).showSnackBar(const SnackBar(content: Text('Карта добавлена')));
+      Message(
+        id: const Uuid().v4(),
+        type: MessageType.notification,
+        severity: MessageSeverity.info,
+        title: '',
+        body: 'Карта добавлена',
+        timestamp: DateTime.now(),
+        language: 'ru',
+      ),
+    );
   }
 
   @override
@@ -514,9 +526,18 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
     if (!mounted) {
       return;
     }
-    ScaffoldMessenger.of(
+    AppMessageSnackBar.show(
       context,
-    ).showSnackBar(const SnackBar(content: Text('Карта удалена')));
+      Message(
+        id: const Uuid().v4(),
+        type: MessageType.notification,
+        severity: MessageSeverity.info,
+        title: '',
+        body: 'Карта удалена',
+        timestamp: DateTime.now(),
+        language: 'ru',
+      ),
+    );
   }
 
   Widget _buildBrandBadge(String brand) {

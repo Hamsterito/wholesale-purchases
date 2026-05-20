@@ -1,5 +1,8 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
+import '../models/message.dart';
 import '../models/supplier_product.dart';
 import 'support_chats_page.dart';
 import '../services/api_service.dart';
@@ -104,6 +107,7 @@ class _ModerationPageState extends State<ModerationPage> {
     } catch (e) {
       _showSnack(
         _extractErrorMessage(e, fallback: 'Ошибка при обновлении статуса'),
+        severity: MessageSeverity.error,
       );
     } finally {
       if (mounted) {
@@ -115,7 +119,10 @@ class _ModerationPageState extends State<ModerationPage> {
   Future<void> _deleteProductForViolation(SupplierProduct product) async {
     final moderatorId = AuthStorage.userId ?? 0;
     if (moderatorId <= 0) {
-      _showSnack('Не удалось определить модератора');
+      _showSnack(
+        'Не удалось определить модератора',
+        severity: MessageSeverity.error,
+      );
       return;
     }
     if (_updatingIds.contains(product.id)) {
@@ -163,7 +170,10 @@ class _ModerationPageState extends State<ModerationPage> {
         );
       }
     } catch (e) {
-      _showSnack(_extractErrorMessage(e, fallback: 'Не удалось удалить товар'));
+      _showSnack(
+        _extractErrorMessage(e, fallback: 'Не удалось удалить товар'),
+        severity: MessageSeverity.error,
+      );
     } finally {
       if (mounted) {
         setState(() => _updatingIds.remove(product.id));
@@ -279,10 +289,21 @@ class _ModerationPageState extends State<ModerationPage> {
     return normalized.isEmpty ? fallback : normalized;
   }
 
-  void _showSnack(String message) {
+  void _showSnack(
+    String message, {
+    MessageSeverity severity = MessageSeverity.info,
+  }) {
     if (!mounted) return;
-    final messenger = ScaffoldMessenger.maybeOf(context);
-    messenger?.showSnackBar(SnackBar(content: Text(message)));
+    final msg = Message(
+      id: const Uuid().v4(),
+      type: MessageType.notification,
+      severity: severity,
+      title: '',
+      body: message,
+      timestamp: DateTime.now(),
+      language: 'ru',
+    );
+    AppMessageSnackBar.show(context, msg);
   }
 
   String _quantityLabel(SupplierProduct product) {
@@ -747,7 +768,8 @@ class _ModerationPageState extends State<ModerationPage> {
                                                 0xFFB91C1C,
                                               ),
                                               side: BorderSide(
-                                                color: context.colorPalette.error,
+                                                color:
+                                                    context.colorPalette.error,
                                               ),
                                             ),
                                             icon: isUpdating
@@ -804,7 +826,9 @@ class _ModerationPageState extends State<ModerationPage> {
                                                     0xFFEF4444,
                                                   ),
                                                   side: BorderSide(
-                                                    color: context.colorPalette.error,
+                                                    color: context
+                                                        .colorPalette
+                                                        .error,
                                                   ),
                                                 ),
                                                 icon: const Icon(

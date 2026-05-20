@@ -1,7 +1,10 @@
 ﻿import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+import '../models/message.dart';
 import '../theme/app_color_palette.dart';
+import '../widgets/app_message_snackbar.dart';
 import 'forgot_password_verification_page.dart';
 import '../services/api_config.dart';
 import '../services/app_http_client.dart';
@@ -24,8 +27,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   bool get _isDark => _theme.brightness == Brightness.dark;
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _inputFill =>
-      _isDark ? _colorScheme.surfaceContainerHighest : context.colorPalette.bgTop;
+  Color get _inputFill => _isDark
+      ? _colorScheme.surfaceContainerHighest
+      : context.colorPalette.bgTop;
 
   @override
   void dispose() {
@@ -33,15 +37,28 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     super.dispose();
   }
 
-
+  // Унифицированный показ SnackBar поверх Message_System.
+  // title оставляем пустым: исходные SnackBar содержали только content без заголовка.
+  void _showMessage(String body, MessageSeverity severity) {
+    AppMessageSnackBar.show(
+      context,
+      Message(
+        id: const Uuid().v4(),
+        type: MessageType.notification,
+        severity: severity,
+        title: '',
+        body: body,
+        timestamp: DateTime.now(),
+        language: 'ru',
+      ),
+    );
+  }
 
   // Отправляет код сброса пароля на email
   Future<void> _sendResetCode() async {
     final email = _emailController.text.trim();
     if (email.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Введите email')),
-      );
+      _showMessage('Введите email', MessageSeverity.warning);
       return;
     }
 
@@ -79,13 +96,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         // Ошибка при отправке кода
         final body = utf8.decode(response.bodyBytes);
         final message = parseApiMessage(body, fallback: 'Ошибка сервера');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+        _showMessage(message, MessageSeverity.error);
       }
     } catch (e) {
       AppLogger.error('Error sending reset code: $e', scope: 'auth');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Ошибка сети')),
-      );
+      _showMessage('Ошибка сети', MessageSeverity.error);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -140,19 +155,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                     Text(
-                       'Забыли пароль',
-                       style: TextStyle(
-                         fontSize: 32,
-                         fontWeight: FontWeight.bold,
-                         color: Colors.white,
-                       ),
-                     ),
-                     const SizedBox(height: 12),
-                     const Text(
-                       'Напиши свою почту',
-                       style: TextStyle(fontSize: 16, color: Colors.white),
-                     ),
+                    Text(
+                      'Забыли пароль',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      'Напиши свою почту',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
                   ],
                 ),
               ),
@@ -182,49 +197,51 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                         TextField(
-                           controller: _emailController,
-                           keyboardType: TextInputType.text,
-                           decoration: InputDecoration(
-                             hintText: 'primer@pochta.ru',
-                             hintStyle: TextStyle(color: _mutedText),
-                             filled: true,
-                             fillColor: _inputFill,
-                             border: OutlineInputBorder(
-                               borderRadius: BorderRadius.circular(8),
-                               borderSide: BorderSide.none,
-                             ),
-                             contentPadding: const EdgeInsets.symmetric(
-                               horizontal: 16,
-                               vertical: 14,
-                             ),
-                           ),
-                         ),
-                         const SizedBox(height: 32),
-                         SizedBox(
-                           width: double.infinity,
-                           height: 50,
-                           child: ElevatedButton(
-                             onPressed: _isLoading ? null : _sendResetCode,
-                             style: ElevatedButton.styleFrom(
-                               backgroundColor: _isDark
-                                   ? _colorScheme.primary
-                                   : context.colorPalette.ink,
-                               shape: RoundedRectangleBorder(
-                                 borderRadius: BorderRadius.circular(8),
-                               ),
-                             ),
-                             child: _isLoading
-                                 ? const CircularProgressIndicator(color: Colors.white)
-                                 : const Text(
-                                     'ОТПРАВИТЬ КОД',
-                                     style: TextStyle(
-                                       fontSize: 16,
-                                       fontWeight: FontWeight.w600,
-                                       letterSpacing: 1,
-                                       color: Colors.white,
-                                     ),
-                                   ),
+                        TextField(
+                          controller: _emailController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: 'primer@pochta.ru',
+                            hintStyle: TextStyle(color: _mutedText),
+                            filled: true,
+                            fillColor: _inputFill,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 14,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: _isLoading ? null : _sendResetCode,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: _isDark
+                                  ? _colorScheme.primary
+                                  : context.colorPalette.ink,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: _isLoading
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : const Text(
+                                    'ОТПРАВИТЬ КОД',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 1,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                           ),
                         ),
                       ],

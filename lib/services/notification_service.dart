@@ -6,9 +6,12 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/message.dart';
 import 'api_service.dart';
 import 'app_logger.dart';
 import 'auth_storage.dart';
+import 'message/message_service_adapters.dart';
+import 'message/message_store.dart';
 
 /// Конфигурационные константы для системы уведомлений.
 /// Позволяют централизованно управлять поведением значков и сервиса.
@@ -750,13 +753,40 @@ class NotificationService with WidgetsBindingObserver {
     }
   }
 
+  // Интеграция со стандартизированной системой Message
+
+  /// Возвращает накопленные уведомления в виде стандартизированных Message-объектов.
+  /// Полезно для отладки, экспорта и единообразного отображения.
+  Future<List<Message>> getNotificationMessages() async {
+    return MessageStore.getByType(MessageType.notification);
+  }
+
+  /// Оборачивает уведомление в стандартизированный Message и сохраняет
+  /// в MessageStore. Категория проставляется только если её нет в самом
+  /// уведомлении. Ошибки логирования не пробрасываются.
+  // ignore: unused_element
+  Future<void> _logNotificationAsMessage(
+    dynamic notification, {
+    String? category,
+  }) async {
+    try {
+      final message = NotificationServiceAdapter.wrapNotification(
+        notification,
+        'ru',
+        category: category,
+      );
+      await MessageStore.save(message);
+    } catch (_) {
+      // Логирование уведомления не должно ломать основную логику
+    }
+  }
+
   // Lifecycle
 
   /// Освобождает ресурсы: останавливает polling и закрывает ValueNotifier-ы.
   /// Вызывать при выходе из приложения.
   void dispose() {
     _stopPolling();
-
     if (_lifecycleObserverRegistered) {
       try {
         WidgetsBinding.instance.removeObserver(this);

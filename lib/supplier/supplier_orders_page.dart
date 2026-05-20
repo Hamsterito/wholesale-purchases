@@ -1,4 +1,7 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
+import '../models/message.dart';
 import '../models/supplier_order.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
@@ -227,14 +230,17 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
   Future<void> _updateOrderStatus(SupplierOrder order, String status) async {
     final userId = _userId;
     if (userId == null || userId == 0) {
-      _showSnack('Сессия недействительна');
+      _showSnack('Сессия недействительна', severity: MessageSeverity.error);
       return;
     }
     if (_updatingOrderIds.contains(order.id)) {
       return;
     }
     if (!_canMoveToStatus(order.status, status)) {
-      _showSnack('Доступен только следующий шаг статуса');
+      _showSnack(
+        'Доступен только следующий шаг статуса',
+        severity: MessageSeverity.warning,
+      );
       return;
     }
 
@@ -257,7 +263,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
       });
       _showSnack('Статус обновлен: ${_statusLabel(updatedOrder.status)}');
     } catch (e) {
-      _showSnack('Не удалось обновить статус');
+      _showSnack('Не удалось обновить статус', severity: MessageSeverity.error);
     } finally {
       if (mounted) {
         setState(() => _updatingOrderIds.remove(order.id));
@@ -301,10 +307,20 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     }
   }
 
-  void _showSnack(String message) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+  void _showSnack(
+    String message, {
+    MessageSeverity severity = MessageSeverity.info,
+  }) {
+    final msg = Message(
+      id: const Uuid().v4(),
+      type: MessageType.notification,
+      severity: severity,
+      title: '',
+      body: message,
+      timestamp: DateTime.now(),
+      language: 'ru',
+    );
+    AppMessageSnackBar.show(context, msg);
   }
 
   @override

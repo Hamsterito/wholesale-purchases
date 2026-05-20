@@ -1,6 +1,9 @@
 ﻿import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+import '../models/message.dart';
 import '../theme/app_color_palette.dart';
+import '../widgets/app_message_snackbar.dart';
 import '../services/api_config.dart';
 import '../services/app_http_client.dart';
 import '../services/app_logger.dart';
@@ -28,8 +31,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   bool get _isDark => _theme.brightness == Brightness.dark;
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _inputFill =>
-      _isDark ? _colorScheme.surfaceContainerHighest : context.colorPalette.bgTop;
+  Color get _inputFill => _isDark
+      ? _colorScheme.surfaceContainerHighest
+      : context.colorPalette.bgTop;
 
   @override
   void dispose() {
@@ -38,30 +42,42 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     super.dispose();
   }
 
+  // Унифицированный показ SnackBar поверх Message_System.
+  // title оставляем пустым: исходные SnackBar содержали только content без заголовка.
+  void _showMessage(String body, MessageSeverity severity) {
+    AppMessageSnackBar.show(
+      context,
+      Message(
+        id: const Uuid().v4(),
+        type: MessageType.notification,
+        severity: severity,
+        title: '',
+        body: body,
+        timestamp: DateTime.now(),
+        language: 'ru',
+      ),
+    );
+  }
+
   Future<void> _resetPassword() async {
     final password = _passwordController.text.trim();
     final confirmPassword = _confirmPasswordController.text.trim();
 
     if (password.isEmpty || confirmPassword.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Заполните все поля')));
+      _showMessage('Заполните все поля', MessageSeverity.warning);
       return;
     }
 
     if (password.length < 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Пароль должен содержать минимум 6 символов'),
-        ),
+      _showMessage(
+        'Пароль должен содержать минимум 6 символов',
+        MessageSeverity.warning,
       );
       return;
     }
 
     if (password != confirmPassword) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Пароли не совпадают')));
+      _showMessage('Пароли не совпадают', MessageSeverity.warning);
       return;
     }
 
@@ -87,9 +103,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       if (!mounted) return;
 
       if (response.statusCode == 200) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Пароль успешно изменён')));
+        _showMessage('Пароль успешно изменён', MessageSeverity.info);
         await Future<void>.delayed(const Duration(milliseconds: 600));
         if (!mounted) return;
 
@@ -98,15 +112,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       } else {
         final body = utf8.decode(response.bodyBytes);
         final message = parseApiMessage(body, fallback: 'Ошибка сервера');
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(message)));
+        _showMessage(message, MessageSeverity.error);
       }
     } catch (e) {
       AppLogger.error('Error resetting password: $e', scope: 'auth');
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Ошибка сети')));
+      _showMessage('Ошибка сети', MessageSeverity.error);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);

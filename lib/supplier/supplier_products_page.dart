@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
+import '../models/message.dart';
 import '../models/supplier_product.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
@@ -73,7 +76,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
   Future<void> _openProductWizard({SupplierProduct? product}) async {
     final userId = _userId;
     if (userId == null || userId == 0) {
-      _showSnack('Требуется авторизация');
+      _showSnack('Требуется авторизация', isError: true);
       return;
     }
 
@@ -97,7 +100,10 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
       }
       await _loadProducts();
     } catch (e) {
-      _showSnack(_extractErrorMessage(e, fallback: 'Ошибка операции'));
+      _showSnack(
+        _extractErrorMessage(e, fallback: 'Ошибка операции'),
+        isError: true,
+      );
     }
     if (!mounted) return;
     setState(() => _isSubmitting = false);
@@ -106,7 +112,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
   Future<void> _deleteProduct(SupplierProduct product) async {
     final userId = _userId;
     if (userId == null || userId == 0) {
-      _showSnack('Требуется авторизация');
+      _showSnack('Требуется авторизация', isError: true);
       return;
     }
     if (_deletingIds.contains(product.id)) {
@@ -186,7 +192,10 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
         _showSnack('Товар удалён');
       }
     } catch (e) {
-      _showSnack(_extractErrorMessage(e, fallback: 'Не удалось удалить товар'));
+      _showSnack(
+        _extractErrorMessage(e, fallback: 'Не удалось удалить товар'),
+        isError: true,
+      );
     } finally {
       if (mounted) {
         setState(() {
@@ -222,10 +231,17 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
     return normalized;
   }
 
-  void _showSnack(String message) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+  void _showSnack(String message, {bool isError = false}) {
+    final msg = Message(
+      id: const Uuid().v4(),
+      type: MessageType.notification,
+      severity: isError ? MessageSeverity.error : MessageSeverity.info,
+      title: '',
+      body: message,
+      timestamp: DateTime.now(),
+      language: 'ru',
+    );
+    AppMessageSnackBar.show(context, msg);
   }
 
   Color _statusColor(String status) {

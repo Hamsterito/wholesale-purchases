@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
+import '../models/message.dart';
 import '../models/question.dart';
 import '../models/review_entry.dart';
 import '../models/product.dart';
@@ -374,8 +377,17 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Ошибка: вы не авторизованы')),
+        AppMessageSnackBar.show(
+          context,
+          Message(
+            id: const Uuid().v4(),
+            type: MessageType.notification,
+            severity: MessageSeverity.error,
+            title: '',
+            body: 'Ошибка: вы не авторизованы',
+            timestamp: DateTime.now(),
+            language: 'ru',
+          ),
         );
       }
       return;
@@ -422,17 +434,31 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
           });
         }
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Ответ отправлен успешно')),
+        AppMessageSnackBar.show(
+          context,
+          Message(
+            id: const Uuid().v4(),
+            type: MessageType.notification,
+            severity: MessageSeverity.info,
+            title: '',
+            body: 'Ответ отправлен успешно',
+            timestamp: DateTime.now(),
+            language: 'ru',
+          ),
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
-            ),
+        AppMessageSnackBar.show(
+          context,
+          Message(
+            id: const Uuid().v4(),
+            type: MessageType.notification,
+            severity: MessageSeverity.error,
+            title: '',
+            body: 'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
+            timestamp: DateTime.now(),
+            language: 'ru',
           ),
         );
       }
@@ -443,8 +469,17 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Ошибка: вы не авторизованы')),
+        AppMessageSnackBar.show(
+          context,
+          Message(
+            id: const Uuid().v4(),
+            type: MessageType.notification,
+            severity: MessageSeverity.error,
+            title: '',
+            body: 'Ошибка: вы не авторизованы',
+            timestamp: DateTime.now(),
+            language: 'ru',
+          ),
         );
       }
       return;
@@ -489,17 +524,31 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
           });
         }
 
-        ScaffoldMessenger.of(
+        AppMessageSnackBar.show(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Ответ обновлен успешно')));
+          Message(
+            id: const Uuid().v4(),
+            type: MessageType.notification,
+            severity: MessageSeverity.info,
+            title: '',
+            body: 'Ответ обновлен успешно',
+            timestamp: DateTime.now(),
+            language: 'ru',
+          ),
+        );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
-            ),
+        AppMessageSnackBar.show(
+          context,
+          Message(
+            id: const Uuid().v4(),
+            type: MessageType.notification,
+            severity: MessageSeverity.error,
+            title: '',
+            body: 'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
+            timestamp: DateTime.now(),
+            language: 'ru',
           ),
         );
       }
@@ -510,8 +559,17 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Ошибка: вы не авторизованы')),
+        AppMessageSnackBar.show(
+          context,
+          Message(
+            id: const Uuid().v4(),
+            type: MessageType.notification,
+            severity: MessageSeverity.error,
+            title: '',
+            body: 'Ошибка: вы не авторизованы',
+            timestamp: DateTime.now(),
+            language: 'ru',
+          ),
         );
       }
       return;
@@ -557,17 +615,31 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
           });
         }
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Ответ отправлен успешно')),
+        AppMessageSnackBar.show(
+          context,
+          Message(
+            id: const Uuid().v4(),
+            type: MessageType.notification,
+            severity: MessageSeverity.info,
+            title: '',
+            body: 'Ответ отправлен успешно',
+            timestamp: DateTime.now(),
+            language: 'ru',
+          ),
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
-            ),
+        AppMessageSnackBar.show(
+          context,
+          Message(
+            id: const Uuid().v4(),
+            type: MessageType.notification,
+            severity: MessageSeverity.error,
+            title: '',
+            body: 'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
+            timestamp: DateTime.now(),
+            language: 'ru',
           ),
         );
       }
@@ -578,8 +650,17 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Ошибка: вы не авторизованы')),
+        AppMessageSnackBar.show(
+          context,
+          Message(
+            id: const Uuid().v4(),
+            type: MessageType.notification,
+            severity: MessageSeverity.error,
+            title: '',
+            body: 'Ошибка: вы не авторизованы',
+            timestamp: DateTime.now(),
+            language: 'ru',
+          ),
         );
       }
       return;
@@ -625,17 +706,31 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
           });
         }
 
-        ScaffoldMessenger.of(
+        AppMessageSnackBar.show(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Ответ обновлен успешно')));
+          Message(
+            id: const Uuid().v4(),
+            type: MessageType.notification,
+            severity: MessageSeverity.info,
+            title: '',
+            body: 'Ответ обновлен успешно',
+            timestamp: DateTime.now(),
+            language: 'ru',
+          ),
+        );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
-            ),
+        AppMessageSnackBar.show(
+          context,
+          Message(
+            id: const Uuid().v4(),
+            type: MessageType.notification,
+            severity: MessageSeverity.error,
+            title: '',
+            body: 'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
+            timestamp: DateTime.now(),
+            language: 'ru',
           ),
         );
       }

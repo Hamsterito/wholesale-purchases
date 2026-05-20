@@ -1,4 +1,7 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
+import '../models/message.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/main_bottom_nav.dart';
 import '../services/api_service.dart';
@@ -101,16 +104,34 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Проверьте введённые данные')),
+      AppMessageSnackBar.show(
+        context,
+        Message(
+          id: const Uuid().v4(),
+          type: MessageType.notification,
+          severity: MessageSeverity.warning,
+          title: '',
+          body: 'Проверьте введённые данные',
+          timestamp: DateTime.now(),
+          language: 'ru',
+        ),
       );
       return;
     }
 
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Сессия истекла. Войдите снова.')),
+      AppMessageSnackBar.show(
+        context,
+        Message(
+          id: const Uuid().v4(),
+          type: MessageType.notification,
+          severity: MessageSeverity.error,
+          title: '',
+          body: 'Сессия истекла. Войдите снова.',
+          timestamp: DateTime.now(),
+          language: 'ru',
+        ),
       );
       return;
     }
@@ -134,9 +155,18 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(
+      AppMessageSnackBar.show(
         context,
-      ).showSnackBar(SnackBar(content: Text(_normalizeErrorMessage(error))));
+        Message(
+          id: const Uuid().v4(),
+          type: MessageType.notification,
+          severity: MessageSeverity.error,
+          title: '',
+          body: _normalizeErrorMessage(error),
+          timestamp: DateTime.now(),
+          language: 'ru',
+        ),
+      );
       return;
     } finally {
       if (mounted) {

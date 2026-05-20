@@ -2,8 +2,11 @@ import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import '../models/message.dart';
 import 'api_config.dart';
 import 'app_logger.dart';
+import 'message/message_store.dart';
+import 'message/message_service_adapters.dart';
 
 class AiException implements Exception {
   final String message;
@@ -92,6 +95,9 @@ class AiService {
       try {
         final prompt = _constructPrompt(stats);
 
+        const temperature = 0.7;
+        const maxTokens = 300;
+
         final response = await http
             .post(
               Uri.parse('${ApiConfig.aiEndpoint}/chat/completions'),
@@ -112,19 +118,32 @@ class AiService {
                   },
                   {'role': 'user', 'content': prompt},
                 ],
-                'temperature': 0.7,
-                'max_tokens': 300,
+                'temperature': temperature,
+                'max_tokens': maxTokens,
               }),
             )
             .timeout(_timeout);
 
-        return _handleResponse(response);
-      } on TimeoutException catch (e) {
+        final generated = _handleResponse(response);
+
+        // Параллельно логируем сгенерированный контент в MessageStore
+        // для аналитики и отладки. Сбой логирования не должен ронять основной поток.
+        try {
+          await createAiMessage(generated, model, <String, dynamic>{
+            'temperature': temperature,
+            'maxTokens': maxTokens,
+          });
+        } catch (_) {}
+
+        return generated;
+      } on TimeoutException catch (e, stack) {
+        await _logAiError(e, stack, model: model);
         throw AiException(
           message: 'Request timeout: $e',
           userMessage: 'Запрос занял слишком долго',
         );
-      } on SocketException catch (e) {
+      } on SocketException catch (e, stack) {
+        await _logAiError(e, stack, model: model);
         throw AiException(
           message: 'Network error: $e',
           userMessage: 'Проверьте подключение к интернету',
@@ -149,7 +168,8 @@ class AiService {
           continue;
         }
         rethrow;
-      } catch (e) {
+      } catch (e, stack) {
+        await _logAiError(e, stack, model: model);
         throw AiException(
           message: 'Unexpected error: $e',
           userMessage: 'Не удалось сформировать AI-резюме',
@@ -287,6 +307,38 @@ class AiService {
   /// Проверяет, является ли ошибка ошибкой лимита запросов
   static bool _isRateLimitError(String message) {
     return message.contains('Rate limit');
+  }
+
+  /// Создаёт стандартизированное Message для AI-сгенерированного контента
+  /// и сохраняет его в MessageStore для логирования и аналитики.
+  ///
+  /// [content] — текст, сгенерированный моделью.
+  /// [model] — идентификатор модели (например, имя или версия).
+  /// [params] — параметры генерации (temperature, maxTokens и т.п.) — попадают в metadata.
+  static Future<Message> createAiMessage(
+    String content,
+    String model,
+    Map<String, dynamic> params,
+  ) async {
+    final message = AiServiceAdapter.wrapAiResponse(content, model, params);
+    await MessageStore.save(message);
+    return message;
+  }
+
+  /// Преобразует ошибку AI-вызова в стандартизированный Message и сохраняет её.
+  /// Возвращает созданный Message — его можно отдать вызывающему коду или просто логировать.
+  static Future<Message> _logAiError(
+    Object e,
+    StackTrace? stack, {
+    String? model,
+  }) async {
+    final message = AiServiceAdapter.wrapAiError(e, stack, 'ru', model: model);
+    try {
+      await MessageStore.save(message);
+    } catch (_) {
+      // Логирование ошибки не должно ломать основной поток
+    }
+    return message;
   }
 
   /// Конструирует промпт на английском языке на основе статистики

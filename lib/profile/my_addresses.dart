@@ -1,5 +1,8 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
+import '../models/message.dart';
 import '../models/user_address.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
@@ -202,11 +205,20 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
     await AuthStorage.saveSelectedAddressId(addressId);
   }
 
-  void _showSnack(String message) {
-    final messenger = ScaffoldMessenger.of(context);
-    messenger
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(message)));
+  void _showSnack(
+    String message, {
+    MessageSeverity severity = MessageSeverity.error,
+  }) {
+    final msg = Message(
+      id: const Uuid().v4(),
+      type: MessageType.notification,
+      severity: severity,
+      title: '',
+      body: message,
+      timestamp: DateTime.now(),
+      language: 'ru',
+    );
+    AppMessageSnackBar.show(context, msg);
   }
 
   IconData _resolveIcon(UserAddress address) {

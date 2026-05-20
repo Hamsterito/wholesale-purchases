@@ -1,6 +1,9 @@
 ﻿import 'package:flutter/material.dart';
-import '../theme/app_color_palette.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
+import '../models/message.dart';
+import '../theme/app_color_palette.dart';
 import '../services/payment_card_storage.dart';
 import '../services/auth_storage.dart';
 import '../widgets/main_bottom_nav.dart';
@@ -160,15 +163,33 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
     }
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Войдите, чтобы добавить карту')),
+      AppMessageSnackBar.show(
+        context,
+        Message(
+          id: const Uuid().v4(),
+          type: MessageType.notification,
+          severity: MessageSeverity.error,
+          title: '',
+          body: 'Войдите, чтобы добавить карту',
+          timestamp: DateTime.now(),
+          language: 'ru',
+        ),
       );
       return;
     }
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Проверьте введённые данные')),
+      AppMessageSnackBar.show(
+        context,
+        Message(
+          id: const Uuid().v4(),
+          type: MessageType.notification,
+          severity: MessageSeverity.warning,
+          title: '',
+          body: 'Проверьте введённые данные',
+          timestamp: DateTime.now(),
+          language: 'ru',
+        ),
       );
       return;
     }
@@ -199,8 +220,17 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
       setState(() {
         _isSaving = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Не удалось сохранить карту')),
+      AppMessageSnackBar.show(
+        context,
+        Message(
+          id: const Uuid().v4(),
+          type: MessageType.notification,
+          severity: MessageSeverity.error,
+          title: '',
+          body: 'Не удалось сохранить карту',
+          timestamp: DateTime.now(),
+          language: 'ru',
+        ),
       );
       return;
     }

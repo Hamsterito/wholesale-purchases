@@ -1,8 +1,11 @@
 ﻿import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 
+import '../models/message.dart';
 import '../models/order.dart';
 import '../pages/order_history_page.dart';
 import '../services/api_service.dart';
@@ -19,7 +22,6 @@ class MyOrdersPage extends StatefulWidget {
 
 class _MyOrdersPageState extends State<MyOrdersPage>
     with AutoRefreshMixin<MyOrdersPage> {
-  
   static const Duration _orderCancellationWindow = Duration(hours: 1);
 
   List<Order> _orders = [];
@@ -144,7 +146,8 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     int historyCount,
   ) {
     if (_isLoading) {
-      return Center(child: CircularProgressIndicator(color: context.colorPalette.accent),
+      return Center(
+        child: CircularProgressIndicator(color: context.colorPalette.accent),
       );
     }
 
@@ -919,13 +922,27 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     });
   }
 
+  // Хелпер для показа унифицированного SnackBar: тело — verbatim текст,
+  // title пустой согласно ADR из decisions.md.
+  void _showMessage(String body, MessageSeverity severity) {
+    final message = Message(
+      id: const Uuid().v4(),
+      type: MessageType.notification,
+      severity: severity,
+      title: '',
+      body: body,
+      timestamp: DateTime.now(),
+      language: 'ru',
+    );
+    AppMessageSnackBar.show(context, message);
+  }
+
   Future<void> _confirmAcceptOrder(Order order) async {
     if (!_areAllItemsSelected(order)) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Отметьте все товары перед подтверждением.'),
-        ),
+      _showMessage(
+        'Отметьте все товары перед подтверждением.',
+        MessageSeverity.warning,
       );
       return;
     }
@@ -1031,18 +1048,15 @@ class _MyOrdersPageState extends State<MyOrdersPage>
             .toList();
         _acceptingOrders.remove(order.id);
       });
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Заказ принят.')));
+      _showMessage('Заказ принят.', MessageSeverity.info);
     } catch (e) {
       if (!mounted) return;
       setState(() {
         _acceptingOrders.remove(order.id);
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Не удалось принять заказ. Попробуйте еще раз.'),
-        ),
+      _showMessage(
+        'Не удалось принять заказ. Попробуйте еще раз.',
+        MessageSeverity.error,
       );
     }
   }
@@ -1050,10 +1064,9 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   Future<void> _confirmCancelOrder(Order order) async {
     if (!_canCancelOrder(order)) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Отмена доступна только в течение первого часа.'),
-        ),
+      _showMessage(
+        'Отмена доступна только в течение первого часа.',
+        MessageSeverity.warning,
       );
       return;
     }
@@ -1091,9 +1104,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Сессия истекла. Войдите снова.')),
-      );
+      _showMessage('Сессия истекла. Войдите снова.', MessageSeverity.error);
       return;
     }
     if (_cancelingOrders.contains(order.id)) {
@@ -1119,17 +1130,13 @@ class _MyOrdersPageState extends State<MyOrdersPage>
             .toList();
         _cancelingOrders.remove(order.id);
       });
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Заказ отменён.')));
+      _showMessage('Заказ отменён.', MessageSeverity.info);
     } catch (e) {
       if (!mounted) return;
       setState(() {
         _cancelingOrders.remove(order.id);
       });
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(_cancelOrderErrorMessage(e))));
+      _showMessage(_cancelOrderErrorMessage(e), MessageSeverity.error);
     }
   }
 

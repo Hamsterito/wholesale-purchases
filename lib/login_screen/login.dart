@@ -1,14 +1,17 @@
 ﻿import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 import 'package:flutter_project/reg_screan/register_page.dart';
 import 'package:flutter_project/forgot_screan/forgot_password_page.dart';
+import '../models/message.dart';
 import '../services/api_config.dart';
 import '../services/app_http_client.dart';
 import '../services/app_logger.dart';
 import '../services/auth_storage.dart';
 import '../services/notification_service.dart';
+import '../widgets/app_message_snackbar.dart';
 import '../widgets/main_navigation.dart';
 import '../forgot_screan/verification_page.dart';
 
@@ -52,6 +55,23 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  // Унифицированный показ SnackBar поверх Message_System.
+  // title оставляем пустым: исходные SnackBar содержали только content без заголовка.
+  void _showMessage(String body, MessageSeverity severity) {
+    AppMessageSnackBar.show(
+      context,
+      Message(
+        id: const Uuid().v4(),
+        type: MessageType.notification,
+        severity: severity,
+        title: '',
+        body: body,
+        timestamp: DateTime.now(),
+        language: 'ru',
+      ),
+    );
+  }
+
   void _navigateToForgotPassword() {
     Navigator.push(
       context,
@@ -72,9 +92,7 @@ class _LoginPageState extends State<LoginPage> {
     final password = _passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Введите почту и пароль')));
+      _showMessage('Введите почту и пароль', MessageSeverity.warning);
       return;
     }
 
@@ -112,9 +130,7 @@ class _LoginPageState extends State<LoginPage> {
             return;
           }
           if (mounted) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(message)));
+            _showMessage(message, MessageSeverity.error);
           }
           return;
         }
@@ -147,15 +163,13 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
         if (!mounted) return;
-        // Успешный вход
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              name == null || name.isEmpty
-                  ? 'Вход выполнен'
-                  : 'Добро пожаловать, $name!',
-            ),
-          ),
+        // Успешный вход — приветственное сообщение через унифицированный SnackBar
+        // (фикс чёрного SnackBar на тёмной теме, Requirement 1.1).
+        _showMessage(
+          name == null || name.isEmpty
+              ? 'Вход выполнен'
+              : 'Добро пожаловать, $name!',
+          MessageSeverity.info,
         );
 
         // Инициализируем сервис уведомлений для нового пользователя.
@@ -191,9 +205,7 @@ class _LoginPageState extends State<LoginPage> {
           };
           message = errorBody.isEmpty ? fallbackMessage : errorBody;
         }
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(message)));
+        _showMessage(message, MessageSeverity.error);
       }
     } catch (e, st) {
       AppLogger.error(
@@ -203,9 +215,7 @@ class _LoginPageState extends State<LoginPage> {
         stackTrace: st,
       );
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Ошибка подключения к серверу: $e')),
-      );
+      _showMessage('Ошибка подключения к серверу: $e', MessageSeverity.error);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);

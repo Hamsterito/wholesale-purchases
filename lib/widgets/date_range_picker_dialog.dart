@@ -217,7 +217,9 @@ class _CustomDateRangePickerDialogState
                 maxDate: DateTime.now(),
                 showNavigationArrow: true,
                 navigationMode: DateRangePickerNavigationMode.snap,
+                backgroundColor: palette.card,
                 headerStyle: DateRangePickerHeaderStyle(
+                  backgroundColor: palette.card,
                   textStyle: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -324,7 +326,7 @@ class _CustomDateRangePickerDialogState
                     foregroundColor: palette.card,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
-                      vertical: 20,
+                      vertical: 12,
                     ),
                   ),
                   child: const Text('Сохранить'),

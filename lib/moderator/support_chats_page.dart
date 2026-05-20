@@ -1,8 +1,11 @@
 ﻿import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 
+import '../models/message.dart';
 import '../models/support_message.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
@@ -145,7 +148,9 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: isOpen ? context.colorPalette.success.withValues(alpha: 0.15) : context.colorPalette.error.withValues(alpha: 0.15),
+        color: isOpen
+            ? context.colorPalette.success.withValues(alpha: 0.15)
+            : context.colorPalette.error.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
@@ -153,7 +158,9 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
         style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w600,
-          color: isOpen ? context.colorPalette.success : context.colorPalette.error,
+          color: isOpen
+              ? context.colorPalette.success
+              : context.colorPalette.error,
         ),
       ),
     );
@@ -288,7 +295,9 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) =>
-                                          ModeratorSupportDialogPage(chat: chat),
+                                          ModeratorSupportDialogPage(
+                                            chat: chat,
+                                          ),
                                     ),
                                   );
                                   if (!mounted) return;
@@ -494,18 +503,21 @@ class _ModeratorSupportDialogPageState
   Future<void> _sendMessage() async {
     final moderatorId = AuthStorage.userId ?? 0;
     if (moderatorId <= 0) {
-      _showSnack('Не удалось определить сотрудника техподдержки');
+      _showSnack(
+        'Не удалось определить сотрудника техподдержки',
+        severity: MessageSeverity.error,
+      );
       return;
     }
 
     if (_isChatClosed) {
-      _showSnack('Чат уже закрыт');
+      _showSnack('Чат уже закрыт', severity: MessageSeverity.warning);
       return;
     }
 
     final text = _messageController.text.trim();
     if (text.isEmpty) {
-      _showSnack('Введите сообщение');
+      _showSnack('Введите сообщение', severity: MessageSeverity.warning);
       return;
     }
 
@@ -531,7 +543,10 @@ class _ModeratorSupportDialogPageState
       await _loadThread(silent: true);
     } catch (_) {
       if (!mounted) return;
-      _showSnack('Не удалось отправить сообщение');
+      _showSnack(
+        'Не удалось отправить сообщение',
+        severity: MessageSeverity.error,
+      );
     } finally {
       if (mounted) {
         setState(() {
@@ -544,11 +559,14 @@ class _ModeratorSupportDialogPageState
   Future<void> _closeChat() async {
     final moderatorId = AuthStorage.userId ?? 0;
     if (moderatorId <= 0) {
-      _showSnack('Не удалось определить сотрудника техподдержки');
+      _showSnack(
+        'Не удалось определить сотрудника техподдержки',
+        severity: MessageSeverity.error,
+      );
       return;
     }
     if (_isChatClosed) {
-      _showSnack('Чат уже закрыт');
+      _showSnack('Чат уже закрыт', severity: MessageSeverity.warning);
       return;
     }
 
@@ -601,7 +619,7 @@ class _ModeratorSupportDialogPageState
       await _loadThread(silent: true);
     } catch (_) {
       if (!mounted) return;
-      _showSnack('Не удалось закрыть чат');
+      _showSnack('Не удалось закрыть чат', severity: MessageSeverity.error);
     } finally {
       if (mounted) {
         setState(() {
@@ -611,10 +629,20 @@ class _ModeratorSupportDialogPageState
     }
   }
 
-  void _showSnack(String message) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+  void _showSnack(
+    String message, {
+    MessageSeverity severity = MessageSeverity.info,
+  }) {
+    final msg = Message(
+      id: const Uuid().v4(),
+      type: MessageType.notification,
+      severity: severity,
+      title: '',
+      body: message,
+      timestamp: DateTime.now(),
+      language: 'ru',
+    );
+    AppMessageSnackBar.show(context, msg);
   }
 
   String _formatTime(DateTime dateTime) {

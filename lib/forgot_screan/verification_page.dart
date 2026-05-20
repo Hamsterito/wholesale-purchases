@@ -1,7 +1,10 @@
 ﻿import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+import '../models/message.dart';
 import '../theme/app_color_palette.dart';
+import '../widgets/app_message_snackbar.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../services/api_config.dart';
 import '../services/app_http_client.dart';
@@ -28,8 +31,9 @@ class _VerificationPageState extends State<VerificationPage> {
   bool get _isDark => _theme.brightness == Brightness.dark;
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _inputFill =>
-      _isDark ? _colorScheme.surfaceContainerHighest : context.colorPalette.bgTop;
+  Color get _inputFill => _isDark
+      ? _colorScheme.surfaceContainerHighest
+      : context.colorPalette.bgTop;
   bool _isButtonDisabled = true;
 
   @override
@@ -74,14 +78,29 @@ class _VerificationPageState extends State<VerificationPage> {
     _confirmCode();
   }
 
+  // Унифицированный показ SnackBar поверх Message_System.
+  // title оставляем пустым: исходные SnackBar содержали только content без заголовка.
+  void _showMessage(String body, MessageSeverity severity) {
+    AppMessageSnackBar.show(
+      context,
+      Message(
+        id: const Uuid().v4(),
+        type: MessageType.notification,
+        severity: severity,
+        title: '',
+        body: body,
+        timestamp: DateTime.now(),
+        language: 'ru',
+      ),
+    );
+  }
+
   Future<void> _confirmCode() async {
     final code = _pinController.text.trim();
     if (code.length != 4) {
       AppLogger.warning('Invalid code length: $code', scope: 'auth');
       _errorController.add(ErrorAnimationType.shake);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Введите 4-значный код')),
-      );
+      _showMessage('Введите 4-значный код', MessageSeverity.warning);
       return;
     }
 
@@ -98,21 +117,20 @@ class _VerificationPageState extends State<VerificationPage> {
 
       if (!mounted) return;
       if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Email подтверждён. Теперь можно войти.')),
+        _showMessage(
+          'Email подтверждён. Теперь можно войти.',
+          MessageSeverity.info,
         );
         await Future<void>.delayed(const Duration(milliseconds: 600));
         if (!mounted) return;
         Navigator.pop(context);
       } else {
         final body = utf8.decode(response.bodyBytes);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(body)));
+        _showMessage(body, MessageSeverity.error);
       }
     } catch (e) {
       AppLogger.error('Error confirming code: $e', scope: 'auth');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Ошибка сети при подтверждении')),
-      );
+      _showMessage('Ошибка сети при подтверждении', MessageSeverity.error);
     }
   }
 
@@ -130,19 +148,15 @@ class _VerificationPageState extends State<VerificationPage> {
 
       if (!mounted) return;
       if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Код отправлен повторно')),
-        );
+        _showMessage('Код отправлен повторно', MessageSeverity.info);
         _startTimer();
       } else {
         final body = utf8.decode(response.bodyBytes);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(body)));
+        _showMessage(body, MessageSeverity.error);
       }
     } catch (e) {
       AppLogger.error('Error resending code: $e', scope: 'auth');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Ошибка сети при повторной отправке')),
-      );
+      _showMessage('Ошибка сети при повторной отправке', MessageSeverity.error);
     }
   }
 
@@ -249,7 +263,9 @@ class _VerificationPageState extends State<VerificationPage> {
                           Row(
                             children: [
                               Text(
-                                _isButtonDisabled ? '$_remainingTime секунд' : '',
+                                _isButtonDisabled
+                                    ? '$_remainingTime секунд'
+                                    : '',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: _mutedText,
@@ -312,7 +328,8 @@ class _VerificationPageState extends State<VerificationPage> {
                         onCompleted: _onPinCompleted,
                         errorAnimationController: _errorController,
                         beforeTextPaste: (text) {
-                          final digits = text?.replaceAll(RegExp(r'\D'), '') ?? '';
+                          final digits =
+                              text?.replaceAll(RegExp(r'\D'), '') ?? '';
                           return digits.length == 4;
                         },
                       ),

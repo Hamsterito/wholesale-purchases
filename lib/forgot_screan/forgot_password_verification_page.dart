@@ -1,7 +1,10 @@
 ﻿import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+import '../models/message.dart';
 import '../theme/app_color_palette.dart';
+import '../widgets/app_message_snackbar.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../services/api_config.dart';
 import '../services/app_http_client.dart';
@@ -13,13 +16,19 @@ class ForgotPasswordVerificationPage extends StatefulWidget {
   final String email;
   final int expiresIn;
 
-  const ForgotPasswordVerificationPage({super.key, required this.email, required this.expiresIn});
+  const ForgotPasswordVerificationPage({
+    super.key,
+    required this.email,
+    required this.expiresIn,
+  });
 
   @override
-  State<ForgotPasswordVerificationPage> createState() => _ForgotPasswordVerificationPageState();
+  State<ForgotPasswordVerificationPage> createState() =>
+      _ForgotPasswordVerificationPageState();
 }
 
-class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificationPage> {
+class _ForgotPasswordVerificationPageState
+    extends State<ForgotPasswordVerificationPage> {
   final TextEditingController _pinController = TextEditingController();
   late StreamController<ErrorAnimationType> _errorController;
 
@@ -33,8 +42,9 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
   bool get _isDark => _theme.brightness == Brightness.dark;
   Color get _cardBg => _colorScheme.surface;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _inputFill =>
-      _isDark ? _colorScheme.surfaceContainerHighest : context.colorPalette.bgTop;
+  Color get _inputFill => _isDark
+      ? _colorScheme.surfaceContainerHighest
+      : context.colorPalette.bgTop;
 
   @override
   void initState() {
@@ -81,14 +91,29 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
     _verifyCode();
   }
 
+  // Унифицированный показ SnackBar поверх Message_System.
+  // title оставляем пустым: исходные SnackBar содержали только content без заголовка.
+  void _showMessage(String body, MessageSeverity severity) {
+    AppMessageSnackBar.show(
+      context,
+      Message(
+        id: const Uuid().v4(),
+        type: MessageType.notification,
+        severity: severity,
+        title: '',
+        body: body,
+        timestamp: DateTime.now(),
+        language: 'ru',
+      ),
+    );
+  }
+
   // Верифицирует введенный OTP код
   Future<void> _verifyCode() async {
     final code = _pinController.text.trim();
     if (code.length != 4) {
       _errorController.add(ErrorAnimationType.shake);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Введите 4-значный код')),
-      );
+      _showMessage('Введите 4-значный код', MessageSeverity.warning);
       return;
     }
 
@@ -114,23 +139,19 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ResetPasswordPage(
-              email: widget.email,
-              code: code,
-            ),
+            builder: (context) =>
+                ResetPasswordPage(email: widget.email, code: code),
           ),
         );
       } else {
         // Ошибка верификации
         final body = utf8.decode(response.bodyBytes);
         final message = parseApiMessage(body, fallback: 'Ошибка сервера');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+        _showMessage(message, MessageSeverity.error);
       }
     } catch (e) {
       AppLogger.error('Error verifying reset code: $e', scope: 'auth');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Ошибка сети')),
-      );
+      _showMessage('Ошибка сети', MessageSeverity.error);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -159,9 +180,7 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
         final responseData = parseApiResponseWithData(body);
         final expiresIn = responseData.data['expires_in'] as int? ?? 60;
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Код отправлен повторно')),
-        );
+        _showMessage('Код отправлен повторно', MessageSeverity.info);
 
         // Обновляем время истечения и перезапускаем таймер
         setState(() {
@@ -173,13 +192,11 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
         // Ошибка повторной отправки
         final body = utf8.decode(response.bodyBytes);
         final message = parseApiMessage(body, fallback: 'Ошибка сервера');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+        _showMessage(message, MessageSeverity.error);
       }
     } catch (e) {
       AppLogger.error('Error resending reset code: $e', scope: 'auth');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Ошибка сети')),
-      );
+      _showMessage('Ошибка сети', MessageSeverity.error);
     }
   }
 
@@ -286,7 +303,9 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
                           Row(
                             children: [
                               Text(
-                                _isButtonDisabled ? '$_remainingTime секунд' : '',
+                                _isButtonDisabled
+                                    ? '$_remainingTime секунд'
+                                    : '',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: _mutedText,
@@ -347,7 +366,8 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
                         onCompleted: _onPinCompleted,
                         errorAnimationController: _errorController,
                         beforeTextPaste: (text) {
-                          final digits = text?.replaceAll(RegExp(r'\D'), '') ?? '';
+                          final digits =
+                              text?.replaceAll(RegExp(r'\D'), '') ?? '';
                           return digits.length == 4;
                         },
                       ),
@@ -368,7 +388,9 @@ class _ForgotPasswordVerificationPageState extends State<ForgotPasswordVerificat
                             ),
                           ),
                           child: _isLoading
-                              ? const CircularProgressIndicator(color: Colors.white)
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
                               : Text(
                                   'ПРОДОЛЖИТЬ',
                                   style: TextStyle(

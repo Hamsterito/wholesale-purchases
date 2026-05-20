@@ -1,4 +1,6 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/main_bottom_nav.dart';
 import 'dart:convert';
@@ -7,10 +9,9 @@ import '../widgets/rating_stars.dart';
 import '../widgets/smart_image.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
+import '../models/message.dart';
 import '../models/review_entry.dart';
 import '../utils/date_formatter.dart';
-
-
 
 class ReviewsPage extends StatefulWidget {
   const ReviewsPage({super.key});
@@ -187,24 +188,24 @@ class _ReviewsPageState extends State<ReviewsPage> {
               ],
             ),
           ),
-        Padding(
-  padding: const EdgeInsets.only(top: 8),
-  child: Container(
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-    decoration: BoxDecoration(
-      color: context.colorPalette.accentSoft,
-      borderRadius: BorderRadius.circular(999),
-    ),
-    child: Text(
-      '${_reviews.length} всего',
-      style: TextStyle(
-        color: context.colorPalette.accentDark,
-        fontSize: 12,
-        fontWeight: FontWeight.w600,
-      ),
-    ),
-  ),
-)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: context.colorPalette.accentSoft,
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: Text(
+                '${_reviews.length} всего',
+                style: TextStyle(
+                  color: context.colorPalette.accentDark,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -319,11 +320,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.info_outline,
-            color: context.colorPalette.error,
-            size: 20,
-          ),
+          Icon(Icons.info_outline, color: context.colorPalette.error, size: 20),
           SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -935,9 +932,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       ),
                       decoration: InputDecoration(
                         hintText: 'Поделитесь впечатлениями',
-                        hintStyle: TextStyle(
-                          color: context.colorPalette.muted,
-                        ),
+                        hintStyle: TextStyle(color: context.colorPalette.muted),
                         filled: true,
                         fillColor: context.colorPalette.accentMist,
                         contentPadding: const EdgeInsets.all(12),
@@ -1040,7 +1035,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
   Future<void> _submitEditReview(int index, _ReviewDraft draft) async {
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
-      _showSnack('Войдите, чтобы редактировать отзыв');
+      _showSnack(
+        'Войдите, чтобы редактировать отзыв',
+        severity: MessageSeverity.error,
+      );
       return;
     }
 
@@ -1070,7 +1068,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
       setState(() {
         _isUpdatingReview = false;
       });
-      _showSnack('Не удалось сохранить отзыв');
+      _showSnack('Не удалось сохранить отзыв', severity: MessageSeverity.error);
     }
   }
 
@@ -1087,12 +1085,15 @@ class _ReviewsPageState extends State<ReviewsPage> {
     if (_isUpdatingReview) return;
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
-      _showSnack('Войдите, чтобы редактировать отзыв');
+      _showSnack(
+        'Войдите, чтобы редактировать отзыв',
+        severity: MessageSeverity.error,
+      );
       return;
     }
     final text = _editController.text.trim();
     if (_editingRating < 1) {
-      _showSnack('Поставьте оценку');
+      _showSnack('Поставьте оценку', severity: MessageSeverity.warning);
       return;
     }
 
@@ -1122,7 +1123,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
       setState(() {
         _isUpdatingReview = false;
       });
-      _showSnack('Не удалось сохранить отзыв');
+      _showSnack('Не удалось сохранить отзыв', severity: MessageSeverity.error);
     }
   }
 
@@ -1270,9 +1271,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       ),
                       decoration: InputDecoration(
                         hintText: 'Поделитесь впечатлениями',
-                        hintStyle: TextStyle(
-                          color: context.colorPalette.muted,
-                        ),
+                        hintStyle: TextStyle(color: context.colorPalette.muted),
                         filled: true,
                         fillColor: context.colorPalette.accentMist,
                         contentPadding: const EdgeInsets.all(12),
@@ -1344,7 +1343,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
   Future<void> _submitReview(PendingReviewItem item, _ReviewDraft draft) async {
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
-      _showSnack('Войдите, чтобы оставить отзыв');
+      _showSnack(
+        'Войдите, чтобы оставить отзыв',
+        severity: MessageSeverity.error,
+      );
       return;
     }
 
@@ -1380,7 +1382,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
       setState(() {
         _submittingPending.remove(item.orderItemId);
       });
-      _showSnack('Не удалось отправить отзыв');
+      _showSnack('Не удалось отправить отзыв', severity: MessageSeverity.error);
     }
   }
 
@@ -1428,7 +1430,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
 
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
-      _showSnack('Войдите, чтобы удалить отзыв');
+      _showSnack(
+        'Войдите, чтобы удалить отзыв',
+        severity: MessageSeverity.error,
+      );
       return;
     }
 
@@ -1450,7 +1455,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
       });
       _showSnack('Отзыв удален');
     } catch (_) {
-      _showSnack('Не удалось удалить отзыв');
+      _showSnack('Не удалось удалить отзыв', severity: MessageSeverity.error);
     }
   }
 
@@ -1579,23 +1584,23 @@ class _ReviewsPageState extends State<ReviewsPage> {
         normalized.startsWith('https://');
   }
 
-  void _showSnack(String message) {
+  void _showSnack(
+    String message, {
+    MessageSeverity severity = MessageSeverity.info,
+  }) {
     if (!mounted) {
       return;
     }
-    final messenger = ScaffoldMessenger.maybeOf(context);
-    if (messenger == null) {
-      return;
-    }
-    messenger
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(message),
-          behavior: SnackBarBehavior.floating,
-          duration: const Duration(seconds: 2),
-        ),
-      );
+    final msg = Message(
+      id: const Uuid().v4(),
+      type: MessageType.notification,
+      severity: severity,
+      title: '',
+      body: message,
+      timestamp: DateTime.now(),
+      language: 'ru',
+    );
+    AppMessageSnackBar.show(context, msg);
   }
 }
 

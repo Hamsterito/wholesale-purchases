@@ -1,11 +1,16 @@
 ﻿import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 
+import '../models/message.dart';
 import '../models/support_message.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
+import '../services/message/message_service_adapters.dart';
+import '../services/message/message_store.dart';
 
 class UserSupportChatPage extends StatefulWidget {
   const UserSupportChatPage({super.key, this.chatId});
@@ -71,6 +76,10 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
         _messages = thread.messages;
         _error = null;
       });
+
+      // Дублируем сообщения чата в стандартизированное хранилище Message
+      // для аналитики и отладки. Делаем это в фоне, чтобы не задерживать UI.
+      unawaited(_logSupportMessagesAsMessages(thread.messages));
 
       if (!silent) {
         _scrollToBottom(jump: true);
@@ -141,18 +150,24 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
   Future<void> _sendMessage() async {
     final userId = AuthStorage.userId ?? 0;
     if (userId <= 0) {
-      _showSnack('Не удалось определить пользователя');
+      _showSnack(
+        'Не удалось определить пользователя',
+        severity: MessageSeverity.error,
+      );
       return;
     }
 
     if (!_isChatOpen) {
-      _showSnack('Чат закрыт. Создайте новое обращение.');
+      _showSnack(
+        'Чат закрыт. Создайте новое обращение.',
+        severity: MessageSeverity.warning,
+      );
       return;
     }
 
     final text = _messageController.text.trim();
     if (text.isEmpty) {
-      _showSnack('Введите сообщение');
+      _showSnack('Введите сообщение', severity: MessageSeverity.warning);
       return;
     }
 
@@ -178,7 +193,10 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
       await _loadThread(silent: true);
     } catch (_) {
       if (!mounted) return;
-      _showSnack('Не удалось отправить сообщение');
+      _showSnack(
+        'Не удалось отправить сообщение',
+        severity: MessageSeverity.error,
+      );
     } finally {
       if (mounted) {
         setState(() {
@@ -188,10 +206,38 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
     }
   }
 
-  void _showSnack(String message) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+  /// Конвертирует список SupportMessage в стандартизированные Message-объекты
+  /// и сохраняет их в MessageStore для аналитики и отладки. Ошибки логирования
+  /// не пробрасываются, чтобы не ломать отображение чата.
+  Future<void> _logSupportMessagesAsMessages(
+    List<SupportMessage> messages,
+  ) async {
+    try {
+      for (final supportMsg in messages) {
+        final Message standardized = SupportChatAdapter.fromSupportMessage(
+          supportMsg,
+        );
+        await MessageStore.save(standardized);
+      }
+    } catch (_) {
+      // Молчим: логирование чата не должно ломать UI
+    }
+  }
+
+  void _showSnack(
+    String message, {
+    MessageSeverity severity = MessageSeverity.info,
+  }) {
+    final msg = Message(
+      id: const Uuid().v4(),
+      type: MessageType.notification,
+      severity: severity,
+      title: '',
+      body: message,
+      timestamp: DateTime.now(),
+      language: 'ru',
+    );
+    AppMessageSnackBar.show(context, msg);
   }
 
   String _formatTime(DateTime dateTime) {

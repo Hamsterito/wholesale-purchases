@@ -12,15 +12,94 @@ import '../models/user_address.dart';
 import '../models/review_entry.dart';
 import '../models/support_message.dart';
 import '../models/notification.dart';
+import '../models/message.dart';
+import 'message/message_validator.dart';
+import 'message/message_store.dart';
+import 'message/message_pretty_printer.dart';
+import 'message/message_service_adapters.dart';
 
 final http = AppHttpClient.instance;
 
 class ApiService {
   static String get baseUrl => ApiConfig.baseUrl;
 
+  // Последнее сообщение об ошибке API (для диагностики и отображения)
+  static Message? _lastErrorMessage;
+
+  /// Возвращает последнюю ошибку API в виде стандартизированного Message,
+  /// либо null, если ошибок не было.
+  static Message? getLastErrorMessage() => _lastErrorMessage;
+
+  /// Очистить последнее сообщение об ошибке (например, при успешном повторе).
+  static void clearLastErrorMessage() {
+    _lastErrorMessage = null;
+  }
+
+  /// Внутренняя обёртка: логирует HTTP-ответ через систему стандартизованных
+  /// сообщений и складывает в MessageStore. Вызывается из существующих методов
+  /// без изменения их сигнатур и поведения.
+  static Future<void> _logApiResponse(
+    http_package.Response response, {
+    String? endpoint,
+    String? method,
+  }) async {
+    try {
+      final message = ApiServiceAdapter.wrapApiResponse(
+        response,
+        'ru',
+        endpoint: endpoint,
+        method: method,
+      );
+      final validation = MessageValidator.validate(message);
+      if (!validation.isValid) {
+        debugPrint(
+          'ApiService: ответ не прошёл валидацию: ${validation.errors.join('; ')}',
+        );
+      }
+      if (message.severity == MessageSeverity.error ||
+          message.severity == MessageSeverity.critical) {
+        _lastErrorMessage = message;
+        debugPrint(
+          'ApiService error: ${MessagePrettyPrinter.prettyPrint(message, detailed: false)}',
+        );
+      }
+      await MessageStore.save(message);
+    } catch (e) {
+      debugPrint('ApiService._logApiResponse: $e');
+    }
+  }
+
+  /// Внутренняя обёртка для исключений API. Сохраняет ошибку как
+  /// последнюю и пишет в MessageStore.
+  static Future<void> _logApiError(
+    Object e,
+    StackTrace? stack, {
+    String? endpoint,
+    String? method,
+  }) async {
+    try {
+      final message = ApiServiceAdapter.wrapApiError(
+        e,
+        stack,
+        'ru',
+        endpoint: endpoint,
+        method: method,
+      );
+      _lastErrorMessage = message;
+      debugPrint(
+        'ApiService error: ${MessagePrettyPrinter.prettyPrint(message, detailed: false)}',
+      );
+      await MessageStore.save(message);
+    } catch (err) {
+      debugPrint('ApiService._logApiError: $err');
+    }
+  }
+
   static Future<List<Product>> getProducts() async {
     try {
       final response = await http.get(Uri.parse('$baseUrl/products'));
+
+      await _logApiResponse(response, endpoint: '/products', method: 'GET');
 
       if (response.statusCode == 200) {
         final body = _decodeBody(response.bodyBytes);
@@ -29,7 +108,8 @@ class ApiService {
       } else {
         throw Exception('Не удалось загрузить данные: ${response.statusCode}');
       }
-    } catch (e) {
+    } catch (e, stack) {
+      await _logApiError(e, stack, endpoint: '/products', method: 'GET');
       debugPrint('Ошибка при загрузке данных: $e');
       rethrow;
     }
@@ -41,6 +121,8 @@ class ApiService {
     try {
       final query = includeInactive ? '?includeInactive=true' : '';
       final response = await http.get(Uri.parse('$baseUrl/categories$query'));
+
+      await _logApiResponse(response, endpoint: '/categories', method: 'GET');
 
       if (response.statusCode == 200) {
         final body = _decodeBody(response.bodyBytes);
@@ -77,7 +159,8 @@ class ApiService {
           'Не удалось загрузить категории: ${response.statusCode}',
         );
       }
-    } catch (e) {
+    } catch (e, stack) {
+      await _logApiError(e, stack, endpoint: '/categories', method: 'GET');
       debugPrint('Ошибка при загрузке категорий: $e');
       rethrow;
     }
