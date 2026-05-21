@@ -15,6 +15,7 @@ import '../supplier/supplier_products_page.dart';
 import '../supplier/supplier_orders_page.dart';
 import '../supplier/supplier_statistics_page.dart';
 import '../moderator/moderation_page.dart';
+import '../moderator/moderator_management_page.dart';
 import '../moderator/support_chats_page.dart';
 import '../services/auth_storage.dart';
 import '../services/api_service.dart';
@@ -105,6 +106,8 @@ class _ProfilePageState extends State<ProfilePage> {
         return 'Поставщик';
       case 'moderator':
         return 'Модератор';
+      case 'super_admin':
+        return 'Главный администратор';
       default:
         return trimmed;
     }
@@ -117,6 +120,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final role = AuthStorage.role?.toLowerCase();
     final isSupplier = role == 'supplier';
     final isModerator = role == 'moderator';
+    final isSuperAdmin = role == 'super_admin';
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -195,11 +199,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
           const SizedBox(height: 16),
 
-          if (isSupplier || isModerator) ...[
+          if (isSupplier || isModerator || isSuperAdmin) ...[
             _buildRoleSection(
               context: context,
               isSupplier: isSupplier,
               isModerator: isModerator,
+              isSuperAdmin: isSuperAdmin,
             ),
             const SizedBox(height: 16),
           ],
@@ -468,8 +473,9 @@ class _ProfilePageState extends State<ProfilePage> {
     required BuildContext context,
     required bool isSupplier,
     required bool isModerator,
+    required bool isSuperAdmin,
   }) {
-    if (!isSupplier && !isModerator) {
+    if (!isSupplier && !isModerator && !isSuperAdmin) {
       return const SizedBox.shrink();
     }
     final items = <Widget>[];
@@ -534,7 +540,7 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
-    if (isModerator) {
+    if (isModerator || isSuperAdmin) {
       items.add(
         _buildMenuItem(
           context: context,
@@ -560,6 +566,25 @@ class _ProfilePageState extends State<ProfilePage> {
               context,
               MaterialPageRoute(
                 builder: (context) => const ModeratorSupportChatsPage(),
+              ),
+            );
+          },
+        ),
+      );
+    }
+
+    if (isSuperAdmin) {
+      items.add(
+        _buildMenuItem(
+          context: context,
+          icon: Icons.admin_panel_settings_outlined,
+          iconColor: context.colorPalette.accent,
+          title: 'Управление модераторами',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ModeratorManagementPage(),
               ),
             );
           },

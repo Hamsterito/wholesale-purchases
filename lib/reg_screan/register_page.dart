@@ -24,7 +24,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _supplierNameController = TextEditingController();
-  final _moderatorCodeController = TextEditingController();
   final Map<String, String?> _fieldErrors = {};
   String _role = 'buyer';
   bool _obscurePassword = true;
@@ -44,8 +43,9 @@ class _RegisterPageState extends State<RegisterPage> {
   bool get _isDark => _theme.brightness == Brightness.dark;
   Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
-  Color get _inputFill =>
-      _isDark ? _colorScheme.surfaceContainerHighest : context.colorPalette.bgTop;
+  Color get _inputFill => _isDark
+      ? _colorScheme.surfaceContainerHighest
+      : context.colorPalette.bgTop;
   TextStyle get _labelStyle => const TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w600,
@@ -95,9 +95,6 @@ class _RegisterPageState extends State<RegisterPage> {
       if (_role == 'supplier') {
         return const <String>['supplierName', 'password', 'confirmPassword'];
       }
-      if (_role == 'moderator') {
-        return const <String>['moderatorCode'];
-      }
       return const <String>[];
     }
     if (_role == 'supplier') {
@@ -113,7 +110,6 @@ class _RegisterPageState extends State<RegisterPage> {
       case 'phone':
         return 0;
       case 'supplierName':
-      case 'moderatorCode':
         return _role == 'buyer' ? 0 : 1;
       case 'password':
       case 'confirmPassword':
@@ -169,13 +165,6 @@ class _RegisterPageState extends State<RegisterPage> {
     return null;
   }
 
-  String? _validateModeratorCode(String value) {
-    if (value.trim().isEmpty) {
-      return 'Введите код модератора';
-    }
-    return null;
-  }
-
   String? _validatePassword(String value) {
     final password = value.trim();
     if (password.isEmpty) {
@@ -208,8 +197,6 @@ class _RegisterPageState extends State<RegisterPage> {
         return _validatePhone(_phoneController.text);
       case 'supplierName':
         return _validateSupplierName(_supplierNameController.text);
-      case 'moderatorCode':
-        return _validateModeratorCode(_moderatorCodeController.text);
       case 'password':
         return _validatePassword(_passwordController.text);
       case 'confirmPassword':
@@ -410,7 +397,6 @@ class _RegisterPageState extends State<RegisterPage> {
       'email',
       'phone',
       if (_role == 'supplier') 'supplierName',
-      if (_role == 'moderator') 'moderatorCode',
       'password',
       'confirmPassword',
     ];
@@ -456,7 +442,9 @@ class _RegisterPageState extends State<RegisterPage> {
     final isError = _topMessageIsError;
     final background = isError
         ? _colorScheme.errorContainer
-        : context.colorPalette.success.withValues(alpha: 0.12); // Светло-зеленый фон для успеха
+        : context.colorPalette.success.withValues(
+            alpha: 0.12,
+          ); // Светло-зеленый фон для успеха
     final textColor = isError
         ? _colorScheme.onErrorContainer
         : context.colorPalette.success; // Темно-зеленый текст для успеха
@@ -646,16 +634,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-                DropdownMenuItem(
-                  value: 'moderator',
-                  child: Text(
-                    'Модератор',
-                    style: TextStyle(
-                      color: _colorScheme.onSurface,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
               ],
               onChanged: (value) {
                 final nextRole = value ?? 'buyer';
@@ -663,7 +641,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 setState(() {
                   _role = nextRole;
                   _fieldErrors['supplierName'] = null;
-                  _fieldErrors['moderatorCode'] = null;
                 });
                 if (_topMessageIsError && _topMessage != null) {
                   final visibleErrors = <String>{};
@@ -718,37 +695,6 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           SizedBox(height: fieldGap),
           ..._buildPasswordFields(fieldGap),
-        ],
-      );
-    }
-
-    if (_role == 'moderator') {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildFieldWithError(
-            label: 'КОД МОДЕРАТОРА',
-            errorText: _fieldErrors['moderatorCode'],
-            field: TextField(
-              controller: _moderatorCodeController,
-              obscureText: true,
-              onChanged: (_) => _onFieldChanged('moderatorCode'),
-              decoration: InputDecoration(
-                hintText: 'Введите код',
-                hintStyle: TextStyle(color: _mutedText),
-                filled: true,
-                fillColor: _inputFill,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 14,
-                ),
-              ),
-            ),
-          ),
         ],
       );
     }
@@ -854,7 +800,6 @@ class _RegisterPageState extends State<RegisterPage> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _supplierNameController.dispose();
-    _moderatorCodeController.dispose();
     super.dispose();
   }
 
@@ -873,25 +818,12 @@ class _RegisterPageState extends State<RegisterPage> {
     if (_role == 'supplier') {
       return _step == 0 ? 'Данные' : 'Компания и пароль';
     }
-    if (_role == 'buyer') {
-      return _step == 0 ? 'Данные' : 'Пароль';
-    }
-    switch (_step) {
-      case 0:
-        return 'Данные';
-      case 1:
-        return 'Роль';
-      case 2:
-        return 'Пароль';
-      default:
-        return '';
-    }
+    return _step == 0 ? 'Данные' : 'Пароль';
   }
 
   String get _stepIndicator {
-    final totalSteps = _role == 'moderator' ? 3 : 2;
     final visibleStep = _role == 'buyer' && _step == 2 ? 1 : _step;
-    return 'Шаг ${visibleStep + 1} из $totalSteps';
+    return 'Шаг ${visibleStep + 1} из 2';
   }
 
   String get _primaryActionLabel {
@@ -916,10 +848,6 @@ class _RegisterPageState extends State<RegisterPage> {
     if (_step == 0) {
       setState(() => _step = _role == 'buyer' ? 2 : 1);
       return;
-    }
-
-    if (_step == 1 && _role == 'moderator') {
-      setState(() => _step = 2);
     }
   }
 
@@ -951,7 +879,6 @@ class _RegisterPageState extends State<RegisterPage> {
     final password = _passwordController.text.trim();
     final role = _role;
     final supplierName = _supplierNameController.text.trim();
-    final moderatorCode = _moderatorCodeController.text.trim();
 
     setState(() => _isLoading = true);
 
@@ -972,7 +899,6 @@ class _RegisterPageState extends State<RegisterPage> {
           'password': password,
           'role': role,
           'supplier_name': supplierName,
-          'moderator_code': moderatorCode,
         },
       );
       final responseBody = utf8.decode(response.bodyBytes);

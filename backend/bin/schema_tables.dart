@@ -1031,3 +1031,52 @@ Future<void> _ensureQuestionsSchema(Connection connection) async {
     CREATE INDEX IF NOT EXISTS idx_question_answers_question_id ON public.question_answers(question_id);
   ''');
 }
+
+// Гарантирует наличие учётной записи Super_Admin (dota@gmail.com).
+// Идемпотентно: создаёт запись, если её нет; апгрейдит роль до super_admin,
+// если запись есть, но роль другая; ничего не делает, если роль уже верная.
+// Любые ошибки БД проглатываются — сервер должен подняться даже при сбое.
+Future<void> _ensureSuperAdminUser(Connection connection) async {
+  try {
+    final existing = await connection.execute(
+      Sql.named(
+        'SELECT id, role FROM public.users WHERE LOWER(email) = @email LIMIT 1',
+      ),
+      parameters: {'email': _superAdminEmail},
+    );
+
+    if (existing.isEmpty) {
+      await connection.execute(
+        Sql.named('''
+          INSERT INTO public.users (name, email, password, role, is_verified, created_at)
+          VALUES (@name, @email, @password, 'super_admin', true, NOW());
+        '''),
+        parameters: {
+          'name': _superAdminName,
+          'email': _superAdminEmail,
+          'password': _hashPassword(_superAdminInitialPassword),
+        },
+      );
+      return;
+    }
+
+    final row = existing.first.toColumnMap();
+    final currentRole = (row['role']?.toString() ?? '').trim().toLowerCase();
+    if (currentRole == 'super_admin') {
+      // Уже корректен — имя/телефон/пароль не трогаем
+      return;
+    }
+
+    await connection.execute(
+      Sql.named('''
+        UPDATE public.users
+        SET role = 'super_admin', is_verified = true
+        WHERE id = @id;
+      '''),
+      parameters: {'id': row['id']},
+    );
+  } catch (e, st) {
+    // Не валим запуск сервера, если БД временно недоступна или схема не готова
+    print('Не удалось подготовить Super_Admin: $e\n$st');
+  }
+}

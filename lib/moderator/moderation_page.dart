@@ -791,6 +791,10 @@ class _ModerationPageState extends State<ModerationPage> {
                                             ),
                                           );
 
+                                          // На этапе pending кнопку «Удалить за нарушение»
+                                          // не показываем — для отказа есть «Отклонить»,
+                                          // удаление имеет смысл только для уже опубликованных
+                                          // или ранее отклонённых товаров.
                                           if (product.moderationStatus !=
                                               'pending') {
                                             return SizedBox(
@@ -846,27 +850,15 @@ class _ModerationPageState extends State<ModerationPage> {
                                                 approveButton,
                                                 const SizedBox(height: 8),
                                                 rejectButton,
-                                                const SizedBox(height: 8),
-                                                deleteButton,
                                               ],
                                             );
                                           }
 
-                                          return Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.stretch,
+                                          return Row(
                                             children: [
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: approveButton,
-                                                  ),
-                                                  const SizedBox(width: 12),
-                                                  Expanded(child: rejectButton),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 8),
-                                              deleteButton,
+                                              Expanded(child: approveButton),
+                                              const SizedBox(width: 12),
+                                              Expanded(child: rejectButton),
                                             ],
                                           );
                                         },

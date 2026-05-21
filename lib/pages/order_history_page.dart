@@ -866,17 +866,18 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       final fileName =
           'orders_export_${_formatShortDate(_rangeStart)}_to_${_formatShortDate(_rangeEnd)}.xlsx';
 
+      // На вебе saveAs не реализован (UnimplementedError) — используем
+      // saveFile, который инициирует обычное скачивание через браузер.
+      // На мобильных оставляем saveAs, чтобы открывался системный диалог
+      // выбора места сохранения.
       if (kIsWeb) {
-        // Для веб используем встроенный метод скачивания
-        // Браузер сам скачает файл, если есть доступ к API
-        await FileSaver.instance.saveAs(
+        await FileSaver.instance.saveFile(
           name: fileName,
           bytes: bytes,
           ext: 'xlsx',
           mimeType: MimeType.microsoftExcel,
         );
       } else {
-        // Для мобильных используем встроенный file_saver
         await FileSaver.instance.saveAs(
           name: fileName,
           bytes: bytes,

@@ -27,6 +27,10 @@ class AuthStorage {
   static String? get supplierName => _supplierName;
   static int? get selectedAddressId => _selectedAddressId;
 
+  // Хелпер для UI: проверка роли главного администратора без преобразования
+  // самой сохранённой роли
+  static bool get isSuperAdmin => _role?.trim().toLowerCase() == 'super_admin';
+
   static String _selectedAddressKey(int userId) =>
       '$_selectedAddressKeyPrefix$userId';
 

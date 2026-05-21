@@ -77,9 +77,6 @@ String _toIso8601OrNow(dynamic value) {
 // Роль пользователя по умолчанию
 const String _defaultRole = 'buyer';
 
-// Секретный код для получения роли модератора
-const String _moderatorCode = 'MOD123';
-
 // Время жизни OTP кода подтверждения email (в минутах)
 const int _emailVerificationOtpTtlMinutes = 1;
 const Duration _emailVerificationOtpTtl = Duration(
@@ -87,7 +84,21 @@ const Duration _emailVerificationOtpTtl = Duration(
 );
 
 // Допустимые роли пользователей
-const Set<String> _allowedRoles = {'buyer', 'supplier', 'moderator'};
+const Set<String> _allowedRoles = {
+  'buyer',
+  'supplier',
+  'moderator',
+  'super_admin',
+};
+
+// Роли, которые нельзя установить через POST /register —
+// модератор создаётся только Super_Admin'ом, Super_Admin создаётся бутстрапом.
+const Set<String> _selfRegistrationDeniedRoles = {'moderator', 'super_admin'};
+
+// Главный администратор: фиксированные учётные данные, создаётся при старте.
+const String _superAdminEmail = 'dota@gmail.com';
+const String _superAdminName = 'dota';
+const String _superAdminInitialPassword = '123456';
 const Set<String> _allowedSupportChatStatuses = {'open', 'closed'};
 const Set<String> _allowedModerationStatuses = {
   'pending',
@@ -1205,6 +1216,9 @@ void main() async {
     print('Ошибка при подготовке схемы БД: $e\n$st');
     rethrow;
   }
+
+  // Создаём/чиним главного администратора при каждом старте
+  await _ensureSuperAdminUser(connection);
 
   final router = Router();
 
@@ -3359,6 +3373,7 @@ void main() async {
   });
 
   _registerMutationRoutes(router, connection);
+  _registerAdminModeratorRoutes(router, connection);
 
   router.post('/login', (Request request) async {
     try {
@@ -3425,10 +3440,19 @@ void main() async {
     }
   });
 
-  // Настройка middleware для обработки CORS и логирования запросов
+  // Настройка middleware для обработки CORS и логирования запросов.
+  // Расширяем список разрешённых заголовков, чтобы пропускать кастомный
+  // X-User-Id (используется эндпоинтами /admin/moderators*).
   final handler = const Pipeline()
       .addMiddleware(logRequests())
-      .addMiddleware(corsHeaders())
+      .addMiddleware(
+        corsHeaders(
+          headers: const {
+            ACCESS_CONTROL_ALLOW_HEADERS:
+                'accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, x-user-id',
+          },
+        ),
+      )
       .addHandler(router.call);
 
   // Запуск периодической очистки истекших OTP кодов (каждые 10 минут)

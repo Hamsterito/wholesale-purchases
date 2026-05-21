@@ -5,6 +5,7 @@ import '../models/product.dart';
 import '../models/order.dart';
 import '../services/api_config.dart';
 import 'app_http_client.dart';
+import 'auth_storage.dart';
 import '../models/supplier_order.dart';
 import '../models/supplier_product.dart';
 import '../models/user_profile.dart';
@@ -2877,5 +2878,145 @@ class ApiService {
     required String notificationType,
   }) async {
     // no-op: отдельного эндпоинта нет, локальное уменьшение счётчика делает NotificationService
+  }
+
+  // Управление модераторами (доступно только Super_Admin)
+
+  /// Заголовки для эндпоинтов `/admin/moderators*`. Вшивает `X-User-Id`
+  /// текущего пользователя из `AuthStorage`. Бросает `StateError`, если
+  /// пользователь не авторизован — это позволяет UI отличать «нет сессии»
+  /// от ответа сервера 401.
+  static Map<String, String> _superAdminHeaders() {
+    final id = AuthStorage.userId;
+    if (id == null || id <= 0) {
+      throw StateError('Не авторизован');
+    }
+    return {
+      'content-type': 'application/json; charset=utf-8',
+      'X-User-Id': id.toString(),
+    };
+  }
+
+  /// Возвращает список модераторов. Только для Super_Admin.
+  static Future<List<Moderator>> getModerators() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/admin/moderators'),
+        headers: _superAdminHeaders(),
+      );
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        final decoded = jsonDecode(body);
+        if (decoded is! List) {
+          return const <Moderator>[];
+        }
+        return decoded
+            .whereType<Map>()
+            .map((e) => Moderator.fromJson(Map<String, dynamic>.from(e)))
+            .toList();
+      }
+
+      final errorMessage = _extractResponseErrorMessage(response);
+      throw Exception(
+        errorMessage ??
+            'Не удалось загрузить модераторов: ${response.statusCode}',
+      );
+    } catch (e) {
+      debugPrint('Ошибка при загрузке модераторов: $e');
+      rethrow;
+    }
+  }
+
+  /// Создаёт нового модератора. Только для Super_Admin.
+  static Future<Moderator> createModerator({
+    required String name,
+    required String email,
+    required String phone,
+    required String password,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/admin/moderators'),
+        headers: _superAdminHeaders(),
+        body: jsonEncode({
+          'name': name,
+          'email': email,
+          'phone': phone,
+          'password': password,
+        }),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final body = _decodeBody(response.bodyBytes);
+        final decoded = jsonDecode(body);
+        if (decoded is Map) {
+          return Moderator.fromJson(Map<String, dynamic>.from(decoded));
+        }
+        throw Exception('Сервер вернул некорректный ответ');
+      }
+
+      final errorMessage = _extractResponseErrorMessage(response);
+      throw Exception(
+        errorMessage ?? 'Не удалось создать модератора: ${response.statusCode}',
+      );
+    } catch (e) {
+      debugPrint('Ошибка при создании модератора: $e');
+      rethrow;
+    }
+  }
+
+  /// Удаляет модератора по идентификатору. Только для Super_Admin.
+  static Future<void> deleteModerator({required int id}) async {
+    if (id <= 0) {
+      throw ArgumentError('id должен быть положительным');
+    }
+
+    try {
+      final response = await http.delete(
+        Uri.parse('$baseUrl/admin/moderators/$id'),
+        headers: _superAdminHeaders(),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        return;
+      }
+
+      final errorMessage = _extractResponseErrorMessage(response);
+      throw Exception(
+        errorMessage ?? 'Не удалось удалить модератора: ${response.statusCode}',
+      );
+    } catch (e) {
+      debugPrint('Ошибка при удалении модератора: $e');
+      rethrow;
+    }
+  }
+}
+
+/// Модель модератора для UI и клиентского API.
+class Moderator {
+  final int id;
+  final String name;
+  final String email;
+  final String phone;
+
+  const Moderator({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.phone,
+  });
+
+  factory Moderator.fromJson(Map<String, dynamic> json) {
+    final rawId = json['id'];
+    final id = rawId is int
+        ? rawId
+        : int.tryParse(rawId?.toString() ?? '') ?? 0;
+    return Moderator(
+      id: id,
+      name: (json['name'] ?? '').toString(),
+      email: (json['email'] ?? '').toString(),
+      phone: (json['phone'] ?? '').toString(),
+    );
   }
 }
