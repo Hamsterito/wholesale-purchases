@@ -6,7 +6,14 @@ import 'package:image_picker/image_picker.dart';
 import '../models/supplier_product.dart';
 import '../services/api_service.dart';
 import '../theme/app_color_palette.dart';
+import '../utils/custom_characteristic_validation.dart';
+import '../utils/delivery_schedule.dart';
+import '../utils/wizard_init.dart';
 import '../widgets/smart_image.dart';
+import '../widgets/top_message.dart';
+
+// Режим задания расписания доставки в визарде поставщика.
+enum _DeliveryMode { weekly, leadTime }
 
 class SupplierProductWizardPage extends StatefulWidget {
   const SupplierProductWizardPage({super.key, this.product});
@@ -20,7 +27,6 @@ class SupplierProductWizardPage extends StatefulWidget {
 
 class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   final _picker = ImagePicker();
-  final _imageUrlController = TextEditingController();
   final _categorySearchController = TextEditingController();
 
   late final TextEditingController _nameController;
@@ -34,15 +40,24 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   late final TextEditingController _fatController;
   late final TextEditingController _carbsController;
   late final TextEditingController _countryController;
+  late final TextEditingController _shelfLifeController;
   late final TextEditingController _deliveryDateController;
   late final TextEditingController _deliveryBadgeController;
   late final TextEditingController _deliveryTimeController;
+  late final TextEditingController _leadMinController;
+  late final TextEditingController _leadMaxController;
+  late final TextEditingController _cutoffController;
 
   int _step = 0;
   String? _error;
   bool _isSubmitting = false;
   bool _deliveryTimeInputInvalid = false;
+  bool _cutoffInputInvalid = false;
+  _DeliveryMode _deliveryMode = _DeliveryMode.weekly;
+  // Якорь для прокрутки к блоку расписания после смены режима.
+  final GlobalKey _deliveryBlockKey = GlobalKey();
   final List<String> _images = [];
+  final List<_CustomCharacteristicDraft> _customCharacteristics = [];
   final LinkedHashSet<String> _selectedCategories = LinkedHashSet<String>();
   final LinkedHashSet<int> _deliveryWeekdays = LinkedHashSet<int>();
   TimeOfDay _deliveryTime = const TimeOfDay(hour: 14, minute: 0);
@@ -160,6 +175,9 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     _countryController = TextEditingController(
       text: product?.characteristics['Страна производителя'] ?? '',
     );
+    _shelfLifeController = TextEditingController(
+      text: product?.characteristics['Срок годности'] ?? '',
+    );
     final now = DateTime.now();
     final eta = now.add(const Duration(days: 1));
     _deliveryWeekdays
@@ -169,6 +187,9 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     final deliveryBadge = product?.deliveryBadge.trim() ?? '';
     _deliveryDateController = TextEditingController();
     _deliveryBadgeController = TextEditingController();
+    _leadMinController = TextEditingController(text: '1');
+    _leadMaxController = TextEditingController(text: '3');
+    _cutoffController = TextEditingController();
     _applyDeliveryScheduleFromRaw(
       deliveryDate: deliveryDate,
       deliveryBadge: deliveryBadge,
@@ -177,16 +198,15 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       text: _formatTime(_deliveryTime),
     );
     if (product != null) {
-      for (final image in product.imageUrls) {
-        final normalized = image.trim();
-        if (normalized.isEmpty) {
-          continue;
-        }
-        if (_isDisplayableImagePath(normalized) &&
-            !_images.contains(normalized)) {
-          _images.add(normalized);
-        }
+      final drafts = initCustomCharacteristicDrafts(product.characteristics);
+      for (final d in drafts) {
+        _customCharacteristics.add(
+          _CustomCharacteristicDraft(name: d.name, value: d.value),
+        );
       }
+      _images.addAll(
+        initWizardImages(product.imageUrls, _isDisplayableImagePath),
+      );
     }
     _loadPresetCategories();
   }
@@ -204,11 +224,17 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     _fatController.dispose();
     _carbsController.dispose();
     _countryController.dispose();
+    _shelfLifeController.dispose();
     _deliveryDateController.dispose();
     _deliveryBadgeController.dispose();
     _deliveryTimeController.dispose();
-    _imageUrlController.dispose();
+    _leadMinController.dispose();
+    _leadMaxController.dispose();
+    _cutoffController.dispose();
     _categorySearchController.dispose();
+    for (final draft in _customCharacteristics) {
+      draft.dispose();
+    }
     super.dispose();
   }
 
@@ -306,45 +332,6 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     return 'image/jpeg';
   }
 
-  void _addImageUrl() {
-    final raw = _imageUrlController.text.trim();
-    if (raw.isEmpty) {
-      setState(() => _error = 'Вставьте ссылку на фото');
-      return;
-    }
-
-    final parts = raw
-        .split(RegExp(r'[\r\n\t ]+'))
-        .map((item) => item.trim().replaceAll(RegExp(r'[;,]+$'), ''))
-        .where((item) => item.isNotEmpty)
-        .toList();
-
-    final validUrls = <String>[];
-    for (final candidate in parts) {
-      if (_isValidImageUrl(candidate)) {
-        validUrls.add(candidate);
-      }
-    }
-
-    if (validUrls.isEmpty) {
-      setState(() => _error = 'Введите корректную ссылку (http/https)');
-      return;
-    }
-
-    var addedCount = 0;
-    for (final url in validUrls) {
-      if (!_images.contains(url)) {
-        _images.add(url);
-        addedCount += 1;
-      }
-    }
-
-    _imageUrlController.clear();
-    setState(() {
-      _error = addedCount == 0 ? 'Эта ссылка уже добавлена' : null;
-    });
-  }
-
   void _removeImage(int index) {
     if (index < 0 || index >= _images.length) return;
     _images.removeAt(index);
@@ -356,6 +343,10 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     if (_step == 0) {
       if (_nameController.text.trim().isEmpty) {
         _error = 'Введите название товара';
+        return false;
+      }
+      if (_shelfLifeController.text.trim().isEmpty) {
+        _error = 'Укажите срок годности';
         return false;
       }
       if (_selectedCategories.isEmpty) {
@@ -397,14 +388,43 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         _error = 'Остаток не может быть меньше минимальной партии';
         return false;
       }
-      if (!_applyDeliveryTimeFromInput(markInvalid: true)) {
-        _error = 'Введите время доставки в формате ЧЧ:ММ';
-        return false;
-      }
-      if (_deliveryDateController.text.trim().isEmpty ||
-          _deliveryBadgeController.text.trim().isEmpty) {
-        _error = 'Укажите график доставки';
-        return false;
+      if (_deliveryMode == _DeliveryMode.weekly) {
+        if (!_applyDeliveryTimeFromInput(markInvalid: true)) {
+          _error = 'Введите время доставки в формате ЧЧ:ММ';
+          return false;
+        }
+        if (_deliveryDateController.text.trim().isEmpty ||
+            _deliveryBadgeController.text.trim().isEmpty) {
+          _error = 'Укажите график доставки';
+          return false;
+        }
+      } else {
+        final minLeadText = _leadMinController.text.trim();
+        final maxLeadText = _leadMaxController.text.trim();
+        final minLead = int.tryParse(minLeadText);
+        final maxLead = int.tryParse(maxLeadText);
+        if (minLead == null || minLead < 0) {
+          _error = 'Введите минимальный срок доставки';
+          return false;
+        }
+        if (maxLead == null || maxLead < minLead) {
+          _error = 'Максимальный срок не может быть меньше минимального';
+          return false;
+        }
+        if (maxLead > 365) {
+          _error = 'Срок доставки слишком большой';
+          return false;
+        }
+        final cutoffRaw = _cutoffController.text.trim();
+        if (cutoffRaw.isNotEmpty && _parseCutoff() == null) {
+          setState(() {
+            _cutoffInputInvalid = true;
+          });
+          _error = 'Введите время отсечки в формате ЧЧ:ММ';
+          return false;
+        }
+        _cutoffInputInvalid = false;
+        _syncDeliveryControllers();
       }
       return true;
     }
@@ -467,6 +487,23 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           return false;
         }
       }
+      // Произвольные характеристики проверяем вместе с обязательными полями
+      // («Страна производителя», «Срок годности»), чтобы дубликаты с этими
+      // ключами тоже отлавливались.
+      final country = _countryController.text.trim();
+      final shelfLife = _shelfLifeController.text.trim();
+      final starter = <String, String>{
+        if (country.isNotEmpty) 'Страна производителя': country,
+        if (shelfLife.isNotEmpty) 'Срок годности': shelfLife,
+      };
+      final drafts = _customCharacteristics
+          .map((d) => (name: d.name, value: d.value))
+          .toList(growable: false);
+      final result = validateCustomCharacteristics(drafts, starter: starter);
+      if (result.error != null) {
+        _error = result.error!.message;
+        return false;
+      }
       return true;
     }
     if (_step == 3) {
@@ -481,7 +518,10 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   }
 
   void _nextStep() {
-    if (!_validateStep()) return;
+    if (!_validateStep()) {
+      _showErrorMessage();
+      return;
+    }
     if (_step >= _totalSteps - 1) {
       _submit();
       return;
@@ -494,10 +534,66 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     setState(() => _step -= 1);
   }
 
-  void _submit() {
-    if (!_validateStep()) return;
+  // Переход на произвольный шаг по тапу на цифру в шапке.
+  // Назад идём свободно. Вперёд — валидируя каждый промежуточный шаг.
+  void _jumpToStep(int target) {
+    if (target == _step) return;
+    if (target < 0 || target >= _totalSteps) return;
+    if (target < _step) {
+      setState(() => _step = target);
+      return;
+    }
+    while (_step < target) {
+      if (!_validateStep()) {
+        _showErrorMessage();
+        setState(() {});
+        return;
+      }
+      setState(() => _step += 1);
+    }
+  }
+
+  // Топ-сообщение с текстом текущей ошибки. Используем единый стиль приложения,
+  // чтобы валидация визарда выглядела как и в других экранах.
+  void _showErrorMessage() {
+    final message = _error;
+    if (message == null || message.isEmpty) return;
+    showTopMessage(
+      context,
+      message,
+      backgroundColor: context.colorPalette.error,
+    );
+  }
+
+  Future<void> _submit() async {
+    if (!_validateStep()) {
+      _showErrorMessage();
+      return;
+    }
     if (_isSubmitting) return;
     setState(() => _isSubmitting = true);
+
+    // Отдельная проверка характеристик: «Сохранить» можно нажать с шага 3
+    // (фото), а ошибка на шаге 2 должна вернуть пользователя к ней.
+    final country = _countryController.text.trim();
+    final shelfLife = _shelfLifeController.text.trim();
+    final starter = <String, String>{
+      if (country.isNotEmpty) 'Страна производителя': country,
+      if (shelfLife.isNotEmpty) 'Срок годности': shelfLife,
+    };
+    final drafts = _customCharacteristics
+        .map((d) => (name: d.name, value: d.value))
+        .toList(growable: false);
+    final charResult = validateCustomCharacteristics(drafts, starter: starter);
+    if (charResult.error != null) {
+      setState(() {
+        _step = 2;
+        _error = charResult.error!.message;
+        _isSubmitting = false;
+      });
+      _showErrorMessage();
+      return;
+    }
 
     final categories = _selectedCategories.toList(growable: false);
     final price = int.tryParse(_priceController.text.trim()) ?? 0;
@@ -515,11 +611,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     final carbs =
         double.tryParse(_carbsController.text.trim().replaceAll(',', '.')) ??
         0.0;
-    final characteristics = <String, String>{};
-    final country = _countryController.text.trim();
-    if (country.isNotEmpty) {
-      characteristics['Страна производителя'] = country;
-    }
+    final characteristics = charResult.normalized;
     final images = LinkedHashSet<String>.from(
       _images
           .map((item) => item.trim())
@@ -551,7 +643,46 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       moderationComment: widget.product?.moderationComment ?? '',
     );
 
+    final confirmed = await _confirmSave();
+    if (!mounted) return;
+    if (confirmed != true) {
+      setState(() => _isSubmitting = false);
+      return;
+    }
+
     Navigator.pop(context, result);
+  }
+
+  // Текст подтверждения зависит от режима — пользователь должен видеть, что правки уйдут на модерацию.
+  Future<bool?> _confirmSave() {
+    final isEdit = widget.product != null;
+    final title = isEdit ? 'Сохранить изменения?' : 'Создать товар?';
+    final message = isEdit
+        ? 'Изменения будут отправлены на модерацию. Текущая версия товара останется активной до проверки.'
+        : 'Товар будет отправлен на модерацию. Покупатели увидят его после проверки.';
+    final confirmLabel = isEdit ? 'Сохранить' : 'Создать';
+
+    return showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        final palette = context.colorPalette;
+        return AlertDialog(
+          backgroundColor: palette.card,
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: const Text('Отмена'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              child: Text(confirmLabel),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -565,7 +696,11 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       ),
       body: Column(
         children: [
-          _StepHeader(step: _step, totalSteps: _totalSteps),
+          _StepHeader(
+            step: _step,
+            totalSteps: _totalSteps,
+            onStepTap: _jumpToStep,
+          ),
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 128),
@@ -581,14 +716,6 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
               ),
             ),
           ),
-          if (_error != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                _error!,
-                style: TextStyle(color: context.colorPalette.error),
-              ),
-            ),
         ],
       ),
       bottomNavigationBar: SafeArea(
@@ -649,6 +776,11 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             'Страна производителя',
             _countryController,
             hintText: 'Например, Казахстан',
+          ),
+          _buildField(
+            'Срок годности',
+            _shelfLifeController,
+            hintText: 'Например, 12 месяцев',
           ),
           _buildCategoryPicker(),
         ],
@@ -727,15 +859,139 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
               FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
             ],
           ),
+          _buildCustomCharacteristicsSection(),
         ],
       ),
+    );
+  }
+
+  Widget _buildCustomCharacteristicsSection() {
+    final palette = context.colorPalette;
+    final cs = Theme.of(context).colorScheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Характеристики товара',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(height: 12),
+        for (int i = 0; i < _customCharacteristics.length; i++)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: palette.line),
+              ),
+              child: Stack(
+                children: [
+                  Padding(
+                    // Резервируем место под крестик в правом верхнем углу.
+                    padding: const EdgeInsets.only(right: 28),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Название',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        TextField(
+                          controller: _customCharacteristics[i].nameCtrl,
+                          maxLength: 100,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(100),
+                          ],
+                          decoration: InputDecoration(
+                            counterText: '',
+                            filled: true,
+                            fillColor: cs.surfaceContainerHighest,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        const Text(
+                          'Значение',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        TextField(
+                          controller: _customCharacteristics[i].valueCtrl,
+                          maxLength: 200,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(200),
+                          ],
+                          decoration: InputDecoration(
+                            counterText: '',
+                            filled: true,
+                            fillColor: cs.surfaceContainerHighest,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    top: -10,
+                    right: -4,
+                    child: IconButton(
+                      tooltip: 'Удалить характеристику',
+                      icon: Icon(Icons.close, color: palette.muted, size: 20),
+                      visualDensity: VisualDensity.compact,
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(
+                        minWidth: 32,
+                        minHeight: 32,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          final removed = _customCharacteristics.removeAt(i);
+                          removed.dispose();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            onPressed: () {
+              setState(() {
+                _customCharacteristics.add(_CustomCharacteristicDraft());
+              });
+            },
+            icon: Icon(Icons.add, color: palette.accent),
+            label: Text(
+              'Добавить характеристику',
+              style: TextStyle(color: palette.accent),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildPhotosStep() {
     return _StepCard(
       title: 'Фотографии товара',
-      subtitle: 'Добавьте несколько фото, как в маркетплейсах.',
+      subtitle: 'Добавьте несколько фото',
       child: LayoutBuilder(
         builder: (context, constraints) {
           const spacing = 12.0;
@@ -766,31 +1022,6 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                   _buildAddPhotoTile(
                     width: previewWidth,
                     height: previewHeight,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Или вставьте ссылку на фото (https://...)',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _imageUrlController,
-                      decoration: const InputDecoration(
-                        hintText: 'https://...',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: _addImageUrl,
-                    child: const Text('Добавить'),
                   ),
                 ],
               ),
@@ -931,7 +1162,6 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
 
   Widget _buildDeliverySchedulePicker() {
     final colorScheme = Theme.of(context).colorScheme;
-    final formattedValue = _buildDeliveryScheduleLabel();
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
@@ -943,144 +1173,325 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              color: colorScheme.surfaceContainerHighest,
-              border: Border.all(color: colorScheme.outlineVariant),
+          SegmentedButton<_DeliveryMode>(
+            // Растягиваем оба сегмента на всю ширину поровну.
+            expandedInsets: EdgeInsets.zero,
+            style: ButtonStyle(
+              textStyle: WidgetStatePropertyAll(
+                TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+              ),
+              padding: const WidgetStatePropertyAll(
+                EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Выберите дни недели',
-                  style: TextStyle(
-                    color: colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w600,
-                  ),
+            segments: const [
+              ButtonSegment(
+                value: _DeliveryMode.weekly,
+                label: Text(
+                  'По графику',
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.fade,
                 ),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: _weekdayOrder
-                      .map((weekday) => _buildDeliveryWeekdayChip(weekday))
-                      .toList(growable: false),
+              ),
+              ButtonSegment(
+                value: _DeliveryMode.leadTime,
+                label: Text(
+                  'По сроку',
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.fade,
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  'Быстрый выбор',
-                  style: TextStyle(
-                    color: colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    ChoiceChip(
-                      label: const Text('Будни'),
-                      selected: _isPresetSelected(_workdayPreset),
-                      onSelected: (selected) {
-                        if (!selected) {
-                          return;
-                        }
-                        _applyWeekdayPreset(_workdayPreset);
-                      },
-                    ),
-                    ChoiceChip(
-                      label: const Text('Выходные'),
-                      selected: _isPresetSelected(_weekendPreset),
-                      onSelected: (selected) {
-                        if (!selected) {
-                          return;
-                        }
-                        _applyWeekdayPreset(_weekendPreset);
-                      },
-                    ),
-                    ChoiceChip(
-                      label: const Text('Ежедневно'),
-                      selected: _isPresetSelected(_weekdayOrder),
-                      onSelected: (selected) {
-                        if (!selected) {
-                          return;
-                        }
-                        _applyWeekdayPreset(_weekdayOrder);
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  'Время доставки',
-                  style: TextStyle(
-                    color: colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: _deliveryTimeController,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [const _DeliveryTimeInputFormatter()],
-                  onChanged: _onDeliveryTimeInputChanged,
-                  onEditingComplete: _onDeliveryTimeInputComplete,
-                  onSubmitted: (_) => _onDeliveryTimeInputComplete(),
-                  decoration: InputDecoration(
-                    hintText: '14:00',
-                    helperText: 'Формат: ЧЧ:ММ',
-                    errorText: _deliveryTimeInputInvalid
-                        ? 'Некорректное время'
-                        : null,
-                    prefixIcon: const Icon(Icons.schedule_outlined),
-                    filled: true,
-                    fillColor: colorScheme.surface,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
+            selected: {_deliveryMode},
+            onSelectionChanged: (selection) {
+              if (selection.isEmpty) return;
+              setState(() {
+                _deliveryMode = selection.first;
+                _error = null;
+                _syncDeliveryControllers();
+              });
+              _scrollDeliveryBlockIntoView();
+            },
           ),
-          const SizedBox(height: 10),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: colorScheme.surfaceContainerHighest,
-              border: Border.all(color: colorScheme.outlineVariant),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.local_shipping_outlined,
-                  size: 18,
-                  color: colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'Формат сохранения: $formattedValue',
-                    style: TextStyle(
-                      color: colorScheme.onSurfaceVariant,
-                      fontWeight: FontWeight.w600,
-                    ),
+          const SizedBox(height: 12),
+          // Плавная смена режима — высота анимируется, контент фейдится.
+          AnimatedSize(
+            key: _deliveryBlockKey,
+            duration: const Duration(milliseconds: 240),
+            curve: Curves.easeOutCubic,
+            alignment: Alignment.topCenter,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 220),
+              switchInCurve: Curves.easeOut,
+              switchOutCurve: Curves.easeIn,
+              transitionBuilder: (child, animation) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: SizeTransition(
+                    sizeFactor: animation,
+                    axisAlignment: -1.0,
+                    child: child,
                   ),
-                ),
-              ],
+                );
+              },
+              child: KeyedSubtree(
+                key: ValueKey(_deliveryMode),
+                child: _deliveryMode == _DeliveryMode.weekly
+                    ? _buildWeeklyDeliveryBlock(colorScheme)
+                    : _buildLeadTimeDeliveryBlock(colorScheme),
+              ),
             ),
           ),
           const SizedBox(height: 6),
           Text(
-            'Можно выбрать один или несколько дней недели, например Пн и Пт.',
+            'Покупатель увидит ожидаемую дату доставки.',
             style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Weekly-блок выше leadTime — после смены режима докручиваем экран, чтобы он влез.
+  void _scrollDeliveryBlockIntoView() {
+    Future.delayed(const Duration(milliseconds: 260), () {
+      if (!mounted) return;
+      final ctx = _deliveryBlockKey.currentContext;
+      if (ctx == null || !ctx.mounted) return;
+      Scrollable.ensureVisible(
+        ctx,
+        duration: const Duration(milliseconds: 320),
+        curve: Curves.easeOutCubic,
+        alignment: 0.1,
+      );
+    });
+  }
+
+  Widget _buildWeeklyDeliveryBlock(ColorScheme colorScheme) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14),
+        color: colorScheme.surfaceContainerHighest,
+        border: Border.all(color: colorScheme.outlineVariant),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Выберите дни недели',
+            style: TextStyle(
+              color: colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: _weekdayOrder
+                .map((weekday) => _buildDeliveryWeekdayChip(weekday))
+                .toList(growable: false),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Быстрый выбор',
+            style: TextStyle(
+              color: colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              ChoiceChip(
+                label: const Text('Будни'),
+                selected: _isPresetSelected(_workdayPreset),
+                onSelected: (selected) {
+                  if (!selected) {
+                    return;
+                  }
+                  _applyWeekdayPreset(_workdayPreset);
+                },
+              ),
+              ChoiceChip(
+                label: const Text('Выходные'),
+                selected: _isPresetSelected(_weekendPreset),
+                onSelected: (selected) {
+                  if (!selected) {
+                    return;
+                  }
+                  _applyWeekdayPreset(_weekendPreset);
+                },
+              ),
+              ChoiceChip(
+                label: const Text('Ежедневно'),
+                selected: _isPresetSelected(_weekdayOrder),
+                onSelected: (selected) {
+                  if (!selected) {
+                    return;
+                  }
+                  _applyWeekdayPreset(_weekdayOrder);
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Время доставки',
+            style: TextStyle(
+              color: colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            controller: _deliveryTimeController,
+            keyboardType: TextInputType.number,
+            inputFormatters: [const _DeliveryTimeInputFormatter()],
+            onChanged: _onDeliveryTimeInputChanged,
+            onEditingComplete: _onDeliveryTimeInputComplete,
+            onSubmitted: (_) => _onDeliveryTimeInputComplete(),
+            decoration: InputDecoration(
+              hintText: '14:00',
+              helperText: 'Формат: ЧЧ:ММ',
+              errorText: _deliveryTimeInputInvalid
+                  ? 'Некорректное время'
+                  : null,
+              prefixIcon: const Icon(Icons.schedule_outlined),
+              filled: true,
+              fillColor: colorScheme.surface,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLeadTimeDeliveryBlock(ColorScheme colorScheme) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14),
+        color: colorScheme.surfaceContainerHighest,
+        border: Border.all(color: colorScheme.outlineVariant),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Минимум дней',
+                      style: TextStyle(
+                        color: colorScheme.onSurfaceVariant,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _leadMinController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(3),
+                      ],
+                      onChanged: (_) => _syncDeliveryControllers(),
+                      decoration: InputDecoration(
+                        hintText: '1',
+                        filled: true,
+                        fillColor: colorScheme.surface,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Максимум дней',
+                      style: TextStyle(
+                        color: colorScheme.onSurfaceVariant,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _leadMaxController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(3),
+                      ],
+                      onChanged: (_) => _syncDeliveryControllers(),
+                      decoration: InputDecoration(
+                        hintText: '3',
+                        filled: true,
+                        fillColor: colorScheme.surface,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Срок приёма заказа на сегодня',
+            style: TextStyle(
+              color: colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            controller: _cutoffController,
+            keyboardType: TextInputType.number,
+            inputFormatters: [const _DeliveryTimeInputFormatter()],
+            onChanged: (_) {
+              if (_cutoffInputInvalid) {
+                setState(() => _cutoffInputInvalid = false);
+              }
+              _syncDeliveryControllers();
+            },
+            decoration: InputDecoration(
+              hintText: '14:00 (необязательно)',
+              helperText: 'Заказы до этого времени уезжают сегодня',
+              helperMaxLines: 1,
+              errorText: _cutoffInputInvalid ? 'Некорректное время' : null,
+              prefixIcon: const Icon(Icons.schedule_outlined),
+              filled: true,
+              fillColor: colorScheme.surface,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
+            ),
           ),
         ],
       ),
@@ -1393,116 +1804,35 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     final source = deliveryBadge.trim().isNotEmpty
         ? deliveryBadge.trim()
         : deliveryDate.trim();
-    final normalized = source.toLowerCase();
-    final timeMatch = RegExp(
-      r'([01]?\d|2[0-3]):([0-5]\d)$',
-      caseSensitive: false,
-    ).firstMatch(normalized);
-    if (timeMatch != null) {
-      final hour = int.tryParse(timeMatch.group(1) ?? '');
-      final minute = int.tryParse(timeMatch.group(2) ?? '');
-      if (hour != null && minute != null) {
-        _deliveryTime = TimeOfDay(hour: hour, minute: minute);
-        final weekdaysPart = normalized.substring(0, timeMatch.start).trim();
-        final parsedWeekdays = _parseDeliveryWeekdays(weekdaysPart);
-        if (parsedWeekdays.isNotEmpty) {
-          _deliveryWeekdays
-            ..clear()
-            ..addAll(parsedWeekdays);
-        }
-      }
+    if (source.isEmpty) {
+      _syncDeliveryControllers();
+      return;
+    }
+    final parsed = DeliverySchedule.decode(source);
+    if (parsed is LeadTimeDeliverySchedule) {
+      _deliveryMode = _DeliveryMode.leadTime;
+      _leadMinController.text = parsed.minDays.toString();
+      _leadMaxController.text = parsed.maxDays.toString();
+      _cutoffController.text = parsed.cutoff == null
+          ? ''
+          : _formatHm(parsed.cutoff!.hour, parsed.cutoff!.minute);
+      _syncDeliveryControllers();
+      return;
+    }
+    if (parsed is WeeklyDeliverySchedule) {
+      _deliveryMode = _DeliveryMode.weekly;
+      _deliveryTime = TimeOfDay(hour: parsed.hour, minute: parsed.minute);
+      _deliveryWeekdays
+        ..clear()
+        ..addAll(parsed.weekdays);
+      _syncDeliveryControllers();
+      return;
     }
     _syncDeliveryControllers();
   }
 
-  List<int> _parseDeliveryWeekdays(String raw) {
-    final normalized = raw.trim().toLowerCase();
-    if (normalized.isEmpty) {
-      return const <int>[];
-    }
-
-    if (normalized == 'будни') {
-      return _sortWeekdays(_workdayPreset);
-    }
-    if (normalized == 'выходные') {
-      return _sortWeekdays(_weekendPreset);
-    }
-    if (normalized == 'ежедневно' || normalized == 'каждый день') {
-      return _sortWeekdays(_weekdayOrder);
-    }
-
-    final rangeParts = normalized.split(RegExp(r'\s*-\s*'));
-    if (rangeParts.length == 2) {
-      final start = _parseWeekdayAny(rangeParts.first);
-      final end = _parseWeekdayAny(rangeParts.last);
-      if (start != null && end != null) {
-        return _expandWeekdayRange(start, end);
-      }
-    }
-
-    final sourceTokens = normalized.contains(',')
-        ? normalized.split(RegExp(r'\s*,\s*'))
-        : normalized.split(RegExp(r'\s+'));
-    final parsedWeekdays = <int>{};
-    for (final token in sourceTokens) {
-      final weekday = _parseWeekdayAny(token);
-      if (weekday != null) {
-        parsedWeekdays.add(weekday);
-      }
-    }
-    if (parsedWeekdays.isNotEmpty) {
-      return _sortWeekdays(parsedWeekdays);
-    }
-
-    final single = _parseWeekdayAny(normalized);
-    if (single != null) {
-      return <int>[single];
-    }
-    return const <int>[];
-  }
-
-  int? _parseWeekdayAny(String? value) {
-    final shortWeekday = _parseWeekdayShort(value);
-    if (shortWeekday != null) {
-      return shortWeekday;
-    }
-    return _parseWeekdayFull(value);
-  }
-
-  int? _parseWeekdayShort(String? value) {
-    final normalized = value?.replaceAll('.', '').trim().toLowerCase();
-    if (normalized == null || normalized.isEmpty) {
-      return null;
-    }
-    for (final entry in _weekdaysShort.entries) {
-      if (entry.value.toLowerCase() == normalized) {
-        return entry.key;
-      }
-    }
-    return null;
-  }
-
-  int? _parseWeekdayFull(String? value) {
-    final normalized = value?.replaceAll('.', '').trim().toLowerCase();
-    if (normalized == null || normalized.isEmpty) {
-      return null;
-    }
-    for (final entry in _weekdaysFull.entries) {
-      if (entry.value.toLowerCase() == normalized) {
-        return entry.key;
-      }
-    }
-    return null;
-  }
-
-  List<int> _expandWeekdayRange(int start, int end) {
-    final expanded = <int>[start];
-    var current = start;
-    while (current != end && expanded.length < _weekdayOrder.length) {
-      current = current == DateTime.sunday ? DateTime.monday : current + 1;
-      expanded.add(current);
-    }
-    return _sortWeekdays(expanded);
+  String _formatHm(int hour, int minute) {
+    return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
   }
 
   List<int> _sortWeekdays(Iterable<int> weekdays) {
@@ -1538,29 +1868,54 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   }
 
   String _buildDeliveryScheduleLabel() {
-    final formattedTime = _formatTime(_deliveryTime);
+    if (_deliveryMode == _DeliveryMode.leadTime) {
+      final schedule = _buildLeadTimeSchedule();
+      if (schedule != null) {
+        return schedule.encode();
+      }
+      // Если ввод сейчас невалиден — возвращаем пустую строку, шаг проверит сам
+      return '';
+    }
     final weekdays = _resolvedDeliveryWeekdays();
-    if (_isPresetSelected(_weekdayOrder)) {
-      return 'Ежедневно $formattedTime';
-    }
-    if (_isPresetSelected(_workdayPreset)) {
-      return 'Будни $formattedTime';
-    }
-    if (_isPresetSelected(_weekendPreset)) {
-      return 'Выходные $formattedTime';
-    }
-    if (weekdays.length == 1) {
-      final dayName = _weekdaysFull[weekdays.first] ?? 'Понедельник';
-      return '$dayName $formattedTime';
-    }
+    final schedule = WeeklyDeliverySchedule(
+      weekdays: weekdays.toSet(),
+      hour: _deliveryTime.hour,
+      minute: _deliveryTime.minute,
+    );
+    return schedule.encode();
+  }
 
-    final daysLabel = weekdays
-        .map((weekday) => _weekdaysShort[weekday] ?? 'Пн')
-        .join(', ');
-    return '$daysLabel $formattedTime';
+  // Парсит cutoff-поле; null без ошибки если поле пустое.
+  ({int hour, int minute})? _parseCutoff() {
+    final raw = _cutoffController.text.trim();
+    if (raw.isEmpty) return null;
+    final m = RegExp(r'^([01]?\d|2[0-3]):([0-5]\d)$').firstMatch(raw);
+    if (m == null) return null;
+    return (hour: int.parse(m.group(1)!), minute: int.parse(m.group(2)!));
+  }
+
+  LeadTimeDeliverySchedule? _buildLeadTimeSchedule() {
+    final min = int.tryParse(_leadMinController.text.trim());
+    final max = int.tryParse(_leadMaxController.text.trim());
+    if (min == null || max == null || min < 0 || max < min || max > 365) {
+      return null;
+    }
+    final cutoffRaw = _cutoffController.text.trim();
+    ({int hour, int minute})? cutoff;
+    if (cutoffRaw.isNotEmpty) {
+      cutoff = _parseCutoff();
+      if (cutoff == null) return null;
+    }
+    return LeadTimeDeliverySchedule(minDays: min, maxDays: max, cutoff: cutoff);
   }
 
   void _syncDeliveryControllers() {
+    if (_deliveryMode == _DeliveryMode.leadTime) {
+      final formatted = _buildDeliveryScheduleLabel();
+      _deliveryDateController.text = formatted;
+      _deliveryBadgeController.text = formatted;
+      return;
+    }
     if (_deliveryWeekdays.isEmpty) {
       _deliveryWeekdays.add(DateTime.monday);
     }
@@ -1596,10 +1951,15 @@ class _DeliveryTimeInputFormatter extends TextInputFormatter {
 }
 
 class _StepHeader extends StatelessWidget {
-  const _StepHeader({required this.step, required this.totalSteps});
+  const _StepHeader({
+    required this.step,
+    required this.totalSteps,
+    this.onStepTap,
+  });
 
   final int step;
   final int totalSteps;
+  final ValueChanged<int>? onStepTap;
 
   @override
   Widget build(BuildContext context) {
@@ -1625,25 +1985,10 @@ class _StepHeader extends StatelessWidget {
           Row(
             children: [
               for (var index = 0; index < totalSteps; index++) ...[
-                Container(
-                  width: 26,
-                  height: 26,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: index <= step
-                        ? colorScheme.primary
-                        : colorScheme.surfaceContainerHighest,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(
-                    '${index + 1}',
-                    style: TextStyle(
-                      color: index <= step
-                          ? Colors.white
-                          : colorScheme.onSurfaceVariant,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+                _StepCircle(
+                  index: index,
+                  isActive: index <= step,
+                  onTap: onStepTap == null ? null : () => onStepTap!(index),
                 ),
                 if (index != totalSteps - 1)
                   Expanded(
@@ -1670,27 +2015,83 @@ class _StepHeader extends StatelessWidget {
               final textAlign = isFirst
                   ? TextAlign.left
                   : (isLast ? TextAlign.right : TextAlign.center);
+              final label = Text(
+                labels[index],
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: textAlign,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: isActive
+                      ? colorScheme.onSurface
+                      : colorScheme.onSurfaceVariant,
+                ),
+              );
               return Expanded(
                 child: Align(
                   alignment: alignment,
-                  child: Text(
-                    labels[index],
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: textAlign,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: isActive
-                          ? colorScheme.onSurface
-                          : colorScheme.onSurfaceVariant,
-                    ),
-                  ),
+                  child: onStepTap == null
+                      ? label
+                      : InkWell(
+                          onTap: () => onStepTap!(index),
+                          borderRadius: BorderRadius.circular(6),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 4,
+                              vertical: 2,
+                            ),
+                            child: label,
+                          ),
+                        ),
                 ),
               );
             }),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// Кружок-индикатор шага. Внешне совпадает со старым Container, но слушает тап.
+class _StepCircle extends StatelessWidget {
+  const _StepCircle({required this.index, required this.isActive, this.onTap});
+
+  final int index;
+  final bool isActive;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final circle = Container(
+      width: 26,
+      height: 26,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: isActive
+            ? colorScheme.primary
+            : colorScheme.surfaceContainerHighest,
+        shape: BoxShape.circle,
+      ),
+      child: Text(
+        '${index + 1}',
+        style: TextStyle(
+          color: isActive ? Colors.white : colorScheme.onSurfaceVariant,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
+    if (onTap == null) return circle;
+    return Material(
+      color: Colors.transparent,
+      shape: const CircleBorder(),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: onTap,
+        child: circle,
       ),
     );
   }
@@ -1741,4 +2142,21 @@ class _StepCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class _CustomCharacteristicDraft {
+  _CustomCharacteristicDraft({String name = '', String value = ''})
+    : nameCtrl = TextEditingController(text: name),
+      valueCtrl = TextEditingController(text: value);
+
+  final TextEditingController nameCtrl;
+  final TextEditingController valueCtrl;
+
+  void dispose() {
+    nameCtrl.dispose();
+    valueCtrl.dispose();
+  }
+
+  String get name => nameCtrl.text.trim();
+  String get value => valueCtrl.text.trim();
 }

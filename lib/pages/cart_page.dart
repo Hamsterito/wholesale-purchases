@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/cart_item.dart';
+import '../models/product.dart';
 import '../models/user_address.dart';
 import '../pages/order_history_page.dart';
 import '../profile/add_payment_card.dart';
@@ -11,6 +12,7 @@ import '../services/auth_storage.dart';
 import '../services/cart_store.dart';
 import '../services/payment_card_storage.dart';
 import '../theme/app_color_palette.dart';
+import '../utils/delivery_schedule.dart';
 import '../widgets/top_message.dart';
 import '../widgets/smart_image.dart';
 
@@ -609,6 +611,18 @@ class _CartPageState extends State<CartPage> {
 
   String _formatSupplierName(String name) {
     return name.trim();
+  }
+
+  // Расчётная дата доставки — приоритет даём декодеру, иначе оставляем сырое значение.
+  String _resolveDeliveryDateText(Supplier supplier) {
+    final raw = supplier.deliveryDate.trim().isNotEmpty
+        ? supplier.deliveryDate
+        : supplier.deliveryBadge;
+    final schedule = DeliverySchedule.decode(raw);
+    if (schedule != null) {
+      return formatExpectedDelivery(schedule, DateTime.now());
+    }
+    return raw;
   }
 
   String _resolveCartImage(CartItem item) {
@@ -1780,7 +1794,7 @@ class _CartPageState extends State<CartPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Дата доставки: ${item.supplier.deliveryDate}',
+                          'Дата доставки: ${_resolveDeliveryDateText(item.supplier)}',
                           style: TextStyle(fontSize: 12, color: _mutedText),
                         ),
                         const SizedBox(height: 4),

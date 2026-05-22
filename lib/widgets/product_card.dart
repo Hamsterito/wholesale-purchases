@@ -7,6 +7,7 @@ import '../models/product.dart';
 import '../services/cart_store.dart';
 import '../services/favorites_store.dart';
 import '../theme/app_color_palette.dart';
+import '../utils/delivery_schedule.dart';
 import '../utils/ru_plural.dart';
 import 'rating_stars.dart';
 import 'top_message.dart';
@@ -382,9 +383,12 @@ class _ProductCardState extends State<ProductCard> {
                 : Stack(
                     alignment: Alignment.center,
                     children: [
+                      // Полупрозрачная заливка под обводкой, чтобы силуэт
+                      // не сливался со светлыми картинками. Делаем мягче,
+                      // чтобы не выглядело «темно» поверх фото.
                       Icon(
                         Icons.favorite,
-                        color: _palette.muted.withValues(alpha: 0.5),
+                        color: Colors.white.withValues(alpha: 0.55),
                         size: 29,
                       ),
                       Icon(
@@ -502,8 +506,14 @@ class _ProductCardState extends State<ProductCard> {
 
   Widget _buildDeliveryInfo(Supplier supplier) {
     final deliveryDate = _resolveDeliveryDateText(supplier);
+    if (deliveryDate.isEmpty) return const SizedBox.shrink();
+    // formatExpectedDelivery возвращает фразу уже с «Доставка ...» внутри,
+    // поэтому свой префикс добавляем только для старых сырых строк.
+    final text = deliveryDate.toLowerCase().startsWith('доставка')
+        ? deliveryDate
+        : 'Доставка: $deliveryDate';
     return Text(
-      'Доставка: $deliveryDate',
+      text,
       style: TextStyle(fontSize: compact ? 10 : 11, color: _mutedText),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -516,6 +526,12 @@ class _ProductCardState extends State<ProductCard> {
         : supplier.deliveryDate.trim();
     if (source.isEmpty) {
       return 'Доставка';
+    }
+
+    // Сначала пробуем новый структурированный формат
+    final schedule = DeliverySchedule.decode(source);
+    if (schedule != null) {
+      return formatScheduleSummary(schedule);
     }
 
     final normalized = source.toLowerCase().trim();
@@ -573,7 +589,15 @@ class _ProductCardState extends State<ProductCard> {
     final fallbackSource = supplier.deliveryDate.trim().isNotEmpty
         ? supplier.deliveryDate.trim()
         : supplier.deliveryBadge.trim();
-    if (!computeDeliveryDateFromRemaining || fallbackSource.isEmpty) {
+    if (fallbackSource.isEmpty) return fallbackSource;
+
+    // Пробуем новый формат (schedule:/lead:) — он всегда даёт расчётный текст
+    final schedule = DeliverySchedule.decode(fallbackSource);
+    if (schedule != null) {
+      return formatExpectedDelivery(schedule, DateTime.now());
+    }
+
+    if (!computeDeliveryDateFromRemaining) {
       return fallbackSource;
     }
 

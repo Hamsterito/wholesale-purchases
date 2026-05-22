@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 import '../models/product.dart';
 import '../services/api_service.dart';
 import '../services/favorites_store.dart';
+import '../services/supplier_stats_store.dart';
 import '../theme/app_color_palette.dart';
+import '../utils/rating_format.dart';
 import '../utils/search_normalizer.dart';
 import '../widgets/product_card.dart';
 import '../widgets/top_message.dart';
@@ -168,6 +170,9 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
       final catalogData = results[1] as Map<String, dynamic>;
       final products = catalogData['products'] as List<Product>;
       final searchIndex = _buildSearchIndex(products);
+      // Кешируем свежие rating/reviewCount, чтобы остальные экраны (карточка
+      // товара, избранное) показывали те же цифры, что и шапка профиля.
+      SupplierStatsStore.instance.update(supplier);
       setState(() {
         _supplier = supplier;
         _allProducts = products;
@@ -230,6 +235,8 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
       context,
       added ? 'Добавлено в избранное' : 'Удалено из избранного',
       backgroundColor: added ? palette.accent : palette.error,
+      showAtBottom: true,
+      bottomOffset: 80,
     );
   }
 
@@ -287,20 +294,38 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
             onPressed: () => Navigator.pop(context),
             tooltip: 'Назад',
           ),
-          // Название компании в центре
+          // Название компании в центре + общий рейтинг рядом со звездой.
           Expanded(
             child: supplier == null
                 ? const SizedBox.shrink()
-                : Text(
-                    supplier.name,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: _colorScheme.onSurface,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          supplier.name,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: _colorScheme.onSurface,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Icon(Icons.star_rounded, size: 16, color: palette.star),
+                      const SizedBox(width: 2),
+                      Text(
+                        formatRating(supplier.rating),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: _colorScheme.onSurface,
+                        ),
+                      ),
+                    ],
                   ),
           ),
           // Сердечко

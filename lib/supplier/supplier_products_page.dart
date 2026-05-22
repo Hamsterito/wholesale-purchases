@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/widgets/app_message_snackbar.dart';
-import 'package:uuid/uuid.dart';
-import '../models/message.dart';
 import '../models/supplier_product.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
@@ -9,6 +6,7 @@ import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/main_bottom_nav.dart';
 import '../widgets/smart_image.dart';
+import '../widgets/top_message.dart';
 import 'supplier_product_wizard.dart';
 import 'supplier_qa_page.dart';
 
@@ -232,16 +230,12 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
   }
 
   void _showSnack(String message, {bool isError = false}) {
-    final msg = Message(
-      id: const Uuid().v4(),
-      type: MessageType.notification,
-      severity: isError ? MessageSeverity.error : MessageSeverity.info,
-      title: '',
-      body: message,
-      timestamp: DateTime.now(),
-      language: 'ru',
+    final palette = context.colorPalette;
+    showTopMessage(
+      context,
+      message,
+      backgroundColor: isError ? palette.error : palette.accent,
     );
-    AppMessageSnackBar.show(context, msg);
   }
 
   Color _statusColor(String status) {
@@ -772,21 +766,39 @@ class _ExpandableDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = TextStyle(color: textColor, height: 1.35);
+    final actionStyle = TextStyle(
+      color: actionColor,
+      fontSize: 12,
+      fontWeight: FontWeight.w600,
+    );
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final textPainter =
-            TextPainter(
-              text: TextSpan(text: text, style: style),
-              textDirection: Directionality.of(context),
-              maxLines: _collapsedMaxLines,
-            )..layout(
-              maxWidth: constraints.maxWidth.isFinite
-                  ? constraints.maxWidth
-                  : MediaQuery.sizeOf(context).width,
-            );
+        final maxWidth = constraints.maxWidth.isFinite
+            ? constraints.maxWidth
+            : MediaQuery.sizeOf(context).width;
+        final direction = Directionality.of(context);
 
+        final textPainter = TextPainter(
+          text: TextSpan(text: text, style: style),
+          textDirection: direction,
+          maxLines: _collapsedMaxLines,
+        )..layout(maxWidth: maxWidth);
         final hasOverflow = textPainter.didExceedMaxLines;
+
+        // Резервируем высоту 3 строк, чтобы теги ниже не подскакивали при коротком описании.
+        final lineHeightPainter = TextPainter(
+          text: TextSpan(text: 'Ag', style: style),
+          textDirection: direction,
+        )..layout();
+        final reservedTextHeight =
+            lineHeightPainter.height * _collapsedMaxLines;
+
+        final actionPainter = TextPainter(
+          text: TextSpan(text: 'Подробнее', style: actionStyle),
+          textDirection: direction,
+        )..layout();
+        final actionHeight = actionPainter.height;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -795,27 +807,34 @@ class _ExpandableDescription extends StatelessWidget {
               duration: const Duration(milliseconds: 180),
               curve: Curves.easeOutCubic,
               alignment: Alignment.topCenter,
-              child: Text(
-                text,
-                maxLines: isExpanded ? null : _collapsedMaxLines,
-                overflow: isExpanded ? TextOverflow.visible : TextOverflow.clip,
-                style: style,
-              ),
-            ),
-            if (hasOverflow) ...[
-              const SizedBox(height: 2),
-              GestureDetector(
-                onTap: onToggle,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: isExpanded ? 0 : reservedTextHeight,
+                ),
                 child: Text(
-                  isExpanded ? 'Свернуть' : 'Подробнее',
-                  style: TextStyle(
-                    color: actionColor,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  text,
+                  maxLines: isExpanded ? null : _collapsedMaxLines,
+                  overflow: isExpanded
+                      ? TextOverflow.visible
+                      : TextOverflow.clip,
+                  style: style,
                 ),
               ),
-            ],
+            ),
+            const SizedBox(height: 2),
+            // Слот фиксированной высоты: кнопка «Подробнее» либо пустота той же высоты.
+            SizedBox(
+              height: actionHeight,
+              child: hasOverflow
+                  ? GestureDetector(
+                      onTap: onToggle,
+                      child: Text(
+                        isExpanded ? 'Свернуть' : 'Подробнее',
+                        style: actionStyle,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ),
           ],
         );
       },

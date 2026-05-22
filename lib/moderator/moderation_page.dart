@@ -4,6 +4,9 @@ import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 import '../models/message.dart';
 import '../models/supplier_product.dart';
+import '../utils/characteristic_sections.dart';
+import '../utils/delivery_schedule.dart';
+import '../widgets/about_product_sheet.dart';
 import 'support_chats_page.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
@@ -314,16 +317,45 @@ class _ModerationPageState extends State<ModerationPage> {
     return '${product.minQuantity}-$maxQuantity шт.';
   }
 
-  String _categoriesLabel(SupplierProduct product) {
+  // schedule:Пн,Вт,Пт 14:00 → «Пн, Вт, Пт · 14:00», legacy-строки отдаём как есть.
+  String _deliveryDisplay(SupplierProduct product) {
+    final raw = product.deliveryBadge.trim().isNotEmpty
+        ? product.deliveryBadge.trim()
+        : product.deliveryDate.trim();
+    if (raw.isEmpty) return '';
+    final schedule = DeliverySchedule.decode(raw);
+    if (schedule == null) return raw;
+    final summary = formatScheduleSummary(schedule);
+    final time = formatDeliveryTimeShort(schedule);
+    if (time == null || time.isEmpty) return summary;
+    return '$summary · $time';
+  }
+
+  void _openAboutSheet(SupplierProduct product) {
+    showAboutProductSheet(
+      context: context,
+      sections: buildSupplierProductSections(product),
+      description: product.description,
+    );
+  }
+
+  // Каждая категория — свой чип. Иконка только у первого, чтобы лента не пестрила.
+  List<Widget> _buildCategoryPills(SupplierProduct product) {
     if (product.categories.isEmpty) {
-      return 'Без категории';
+      return const [
+        _ModerationInfoPill(
+          icon: Icons.category_outlined,
+          text: 'Без категории',
+        ),
+      ];
     }
-    final preview = product.categories.take(2).join(', ');
-    final hidden = product.categories.length - 2;
-    if (hidden <= 0) {
-      return preview;
-    }
-    return '$preview +$hidden';
+    return [
+      for (var i = 0; i < product.categories.length; i++)
+        _ModerationInfoPill(
+          icon: i == 0 ? Icons.category_outlined : null,
+          text: product.categories[i],
+        ),
+    ];
   }
 
   List<String> _searchTokens(String query) {
@@ -668,30 +700,22 @@ class _ModerationPageState extends State<ModerationPage> {
                                             icon: Icons.storefront_outlined,
                                             text: product.supplierName,
                                           ),
-                                          _ModerationInfoPill(
-                                            icon: Icons.category_outlined,
-                                            text: _categoriesLabel(product),
-                                          ),
+                                          ..._buildCategoryPills(product),
                                           _ModerationInfoPill(
                                             icon: Icons.inventory_2_outlined,
                                             text:
                                                 'Остаток: ${product.stockQuantity} шт.',
                                           ),
                                           if (product.deliveryBadge
-                                              .trim()
-                                              .isNotEmpty)
+                                                  .trim()
+                                                  .isNotEmpty ||
+                                              product.deliveryDate
+                                                  .trim()
+                                                  .isNotEmpty)
                                             _ModerationInfoPill(
                                               icon:
                                                   Icons.local_shipping_outlined,
-                                              text: product.deliveryBadge
-                                                  .trim(),
-                                            )
-                                          else if (product.deliveryDate
-                                              .trim()
-                                              .isNotEmpty)
-                                            _ModerationInfoPill(
-                                              icon: Icons.schedule_outlined,
-                                              text: product.deliveryDate.trim(),
+                                              text: _deliveryDisplay(product),
                                             ),
                                         ],
                                       ),
@@ -700,11 +724,13 @@ class _ModerationPageState extends State<ModerationPage> {
                                         width: double.infinity,
                                         padding: const EdgeInsets.all(12),
                                         decoration: BoxDecoration(
-                                          color: colorScheme
-                                              .surfaceContainerHighest
-                                              .withValues(alpha: 0.35),
+                                          color:
+                                              context.colorPalette.accentMist,
                                           borderRadius: BorderRadius.circular(
                                             12,
+                                          ),
+                                          border: Border.all(
+                                            color: context.colorPalette.line,
                                           ),
                                         ),
                                         child: Column(
@@ -721,6 +747,11 @@ class _ModerationPageState extends State<ModerationPage> {
                                             ),
                                           ],
                                         ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      _ModerationAboutTile(
+                                        product: product,
+                                        onTap: () => _openAboutSheet(product),
                                       ),
                                       if (product.moderationComment.isNotEmpty)
                                         Container(
@@ -937,26 +968,30 @@ class _StatusChip extends StatelessWidget {
 }
 
 class _ModerationInfoPill extends StatelessWidget {
-  const _ModerationInfoPill({required this.icon, required this.text});
+  const _ModerationInfoPill({this.icon, required this.text});
 
-  final IconData icon;
+  final IconData? icon;
   final String text;
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.colorPalette;
     final colorScheme = Theme.of(context).colorScheme;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.35),
+        color: palette.accentMist,
         borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: palette.line),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 14, color: colorScheme.onSurfaceVariant),
-            const SizedBox(width: 6),
+            if (icon != null) ...[
+              Icon(icon, size: 14, color: colorScheme.onSurfaceVariant),
+              const SizedBox(width: 6),
+            ],
             Text(
               text,
               style: TextStyle(
@@ -1000,5 +1035,93 @@ class _ModerationMetricRow extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+// Плашка-вход в bottom sheet с характеристиками и описанием.
+class _ModerationAboutTile extends StatelessWidget {
+  const _ModerationAboutTile({required this.product, required this.onTap});
+
+  final SupplierProduct product;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.colorPalette;
+    final colorScheme = Theme.of(context).colorScheme;
+    final preview = _aboutPreview(product);
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: palette.accentMist,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: palette.line),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'О товаре',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: palette.ink,
+                    ),
+                  ),
+                ),
+                Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
+              ],
+            ),
+            if (preview.isNotEmpty) ...[
+              const SizedBox(height: 6),
+              Text(
+                preview,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: colorScheme.onSurfaceVariant,
+                  height: 1.35,
+                ),
+              ),
+            ],
+            const SizedBox(height: 8),
+            Text(
+              'Подробнее',
+              style: TextStyle(
+                fontSize: 13,
+                color: palette.accent,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _aboutPreview(SupplierProduct product) {
+    final sections = buildSupplierProductSections(product);
+    final parts = <String>[];
+    outer:
+    for (final section in sections) {
+      for (final item in section.items) {
+        if (item.key.trim().isEmpty) {
+          parts.add(item.value);
+        } else {
+          parts.add('${item.key} — ${item.value}');
+        }
+        if (parts.length >= 3) break outer;
+      }
+    }
+    return parts.join(' · ');
   }
 }

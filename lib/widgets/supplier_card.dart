@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../theme/app_color_palette.dart';
+import '../utils/delivery_schedule.dart';
+import '../utils/rating_format.dart';
 import '../utils/ru_plural.dart';
 
 class SupplierCard extends StatelessWidget {
@@ -23,6 +25,7 @@ class SupplierCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final totalPrice = supplier.pricePerUnit * quantity;
     final palette = context.colorPalette;
+    final deliveryText = _resolveDeliveryText();
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -53,7 +56,7 @@ class SupplierCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          supplier.rating.toStringAsFixed(1),
+                          formatRating(supplier.rating),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -152,7 +155,7 @@ class SupplierCard extends StatelessWidget {
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
-                  '${supplier.deliveryInfo}, ${supplier.deliveryDate}',
+                  deliveryText,
                   style: TextStyle(fontSize: 12, color: palette.muted),
                 ),
               ),
@@ -161,5 +164,25 @@ class SupplierCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  // Формируем текст доставки: предпочитаем расчётный из DeliverySchedule;
+  // если строка не парсится — показываем deliveryInfo и старую строку.
+  String _resolveDeliveryText() {
+    final raw = supplier.deliveryDate.trim().isNotEmpty
+        ? supplier.deliveryDate
+        : supplier.deliveryBadge;
+    final schedule = DeliverySchedule.decode(raw);
+    if (schedule != null) {
+      final pretty = formatExpectedDelivery(schedule, DateTime.now());
+      final info = supplier.deliveryInfo.trim();
+      return info.isEmpty ? pretty : '$info, $pretty';
+    }
+    final fallback = raw.trim();
+    final info = supplier.deliveryInfo.trim();
+    if (info.isEmpty && fallback.isEmpty) return 'Доставка';
+    if (info.isEmpty) return fallback;
+    if (fallback.isEmpty) return info;
+    return '$info, $fallback';
   }
 }

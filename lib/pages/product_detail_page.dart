@@ -7,13 +7,15 @@ import '../models/question.dart';
 import '../services/api_service.dart';
 import '../services/cart_store.dart';
 import '../services/favorites_store.dart';
+import '../services/supplier_stats_store.dart';
 import '../widgets/category_tags.dart';
-import '../widgets/info_section.dart';
 import '../widgets/main_bottom_nav.dart';
-import '../widgets/nutritional_info_card.dart';
 import '../widgets/product_image_carousel.dart';
 import '../widgets/rating_section.dart';
 import '../theme/app_color_palette.dart';
+import '../utils/characteristic_sections.dart';
+import '../utils/delivery_schedule.dart';
+import '../utils/rating_format.dart';
 import '../widgets/similar_products_carousel.dart';
 import '../widgets/top_message.dart';
 import '../widgets/rating_stars.dart';
@@ -54,6 +56,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   int _totalQuestions = 0;
   TabController? _tabController;
   bool _isFavorite = false;
+  // Избранное компании-поставщика — отдельный флаг, не связанный с избранным товара.
+  bool _isSupplierFavorite = false;
   bool _showPersistentPriceBar = true;
   bool _showScrollToTopButton = false;
   late final VoidCallback _favoritesListener;
@@ -67,7 +71,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   Color get _pageBg => _palette.bgTop;
   Color get _cardBg => _palette.card;
   Color get _mutedText => _palette.muted;
-  Color get _borderColor => _palette.line;
   Color get _shadowColor => _palette.shadow;
   FavoritesStore get _favoritesStore => FavoritesStore.instance;
   int get _resolvedReviewCount => _productReviews.isNotEmpty
@@ -87,9 +90,14 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     _isFavorite = _favoritesStore.contains(widget.product.id);
     _favoritesListener = () {
       final isFav = _favoritesStore.contains(widget.product.id);
-      if (isFav != _isFavorite && mounted) {
+      final supplierId = _selectedSupplierId;
+      final isSupplierFav =
+          supplierId != null && _favoritesStore.containsSupplier(supplierId);
+      if (!mounted) return;
+      if (isFav != _isFavorite || isSupplierFav != _isSupplierFavorite) {
         setState(() {
           _isFavorite = isFav;
+          _isSupplierFavorite = isSupplierFav;
         });
       }
     };
@@ -100,9 +108,13 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     }
     if (widget.product.suppliers.isNotEmpty) {
       _selectedSupplierId = widget.product.bestSupplier.id;
+      _isSupplierFavorite = _favoritesStore.containsSupplier(
+        _selectedSupplierId!,
+      );
     }
     _loadProductReviews();
     _loadProductQuestions();
+    _refreshSupplierStats();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       _updateBottomAffordances();
@@ -137,7 +149,11 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       _selectedSupplierId = widget.product.suppliers.isEmpty
           ? null
           : widget.product.bestSupplier.id;
+      _isSupplierFavorite = _selectedSupplierId == null
+          ? false
+          : _favoritesStore.containsSupplier(_selectedSupplierId!);
       _loadProductReviews();
+      _refreshSupplierStats();
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         _updateBottomAffordances();
@@ -208,6 +224,20 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       duration: const Duration(milliseconds: 360),
       curve: Curves.easeOutCubic,
     );
+  }
+
+  // Подтягиваем актуальный rating/reviewCount поставщика и кешируем в SupplierStatsStore.
+  // Цифры на странице обновятся через AnimatedBuilder, и тот же кеш увидит избранное.
+  Future<void> _refreshSupplierStats() async {
+    final supplierId = _selectedSupplierId;
+    if (supplierId == null) return;
+    try {
+      final fresh = await ApiService.getSupplier(supplierId);
+      if (!mounted) return;
+      SupplierStatsStore.instance.update(fresh);
+    } catch (_) {
+      // Молча игнорируем — отобразим то, что пришло вместе с товаром.
+    }
   }
 
   Future<void> _loadProductReviews() async {
@@ -359,9 +389,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     final bottomScrollPadding =
         MediaQuery.of(context).padding.bottom +
         (_showPersistentPriceBar ? 150 : 56);
-    final ingredients = widget.product.ingredients.trim();
-    final characteristics = _filteredCharacteristics();
-    final hasNutritionalInfo = _hasNutritionalInfo();
 
     return Scaffold(
       backgroundColor: _pageBg,
@@ -382,14 +409,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                     _buildHeroSection(),
                     _buildTitleBlock(),
                     _buildAvailabilitySection(),
-                    if (hasNutritionalInfo)
-                      NutritionalInfoCard(
-                        nutritionalInfo: widget.product.nutritionalInfo,
-                      ),
-                    if (ingredients.isNotEmpty)
-                      InfoSection(title: 'Состав', content: ingredients),
-                    if (characteristics.isNotEmpty)
-                      _buildCharacteristicsSection(characteristics),
                     _buildStatsButtonsRow(),
                     Container(
                       color: _cardBg,
@@ -420,6 +439,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                         ],
                       ),
                     ),
+                    _buildAboutProductTile(),
                     if (widget.similarProducts.isNotEmpty)
                       SimilarProductsCarousel(
                         key: _similarProductsKey,
@@ -476,57 +496,65 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           ProductImageCarousel(imageUrls: widget.product.imageUrls),
           Positioned(
             top: 0,
-            left: 16,
+            left: 12,
             child: SafeArea(
               bottom: false,
-              child: _buildIconPill(
-                icon: Icons.arrow_back,
-                onTap: () => Navigator.pop(context),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: _buildIconPill(
+                  icon: Icons.arrow_back,
+                  onTap: () => Navigator.pop(context),
+                ),
               ),
             ),
           ),
           Positioned(
             top: 0,
-            right: 16,
+            right: 12,
             child: SafeArea(
               bottom: false,
-              child: Row(
-                children: [
-                  _buildIconPill(
-                    icon: _isFavorite ? Icons.favorite : Icons.favorite_border,
-                    iconColor: _palette.accent,
-                    onTap: () {
-                      final added = _favoritesStore.toggle(widget.product);
-                      setState(() {
-                        _isFavorite = added;
-                      });
-                      if (added) {
-                        showTopMessage(
-                          context,
-                          '\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e \u0432 \u0438\u0437\u0431\u0440\u0430\u043d\u043d\u043e\u0435',
-                          backgroundColor: _palette.accent,
-                          showAtBottom: true,
-                          bottomOffset: _bottomMessageOffset,
-                        );
-                      } else {
-                        showTopMessage(
-                          context,
-                          '\u0423\u0434\u0430\u043b\u0435\u043d\u043e \u0438\u0437 \u0438\u0437\u0431\u0440\u0430\u043d\u043d\u043e\u0433\u043e',
-                          backgroundColor: _palette.error,
-                          showAtBottom: true,
-                          duration: const Duration(seconds: 3),
-                          showClose: true,
-                          bottomOffset: _bottomMessageOffset,
-                        );
-                      }
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  _buildIconPill(
-                    icon: Icons.share_outlined,
-                    onTap: _shareProductStub,
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildIconPill(
+                      icon: _isFavorite
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      onTap: () {
+                        final added = _favoritesStore.toggle(widget.product);
+                        setState(() {
+                          _isFavorite = added;
+                        });
+                        if (added) {
+                          showTopMessage(
+                            context,
+                            '\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e \u0432 \u0438\u0437\u0431\u0440\u0430\u043d\u043d\u043e\u0435',
+                            backgroundColor: _palette.accent,
+                            showAtBottom: true,
+                            bottomOffset: _bottomMessageOffset,
+                          );
+                        } else {
+                          showTopMessage(
+                            context,
+                            '\u0423\u0434\u0430\u043b\u0435\u043d\u043e \u0438\u0437 \u0438\u0437\u0431\u0440\u0430\u043d\u043d\u043e\u0433\u043e',
+                            backgroundColor: _palette.error,
+                            showAtBottom: true,
+                            duration: const Duration(seconds: 3),
+                            showClose: true,
+                            bottomOffset: _bottomMessageOffset,
+                          );
+                        }
+                      },
+                    ),
+                    const SizedBox(width: 10),
+                    _buildIconPill(
+                      icon: Icons.share_rounded,
+                      onTap: _shareProductStub,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -540,39 +568,67 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     VoidCallback? onTap,
     Color? iconColor,
   }) {
-    final resolvedColor = iconColor ?? _colorScheme.onSurface;
+    final resolvedColor = iconColor ?? Colors.white;
 
     return Material(
-      color: _cardBg,
+      color: Colors.transparent,
       shape: const CircleBorder(),
-      elevation: 1,
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Icon(icon, color: resolvedColor, size: 29),
+        child: SizedBox(
+          width: 40,
+          height: 40,
+          child: Center(
+            // Иконки без фона; тень делает их читаемыми поверх любого фото.
+            child: Icon(
+              icon,
+              color: resolvedColor,
+              size: 26,
+              shadows: const [
+                Shadow(
+                  color: Color(0x66000000),
+                  blurRadius: 8,
+                  offset: Offset(0, 1),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildProductTitle() {
-    return Text(
-      widget.product.name,
-      style: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
-        height: 1.1,
-      ),
-    );
-  }
-
+  // Заголовок товара. Под рейтингом и названием — компактная строка:
+  // слева иконки доставки/развоза, справа теги категорий.
   Widget _buildTitleBlock() {
+    final palette = context.colorPalette;
+    final supplier = widget.product.suppliers.isEmpty
+        ? null
+        : widget.product.suppliers.firstWhere(
+            (s) => s.id == _selectedSupplierId,
+            orElse: () => widget.product.bestSupplier,
+          );
+    final raw = supplier == null
+        ? ''
+        : (supplier.deliveryDate.trim().isNotEmpty
+              ? supplier.deliveryDate
+              : supplier.deliveryBadge);
+    final schedule = DeliverySchedule.decode(raw);
+    final deliveryDate = schedule != null
+        ? formatDeliveryDateShort(schedule, DateTime.now())
+        : (raw.trim().isEmpty ? null : raw);
+    final deliveryTime = schedule != null
+        ? formatDeliveryTimeShort(schedule)
+        : null;
+    final hasInfoLine =
+        deliveryDate != null ||
+        deliveryTime != null ||
+        widget.product.categories.isNotEmpty;
+
     return Container(
       color: _cardBg,
-      margin: const EdgeInsets.only(top: 8),
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 10),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -582,11 +638,321 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             onTap: _openReviews,
           ),
           const SizedBox(height: 4),
-          _buildProductTitle(),
-          const SizedBox(height: 2),
-          CategoryTags(categories: widget.product.categories),
+          Text(
+            widget.product.name,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              height: 1.1,
+              color: palette.ink,
+            ),
+          ),
+          if (hasInfoLine) ...[
+            const SizedBox(height: 8),
+            // Дата/время доставки слева, теги — отдельной строкой ниже.
+            if (deliveryDate != null || deliveryTime != null)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (deliveryDate != null) ...[
+                    Icon(
+                      Icons.local_shipping_outlined,
+                      size: 16,
+                      color: palette.accent,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      deliveryDate,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: palette.accent,
+                      ),
+                    ),
+                  ],
+                  if (deliveryTime != null) ...[
+                    const SizedBox(width: 10),
+                    Icon(
+                      Icons.access_time_rounded,
+                      size: 16,
+                      color: palette.accent,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      deliveryTime,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: palette.accent,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            if (widget.product.categories.isNotEmpty) ...[
+              if (deliveryDate != null || deliveryTime != null)
+                const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: CategoryTags(
+                  categories: widget.product.categories,
+                  alignment: WrapAlignment.start,
+                ),
+              ),
+            ],
+          ],
         ],
       ),
+    );
+  }
+
+  // Объединённая карточка: верхняя часть «О товаре» с превью характеристик
+  // и кнопкой «Подробнее» (тап → bottom sheet с табами), под разделителем —
+  // компактная плашка поставщика (название, «Поставщик ⭐ rating» и сердечко).
+  Widget _buildAboutProductTile() {
+    final palette = context.colorPalette;
+    final sections = buildCharacteristicSections(widget.product);
+    final hasDescription = !shouldShowDescriptionPlaceholder(
+      widget.product.description,
+    );
+    final hasAbout = sections.isNotEmpty || hasDescription;
+    final supplier = widget.product.suppliers.isEmpty
+        ? null
+        : widget.product.suppliers.firstWhere(
+            (s) => s.id == _selectedSupplierId,
+            orElse: () => widget.product.bestSupplier,
+          );
+    if (!hasAbout && supplier == null) {
+      return const SizedBox.shrink();
+    }
+    final preview = _buildPreviewLines(sections);
+
+    return Container(
+      color: _cardBg,
+      margin: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+      child: Container(
+        decoration: BoxDecoration(
+          color: palette.bgTop,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: palette.line),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (hasAbout)
+              InkWell(
+                onTap: _openAboutProductSheet,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'О товаре',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: palette.ink,
+                              ),
+                            ),
+                            if (preview.isNotEmpty) ...[
+                              const SizedBox(height: 8),
+                              Text(
+                                preview,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: palette.muted,
+                                  height: 1.35,
+                                ),
+                              ),
+                            ],
+                            const SizedBox(height: 8),
+                            Text(
+                              'Подробнее',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: palette.accent,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Icon(Icons.chevron_right, color: palette.muted),
+                    ],
+                  ),
+                ),
+              ),
+            if (hasAbout && supplier != null)
+              Divider(height: 1, thickness: 1, color: palette.line),
+            if (supplier != null) _buildSupplierRow(supplier, palette),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Компактная плашка поставщика внутри объединённой карточки.
+  // Фон card создаёт лёгкий контраст с обёрткой bgTop в обеих темах,
+  // как на референсе. Имя слева, под ним «Поставщик ⭐ rating», справа сердечко.
+  Widget _buildSupplierRow(Supplier supplier, AppColorPalette palette) {
+    return AnimatedBuilder(
+      animation: SupplierStatsStore.instance,
+      builder: (context, _) {
+        final rating = SupplierStatsStore.instance.rating(
+          supplier.id,
+          fallback: supplier.rating,
+        );
+        return Material(
+          color: palette.card,
+          borderRadius: const BorderRadius.vertical(
+            bottom: Radius.circular(15),
+          ),
+          child: InkWell(
+            onTap: () => _openSupplierProfile(supplier),
+            borderRadius: const BorderRadius.vertical(
+              bottom: Radius.circular(15),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          supplier.name,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: palette.ink,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 2),
+                        Row(
+                          children: [
+                            Text(
+                              'Поставщик',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: palette.muted,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Icon(
+                              Icons.star_rounded,
+                              size: 14,
+                              color: palette.star,
+                            ),
+                            const SizedBox(width: 2),
+                            Text(
+                              formatRating(rating),
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: palette.ink,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    tooltip: _isSupplierFavorite
+                        ? 'Удалить из избранного'
+                        : 'Добавить в избранное',
+                    onPressed: () => _toggleSupplierFavorite(supplier),
+                    icon: Icon(
+                      _isSupplierFavorite
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: palette.accent,
+                      size: 22,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // Собирает короткий превью характеристик в одну строку через «·».
+  // Берём первые 3–4 пары из всех непустых разделов.
+  String _buildPreviewLines(List<CharacteristicSection> sections) {
+    final parts = <String>[];
+    outer:
+    for (final section in sections) {
+      for (final item in section.items) {
+        if (item.key.isEmpty) {
+          // Раздел «Состав»: значение само по себе достаточно информативно.
+          parts.add(item.value);
+        } else {
+          parts.add('${item.key} — ${item.value}');
+        }
+        if (parts.length >= 4) break outer;
+      }
+    }
+    return parts.join(' · ');
+  }
+
+  void _openAboutProductSheet() {
+    final palette = context.colorPalette;
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: palette.card,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetContext) {
+        return DraggableScrollableSheet(
+          expand: false,
+          // Snap к initialChildSize — короткий свайп вниз возвращает к исходной высоте.
+          initialChildSize: 0.94,
+          minChildSize: 0.6,
+          maxChildSize: 0.94,
+          snap: true,
+          snapSizes: const [0.94],
+          builder: (context, scrollController) {
+            return _AboutProductSheet(
+              product: widget.product,
+              scrollController: scrollController,
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _toggleSupplierFavorite(Supplier supplier) {
+    final added = _favoritesStore.toggleSupplier(supplier);
+    setState(() {
+      _isSupplierFavorite = added;
+    });
+    showTopMessage(
+      context,
+      added ? 'Добавлено в избранное' : 'Удалено из избранного',
+      backgroundColor: added ? _palette.accent : _palette.error,
+      showAtBottom: true,
+      bottomOffset: _bottomMessageOffset,
     );
   }
 
@@ -619,33 +985,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Название поставщика — тап открывает его профиль
-          InkWell(
-            onTap: () => _openSupplierProfile(supplier),
-            borderRadius: BorderRadius.circular(8),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Row(
-                children: [
-                  Icon(Icons.store_outlined, size: 16, color: _palette.accent),
-                  const SizedBox(width: 6),
-                  Expanded(
-                    child: Text(
-                      supplier.name,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: _palette.accent,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Icon(Icons.chevron_right, size: 16, color: _palette.accent),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
           Row(
             children: [
               Expanded(
@@ -665,8 +1004,10 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   vertical: 8,
                 ),
                 decoration: BoxDecoration(
-                  color: (isAvailable ? _palette.accent : _palette.error)
-                      .withValues(alpha: 0.12),
+                  // Тот же оттенок, что у тегов категорий, чтобы плашки совпадали.
+                  color: isAvailable
+                      ? _palette.accentSoft
+                      : _palette.error.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(999),
                 ),
                 child: Text(
@@ -696,86 +1037,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           supplierId: supplier.id,
           initialSupplier: supplier,
         ),
-      ),
-    );
-  }
-
-  Map<String, String> _filteredCharacteristics() {
-    final result = <String, String>{};
-    widget.product.characteristics.forEach((key, value) {
-      final normalizedKey = key.trim();
-      final normalizedValue = value.trim();
-      if (normalizedKey.isEmpty || normalizedValue.isEmpty) {
-        return;
-      }
-      result[normalizedKey] = normalizedValue;
-    });
-    return result;
-  }
-
-  bool _hasNutritionalInfo() {
-    final info = widget.product.nutritionalInfo;
-    return info.calories > 0 ||
-        info.protein > 0 ||
-        info.fat > 0 ||
-        info.carbohydrates > 0;
-  }
-
-  Widget _buildCharacteristicsSection(Map<String, String> characteristics) {
-    return Container(
-      width: double.infinity,
-      color: _cardBg,
-      margin: const EdgeInsets.only(top: 8),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Общие характеристики',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 12),
-          ...characteristics.entries.toList().asMap().entries.map((entry) {
-            final index = entry.key;
-            final item = entry.value;
-            final isLast = index == characteristics.length - 1;
-
-            return Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        item.key,
-                        style: TextStyle(fontSize: 12, color: _mutedText),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          item.value,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                if (!isLast) ...[
-                  const SizedBox(height: 8),
-                  Divider(color: _borderColor, height: 1),
-                  const SizedBox(height: 8),
-                ],
-              ],
-            );
-          }),
-        ],
       ),
     );
   }
@@ -1266,6 +1527,283 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   }
 }
 
+/// Bottom sheet «О товаре»: заголовок с крестиком, табы «Характеристики»/«Описание»,
+/// прокручиваемое содержимое. Содержимое табов переиспользуем: _CharacteristicsTab и _DescriptionTab.
+class _AboutProductSheet extends StatefulWidget {
+  const _AboutProductSheet({
+    required this.product,
+    required this.scrollController,
+  });
+
+  final Product product;
+  final ScrollController scrollController;
+
+  @override
+  State<_AboutProductSheet> createState() => _AboutProductSheetState();
+}
+
+class _AboutProductSheetState extends State<_AboutProductSheet>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+  // Ключи якорей: используются для скролла к секциям при тапе по табам.
+  final GlobalKey _characteristicsKey = GlobalKey();
+  final GlobalKey _descriptionKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(_onTabTapped);
+  }
+
+  @override
+  void dispose() {
+    _tabController.removeListener(_onTabTapped);
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  void _onTabTapped() {
+    if (!_tabController.indexIsChanging) return;
+    final targetKey = _tabController.index == 0
+        ? _characteristicsKey
+        : _descriptionKey;
+    final ctx = targetKey.currentContext;
+    if (ctx == null) return;
+    Scrollable.ensureVisible(
+      ctx,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+      alignment: 0,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.colorPalette;
+    final sections = buildCharacteristicSections(widget.product);
+    final description = widget.product.description;
+    final hasContent = sections.isNotEmpty || description.trim().isNotEmpty;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Center(
+            child: Container(
+              width: 40,
+              height: 4,
+              margin: const EdgeInsets.only(bottom: 12),
+              decoration: BoxDecoration(
+                color: palette.line,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'О товаре',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                    color: palette.ink,
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: Icon(Icons.close, color: palette.ink),
+                tooltip: 'Закрыть',
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          if (hasContent)
+            TabBar(
+              controller: _tabController,
+              isScrollable: true,
+              tabAlignment: TabAlignment.start,
+              indicatorColor: palette.accent,
+              indicatorWeight: 3,
+              labelColor: palette.ink,
+              unselectedLabelColor: palette.muted,
+              labelStyle: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+              ),
+              tabs: const [
+                Tab(text: 'Характеристики'),
+                Tab(text: 'Описание'),
+              ],
+            ),
+          const SizedBox(height: 12),
+          Expanded(
+            child: SingleChildScrollView(
+              controller: widget.scrollController,
+              child: !hasContent
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 24),
+                      child: Text(
+                        'Нет данных о товаре',
+                        style: TextStyle(fontSize: 14, color: palette.muted),
+                      ),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if (sections.isNotEmpty) ...[
+                          KeyedSubtree(
+                            key: _characteristicsKey,
+                            child: _CharacteristicsTab(sections: sections),
+                          ),
+                          const SizedBox(height: 24),
+                        ] else
+                          KeyedSubtree(
+                            key: _characteristicsKey,
+                            child: const SizedBox.shrink(),
+                          ),
+                        // Заголовок раздела «Описание» в общем потоке скролла,
+                        // ниже всех характеристик.
+                        Padding(
+                          key: _descriptionKey,
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: Text(
+                            'Описание',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: palette.ink,
+                            ),
+                          ),
+                        ),
+                        _DescriptionTab(description: description),
+                      ],
+                    ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Содержимое таба «Характеристики»: вертикальный список разделов.
+/// Каждый раздел — заголовок 16sp w600 и пары «название → значение»,
+/// разделённые тонкой линией. Запись с пустым ключом (раздел «Состав»)
+/// рендерится одной строкой во всю ширину.
+class _CharacteristicsTab extends StatelessWidget {
+  const _CharacteristicsTab({required this.sections});
+
+  final List<CharacteristicSection> sections;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var i = 0; i < sections.length; i++) ...[
+          _CharacteristicSectionView(section: sections[i]),
+          if (i != sections.length - 1) const SizedBox(height: 16),
+        ],
+      ],
+    );
+  }
+}
+
+/// Содержимое таба «Описание»: либо текст `product.description` без обрезки,
+/// либо плейсхолдер «Описание не указано», если строка пуста или whitespace-only.
+class _DescriptionTab extends StatelessWidget {
+  const _DescriptionTab({required this.description});
+
+  final String description;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.colorPalette;
+    final isPlaceholder = shouldShowDescriptionPlaceholder(description);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: isPlaceholder
+          ? Text(
+              'Описание не указано',
+              style: TextStyle(fontSize: 14, color: palette.muted),
+            )
+          : Text(
+              description,
+              softWrap: true,
+              style: TextStyle(fontSize: 14, color: palette.ink, height: 1.4),
+            ),
+    );
+  }
+}
+
+/// Один раздел Characteristic_Section: заголовок и список пар.
+class _CharacteristicSectionView extends StatelessWidget {
+  const _CharacteristicSectionView({required this.section});
+
+  final CharacteristicSection section;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.colorPalette;
+    final items = section.items;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(
+            section.title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: palette.ink,
+            ),
+          ),
+        ),
+        for (var i = 0; i < items.length; i++) ...[
+          _buildItem(palette, items[i]),
+          if (i != items.length - 1)
+            Divider(height: 1, thickness: 1, color: palette.line),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildItem(AppColorPalette palette, MapEntry<String, String> item) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 5,
+            child: Text(
+              item.key,
+              style: TextStyle(fontSize: 14, color: palette.muted),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            flex: 6,
+            child: Text(
+              item.value,
+              textAlign: TextAlign.right,
+              style: TextStyle(fontSize: 14, color: palette.ink),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class ReviewPreviewCard extends StatefulWidget {
   final ReviewEntry review;
   final VoidCallback onOpenAll;
@@ -1319,13 +1857,6 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
         color: palette.card,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: palette.line.withValues(alpha: 0.5)),
-        boxShadow: [
-          BoxShadow(
-            color: palette.shadow,
-            blurRadius: 10,
-            offset: const Offset(0, 6),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1469,13 +2000,6 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
         color: palette.card,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: palette.line.withValues(alpha: 0.5)),
-        boxShadow: [
-          BoxShadow(
-            color: palette.shadow,
-            blurRadius: 10,
-            offset: const Offset(0, 6),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
