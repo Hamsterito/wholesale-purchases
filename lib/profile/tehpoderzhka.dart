@@ -187,18 +187,11 @@ class _SupportPageState extends State<SupportPage> {
     final category = _selectedCategory;
     final subject = _subjectController.text.trim();
     final isNewChat = !_hasOpenChat;
+    // category и subject опциональны — если заполнены, передаём.
     final resolvedCategory = category ?? _chat?.category.trim();
     final resolvedSubject = subject.isNotEmpty
         ? subject
         : (_chat?.subject.trim() ?? '');
-
-    if (isNewChat && (resolvedCategory == null || resolvedSubject.isEmpty)) {
-      _showSnack(
-        'Для нового обращения заполните категорию и тему',
-        isError: true,
-      );
-      return;
-    }
 
     setState(() => _isSending = true);
     try {
@@ -207,7 +200,9 @@ class _SupportPageState extends State<SupportPage> {
         chatId: _hasOpenChat ? _chat!.id : null,
         senderRole: 'user',
         senderUserId: userId,
-        category: resolvedCategory,
+        category: (resolvedCategory == null || resolvedCategory.isEmpty)
+            ? null
+            : resolvedCategory,
         subject: resolvedSubject.isEmpty ? null : resolvedSubject,
         text: message,
       );
@@ -219,7 +214,12 @@ class _SupportPageState extends State<SupportPage> {
             ? 'Обращение отправлено в техподдержку'
             : 'Сообщение отправлено',
       );
-      await _loadThread(silent: true);
+      // На новом обращении явно подтягиваем тред: до прихода SSE-кадра
+      // _chat ещё null и кнопка «Открыть чат» не покажется.
+      // На существующем чате fetch не нужен — SSE донесёт.
+      if (isNewChat) {
+        await _loadThread(silent: true);
+      }
     } catch (_) {
       if (!mounted) return;
       _showSnack('Не удалось отправить обращение', isError: true);
@@ -342,7 +342,7 @@ class _SupportPageState extends State<SupportPage> {
                   const SizedBox(height: 20),
                   _buildContactItem(Icons.phone, '+7 (777) 123-45-67'),
                   const SizedBox(height: 12),
-                  _buildContactItem(Icons.email, 'support@mansamart.kz'),
+                  _buildContactItem(Icons.email, 'wholesale_mans@gmail.com'),
                   const SizedBox(height: 12),
                   _buildContactItem(
                     Icons.access_time,

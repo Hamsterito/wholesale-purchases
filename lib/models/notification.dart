@@ -68,7 +68,8 @@ class NotificationCounts {
         'unreadMessages: $unreadMessages, '
         'pendingOrders: $pendingOrders, '
         'pendingReviews: $pendingReviews, '
-        'pendingModerations: $pendingModerations'
+        'pendingModerations: $pendingModerations, '
+        'deliveredOrders: $deliveredOrders'
         ')';
   }
 }

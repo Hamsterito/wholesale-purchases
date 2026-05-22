@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/app_message_snackbar.dart';
@@ -9,7 +9,10 @@ import '../models/message.dart';
 import '../models/support_message.dart';
 import '../services/api_service.dart';
 import '../services/auth_storage.dart';
+import '../widgets/chat_thread_view.dart';
+import '../widgets/adapters.dart';
 import '../widgets/main_bottom_nav.dart';
+import 'suppliers_directory_page.dart';
 
 class ModeratorSupportChatsPage extends StatefulWidget {
   const ModeratorSupportChatsPage({super.key});
@@ -129,18 +132,7 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
   }
 
   String _subtitle(SupportChatSummary chat) {
-    final parts = <String>[];
-    if (chat.userEmail.trim().isNotEmpty) {
-      parts.add(chat.userEmail.trim());
-    }
-
-    final message = chat.lastMessage.trim();
-    if (message.isNotEmpty) {
-      parts.add(message);
-    } else {
-      parts.add('Нет текста сообщения');
-    }
-    return parts.join(' | ');
+    return chat.userEmail.trim();
   }
 
   Widget _statusChip(SupportChatSummary chat) {
@@ -226,7 +218,22 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
         : colorScheme.outlineVariant.withValues(alpha: 0.95);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Чаты техподдержки')),
+      appBar: AppBar(
+        title: const Text('Чаты техподдержки'),
+        actions: [
+          IconButton(
+            tooltip: 'Поставщики',
+            icon: const Icon(Icons.business_center_outlined),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const SuppliersDirectoryPage(),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Padding(
@@ -376,10 +383,9 @@ class ModeratorSupportDialogPage extends StatefulWidget {
 
 class _ModeratorSupportDialogPageState
     extends State<ModeratorSupportDialogPage> {
-  final TextEditingController _messageController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
+  static const _uuid = Uuid();
 
-  List<SupportMessage> _messages = [];
+  List<SupportMessage> _messages = const [];
   SupportChat? _chat;
   bool _isLoading = true;
   bool _isSending = false;
@@ -391,6 +397,7 @@ class _ModeratorSupportDialogPageState
   int _eventsReconnectAttempt = 0;
 
   bool get _isChatClosed => _chat?.isClosed ?? !widget.chat.isOpen;
+  bool get _isChatOpen => !_isChatClosed;
 
   @override
   void initState() {
@@ -402,39 +409,37 @@ class _ModeratorSupportDialogPageState
   void _startEventsStream() {
     _eventsReconnectTimer?.cancel();
     _eventsSubscription?.cancel();
-
     if (!mounted) return;
-    _eventsSubscription =
-        ApiService.moderatorSupportEvents(chatId: widget.chat.chatId).listen(
-          (event) {
-            if (!mounted) return;
-            final kind = event['kind']?.toString();
-            if (kind == 'connected') {
-              _eventsReconnectAttempt = 0;
-              return;
-            }
-            _eventsReconnectAttempt = 0;
-            _loadThread(silent: true);
-          },
-          onError: (_) {
-            if (!mounted) return;
-            _scheduleEventsReconnect();
-          },
-          onDone: () {
-            if (!mounted) return;
-            _scheduleEventsReconnect();
-          },
-          cancelOnError: true,
-        );
+
+    _eventsSubscription = ApiService.moderatorSupportEvents().listen(
+      (event) {
+        if (!mounted) return;
+        final kind = event['kind']?.toString();
+        if (kind == 'connected') {
+          _eventsReconnectAttempt = 0;
+          return;
+        }
+        _eventsReconnectAttempt = 0;
+        // Подписываемся без chatId-фильтра — один сокет шарится со списком.
+        // Чужой чат отфильтрует _loadThread.
+        _loadThread(silent: true);
+      },
+      onError: (_) {
+        if (!mounted) return;
+        _scheduleEventsReconnect();
+      },
+      onDone: () {
+        if (!mounted) return;
+        _scheduleEventsReconnect();
+      },
+      cancelOnError: true,
+    );
   }
 
   void _scheduleEventsReconnect() {
     _eventsReconnectTimer?.cancel();
     _eventsReconnectAttempt += 1;
-    if (_eventsReconnectAttempt > 6) {
-      _eventsReconnectAttempt = 6;
-    }
-
+    if (_eventsReconnectAttempt > 6) _eventsReconnectAttempt = 6;
     final delay = Duration(seconds: _eventsReconnectAttempt * 2);
     _eventsReconnectTimer = Timer(delay, () {
       if (!mounted) return;
@@ -442,6 +447,8 @@ class _ModeratorSupportDialogPageState
     });
   }
 
+  /// Превращает summary из списка чатов в SupportChat для UI.
+  /// Нужно, чтобы страница отрисовалась со статусом и темой до загрузки треда.
   SupportChat _summaryToChat(SupportChatSummary summary) {
     return SupportChat(
       id: summary.chatId,
@@ -463,44 +470,29 @@ class _ModeratorSupportDialogPageState
         _error = null;
       });
     }
-
     try {
       final thread = await ApiService.getModeratorSupportThread(
         chatId: widget.chat.chatId,
       );
       if (!mounted) return;
-
-      final previousCount = _messages.length;
       setState(() {
         _messages = thread.messages;
-        if (thread.chat != null) {
-          _chat = thread.chat;
-        }
+        if (thread.chat != null) _chat = thread.chat;
         _error = null;
       });
-
-      if (!silent) {
-        _scrollToBottom(jump: true);
-      } else if (_messages.length > previousCount) {
-        _scrollToBottom();
-      }
     } catch (_) {
       if (!mounted) return;
       if (!silent) {
-        setState(() {
-          _error = 'Не удалось загрузить сообщения';
-        });
+        setState(() => _error = 'Не удалось загрузить сообщения');
       }
     } finally {
       if (mounted && !silent) {
-        setState(() {
-          _isLoading = false;
-        });
+        setState(() => _isLoading = false);
       }
     }
   }
 
-  Future<void> _sendMessage() async {
+  Future<void> _sendMessageText(String rawText) async {
     final moderatorId = AuthStorage.userId ?? 0;
     if (moderatorId <= 0) {
       _showSnack(
@@ -509,22 +501,17 @@ class _ModeratorSupportDialogPageState
       );
       return;
     }
-
     if (_isChatClosed) {
       _showSnack('Чат уже закрыт', severity: MessageSeverity.warning);
       return;
     }
-
-    final text = _messageController.text.trim();
+    final text = rawText.trim();
     if (text.isEmpty) {
       _showSnack('Введите сообщение', severity: MessageSeverity.warning);
       return;
     }
 
-    setState(() {
-      _isSending = true;
-    });
-
+    setState(() => _isSending = true);
     try {
       final sent = await ApiService.sendSupportMessage(
         userId: widget.chat.userId,
@@ -534,24 +521,25 @@ class _ModeratorSupportDialogPageState
         text: text,
       );
       if (!mounted) return;
-
       setState(() {
         _messages = [..._messages, sent];
-        _messageController.clear();
       });
-      _scrollToBottom();
-      await _loadThread(silent: true);
-    } catch (_) {
+      // Свежий thread прилетит через SSE — лишний fetch только забивает
+      // лимит соединений в Chrome.
+    } catch (e) {
       if (!mounted) return;
+      // sendSupportMessage пробрасывает текст ошибки от сервера —
+      // показываем именно его (например, «Чат закрыт»).
+      var msg = e.toString();
+      const prefix = 'Exception: ';
+      if (msg.startsWith(prefix)) msg = msg.substring(prefix.length);
       _showSnack(
-        'Не удалось отправить сообщение',
+        msg.trim().isEmpty ? 'Не удалось отправить сообщение' : msg,
         severity: MessageSeverity.error,
       );
     } finally {
       if (mounted) {
-        setState(() {
-          _isSending = false;
-        });
+        setState(() => _isSending = false);
       }
     }
   }
@@ -596,14 +584,10 @@ class _ModeratorSupportDialogPageState
         );
       },
     );
-
     reasonController.dispose();
     if (reason == null) return;
 
-    setState(() {
-      _isClosing = true;
-    });
-
+    setState(() => _isClosing = true);
     try {
       final closed = await ApiService.closeModeratorSupportChat(
         chatId: widget.chat.chatId,
@@ -611,10 +595,7 @@ class _ModeratorSupportDialogPageState
         reason: reason.trim().isEmpty ? null : reason.trim(),
       );
       if (!mounted) return;
-
-      setState(() {
-        _chat = closed;
-      });
+      setState(() => _chat = closed);
       _showSnack('Чат закрыт');
       await _loadThread(silent: true);
     } catch (_) {
@@ -622,9 +603,7 @@ class _ModeratorSupportDialogPageState
       _showSnack('Не удалось закрыть чат', severity: MessageSeverity.error);
     } finally {
       if (mounted) {
-        setState(() {
-          _isClosing = false;
-        });
+        setState(() => _isClosing = false);
       }
     }
   }
@@ -634,7 +613,7 @@ class _ModeratorSupportDialogPageState
     MessageSeverity severity = MessageSeverity.info,
   }) {
     final msg = Message(
-      id: const Uuid().v4(),
+      id: _uuid.v4(),
       type: MessageType.notification,
       severity: severity,
       title: '',
@@ -645,45 +624,76 @@ class _ModeratorSupportDialogPageState
     AppMessageSnackBar.show(context, msg);
   }
 
-  String _formatTime(DateTime dateTime) {
-    final local = dateTime.toLocal();
-    final hh = local.hour.toString().padLeft(2, '0');
-    final mm = local.minute.toString().padLeft(2, '0');
-    final dd = local.day.toString().padLeft(2, '0');
-    final mo = local.month.toString().padLeft(2, '0');
-    return '$dd.$mo $hh:$mm';
-  }
-
-  void _scrollToBottom({bool jump = false}) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_scrollController.hasClients) return;
-      final position = _scrollController.position.maxScrollExtent;
-      if (jump) {
-        _scrollController.jumpTo(position);
-      } else {
-        _scrollController.animateTo(
-          position,
-          duration: const Duration(milliseconds: 220),
-          curve: Curves.easeOut,
-        );
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final userName = widget.chat.userName.trim().isEmpty
         ? 'Пользователь #${widget.chat.userId}'
         : widget.chat.userName;
+    final userEmail = widget.chat.userEmail.trim();
+    final moderatorId = AuthStorage.userId ?? 0;
+
+    final composerEnabled = _isChatOpen && !_isSending;
+    final composerHint = _isChatClosed ? 'Чат закрыт' : 'Ответить пользователю';
 
     return Scaffold(
+      // resizeToAvoidBottomInset = true по умолчанию — Scaffold поднимает
+      // body над клавиатурой, композер остаётся sticky.
       appBar: AppBar(
-        title: Text(userName),
+        titleSpacing: 0,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              userName,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: colorScheme.onSurface,
+              ),
+            ),
+            if (userEmail.isNotEmpty)
+              Text(
+                userEmail,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+          ],
+        ),
         actions: [
+          // Чип «Чат открыт/закрыт» — компактно справа от заголовка.
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: _isChatClosed
+                    ? context.colorPalette.error.withValues(alpha: 0.15)
+                    : context.colorPalette.success.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: Text(
+                _isChatClosed ? 'Чат закрыт' : 'Чат открыт',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: _isChatClosed
+                      ? context.colorPalette.error
+                      : context.colorPalette.success,
+                ),
+              ),
+            ),
+          ),
           if (_isClosing)
             const Padding(
-              padding: EdgeInsets.only(right: 16),
+              padding: EdgeInsets.only(right: 16, left: 8),
               child: SizedBox(
                 width: 20,
                 height: 20,
@@ -697,46 +707,6 @@ class _ModeratorSupportDialogPageState
               icon: const Icon(Icons.lock_outline),
             ),
         ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(44),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Column(
-              children: [
-                Text(
-                  widget.chat.userEmail,
-                  style: TextStyle(
-                    color: colorScheme.onSurfaceVariant,
-                    fontSize: 12,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: _isChatClosed
-                        ? context.colorPalette.error.withValues(alpha: 0.15)
-                        : context.colorPalette.success.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Text(
-                    _isChatClosed ? 'Чат закрыт' : 'Чат открыт',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: _isChatClosed
-                          ? context.colorPalette.error
-                          : context.colorPalette.success,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
       body: Column(
         children: [
@@ -754,186 +724,19 @@ class _ModeratorSupportDialogPageState
               ),
             ),
           Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : _error != null
-                ? Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(_error!, textAlign: TextAlign.center),
-                          const SizedBox(height: 12),
-                          ElevatedButton(
-                            onPressed: _loadThread,
-                            child: const Text('Повторить'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                : RefreshIndicator(
-                    onRefresh: _loadThread,
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      padding: const EdgeInsets.all(12),
-                      itemCount: _messages.length,
-                      itemBuilder: (context, index) {
-                        final message = _messages[index];
-                        final isModerator = message.isFromModerator;
-                        final align = isModerator
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft;
-                        final bubbleColor = isModerator
-                            ? colorScheme.primary
-                            : colorScheme.surface;
-                        final textColor = isModerator
-                            ? colorScheme.onPrimary
-                            : colorScheme.onSurface;
-
-                        final header = <String>[];
-                        if (message.category.trim().isNotEmpty) {
-                          header.add(message.category.trim());
-                        }
-                        if (message.subject.trim().isNotEmpty) {
-                          header.add(message.subject.trim());
-                        }
-
-                        return Align(
-                          alignment: align,
-                          child: ConstrainedBox(
-                            constraints: const BoxConstraints(maxWidth: 340),
-                            child: Container(
-                              margin: const EdgeInsets.only(bottom: 8),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                color: bubbleColor,
-                                borderRadius: BorderRadius.circular(14),
-                                border: Border.all(
-                                  color: isModerator
-                                      ? Colors.transparent
-                                      : colorScheme.outlineVariant,
-                                ),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  if (header.isNotEmpty)
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 6),
-                                      child: Text(
-                                        header.join(' | '),
-                                        style: TextStyle(
-                                          color: textColor.withValues(
-                                            alpha: 0.72,
-                                          ),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                  Text(
-                                    message.text,
-                                    style: TextStyle(color: textColor),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    _formatTime(message.createdAt),
-                                    style: TextStyle(
-                                      color: textColor.withValues(alpha: 0.72),
-                                      fontSize: 11,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-          ),
-          SafeArea(
-            top: false,
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-              decoration: BoxDecoration(
-                color: colorScheme.surface,
-                border: Border(
-                  top: BorderSide(color: colorScheme.outlineVariant),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _messageController,
-                      enabled: !_isChatClosed,
-                      keyboardType: TextInputType.multiline,
-                      textInputAction: TextInputAction.newline,
-                      minLines: 1,
-                      maxLines: 4,
-                      decoration: InputDecoration(
-                        hintText: _isChatClosed
-                            ? 'Чат закрыт'
-                            : 'Ответить пользователю',
-                        filled: true,
-                        fillColor: colorScheme.surfaceContainerHighest,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 12,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: colorScheme.outlineVariant,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: colorScheme.outlineVariant,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: colorScheme.primary,
-                            width: 1.3,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    width: 48,
-                    height: 48,
-                    child: ElevatedButton(
-                      onPressed: (_isSending || _isChatClosed)
-                          ? null
-                          : _sendMessage,
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: _isSending
-                          ? const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Icon(Icons.send),
-                    ),
-                  ),
-                ],
-              ),
+            child: ChatThreadView(
+              messages: chatBubblesFromSupportMessages(_messages),
+              currentUserId: moderatorId,
+              counterpartName: userName,
+              onSend: _sendMessageText,
+              onRetrySend: (bubble) => _sendMessageText(bubble.body),
+              onLoadMore: () {},
+              onRetry: _loadThread,
+              isInitialLoading: _isLoading,
+              isLoadingMore: false,
+              isComposerEnabled: composerEnabled,
+              composerHint: composerHint,
+              error: _error,
             ),
           ),
         ],
@@ -945,8 +748,6 @@ class _ModeratorSupportDialogPageState
   void dispose() {
     _eventsReconnectTimer?.cancel();
     _eventsSubscription?.cancel();
-    _messageController.dispose();
-    _scrollController.dispose();
     super.dispose();
   }
 }

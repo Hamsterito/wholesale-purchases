@@ -452,7 +452,7 @@ class _ProfilePageState extends State<ProfilePage> {
               iconColor: context.colorPalette.error,
               title: 'Выйти',
               onTap: () async {
-                // Сначала очищаем уведомления — пока userId ещё доступен в AuthStorage
+                // Чистим счётчики, пока userId ещё доступен в AuthStorage.
                 await NotificationService().clearForLogout();
                 await AuthStorage.forget();
                 if (!context.mounted) return;

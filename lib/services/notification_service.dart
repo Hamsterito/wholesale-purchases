@@ -492,21 +492,22 @@ class NotificationService with WidgetsBindingObserver {
 
   // Retry с exponential backoff
 
-  /// Выполняет [action] с повторными попытками при ошибке.
-  /// Задержки: 1с → 2с → 4с → 8с (максимум), до 5 попыток.
-  Future<T> _retryWithBackoff<T>(Future<T> Function() action) async {
+  /// Выполняет action с повторными попытками. Задержки удваиваются от
+  /// initialRetryDelay до 8 секунд, попыток maxRetries по умолчанию.
+  /// maxAttempts позволяет точечно сократить число попыток.
+  Future<T> _retryWithBackoff<T>(
+    Future<T> Function() action, {
+    int? maxAttempts,
+  }) async {
     var delay = NotificationBadgeConfig.initialRetryDelay;
     const maxDelay = Duration(seconds: 8);
+    final attemptsLimit = maxAttempts ?? NotificationBadgeConfig.maxRetries;
 
-    for (
-      var attempt = 1;
-      attempt <= NotificationBadgeConfig.maxRetries;
-      attempt++
-    ) {
+    for (var attempt = 1; attempt <= attemptsLimit; attempt++) {
       try {
         return await action();
       } catch (e, st) {
-        if (attempt == NotificationBadgeConfig.maxRetries) {
+        if (attempt == attemptsLimit) {
           AppLogger.error(
             'Все $attempt попыток исчерпаны',
             scope: 'notifications',
@@ -663,8 +664,8 @@ class NotificationService with WidgetsBindingObserver {
     }
   }
 
-  /// Скрывает уведомление указанного типа и обновляет соответствующий счётчик.
-  /// [type] — тип уведомления: 'message', 'order', 'review', 'moderation'.
+  /// Скрывает уведомление указанного типа и обновляет счётчик.
+  /// type: 'message', 'order', 'review', 'moderation'.
   Future<void> dismissNotification(String type) async {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) return;
@@ -730,8 +731,8 @@ class NotificationService with WidgetsBindingObserver {
 
   /// Вычисляет суммарный счётчик по роли:
   /// - buyer: сообщения + заказы + отзывы
-  /// - supplier: сообщения + заказы + модерации
-  /// - moderator: сообщения + модерации
+  /// - supplier: сообщения + заказы + модерации + чаты с модераторами
+  /// - moderator: сообщения + модерации + чаты с поставщиками
   /// - остальные: 0
   int _computeTotal() {
     final role = AuthStorage.role;
@@ -747,13 +748,12 @@ class NotificationService with WidgetsBindingObserver {
             pendingSupplierOrdersCount.value +
             pendingModerationsCount.value;
       case 'moderator':
+      case 'super_admin':
         return unreadMessagesCount.value + pendingModerationsCount.value;
       default:
         return 0;
     }
   }
-
-  // Интеграция со стандартизированной системой Message
 
   /// Возвращает накопленные уведомления в виде стандартизированных Message-объектов.
   /// Полезно для отладки, экспорта и единообразного отображения.

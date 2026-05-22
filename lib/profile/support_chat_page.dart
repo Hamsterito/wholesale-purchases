@@ -11,6 +11,8 @@ import '../services/api_service.dart';
 import '../services/auth_storage.dart';
 import '../services/message/message_service_adapters.dart';
 import '../services/message/message_store.dart';
+import '../widgets/chat_thread_view.dart';
+import '../widgets/adapters.dart';
 
 class UserSupportChatPage extends StatefulWidget {
   const UserSupportChatPage({super.key, this.chatId});
@@ -22,9 +24,6 @@ class UserSupportChatPage extends StatefulWidget {
 }
 
 class _UserSupportChatPageState extends State<UserSupportChatPage> {
-  final TextEditingController _messageController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
-
   List<SupportMessage> _messages = [];
   SupportChat? _chat;
   bool _isLoading = true;
@@ -70,22 +69,14 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
       );
       if (!mounted) return;
 
-      final previousCount = _messages.length;
       setState(() {
         _chat = thread.chat;
         _messages = thread.messages;
         _error = null;
       });
 
-      // Дублируем сообщения чата в стандартизированное хранилище Message
-      // для аналитики и отладки. Делаем это в фоне, чтобы не задерживать UI.
+      // Дублируем сообщения в MessageStore для аналитики, в фоне.
       unawaited(_logSupportMessagesAsMessages(thread.messages));
-
-      if (!silent) {
-        _scrollToBottom(jump: true);
-      } else if (_messages.length > previousCount) {
-        _scrollToBottom();
-      }
     } catch (_) {
       if (!mounted) return;
       if (!silent) {
@@ -109,28 +100,31 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
     final userId = AuthStorage.userId ?? 0;
     if (userId <= 0 || !mounted) return;
 
-    _eventsSubscription =
-        ApiService.supportEvents(userId: userId, chatId: widget.chatId).listen(
-          (event) {
-            if (!mounted) return;
-            final kind = event['kind']?.toString();
-            if (kind == 'connected') {
-              _eventsReconnectAttempt = 0;
-              return;
-            }
-            _eventsReconnectAttempt = 0;
-            _loadThread(silent: true);
-          },
-          onError: (_) {
-            if (!mounted) return;
-            _scheduleEventsReconnect();
-          },
-          onDone: () {
-            if (!mounted) return;
-            _scheduleEventsReconnect();
-          },
-          cancelOnError: true,
-        );
+    _eventsSubscription = ApiService.supportEvents(userId: userId).listen(
+      (event) {
+        if (!mounted) return;
+        final kind = event['kind']?.toString();
+        if (kind == 'connected') {
+          _eventsReconnectAttempt = 0;
+          return;
+        }
+        _eventsReconnectAttempt = 0;
+        // Шарим один SSE-стрим без chatId-фильтра, чтобы он мог быть
+        // переиспользован соседними страницами и не съедал лишние
+        // сокеты. Когда событие касается чужого чата — _loadThread
+        // просто перезапросит наш и ничего не изменит.
+        _loadThread(silent: true);
+      },
+      onError: (_) {
+        if (!mounted) return;
+        _scheduleEventsReconnect();
+      },
+      onDone: () {
+        if (!mounted) return;
+        _scheduleEventsReconnect();
+      },
+      cancelOnError: true,
+    );
   }
 
   void _scheduleEventsReconnect() {
@@ -147,7 +141,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
     });
   }
 
-  Future<void> _sendMessage() async {
+  Future<void> _sendMessageText(String rawText) async {
     final userId = AuthStorage.userId ?? 0;
     if (userId <= 0) {
       _showSnack(
@@ -165,7 +159,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
       return;
     }
 
-    final text = _messageController.text.trim();
+    final text = rawText.trim();
     if (text.isEmpty) {
       _showSnack('Введите сообщение', severity: MessageSeverity.warning);
       return;
@@ -187,10 +181,9 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
       if (!mounted) return;
       setState(() {
         _messages = [..._messages, sent];
-        _messageController.clear();
       });
-      _scrollToBottom();
-      await _loadThread(silent: true);
+      // Свежий thread прилетит через SSE — лишний fetch только забивает
+      // лимит соединений в Chrome.
     } catch (_) {
       if (!mounted) return;
       _showSnack(
@@ -206,9 +199,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
     }
   }
 
-  /// Конвертирует список SupportMessage в стандартизированные Message-объекты
-  /// и сохраняет их в MessageStore для аналитики и отладки. Ошибки логирования
-  /// не пробрасываются, чтобы не ломать отображение чата.
+  /// Сохраняет сообщения в MessageStore для аналитики. Ошибки не пробрасываем.
   Future<void> _logSupportMessagesAsMessages(
     List<SupportMessage> messages,
   ) async {
@@ -240,246 +231,95 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
     AppMessageSnackBar.show(context, msg);
   }
 
-  String _formatTime(DateTime dateTime) {
-    final local = dateTime.toLocal();
-    final hh = local.hour.toString().padLeft(2, '0');
-    final mm = local.minute.toString().padLeft(2, '0');
-    final dd = local.day.toString().padLeft(2, '0');
-    final mo = local.month.toString().padLeft(2, '0');
-    return '$dd.$mo $hh:$mm';
-  }
-
-  void _scrollToBottom({bool jump = false}) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_scrollController.hasClients) return;
-      final position = _scrollController.position.maxScrollExtent;
-      if (jump) {
-        _scrollController.jumpTo(position);
-      } else {
-        _scrollController.animateTo(
-          position,
-          duration: const Duration(milliseconds: 220),
-          curve: Curves.easeOut,
-        );
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Scaffold(
       appBar: AppBar(title: const Text('Чат с техподдержкой')),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _error != null
-          ? Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(_error!, textAlign: TextAlign.center),
-                    const SizedBox(height: 12),
-                    ElevatedButton(
-                      onPressed: _loadThread,
-                      child: const Text('Повторить'),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : _chat == null
-          ? Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Text(
-                  widget.chatId == null
-                      ? 'Активного чата нет. Сначала отправьте обращение в техподдержку.'
-                      : 'Чат не найден.',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            )
-          : Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  color: _isChatClosed
-                      ? context.colorPalette.error.withValues(alpha: 0.12)
-                      : context.colorPalette.info.withValues(alpha: 0.12),
-                  padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                  child: Text(
-                    _isChatClosed
-                        ? 'Чат закрыт${_chat!.closeReason.trim().isEmpty ? '' : '. Причина: ${_chat!.closeReason}'}'
-                        : 'Чат открыт. Техподдержка ответит в этом окне.',
-                    style: TextStyle(
-                      color: _isChatClosed
-                          ? context.colorPalette.error
-                          : context.colorPalette.info,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: _loadThread,
-                    child: _messages.isEmpty
-                        ? ListView(
-                            children: const [
-                              SizedBox(height: 140),
-                              Center(child: Text('Сообщений пока нет')),
-                            ],
-                          )
-                        : ListView.builder(
-                            controller: _scrollController,
-                            padding: const EdgeInsets.all(12),
-                            itemCount: _messages.length,
-                            itemBuilder: (context, index) {
-                              final message = _messages[index];
-                              final isUser = !message.isFromModerator;
-                              final align = isUser
-                                  ? Alignment.centerRight
-                                  : Alignment.centerLeft;
-                              final bubbleColor = isUser
-                                  ? colorScheme.primary
-                                  : colorScheme.surface;
-                              final textColor = isUser
-                                  ? colorScheme.onPrimary
-                                  : colorScheme.onSurface;
+      body: _buildBody(context),
+    );
+  }
 
-                              return Align(
-                                alignment: align,
-                                child: ConstrainedBox(
-                                  constraints: const BoxConstraints(
-                                    maxWidth: 340,
-                                  ),
-                                  child: Container(
-                                    margin: const EdgeInsets.only(bottom: 8),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                      vertical: 10,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: bubbleColor,
-                                      borderRadius: BorderRadius.circular(14),
-                                      border: Border.all(
-                                        color: isUser
-                                            ? Colors.transparent
-                                            : colorScheme.outlineVariant,
-                                      ),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          message.text,
-                                          style: TextStyle(color: textColor),
-                                        ),
-                                        const SizedBox(height: 6),
-                                        Text(
-                                          _formatTime(message.createdAt),
-                                          style: TextStyle(
-                                            color: textColor.withValues(
-                                              alpha: 0.72,
-                                            ),
-                                            fontSize: 11,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                  ),
-                ),
-                SafeArea(
-                  top: false,
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                    decoration: BoxDecoration(
-                      color: context.colorPalette.card,
-                      border: Border(
-                        top: BorderSide(color: colorScheme.outlineVariant),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _messageController,
-                            enabled: _isChatOpen,
-                            keyboardType: TextInputType.multiline,
-                            textInputAction: TextInputAction.newline,
-                            minLines: 1,
-                            maxLines: 4,
-                            decoration: InputDecoration(
-                              hintText: _isChatOpen
-                                  ? 'Введите сообщение'
-                                  : 'Чат закрыт',
-                              filled: true,
-                              fillColor: colorScheme.surfaceContainerHighest,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 14,
-                                vertical: 12,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(
-                                  color: colorScheme.outlineVariant,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(
-                                  color: colorScheme.outlineVariant,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide(
-                                  color: colorScheme.primary,
-                                  width: 1.3,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        SizedBox(
-                          width: 48,
-                          height: 48,
-                          child: ElevatedButton(
-                            onPressed: (_isSending || !_isChatOpen)
-                                ? null
-                                : _sendMessage,
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              padding: EdgeInsets.zero,
-                            ),
-                            child: _isSending
-                                ? const SizedBox(
-                                    width: 18,
-                                    height: 18,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    ),
-                                  )
-                                : const Icon(Icons.send),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+  Widget _buildBody(BuildContext context) {
+    // Загрузка/ошибка фетча — централизованные состояния на всю страницу.
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (_error != null) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(_error!, textAlign: TextAlign.center),
+              const SizedBox(height: 12),
+              ElevatedButton(
+                onPressed: _loadThread,
+                child: const Text('Повторить'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    if (_chat == null) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(
+            widget.chatId == null
+                ? 'Активного чата нет. Сначала отправьте обращение в техподдержку.'
+                : 'Чат не найден.',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+
+    final userId = AuthStorage.userId ?? 0;
+    final composerEnabled = _isChatOpen && !_isSending;
+
+    return Column(
+      children: [
+        _buildStatusBanner(context),
+        Expanded(
+          child: ChatThreadView(
+            messages: chatBubblesFromSupportMessages(_messages),
+            currentUserId: userId,
+            counterpartName: 'Поддержка',
+            onSend: _sendMessageText,
+            onRetrySend: (bubble) => _sendMessageText(bubble.body),
+            onLoadMore: () {},
+            isInitialLoading: false,
+            isLoadingMore: false,
+            isComposerEnabled: composerEnabled,
+            composerHint: _isChatOpen ? 'Введите сообщение' : 'Чат закрыт',
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatusBanner(BuildContext context) {
+    final closed = _isChatClosed;
+    final reason = _chat?.closeReason.trim() ?? '';
+    return Container(
+      width: double.infinity,
+      color: closed
+          ? context.colorPalette.error.withValues(alpha: 0.12)
+          : context.colorPalette.info.withValues(alpha: 0.12),
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+      child: Text(
+        closed
+            ? 'Чат закрыт${reason.isEmpty ? '' : '. Причина: $reason'}'
+            : 'Чат открыт. Техподдержка ответит в этом окне.',
+        style: TextStyle(
+          color: closed
+              ? context.colorPalette.error
+              : context.colorPalette.info,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     );
   }
 
@@ -487,8 +327,6 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
   void dispose() {
     _eventsReconnectTimer?.cancel();
     _eventsSubscription?.cancel();
-    _messageController.dispose();
-    _scrollController.dispose();
     super.dispose();
   }
 }

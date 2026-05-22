@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http_package;
@@ -6,6 +7,7 @@ import '../models/order.dart';
 import '../services/api_config.dart';
 import 'app_http_client.dart';
 import 'auth_storage.dart';
+import 'sse_stream_native.dart' if (dart.library.html) 'sse_stream_web.dart';
 import '../models/supplier_order.dart';
 import '../models/supplier_product.dart';
 import '../models/user_profile.dart';
@@ -14,6 +16,7 @@ import '../models/review_entry.dart';
 import '../models/support_message.dart';
 import '../models/notification.dart';
 import '../models/message.dart';
+import '../models/chat.dart';
 import 'message/message_validator.dart';
 import 'message/message_store.dart';
 import 'message/message_pretty_printer.dart';
@@ -27,22 +30,24 @@ class ApiService {
   // Последнее сообщение об ошибке API (для диагностики и отображения)
   static Message? _lastErrorMessage;
 
-  /// Возвращает последнюю ошибку API в виде стандартизированного Message,
-  /// либо null, если ошибок не было.
+  /// Возвращает последнюю ошибку API как Message, либо null.
   static Message? getLastErrorMessage() => _lastErrorMessage;
 
-  /// Очистить последнее сообщение об ошибке (например, при успешном повторе).
+  /// Очистить последнюю ошибку — например, при успешном повторе.
   static void clearLastErrorMessage() {
     _lastErrorMessage = null;
   }
 
   /// Внутренняя обёртка: логирует HTTP-ответ через систему стандартизованных
-  /// сообщений и складывает в MessageStore. Вызывается из существующих методов
-  /// без изменения их сигнатур и поведения.
+  /// сообщений и складывает в MessageStore.
+  /// silentForStatus подавляет запись в _lastErrorMessage и debug-вывод
+  /// для указанных HTTP-кодов — для случаев, когда код ожидаемо обрабатывается
+  /// вызывающим как валидное состояние.
   static Future<void> _logApiResponse(
     http_package.Response response, {
     String? endpoint,
     String? method,
+    Set<int>? silentForStatus,
   }) async {
     try {
       final message = ApiServiceAdapter.wrapApiResponse(
@@ -57,8 +62,12 @@ class ApiService {
           'ApiService: ответ не прошёл валидацию: ${validation.errors.join('; ')}',
         );
       }
-      if (message.severity == MessageSeverity.error ||
-          message.severity == MessageSeverity.critical) {
+      final isSilent =
+          silentForStatus != null &&
+          silentForStatus.contains(response.statusCode);
+      if (!isSilent &&
+          (message.severity == MessageSeverity.error ||
+              message.severity == MessageSeverity.critical)) {
         _lastErrorMessage = message;
         debugPrint(
           'ApiService error: ${MessagePrettyPrinter.prettyPrint(message, detailed: false)}',
@@ -1420,6 +1429,13 @@ class ApiService {
           jsonDecode(body) as Map<String, dynamic>,
         );
       }
+      // Сервер обычно отдаёт plain-text причину (например, «Чат закрыт. Отправка
+      // невозможна» / «Для нового обращения укажите category и subject»),
+      // её и показываем — это сильно облегчает диагностику.
+      final body = _decodeBody(response.bodyBytes).trim();
+      if (body.isNotEmpty) {
+        throw Exception(body);
+      }
       throw Exception(
         'Не удалось отправить сообщение в поддержку: ${response.statusCode}',
       );
@@ -1560,7 +1576,7 @@ class ApiService {
     final uri = Uri.parse(
       '$baseUrl/support/events',
     ).replace(queryParameters: query);
-    return _supportEventsStream(uri, streamLabel: 'пользователь');
+    return _sharedEventStream(uri, streamLabel: 'пользователь');
   }
 
   static Stream<Map<String, dynamic>> moderatorSupportEvents({int? chatId}) {
@@ -1575,101 +1591,51 @@ class ApiService {
     final uri = Uri.parse(
       '$baseUrl/moderation/support/events',
     ).replace(queryParameters: query.isEmpty ? null : query);
-    return _supportEventsStream(uri, streamLabel: 'модератор');
+    return _sharedEventStream(uri, streamLabel: 'модератор');
   }
 
-  static Stream<Map<String, dynamic>> _supportEventsStream(
+  // Мультиплексер SSE-стримов: одна реальная подписка на уникальный URI,
+  // все потребители работают через broadcast-стрим. Это критично для web-
+  // клиента: Chrome держит максимум 6 одновременных HTTP/1.1 соединений
+  // на origin, и без шеринга 3–4 параллельных SSE намертво блокируют все
+  // прочие fetch-запросы.
+
+  /// Активные shared-подписки. Ключ — строковое представление URL.
+  static final Map<String, _SharedEventStream> _sharedEventStreams = {};
+
+  /// Broadcast-стрим для уникального SSE-URI. Один потребитель открывает
+  /// реальное соединение, остальные шарят его через broadcast. Reconnect
+  /// и backoff живут внутри _SharedEventStream.
+  static Stream<Map<String, dynamic>> _sharedEventStream(
     Uri uri, {
     required String streamLabel,
-  }) async* {
-    final client = AppHttpClient.create();
-    try {
-      final request = http_package.Request('GET', uri)
-        ..headers['accept'] = 'text/event-stream';
-      final response = await client.send(request);
-
-      if (response.statusCode != 200) {
-        final body = _decodeBody(await response.stream.toBytes());
-        final suffix = body.trim().isEmpty ? '' : ': ${body.trim()}';
-        throw Exception(
-          'Не удалось подключиться к SSE ($streamLabel), код ${response.statusCode}$suffix',
-        );
-      }
-
-      final dataLines = <String>[];
-      String? eventName;
-
-      Map<String, dynamic>? flushFrame() {
-        if (dataLines.isEmpty) {
-          eventName = null;
-          return null;
-        }
-
-        final rawPayload = dataLines.join('\n');
-        dataLines.clear();
-        final currentEvent = eventName;
-        eventName = null;
-
-        final parsedPayload = _parseSsePayload(rawPayload);
-        if (parsedPayload == null) {
-          return null;
-        }
-        if (currentEvent != null && currentEvent.isNotEmpty) {
-          parsedPayload['event'] = currentEvent;
-        }
-        return parsedPayload;
-      }
-
-      await for (final line
-          in response.stream
-              .transform(utf8.decoder)
-              .transform(const LineSplitter())) {
-        if (line.isEmpty) {
-          final frame = flushFrame();
-          if (frame != null) {
-            yield frame;
-          }
-          continue;
-        }
-
-        if (line.startsWith(':')) {
-          continue;
-        }
-        if (line.startsWith('event:')) {
-          eventName = line.substring(6).trim();
-          continue;
-        }
-        if (line.startsWith('data:')) {
-          dataLines.add(line.substring(5).trimLeft());
-        }
-      }
-
-      final trailingFrame = flushFrame();
-      if (trailingFrame != null) {
-        yield trailingFrame;
-      }
-    } catch (e) {
-      debugPrint('Ошибка SSE-подписки ($streamLabel): $e');
-      rethrow;
-    } finally {
-      client.close();
+  }) {
+    final key = uri.toString();
+    final existing = _sharedEventStreams[key];
+    if (existing != null) {
+      return existing.controller.stream;
     }
+
+    final shared = _SharedEventStream(uri: uri, streamLabel: streamLabel);
+    _sharedEventStreams[key] = shared;
+    shared.start(
+      onClosed: () {
+        // Последний слушатель отписался — удаляем запись из реестра,
+        // следующий потребитель откроет свежее соединение.
+        _sharedEventStreams.remove(key);
+      },
+    );
+    return shared.controller.stream;
   }
 
-  static Map<String, dynamic>? _parseSsePayload(String rawPayload) {
-    if (rawPayload.trim().isEmpty) {
-      return null;
-    }
-
-    try {
-      final decoded = jsonDecode(rawPayload);
-      if (decoded is Map) {
-        return Map<String, dynamic>.from(decoded);
-      }
-      return {'kind': 'message', 'payload': decoded};
-    } catch (_) {
-      return {'kind': 'message', 'payload': rawPayload};
-    }
+  static Stream<Map<String, dynamic>> _eventStreamFromUri(
+    Uri uri, {
+    required String streamLabel,
+  }) {
+    // Делегируем в платформо-зависимую реализацию: на native — стриминг
+    // через package:http, на web — нативный EventSource. Conditional
+    // import выбирает нужную при компиляции.
+    return openSseStream(uri, streamLabel: streamLabel);
   }
 
   static String? _extractResponseErrorMessage(http_package.Response response) {
@@ -2682,9 +2648,8 @@ class ApiService {
 
   // Методы для работы с уведомлениями
 
-  /// Загружает счётчики уведомлений, собирая данные из существующих эндпоинтов параллельно.
-  /// Отдельного эндпоинта /notifications/counts на бэкенде нет.
-  /// [role] — роль пользователя ('buyer', 'supplier', 'moderator') для фильтрации запросов.
+  /// Загружает счётчики уведомлений, собирая данные из существующих
+  /// эндпоинтов параллельно. role — роль пользователя для фильтрации запросов.
   static Future<NotificationCounts> getNotificationCounts({
     required int userId,
     String role = '',
@@ -2990,6 +2955,194 @@ class ApiService {
       debugPrint('Ошибка при удалении модератора: $e');
       rethrow;
     }
+  }
+
+  // Каталог поставщиков и find-or-create support-чата с пользователем.
+  // Используется со страницы «Чаты техподдержки» модератора.
+
+  /// Каталог поставщиков для модератора. Сервер ищет по query (case-insensitive
+  /// substring) и сортирует по companyName ASC.
+  static Future<SupplierDirectoryPage> getSuppliersDirectory({
+    required int offset,
+    required int limit,
+    String? query,
+  }) async {
+    if (offset < 0) {
+      throw ArgumentError('offset не должен быть отрицательным');
+    }
+    if (limit <= 0) {
+      throw ArgumentError('limit должен быть положительным');
+    }
+
+    const endpoint = '/moderation/suppliers';
+    try {
+      final params = <String, String>{
+        'offset': offset.toString(),
+        'limit': limit.toString(),
+      };
+      final actorId = AuthStorage.userId;
+      if (actorId != null && actorId > 0) {
+        params['userId'] = actorId.toString();
+      }
+      final trimmedQuery = query?.trim();
+      if (trimmedQuery != null && trimmedQuery.isNotEmpty) {
+        params['query'] = trimmedQuery;
+      }
+
+      final uri = Uri.parse(
+        '$baseUrl$endpoint',
+      ).replace(queryParameters: params);
+      final response = await http.get(uri);
+
+      await _logApiResponse(response, endpoint: endpoint, method: 'GET');
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        final decoded = jsonDecode(body);
+        if (decoded is Map) {
+          return SupplierDirectoryPage.fromJson(
+            Map<String, dynamic>.from(decoded),
+          );
+        }
+        throw Exception('Сервер вернул некорректный ответ');
+      }
+
+      throw Exception(
+        'Не удалось загрузить каталог поставщиков: ${response.statusCode}',
+      );
+    } catch (e, stack) {
+      await _logApiError(e, stack, endpoint: endpoint, method: 'GET');
+      debugPrint('Ошибка при загрузке каталога поставщиков: $e');
+      rethrow;
+    }
+  }
+
+  /// Открывает support-чат с пользователем. Возвращает существующий
+  /// открытый чат, либо создаёт новый. peek=true не создаёт чат — вернёт
+  /// null, если открытого нет; нужно UI'у для диалога «Создать чат?».
+  static Future<SupportChat?> findOrCreateModeratorSupportChatWithUser({
+    required int moderatorId,
+    required int targetUserId,
+    bool peek = false,
+  }) async {
+    if (moderatorId <= 0) {
+      throw ArgumentError('moderatorId должен быть положительным');
+    }
+    if (targetUserId <= 0) {
+      throw ArgumentError('targetUserId должен быть положительным');
+    }
+
+    const endpoint = '/moderation/support/chats/find-or-create';
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl$endpoint'),
+        headers: const {'content-type': 'application/json; charset=utf-8'},
+        body: jsonEncode({
+          'moderatorId': moderatorId,
+          'userId': targetUserId,
+          if (peek) 'peek': true,
+        }),
+      );
+
+      await _logApiResponse(
+        response,
+        endpoint: endpoint,
+        method: 'POST',
+        // peek-режим: 404 — валидное состояние «открытого чата нет».
+        silentForStatus: peek ? const {404} : null,
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final body = _decodeBody(response.bodyBytes);
+        final decoded = jsonDecode(body) as Map<String, dynamic>;
+        return SupportChat.fromJson(decoded);
+      }
+
+      // peek=true и 404 — нормальный путь.
+      if (peek && response.statusCode == 404) {
+        return null;
+      }
+
+      throw Exception(
+        'Не удалось открыть чат с пользователем: ${response.statusCode}',
+      );
+    } catch (e, stack) {
+      await _logApiError(e, stack, endpoint: endpoint, method: 'POST');
+      debugPrint('Ошибка при find-or-create support-чата: $e');
+      rethrow;
+    }
+  }
+}
+
+/// Один реальный SSE-запрос на уникальный URI, обёрнутый в broadcast-стрим.
+/// Reconnect — экспоненциальный backoff min(2 × n, 12) секунд. Освобождает
+/// ресурсы, когда последний слушатель отписался.
+class _SharedEventStream {
+  _SharedEventStream({required this.uri, required this.streamLabel});
+
+  final Uri uri;
+  final String streamLabel;
+
+  late final StreamController<Map<String, dynamic>> controller;
+  StreamSubscription<Map<String, dynamic>>? _innerSub;
+  Timer? _reconnectTimer;
+  int _reconnectAttempt = 0;
+  bool _disposed = false;
+  VoidCallback? _onClosed;
+
+  void start({required VoidCallback onClosed}) {
+    _onClosed = onClosed;
+    controller = StreamController<Map<String, dynamic>>.broadcast(
+      onListen: _maybeConnect,
+      onCancel: _maybeDispose,
+    );
+  }
+
+  void _maybeConnect() {
+    if (_disposed) return;
+    if (_innerSub != null) return;
+    _innerSub = ApiService._eventStreamFromUri(uri, streamLabel: streamLabel)
+        .listen(
+          (event) {
+            // Любой кадр сбрасывает счётчик попыток.
+            _reconnectAttempt = 0;
+            if (!controller.isClosed) controller.add(event);
+          },
+          onError: (Object e, StackTrace st) {
+            _scheduleReconnect();
+          },
+          onDone: _scheduleReconnect,
+          cancelOnError: true,
+        );
+  }
+
+  void _scheduleReconnect() {
+    _innerSub?.cancel();
+    _innerSub = null;
+    if (_disposed) return;
+    if (!controller.hasListener) return;
+
+    _reconnectAttempt += 1;
+    if (_reconnectAttempt > 6) _reconnectAttempt = 6;
+    final delay = Duration(seconds: _reconnectAttempt * 2);
+    _reconnectTimer?.cancel();
+    _reconnectTimer = Timer(delay, () {
+      if (_disposed) return;
+      if (!controller.hasListener) return;
+      _maybeConnect();
+    });
+  }
+
+  void _maybeDispose() {
+    // Все подписчики отписались — закрываем реальный стрим и таймер.
+    if (controller.hasListener) return;
+    _disposed = true;
+    _reconnectTimer?.cancel();
+    _reconnectTimer = null;
+    _innerSub?.cancel();
+    _innerSub = null;
+    _onClosed?.call();
+    controller.close();
   }
 }
 

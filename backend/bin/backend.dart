@@ -3374,6 +3374,7 @@ void main() async {
 
   _registerMutationRoutes(router, connection);
   _registerAdminModeratorRoutes(router, connection);
+  _registerSupplierDirectoryRoute(router, connection);
 
   router.post('/login', (Request request) async {
     try {

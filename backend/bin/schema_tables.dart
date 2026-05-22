@@ -151,6 +151,7 @@ Future<void> _ensureDatabaseSchema(Connection connection) async {
   await _ensureReviewSchema(connection);
   await _ensureSupplierReviewResponsesSchema(connection);
   await _ensureSupportSchema(connection);
+  await _dropLegacyChatsSchema(connection);
   await _ensureQuestionsSchema(connection);
 }
 
@@ -945,6 +946,17 @@ Future<void> _ensureSupportSchema(Connection connection) async {
   await connection.execute(
     'CREATE INDEX IF NOT EXISTS idx_support_messages_created_at ON public.support_messages(created_at);',
   );
+}
+
+/// Дроп таблиц устаревшего модератор-поставщикского чата. Функциональность
+/// свёрнута в обычные support_chats — модератор инициирует чат через
+/// find-or-create. На старте дропаем безусловно: в бою таблицы не жили.
+Future<void> _dropLegacyChatsSchema(Connection connection) async {
+  await connection.execute('DROP TABLE IF EXISTS public.chat_reads CASCADE;');
+  await connection.execute(
+    'DROP TABLE IF EXISTS public.chat_messages CASCADE;',
+  );
+  await connection.execute('DROP TABLE IF EXISTS public.chats CASCADE;');
 }
 
 Future<void> _ensureOrderSchema(Connection connection) async {

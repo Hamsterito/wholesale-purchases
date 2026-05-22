@@ -1835,12 +1835,8 @@ void _registerMutationRoutes(Router router, Connection connection) {
             body: 'Для ответа модератора требуется открытый чат',
           );
         }
-        if (category == null || subject == null) {
-          return Response.badRequest(
-            body: 'Для нового обращения укажите category и subject',
-          );
-        }
-
+        // category и subject опциональны — если переданы, проставляем,
+        // иначе сохраняем NULL.
         final createdChat = await connection.execute(
           Sql.named('''
             INSERT INTO support_chats (
@@ -1876,16 +1872,12 @@ void _registerMutationRoutes(Router router, Connection connection) {
         return Response.internalServerError(body: 'Некорректный chatId');
       }
 
+      // category и subject опциональны: если пришли — используем, иначе
+      // наследуем из чата. NULL валиден.
       final effectiveCategory =
           category ?? _normalizeOptionalText(chatMap['category']);
       final effectiveSubject =
           subject ?? _normalizeOptionalText(chatMap['subject']);
-      if (senderRole == 'user' &&
-          (effectiveCategory == null || effectiveSubject == null)) {
-        return Response.badRequest(
-          body: 'Для обращения пользователя нужны category и subject',
-        );
-      }
 
       final inserted = await connection.execute(
         Sql.named('''
@@ -4228,4 +4220,227 @@ void _registerAdminModeratorRoutes(Router router, Connection connection) {
       return _jsonError('Server error', 500);
     }
   });
+}
+
+// Каталог поставщиков и find-or-create support-чата.
+// Раньше у модератора был отдельный чат chats/chat_messages с поставщиком —
+// теперь это обычный support_chat: модератор находит поставщика в каталоге,
+// бэк возвращает существующий открытый чат пользователя или создаёт новый.
+
+void _registerSupplierDirectoryRoute(Router router, Connection connection) {
+  // GET /moderation/suppliers — каталог верифицированных поставщиков.
+  // Доступ — только moderator/super_admin (userId из query или X-User-Id).
+  router.get('/moderation/suppliers', (Request request) async {
+    final actor = await _resolveModerationActor(request, connection);
+    if (actor is Response) return actor;
+
+    final params = request.url.queryParameters;
+    final offset = _toPositiveInt(params['offset']);
+    final limitRaw = _toPositiveInt(params['limit'], fallback: 50);
+    final limit = limitRaw <= 0 ? 50 : (limitRaw > 200 ? 200 : limitRaw);
+    final query = params['query']?.trim() ?? '';
+
+    try {
+      final whereParts = <String>[
+        "u.role = 'supplier'",
+        "COALESCE(u.is_verified, FALSE) = TRUE",
+      ];
+      final args = <String, Object?>{'limit': limit, 'offset': offset};
+      if (query.isNotEmpty) {
+        whereParts.add(
+          '(LOWER(COALESCE(u.supplier_name, \'\')) LIKE @q '
+          'OR LOWER(COALESCE(u.name, \'\')) LIKE @q)',
+        );
+        args['q'] = '%${query.toLowerCase()}%';
+      }
+      final whereSql = whereParts.join(' AND ');
+
+      final itemsResult = await connection.execute(
+        Sql.named('''
+          SELECT u.id, u.name, u.email, u.supplier_name
+          FROM public.users u
+          WHERE $whereSql
+          ORDER BY
+            COALESCE(NULLIF(u.supplier_name, ''), u.name) ASC,
+            u.id ASC
+          LIMIT @limit OFFSET @offset
+        '''),
+        parameters: args,
+      );
+
+      final countArgs = Map<String, Object?>.from(args)
+        ..remove('limit')
+        ..remove('offset');
+      final countResult = await connection.execute(
+        Sql.named(
+          'SELECT COUNT(*) AS total FROM public.users u WHERE $whereSql',
+        ),
+        parameters: countArgs,
+      );
+      final total = _toPositiveInt(countResult.first.toColumnMap()['total']);
+
+      final items = itemsResult.map((row) {
+        final m = row.toColumnMap();
+        final id = _toPositiveInt(m['id']);
+        final name = m['name']?.toString() ?? '';
+        final email = m['email']?.toString() ?? '';
+        final supplierName = m['supplier_name']?.toString() ?? '';
+        final companyName = supplierName.isNotEmpty ? supplierName : name;
+        return <String, dynamic>{
+          'supplierId': id,
+          'displayName': name,
+          'companyName': companyName,
+          if (email.isNotEmpty) 'email': email,
+        };
+      }).toList();
+
+      return Response.ok(
+        jsonEncode({
+          'items': items,
+          'total': total,
+          'offset': offset,
+          'limit': limit,
+        }),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Ошибка при получении каталога поставщиков: $e\n$st');
+      return _jsonError('Не удалось получить каталог поставщиков', 500);
+    }
+  });
+
+  // POST /moderation/support/chats/find-or-create — открывает support_chat.
+  // Тело: {moderatorId, userId, peek?}.
+  //
+  // peek != true: возвращает существующий открытый чат или создаёт новый.
+  // peek == true: только проверка — отдаёт открытый чат или 404
+  // {code: "no_open_chat"}. Нужно UI'у для диалога «Создать чат?».
+  router.post('/moderation/support/chats/find-or-create', (
+    Request request,
+  ) async {
+    try {
+      final body = await request.readAsString();
+      final decoded = jsonDecode(body);
+      if (decoded is! Map) {
+        return Response.badRequest(body: 'Ожидался JSON-объект');
+      }
+      final payload = Map<String, dynamic>.from(decoded);
+      final moderatorId = _toPositiveInt(payload['moderatorId']);
+      final targetUserId = _toPositiveInt(payload['userId']);
+      final peek = payload['peek'] == true;
+      if (moderatorId <= 0 || targetUserId <= 0) {
+        return Response.badRequest(body: 'moderatorId и userId обязательны');
+      }
+
+      final moderatorRole = await _resolveUserRoleById(connection, moderatorId);
+      if (moderatorRole != 'moderator' && moderatorRole != 'super_admin') {
+        return Response(
+          403,
+          body: jsonEncode({
+            'code': 'FORBIDDEN',
+            'message': 'Доступ только для модератора',
+          }),
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      }
+
+      final targetRow = await connection.execute(
+        Sql.named(
+          'SELECT id, role, is_verified FROM public.users WHERE id = @id LIMIT 1;',
+        ),
+        parameters: {'id': targetUserId},
+      );
+      if (targetRow.isEmpty) {
+        return Response.notFound('Пользователь не найден');
+      }
+
+      // Ищем уже открытый чат пользователя — частичный уникальный индекс
+      // uq_support_chats_open_user гарантирует не больше одного.
+      final existingRow = await connection.execute(
+        Sql.named('''
+          SELECT * FROM public.support_chats
+          WHERE user_id = @uid AND status = 'open'
+          LIMIT 1
+        '''),
+        parameters: {'uid': targetUserId},
+      );
+
+      if (existingRow.isNotEmpty) {
+        return Response.ok(
+          jsonEncode(_supportChatRowToDto(existingRow.first.toColumnMap())),
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      }
+
+      // peek-режим: открытого чата нет — отдаём 404, не создавая.
+      if (peek) {
+        return Response(
+          404,
+          body: jsonEncode({
+            'code': 'no_open_chat',
+            'message': 'Открытого чата нет',
+          }),
+          headers: {'content-type': 'application/json; charset=utf-8'},
+        );
+      }
+
+      final created = await connection.execute(
+        Sql.named('''
+          INSERT INTO public.support_chats (user_id, status)
+          VALUES (@uid, 'open')
+          RETURNING *
+        '''),
+        parameters: {'uid': targetUserId},
+      );
+      final chat = created.first.toColumnMap();
+
+      return Response.ok(
+        jsonEncode(_supportChatRowToDto(chat)),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } on FormatException {
+      return Response.badRequest(body: 'Некорректный JSON');
+    } catch (e, st) {
+      print('Ошибка при find-or-create support_chat: $e\n$st');
+      return _jsonError('Не удалось открыть чат с пользователем', 500);
+    }
+  });
+}
+
+// Берёт роль пользователя по id. Используется в каталоге поставщиков и
+// find-or-create support_chat — основная _resolveUserRole удалена с chat-routes.
+Future<String?> _resolveUserRoleById(Connection connection, int userId) async {
+  if (userId <= 0) return null;
+  final result = await connection.execute(
+    Sql.named('SELECT role FROM public.users WHERE id = @id LIMIT 1;'),
+    parameters: {'id': userId},
+  );
+  if (result.isEmpty) return null;
+  return result.first.toColumnMap()['role']?.toString().trim().toLowerCase();
+}
+
+// Authorization для модерационных операций: модератор или super_admin.
+// userId берём из query или из заголовка X-User-Id.
+Future<Object> _resolveModerationActor(
+  Request request,
+  Connection connection,
+) async {
+  final raw =
+      request.url.queryParameters['userId'] ??
+      request.headers['x-user-id']?.trim();
+  if (raw == null || raw.toString().trim().isEmpty) {
+    return _jsonError('Требуется авторизация', 401);
+  }
+  final userId = int.tryParse(raw.toString().trim());
+  if (userId == null || userId <= 0) {
+    return _jsonError('Требуется авторизация', 401);
+  }
+  final role = await _resolveUserRoleById(connection, userId);
+  if (role == null) {
+    return _jsonError('Требуется авторизация', 401);
+  }
+  if (role != 'moderator' && role != 'super_admin') {
+    return _jsonError('Недостаточно прав', 403);
+  }
+  return userId;
 }
