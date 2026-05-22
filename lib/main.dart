@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -43,6 +44,13 @@ void main() {
       // Инициализация приложения с обработкой ошибок
       try {
         AppLogger.info('Application initialization started', scope: 'startup');
+
+        // Откладываем первый кадр, пока не прогреются шрифты — иначе на web
+        // CanvasKit рисует запасным шрифтом и иконки/кнопки получают неверные
+        // метрики, которые остаются до hot restart
+        WidgetsBinding.instance.deferFirstFrame();
+        await _warmupFonts();
+        WidgetsBinding.instance.allowFirstFrame();
 
         // Загружаем переменные окружения из .env файла
         try {
@@ -103,6 +111,41 @@ void main() {
       );
     },
   );
+}
+
+/// Прогрев шрифтов: регистрируем их в FontEngine до первого кадра.
+/// Без этого на web первый кадр уезжает раньше, чем подъедут .otf/.ttf,
+/// и layout кнопок/иконок остаётся неверным до hot restart.
+Future<void> _warmupFonts() async {
+  Future<void> safeLoad(FontLoader loader) async {
+    try {
+      await loader.load();
+    } catch (e, st) {
+      // Сбой одного шрифта не должен ронять запуск
+      AppLogger.error(
+        'Font warmup failed',
+        scope: 'startup',
+        error: e,
+        stackTrace: st,
+      );
+    }
+  }
+
+  final roboto = FontLoader('Roboto')
+    ..addFont(rootBundle.load('assets/fonts/Roboto-Regular.ttf'))
+    ..addFont(rootBundle.load('assets/fonts/Roboto-Italic.ttf'))
+    ..addFont(rootBundle.load('assets/fonts/Roboto-Medium.ttf'))
+    ..addFont(rootBundle.load('assets/fonts/Roboto-MediumItalic.ttf'))
+    ..addFont(rootBundle.load('assets/fonts/Roboto-Bold.ttf'))
+    ..addFont(rootBundle.load('assets/fonts/Roboto-BoldItalic.ttf'));
+
+  // MaterialIcons включается флагом uses-material-design: true и
+  // лежит в FontEngine под именем "MaterialIcons". Asset Flutter SDK
+  // публикует по этому пути.
+  final materialIcons = FontLoader('MaterialIcons')
+    ..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'));
+
+  await Future.wait([safeLoad(roboto), safeLoad(materialIcons)]);
 }
 
 /// Fallback приложение в случае критической ошибки инициализации
