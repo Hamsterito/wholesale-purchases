@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_color_palette.dart';
 import '../utils/characteristic_sections.dart';
+import 'smooth_sheet.dart';
 
 /// Bottom sheet «О товаре»: табы «Характеристики»/«Описание» с прокруткой
 /// по якорям. Принимает готовые секции — подходит и покупателю, и модератору.
@@ -15,6 +16,7 @@ void showAboutProductSheet({
     context: context,
     backgroundColor: palette.card,
     isScrollControlled: true,
+    transitionAnimationController: smoothBottomSheetController(context),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),

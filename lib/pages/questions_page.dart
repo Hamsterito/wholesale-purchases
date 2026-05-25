@@ -6,6 +6,7 @@ import '../theme/app_color_palette.dart';
 import '../widgets/question_card.dart';
 import '../widgets/main_bottom_nav.dart';
 import '../widgets/smart_image.dart';
+import '../widgets/smooth_sheet.dart';
 
 enum _PageState { loading, error, empty, data }
 
@@ -137,6 +138,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      transitionAnimationController: smoothBottomSheetController(context),
       backgroundColor: Colors.transparent,
       builder: (ctx) => _AskQuestionModal(
         productId: widget.productId,

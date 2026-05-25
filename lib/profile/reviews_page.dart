@@ -3,6 +3,7 @@ import 'package:flutter_project/widgets/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../widgets/smooth_sheet.dart';
 import 'dart:convert';
 import '../widgets/expandable_text_block.dart';
 import '../widgets/rating_stars.dart';
@@ -820,6 +821,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
     final draft = await showModalBottomSheet<_ReviewDraft>(
       context: context,
       isScrollControlled: true,
+      transitionAnimationController: smoothBottomSheetController(context),
       backgroundColor: Colors.transparent,
       builder: (context) {
         final controller = TextEditingController(text: review.reviewText);
@@ -1131,6 +1133,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
     final draft = await showModalBottomSheet<_ReviewDraft>(
       context: context,
       isScrollControlled: true,
+      transitionAnimationController: smoothBottomSheetController(context),
       backgroundColor: Colors.transparent,
       builder: (context) {
         final controller = TextEditingController();

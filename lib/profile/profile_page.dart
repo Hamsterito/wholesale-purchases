@@ -21,6 +21,7 @@ import '../services/auth_storage.dart';
 import '../services/api_service.dart';
 import '../models/user_profile.dart';
 import '../services/notification_service.dart';
+import '../services/templates_store.dart';
 import '../utils/ru_plural.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -454,6 +455,7 @@ class _ProfilePageState extends State<ProfilePage> {
               onTap: () async {
                 // Чистим счётчики, пока userId ещё доступен в AuthStorage.
                 await NotificationService().clearForLogout();
+                await TemplatesStore.instance.clearCache();
                 await AuthStorage.forget();
                 if (!context.mounted) return;
                 Navigator.pushReplacement(

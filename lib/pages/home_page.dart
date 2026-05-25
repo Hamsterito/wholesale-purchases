@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import '../models/product.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/product_card.dart';
+import '../widgets/smooth_sheet.dart';
 import '../services/api_service.dart';
 import '../utils/search_normalizer.dart';
 import '../utils/auto_refresh.dart';
@@ -727,6 +728,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
+      transitionAnimationController: smoothBottomSheetController(context),
       backgroundColor: _cardBg,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),

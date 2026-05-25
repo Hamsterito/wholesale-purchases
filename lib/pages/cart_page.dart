@@ -11,10 +11,17 @@ import '../services/api_service.dart';
 import '../services/auth_storage.dart';
 import '../services/cart_store.dart';
 import '../services/payment_card_storage.dart';
+import '../services/product_resolver.dart';
+import '../services/templates_store.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/delivery_schedule.dart';
-import '../widgets/top_message.dart';
+import '../widgets/apply_template_confirm_dialog.dart';
+import '../widgets/rename_template_dialog.dart';
+import '../widgets/save_template_dialog.dart';
 import '../widgets/smart_image.dart';
+import '../widgets/smooth_sheet.dart';
+import '../widgets/templates_sheet.dart';
+import '../widgets/top_message.dart';
 
 const double _buttonRadius = 18;
 
@@ -32,6 +39,13 @@ class _CartPageState extends State<CartPage> {
   bool _isPlacingAllOrders = false;
   final Set<String> _submittingSuppliers = <String>{};
 
+  int _templatesCount = 0;
+  late final VoidCallback _templatesListener;
+
+  // Свёрнут ли sheet шаблонов через крестик: true → показан FAB, тап
+  // по нему открывает sheet обратно.
+  bool _isTemplatesMinimized = false;
+
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   bool get _isDark => _theme.brightness == Brightness.dark;
@@ -47,11 +61,18 @@ class _CartPageState extends State<CartPage> {
   void initState() {
     super.initState();
     _cartStore.addListener(_onCartChanged);
+    _templatesListener = () {
+      if (!mounted) return;
+      setState(() => _templatesCount = TemplatesStore.instance.count);
+    };
+    TemplatesStore.instance.addListener(_templatesListener);
+    _templatesCount = TemplatesStore.instance.count;
   }
 
   @override
   void dispose() {
     _cartStore.removeListener(_onCartChanged);
+    TemplatesStore.instance.removeListener(_templatesListener);
     super.dispose();
   }
 
@@ -343,6 +364,7 @@ class _CartPageState extends State<CartPage> {
     return showModalBottomSheet<_CheckoutMethodAction>(
       context: context,
       isScrollControlled: true,
+      transitionAnimationController: smoothBottomSheetController(context),
       useSafeArea: true,
       showDragHandle: false,
       backgroundColor: _cardBg,
@@ -613,7 +635,7 @@ class _CartPageState extends State<CartPage> {
     return name.trim();
   }
 
-  // Расчётная дата доставки — приоритет даём декодеру, иначе оставляем сырое значение.
+  // Расчётная дата доставки - приоритет даём декодеру, иначе оставляем сырое значение.
   String _resolveDeliveryDateText(Supplier supplier) {
     final raw = supplier.deliveryDate.trim().isNotEmpty
         ? supplier.deliveryDate
@@ -748,6 +770,7 @@ class _CartPageState extends State<CartPage> {
     return showModalBottomSheet<UserAddress>(
       context: context,
       isScrollControlled: true,
+      transitionAnimationController: smoothBottomSheetController(context),
       useSafeArea: true,
       showDragHandle: false,
       backgroundColor: _cardBg,
@@ -1236,21 +1259,91 @@ class _CartPageState extends State<CartPage> {
       backgroundColor: _pageBg,
       extendBody: true,
       bottomNavigationBar: _buildPayAllBar(),
-      body: Column(
+      body: Stack(
         children: [
-          _buildHeader(context),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(16, 10, 16, 160),
-              children: [
-                _buildSummaryCard(),
-                ..._cartItemsBySupplier.entries.map((entry) {
-                  return _buildSupplierSection(entry.key, entry.value);
-                }),
-              ],
+          Column(
+            children: [
+              _buildHeader(context),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(16, 10, 16, 160),
+                  children: [
+                    _buildSummaryCard(),
+                    ..._cartItemsBySupplier.entries.map((entry) {
+                      return _buildSupplierSection(entry.key, entry.value);
+                    }),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          _buildTemplatesFab(),
+        ],
+      ),
+    );
+  }
+
+  // Плавающая кнопка возврата к свёрнутому sheet - bounce + slide снизу.
+  Widget _buildTemplatesFab() {
+    final palette = context.colorPalette;
+    return Positioned(
+      right: 16,
+      // Чуть выше кнопки оплаты, чтобы не перекрывать её.
+      bottom: _bottomMessageOffset - 30,
+      child: IgnorePointer(
+        ignoring: !_isTemplatesMinimized,
+        child: AnimatedSlide(
+          offset: _isTemplatesMinimized ? Offset.zero : const Offset(0, 0.4),
+          duration: const Duration(milliseconds: 260),
+          curve: Curves.easeOutBack,
+          child: AnimatedOpacity(
+            opacity: _isTemplatesMinimized ? 1 : 0,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeOut,
+            child: AnimatedScale(
+              scale: _isTemplatesMinimized ? 1 : 0.85,
+              duration: const Duration(milliseconds: 220),
+              curve: Curves.easeOutBack,
+              child: Material(
+                color: palette.accent,
+                elevation: 6,
+                shadowColor: palette.accent.withValues(alpha: 0.4),
+                borderRadius: BorderRadius.circular(28),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(28),
+                  onTap: _isTemplatesMinimized ? _restoreTemplatesSheet : null,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 18,
+                      vertical: 12,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.bookmark_outline,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          _templatesCount > 0
+                              ? 'Шаблоны · $_templatesCount'
+                              : 'Шаблоны',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -1261,24 +1354,30 @@ class _CartPageState extends State<CartPage> {
       child: SafeArea(
         bottom: false,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
+          padding: const EdgeInsets.fromLTRB(16, 16, 8, 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Корзина',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: _colorScheme.onSurface,
-                ),
-              ),
-              const SizedBox(height: 6),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildHeaderAction(
-                    label: 'История заказов',
+                  Padding(
+                    padding: const EdgeInsets.only(left: 0),
+                    child: Text(
+                      'Корзина',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: _colorScheme.onSurface,
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  // Иконка часов - навигация в историю заказов.
+                  _HeaderIconButton(
+                    icon: Icons.history,
+                    tooltip: 'История заказов',
+                    semanticsLabel: 'Открыть историю заказов',
+                    color: _mutedText,
                     onTap: () {
                       Navigator.push(
                         context,
@@ -1288,9 +1387,24 @@ class _CartPageState extends State<CartPage> {
                       );
                     },
                   ),
-                  _buildHeaderAction(
-                    label: 'Очистить все',
-                    onTap: _confirmClearCart,
+                  // Иконка закладки с плюсом - сохранить текущую корзину
+                  // как шаблон. Активна только при непустой корзине.
+                  if (_cartItemsBySupplier.isNotEmpty)
+                    _HeaderIconButton(
+                      icon: Icons.bookmark_add_outlined,
+                      tooltip: 'Сохранить как шаблон',
+                      semanticsLabel: 'Сохранить текущую корзину как шаблон',
+                      color: _mutedText,
+                      onTap: _saveCurrentCartAsTemplate,
+                    ),
+                  // Иконка закладки с бейджем-счётчиком - навигация в шаблоны.
+                  _HeaderIconButton(
+                    icon: Icons.bookmark_outline,
+                    tooltip: 'Шаблоны',
+                    semanticsLabel: 'Открыть список шаблонов покупок',
+                    color: _mutedText,
+                    badgeCount: _templatesCount,
+                    onTap: _openTemplatesSheet,
                   ),
                 ],
               ),
@@ -1301,98 +1415,465 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _buildHeaderAction({
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return _PressableHeaderAction(
-      label: label,
-      onTap: onTap,
-      color: context.colorPalette.accent,
+  void _openTemplatesSheet() async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      showTopMessage(
+        context,
+        'Войдите, чтобы пользоваться шаблонами',
+        showAtBottom: true,
+        bottomOffset: _bottomMessageOffset,
+      );
+      return;
+    }
+    // Скрываем FAB на время открытого sheet.
+    if (_isTemplatesMinimized) {
+      setState(() => _isTemplatesMinimized = false);
+    }
+    final result = await showTemplatesSheet(
+      context,
+      onApply: _applyTemplate,
+      onRename: _renameTemplate,
+      onDelete: _deleteTemplate,
     );
+    if (!mounted) return;
+    // minimized - свёрнут через крестик, показываем FAB; иначе FAB не нужен.
+    setState(() {
+      _isTemplatesMinimized = result == TemplatesSheetResult.minimized;
+    });
+  }
+
+  // Возврат свёрнутого sheet через FAB.
+  void _restoreTemplatesSheet() {
+    setState(() => _isTemplatesMinimized = false);
+    _openTemplatesSheet();
+  }
+
+  // Применяем шаблон: при непустой корзине просим подтверждение, потом
+  // TemplatesStore.apply и сводку с пропущенными.
+  Future<void> _applyTemplate(PurchaseTemplate template) async {
+    if (!mounted) return;
+
+    if (_cartStore.totalPositions > 0) {
+      final confirmed = await showApplyTemplateConfirmDialog(context);
+      if (confirmed != true) return;
+      if (!mounted) return;
+    }
+
+    final ApplyTemplateResult result;
+    try {
+      result = await TemplatesStore.instance.apply(
+        templateId: template.id,
+        resolver: ApiProductResolver(),
+        cart: _cartStore,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      showTopMessage(
+        context,
+        'Не удалось применить шаблон',
+        backgroundColor: context.colorPalette.error,
+        showAtBottom: true,
+        bottomOffset: _bottomMessageOffset,
+      );
+      return;
+    }
+
+    if (!mounted) return;
+
+    if (!result.cartReplaced) {
+      // Все позиции отвалились - корзина не тронута (R5.8).
+      showTopMessage(
+        context,
+        'Шаблон не применён: ни один товар не доступен',
+        backgroundColor: context.colorPalette.error,
+        showAtBottom: true,
+        bottomOffset: _bottomMessageOffset,
+      );
+      return;
+    }
+
+    // Закрываем sheet и показываем сводку (R5.6).
+    Navigator.of(context).maybePop();
+
+    final summary = StringBuffer(
+      'Корзина заменена шаблоном «${template.name}»: '
+      'добавлено ${result.addedCount} товаров',
+    );
+    if (result.skippedCount > 0) {
+      summary.write(', пропущено ${result.skippedCount}');
+    }
+    if (result.adjustedCount > 0) {
+      summary.write(', скорректировано ${result.adjustedCount}');
+    }
+
+    final hasSkipped = result.skippedCount > 0;
+    showTopMessage(
+      context,
+      summary.toString(),
+      duration: const Duration(seconds: 4),
+      maxLines: 2,
+      // Action виден только при skipped > 0 - открывает модалку
+      // со списком пропущенных позиций и причинами.
+      actionText: hasSkipped ? 'Подробнее' : null,
+      onAction: hasSkipped
+          ? () => _showSkippedItemsDialog(result.skipped)
+          : null,
+      showAtBottom: true,
+      bottomOffset: _bottomMessageOffset,
+    );
+  }
+
+  // Модалка со списком пропущенных позиций - Material 3.
+  Future<void> _showSkippedItemsDialog(List<SkippedTemplateItem> items) async {
+    if (!mounted) return;
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        final palette = dialogContext.colorPalette;
+        final media = MediaQuery.of(dialogContext);
+        final clampedScaler = TextScaler.linear(
+          media.textScaler.scale(1.0).clamp(1.0, 2.0),
+        );
+        return MediaQuery(
+          data: media.copyWith(textScaler: clampedScaler),
+          child: AlertDialog(
+            backgroundColor: palette.card,
+            title: Text(
+              'Пропущено ${items.length} ${_skippedSuffix(items.length)}',
+            ),
+            content: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 360, maxHeight: 360),
+              child: SizedBox(
+                width: double.maxFinite,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: items.length,
+                  separatorBuilder: (_, __) =>
+                      Divider(height: 12, color: palette.line),
+                  itemBuilder: (context, index) {
+                    final entry = items[index];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          entry.item.productName,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: palette.ink,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          _skipReasonText(entry.reason),
+                          style: TextStyle(fontSize: 12, color: palette.muted),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(dialogContext).pop(),
+                child: const Text('Закрыть'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  String _skippedSuffix(int n) {
+    // Простое склонение без подключения utils/ru_plural - кейс единичный.
+    final mod10 = n % 10;
+    final mod100 = n % 100;
+    if (mod10 == 1 && mod100 != 11) return 'позиция';
+    if ((mod10 >= 2 && mod10 <= 4) && (mod100 < 12 || mod100 > 14)) {
+      return 'позиции';
+    }
+    return 'позиций';
+  }
+
+  String _skipReasonText(SkipReason reason) {
+    switch (reason) {
+      case SkipReason.productMissing:
+        return 'Товар недоступен';
+      case SkipReason.supplierMissing:
+        return 'Поставщик больше не предлагает товар';
+    }
+  }
+
+  // Переименование: валидация в диалоге; rename в то же имя - no-op в сторе.
+  Future<void> _renameTemplate(PurchaseTemplate template) async {
+    final newName = await showRenameTemplateDialog(context, template: template);
+    if (newName == null) return;
+    if (!mounted) return;
+    try {
+      await TemplatesStore.instance.rename(
+        templateId: template.id,
+        newName: newName,
+      );
+    } on TemplateValidationException catch (e) {
+      if (!mounted) return;
+      showTopMessage(
+        context,
+        e.userMessage,
+        showAtBottom: true,
+        bottomOffset: _bottomMessageOffset,
+      );
+      return;
+    }
+    if (!mounted) return;
+    showTopMessage(
+      context,
+      'Шаблон переименован',
+      showAtBottom: true,
+      bottomOffset: _bottomMessageOffset,
+    );
+  }
+
+  // Снимок берём до remove, чтобы restore вернул шаблон с прежними
+  // id, именем, составом и датами (R7.4, R7.5).
+  Future<void> _deleteTemplate(PurchaseTemplate template) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Удалить шаблон ${template.name}?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Отмена'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: context.colorPalette.error,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Удалить'),
+            ),
+          ],
+        );
+      },
+    );
+    if (confirmed != true) return;
+
+    final snapshot = template;
+    await TemplatesStore.instance.remove(template.id);
+
+    // Если страница уже не смонтирована - возвращаем шаблон автоматически (R7.4).
+    if (!mounted) {
+      await TemplatesStore.instance.restore(snapshot);
+      return;
+    }
+    showTopMessage(
+      context,
+      'Шаблон удалён',
+      actionText: 'Отменить',
+      onAction: () => TemplatesStore.instance.restore(snapshot),
+      duration: const Duration(seconds: 5),
+      showCountdown: true,
+      showAtBottom: true,
+      bottomOffset: _bottomMessageOffset,
+    );
+  }
+
+  // Сохраняет текущий состав корзины как шаблон (новый или перезапись).
+  Future<void> _saveCurrentCartAsTemplate() async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      showTopMessage(
+        context,
+        'Войдите, чтобы пользоваться шаблонами',
+        showAtBottom: true,
+        bottomOffset: _bottomMessageOffset,
+      );
+      return;
+    }
+
+    // Защитный no-op - кнопка не должна быть видна при пустой корзине.
+    final bySupplier = _cartItemsBySupplier;
+    if (bySupplier.isEmpty) return;
+
+    final cartItems = <CartItem>[
+      for (final items in bySupplier.values) ...items,
+    ];
+
+    // Лимит позиций - до открытия диалога: смысла открывать нет.
+    if (cartItems.length > 100) {
+      showTopMessage(
+        context,
+        'В шаблоне может быть не более 100 позиций.',
+        showAtBottom: true,
+        bottomOffset: _bottomMessageOffset,
+      );
+      return;
+    }
+
+    // Лимит шаблонов - только для create; перезапись лимит не нарушает,
+    // поэтому решение принимаем после возврата из диалога.
+    final templatesCount = TemplatesStore.instance.count;
+
+    final defaultName = 'Шаблон от ${_formatTemplateDate(DateTime.now())}';
+    final result = await showSaveTemplateDialog(
+      context,
+      defaultName: defaultName,
+    );
+    if (result == null) return;
+    if (!mounted) return;
+
+    final items = cartItems.map(TemplateItem.fromCartItem).toList();
+
+    try {
+      if (result.overwriteId != null) {
+        await TemplatesStore.instance.overwrite(
+          templateId: result.overwriteId!,
+          items: items,
+        );
+      } else {
+        if (templatesCount >= 20) {
+          showTopMessage(
+            context,
+            'Достигнут лимит шаблонов: 20. Удалите ненужный шаблон.',
+            showAtBottom: true,
+            bottomOffset: _bottomMessageOffset,
+          );
+          return;
+        }
+        await TemplatesStore.instance.create(name: result.name, items: items);
+      }
+    } on TemplateValidationException catch (e) {
+      if (!mounted) return;
+      showTopMessage(
+        context,
+        e.userMessage,
+        showAtBottom: true,
+        bottomOffset: _bottomMessageOffset,
+      );
+      return;
+    }
+
+    if (!mounted) return;
+    showTopMessage(
+      context,
+      'Шаблон сохранён',
+      showAtBottom: true,
+      bottomOffset: _bottomMessageOffset,
+    );
+  }
+
+  String _formatTemplateDate(DateTime date) {
+    final day = date.day.toString().padLeft(2, '0');
+    final month = date.month.toString().padLeft(2, '0');
+    return '$day.$month.${date.year}';
   }
 
   Widget _buildPayAllBar() {
     final canCheckout = _cartItemsBySupplier.isNotEmpty && !_isPlacingAllOrders;
+    final hasItems = _cartItemsBySupplier.isNotEmpty;
     const buttonHeight = 48.0;
     return Container(
-      color: _pageBg,
+      color: Colors.transparent,
       child: SafeArea(
         top: false,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
-          child: SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: canCheckout ? _placeAllOrders : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: _isDark
-                    ? context.colorPalette.accentMist
-                    : context.colorPalette.accent,
-                foregroundColor: Colors.white,
-                disabledBackgroundColor:
-                    (_isDark
-                            ? context.colorPalette.accentMist
-                            : context.colorPalette.accent)
-                        .withValues(alpha: 0.5),
-                disabledForegroundColor: Colors.white.withValues(alpha: 0.8),
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                minimumSize: const Size.fromHeight(buttonHeight),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(_buttonRadius),
-                ),
-                elevation: 0,
-              ),
-              child: SizedBox(
-                height: buttonHeight,
-                child: Center(
-                  child: _isPlacingAllOrders
-                      ? const SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.4,
-                            color: Colors.white,
-                          ),
-                        )
-                      : Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Text(
-                              'Оформить все заказы',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: canCheckout ? _placeAllOrders : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: _isDark
+                        ? context.colorPalette.accentMist
+                        : context.colorPalette.accent,
+                    foregroundColor: Colors.white,
+                    disabledBackgroundColor:
+                        (_isDark
+                                ? context.colorPalette.accentMist
+                                : context.colorPalette.accent)
+                            .withValues(alpha: 0.5),
+                    disabledForegroundColor: Colors.white.withValues(
+                      alpha: 0.8,
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    minimumSize: const Size.fromHeight(buttonHeight),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(_buttonRadius),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: SizedBox(
+                    height: buttonHeight,
+                    child: Center(
+                      child: _isPlacingAllOrders
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.4,
+                                color: Colors.white,
                               ),
-                            ),
-                            const SizedBox(height: 1),
-                            Row(
+                            )
+                          : Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                _buildAnimatedValueText(
-                                  '${_formatMoney(_totalAmount)} ₸',
+                                const Text(
+                                  'Оформить все заказы',
                                   style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white.withValues(alpha: 0.92),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  '· $_totalUnits шт.',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white.withValues(alpha: 0.92),
-                                  ),
+                                const SizedBox(height: 1),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    _buildAnimatedValueText(
+                                      '${_formatMoney(_totalAmount)} ₸',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white.withValues(
+                                          alpha: 0.92,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      '· $_totalUnits шт.',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white.withValues(
+                                          alpha: 0.92,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              if (hasItems) ...[
+                const SizedBox(height: 6),
+                _ClearCartLink(onTap: _confirmClearCart),
+              ],
+            ],
           ),
         ),
       ),
@@ -1985,93 +2466,169 @@ class _HoverIconButton extends StatefulWidget {
   State<_HoverIconButton> createState() => _HoverIconButtonState();
 }
 
-class _PressableHeaderAction extends StatefulWidget {
-  const _PressableHeaderAction({
-    required this.label,
-    required this.onTap,
+class _HeaderIconButton extends StatefulWidget {
+  const _HeaderIconButton({
+    required this.icon,
+    required this.tooltip,
+    required this.semanticsLabel,
     required this.color,
+    required this.onTap,
+    this.badgeCount = 0,
   });
 
-  final String label;
-  final VoidCallback onTap;
+  final IconData icon;
+  final String tooltip;
+  final String semanticsLabel;
   final Color color;
+  final VoidCallback onTap;
+  final int badgeCount;
 
   @override
-  State<_PressableHeaderAction> createState() => _PressableHeaderActionState();
+  State<_HeaderIconButton> createState() => _HeaderIconButtonState();
 }
 
-class _PressableHeaderActionState extends State<_PressableHeaderAction> {
-  static const _animationDuration = Duration(milliseconds: 140);
-  bool _isHovered = false;
-  bool _isPressed = false;
-
-  void _setHovered(bool value) {
-    if (_isHovered == value) {
-      return;
-    }
-    setState(() => _isHovered = value);
-  }
-
-  void _setPressed(bool value) {
-    if (_isPressed == value) {
-      return;
-    }
-    setState(() => _isPressed = value);
-  }
-
-  double get _scale {
-    if (_isPressed) {
-      return 0.96;
-    }
-    if (_isHovered) {
-      return 1.03;
-    }
-    return 1.0;
-  }
-
-  Color get _backgroundColor {
-    if (_isPressed) {
-      return widget.color.withValues(alpha: 0.16);
-    }
-    if (_isHovered) {
-      return widget.color.withValues(alpha: 0.1);
-    }
-    return Colors.transparent;
-  }
+class _HeaderIconButtonState extends State<_HeaderIconButton> {
+  bool _hovered = false;
+  bool _pressed = false;
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => _setHovered(true),
-      onExit: (_) => _setHovered(false),
-      child: GestureDetector(
-        onTap: widget.onTap,
-        onTapDown: (_) => _setPressed(true),
-        onTapUp: (_) => _setPressed(false),
-        onTapCancel: () => _setPressed(false),
-        behavior: HitTestBehavior.opaque,
-        child: AnimatedScale(
-          scale: _scale,
-          duration: _animationDuration,
+    final hasBadge = widget.badgeCount > 0;
+    final overlay = _pressed
+        ? widget.color.withValues(alpha: 0.16)
+        : _hovered
+        ? widget.color.withValues(alpha: 0.08)
+        : Colors.transparent;
+
+    final button = Stack(
+      clipBehavior: Clip.none,
+      children: [
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 120),
           curve: Curves.easeOut,
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(color: overlay, shape: BoxShape.circle),
+          alignment: Alignment.center,
+          child: Icon(widget.icon, size: 22, color: widget.color),
+        ),
+        if (hasBadge)
+          Positioned(
+            right: 0,
+            top: 0,
+            child: _TemplatesBadge(count: widget.badgeCount),
+          ),
+      ],
+    );
+
+    return Semantics(
+      button: true,
+      label: widget.semanticsLabel,
+      child: Tooltip(
+        message: widget.tooltip,
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          onEnter: (_) => setState(() => _hovered = true),
+          onExit: (_) => setState(() => _hovered = false),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: widget.onTap,
+            onTapDown: (_) => setState(() => _pressed = true),
+            onTapUp: (_) => setState(() => _pressed = false),
+            onTapCancel: () => setState(() => _pressed = false),
+            child: button,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ClearCartLink extends StatefulWidget {
+  const _ClearCartLink({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  State<_ClearCartLink> createState() => _ClearCartLinkState();
+}
+
+class _ClearCartLinkState extends State<_ClearCartLink> {
+  bool _hovered = false;
+  bool _pressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.colorPalette;
+    final color = _pressed
+        ? palette.error
+        : _hovered
+        ? palette.error.withValues(alpha: 0.85)
+        : palette.error.withValues(alpha: 0.9);
+    return Semantics(
+      button: true,
+      label: 'Очистить корзину',
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (_) => setState(() => _hovered = true),
+        onExit: (_) => setState(() => _hovered = false),
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: widget.onTap,
+          onTapDown: (_) => setState(() => _pressed = true),
+          onTapUp: (_) => setState(() => _pressed = false),
+          onTapCancel: () => setState(() => _pressed = false),
           child: AnimatedContainer(
-            duration: _animationDuration,
-            curve: Curves.easeOut,
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-            decoration: BoxDecoration(
-              color: _backgroundColor,
-              borderRadius: BorderRadius.circular(_buttonRadius),
-            ),
-            child: Text(
-              widget.label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: widget.color,
-              ),
+            duration: const Duration(milliseconds: 120),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.delete_outline, size: 18, color: color),
+                const SizedBox(width: 6),
+                Text(
+                  'Очистить корзину',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: color,
+                  ),
+                ),
+              ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _TemplatesBadge extends StatelessWidget {
+  const _TemplatesBadge({required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.colorPalette;
+    final text = count > 99 ? '99+' : '$count';
+    return Container(
+      constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+      decoration: BoxDecoration(
+        color: palette.accent,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: palette.card, width: 1.5),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+          height: 1.0,
         ),
       ),
     );

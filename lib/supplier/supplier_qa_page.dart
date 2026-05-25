@@ -12,6 +12,7 @@ import '../widgets/supplier_qa_answer_modal.dart';
 import '../widgets/supplier_qa_response_modal.dart';
 import '../widgets/expandable_text_block.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../widgets/smooth_sheet.dart';
 import '../utils/date_formatter.dart';
 import '../theme/app_color_palette.dart';
 
@@ -301,6 +302,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      transitionAnimationController: smoothBottomSheetController(context),
       builder: (context) => SupplierQAAnswerModal(
         question: question,
         product:
@@ -341,6 +343,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      transitionAnimationController: smoothBottomSheetController(context),
       builder: (context) => SupplierQAResponseModal(
         review: review,
         product:

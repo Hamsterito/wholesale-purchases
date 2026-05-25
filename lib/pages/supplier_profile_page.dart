@@ -10,6 +10,7 @@ import '../theme/app_color_palette.dart';
 import '../utils/rating_format.dart';
 import '../utils/search_normalizer.dart';
 import '../widgets/product_card.dart';
+import '../widgets/smooth_sheet.dart';
 import '../widgets/top_message.dart';
 import '../widgets/main_bottom_nav.dart';
 import 'product_detail_page.dart';
@@ -746,6 +747,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
+      transitionAnimationController: smoothBottomSheetController(context),
       backgroundColor: _cardBg,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),

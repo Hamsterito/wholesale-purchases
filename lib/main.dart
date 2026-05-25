@@ -12,6 +12,7 @@ import 'package:flutter_project/services/app_settings.dart';
 import 'package:flutter_project/services/auth_storage.dart';
 import 'package:flutter_project/services/favorites_store.dart';
 import 'package:flutter_project/services/notification_service.dart';
+import 'package:flutter_project/services/templates_store.dart';
 import 'package:flutter_project/widgets/main_navigation.dart';
 import 'package:flutter_project/theme/app_color_palette.dart';
 
@@ -74,6 +75,9 @@ void main() {
 
         await FavoritesStore.instance.loadFromStorage();
         AppLogger.info('Favorites loaded from storage', scope: 'startup');
+
+        await TemplatesStore.instance.loadForCurrentUser();
+        AppLogger.info('Templates loaded for current user', scope: 'startup');
 
         // Инициализируем сервис уведомлений — ошибка не должна блокировать запуск
         try {

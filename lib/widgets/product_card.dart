@@ -10,6 +10,7 @@ import '../theme/app_color_palette.dart';
 import '../utils/delivery_schedule.dart';
 import '../utils/ru_plural.dart';
 import 'rating_stars.dart';
+import 'smooth_sheet.dart';
 import 'top_message.dart';
 
 class ProductCard extends StatefulWidget {
@@ -308,6 +309,7 @@ class _ProductCardState extends State<ProductCard> {
     return showModalBottomSheet<int>(
       context: context,
       isScrollControlled: true,
+      transitionAnimationController: smoothBottomSheetController(context),
       backgroundColor: _cardBg,
       barrierColor: _palette.shadow.withValues(alpha: 0.32),
       isDismissible: true,

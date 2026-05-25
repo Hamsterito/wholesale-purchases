@@ -3,6 +3,7 @@ import '../theme/app_color_palette.dart';
 import '../login_screen/login.dart';
 import '../services/auth_storage.dart';
 import '../services/notification_service.dart';
+import '../services/templates_store.dart';
 
 class ModeratorProfilePage extends StatelessWidget {
   const ModeratorProfilePage({super.key});
@@ -10,6 +11,7 @@ class ModeratorProfilePage extends StatelessWidget {
   Future<void> _logout(BuildContext context) async {
     // Сначала очищаем уведомления — пока userId ещё доступен в AuthStorage
     await NotificationService().clearForLogout();
+    await TemplatesStore.instance.clearCache();
     await AuthStorage.forget();
     if (!context.mounted) return;
     Navigator.of(context).pushAndRemoveUntil(

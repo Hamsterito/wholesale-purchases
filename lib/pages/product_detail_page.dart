@@ -1,5 +1,6 @@
 ﻿import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:share_plus/share_plus.dart';
 import '../models/product.dart';
 import '../models/review_entry.dart';
@@ -17,6 +18,7 @@ import '../utils/characteristic_sections.dart';
 import '../utils/delivery_schedule.dart';
 import '../utils/rating_format.dart';
 import '../widgets/similar_products_carousel.dart';
+import '../widgets/smooth_sheet.dart';
 import '../widgets/top_message.dart';
 import '../widgets/rating_stars.dart';
 import 'reviews_page.dart';
@@ -56,10 +58,17 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   int _totalQuestions = 0;
   TabController? _tabController;
   bool _isFavorite = false;
-  // Избранное компании-поставщика — отдельный флаг, не связанный с избранным товара.
+  // Избранное компании-поставщика - отдельный флаг, не связанный с избранным товара.
   bool _isSupplierFavorite = false;
-  bool _showPersistentPriceBar = true;
-  bool _showScrollToTopButton = false;
+  // ValueNotifier - меняются на скролле, без полного setState.
+  final ValueNotifier<bool> _showPersistentPriceBar = ValueNotifier(true);
+  final ValueNotifier<bool> _showScrollToTopButton = ValueNotifier(false);
+  // Дроссель для скролла: пересчёт только при сдвиге более 4 px.
+  double _lastScrollOffset = 0;
+  // Абсолютный offset секции «Похожие товары» от начала прокручиваемого
+  // контента. Считается один раз после layout - на скролле сравниваем
+  // позицию со scroll offset, без findRenderObject и localToGlobal.
+  double? _similarProductsScrollOffset;
   late final VoidCallback _favoritesListener;
   String? _selectedSupplierId;
   late final PageController _pageController;
@@ -127,6 +136,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     _scrollController.dispose();
     _pageController.dispose();
     _favoritesStore.removeListener(_favoritesListener);
+    _showPersistentPriceBar.dispose();
+    _showScrollToTopButton.dispose();
     super.dispose();
   }
 
@@ -154,6 +165,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           : _favoritesStore.containsSupplier(_selectedSupplierId!);
       _loadProductReviews();
       _refreshSupplierStats();
+      _similarProductsScrollOffset = null;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         _updateBottomAffordances();
@@ -161,40 +173,57 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     }
   }
 
-  void _handleScroll() {
-    if (!_scrollController.hasClients) return;
-    _updateBottomAffordances();
+  // setState может изменить layout выше «Похожих товаров» (отзывы пришли,
+  // например), поэтому сбрасываем кэш - пересчёт на следующем кадре.
+  @override
+  void setState(VoidCallback fn) {
+    super.setState(fn);
+    _similarProductsScrollOffset = null;
   }
 
-  bool _handleScrollNotification(ScrollUpdateNotification notification) {
-    final delta = notification.scrollDelta;
-    if (delta == null || delta == 0) {
-      return false;
-    }
-
+  void _handleScroll() {
+    if (!_scrollController.hasClients) return;
+    final offset = _scrollController.offset;
+    if ((offset - _lastScrollOffset).abs() < 4) return;
+    final delta = offset - _lastScrollOffset;
+    _lastScrollOffset = offset;
     _updateBottomAffordances(scrollDelta: delta);
-    return false;
+  }
+
+  // Кэшируем offset секции «Похожие товары» одноразово после layout.
+  // На скролле сравниваем pixels со scrollOffset - без обхода рендер-дерева.
+  void _measureSimilarProductsOffset() {
+    final ctx = _similarProductsKey.currentContext;
+    if (ctx == null) return;
+    final renderBox = ctx.findRenderObject() as RenderBox?;
+    if (renderBox == null || !renderBox.hasSize || !renderBox.attached) return;
+    final viewport = RenderAbstractViewport.maybeOf(renderBox);
+    if (viewport == null) return;
+    _similarProductsScrollOffset = viewport
+        .getOffsetToReveal(renderBox, 0)
+        .offset;
   }
 
   void _updateBottomAffordances({double? scrollDelta}) {
-    final similarContext = _similarProductsKey.currentContext;
-    final viewportHeight = MediaQuery.sizeOf(context).height;
-    final viewportTrigger =
-        viewportHeight -
-        MediaQuery.of(context).padding.bottom -
-        _stickyBottomVisibilityOffset;
+    if (!_scrollController.hasClients) return;
+
+    if (_similarProductsScrollOffset == null) {
+      _measureSimilarProductsOffset();
+    }
 
     bool isAtSimilarProducts = false;
-    if (similarContext != null) {
-      final renderBox = similarContext.findRenderObject() as RenderBox?;
-      if (renderBox != null && renderBox.hasSize) {
-        final top = renderBox.localToGlobal(Offset.zero).dy;
-        isAtSimilarProducts = top <= viewportTrigger;
-      }
+    final similarOffset = _similarProductsScrollOffset;
+    if (similarOffset != null) {
+      final position = _scrollController.position;
+      // Нижняя кромка вьюпорта дошла до секции с поправкой на высоту
+      // блока цены - прячем кнопку, чтобы не перекрывать первый ряд.
+      final viewportEnd = position.pixels + position.viewportDimension;
+      isAtSimilarProducts =
+          viewportEnd >= similarOffset + _stickyBottomVisibilityOffset;
     }
 
     final nextShowPriceBar = !isAtSimilarProducts;
-    bool nextShowScrollToTop = _showScrollToTopButton;
+    bool nextShowScrollToTop = _showScrollToTopButton.value;
 
     if (!isAtSimilarProducts) {
       nextShowScrollToTop = false;
@@ -204,21 +233,13 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       nextShowScrollToTop = false;
     }
 
-    if (nextShowPriceBar == _showPersistentPriceBar &&
-        nextShowScrollToTop == _showScrollToTopButton) {
-      return;
-    }
-
-    setState(() {
-      _showPersistentPriceBar = nextShowPriceBar;
-      _showScrollToTopButton = nextShowScrollToTop;
-    });
+    // Меняем notifier напрямую - без setState всей страницы.
+    _showPersistentPriceBar.value = nextShowPriceBar;
+    _showScrollToTopButton.value = nextShowScrollToTop;
   }
 
   Future<void> _scrollToTop() async {
-    setState(() {
-      _showScrollToTopButton = false;
-    });
+    _showScrollToTopButton.value = false;
     await _scrollController.animateTo(
       0,
       duration: const Duration(milliseconds: 360),
@@ -236,7 +257,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       if (!mounted) return;
       SupplierStatsStore.instance.update(fresh);
     } catch (_) {
-      // Молча игнорируем — отобразим то, что пришло вместе с товаром.
+      // Молча игнорируем - отобразим то, что пришло вместе с товаром.
     }
   }
 
@@ -386,103 +407,105 @@ class _ProductDetailPageState extends State<ProductDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    final bottomScrollPadding =
-        MediaQuery.of(context).padding.bottom +
-        (_showPersistentPriceBar ? 150 : 56);
+    // Фиксированный padding под максимальную высоту bottom bar.
+    // Анимировать его вместе со скроллом дорого - layout пересчитывался бы каждый кадр.
+    final bottomScrollPadding = MediaQuery.viewPaddingOf(context).bottom + 150;
 
     return Scaffold(
       backgroundColor: _pageBg,
       extendBody: true,
-      body: NotificationListener<ScrollUpdateNotification>(
-        onNotification: _handleScrollNotification,
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverToBoxAdapter(
-              child: AnimatedPadding(
-                duration: const Duration(milliseconds: 260),
-                curve: Curves.easeOutCubic,
-                padding: EdgeInsets.only(bottom: bottomScrollPadding),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeroSection(),
-                    _buildTitleBlock(),
-                    _buildAvailabilitySection(),
-                    _buildStatsButtonsRow(),
-                    Container(
-                      color: _cardBg,
-                      margin: const EdgeInsets.only(top: 8),
-                      child: Column(
-                        children: [
-                          TabBar(
-                            controller: _tabController,
-                            indicatorColor: _palette.accent,
-                            indicatorWeight: 3,
-                            labelColor: _palette.ink,
-                            unselectedLabelColor: _palette.muted,
-                            labelStyle: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            tabs: [
-                              Tab(text: 'Оценки ($_resolvedReviewCount)'),
-                              Tab(text: 'Вопросы ($_totalQuestions)'),
-                            ],
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.only(bottom: bottomScrollPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeroSection(),
+                  _buildTitleBlock(),
+                  _buildAvailabilitySection(),
+                  _buildStatsButtonsRow(),
+                  Container(
+                    color: _cardBg,
+                    margin: const EdgeInsets.only(top: 8),
+                    child: Column(
+                      children: [
+                        TabBar(
+                          controller: _tabController,
+                          indicatorColor: _palette.accent,
+                          indicatorWeight: 3,
+                          labelColor: _palette.ink,
+                          unselectedLabelColor: _palette.muted,
+                          labelStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
                           ),
-                          AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 200),
-                            child: _tabController!.index == 0
-                                ? _buildReviewsPreview()
-                                : _buildQuestionsPreview(),
-                          ),
-                        ],
-                      ),
+                          tabs: [
+                            Tab(text: 'Оценки ($_resolvedReviewCount)'),
+                            Tab(text: 'Вопросы ($_totalQuestions)'),
+                          ],
+                        ),
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 200),
+                          child: _tabController!.index == 0
+                              ? _buildReviewsPreview()
+                              : _buildQuestionsPreview(),
+                        ),
+                      ],
                     ),
-                    _buildAboutProductTile(),
-                    if (widget.similarProducts.isNotEmpty)
-                      SimilarProductsCarousel(
-                        key: _similarProductsKey,
-                        products: widget.similarProducts,
-                        onProductTap: (product) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductDetailPage(
-                                product: product,
-                                similarProducts: widget.similarProducts
-                                    .where((p) => p.id != product.id)
-                                    .toList(),
-                              ),
+                  ),
+                  _buildAboutProductTile(),
+                  if (widget.similarProducts.isNotEmpty)
+                    SimilarProductsCarousel(
+                      key: _similarProductsKey,
+                      products: widget.similarProducts,
+                      onProductTap: (product) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetailPage(
+                              product: product,
+                              similarProducts: widget.similarProducts
+                                  .where((p) => p.id != product.id)
+                                  .toList(),
                             ),
-                          );
-                        },
-                      ),
-                    const SizedBox(height: 8),
-                  ],
-                ),
+                          ),
+                        );
+                      },
+                    ),
+                  const SizedBox(height: 8),
+                ],
               ),
             ),
-          ],
+          ),
+        ],
+      ),
+      floatingActionButton: RepaintBoundary(
+        child: ValueListenableBuilder<bool>(
+          valueListenable: _showScrollToTopButton,
+          builder: (context, visible, _) {
+            // Один AnimatedSwitcher вместо Scale+Opacity - один кадр анимации.
+            return AnimatedSwitcher(
+              duration: const Duration(milliseconds: 160),
+              switchInCurve: Curves.easeOut,
+              switchOutCurve: Curves.easeIn,
+              transitionBuilder: (child, anim) => FadeTransition(
+                opacity: anim,
+                child: ScaleTransition(scale: anim, child: child),
+              ),
+              child: visible
+                  ? _ScrollTopButton(
+                      key: const ValueKey('scroll-top-fab'),
+                      color: _colorScheme.primary,
+                      onTap: _scrollToTop,
+                    )
+                  : const SizedBox.shrink(key: ValueKey('scroll-top-empty')),
+            );
+          },
         ),
       ),
-      floatingActionButton: _showScrollToTopButton
-          ? Padding(
-              padding: const EdgeInsets.only(right: 2, bottom: 8),
-              child: SizedBox(
-                width: 36,
-                height: 36,
-                child: FloatingActionButton(
-                  heroTag: 'product-detail-scroll-to-top',
-                  backgroundColor: _colorScheme.primary,
-                  foregroundColor: Colors.white,
-                  elevation: 2,
-                  onPressed: _scrollToTop,
-                  child: const Icon(Icons.arrow_upward_rounded, size: 18),
-                ),
-              ),
-            )
-          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: _buildBottomBar(),
     );
@@ -568,7 +591,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     VoidCallback? onTap,
     Color? iconColor,
   }) {
-    final resolvedColor = iconColor ?? Colors.white;
+    final resolvedColor = iconColor ?? context.colorPalette.accent;
 
     return Material(
       color: Colors.transparent,
@@ -579,27 +602,13 @@ class _ProductDetailPageState extends State<ProductDetailPage>
         child: SizedBox(
           width: 40,
           height: 40,
-          child: Center(
-            // Иконки без фона; тень делает их читаемыми поверх любого фото.
-            child: Icon(
-              icon,
-              color: resolvedColor,
-              size: 26,
-              shadows: const [
-                Shadow(
-                  color: Color(0x66000000),
-                  blurRadius: 8,
-                  offset: Offset(0, 1),
-                ),
-              ],
-            ),
-          ),
+          child: Center(child: Icon(icon, color: resolvedColor, size: 26)),
         ),
       ),
     );
   }
 
-  // Заголовок товара. Под рейтингом и названием — компактная строка:
+  // Заголовок товара. Под рейтингом и названием - компактная строка:
   // слева иконки доставки/развоза, справа теги категорий.
   Widget _buildTitleBlock() {
     final palette = context.colorPalette;
@@ -649,7 +658,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           ),
           if (hasInfoLine) ...[
             const SizedBox(height: 8),
-            // Дата/время доставки слева, теги — отдельной строкой ниже.
+            // Дата/время доставки слева, теги - отдельной строкой ниже.
             if (deliveryDate != null || deliveryTime != null)
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -707,7 +716,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   }
 
   // Объединённая карточка: верхняя часть «О товаре» с превью характеристик
-  // и кнопкой «Подробнее» (тап → bottom sheet с табами), под разделителем —
+  // и кнопкой «Подробнее» (тап → bottom sheet с табами), под разделителем -
   // компактная плашка поставщика (название, «Поставщик ⭐ rating» и сердечко).
   Widget _buildAboutProductTile() {
     final palette = context.colorPalette;
@@ -895,7 +904,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   }
 
   // Собирает короткий превью характеристик в одну строку через «·».
-  // Берём первые 3–4 пары из всех непустых разделов.
+  // Берём первые 3-4 пары из всех непустых разделов.
   String _buildPreviewLines(List<CharacteristicSection> sections) {
     final parts = <String>[];
     outer:
@@ -919,13 +928,14 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       context: context,
       backgroundColor: palette.card,
       isScrollControlled: true,
+      transitionAnimationController: smoothBottomSheetController(context),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (sheetContext) {
         return DraggableScrollableSheet(
           expand: false,
-          // Snap к initialChildSize — короткий свайп вниз возвращает к исходной высоте.
+          // Snap к initialChildSize - короткий свайп вниз возвращает к исходной высоте.
           initialChildSize: 0.94,
           minChildSize: 0.6,
           maxChildSize: 0.94,
@@ -1058,28 +1068,38 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        TweenAnimationBuilder<double>(
-          duration: const Duration(milliseconds: 280),
-          curve: Curves.easeOutCubic,
-          tween: Tween<double>(begin: 1, end: _showPersistentPriceBar ? 1 : 0),
-          builder: (context, value, child) {
-            return ClipRect(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                heightFactor: value,
-                child: IgnorePointer(
-                  ignoring: value < 0.02,
-                  child: Transform.translate(
-                    offset: Offset(0, (1 - value) * 28),
-                    child: Opacity(opacity: value.clamp(0, 1), child: child),
+        ValueListenableBuilder<bool>(
+          valueListenable: _showPersistentPriceBar,
+          builder: (context, show, child) {
+            return TweenAnimationBuilder<double>(
+              duration: const Duration(milliseconds: 280),
+              curve: Curves.easeOutCubic,
+              tween: Tween<double>(begin: 1, end: show ? 1 : 0),
+              builder: (context, value, _) {
+                return ClipRect(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    heightFactor: value,
+                    child: IgnorePointer(
+                      ignoring: value < 0.02,
+                      child: Transform.translate(
+                        offset: Offset(0, (1 - value) * 28),
+                        child: Opacity(
+                          opacity: value.clamp(0, 1),
+                          child: child,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             );
           },
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-            child: _buildPriceBar(supplier, quantity, totalPrice),
+          child: RepaintBoundary(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              child: _buildPriceBar(supplier, quantity, totalPrice),
+            ),
           ),
         ),
         const MainBottomNav(currentIndex: null),
@@ -1692,7 +1712,7 @@ class _AboutProductSheetState extends State<_AboutProductSheet>
 }
 
 /// Содержимое таба «Характеристики»: вертикальный список разделов.
-/// Каждый раздел — заголовок 16sp w600 и пары «название → значение»,
+/// Каждый раздел - заголовок 16sp w600 и пары «название → значение»,
 /// разделённые тонкой линией. Запись с пустым ключом (раздел «Состав»)
 /// рендерится одной строкой во всю ширину.
 class _CharacteristicsTab extends StatelessWidget {
@@ -1714,7 +1734,7 @@ class _CharacteristicsTab extends StatelessWidget {
   }
 }
 
-/// Содержимое таба «Описание»: либо текст `product.description` без обрезки,
+/// Содержимое таба «Описание»: либо текст product.description без обрезки,
 /// либо плейсхолдер «Описание не указано», если строка пуста или whitespace-only.
 class _DescriptionTab extends StatelessWidget {
   const _DescriptionTab({required this.description});
@@ -2151,6 +2171,42 @@ class _HoldRepeatIconButtonState extends State<_HoldRepeatIconButton> {
         onPressed: widget.onPressed,
         padding: const EdgeInsets.all(4),
         constraints: const BoxConstraints(),
+      ),
+    );
+  }
+}
+
+/// Кнопка «вверх» без Material/Hero/elevation - стандартный FAB лагал
+/// при появлении/исчезновении на скролле.
+class _ScrollTopButton extends StatelessWidget {
+  const _ScrollTopButton({super.key, required this.color, required this.onTap});
+
+  final Color color;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 2, bottom: 8),
+      child: Material(
+        color: color,
+        shape: const CircleBorder(),
+        elevation: 0,
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onTap,
+          child: const SizedBox(
+            width: 36,
+            height: 36,
+            child: Center(
+              child: Icon(
+                Icons.arrow_upward_rounded,
+                size: 18,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

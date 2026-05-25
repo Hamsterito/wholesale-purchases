@@ -11,6 +11,7 @@ import '../services/app_http_client.dart';
 import '../services/app_logger.dart';
 import '../services/auth_storage.dart';
 import '../services/notification_service.dart';
+import '../services/templates_store.dart';
 import '../widgets/app_message_snackbar.dart';
 import '../widgets/main_navigation.dart';
 import '../forgot_screan/verification_page.dart';
@@ -153,6 +154,7 @@ class _LoginPageState extends State<LoginPage> {
             supplierName: supplierName,
           );
         } else {
+          await TemplatesStore.instance.clearCache();
           await AuthStorage.forget();
           await AuthStorage.setSession(
             email: email,
@@ -367,6 +369,8 @@ class _LoginPageState extends State<LoginPage> {
                                         _rememberMe = nextValue;
                                       });
                                       if (!nextValue) {
+                                        await TemplatesStore.instance
+                                            .clearCache();
                                         await AuthStorage.forget();
                                       }
                                     },

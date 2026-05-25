@@ -2,6 +2,7 @@
 import '../login_screen/login.dart';
 import '../services/auth_storage.dart';
 import '../services/notification_service.dart';
+import '../services/templates_store.dart';
 import '../theme/app_color_palette.dart';
 
 class SupplierProfilePage extends StatelessWidget {
@@ -11,6 +12,7 @@ class SupplierProfilePage extends StatelessWidget {
     // Сначала очищаем сервис уведомлений, пока userId ещё доступен —
     // иначе следующий пользователь увидит чужие счётчики
     await NotificationService().clearForLogout();
+    await TemplatesStore.instance.clearCache();
     await AuthStorage.forget();
     if (!context.mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
