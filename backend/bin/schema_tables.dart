@@ -1044,10 +1044,7 @@ Future<void> _ensureQuestionsSchema(Connection connection) async {
   ''');
 }
 
-// Гарантирует наличие учётной записи Super_Admin (dota@gmail.com).
-// Идемпотентно: создаёт запись, если её нет; апгрейдит роль до super_admin,
-// если запись есть, но роль другая; ничего не делает, если роль уже верная.
-// Любые ошибки БД проглатываются — сервер должен подняться даже при сбое.
+// наличие учётной записи Super_Admin (dota@gmail.com).
 Future<void> _ensureSuperAdminUser(Connection connection) async {
   try {
     final existing = await connection.execute(
