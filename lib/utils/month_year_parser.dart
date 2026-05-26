@@ -9,6 +9,9 @@ import 'package:flutter/foundation.dart';
 /// - С лишними пробелами: "май  2026"
 /// - Капитализированные: "Май", "Май 2026"
 class MonthYearParser {
+  // RegExp в static final, чтобы не пересоздавать на каждый ввод даты
+  static final RegExp _whitespaceRegExp = RegExp(r'\s+');
+
   // Объединённый словарь для быстрого поиска
   static const Map<String, int> _russianMonths = {
     // Полные названия
@@ -104,7 +107,7 @@ class MonthYearParser {
   /// Поддерживает: "май", "Май", "май 2026", "Май 2026", "янв", "Янв", "янв 2026"
   static DateTime? _parseTextFormat(String input) {
     // Нормализуем: убираем лишние пробелы, но сохраняем регистр для проверки
-    final normalized = input.replaceAll(RegExp(r'\s+'), ' ').trim();
+    final normalized = input.replaceAll(_whitespaceRegExp, ' ').trim();
     final lowerNormalized = normalized.toLowerCase();
 
     final parts = lowerNormalized.split(' ');

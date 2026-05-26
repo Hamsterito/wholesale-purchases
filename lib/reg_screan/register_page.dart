@@ -10,6 +10,10 @@ import '../services/app_logger.dart';
 import '../forgot_screan/verification_page.dart';
 import '../widgets/phone_input_formatter.dart';
 
+// Один общий RegExp для удаления нецифровых символов в валидации телефона.
+// Top-level final - чтобы не пересоздавать на каждое нажатие клавиши.
+final RegExp _nonDigitRegExp = RegExp(r'\D');
+
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -145,7 +149,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   String? _validatePhone(String value) {
-    final digits = value.replaceAll(RegExp(r'\D'), '');
+    final digits = value.replaceAll(_nonDigitRegExp, '');
     if (digits.isEmpty) {
       return 'Введите номер телефона';
     }
@@ -875,7 +879,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     final name = _nameController.text.trim();
     final email = _emailController.text.trim();
-    final phoneDigits = _phoneController.text.replaceAll(RegExp(r'\D'), '');
+    final phoneDigits = _phoneController.text.replaceAll(_nonDigitRegExp, '');
     final password = _passwordController.text.trim();
     final role = _role;
     final supplierName = _supplierNameController.text.trim();
@@ -964,8 +968,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final gradientColors = _isDark
         ? [context.colorPalette.bgBottom, context.colorPalette.bgTop]
         : [context.colorPalette.accent, context.colorPalette.accentDark];
-    final media = MediaQuery.of(context);
-    final isCompact = media.size.height < 720;
+    final isCompact = MediaQuery.sizeOf(context).height < 720;
     final formPadding = EdgeInsets.all(isCompact ? 20 : 32);
     final fieldGap = isCompact ? 14.0 : 20.0;
     final sectionGap = isCompact ? 12.0 : 16.0;

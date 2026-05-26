@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/message.dart';
+import '../shared_prefs_provider.dart';
 
 /// Кэш сообщений поверх SharedPreferences. FIFO по timestamp.
 /// Ошибки SharedPreferences и парсинга не пробрасываются — сбой кэша не должен ронять приложение.
@@ -48,7 +48,7 @@ class MessageStore {
   static Future<void> clear() async {
     _cache.clear();
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
       await prefs.remove(_storageKey);
     } catch (e) {
       debugPrint('MessageStore.clear: ошибка SharedPreferences — $e');
@@ -59,7 +59,7 @@ class MessageStore {
   static Future<List<Message>> loadAll() async {
     List<Message> loaded = [];
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
       final raw = prefs.getString(_storageKey);
       if (raw == null || raw.isEmpty) {
         _cache
@@ -120,7 +120,7 @@ class MessageStore {
 
   static Future<void> _persist() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
       final list = _cache.map((m) => m.toJson()).toList();
       await prefs.setString(_storageKey, jsonEncode(list));
     } catch (e) {

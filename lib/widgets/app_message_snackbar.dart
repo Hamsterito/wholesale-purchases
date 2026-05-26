@@ -89,7 +89,7 @@ class AppMessageMetrics {
 
   /// Расчёт max-width: 90% ширины экрана, не больше 600 px.
   static double maxWidth(BuildContext context) {
-    return math.min(0.9 * MediaQuery.of(context).size.width, 600.0);
+    return math.min(0.9 * MediaQuery.sizeOf(context).width, 600.0);
   }
 
   /// Тень в стиле `top_message`: общая для всех плашек, не зависит от заливки.

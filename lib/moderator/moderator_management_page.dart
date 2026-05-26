@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../login_screen/login.dart';
@@ -22,6 +24,12 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
   final _searchController = TextEditingController();
   String _searchQuery = '';
 
+  // Debounce ввода в строке поиска: setState вызывается только спустя
+  // 300мс после последнего нажатия, чтобы не фильтровать список на каждом
+  // символе.
+  Timer? _searchDebounce;
+  static const Duration _searchDebounceDuration = Duration(milliseconds: 300);
+
   List<Moderator> _moderators = const [];
   bool _isLoading = true;
   String? _error;
@@ -37,6 +45,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
 
   @override
   void dispose() {
+    _searchDebounce?.cancel();
     _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
     super.dispose();
@@ -44,7 +53,11 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
 
   void _onSearchChanged() {
     if (_searchQuery == _searchController.text) return;
-    setState(() => _searchQuery = _searchController.text);
+    _searchDebounce?.cancel();
+    _searchDebounce = Timer(_searchDebounceDuration, () {
+      if (!mounted) return;
+      setState(() => _searchQuery = _searchController.text);
+    });
   }
 
   Future<void> _load() async {
@@ -342,6 +355,8 @@ class _ModeratorRow extends StatelessWidget {
     required this.onDelete,
   });
 
+  static final RegExp _nonDigitRegExp = RegExp(r'\D');
+
   final Moderator moderator;
   final bool isBusy;
   final VoidCallback? onDelete;
@@ -349,7 +364,7 @@ class _ModeratorRow extends StatelessWidget {
   // Преобразуем 11 цифр (78001234567) в +7-800-123-45-67 для удобного чтения.
   // Если цифр не 11 или формат не похож на наш — показываем как есть.
   String _displayPhone(String raw) {
-    final digits = raw.replaceAll(RegExp(r'\D'), '');
+    final digits = raw.replaceAll(_nonDigitRegExp, '');
     if (digits.length != 11) return raw;
     return PhoneNumberInputFormatter.formatDigits(digits);
   }

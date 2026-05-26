@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_color_palette.dart';
 
+/// Корневой Overlay для top-message баннеров. Монтируется в MaterialApp.builder,
+/// живёт выше Navigator - поэтому баннеры не уезжают при смене страниц.
+final GlobalKey<OverlayState> rootMessageOverlayKey = GlobalKey<OverlayState>();
+
 OverlayEntry? _topMessageEntry;
 Timer? _topMessageTimer;
 GlobalKey<_TopMessageBannerState>? _topMessageKey;
@@ -27,7 +31,9 @@ void showTopMessage(
   _topMessageEntry?.remove();
   _topMessageEntry = null;
 
-  final overlay = Overlay.of(context, rootOverlay: true);
+  final overlay =
+      rootMessageOverlayKey.currentState ??
+      Overlay.of(context, rootOverlay: true);
 
   void removeEntry() {
     _topMessageEntry?.remove();
@@ -51,7 +57,7 @@ void showTopMessage(
       final palette = context.colorPalette;
       // Если фон не передан — используем акцентный цвет из палитры
       final resolvedBackground = backgroundColor ?? palette.accent;
-      final mediaPadding = MediaQuery.of(context).padding;
+      final mediaPadding = MediaQuery.paddingOf(context);
       final resolvedBottom = showAtBottom
           ? mediaPadding.bottom + 8 + bottomOffset
           : null;

@@ -790,93 +790,97 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
       icon: Icons.show_chart_rounded,
       child: SizedBox(
         height: 190,
-        child: LineChart(
-          LineChartData(
-            minY: 0,
-            maxY: chartData.maxY,
-            gridData: FlGridData(
-              show: true,
-              drawVerticalLine: false,
-              horizontalInterval: chartData.maxY / 4,
-              getDrawingHorizontalLine: (_) => FlLine(
-                color: palette.line.withValues(alpha: 0.25),
-                strokeWidth: 1,
-                dashArray: [4, 4],
-              ),
-            ),
-            titlesData: FlTitlesData(
-              rightTitles: const AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-              topTitles: const AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-              bottomTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  reservedSize: 26,
-                  getTitlesWidget: (v, _) {
-                    final i = v.toInt();
-                    if (i < 0 || i >= chartData.labels.length) {
-                      return const SizedBox.shrink();
-                    }
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 6),
-                      child: Text(
-                        chartData.labels[i],
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: palette.ink.withValues(alpha: 0.4),
-                        ),
-                      ),
-                    );
-                  },
+        // Изолируем тяжёлый LineChart в отдельный слой - свайпы и
+        // ребилды соседних карточек не будут триггерить перерисовку графика
+        child: RepaintBoundary(
+          child: LineChart(
+            LineChartData(
+              minY: 0,
+              maxY: chartData.maxY,
+              gridData: FlGridData(
+                show: true,
+                drawVerticalLine: false,
+                horizontalInterval: chartData.maxY / 4,
+                getDrawingHorizontalLine: (_) => FlLine(
+                  color: palette.line.withValues(alpha: 0.25),
+                  strokeWidth: 1,
+                  dashArray: [4, 4],
                 ),
               ),
-              leftTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  reservedSize: 46,
-                  getTitlesWidget: (v, _) => Text(
-                    _formatYAxis(v, chartData.maxY),
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: palette.ink.withValues(alpha: 0.4),
+              titlesData: FlTitlesData(
+                rightTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+                topTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 26,
+                    getTitlesWidget: (v, _) {
+                      final i = v.toInt();
+                      if (i < 0 || i >= chartData.labels.length) {
+                        return const SizedBox.shrink();
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 6),
+                        child: Text(
+                          chartData.labels[i],
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: palette.ink.withValues(alpha: 0.4),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 46,
+                    getTitlesWidget: (v, _) => Text(
+                      _formatYAxis(v, chartData.maxY),
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: palette.ink.withValues(alpha: 0.4),
+                      ),
                     ),
                   ),
                 ),
               ),
+              borderData: FlBorderData(show: false),
+              lineBarsData: [
+                LineChartBarData(
+                  spots: chartData.spots,
+                  isCurved: true,
+                  curveSmoothness: 0.35,
+                  color: palette.primary,
+                  barWidth: 2.5,
+                  dotData: FlDotData(
+                    show: true,
+                    getDotPainter: (_, __, ___, ____) => FlDotCirclePainter(
+                      radius: 4,
+                      color: palette.card,
+                      strokeWidth: 2.5,
+                      strokeColor: palette.primary,
+                    ),
+                  ),
+                  belowBarData: BarAreaData(
+                    show: true,
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        palette.primary.withValues(alpha: 0.18),
+                        palette.primary.withValues(alpha: 0.0),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-            borderData: FlBorderData(show: false),
-            lineBarsData: [
-              LineChartBarData(
-                spots: chartData.spots,
-                isCurved: true,
-                curveSmoothness: 0.35,
-                color: palette.primary,
-                barWidth: 2.5,
-                dotData: FlDotData(
-                  show: true,
-                  getDotPainter: (_, __, ___, ____) => FlDotCirclePainter(
-                    radius: 4,
-                    color: palette.card,
-                    strokeWidth: 2.5,
-                    strokeColor: palette.primary,
-                  ),
-                ),
-                belowBarData: BarAreaData(
-                  show: true,
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      palette.primary.withValues(alpha: 0.18),
-                      palette.primary.withValues(alpha: 0.0),
-                    ],
-                  ),
-                ),
-              ),
-            ],
           ),
         ),
       ),
@@ -935,18 +939,22 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
               SizedBox(
                 width: 128,
                 height: 128,
-                child: PieChart(
-                  PieChartData(
-                    sectionsSpace: 2.5,
-                    centerSpaceRadius: 36,
-                    sections: statuses.map((s) {
-                      return PieChartSectionData(
-                        color: s.count > 0 ? s.color : Colors.transparent,
-                        value: s.count > 0 ? s.count.toDouble() : 0,
-                        showTitle: false,
-                        radius: s.count > 0 ? 30 : 0,
-                      );
-                    }).toList(),
+                // Изолируем PieChart - перерисовка соседних карточек
+                // не должна триггерить переотрисовку диаграммы
+                child: RepaintBoundary(
+                  child: PieChart(
+                    PieChartData(
+                      sectionsSpace: 2.5,
+                      centerSpaceRadius: 36,
+                      sections: statuses.map((s) {
+                        return PieChartSectionData(
+                          color: s.count > 0 ? s.color : Colors.transparent,
+                          value: s.count > 0 ? s.count.toDouble() : 0,
+                          showTitle: false,
+                          radius: s.count > 0 ? 30 : 0,
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
               ),

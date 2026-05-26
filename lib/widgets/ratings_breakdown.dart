@@ -293,13 +293,17 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
           ),
         ),
         const SizedBox(width: 14),
+        // Изолируем диаграмму распределения оценок в отдельный слой -
+        // изменения соседних элементов карточки не будут перерисовывать бары
         Expanded(
-          child: Column(
-            children: List.generate(5, (index) {
-              final stars = 5 - index;
-              final count = _reviewCountByStars(stars);
-              return _buildRatingBar(stars, count);
-            }),
+          child: RepaintBoundary(
+            child: Column(
+              children: List.generate(5, (index) {
+                final stars = 5 - index;
+                final count = _reviewCountByStars(stars);
+                return _buildRatingBar(stars, count);
+              }),
+            ),
           ),
         ),
       ],

@@ -21,6 +21,8 @@ class ModerationPage extends StatefulWidget {
 }
 
 class _ModerationPageState extends State<ModerationPage> {
+  static final RegExp _whitespaceRegExp = RegExp(r'\s+');
+
   List<SupplierProduct> _products = [];
   String _statusFilter = 'pending';
   bool _isLoading = true;
@@ -361,7 +363,7 @@ class _ModerationPageState extends State<ModerationPage> {
   List<String> _searchTokens(String query) {
     return query
         .toLowerCase()
-        .split(RegExp(r'\s+'))
+        .split(_whitespaceRegExp)
         .map((token) => token.trim())
         .where((token) => token.isNotEmpty)
         .toList();

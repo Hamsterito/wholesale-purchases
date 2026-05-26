@@ -97,7 +97,10 @@ class SupplierCard extends StatelessWidget {
                   ),
                   child: Text(
                     isSelected ? 'Выбран' : 'Выбрать',
-                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),

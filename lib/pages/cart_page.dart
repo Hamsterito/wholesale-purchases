@@ -39,6 +39,12 @@ class _CartPageState extends State<CartPage> {
   bool _isPlacingAllOrders = false;
   final Set<String> _submittingSuppliers = <String>{};
 
+  // Кэш отсортированных тегов товара. Ключ - productId, значение - список
+  // категорий, отсортированных по убыванию длины. Категории товара не
+  // меняются между ребилдами, поэтому пересортировывать их каждый раз
+  // в _buildCartItemCard смысла нет.
+  final Map<String, List<String>> _sortedTagsByProductId = {};
+
   int _templatesCount = 0;
   late final VoidCallback _templatesListener;
 
@@ -78,7 +84,35 @@ class _CartPageState extends State<CartPage> {
 
   void _onCartChanged() {
     if (!mounted) return;
+    _pruneSortedTagsCache();
     setState(() {});
+  }
+
+  // Возвращает отсортированный по убыванию длины список категорий товара
+  // и кеширует результат по productId. Категории не меняются для уже
+  // добавленного товара, так что повторные ребилды переиспользуют список.
+  List<String> _getSortedTags(String productId, List<String> categories) {
+    final cached = _sortedTagsByProductId[productId];
+    if (cached != null) return cached;
+    final sorted = List<String>.from(categories)
+      ..sort((a, b) => b.length.compareTo(a.length));
+    _sortedTagsByProductId[productId] = sorted;
+    return sorted;
+  }
+
+  // Удаляем из кеша записи по тем productId, которых больше нет в корзине,
+  // чтобы кеш не накапливал мусор после удаления позиций или clear().
+  void _pruneSortedTagsCache() {
+    if (_sortedTagsByProductId.isEmpty) return;
+    final activeProductIds = <String>{};
+    for (final items in _cartStore.itemsBySupplier.values) {
+      for (final item in items) {
+        activeProductIds.add(item.product.id);
+      }
+    }
+    _sortedTagsByProductId.removeWhere(
+      (productId, _) => !activeProductIds.contains(productId),
+    );
   }
 
   Map<String, List<CartItem>> get _cartItemsBySupplier =>
@@ -374,7 +408,7 @@ class _CartPageState extends State<CartPage> {
       ),
       builder: (context) {
         final colorScheme = Theme.of(context).colorScheme;
-        final bottomInset = MediaQuery.of(context).viewPadding.bottom;
+        final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
         return StatefulBuilder(
           builder: (context, setModalState) {
             final hasCard = selectedCard != null;
@@ -780,8 +814,8 @@ class _CartPageState extends State<CartPage> {
       ),
       builder: (context) {
         final colorScheme = Theme.of(context).colorScheme;
-        final maxHeight = MediaQuery.of(context).size.height * 0.7;
-        final bottomInset = MediaQuery.of(context).viewPadding.bottom;
+        final maxHeight = MediaQuery.sizeOf(context).height * 0.7;
+        final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
         return StatefulBuilder(
           builder: (context, setModalState) {
             final selectedAddress = _findAddressById(addresses, selectedId);
@@ -1533,7 +1567,7 @@ class _CartPageState extends State<CartPage> {
         final palette = dialogContext.colorPalette;
         final media = MediaQuery.of(dialogContext);
         final clampedScaler = TextScaler.linear(
-          media.textScaler.scale(1.0).clamp(1.0, 2.0),
+          MediaQuery.textScalerOf(dialogContext).scale(1.0).clamp(1.0, 2.0),
         );
         return MediaQuery(
           data: media.copyWith(textScaler: clampedScaler),
@@ -2171,8 +2205,7 @@ class _CartPageState extends State<CartPage> {
 
   Widget _buildCartItemCard(String supplierId, int index, CartItem item) {
     final totalPrice = item.supplier.pricePerUnit * item.quantity;
-    final tags = List<String>.from(item.product.categories);
-    tags.sort((a, b) => b.length.compareTo(a.length));
+    final tags = _getSortedTags(item.product.id, item.product.categories);
     final imagePath = _resolveCartImage(item);
 
     return Container(

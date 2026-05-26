@@ -1,8 +1,8 @@
 // ignore_for_file: unnecessary_brace_in_string_interps
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../models/supplier_stats.dart';
 import 'app_logger.dart';
+import 'shared_prefs_provider.dart';
 
 /// Сервис кэширования статистики поставщика
 /// Хранит данные локально для быстрого доступа и оффлайн режима
@@ -20,7 +20,7 @@ class StatisticsCacheService {
     SupplierStatsSummary summary,
   ) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
       final key = '${_cacheKeyPrefix}summary_$userId';
       final json = jsonEncode(summary.toJson());
       await prefs.setString(key, json);
@@ -41,7 +41,7 @@ class StatisticsCacheService {
   /// Получает сводку статистики из кэша
   static Future<SupplierStatsSummary?> getStatsSummary(int userId) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
       final key = '${_cacheKeyPrefix}summary_$userId';
       final timestampKey = '${_cacheTimestampKeyPrefix}summary_$userId';
 
@@ -76,7 +76,7 @@ class StatisticsCacheService {
   /// Сохраняет AI резюме в кэш
   static Future<void> cacheAiSummary(int userId, String summary) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
       final key = '${_aiSummaryKeyPrefix}$userId';
       await prefs.setString(key, summary);
       await prefs.setInt(
@@ -96,7 +96,7 @@ class StatisticsCacheService {
   /// Получает AI резюме из кэша
   static Future<String?> getAiSummary(int userId) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
       final key = '${_aiSummaryKeyPrefix}$userId';
       final timestampKey = '${_cacheTimestampKeyPrefix}ai_summary_$userId';
 
@@ -127,7 +127,7 @@ class StatisticsCacheService {
   /// Очищает весь кэш для пользователя
   static Future<void> clearCache(int userId) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
       final keysToRemove = <String>[];
 
       // Собираем все ключи для этого пользователя
@@ -151,7 +151,7 @@ class StatisticsCacheService {
   /// Проверяет, есть ли валидный кэш для пользователя
   static Future<bool> hasCachedData(int userId) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
       final key = '${_cacheKeyPrefix}summary_$userId';
       final timestampKey = '${_cacheTimestampKeyPrefix}summary_$userId';
 

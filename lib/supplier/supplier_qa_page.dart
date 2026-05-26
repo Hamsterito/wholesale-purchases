@@ -91,6 +91,11 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
   final ScrollController _scrollController = ScrollController();
   _TabType _selectedTab = _TabType.questions;
 
+  // Кэш плоского списка элементов: пересобираем только при смене данных
+  // или активной вкладки, иначе любой ребилд гонял _buildListItems заново.
+  List<_QAListItem>? _cachedListItems;
+  _TabType? _cachedListTab;
+
   @override
   void initState() {
     super.initState();
@@ -100,8 +105,24 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
 
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
+  }
+
+  List<_QAListItem> _getListItems() {
+    if (_cachedListItems != null && _cachedListTab == _selectedTab) {
+      return _cachedListItems!;
+    }
+    final items = _buildListItems();
+    _cachedListItems = items;
+    _cachedListTab = _selectedTab;
+    return items;
+  }
+
+  void _invalidateListItemsCache() {
+    _cachedListItems = null;
+    _cachedListTab = null;
   }
 
   void _onScroll() {
@@ -238,6 +259,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
           } else {
             _page++;
           }
+          _invalidateListItemsCache();
         });
       }
     } catch (e) {
@@ -281,6 +303,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
           } else {
             _page++;
           }
+          _invalidateListItemsCache();
         });
       }
     } catch (e) {
@@ -434,6 +457,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             _questions[questionIndex] = updatedQuestion;
             _questionsById[updatedQuestion.id] = updatedQuestion;
             _calculateUnansweredCount();
+            _invalidateListItemsCache();
           });
         }
 
@@ -524,6 +548,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
           setState(() {
             _questions[questionIndex] = updatedQuestion;
             _questionsById[updatedQuestion.id] = updatedQuestion;
+            _invalidateListItemsCache();
           });
         }
 
@@ -615,6 +640,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
           setState(() {
             _reviews[reviewIndex] = updatedReview;
             _reviewsById[updatedReview.id] = updatedReview;
+            _invalidateListItemsCache();
           });
         }
 
@@ -706,6 +732,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
           setState(() {
             _reviews[reviewIndex] = updatedReview;
             _reviewsById[updatedReview.id] = updatedReview;
+            _invalidateListItemsCache();
           });
         }
 
@@ -858,6 +885,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
               onSelectionChanged: (Set<_TabType> newSelection) {
                 setState(() {
                   _selectedTab = newSelection.first;
+                  _invalidateListItemsCache();
                 });
               },
               style: SegmentedButton.styleFrom(
@@ -916,7 +944,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
       case _PageState.data:
         // Строим плоский список элементов один раз, чтобы ListView.builder
         // мог рендерить только видимые карточки
-        final items = _buildListItems();
+        final items = _getListItems();
         return RefreshIndicator(
           color: palette.accent,
           onRefresh: () => _loadData(),

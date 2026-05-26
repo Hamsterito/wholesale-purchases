@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:collection';
 import 'package:flutter/material.dart';
@@ -15,6 +16,10 @@ import '../widgets/top_message.dart';
 // Режим задания расписания доставки в визарде поставщика.
 enum _DeliveryMode { weekly, leadTime }
 
+// Общий фильтр ввода для числовых полей с десятичной частью - вынесен в top-level
+// final, чтобы не пересоздавать RegExp на каждый ребилд экрана.
+final RegExp _kNumericInputAllowed = RegExp(r'[0-9.,]');
+
 class SupplierProductWizardPage extends StatefulWidget {
   const SupplierProductWizardPage({super.key, this.product});
 
@@ -28,6 +33,10 @@ class SupplierProductWizardPage extends StatefulWidget {
 class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   final _picker = ImagePicker();
   final _categorySearchController = TextEditingController();
+  Timer? _categorySearchDebounce;
+  static const Duration _categorySearchDebounceDuration = Duration(
+    milliseconds: 300,
+  );
 
   late final TextEditingController _nameController;
   late final TextEditingController _descriptionController;
@@ -232,6 +241,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     _leadMaxController.dispose();
     _cutoffController.dispose();
     _categorySearchController.dispose();
+    _categorySearchDebounce?.cancel();
     for (final draft in _customCharacteristics) {
       draft.dispose();
     }
@@ -832,7 +842,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             _caloriesController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+              FilteringTextInputFormatter.allow(_kNumericInputAllowed),
             ],
           ),
           _buildField(
@@ -840,7 +850,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             _proteinController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+              FilteringTextInputFormatter.allow(_kNumericInputAllowed),
             ],
           ),
           _buildField(
@@ -848,7 +858,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             _fatController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+              FilteringTextInputFormatter.allow(_kNumericInputAllowed),
             ],
           ),
           _buildField(
@@ -856,7 +866,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             _carbsController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+              FilteringTextInputFormatter.allow(_kNumericInputAllowed),
             ],
           ),
           _buildCustomCharacteristicsSection(),
@@ -1656,7 +1666,16 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           const SizedBox(height: 8),
           TextField(
             controller: _categorySearchController,
-            onChanged: (_) => setState(() {}),
+            onChanged: (_) {
+              _categorySearchDebounce?.cancel();
+              _categorySearchDebounce = Timer(
+                _categorySearchDebounceDuration,
+                () {
+                  if (!mounted) return;
+                  setState(() {});
+                },
+              );
+            },
             decoration: InputDecoration(
               hintText: 'Поиск категории',
               prefixIcon: const Icon(Icons.search),

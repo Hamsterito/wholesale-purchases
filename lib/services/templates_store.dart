@@ -2,7 +2,6 @@
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/cart_item.dart';
 import '../models/product.dart';
@@ -10,6 +9,7 @@ import 'app_logger.dart';
 import 'auth_storage.dart';
 import 'cart_store.dart';
 import 'product_resolver.dart';
+import 'shared_prefs_provider.dart';
 
 /// Шаблон покупок: именованный набор позиций с метаданными.
 class PurchaseTemplate {
@@ -495,7 +495,7 @@ class TemplatesStore extends ChangeNotifier {
     }
 
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
       final raw = prefs.getString(_storageKey(userId));
       if (raw == null || raw.isEmpty) {
         _replaceCache(<PurchaseTemplate>[], loadedUserId: userId);
@@ -526,7 +526,7 @@ class TemplatesStore extends ChangeNotifier {
 
     if (userId != null && userId > 0) {
       try {
-        final prefs = await SharedPreferences.getInstance();
+        final prefs = await SharedPrefsProvider.getInstance();
         await prefs.remove(_storageKey(userId));
       } catch (e, st) {
         AppLogger.error(
@@ -924,7 +924,7 @@ class TemplatesStore extends ChangeNotifier {
   /// сбой не должен откатывать состояние в памяти (UI уже среагировал).
   Future<void> _persist(int userId) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
       await prefs.setString(_storageKey(userId), encode(_templates));
     } catch (e, st) {
       AppLogger.error(

@@ -1,8 +1,15 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'dart:async';
+
+import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../services/api_service.dart';
 import 'category_products_page.dart';
 import '../widgets/main_bottom_nav.dart';
+
+// RegExp вызываются на каждом keystroke в поиске и при парсинге keywords
+// при загрузке категорий - выносим в top-level final, чтобы не пересоздавать.
+final RegExp _kCatalogTokenSplit = RegExp(r'\s+');
+final RegExp _kCatalogKeywordSeparator = RegExp(r'[;,|]');
 
 class CatalogPage extends StatefulWidget {
   const CatalogPage({super.key});
@@ -48,6 +55,11 @@ class _CatalogPageState extends State<CatalogPage> {
   String _searchQuery = '';
   List<_MainCategoryData> _mainCategories = const <_MainCategoryData>[];
   bool _isLoadingCategories = true;
+
+  // Debounce поискового ввода: ребилд списка категорий не на каждом keystroke,
+  // а через 300мс после последнего изменения.
+  Timer? _searchDebounce;
+  static const Duration _searchDebounceDuration = Duration(milliseconds: 300);
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
@@ -196,7 +208,7 @@ class _CatalogPageState extends State<CatalogPage> {
         }
       }
     } else if (value != null) {
-      for (final part in value.toString().split(RegExp(r'[;,|]'))) {
+      for (final part in value.toString().split(_kCatalogKeywordSeparator)) {
         final normalized = part.trim();
         if (normalized.isNotEmpty) {
           result.add(normalized);
@@ -231,8 +243,12 @@ class _CatalogPageState extends State<CatalogPage> {
   }
 
   void _onSearchChanged(String value) {
-    setState(() {
-      _searchQuery = value;
+    _searchDebounce?.cancel();
+    _searchDebounce = Timer(_searchDebounceDuration, () {
+      if (!mounted) return;
+      setState(() {
+        _searchQuery = value;
+      });
     });
   }
 
@@ -242,7 +258,7 @@ class _CatalogPageState extends State<CatalogPage> {
       return const <String>[];
     }
     return normalized
-        .split(RegExp(r'\s+'))
+        .split(_kCatalogTokenSplit)
         .where((token) => token.isNotEmpty)
         .toList();
   }
@@ -347,8 +363,11 @@ class _CatalogPageState extends State<CatalogPage> {
               : IconButton(
                   icon: Icon(Icons.close, color: _mutedText),
                   onPressed: () {
+                    _searchDebounce?.cancel();
                     _searchController.clear();
-                    _onSearchChanged('');
+                    setState(() {
+                      _searchQuery = '';
+                    });
                   },
                 ),
           filled: true,
@@ -437,6 +456,8 @@ class _CatalogPageState extends State<CatalogPage> {
                   fit: BoxFit.cover,
                   alignment: Alignment.centerRight,
                   filterQuality: FilterQuality.high,
+                  cacheWidth: 240,
+                  cacheHeight: 200,
                 ),
               ),
             ),
@@ -493,6 +514,7 @@ class _CatalogPageState extends State<CatalogPage> {
 
   @override
   void dispose() {
+    _searchDebounce?.cancel();
     _searchController.dispose();
     super.dispose();
   }
@@ -511,6 +533,11 @@ class _SubcategoriesPageState extends State<_SubcategoriesPage> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
+  // Debounce поискового ввода: ребилд списка подкатегорий выполняется
+  // через 300мс после последнего изменения, а не на каждом keystroke.
+  Timer? _searchDebounce;
+  static const Duration _searchDebounceDuration = Duration(milliseconds: 300);
+
   ColorScheme get _colorScheme => Theme.of(context).colorScheme;
 
   List<String> _tokenizeQuery(String query) {
@@ -519,7 +546,7 @@ class _SubcategoriesPageState extends State<_SubcategoriesPage> {
       return const <String>[];
     }
     return normalized
-        .split(RegExp(r'\s+'))
+        .split(_kCatalogTokenSplit)
         .where((token) => token.isNotEmpty)
         .toList();
   }
@@ -575,8 +602,12 @@ class _SubcategoriesPageState extends State<_SubcategoriesPage> {
               controller: _searchController,
               textInputAction: TextInputAction.search,
               onChanged: (value) {
-                setState(() {
-                  _searchQuery = value;
+                _searchDebounce?.cancel();
+                _searchDebounce = Timer(_searchDebounceDuration, () {
+                  if (!mounted) return;
+                  setState(() {
+                    _searchQuery = value;
+                  });
                 });
               },
               decoration: InputDecoration(
@@ -587,6 +618,7 @@ class _SubcategoriesPageState extends State<_SubcategoriesPage> {
                     : IconButton(
                         icon: const Icon(Icons.close),
                         onPressed: () {
+                          _searchDebounce?.cancel();
                           _searchController.clear();
                           setState(() {
                             _searchQuery = '';
@@ -648,7 +680,12 @@ class _SubcategoriesPageState extends State<_SubcategoriesPage> {
                 child: SizedBox(
                   width: 92,
                   height: 72,
-                  child: Image.asset(data.imagePath, fit: BoxFit.cover),
+                  child: Image.asset(
+                    data.imagePath,
+                    fit: BoxFit.cover,
+                    cacheWidth: 200,
+                    cacheHeight: 160,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
@@ -692,6 +729,7 @@ class _SubcategoriesPageState extends State<_SubcategoriesPage> {
 
   @override
   void dispose() {
+    _searchDebounce?.cancel();
     _searchController.dispose();
     super.dispose();
   }

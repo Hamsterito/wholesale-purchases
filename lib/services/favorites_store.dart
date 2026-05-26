@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/product.dart';
 import 'app_logger.dart';
+import 'shared_prefs_provider.dart';
 
 class FavoritesStore extends ChangeNotifier {
   FavoritesStore._();
@@ -96,7 +96,7 @@ class FavoritesStore extends ChangeNotifier {
   /// Вызывается при инициализации приложения.
   Future<void> loadFromStorage() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
 
       // Товары хранятся только по ID; полные данные недоступны без API,
       // поэтому при загрузке из хранилища список остаётся пустым до первого
@@ -137,7 +137,7 @@ class FavoritesStore extends ChangeNotifier {
   /// Сохраняет текущее состояние избранного в SharedPreferences.
   Future<void> saveToStorage() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
 
       // Сохраняем ID товаров
       await prefs.setStringList(_productsKey, _items.keys.toList());

@@ -701,6 +701,8 @@ class _MyOrdersPageState extends State<MyOrdersPage>
       return Image.network(
         raw,
         fit: BoxFit.cover,
+        cacheWidth: 240,
+        cacheHeight: 240,
         errorBuilder: (context, error, stackTrace) =>
             _buildOrderImageFallback(),
       );
@@ -710,6 +712,8 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     return Image.asset(
       assetPath,
       fit: BoxFit.cover,
+      cacheWidth: 240,
+      cacheHeight: 240,
       errorBuilder: (context, error, stackTrace) => _buildOrderImageFallback(),
     );
   }

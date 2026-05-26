@@ -69,14 +69,11 @@ class _TemplatesSheetState extends State<TemplatesSheet> {
     final palette = context.colorPalette;
     final templates = _store.templates;
 
-    // Ограничиваем масштабирование текста сверху до 2.0 (R14.3).
-    final media = MediaQuery.of(context);
-    final clampedScaler = TextScaler.linear(
-      media.textScaler.scale(1.0).clamp(1.0, 2.0),
-    );
-
-    return MediaQuery(
-      data: media.copyWith(textScaler: clampedScaler),
+    // Ограничиваем масштабирование текста сверху до 2.0 - иначе длинные
+    // строки шаблона ломают вёрстку карточки.
+    return MediaQuery.withClampedTextScaling(
+      minScaleFactor: 1.0,
+      maxScaleFactor: 2.0,
       child: SafeArea(
         top: false,
         child: FractionallySizedBox(
@@ -89,8 +86,8 @@ class _TemplatesSheetState extends State<TemplatesSheet> {
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
-                  // ListView.builder используется всегда, в том числе для
-                  // пустого состояния (R12.3): один элемент-плейсхолдер.
+                  // Для пустого состояния держим один элемент-плейсхолдер,
+                  // чтобы не плодить отдельные ветки в build.
                   itemCount: templates.isEmpty ? 1 : templates.length,
                   itemBuilder: (context, index) {
                     if (templates.isEmpty) {
@@ -408,8 +405,8 @@ class _TemplateCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Divider(height: 1, color: palette.line),
-          // Вложенный ListView.builder с shrinkWrap - родительский ListView
-          // обеспечивает скролл (R12.4).
+          // shrinkWrap + NeverScrollable - скроллит родительский ListView,
+          // вложенный считает высоту по содержимому.
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

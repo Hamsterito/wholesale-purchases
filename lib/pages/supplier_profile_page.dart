@@ -715,7 +715,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
       _applySearchQuery(value);
       return;
     }
-    _searchDebounce = Timer(const Duration(milliseconds: 180), () {
+    _searchDebounce = Timer(const Duration(milliseconds: 300), () {
       if (!mounted) return;
       _applySearchQuery(value);
     });
@@ -775,7 +775,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
             ).length;
             final priceMin = _priceMinBound;
             final priceMax = _priceMaxBound;
-            final bottomInset = MediaQuery.of(context).padding.bottom;
+            final bottomInset = MediaQuery.paddingOf(context).bottom;
 
             return Padding(
               padding: EdgeInsets.fromLTRB(16, 8, 16, 16 + bottomInset),

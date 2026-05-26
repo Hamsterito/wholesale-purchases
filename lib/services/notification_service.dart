@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/message.dart';
 import '../models/notification.dart';
@@ -13,6 +12,7 @@ import 'app_logger.dart';
 import 'auth_storage.dart';
 import 'message/message_service_adapters.dart';
 import 'message/message_store.dart';
+import 'shared_prefs_provider.dart';
 
 /// Константы поведения значков и сервиса.
 class NotificationBadgeConfig {
@@ -153,7 +153,7 @@ class NotificationService with WidgetsBindingObserver {
 
     if (prevUserId != null) {
       try {
-        final prefs = await SharedPreferences.getInstance();
+        final prefs = await SharedPrefsProvider.getInstance();
         await prefs.remove(_cacheKeyForUser(prevUserId));
       } catch (e) {
         AppLogger.warning(
@@ -309,7 +309,7 @@ class NotificationService with WidgetsBindingObserver {
 
   Future<void> _loadCachedCounts(int userId) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
       final raw = prefs.getString(_cacheKeyForUser(userId));
       if (raw == null) return;
 
@@ -352,7 +352,7 @@ class NotificationService with WidgetsBindingObserver {
 
   Future<void> _cacheCounts(int userId) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
       final data = {
         'unreadMessages': unreadMessagesCount.value,
         'pendingBuyerOrders': pendingBuyerOrdersCount.value,

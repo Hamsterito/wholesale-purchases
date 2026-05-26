@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:shared_preferences/shared_preferences.dart';
+import 'shared_prefs_provider.dart';
 
 class PaymentCard {
   final String id;
@@ -87,7 +87,7 @@ class PaymentCardStorage {
   }
 
   static Future<List<PaymentCard>> loadCards({int? userId}) async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPrefsProvider.getInstance();
     final cardsKey = _cardsKey(userId: userId);
     final cards = _decodeCards(prefs.getString(cardsKey));
     if (cards.isNotEmpty || userId == null || userId <= 0) {
@@ -110,7 +110,7 @@ class PaymentCardStorage {
   }
 
   static Future<void> saveCards(List<PaymentCard> cards, {int? userId}) async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPrefsProvider.getInstance();
     final payload = jsonEncode(cards.map((card) => card.toJson()).toList());
     await prefs.setString(_cardsKey(userId: userId), payload);
   }
@@ -136,7 +136,7 @@ class PaymentCardStorage {
   }
 
   static Future<PaymentSelection?> loadSelection({int? userId}) async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPrefsProvider.getInstance();
     final raw = prefs.getString(_selectionKey(userId: userId));
     if (raw == null || raw.isEmpty) {
       return null;
@@ -156,7 +156,7 @@ class PaymentCardStorage {
     PaymentSelection selection, {
     int? userId,
   }) async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPrefsProvider.getInstance();
     await prefs.setString(
       _selectionKey(userId: userId),
       jsonEncode(selection.toJson()),
@@ -164,7 +164,7 @@ class PaymentCardStorage {
   }
 
   static Future<void> clearSelection({int? userId}) async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPrefsProvider.getInstance();
     await prefs.remove(_selectionKey(userId: userId));
   }
 }

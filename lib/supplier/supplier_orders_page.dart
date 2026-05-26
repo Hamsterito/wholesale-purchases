@@ -1135,6 +1135,8 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
       return Image.network(
         raw,
         fit: BoxFit.cover,
+        cacheWidth: 240,
+        cacheHeight: 240,
         errorBuilder: (_, __, ___) => _buildSupplierItemImageFallback(),
       );
     }
@@ -1143,6 +1145,8 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     return Image.asset(
       assetPath,
       fit: BoxFit.cover,
+      cacheWidth: 240,
+      cacheHeight: 240,
       errorBuilder: (_, __, ___) => _buildSupplierItemImageFallback(),
     );
   }

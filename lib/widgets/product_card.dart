@@ -198,51 +198,55 @@ class _ProductCardState extends State<ProductCard> {
     final gapSmall = compact ? 1.0 : 2.0;
     final gapTiny = compact ? 0.0 : 1.0;
 
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: _cardBg,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: _shadowColor,
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildImageSection(supplier),
-            Expanded(
-              child: Padding(
-                padding: padding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (hasCarouselIndicator) ...[
-                      SizedBox(height: imageToCarouselGap),
-                      _buildImageCarouselIndicator(),
-                      SizedBox(height: carouselToDeliveryGap),
+    // Изолируем карточку в собственный слой - изменения соседних карточек
+    // в GridView/ListView не будут триггерить перерисовку этой.
+    return RepaintBoundary(
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            color: _cardBg,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: _shadowColor,
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildImageSection(supplier),
+              Expanded(
+                child: Padding(
+                  padding: padding,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (hasCarouselIndicator) ...[
+                        SizedBox(height: imageToCarouselGap),
+                        _buildImageCarouselIndicator(),
+                        SizedBox(height: carouselToDeliveryGap),
+                      ],
+                      _buildDeliveryInfo(supplier),
+                      SizedBox(height: gapSmall),
+                      _buildProductTitle(),
+                      SizedBox(height: gapSmall),
+                      _buildMinOrder(supplier),
+                      SizedBox(height: gapTiny),
+                      _buildWarehouse(supplier),
+                      SizedBox(height: gapTiny),
+                      _buildRating(),
+                      const Spacer(),
+                      _buildPriceSection(supplier, totalPrice),
                     ],
-                    _buildDeliveryInfo(supplier),
-                    SizedBox(height: gapSmall),
-                    _buildProductTitle(),
-                    SizedBox(height: gapSmall),
-                    _buildMinOrder(supplier),
-                    SizedBox(height: gapTiny),
-                    _buildWarehouse(supplier),
-                    SizedBox(height: gapTiny),
-                    _buildRating(),
-                    const Spacer(),
-                    _buildPriceSection(supplier, totalPrice),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -318,7 +322,7 @@ class _ProductCardState extends State<ProductCard> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (context) {
-        final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+        final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
         return Padding(
           padding: EdgeInsets.only(bottom: bottomInset),
           child: _QuantityPickerSheet(
@@ -1228,7 +1232,7 @@ class _QuantityPickerSheetState extends State<_QuantityPickerSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.of(context).padding.bottom;
+    final bottomInset = MediaQuery.paddingOf(context).bottom;
     return Padding(
       padding: EdgeInsets.fromLTRB(12, 8, 12, 10 + bottomInset),
       child: Column(

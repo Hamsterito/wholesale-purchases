@@ -12,8 +12,10 @@ import 'package:flutter_project/services/app_settings.dart';
 import 'package:flutter_project/services/auth_storage.dart';
 import 'package:flutter_project/services/favorites_store.dart';
 import 'package:flutter_project/services/notification_service.dart';
+import 'package:flutter_project/services/shared_prefs_provider.dart';
 import 'package:flutter_project/services/templates_store.dart';
 import 'package:flutter_project/widgets/main_navigation.dart';
+import 'package:flutter_project/widgets/top_message.dart';
 import 'package:flutter_project/theme/app_color_palette.dart';
 
 // Главная функция приложения Flutter
@@ -45,6 +47,12 @@ void main() {
       // Инициализация приложения с обработкой ошибок
       try {
         AppLogger.info('Application initialization started', scope: 'startup');
+
+        // Прогреваем SharedPreferences до первой записи/чтения, чтобы
+        // дальнейшая инициализация (AppSettings, AuthStorage и т.д.) шла
+        // через общий кэш без повторного канала к платформе.
+        await SharedPrefsProvider.warmup();
+        AppLogger.info('SharedPrefsProvider warmed up', scope: 'startup');
 
         // Откладываем первый кадр, пока не прогреются шрифты — иначе на web
         // CanvasKit рисует запасным шрифтом и иконки/кнопки получают неверные
@@ -251,6 +259,16 @@ class _MyAppState extends State<MyApp> {
       darkTheme: _darkTheme,
       themeMode: AppSettings.themeMode.value,
       home: const _AppHome(),
+      // Корневой Overlay поверх Navigator - top-message баннеры монтируются
+      // сюда и поэтому не уезжают вместе со сменой страницы.
+      builder: (context, child) {
+        return Overlay(
+          key: rootMessageOverlayKey,
+          initialEntries: [
+            OverlayEntry(builder: (_) => child ?? const SizedBox.shrink()),
+          ],
+        );
+      },
     );
   }
 

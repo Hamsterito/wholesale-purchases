@@ -161,7 +161,7 @@ class _CustomDateRangePickerDialogState
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery.sizeOf(context).width * 0.9,
         constraints: const BoxConstraints(maxWidth: 400),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(

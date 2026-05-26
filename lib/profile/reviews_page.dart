@@ -828,7 +828,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
         int rating = review.rating;
         return StatefulBuilder(
           builder: (context, setModalState) {
-            final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+            final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
             return Padding(
               padding: EdgeInsets.only(bottom: bottomInset),
               child: Container(
@@ -1141,7 +1141,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
         final selectedTags = <String>{};
         return StatefulBuilder(
           builder: (context, setModalState) {
-            final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+            final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
             return Padding(
               padding: EdgeInsets.only(bottom: bottomInset),
               child: Container(

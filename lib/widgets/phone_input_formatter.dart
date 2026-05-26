@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 class PhoneNumberInputFormatter extends TextInputFormatter {
   const PhoneNumberInputFormatter();
 
+  // Кэшируем RegExp на уровне класса - иначе он создаётся на каждое нажатие клавиши.
+  static final RegExp _nonDigitRegExp = RegExp(r'\D');
+
   static String formatDigits(String digits) {
     if (digits.isEmpty) return '';
     final buffer = StringBuffer();
@@ -18,7 +21,9 @@ class PhoneNumberInputFormatter extends TextInputFormatter {
     }
     if (digits.length > 7) {
       buffer.write('-');
-      buffer.write(digits.substring(7, digits.length < 11 ? digits.length : 11));
+      buffer.write(
+        digits.substring(7, digits.length < 11 ? digits.length : 11),
+      );
     }
     return buffer.toString();
   }
@@ -28,7 +33,7 @@ class PhoneNumberInputFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    final digits = newValue.text.replaceAll(RegExp(r'\D'), '');
+    final digits = newValue.text.replaceAll(_nonDigitRegExp, '');
     final formatted = formatDigits(digits);
     return TextEditingValue(
       text: formatted,

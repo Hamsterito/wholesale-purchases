@@ -21,6 +21,7 @@ class _AddressPageState extends State<AddressPage> {
   static final RegExp _apartmentPattern = RegExp(
     r'^[0-9A-Za-zА-Яа-яЁё\\-\\/ ]+$',
   );
+  static final RegExp _whitespaceRegExp = RegExp(r'\s+');
 
   late final TextEditingController _addressController;
   late final TextEditingController _streetController;
@@ -370,7 +371,7 @@ class _AddressPageState extends State<AddressPage> {
   }
 
   String _normalizeText(String value) {
-    return value.replaceAll(RegExp(r'\s+'), ' ').trim();
+    return value.replaceAll(_whitespaceRegExp, ' ').trim();
   }
 
   String? _normalizeOptionalText(String value) {

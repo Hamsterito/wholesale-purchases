@@ -228,13 +228,22 @@ String _formatDateRange(DateTime from, DateTime to) {
   return '${_formatDayMonth(from)} – ${_formatDayMonth(to)}';
 }
 
+// RegExp вынесены в top-level final, чтобы не пересоздавать на каждый decode.
+// Время в конце строки (для weekly): «Пн,Ср 14:00»
+final RegExp _kWeeklyTimeSuffix = RegExp(r'([01]?\d|2[0-3]):([0-5]\d)\s*$');
+// Формат диапазона дней lead-time: «1-3»
+final RegExp _kLeadRange = RegExp(r'^(\d{1,3})-(\d{1,3})$');
+// Время cutoff: «14:00»
+final RegExp _kCutoffTime = RegExp(r'^([01]?\d|2[0-3]):([0-5]\d)$');
+// Сплит по пробелам и запятым с пробелами
+final RegExp _kWhitespace = RegExp(r'\s+');
+final RegExp _kCommaSeparator = RegExp(r'\s*,\s*');
+final RegExp _kDashSeparator = RegExp(r'\s*-\s*');
+
 WeeklyDeliverySchedule? _decodeWeekly(String raw) {
   final source = raw.trim();
   if (source.isEmpty) return null;
-  // Время в конце строки
-  final timeMatch = RegExp(
-    r'([01]?\d|2[0-3]):([0-5]\d)\s*$',
-  ).firstMatch(source);
+  final timeMatch = _kWeeklyTimeSuffix.firstMatch(source);
   if (timeMatch == null) return null;
   final hour = int.tryParse(timeMatch.group(1) ?? '');
   final minute = int.tryParse(timeMatch.group(2) ?? '');
@@ -247,9 +256,9 @@ WeeklyDeliverySchedule? _decodeWeekly(String raw) {
 
 LeadTimeDeliverySchedule? _decodeLeadTime(String raw) {
   // Формат: `1-3` или `1-3 cutoff:14:00`
-  final parts = raw.split(RegExp(r'\s+'));
+  final parts = raw.split(_kWhitespace);
   if (parts.isEmpty) return null;
-  final rangeMatch = RegExp(r'^(\d{1,3})-(\d{1,3})$').firstMatch(parts.first);
+  final rangeMatch = _kLeadRange.firstMatch(parts.first);
   if (rangeMatch == null) return null;
   final min = int.tryParse(rangeMatch.group(1) ?? '');
   final max = int.tryParse(rangeMatch.group(2) ?? '');
@@ -261,7 +270,7 @@ LeadTimeDeliverySchedule? _decodeLeadTime(String raw) {
     final token = parts[i];
     if (token.startsWith('cutoff:')) {
       final value = token.substring('cutoff:'.length);
-      final m = RegExp(r'^([01]?\d|2[0-3]):([0-5]\d)$').firstMatch(value);
+      final m = _kCutoffTime.firstMatch(value);
       if (m == null) return null;
       cutoff = (hour: int.parse(m.group(1)!), minute: int.parse(m.group(2)!));
     }
@@ -279,7 +288,7 @@ Set<int> _parseWeekdaysPart(String raw) {
   }
 
   // Диапазон вида «Пн-Пт»
-  final rangeParts = lowered.split(RegExp(r'\s*-\s*'));
+  final rangeParts = lowered.split(_kDashSeparator);
   if (rangeParts.length == 2) {
     final start = _parseWeekday(rangeParts.first);
     final end = _parseWeekday(rangeParts.last);
@@ -296,8 +305,8 @@ Set<int> _parseWeekdaysPart(String raw) {
   }
 
   final tokens = lowered.contains(',')
-      ? lowered.split(RegExp(r'\s*,\s*'))
-      : lowered.split(RegExp(r'\s+'));
+      ? lowered.split(_kCommaSeparator)
+      : lowered.split(_kWhitespace);
   final result = <int>{};
   for (final token in tokens) {
     final w = _parseWeekday(token);

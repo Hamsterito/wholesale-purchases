@@ -63,22 +63,25 @@ class _ProductImageCarouselState extends State<ProductImageCarousel> {
                 bottom: 12,
                 left: 0,
                 right: 0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(images.length, (index) {
-                    return AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      width: _currentIndex == index ? 16 : 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(999),
-                        color: _currentIndex == index
-                            ? palette.accent
-                            : palette.card.withValues(alpha: 0.7),
-                      ),
-                    );
-                  }),
+                // Изолируем перерисовку индикаторов от PageView и других соседей
+                child: RepaintBoundary(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(images.length, (index) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        width: _currentIndex == index ? 16 : 6,
+                        height: 6,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(999),
+                          color: _currentIndex == index
+                              ? palette.accent
+                              : palette.card.withValues(alpha: 0.7),
+                        ),
+                      );
+                    }),
+                  ),
                 ),
               ),
           ],

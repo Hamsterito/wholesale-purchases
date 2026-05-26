@@ -12,13 +12,9 @@ class ApplyTemplateConfirmDialog extends StatelessWidget {
     final palette = context.colorPalette;
 
     // Ограничиваем масштабирование текста сверху до 2.0 (R14.3).
-    final media = MediaQuery.of(context);
-    final clampedScaler = TextScaler.linear(
-      media.textScaler.scale(1.0).clamp(1.0, 2.0),
-    );
-
-    return MediaQuery(
-      data: media.copyWith(textScaler: clampedScaler),
+    return MediaQuery.withClampedTextScaling(
+      minScaleFactor: 1.0,
+      maxScaleFactor: 2.0,
       child: AlertDialog(
         backgroundColor: palette.card,
         title: const Text('Заменить корзину?'),

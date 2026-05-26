@@ -576,8 +576,12 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
     required bool maxUnlimited,
     required String query,
   }) {
+    // Токенизируем запрос один раз перед обходом - tokenizeQuery компилирует
+    // нормализацию и сплит, повторять для каждого товара бессмысленно.
+    final queryTokens = SearchNormalizer.tokenizeQuery(query);
+
     final filtered = source.where((product) {
-      if (!_matchesSearch(product, query)) return false;
+      if (!_matchesSearchTokens(product, queryTokens)) return false;
       if (!_matchesSelectedCategory(product, tabIndex)) return false;
       final supplier = product.bestSupplier;
       final price = supplier.pricePerUnit.toDouble();
@@ -587,6 +591,9 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
       if (discountOnly && !_hasDiscount(product)) return false;
       return true;
     }).toList();
+
+    // Сортировать пустой/одиночный список нет смысла.
+    if (filtered.length <= 1) return filtered;
 
     filtered.sort((a, b) {
       int compare;
@@ -659,7 +666,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
       return;
     }
 
-    _searchDebounce = Timer(const Duration(milliseconds: 180), () {
+    _searchDebounce = Timer(const Duration(milliseconds: 300), () {
       if (!mounted) return;
       _applySearchQuery(value);
     });
@@ -709,8 +716,15 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
     return SearchNormalizer.buildSearchText(buffer.toString());
   }
 
+  // Обёртка для совместимости - принимает сырой query и токенизирует сама.
+  // Hot-path в _computeFilteredProducts вызывает _matchesSearchTokens напрямую,
+  // чтобы не пересчитывать токены для каждого товара.
+  // ignore: unused_element
   bool _matchesSearch(Product product, String query) {
-    final tokens = SearchNormalizer.tokenizeQuery(query);
+    return _matchesSearchTokens(product, SearchNormalizer.tokenizeQuery(query));
+  }
+
+  bool _matchesSearchTokens(Product product, List<String> tokens) {
     if (tokens.isEmpty) return true;
     final haystack =
         _searchIndex[product.id] ?? _buildProductSearchText(product);
@@ -757,7 +771,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
             ).length;
             final priceMin = _priceMinBound;
             final priceMax = _priceMaxBound;
-            final bottomInset = MediaQuery.of(context).padding.bottom;
+            final bottomInset = MediaQuery.paddingOf(context).bottom;
 
             return Padding(
               padding: EdgeInsets.fromLTRB(16, 8, 16, 16 + bottomInset),

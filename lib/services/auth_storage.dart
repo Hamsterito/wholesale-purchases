@@ -1,4 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'shared_prefs_provider.dart';
 
 class AuthStorage {
   AuthStorage._();
@@ -38,7 +38,7 @@ class AuthStorage {
   // Вызывается в main() ДО runApp для предотвращения ошибок зоны
   static Future<void> init() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await SharedPrefsProvider.getInstance();
       _remembered = prefs.getBool(_rememberKey) ?? false;
       _email = prefs.getString(_emailKey);
       _role = prefs.getString(_roleKey);
@@ -78,7 +78,7 @@ class AuthStorage {
     _userId = userId;
     _name = name;
     _supplierName = supplierName;
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPrefsProvider.getInstance();
     await prefs.setBool(_rememberKey, true);
     await prefs.setString(_emailKey, email);
     await prefs.setString(_roleKey, role);
@@ -108,7 +108,7 @@ class AuthStorage {
     _userId = userId;
     _name = name;
     _supplierName = supplierName;
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPrefsProvider.getInstance();
     _selectedAddressId = prefs.getInt(_selectedAddressKey(userId));
   }
 
@@ -131,7 +131,7 @@ class AuthStorage {
       return;
     }
 
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPrefsProvider.getInstance();
 
     if (name != null) {
       if (name.isEmpty) {
@@ -166,7 +166,7 @@ class AuthStorage {
     _name = null;
     _supplierName = null;
     _selectedAddressId = null;
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPrefsProvider.getInstance();
     await prefs.setBool(_rememberKey, false);
     await prefs.remove(_emailKey);
     await prefs.remove(_roleKey);
@@ -182,7 +182,7 @@ class AuthStorage {
       return;
     }
 
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPrefsProvider.getInstance();
     final key = _selectedAddressKey(currentUserId);
     if (addressId == null || addressId <= 0) {
       await prefs.remove(key);

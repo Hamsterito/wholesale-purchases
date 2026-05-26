@@ -129,45 +129,50 @@ class _NotificationBadgeState extends State<NotificationBadge>
     final isSingleChar = label.length == 1;
     final horizontalPadding = isSingleChar ? 0.0 : 5.0;
 
+    // RepaintBoundary изолирует ScaleTransition бейджа от родителя
+    // (bottom_nav_bar): анимация масштаба не вызывает перерисовку соседних
+    // иконок навигации.
     return Positioned(
       right: -8,
       top: -8,
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: Semantics(
-          label: semanticText,
-          child: Container(
-            height: badgeSize,
-            constraints: BoxConstraints(minWidth: badgeSize),
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            // clipBehavior сглаживает края круга при anti-aliasing
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              color: widget.backgroundColor ?? palette.error,
-              borderRadius: BorderRadius.circular(badgeSize / 2),
-              // Тонкая обводка цветом карточки даёт визуальный отступ
-              // от иконки и делает круг чётким на любом фоне
-              border: Border.all(color: palette.card, width: 1.5),
-              boxShadow: [
-                BoxShadow(
-                  color: palette.shadow,
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Center(
-              child: Text(
-                label,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  // Colors.white — допустимое исключение для контраста на цветном фоне
-                  color: widget.textColor ?? Colors.white,
-                  fontSize: widget.fontSize,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Roboto',
-                  // Убираем лишние отступы, чтобы текст точно центрировался
-                  height: 1.0,
+      child: RepaintBoundary(
+        child: ScaleTransition(
+          scale: _scaleAnimation,
+          child: Semantics(
+            label: semanticText,
+            child: Container(
+              height: badgeSize,
+              constraints: BoxConstraints(minWidth: badgeSize),
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+              // clipBehavior сглаживает края круга при anti-aliasing
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                color: widget.backgroundColor ?? palette.error,
+                borderRadius: BorderRadius.circular(badgeSize / 2),
+                // Тонкая обводка цветом карточки даёт визуальный отступ
+                // от иконки и делает круг чётким на любом фоне
+                border: Border.all(color: palette.card, width: 1.5),
+                boxShadow: [
+                  BoxShadow(
+                    color: palette.shadow,
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    // Colors.white — допустимое исключение для контраста на цветном фоне
+                    color: widget.textColor ?? Colors.white,
+                    fontSize: widget.fontSize,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Roboto',
+                    // Убираем лишние отступы, чтобы текст точно центрировался
+                    height: 1.0,
+                  ),
                 ),
               ),
             ),

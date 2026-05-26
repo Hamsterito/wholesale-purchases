@@ -72,6 +72,11 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   late final VoidCallback _favoritesListener;
   String? _selectedSupplierId;
   late final PageController _pageController;
+  // Контроллеры превью отзывов и вопросов держим в State, иначе на каждом
+  // ребилде создавался бы новый PageController - сбрасывалась позиция и
+  // плодились ChangeNotifier'ы.
+  late final PageController _reviewsPreviewController;
+  late final PageController _questionsPreviewController;
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
@@ -96,6 +101,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     });
     _scrollController.addListener(_handleScroll);
     _pageController = PageController();
+    _reviewsPreviewController = PageController(viewportFraction: 0.94);
+    _questionsPreviewController = PageController(viewportFraction: 0.94);
     _isFavorite = _favoritesStore.contains(widget.product.id);
     _favoritesListener = () {
       final isFav = _favoritesStore.contains(widget.product.id);
@@ -135,6 +142,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     _tabController!.dispose();
     _scrollController.dispose();
     _pageController.dispose();
+    _reviewsPreviewController.dispose();
+    _questionsPreviewController.dispose();
     _favoritesStore.removeListener(_favoritesListener);
     _showPersistentPriceBar.dispose();
     _showScrollToTopButton.dispose();
@@ -428,30 +437,39 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   _buildAvailabilitySection(),
                   _buildStatsButtonsRow(),
                   Container(
-                    color: _cardBg,
                     margin: const EdgeInsets.only(top: 8),
                     child: Column(
                       children: [
-                        TabBar(
-                          controller: _tabController,
-                          indicatorColor: _palette.accent,
-                          indicatorWeight: 3,
-                          labelColor: _palette.ink,
-                          unselectedLabelColor: _palette.muted,
-                          labelStyle: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
+                        // TabBar остаётся на card, как заголовок секции.
+                        // Превью под ним - на bgTop, чтобы карточки отзывов
+                        // и вопросов (palette.card) контрастировали с фоном,
+                        // как на страницах reviews_page и questions_page.
+                        Container(
+                          color: _cardBg,
+                          child: TabBar(
+                            controller: _tabController,
+                            indicatorColor: _palette.accent,
+                            indicatorWeight: 3,
+                            labelColor: _palette.ink,
+                            unselectedLabelColor: _palette.muted,
+                            labelStyle: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            tabs: [
+                              Tab(text: 'Оценки ($_resolvedReviewCount)'),
+                              Tab(text: 'Вопросы ($_totalQuestions)'),
+                            ],
                           ),
-                          tabs: [
-                            Tab(text: 'Оценки ($_resolvedReviewCount)'),
-                            Tab(text: 'Вопросы ($_totalQuestions)'),
-                          ],
                         ),
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 200),
-                          child: _tabController!.index == 0
-                              ? _buildReviewsPreview()
-                              : _buildQuestionsPreview(),
+                        Container(
+                          color: _pageBg,
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 200),
+                            child: _tabController!.index == 0
+                                ? _buildReviewsPreview()
+                                : _buildQuestionsPreview(),
+                          ),
                         ),
                       ],
                     ),
@@ -1311,7 +1329,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     }
 
     return ExpandablePageView.builder(
-      controller: PageController(viewportFraction: 0.94),
+      controller: _reviewsPreviewController,
       itemCount: preview.length,
       padEnds: false,
       physics: const BouncingScrollPhysics(),
@@ -1346,7 +1364,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     }
 
     return ExpandablePageView.builder(
-      controller: PageController(viewportFraction: 0.94),
+      controller: _questionsPreviewController,
       itemCount: preview.length,
       padEnds: false,
       physics: const BouncingScrollPhysics(),
@@ -1374,7 +1392,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             onTap: _openReviews,
             icon: Icons.star_rounded,
             iconColor: palette.accent,
-            value: widget.product.rating.toString(),
+            value: widget.product.rating.toStringAsFixed(1),
             label: '$_resolvedReviewCount оценок',
           ),
           const SizedBox(width: 12),

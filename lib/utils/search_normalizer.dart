@@ -3,6 +3,15 @@ import 'text_normalizer.dart';
 class SearchNormalizer {
   SearchNormalizer._();
 
+  // Компилируем RegExp один раз - tokenizeQuery и matchesTokens вызываются
+  // на каждом keystroke, пересоздавать паттерн на горячем пути нет смысла.
+  static final RegExp _softSignsRegExp = RegExp(r'[ъь]');
+  static final RegExp _nonAlphaNumericRegExp = RegExp(
+    r'[^0-9a-z\u0400-\u04FF]+',
+    caseSensitive: false,
+  );
+  static final RegExp _whitespaceRegExp = RegExp(r'\s+');
+
   static String buildSearchText(String input) {
     final base = _normalizeBase(input);
     if (base.isEmpty) return '';
@@ -56,12 +65,9 @@ class SearchNormalizer {
     var value = TextNormalizer.normalize(input);
     value = value.toLowerCase();
     value = value.replaceAll('ё', 'е');
-    value = value.replaceAll(RegExp(r'[ъь]'), '');
-    value = value.replaceAll(
-      RegExp(r'[^0-9a-z\u0400-\u04FF]+', caseSensitive: false),
-      ' ',
-    );
-    value = value.replaceAll(RegExp(r'\s+'), ' ').trim();
+    value = value.replaceAll(_softSignsRegExp, '');
+    value = value.replaceAll(_nonAlphaNumericRegExp, ' ');
+    value = value.replaceAll(_whitespaceRegExp, ' ').trim();
     return value;
   }
 

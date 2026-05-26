@@ -24,6 +24,10 @@ import 'message/message_service_adapters.dart';
 
 final http = AppHttpClient.instance;
 
+// Разделители для строкового представления списка ключевых слов
+// (когда сервер отдаёт keywords строкой, а не массивом).
+final RegExp _keywordsSplitRegExp = RegExp(r'[;,|]');
+
 class ApiService {
   static String get baseUrl => ApiConfig.baseUrl;
 
@@ -228,7 +232,7 @@ class ApiService {
               }
             } else if (rawKeywords != null) {
               for (final keyword in rawKeywords.toString().split(
-                RegExp(r'[;,|]'),
+                _keywordsSplitRegExp,
               )) {
                 final normalized = keyword.trim();
                 if (normalized.isNotEmpty) {
@@ -976,11 +980,11 @@ class ApiService {
         return jsonList.map((json) => SupplierOrder.fromJson(json)).toList();
       } else {
         throw Exception(
-          'Не удалось загрузить товары поставщика: ${response.statusCode}',
+          'Не удалось загрузить заказы поставщика: ${response.statusCode}',
         );
       }
     } catch (e) {
-      debugPrint('Ошибка при загрузке данных поставщика: $e');
+      debugPrint('Ошибка при загрузке заказов поставщика: $e');
       rethrow;
     }
   }
@@ -1161,7 +1165,7 @@ class ApiService {
             }
           } else if (rawKeywords != null) {
             for (final keyword in rawKeywords.toString().split(
-              RegExp(r'[;,|]'),
+              _keywordsSplitRegExp,
             )) {
               final normalized = keyword.trim();
               if (normalized.isNotEmpty) {
@@ -2662,7 +2666,9 @@ class ApiService {
     final futures = await Future.wait([
       _fetchUnreadMessagesCount(userId),
       _fetchPendingOrdersCount(userId),
-      _fetchPendingSupplierOrdersCount(userId),
+      role == 'supplier'
+          ? _fetchPendingSupplierOrdersCount(userId)
+          : Future.value(0),
       _fetchPendingReviewsCount(userId),
       role == 'supplier' || role == 'moderator' || role == 'super_admin'
           ? _fetchPendingModerationsCount()

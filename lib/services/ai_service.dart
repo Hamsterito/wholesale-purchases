@@ -24,6 +24,25 @@ class AiService {
   static const int _maxRetries = 3;
   static const Duration _timeout = Duration(seconds: 45);
 
+  // RegExp для очистки markdown - компилируем один раз на класс,
+  // _cleanMarkdown зовётся на каждый ответ модели.
+  static final RegExp _markdownBoldStarsRegExp = RegExp(r'\*\*([^*]+)\*\*');
+  static final RegExp _markdownBoldUnderscoresRegExp = RegExp(r'__([^_]+)__');
+  static final RegExp _markdownItalicStarsRegExp = RegExp(r'\*([^*]+)\*');
+  static final RegExp _markdownItalicUnderscoresRegExp = RegExp(r'_([^_]+)_');
+  static final RegExp _markdownHeadingRegExp = RegExp(
+    r'^#+\s+',
+    multiLine: true,
+  );
+  static final RegExp _markdownBulletRegExp = RegExp(
+    r'^[\-\*]\s+',
+    multiLine: true,
+  );
+  static final RegExp _markdownNumberedListRegExp = RegExp(
+    r'^\d+\.\s+',
+    multiLine: true,
+  );
+
   // Список моделей для fallback (пробуем по очереди при ошибках лимита)
   static const List<String> _fallbackModels = [
     'google/gemma-4-31b-it:free',
@@ -278,21 +297,21 @@ class AiService {
     String cleaned = text;
 
     // Убираем жирный текст (**text** или __text__)
-    cleaned = cleaned.replaceAll(RegExp(r'\*\*([^*]+)\*\*'), r'$1');
-    cleaned = cleaned.replaceAll(RegExp(r'__([^_]+)__'), r'$1');
+    cleaned = cleaned.replaceAll(_markdownBoldStarsRegExp, r'$1');
+    cleaned = cleaned.replaceAll(_markdownBoldUnderscoresRegExp, r'$1');
 
     // Убираем курсив (*text* или _text_)
-    cleaned = cleaned.replaceAll(RegExp(r'\*([^*]+)\*'), r'$1');
-    cleaned = cleaned.replaceAll(RegExp(r'_([^_]+)_'), r'$1');
+    cleaned = cleaned.replaceAll(_markdownItalicStarsRegExp, r'$1');
+    cleaned = cleaned.replaceAll(_markdownItalicUnderscoresRegExp, r'$1');
 
     // Убираем заголовки (## text)
-    cleaned = cleaned.replaceAll(RegExp(r'^#+\s+', multiLine: true), '');
+    cleaned = cleaned.replaceAll(_markdownHeadingRegExp, '');
 
     // Убираем bullet points (- text или * text)
-    cleaned = cleaned.replaceAll(RegExp(r'^[\-\*]\s+', multiLine: true), '');
+    cleaned = cleaned.replaceAll(_markdownBulletRegExp, '');
 
     // Убираем нумерованные списки (1. text)
-    cleaned = cleaned.replaceAll(RegExp(r'^\d+\.\s+', multiLine: true), '');
+    cleaned = cleaned.replaceAll(_markdownNumberedListRegExp, '');
 
     return cleaned.trim();
   }

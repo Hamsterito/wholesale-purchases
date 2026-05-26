@@ -8,6 +8,11 @@ import '../services/payment_card_storage.dart';
 import '../services/auth_storage.dart';
 import '../widgets/main_bottom_nav.dart';
 
+// Один общий RegExp для удаления нецифровых символов - используется
+// в валидации и при сохранении карты. Объявляем top-level final, чтобы
+// не пересоздавать на каждый вызов.
+final RegExp _nonDigitRegExp = RegExp(r'\D');
+
 class AddPaymentCardPage extends StatefulWidget {
   const AddPaymentCardPage({super.key});
 
@@ -94,7 +99,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
   }
 
   String? _validateCardNumber(String? value) {
-    final digits = (value ?? '').replaceAll(RegExp(r'\D'), '');
+    final digits = (value ?? '').replaceAll(_nonDigitRegExp, '');
     if (digits.isEmpty) {
       return 'Введите номер карты';
     }
@@ -125,7 +130,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
   }
 
   String? _validateExpireDate(String? value) {
-    final digits = (value ?? '').replaceAll(RegExp(r'\D'), '');
+    final digits = (value ?? '').replaceAll(_nonDigitRegExp, '');
     if (digits.isEmpty) {
       return 'Введите срок действия';
     }
@@ -147,7 +152,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
   }
 
   String? _validateCvc(String? value) {
-    final digits = (value ?? '').replaceAll(RegExp(r'\D'), '');
+    final digits = (value ?? '').replaceAll(_nonDigitRegExp, '');
     if (digits.isEmpty) {
       return 'Введите CVC';
     }
@@ -196,9 +201,9 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
     setState(() {
       _isSaving = true;
     });
-    final digits = _cardNumberController.text.replaceAll(RegExp(r'\D'), '');
+    final digits = _cardNumberController.text.replaceAll(_nonDigitRegExp, '');
     final expiryDigits = _expireDateController.text.replaceAll(
-      RegExp(r'\D'),
+      _nonDigitRegExp,
       '',
     );
     final month = int.parse(expiryDigits.substring(0, 2));
@@ -498,7 +503,7 @@ class ExpiryDateInputFormatter extends TextInputFormatter {
 }
 
 String _digitsOnly(String value) {
-  return value.replaceAll(RegExp(r'\D'), '');
+  return value.replaceAll(_nonDigitRegExp, '');
 }
 
 String _groupDigits(String digits, int groupSize, String separator) {

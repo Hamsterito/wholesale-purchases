@@ -74,7 +74,7 @@ class _ToastView extends StatelessWidget {
 
   Widget _buildBody(BuildContext context, String text) {
     final fill = severityFillColor(message.severity, context);
-    final maxWidth = MediaQuery.of(context).size.width * 0.8;
+    final maxWidth = MediaQuery.sizeOf(context).width * 0.8;
 
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: maxWidth),
