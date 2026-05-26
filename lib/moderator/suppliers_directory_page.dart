@@ -6,13 +6,13 @@ import 'package:uuid/uuid.dart';
 import '../models/chat.dart';
 import '../models/message.dart';
 import '../models/support_message.dart';
-import '../services/api_service.dart';
-import '../services/auth_storage.dart';
+import '../services/api/api_service.dart';
+import '../services/storage/auth_storage.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/search_normalizer.dart';
-import '../widgets/app_message_snackbar.dart';
-import '../widgets/main_bottom_nav.dart';
-import '../widgets/supplier_search_field.dart';
+import '../widgets/messages/app_message_snackbar.dart';
+import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/moderator/supplier_search_field.dart';
 import 'support_chats_page.dart';
 
 /// Каталог поставщиков для модератора. По тапу открывает support-чат

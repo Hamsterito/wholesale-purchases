@@ -1,16 +1,16 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 
 import '../models/message.dart';
 import '../models/support_message.dart';
-import '../services/api_service.dart';
-import '../services/auth_storage.dart';
+import '../services/api/api_service.dart';
+import '../services/storage/auth_storage.dart';
 import 'support_chat_page.dart';
-import '../widgets/main_bottom_nav.dart';
+import '../widgets/navigation/main_bottom_nav.dart';
 
 class SupportPage extends StatefulWidget {
   const SupportPage({super.key});

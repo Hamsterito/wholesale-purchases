@@ -1,8 +1,8 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../login_screen/login.dart';
-import '../services/auth_storage.dart';
+import '../services/storage/auth_storage.dart';
 import '../services/notification_service.dart';
-import '../services/templates_store.dart';
+import '../services/store/templates_store.dart';
 import '../theme/app_color_palette.dart';
 
 class SupplierProfilePage extends StatelessWidget {

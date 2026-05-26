@@ -1,11 +1,11 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import 'package:flutter/services.dart';
-import '../services/api_config.dart';
-import '../services/app_http_client.dart';
+import '../services/api/api_config.dart';
+import '../services/api/app_http_client.dart';
 import '../services/app_logger.dart';
 import '../forgot_screan/verification_page.dart';
 import '../widgets/phone_input_formatter.dart';

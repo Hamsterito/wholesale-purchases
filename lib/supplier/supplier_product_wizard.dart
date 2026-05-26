@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import '../models/supplier_product.dart';
-import '../services/api_service.dart';
+import '../services/api/api_service.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/custom_characteristic_validation.dart';
 import '../utils/delivery_schedule.dart';
 import '../utils/wizard_init.dart';
 import '../widgets/smart_image.dart';
-import '../widgets/top_message.dart';
+import '../widgets/messages/top_message.dart';
 
 // Режим задания расписания доставки в визарде поставщика.
 enum _DeliveryMode { weekly, leadTime }

@@ -8,14 +8,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:flutter_project/login_screen/login.dart';
 import 'package:flutter_project/services/app_logger.dart';
-import 'package:flutter_project/services/app_settings.dart';
-import 'package:flutter_project/services/auth_storage.dart';
-import 'package:flutter_project/services/favorites_store.dart';
+import 'package:flutter_project/services/store/app_settings.dart';
+import 'package:flutter_project/services/storage/auth_storage.dart';
+import 'package:flutter_project/services/store/favorites_store.dart';
 import 'package:flutter_project/services/notification_service.dart';
-import 'package:flutter_project/services/shared_prefs_provider.dart';
-import 'package:flutter_project/services/templates_store.dart';
-import 'package:flutter_project/widgets/main_navigation.dart';
-import 'package:flutter_project/widgets/top_message.dart';
+import 'package:flutter_project/services/storage/shared_prefs_provider.dart';
+import 'package:flutter_project/services/store/templates_store.dart';
+import 'package:flutter_project/widgets/navigation/main_navigation.dart';
+import 'package:flutter_project/widgets/messages/top_message.dart';
 import 'package:flutter_project/theme/app_color_palette.dart';
 
 // Главная функция приложения Flutter

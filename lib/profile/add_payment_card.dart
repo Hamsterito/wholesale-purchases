@@ -1,12 +1,12 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../models/message.dart';
 import '../theme/app_color_palette.dart';
-import '../services/payment_card_storage.dart';
-import '../services/auth_storage.dart';
-import '../widgets/main_bottom_nav.dart';
+import '../services/storage/payment_card_storage.dart';
+import '../services/storage/auth_storage.dart';
+import '../widgets/navigation/main_bottom_nav.dart';
 
 // Один общий RegExp для удаления нецифровых символов - используется
 // в валидации и при сохранении карты. Объявляем top-level final, чтобы

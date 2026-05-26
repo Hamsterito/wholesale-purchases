@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../models/cart_item.dart';
@@ -7,21 +7,21 @@ import '../models/user_address.dart';
 import '../pages/order_history_page.dart';
 import '../profile/add_payment_card.dart';
 import 'package:flutter_project/profile/address_page.dart';
-import '../services/api_service.dart';
-import '../services/auth_storage.dart';
-import '../services/cart_store.dart';
-import '../services/payment_card_storage.dart';
-import '../services/product_resolver.dart';
-import '../services/templates_store.dart';
+import '../services/api/api_service.dart';
+import '../services/storage/auth_storage.dart';
+import '../services/store/cart_store.dart';
+import '../services/storage/payment_card_storage.dart';
+import '../services/api/product_resolver.dart';
+import '../services/store/templates_store.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/delivery_schedule.dart';
-import '../widgets/apply_template_confirm_dialog.dart';
-import '../widgets/rename_template_dialog.dart';
-import '../widgets/save_template_dialog.dart';
+import '../widgets/pages/apply_template_confirm_dialog.dart';
+import '../widgets/pages/rename_template_dialog.dart';
+import '../widgets/pages/save_template_dialog.dart';
 import '../widgets/smart_image.dart';
 import '../widgets/smooth_sheet.dart';
-import '../widgets/templates_sheet.dart';
-import '../widgets/top_message.dart';
+import '../widgets/pages/templates_sheet.dart';
+import '../widgets/messages/top_message.dart';
 
 const double _buttonRadius = 18;
 

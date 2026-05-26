@@ -1,10 +1,10 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../models/question.dart';
-import '../services/api_service.dart';
-import '../services/auth_storage.dart';
+import '../services/api/api_service.dart';
+import '../services/storage/auth_storage.dart';
 import '../theme/app_color_palette.dart';
-import '../widgets/question_card.dart';
-import '../widgets/main_bottom_nav.dart';
+import '../widgets/pages/question_card.dart';
+import '../widgets/navigation/main_bottom_nav.dart';
 import '../widgets/smart_image.dart';
 import '../widgets/smooth_sheet.dart';
 

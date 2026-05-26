@@ -1,7 +1,7 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
-import '../services/app_settings.dart';
-import '../widgets/main_bottom_nav.dart';
+import '../services/store/app_settings.dart';
+import '../widgets/navigation/main_bottom_nav.dart';
 import 'change_password_page.dart';
 
 class SettingsPage extends StatefulWidget {

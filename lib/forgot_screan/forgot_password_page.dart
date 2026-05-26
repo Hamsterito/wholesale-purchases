@@ -1,13 +1,13 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import '../models/message.dart';
 import '../theme/app_color_palette.dart';
-import '../widgets/app_message_snackbar.dart';
+import '../widgets/messages/app_message_snackbar.dart';
 import 'forgot_password_verification_page.dart';
-import '../services/api_config.dart';
-import '../services/app_http_client.dart';
+import '../services/api/api_config.dart';
+import '../services/api/app_http_client.dart';
 import '../services/app_logger.dart';
 import '../utils/api_response_parser.dart';
 

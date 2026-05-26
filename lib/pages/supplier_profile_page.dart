@@ -3,16 +3,16 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/product.dart';
-import '../services/api_service.dart';
-import '../services/favorites_store.dart';
-import '../services/supplier_stats_store.dart';
+import '../services/api/api_service.dart';
+import '../services/store/favorites_store.dart';
+import '../services/store/supplier_stats_store.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/rating_format.dart';
 import '../utils/search_normalizer.dart';
-import '../widgets/product_card.dart';
+import '../widgets/product/product_card.dart';
 import '../widgets/smooth_sheet.dart';
-import '../widgets/top_message.dart';
-import '../widgets/main_bottom_nav.dart';
+import '../widgets/messages/top_message.dart';
+import '../widgets/navigation/main_bottom_nav.dart';
 import 'product_detail_page.dart';
 
 enum _SortField { price, rating }

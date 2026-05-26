@@ -7,12 +7,12 @@ import 'package:flutter/widgets.dart';
 
 import '../models/message.dart';
 import '../models/notification.dart';
-import 'api_service.dart';
+import 'api/api_service.dart';
 import 'app_logger.dart';
-import 'auth_storage.dart';
+import 'storage/auth_storage.dart';
 import 'message/message_service_adapters.dart';
 import 'message/message_store.dart';
-import 'shared_prefs_provider.dart';
+import 'storage/shared_prefs_provider.dart';
 
 /// Константы поведения значков и сервиса.
 class NotificationBadgeConfig {

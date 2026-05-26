@@ -1,12 +1,12 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../pages/product_detail_page.dart';
 import '../pages/supplier_profile_page.dart';
-import '../services/favorites_store.dart';
+import '../services/store/favorites_store.dart';
 import '../theme/app_color_palette.dart';
-import '../widgets/main_bottom_nav.dart';
-import '../widgets/product_card.dart';
-import '../widgets/supplier_card_favorites.dart';
+import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/product/product_card.dart';
+import '../widgets/profile/supplier_card_favorites.dart';
 
 /// Страница избранного с двумя вкладками: товары и компании.
 /// Реактивно обновляется при любых изменениях FavoritesStore.

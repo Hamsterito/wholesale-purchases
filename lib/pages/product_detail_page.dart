@@ -1,26 +1,26 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:share_plus/share_plus.dart';
 import '../models/product.dart';
 import '../models/review_entry.dart';
 import '../models/question.dart';
-import '../services/api_service.dart';
-import '../services/cart_store.dart';
-import '../services/favorites_store.dart';
-import '../services/supplier_stats_store.dart';
-import '../widgets/category_tags.dart';
-import '../widgets/main_bottom_nav.dart';
-import '../widgets/product_image_carousel.dart';
-import '../widgets/rating_section.dart';
+import '../services/api/api_service.dart';
+import '../services/store/cart_store.dart';
+import '../services/store/favorites_store.dart';
+import '../services/store/supplier_stats_store.dart';
+import '../widgets/pages/category_tags.dart';
+import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/pages/product_image_carousel.dart';
+import '../widgets/pages/rating_section.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/characteristic_sections.dart';
 import '../utils/delivery_schedule.dart';
 import '../utils/rating_format.dart';
-import '../widgets/similar_products_carousel.dart';
+import '../widgets/pages/similar_products_carousel.dart';
 import '../widgets/smooth_sheet.dart';
-import '../widgets/top_message.dart';
-import '../widgets/rating_stars.dart';
+import '../widgets/messages/top_message.dart';
+import '../widgets/product/rating_stars.dart';
 import 'reviews_page.dart';
 import 'questions_page.dart';
 import 'supplier_profile_page.dart';
@@ -1799,7 +1799,7 @@ class _DescriptionTab extends StatelessWidget {
   }
 }
 
-/// Один раздел Characteristic_Section: заголовок и список пар.
+/// Один раздел: заголовок и список пар.
 class _CharacteristicSectionView extends StatelessWidget {
   const _CharacteristicSectionView({required this.section});
 
@@ -1963,7 +1963,6 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
             ],
           ),
           const SizedBox(height: 12),
-          // Текст отзыва
           Text(
             text,
             style: TextStyle(
@@ -1977,7 +1976,6 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
                 ? TextOverflow.visible
                 : TextOverflow.ellipsis,
           ),
-          // Кнопка "Развернуть/Свернуть"
           if (_hasLongText(text) && !_isExpanded)
             GestureDetector(
               onTap: () => setState(() => _isExpanded = true),
@@ -1993,7 +1991,6 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
                 ),
               ),
             ),
-          // Кнопка открытия всех отзывов
           if (!_isLongTextButCollapsed(text))
             Padding(
               padding: const EdgeInsets.only(top: 4),
@@ -2061,7 +2058,6 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Верхняя строка: Аватар + имя/время
           Row(
             children: [
               CircleAvatar(
@@ -2100,7 +2096,6 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
             ],
           ),
           const SizedBox(height: 12),
-          // Текст вопроса
           Text(
             widget.question.questionText,
             style: TextStyle(
@@ -2114,7 +2109,6 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
                 ? TextOverflow.visible
                 : TextOverflow.ellipsis,
           ),
-          // Expand/Collapse button
           if (_hasLongText(widget.question.questionText) && !_isExpanded)
             GestureDetector(
               onTap: () => setState(() => _isExpanded = true),
@@ -2130,7 +2124,6 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
                 ),
               ),
             ),
-          // Кнопка открытия всех вопросов
           if (!_isLongTextButCollapsed(widget.question.questionText))
             Padding(
               padding: const EdgeInsets.only(top: 0),

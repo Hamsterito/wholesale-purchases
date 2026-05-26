@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import '../../models/message.dart';
-import '../shared_prefs_provider.dart';
+import '../storage/shared_prefs_provider.dart';
 
 /// Кэш сообщений поверх SharedPreferences. FIFO по timestamp.
 /// Ошибки SharedPreferences и парсинга не пробрасываются - сбой кэша не должен ронять приложение.

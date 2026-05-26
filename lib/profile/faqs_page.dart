@@ -1,6 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
-import '../widgets/main_bottom_nav.dart';
+import '../widgets/navigation/main_bottom_nav.dart';
 
 class FAQsPage extends StatefulWidget {
   const FAQsPage({super.key});

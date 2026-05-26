@@ -1,18 +1,18 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_project/widgets/app_message_snackbar.dart';
+import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 
 import '../models/message.dart';
 import '../models/support_message.dart';
-import '../services/api_service.dart';
-import '../services/auth_storage.dart';
+import '../services/api/api_service.dart';
+import '../services/storage/auth_storage.dart';
 import '../services/message/message_service_adapters.dart';
 import '../services/message/message_store.dart';
-import '../widgets/chat_thread_view.dart';
-import '../widgets/adapters.dart';
+import '../widgets/chat/chat_thread_view.dart';
+import '../widgets/chat/adapters.dart';
 
 class UserSupportChatPage extends StatefulWidget {
   const UserSupportChatPage({super.key, this.chatId});

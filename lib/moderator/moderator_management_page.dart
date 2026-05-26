@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../login_screen/login.dart';
-import '../services/api_service.dart';
+import '../services/api/api_service.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/phone_input_formatter.dart';
-import '../widgets/top_message.dart';
+import '../widgets/messages/top_message.dart';
 import 'add_moderator_dialog.dart';
 import 'moderator_filter.dart';
 

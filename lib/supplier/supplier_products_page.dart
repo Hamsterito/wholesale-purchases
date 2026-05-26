@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../models/supplier_product.dart';
-import '../services/api_service.dart';
-import '../services/auth_storage.dart';
+import '../services/api/api_service.dart';
+import '../services/storage/auth_storage.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
-import '../widgets/main_bottom_nav.dart';
+import '../widgets/navigation/main_bottom_nav.dart';
 import '../widgets/smart_image.dart';
-import '../widgets/top_message.dart';
+import '../widgets/messages/top_message.dart';
 import 'supplier_product_wizard.dart';
 import 'supplier_qa_page.dart';
 

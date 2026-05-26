@@ -1,10 +1,10 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
-import '../services/api_service.dart';
+import '../services/api/api_service.dart';
 import 'category_products_page.dart';
-import '../widgets/main_bottom_nav.dart';
+import '../widgets/navigation/main_bottom_nav.dart';
 
 // RegExp вызываются на каждом keystroke в поиске и при парсинге keywords
 // при загрузке категорий - выносим в top-level final, чтобы не пересоздавать.

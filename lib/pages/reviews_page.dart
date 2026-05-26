@@ -1,12 +1,12 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../models/product.dart';
 import '../models/review_entry.dart';
-import '../services/api_service.dart';
+import '../services/api/api_service.dart';
 import '../theme/app_color_palette.dart';
-import '../widgets/rating_stars.dart';
+import '../widgets/product/rating_stars.dart';
 import '../widgets/expandable_text_block.dart';
-import '../widgets/main_bottom_nav.dart';
+import '../widgets/navigation/main_bottom_nav.dart';
 import '../utils/date_formatter.dart';
 
 class ReviewsPage extends StatefulWidget {

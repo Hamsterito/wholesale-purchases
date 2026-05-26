@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../profile/personal_info.dart';
 import '../profile/my_addresses.dart';
@@ -17,11 +17,11 @@ import '../supplier/supplier_statistics_page.dart';
 import '../moderator/moderation_page.dart';
 import '../moderator/moderator_management_page.dart';
 import '../moderator/support_chats_page.dart';
-import '../services/auth_storage.dart';
-import '../services/api_service.dart';
+import '../services/storage/auth_storage.dart';
+import '../services/api/api_service.dart';
 import '../models/user_profile.dart';
 import '../services/notification_service.dart';
-import '../services/templates_store.dart';
+import '../services/store/templates_store.dart';
 import '../utils/ru_plural.dart';
 
 class ProfilePage extends StatefulWidget {

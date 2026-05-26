@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../models/supplier_stats.dart';
 import '../models/chart_data.dart';
-import '../services/api_service.dart';
-import '../services/auth_storage.dart';
-import '../services/ai_service.dart';
-import '../services/revenue_chart_service.dart';
-import '../services/statistics_cache_service.dart';
+import '../services/api/api_service.dart';
+import '../services/storage/auth_storage.dart';
+import '../services/api/ai_service.dart';
+import '../services/statistics/revenue_chart_service.dart';
+import '../services/statistics/statistics_cache_service.dart';
 import '../widgets/date_range_picker_dialog.dart';
 import '../utils/month_year_parser.dart';
-import '../widgets/main_bottom_nav.dart';
+import '../widgets/navigation/main_bottom_nav.dart';
 import '../theme/app_color_palette.dart';
 
 // Вспомогательные классы данных

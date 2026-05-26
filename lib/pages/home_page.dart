@@ -1,12 +1,12 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/product.dart';
 import '../theme/app_color_palette.dart';
-import '../widgets/product_card.dart';
+import '../widgets/product/product_card.dart';
 import '../widgets/smooth_sheet.dart';
-import '../services/api_service.dart';
+import '../services/api/api_service.dart';
 import '../utils/search_normalizer.dart';
 import '../utils/auto_refresh.dart';
 import 'product_detail_page.dart';

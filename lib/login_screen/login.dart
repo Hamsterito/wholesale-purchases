@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -6,14 +6,14 @@ import '../theme/app_color_palette.dart';
 import 'package:flutter_project/reg_screan/register_page.dart';
 import 'package:flutter_project/forgot_screan/forgot_password_page.dart';
 import '../models/message.dart';
-import '../services/api_config.dart';
-import '../services/app_http_client.dart';
+import '../services/api/api_config.dart';
+import '../services/api/app_http_client.dart';
 import '../services/app_logger.dart';
-import '../services/auth_storage.dart';
+import '../services/storage/auth_storage.dart';
 import '../services/notification_service.dart';
-import '../services/templates_store.dart';
-import '../widgets/app_message_snackbar.dart';
-import '../widgets/main_navigation.dart';
+import '../services/store/templates_store.dart';
+import '../widgets/messages/app_message_snackbar.dart';
+import '../widgets/navigation/main_navigation.dart';
 import '../forgot_screan/verification_page.dart';
 
 class LoginPage extends StatefulWidget {
