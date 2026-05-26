@@ -545,7 +545,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   }
 
   // Переход на произвольный шаг по тапу на цифру в шапке.
-  // Назад идём свободно. Вперёд — валидируя каждый промежуточный шаг.
+  // Назад идём свободно. Вперёд - валидируя каждый промежуточный шаг.
   void _jumpToStep(int target) {
     if (target == _step) return;
     if (target < 0 || target >= _totalSteps) return;
@@ -663,7 +663,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     Navigator.pop(context, result);
   }
 
-  // Текст подтверждения зависит от режима — пользователь должен видеть, что правки уйдут на модерацию.
+  // Текст подтверждения зависит от режима - пользователь должен видеть, что правки уйдут на модерацию.
   Future<bool?> _confirmSave() {
     final isEdit = widget.product != null;
     final title = isEdit ? 'Сохранить изменения?' : 'Создать товар?';
@@ -1226,7 +1226,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             },
           ),
           const SizedBox(height: 12),
-          // Плавная смена режима — высота анимируется, контент фейдится.
+          // Плавная смена режима - высота анимируется, контент фейдится.
           AnimatedSize(
             key: _deliveryBlockKey,
             duration: const Duration(milliseconds: 240),
@@ -1264,7 +1264,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     );
   }
 
-  // Weekly-блок выше leadTime — после смены режима докручиваем экран, чтобы он влез.
+  // Weekly-блок выше leadTime - после смены режима докручиваем экран, чтобы он влез.
   void _scrollDeliveryBlockIntoView() {
     Future.delayed(const Duration(milliseconds: 260), () {
       if (!mounted) return;
@@ -1892,7 +1892,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       if (schedule != null) {
         return schedule.encode();
       }
-      // Если ввод сейчас невалиден — возвращаем пустую строку, шаг проверит сам
+      // Если ввод сейчас невалиден - возвращаем пустую строку, шаг проверит сам
       return '';
     }
     final weekdays = _resolvedDeliveryWeekdays();

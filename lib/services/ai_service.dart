@@ -331,9 +331,9 @@ class AiService {
   /// Создаёт стандартизированное Message для AI-сгенерированного контента
   /// и сохраняет его в MessageStore для логирования и аналитики.
   ///
-  /// [content] — текст, сгенерированный моделью.
-  /// [model] — идентификатор модели (например, имя или версия).
-  /// [params] — параметры генерации (temperature, maxTokens и т.п.) — попадают в metadata.
+  /// content - текст, сгенерированный моделью.
+  /// model - идентификатор модели (например, имя или версия).
+  /// params - параметры генерации (temperature, maxTokens и т.п.) - попадают в metadata.
   static Future<Message> createAiMessage(
     String content,
     String model,
@@ -345,7 +345,7 @@ class AiService {
   }
 
   /// Преобразует ошибку AI-вызова в стандартизированный Message и сохраняет её.
-  /// Возвращает созданный Message — его можно отдать вызывающему коду или просто логировать.
+  /// Возвращает созданный Message - его можно отдать вызывающему коду или просто логировать.
   static Future<Message> _logAiError(
     Object e,
     StackTrace? stack, {

@@ -341,7 +341,7 @@ class _ModerationPageState extends State<ModerationPage> {
     );
   }
 
-  // Каждая категория — свой чип. Иконка только у первого, чтобы лента не пестрила.
+  // Каждая категория - свой чип. Иконка только у первого, чтобы лента не пестрила.
   List<Widget> _buildCategoryPills(SupplierProduct product) {
     if (product.categories.isEmpty) {
       return const [
@@ -825,7 +825,7 @@ class _ModerationPageState extends State<ModerationPage> {
                                           );
 
                                           // На этапе pending кнопку «Удалить за нарушение»
-                                          // не показываем — для отказа есть «Отклонить»,
+                                          // не показываем - для отказа есть «Отклонить»,
                                           // удаление имеет смысл только для уже опубликованных
                                           // или ранее отклонённых товаров.
                                           if (product.moderationStatus !=

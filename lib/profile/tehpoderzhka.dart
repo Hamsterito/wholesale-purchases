@@ -187,7 +187,7 @@ class _SupportPageState extends State<SupportPage> {
     final category = _selectedCategory;
     final subject = _subjectController.text.trim();
     final isNewChat = !_hasOpenChat;
-    // category и subject опциональны — если заполнены, передаём.
+    // category и subject опциональны - если заполнены, передаём.
     final resolvedCategory = category ?? _chat?.category.trim();
     final resolvedSubject = subject.isNotEmpty
         ? subject
@@ -216,7 +216,7 @@ class _SupportPageState extends State<SupportPage> {
       );
       // На новом обращении явно подтягиваем тред: до прихода SSE-кадра
       // _chat ещё null и кнопка «Открыть чат» не покажется.
-      // На существующем чате fetch не нужен — SSE донесёт.
+      // На существующем чате fetch не нужен - SSE донесёт.
       if (isNewChat) {
         await _loadThread(silent: true);
       }

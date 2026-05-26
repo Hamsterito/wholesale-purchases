@@ -8,8 +8,8 @@ import '../../models/message.dart';
 import '../../models/support_message.dart';
 import 'message_validator.dart';
 
-/// Приводит разнородные источники к единой [Message]. На любой сбой возвращает
-/// [Message] типа [MessageType.error], чтобы вызывающий код не ловил исключений.
+/// Приводит разнородные источники к единой Message. На любой сбой возвращает
+/// Message типа MessageType.error, чтобы вызывающий код не ловил исключений.
 class MessageParser {
   static final RegExp _uuidRegex = RegExp(
     r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
@@ -68,7 +68,7 @@ class MessageParser {
           }
         }
       } catch (_) {
-        // Не JSON — нормально для ряда эндпоинтов.
+        // Не JSON - нормально для ряда эндпоинтов.
       }
     }
 
@@ -82,7 +82,7 @@ class MessageParser {
               ? rawBody
               : (response.reasonPhrase ?? 'HTTP $status'));
 
-    // Берём только безопасное подмножество заголовков — остальное может быть объёмным
+    // Берём только безопасное подмножество заголовков - остальное может быть объёмным
     // или содержать чувствительные значения.
     final headers = response.headers;
     final headersSubset = <String, String>{};
@@ -123,7 +123,7 @@ class MessageParser {
     return message;
   }
 
-  /// Сетевые ошибки и таймауты получают severity=warning, остальные — error.
+  /// Сетевые ошибки и таймауты получают severity=warning, остальные - error.
   static Message parseException(Object e, StackTrace? stack, String language) {
     final runtimeName = e.runtimeType.toString();
     final exceptionString = e.toString();
@@ -169,7 +169,7 @@ class MessageParser {
     return message;
   }
 
-  /// Если исходный id не похож на UUID — генерируем новый, оригинал кладём в metadata.
+  /// Если исходный id не похож на UUID - генерируем новый, оригинал кладём в metadata.
   static Message parseSupportMessage(SupportMessage msg) {
     final hasValidUuid = msg.id.isNotEmpty && _uuidRegex.hasMatch(msg.id);
     final id = hasValidUuid ? msg.id : _generateUuid();
@@ -227,7 +227,7 @@ class MessageParser {
     }
   }
 
-  /// severity берётся из поля `severity`, если оно строковое и совпадает с известным значением.
+  /// severity берётся из поля severity, если оно строковое и совпадает с известным значением.
   static Message parseNotification(dynamic notification, String language) {
     String? title;
     String? body;
@@ -246,7 +246,7 @@ class MessageParser {
         try {
           severity = MessageSeverity.fromValue(sevRaw);
         } catch (_) {
-          // Неизвестное значение — оставляем info.
+          // Неизвестное значение - оставляем info.
         }
       }
 

@@ -524,7 +524,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 builder: (context) => const SupplierOrdersPage(),
               ),
             );
-            // Обновляем счётчик после возврата — поставщик мог принять заказы
+            // Обновляем счётчик после возврата - поставщик мог принять заказы
             if (mounted) {
               NotificationService().refreshNotifications();
             }
@@ -648,7 +648,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Text(
             label,
             style: const TextStyle(
-              // Colors.white — допустимое исключение для контраста на цветном фоне
+              // Colors.white - допустимое исключение для контраста на цветном фоне
               color: Colors.white,
               fontSize: 11,
               fontWeight: FontWeight.bold,
@@ -679,7 +679,7 @@ class _ProfilePageState extends State<ProfilePage> {
     required VoidCallback onTap,
     Color? iconColor,
     bool showArrow = true,
-    // Опциональный значок уведомлений — отображается справа от названия пункта
+    // Опциональный значок уведомлений - отображается справа от названия пункта
     Widget? badge,
   }) {
     final theme = Theme.of(context);

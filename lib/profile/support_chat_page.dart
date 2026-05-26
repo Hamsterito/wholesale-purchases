@@ -111,7 +111,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
         _eventsReconnectAttempt = 0;
         // Шарим один SSE-стрим без chatId-фильтра, чтобы он мог быть
         // переиспользован соседними страницами и не съедал лишние
-        // сокеты. Когда событие касается чужого чата — _loadThread
+        // сокеты. Когда событие касается чужого чата - _loadThread
         // просто перезапросит наш и ничего не изменит.
         _loadThread(silent: true);
       },
@@ -182,7 +182,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
       setState(() {
         _messages = [..._messages, sent];
       });
-      // Свежий thread прилетит через SSE — лишний fetch только забивает
+      // Свежий thread прилетит через SSE - лишний fetch только забивает
       // лимит соединений в Chrome.
     } catch (_) {
       if (!mounted) return;
@@ -240,7 +240,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    // Загрузка/ошибка фетча — централизованные состояния на всю страницу.
+    // Загрузка/ошибка фетча - централизованные состояния на всю страницу.
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }

@@ -5,7 +5,7 @@ import '../utils/characteristic_sections.dart';
 import 'smooth_sheet.dart';
 
 /// Bottom sheet «О товаре»: табы «Характеристики»/«Описание» с прокруткой
-/// по якорям. Принимает готовые секции — подходит и покупателю, и модератору.
+/// по якорям. Принимает готовые секции - подходит и покупателю, и модератору.
 void showAboutProductSheet({
   required BuildContext context,
   required List<CharacteristicSection> sections,
@@ -23,7 +23,7 @@ void showAboutProductSheet({
     builder: (sheetContext) {
       return DraggableScrollableSheet(
         expand: false,
-        // Snap к initialChildSize — короткий свайп вниз возвращает к исходной высоте.
+        // Snap к initialChildSize - короткий свайп вниз возвращает к исходной высоте.
         initialChildSize: 0.94,
         minChildSize: 0.6,
         maxChildSize: 0.94,
@@ -41,7 +41,7 @@ void showAboutProductSheet({
   );
 }
 
-/// Содержимое bottom sheet — вынесено, чтобы можно было встраивать в свой DraggableScrollableSheet.
+/// Содержимое bottom sheet - вынесено, чтобы можно было встраивать в свой DraggableScrollableSheet.
 class AboutProductSheet extends StatefulWidget {
   const AboutProductSheet({
     super.key,

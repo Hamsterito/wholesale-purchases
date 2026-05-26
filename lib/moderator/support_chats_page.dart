@@ -420,7 +420,7 @@ class _ModeratorSupportDialogPageState
           return;
         }
         _eventsReconnectAttempt = 0;
-        // Подписываемся без chatId-фильтра — один сокет шарится со списком.
+        // Подписываемся без chatId-фильтра - один сокет шарится со списком.
         // Чужой чат отфильтрует _loadThread.
         _loadThread(silent: true);
       },
@@ -524,11 +524,11 @@ class _ModeratorSupportDialogPageState
       setState(() {
         _messages = [..._messages, sent];
       });
-      // Свежий thread прилетит через SSE — лишний fetch только забивает
+      // Свежий thread прилетит через SSE - лишний fetch только забивает
       // лимит соединений в Chrome.
     } catch (e) {
       if (!mounted) return;
-      // sendSupportMessage пробрасывает текст ошибки от сервера —
+      // sendSupportMessage пробрасывает текст ошибки от сервера -
       // показываем именно его (например, «Чат закрыт»).
       var msg = e.toString();
       const prefix = 'Exception: ';
@@ -637,7 +637,7 @@ class _ModeratorSupportDialogPageState
     final composerHint = _isChatClosed ? 'Чат закрыт' : 'Ответить пользователю';
 
     return Scaffold(
-      // resizeToAvoidBottomInset = true по умолчанию — Scaffold поднимает
+      // resizeToAvoidBottomInset = true по умолчанию - Scaffold поднимает
       // body над клавиатурой, композер остаётся sticky.
       appBar: AppBar(
         titleSpacing: 0,
@@ -668,7 +668,7 @@ class _ModeratorSupportDialogPageState
           ],
         ),
         actions: [
-          // Чип «Чат открыт/закрыт» — компактно справа от заголовка.
+          // Чип «Чат открыт/закрыт» - компактно справа от заголовка.
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Container(

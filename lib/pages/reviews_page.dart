@@ -214,10 +214,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
     final palette = context.colorPalette;
 
     // Фиксированные слоты перед карточками отзывов:
-    // 0 — сводная карточка рейтинга
-    // 1 — баннер ошибки (только если есть ошибка) или отступ
-    // 2 — отступ перед списком (только когда нет ошибки)
-    // Далее — сами отзывы (или заглушка «нет отзывов»)
+    // 0 - сводная карточка рейтинга
+    // 1 - баннер ошибки (только если есть ошибка) или отступ
+    // 2 - отступ перед списком (только когда нет ошибки)
+    // Далее - сами отзывы (или заглушка «нет отзывов»)
     final bool hasError = _error != null;
     // Количество слотов до отзывов: сводка + (ошибка ? 2 : 1) отступ
     const int headerSlots = 1; // сводная карточка
@@ -230,7 +230,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
     return RefreshIndicator(
       color: palette.accent,
       onRefresh: _loadReviews,
-      // ListView.builder строит только видимые элементы — ленивая загрузка
+      // ListView.builder строит только видимые элементы - ленивая загрузка
       child: ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(0, 4, 0, 24),

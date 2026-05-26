@@ -5,7 +5,7 @@ final RegExp _uuidRegex = RegExp(
   r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
 );
 
-/// Результат валидации: `errors` — критичные нарушения, `warnings` — рекомендации.
+/// Результат валидации: errors - критичные нарушения, warnings - рекомендации.
 class ValidationResult {
   final bool isValid;
   final List<String> errors;
@@ -96,7 +96,7 @@ class MessageValidator {
     return ValidationResult.failure(errors, warnings: warnings);
   }
 
-  /// Валидация сырого JSON до конструирования Message — чтобы не доводить до исключений в fromJson.
+  /// Валидация сырого JSON до конструирования Message - чтобы не доводить до исключений в fromJson.
   static ValidationResult validatePartial(Map<String, dynamic> json) {
     final errors = <String>[];
     final warnings = <String>[];

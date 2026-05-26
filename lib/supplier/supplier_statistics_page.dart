@@ -1679,7 +1679,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                 ),
               ),
             )
-          // Если нет ни резюме, ни ошибки — ничего не показываем
+          // Если нет ни резюме, ни ошибки - ничего не показываем
           else
             const SizedBox.shrink(),
         ],

@@ -6,7 +6,7 @@ import '../../models/message.dart';
 import '../shared_prefs_provider.dart';
 
 /// Кэш сообщений поверх SharedPreferences. FIFO по timestamp.
-/// Ошибки SharedPreferences и парсинга не пробрасываются — сбой кэша не должен ронять приложение.
+/// Ошибки SharedPreferences и парсинга не пробрасываются - сбой кэша не должен ронять приложение.
 class MessageStore {
   MessageStore._();
 
@@ -109,7 +109,7 @@ class MessageStore {
 
   static Future<void> _enforceMaxSize() async {
     if (_cache.length <= maxCacheSize) {
-      // save мог добавить сообщение со старым timestamp — пересортируем.
+      // save мог добавить сообщение со старым timestamp - пересортируем.
       _cache.sort((a, b) => a.timestamp.compareTo(b.timestamp));
       return;
     }

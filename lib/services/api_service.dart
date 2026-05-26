@@ -37,7 +37,7 @@ class ApiService {
   /// Возвращает последнюю ошибку API как Message, либо null.
   static Message? getLastErrorMessage() => _lastErrorMessage;
 
-  /// Очистить последнюю ошибку — например, при успешном повторе.
+  /// Очистить последнюю ошибку - например, при успешном повторе.
   static void clearLastErrorMessage() {
     _lastErrorMessage = null;
   }
@@ -45,7 +45,7 @@ class ApiService {
   /// Внутренняя обёртка: логирует HTTP-ответ через систему стандартизованных
   /// сообщений и складывает в MessageStore.
   /// silentForStatus подавляет запись в _lastErrorMessage и debug-вывод
-  /// для указанных HTTP-кодов — для случаев, когда код ожидаемо обрабатывается
+  /// для указанных HTTP-кодов - для случаев, когда код ожидаемо обрабатывается
   /// вызывающим как валидное состояние.
   static Future<void> _logApiResponse(
     http_package.Response response, {
@@ -1435,7 +1435,7 @@ class ApiService {
       }
       // Сервер обычно отдаёт plain-text причину (например, «Чат закрыт. Отправка
       // невозможна» / «Для нового обращения укажите category и subject»),
-      // её и показываем — это сильно облегчает диагностику.
+      // её и показываем - это сильно облегчает диагностику.
       final body = _decodeBody(response.bodyBytes).trim();
       if (body.isNotEmpty) {
         throw Exception(body);
@@ -1601,10 +1601,10 @@ class ApiService {
   // Мультиплексер SSE-стримов: одна реальная подписка на уникальный URI,
   // все потребители работают через broadcast-стрим. Это критично для web-
   // клиента: Chrome держит максимум 6 одновременных HTTP/1.1 соединений
-  // на origin, и без шеринга 3–4 параллельных SSE намертво блокируют все
+  // на origin, и без шеринга 3-4 параллельных SSE намертво блокируют все
   // прочие fetch-запросы.
 
-  /// Активные shared-подписки. Ключ — строковое представление URL.
+  /// Активные shared-подписки. Ключ - строковое представление URL.
   static final Map<String, _SharedEventStream> _sharedEventStreams = {};
 
   /// Broadcast-стрим для уникального SSE-URI. Один потребитель открывает
@@ -1624,7 +1624,7 @@ class ApiService {
     _sharedEventStreams[key] = shared;
     shared.start(
       onClosed: () {
-        // Последний слушатель отписался — удаляем запись из реестра,
+        // Последний слушатель отписался - удаляем запись из реестра,
         // следующий потребитель откроет свежее соединение.
         _sharedEventStreams.remove(key);
       },
@@ -1636,8 +1636,8 @@ class ApiService {
     Uri uri, {
     required String streamLabel,
   }) {
-    // Делегируем в платформо-зависимую реализацию: на native — стриминг
-    // через package:http, на web — нативный EventSource. Conditional
+    // Делегируем в платформо-зависимую реализацию: на native - стриминг
+    // через package:http, на web - нативный EventSource. Conditional
     // import выбирает нужную при компиляции.
     return openSseStream(uri, streamLabel: streamLabel);
   }
@@ -2029,7 +2029,7 @@ class ApiService {
   }
 
   // Флаг для использования mock-данных при разработке.
-  // Выключен — бэкенд реализует /suppliers/{id} эндпоинты.
+  // Выключен - бэкенд реализует /suppliers/{id} эндпоинты.
   static bool _useMockData = false;
 
   /// Включает/отключает использование mock-данных для разработки и тестирования.
@@ -2101,7 +2101,7 @@ class ApiService {
       ),
     };
 
-    // Если есть точное совпадение — возвращаем его
+    // Если есть точное совпадение - возвращаем его
     if (mockSuppliers.containsKey(supplierId)) {
       return mockSuppliers[supplierId]!;
     }
@@ -2653,7 +2653,7 @@ class ApiService {
   // Методы для работы с уведомлениями
 
   /// Загружает счётчики уведомлений, собирая данные из существующих
-  /// эндпоинтов параллельно. role — роль пользователя для фильтрации запросов.
+  /// эндпоинтов параллельно. role - роль пользователя для фильтрации запросов.
   static Future<NotificationCounts> getNotificationCounts({
     required int userId,
     String role = '',
@@ -2687,7 +2687,7 @@ class ApiService {
   }
 
   /// Считает открытые чаты поддержки, где последнее сообщение от модератора
-  /// (т.е. пользователь ещё не ответил — есть что прочитать).
+  /// (т.е. пользователь ещё не ответил - есть что прочитать).
   static Future<int> _fetchUnreadMessagesCount(int userId) async {
     try {
       final thread = await getSupportThread(userId: userId).timeout(
@@ -2695,7 +2695,7 @@ class ApiService {
         onTimeout: () => throw Exception('Таймаут'),
       );
       if (thread.chat == null || !thread.chat!.isOpen) return 0;
-      // Если последнее сообщение от модератора — значит пользователь не ответил
+      // Если последнее сообщение от модератора - значит пользователь не ответил
       if (thread.messages.isEmpty) return 0;
       final lastMsg = thread.messages.last;
       return lastMsg.isFromModerator ? 1 : 0;
@@ -2733,7 +2733,7 @@ class ApiService {
   /// Считает заказы поставщика, ожидающие действия:
   /// заказы со статусом "Собирается" / "В пути" / etc.
   /// (не завершённые покупателем и не отменённые).
-  /// Использует /supplier/orders, а не /orders — это разные эндпоинты.
+  /// Использует /supplier/orders, а не /orders - это разные эндпоинты.
   static Future<int> _fetchPendingSupplierOrdersCount(int userId) async {
     try {
       final orders = await getSupplierOrders(userId: userId).timeout(
@@ -2811,7 +2811,7 @@ class ApiService {
   }
 
   /// Отмечает сообщение поддержки как прочитанное.
-  /// Бэкенд не поддерживает этот эндпоинт — счётчик обновляется локально в NotificationService.
+  /// Бэкенд не поддерживает этот эндпоинт - счётчик обновляется локально в NotificationService.
   static Future<void> markMessageAsRead({
     required int userId,
     required int messageId,
@@ -2820,7 +2820,7 @@ class ApiService {
   }
 
   /// Отмечает заказ как просмотренный.
-  /// Бэкенд не поддерживает этот эндпоинт — счётчик обновляется локально в NotificationService.
+  /// Бэкенд не поддерживает этот эндпоинт - счётчик обновляется локально в NotificationService.
   static Future<void> markOrderAsReviewed({
     required int userId,
     required String orderId,
@@ -2829,7 +2829,7 @@ class ApiService {
   }
 
   /// Скрывает уведомление определённого типа.
-  /// Бэкенд не поддерживает этот эндпоинт — счётчик обновляется локально в NotificationService.
+  /// Бэкенд не поддерживает этот эндпоинт - счётчик обновляется локально в NotificationService.
   static Future<void> dismissNotification({
     required int userId,
     required String notificationType,
@@ -2839,9 +2839,9 @@ class ApiService {
 
   // Управление модераторами (доступно только Super_Admin)
 
-  /// Заголовки для эндпоинтов `/admin/moderators*`. Вшивает `X-User-Id`
-  /// текущего пользователя из `AuthStorage`. Бросает `StateError`, если
-  /// пользователь не авторизован — это позволяет UI отличать «нет сессии»
+  /// Заголовки для эндпоинтов /admin/moderators*. Вшивает X-User-Id
+  /// текущего пользователя из AuthStorage. Бросает StateError, если
+  /// пользователь не авторизован - это позволяет UI отличать «нет сессии»
   /// от ответа сервера 401.
   static Map<String, String> _superAdminHeaders() {
     final id = AuthStorage.userId;
@@ -3010,7 +3010,7 @@ class ApiService {
   }
 
   /// Открывает support-чат с пользователем. Возвращает существующий
-  /// открытый чат, либо создаёт новый. peek=true не создаёт чат — вернёт
+  /// открытый чат, либо создаёт новый. peek=true не создаёт чат - вернёт
   /// null, если открытого нет; нужно UI'у для диалога «Создать чат?».
   static Future<SupportChat?> findOrCreateModeratorSupportChatWithUser({
     required int moderatorId,
@@ -3040,7 +3040,7 @@ class ApiService {
         response,
         endpoint: endpoint,
         method: 'POST',
-        // peek-режим: 404 — валидное состояние «открытого чата нет».
+        // peek-режим: 404 - валидное состояние «открытого чата нет».
         silentForStatus: peek ? const {404} : null,
       );
 
@@ -3050,7 +3050,7 @@ class ApiService {
         return SupportChat.fromJson(decoded);
       }
 
-      // peek=true и 404 — нормальный путь.
+      // peek=true и 404 - нормальный путь.
       if (peek && response.statusCode == 404) {
         return null;
       }
@@ -3067,7 +3067,7 @@ class ApiService {
 }
 
 /// Один реальный SSE-запрос на уникальный URI, обёрнутый в broadcast-стрим.
-/// Reconnect — экспоненциальный backoff min(2 × n, 12) секунд. Освобождает
+/// Reconnect - экспоненциальный backoff min(2 × n, 12) секунд. Освобождает
 /// ресурсы, когда последний слушатель отписался.
 class _SharedEventStream {
   _SharedEventStream({required this.uri, required this.streamLabel});
@@ -3126,7 +3126,7 @@ class _SharedEventStream {
   }
 
   void _maybeDispose() {
-    // Все подписчики отписались — закрываем реальный стрим и таймер.
+    // Все подписчики отписались - закрываем реальный стрим и таймер.
     if (controller.hasListener) return;
     _disposed = true;
     _reconnectTimer?.cancel();

@@ -122,7 +122,7 @@ class _SaveTemplateDialogState extends State<SaveTemplateDialog> {
 
     final showDuplicate = _choice == _DuplicateChoice.unset;
 
-    // Ограничиваем масштабирование текста сверху до 2.0 (R14.3).
+    // Ограничиваем масштабирование текста сверху до 2.0.
     return MediaQuery.withClampedTextScaling(
       minScaleFactor: 1.0,
       maxScaleFactor: 2.0,

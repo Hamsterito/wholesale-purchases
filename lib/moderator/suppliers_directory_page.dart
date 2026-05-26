@@ -59,7 +59,7 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
     super.initState();
     final role = AuthStorage.role?.trim().toLowerCase();
     if (role != 'moderator' && role != 'super_admin') {
-      // Каталог только для модератора/super_admin — иначе access denied.
+      // Каталог только для модератора/super_admin - иначе access denied.
       _accessDenied = true;
       _isInitialLoading = false;
       _showSkeletons = false;
@@ -101,7 +101,7 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
       });
     }
 
-    // Сохраняем активный запрос — поздний ответ для устаревшего запроса
+    // Сохраняем активный запрос - поздний ответ для устаревшего запроса
     // не должен перетереть актуальные данные.
     final requestQuery = _activeQuery;
     try {
@@ -144,7 +144,7 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
         query: requestQuery.isEmpty ? null : requestQuery,
       );
       if (!mounted) return;
-      // Запрос сменился во время загрузки — выкидываем результат.
+      // Запрос сменился во время загрузки - выкидываем результат.
       if (requestQuery != _activeQuery) {
         setState(() => _isLoadingMore = false);
         return;
@@ -161,7 +161,7 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
       });
     } catch (_) {
       if (!mounted) return;
-      // На ошибке догрузки оставляем уже загруженный список — следующий
+      // На ошибке догрузки оставляем уже загруженный список - следующий
       // скролл попробует снова.
       setState(() => _isLoadingMore = false);
     }
@@ -197,7 +197,7 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
     // stale-сообщение при следующей попытке.
     ApiService.clearLastErrorMessage();
 
-    // Шаг 1: peek — есть ли уже открытый чат? Если да, открываем сразу
+    // Шаг 1: peek - есть ли уже открытый чат? Если да, открываем сразу
     // без диалога подтверждения.
     SupportChat? chat;
     try {
@@ -220,7 +220,7 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
 
     if (!mounted) return;
 
-    // Шаг 2: открытого чата нет — спрашиваем подтверждение, и только при
+    // Шаг 2: открытого чата нет - спрашиваем подтверждение, и только при
     // согласии создаём новый.
     if (chat == null) {
       final confirmed = await _confirmCreateChat(supplier);
@@ -347,7 +347,7 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
   void _commitQuery(String value) {
     final trimmed = value.trim();
     if (trimmed == _activeQuery) {
-      // Запрос не изменился — нечего обновлять.
+      // Запрос не изменился - нечего обновлять.
       return;
     }
     _activeQuery = trimmed;
@@ -415,7 +415,7 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
     }
     final visible = _visibleItems();
     if (visible.isEmpty) {
-      // Для активного поискового запроса — особое эхо, иначе обычный empty.
+      // Для активного поискового запроса - особое эхо, иначе обычный empty.
       if (_activeQuery.isNotEmpty) {
         return _SearchEmptyState(query: _rawQuery);
       }
@@ -688,7 +688,7 @@ class _SearchEmptyState extends StatelessWidget {
     final palette = context.colorPalette;
     final cs = Theme.of(context).colorScheme;
 
-    // Эхо без нормализации: пробелы — без кавычек, текст — в ёлочках.
+    // Эхо без нормализации: пробелы - без кавычек, текст - в ёлочках.
     final trimmed = query.trim();
     final message = trimmed.isEmpty
         ? 'По запросу ничего не найдено'

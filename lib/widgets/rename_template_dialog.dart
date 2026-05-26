@@ -67,7 +67,7 @@ class _RenameTemplateDialogState extends State<RenameTemplateDialog> {
     final theme = Theme.of(context);
     final palette = context.colorPalette;
 
-    // Ограничиваем масштабирование текста сверху до 2.0 (R14.3).
+    // Ограничиваем масштабирование текста сверху до 2.0.
     return MediaQuery.withClampedTextScaling(
       minScaleFactor: 1.0,
       maxScaleFactor: 2.0,

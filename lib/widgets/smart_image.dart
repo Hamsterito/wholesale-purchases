@@ -30,7 +30,7 @@ class SmartImage extends StatefulWidget {
 }
 
 class _SmartImageState extends State<SmartImage> {
-  // Ограничение кэша по размеру, а не по количеству — иначе при большом числе
+  // Ограничение кэша по размеру, а не по количеству - иначе при большом числе
   // изображений высокого разрешения память растёт неконтролируемо
   static const int _maxCacheBytes = 50 * 1024 * 1024; // 50 МБ
   static final LinkedHashMap<String, Uint8List?> _decodedCache =
@@ -104,7 +104,7 @@ class _SmartImageState extends State<SmartImage> {
   }
 
   void _writeToCache(String path, Uint8List? bytes) {
-    // Если запись уже есть — сначала вычитаем её старый размер
+    // Если запись уже есть - сначала вычитаем её старый размер
     if (_decodedCache.containsKey(path)) {
       _currentCacheBytes -= _cacheSizeBytes.remove(path) ?? 0;
       _decodedCache.remove(path);

@@ -93,7 +93,7 @@ class _ProductCardState extends State<ProductCard> {
   final PageController _pageController = PageController();
   bool _isInCart = false;
   int _selectedQuantity = 0;
-  // Плоский индекс корзины по productId — O(1) вместо вложенного перебора
+  // Плоский индекс корзины по productId - O(1) вместо вложенного перебора
   final Map<String, CartItem> _cartItemsByProductId = {};
   FavoritesStore get _favoritesStore => FavoritesStore.instance;
 
@@ -124,7 +124,7 @@ class _ProductCardState extends State<ProductCard> {
       }
     };
     _favoritesStore.addListener(_favoritesListener);
-    // Подписываемся только на изменения конкретного товара — не перестраиваем
+    // Подписываемся только на изменения конкретного товара - не перестраиваем
     // карточку при добавлении/удалении других позиций в корзине
     _cartStore.addProductListener(product.id, _onCartChanged);
   }
@@ -597,7 +597,7 @@ class _ProductCardState extends State<ProductCard> {
         : supplier.deliveryBadge.trim();
     if (fallbackSource.isEmpty) return fallbackSource;
 
-    // Пробуем новый формат (schedule:/lead:) — он всегда даёт расчётный текст
+    // Пробуем новый формат (schedule:/lead:) - он всегда даёт расчётный текст
     final schedule = DeliverySchedule.decode(fallbackSource);
     if (schedule != null) {
       return formatExpectedDelivery(schedule, DateTime.now());

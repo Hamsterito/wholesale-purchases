@@ -13,7 +13,7 @@ import 'product_detail_page.dart';
 
 enum SortField { price, rating }
 
-// Ключ кэша фильтрации — сравниваем все параметры разом,
+// Ключ кэша фильтрации - сравниваем все параметры разом,
 // чтобы не пересчитывать результат при одинаковом наборе фильтров
 class _FilterCacheKey {
   final int productCount;
@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
   SortField _sortField = SortField.price;
   bool _sortAscending = true;
 
-  // Кэш последнего результата фильтрации — избегаем повторного прохода
+  // Кэш последнего результата фильтрации - избегаем повторного прохода
   // по всему списку при одинаковых параметрах (актуально при 500+ товарах)
   List<Product>? _filterCache;
   _FilterCacheKey? _filterCacheKey;
@@ -212,7 +212,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
       setState(() {
         _products = products;
         _searchIndex = searchIndex;
-        // Сбрасываем кэш фильтрации — данные изменились
+        // Сбрасываем кэш фильтрации - данные изменились
         _filterCache = null;
         _filterCacheKey = null;
         _syncFilterBounds(products);

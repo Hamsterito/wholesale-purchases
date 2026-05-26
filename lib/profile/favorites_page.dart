@@ -86,7 +86,7 @@ class _FavoritesPageState extends State<FavoritesPage>
           ],
         ),
       ),
-      // AnimatedBuilder слушает FavoritesStore — обе вкладки обновляются
+      // AnimatedBuilder слушает FavoritesStore - обе вкладки обновляются
       // при любом изменении (добавление/удаление товара или компании)
       body: AnimatedBuilder(
         animation: FavoritesStore.instance,
@@ -172,7 +172,7 @@ class _SuppliersTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final suppliers = FavoritesStore.instance.suppliers;
 
-    // Пустое состояние — список не рендерится вообще
+    // Пустое состояние - список не рендерится вообще
     if (suppliers.isEmpty) {
       return _EmptyState(
         icon: Icons.business_outlined,

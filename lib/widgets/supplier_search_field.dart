@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_color_palette.dart';
 
-/// Поле поиска для каталога поставщиков. Дебаунс — на стороне страницы.
+/// Поле поиска для каталога поставщиков. Дебаунс - на стороне страницы.
 class SupplierSearchField extends StatefulWidget {
   const SupplierSearchField({
     super.key,
@@ -62,7 +62,7 @@ class _SupplierSearchFieldState extends State<SupplierSearchField> {
 
   void _handleClear() {
     _controller.clear();
-    // controller.clear() не триггерит onChanged — будим страницу руками.
+    // controller.clear() не триггерит onChanged - будим страницу руками.
     widget.onChanged('');
   }
 

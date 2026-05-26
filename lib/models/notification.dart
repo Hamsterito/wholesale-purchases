@@ -63,7 +63,7 @@ class NotificationCounts {
     };
   }
 
-  /// Пустые счётчики — используются как fallback при ошибках.
+  /// Пустые счётчики - используются как fallback при ошибках.
   static const NotificationCounts empty = NotificationCounts(
     unreadMessages: 0,
     pendingBuyerOrders: 0,

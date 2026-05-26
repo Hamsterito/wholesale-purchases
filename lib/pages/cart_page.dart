@@ -1516,7 +1516,7 @@ class _CartPageState extends State<CartPage> {
     if (!mounted) return;
 
     if (!result.cartReplaced) {
-      // Все позиции отвалились - корзина не тронута (R5.8).
+      // Все позиции отвалились - корзина не тронута.
       showTopMessage(
         context,
         'Шаблон не применён: ни один товар не доступен',
@@ -1527,7 +1527,7 @@ class _CartPageState extends State<CartPage> {
       return;
     }
 
-    // Закрываем sheet и показываем сводку (R5.6).
+    // Закрываем sheet и показываем сводку.
     Navigator.of(context).maybePop();
 
     final summary = StringBuffer(
@@ -1675,7 +1675,7 @@ class _CartPageState extends State<CartPage> {
   }
 
   // Снимок берём до remove, чтобы restore вернул шаблон с прежними
-  // id, именем, составом и датами (R7.4, R7.5).
+  // id, именем, составом и датами.
   Future<void> _deleteTemplate(PurchaseTemplate template) async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -1704,7 +1704,7 @@ class _CartPageState extends State<CartPage> {
     final snapshot = template;
     await TemplatesStore.instance.remove(template.id);
 
-    // Если страница уже не смонтирована - возвращаем шаблон автоматически (R7.4).
+    // Если страница уже не смонтирована - возвращаем шаблон автоматически.
     if (!mounted) {
       await TemplatesStore.instance.restore(snapshot);
       return;

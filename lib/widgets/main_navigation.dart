@@ -4,6 +4,7 @@ import 'package:flutter_project/pages/catalog.dart';
 import 'package:flutter_project/pages/home_page.dart';
 import 'package:flutter_project/profile/profile_page.dart';
 import 'package:flutter_project/services/notification_service.dart';
+import 'package:flutter_project/widgets/top_message.dart';
 
 import 'bottom_nav_bar.dart';
 
@@ -29,6 +30,10 @@ class _MainNavigationState extends State<MainNavigation>
 
   void _onItemTapped(int index) {
     if (index == _currentIndex) return;
+    // Переключение вкладок IndexedStack идёт через setState, без push/pop
+    // на корневом Navigator. NavigatorObserver такие смены не видит,
+    // поэтому закрываем активный top-message вручную.
+    dismissTopMessage();
     setState(() => _currentIndex = index);
   }
 

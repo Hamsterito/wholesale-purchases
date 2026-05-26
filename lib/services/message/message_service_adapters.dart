@@ -6,7 +6,7 @@ import '../../models/message.dart';
 import '../../models/support_message.dart';
 import 'message_parser.dart';
 
-/// Обёртка над HTTP-ответами и ошибками `ApiService`.
+/// Обёртка над HTTP-ответами и ошибками ApiService.
 class ApiServiceAdapter {
   /// Поля JSON-тела, которые нельзя сохранять в логах для чат-эндпоинтов:
   /// текст сообщения и идентифицирующая контактная информация поставщика.
@@ -32,7 +32,7 @@ class ApiServiceAdapter {
     );
   }
 
-  // Парсер не знает про endpoint/method — добавляем их сами.
+  // Парсер не знает про endpoint/method - добавляем их сами.
   static Message wrapApiError(
     Object e,
     StackTrace? stack,
@@ -72,7 +72,7 @@ class ApiServiceAdapter {
   }
 
   /// Возвращает копию ответа с JSON-телом, в котором значения чувствительных
-  /// полей заменены на `[redacted]`. Если тело не JSON или пустое — возвращает
+  /// полей заменены на redacted. Если тело не JSON или пустое - возвращает
   /// исходный ответ как есть.
   static http.Response _redactChatResponseBody(http.Response response) {
     final raw = response.body;
@@ -89,7 +89,7 @@ class ApiServiceAdapter {
         request: response.request,
       );
     } catch (_) {
-      // Не JSON — на всякий случай прогоняем через текстовую редакцию,
+      // Не JSON - на всякий случай прогоняем через текстовую редакцию,
       // чтобы исключить эхо чувствительных значений.
       return http.Response(
         _redactPlainText(raw),
@@ -122,7 +122,7 @@ class ApiServiceAdapter {
 
   /// Грубая текстовая редакция для строк, в которых не разобрать JSON
   /// (например, текст исключения с эхом тела запроса). Ищем токены вида
-  /// `"body":"..."`, `"email":"..."`, `"displayName":"..."` и обрезаем их.
+  /// "body":"...", "email":"...", "displayName":"..." и обрезаем их.
   static String _redactPlainText(String text) {
     var result = text;
     for (final field in _chatRedactedFields) {
@@ -137,7 +137,7 @@ class ApiServiceAdapter {
   }
 }
 
-/// Обёртка над уведомлениями `NotificationService`.
+/// Обёртка над уведомлениями NotificationService.
 class NotificationServiceAdapter {
   // Категория из самого уведомления имеет приоритет над переданным параметром.
   static Message wrapNotification(
@@ -181,13 +181,13 @@ class AiServiceAdapter {
   }
 }
 
-/// Двунаправленная конвертация между [SupportMessage] и [Message].
+/// Двунаправленная конвертация между SupportMessage и Message.
 class SupportChatAdapter {
   static Message fromSupportMessage(SupportMessage msg) {
     return MessageParser.parseSupportMessage(msg);
   }
 
-  // originalId в metadata — оригинальный id, если он не подошёл под формат UUID.
+  // originalId в metadata - оригинальный id, если он не подошёл под формат UUID.
   static SupportMessage toSupportMessage(Message msg) {
     final metadata = msg.metadata;
 

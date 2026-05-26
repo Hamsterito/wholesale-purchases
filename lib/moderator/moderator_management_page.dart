@@ -75,7 +75,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
       });
     } catch (e) {
       if (!mounted) return;
-      // 401/403 от API приходят в виде Exception с текстом — определяем
+      // 401/403 от API приходят в виде Exception с текстом - определяем
       // по подстрокам, чтобы показать баннер «Доступ запрещён»
       final raw = e.toString();
       final isAuthError =
@@ -362,7 +362,7 @@ class _ModeratorRow extends StatelessWidget {
   final VoidCallback? onDelete;
 
   // Преобразуем 11 цифр (78001234567) в +7-800-123-45-67 для удобного чтения.
-  // Если цифр не 11 или формат не похож на наш — показываем как есть.
+  // Если цифр не 11 или формат не похож на наш - показываем как есть.
   String _displayPhone(String raw) {
     final digits = raw.replaceAll(_nonDigitRegExp, '');
     if (digits.length != 11) return raw;
@@ -437,7 +437,7 @@ class _ModeratorRow extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          // Кнопка удаления — с мягкой подложкой error-цвета для контраста
+          // Кнопка удаления - с мягкой подложкой error-цвета для контраста
           Material(
             color: palette.error.withValues(alpha: 0.10),
             shape: RoundedRectangleBorder(

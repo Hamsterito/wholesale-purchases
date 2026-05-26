@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/ru_plural.dart';
 
-/// Виджет значка уведомлений — отображает счётчик в виде круглого бейджа.
+/// Виджет значка уведомлений - отображает счётчик в виде круглого бейджа.
 class NotificationBadge extends StatefulWidget {
   const NotificationBadge({
     required this.count,
@@ -22,10 +22,10 @@ class NotificationBadge extends StatefulWidget {
   /// Максимальное значение перед отображением "99+".
   final int maxCount;
 
-  /// Цвет фона значка. По умолчанию — error-цвет из текущей темы.
+  /// Цвет фона значка. По умолчанию - error-цвет из текущей темы.
   final Color? backgroundColor;
 
-  /// Цвет текста. По умолчанию — белый (допустимое исключение для контраста).
+  /// Цвет текста. По умолчанию - белый (допустимое исключение для контраста).
   final Color? textColor;
 
   /// Диаметр значка в пикселях (минимум 20).
@@ -34,7 +34,7 @@ class NotificationBadge extends StatefulWidget {
   /// Размер шрифта счётчика.
   final double fontSize;
 
-  /// Метка для screen readers. Если не задана — генерируется автоматически.
+  /// Метка для screen readers. Если не задана - генерируется автоматически.
   final String? semanticLabel;
 
   @override
@@ -46,7 +46,7 @@ class _NotificationBadgeState extends State<NotificationBadge>
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
 
-  // Отображаемое значение — обновляется при изменении count
+  // Отображаемое значение - обновляется при изменении count
   late int _displayCount;
 
   @override
@@ -64,7 +64,7 @@ class _NotificationBadgeState extends State<NotificationBadge>
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
 
-    // Если при создании уже есть уведомления — сразу показываем значок
+    // Если при создании уже есть уведомления - сразу показываем значок
     // без анимации (value = 1.0), чтобы он был виден мгновенно при
     // переходе на новую страницу. Анимация нужна только при появлении
     // нового уведомления во время работы приложения.
@@ -80,18 +80,18 @@ class _NotificationBadgeState extends State<NotificationBadge>
     if (oldWidget.count == widget.count) return;
 
     if (oldWidget.count == 0 && widget.count > 0) {
-      // Значок появляется — обновляем счётчик и запускаем анимацию вперёд
+      // Значок появляется - обновляем счётчик и запускаем анимацию вперёд
       setState(() => _displayCount = widget.count);
       _animationController.forward();
     } else if (oldWidget.count > 0 && widget.count == 0) {
-      // Значок исчезает — сначала анимируем, потом обновляем счётчик
+      // Значок исчезает - сначала анимируем, потом обновляем счётчик
       _animationController.reverse().then((_) {
         if (mounted) {
           setState(() => _displayCount = widget.count);
         }
       });
     } else {
-      // Просто изменилось число — обновляем без анимации скрытия
+      // Просто изменилось число - обновляем без анимации скрытия
       setState(() => _displayCount = widget.count);
     }
   }
@@ -121,10 +121,10 @@ class _NotificationBadgeState extends State<NotificationBadge>
         widget.semanticLabel ??
         '$_displayCount ${pluralizeRu(_displayCount, 'непрочитанное уведомление', 'непрочитанных уведомления', 'непрочитанных уведомлений')}';
 
-    // Минимальный размер — 20px согласно требованиям
+    // Минимальный размер - 20px согласно требованиям
     final badgeSize = widget.size < 20 ? 20.0 : widget.size;
 
-    // Для одной цифры — круг, для двух и более символов — капсула
+    // Для одной цифры - круг, для двух и более символов - капсула
     // (контейнер расширяется по ширине, но высота остаётся фиксированной)
     final isSingleChar = label.length == 1;
     final horizontalPadding = isSingleChar ? 0.0 : 5.0;
@@ -165,7 +165,7 @@ class _NotificationBadgeState extends State<NotificationBadge>
                   label,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    // Colors.white — допустимое исключение для контраста на цветном фоне
+                    // Colors.white - допустимое исключение для контраста на цветном фоне
                     color: widget.textColor ?? Colors.white,
                     fontSize: widget.fontSize,
                     fontWeight: FontWeight.bold,

@@ -54,7 +54,7 @@ void main() {
         await SharedPrefsProvider.warmup();
         AppLogger.info('SharedPrefsProvider warmed up', scope: 'startup');
 
-        // Откладываем первый кадр, пока не прогреются шрифты — иначе на web
+        // Откладываем первый кадр, пока не прогреются шрифты - иначе на web
         // CanvasKit рисует запасным шрифтом и иконки/кнопки получают неверные
         // метрики, которые остаются до hot restart
         WidgetsBinding.instance.deferFirstFrame();
@@ -87,7 +87,7 @@ void main() {
         await TemplatesStore.instance.loadForCurrentUser();
         AppLogger.info('Templates loaded for current user', scope: 'startup');
 
-        // Инициализируем сервис уведомлений — ошибка не должна блокировать запуск
+        // Инициализируем сервис уведомлений - ошибка не должна блокировать запуск
         try {
           await NotificationService().initialize();
           AppLogger.info('NotificationService initialized', scope: 'startup');
@@ -217,10 +217,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // Кэшируем темы — они не зависят от themeMode и не должны пересоздаваться
+  // Кэшируем темы - они не зависят от themeMode и не должны пересоздаваться
   static const Color _primaryColor = Color(0xFF6288D5);
   late final ThemeData _lightTheme = _buildLightTheme(_primaryColor);
   late final ThemeData _darkTheme = _buildDarkTheme(_primaryColor);
+
+  // Слушает корневой Navigator и закрывает активный top-message баннер
+  // при смене маршрута, чтобы баннер не "переезжал" на новый экран.
+  final TopMessageNavigatorObserver _topMessageObserver =
+      TopMessageNavigatorObserver();
 
   @override
   void initState() {
@@ -232,7 +237,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     AppSettings.themeMode.removeListener(_onThemeChanged);
-    // NotificationService — singleton, живёт всё время приложения.
+    // NotificationService - singleton, живёт всё время приложения.
     // Его dispose() здесь не вызываем: при hot reload это бы привело к
     // обращению к освобождённым ValueNotifier-ам после восстановления MyApp.
     super.dispose();
@@ -258,6 +263,7 @@ class _MyAppState extends State<MyApp> {
       theme: _lightTheme,
       darkTheme: _darkTheme,
       themeMode: AppSettings.themeMode.value,
+      navigatorObservers: [_topMessageObserver],
       home: const _AppHome(),
       // Корневой Overlay поверх Navigator - top-message баннеры монтируются
       // сюда и поэтому не уезжают вместе со сменой страницы.

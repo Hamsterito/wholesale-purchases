@@ -1,5 +1,5 @@
 // Чистый валидатор пользовательских пар «название → значение» для визарда
-// товара поставщика. Не зависит от Flutter — только pure Dart.
+// товара поставщика. Не зависит от Flutter - только pure Dart.
 
 class CustomCharacteristicValidationError {
   final String message;
@@ -30,9 +30,9 @@ const String _duplicateMessage = 'Такая характеристика уже
 /// Возвращает .ok(normalized) если все пары валидны и уникальны,
 /// иначе .fail(error) с готовым текстом сообщения и индексом проблемного
 /// черновика. Уникальность проверяется без учёта регистра и крайних пробелов
-/// как между черновиками, так и со `starter.keys`. В `normalized` сначала
-/// идут пары из `starter` в исходном порядке, затем — нормализованные пары
-/// из `drafts`.
+/// как между черновиками, так и со starter.keys. В normalized сначала
+/// идут пары из starter в исходном порядке, затем - нормализованные пары
+/// из drafts.
 
 CustomCharacteristicValidationResult validateCustomCharacteristics(
   List<({String name, String value})> drafts, {

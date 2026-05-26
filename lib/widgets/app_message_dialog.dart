@@ -9,7 +9,7 @@ class AppMessageDialog {
   AppMessageDialog._();
 
   /// Открывает модальный диалог; для null message возвращает Future со значением null.
-  /// Пустой/null actions заменяется кнопкой «OK»; больше 3 действий — assert в debug,
+  /// Пустой/null actions заменяется кнопкой «OK»; больше 3 действий - assert в debug,
   /// в release лишние отбрасываются.
   static Future<T?> show<T>(
     BuildContext context,
@@ -56,8 +56,8 @@ class _DefaultOkAction extends StatelessWidget {
   }
 }
 
-/// Тело диалога. Цветная шапка severity повторяет визуал плашки `top_message`,
-/// тело и кнопки — на нейтральном `palette.card` для читаемости длинного текста.
+/// Тело диалога. Цветная шапка severity повторяет визуал плашки top_message,
+/// тело и кнопки - на нейтральном palette.card для читаемости длинного текста.
 class _AppMessageDialogBody extends StatelessWidget {
   const _AppMessageDialogBody({required this.message, required this.actions});
 
@@ -82,8 +82,8 @@ class _AppMessageDialogBody extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Цветная шапка severity — те же 14h x 10v padding и белый 14/w600,
-            // что и в `top_message`.
+            // Цветная шапка severity - те же 14h x 10v padding и белый 14/w600,
+            // что и в top_message.
             Container(
               color: fill,
               padding: AppMessageMetrics.padding,

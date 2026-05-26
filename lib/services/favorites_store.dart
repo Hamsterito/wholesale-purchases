@@ -16,7 +16,7 @@ class FavoritesStore extends ChangeNotifier {
 
   final Map<String, Product> _items = {};
 
-  // Избранные поставщики — хранятся полностью, чтобы отображать без запроса к API
+  // Избранные поставщики - хранятся полностью, чтобы отображать без запроса к API
   final Map<String, Supplier> _supplierItems = {};
 
   // Геттеры возвращают неизменяемые копии, чтобы внешний код не мог изменить состояние напрямую
@@ -102,7 +102,7 @@ class FavoritesStore extends ChangeNotifier {
       // поэтому при загрузке из хранилища список остаётся пустым до первого
       // обращения к API. Это поведение сохранено из исходной реализации.
 
-      // Загружаем поставщиков — хранятся как JSON-массив полных объектов
+      // Загружаем поставщиков - хранятся как JSON-массив полных объектов
       final suppliersJson = prefs.getString(_suppliersKey);
       if (suppliersJson != null && suppliersJson.isNotEmpty) {
         final List<dynamic> decoded = jsonDecode(suppliersJson);
@@ -142,7 +142,7 @@ class FavoritesStore extends ChangeNotifier {
       // Сохраняем ID товаров
       await prefs.setStringList(_productsKey, _items.keys.toList());
 
-      // Сохраняем полные данные поставщиков — нужны для отображения без API
+      // Сохраняем полные данные поставщиков - нужны для отображения без API
       final suppliersJson = jsonEncode(
         _supplierItems.values.map(_supplierToJson).toList(),
       );

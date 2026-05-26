@@ -18,7 +18,7 @@ class MessageLocalizationManager {
     'AI_GENERATION_FAILED': 'Не удалось сгенерировать ответ AI: {reason}',
   };
 
-  /// Пустая строка вместо null — упрощает конкатенацию и не ломает валидацию body.
+  /// Пустая строка вместо null - упрощает конкатенацию и не ломает валидацию body.
   static String getTemplate(String code) {
     return messageTemplates[code] ?? '';
   }
@@ -33,7 +33,7 @@ class MessageLocalizationManager {
     r'\{([A-Za-z_][A-Za-z0-9_]*)\}',
   );
 
-  /// Отсутствующие ключи остаются в тексте — так заметнее опечатки в шаблонах.
+  /// Отсутствующие ключи остаются в тексте - так заметнее опечатки в шаблонах.
   static String replacePlaceholders(
     String template,
     Map<String, dynamic> values,
@@ -58,9 +58,9 @@ class MessageLocalizationManager {
   static final RegExp _pairedQuotes = RegExp(r'"([^"]*)"');
 
   /// Применяет русские правила: убирает пробелы перед пунктуацией,
-  /// ставит ровно один пробел после, заменяет парные `"..."` на «ёлочки».
-  /// Числа вроде `12.5` не трогает — там после точки идёт цифра.
-  /// Параметр [language] зарезервирован под будущие языки.
+  /// ставит ровно один пробел после, заменяет парные "..." на «ёлочки».
+  /// Числа вроде 12.5 не трогает - там после точки идёт цифра.
+  /// Параметр language зарезервирован под будущие языки.
   static String formatForLanguage(String text, String language) {
     if (text.isEmpty) return text;
 
@@ -81,7 +81,7 @@ class MessageLocalizationManager {
     return result;
   }
 
-  /// `DD.MM.YYYY HH:mm`.
+  /// DD.MM.YYYY HH:mm.
   static String formatDateRu(DateTime dt) {
     final day = _pad2(dt.day);
     final month = _pad2(dt.month);
@@ -92,7 +92,7 @@ class MessageLocalizationManager {
   }
 
   /// Запятая как разделитель дробной части, узкий неразрывный пробел (U+202F)
-  /// между разрядами. Пример: `1234567.89` → `1 234 567,89`.
+  /// между разрядами. Пример: 1234567.89 → 1 234 567,89.
   static String formatNumberRu(num value, {int decimals = 2}) {
     final effectiveDecimals = decimals < 0 ? 0 : decimals;
 

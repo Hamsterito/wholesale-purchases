@@ -165,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
         if (!mounted) return;
-        // Успешный вход — приветственное сообщение через унифицированный SnackBar
+        // Успешный вход - приветственное сообщение через унифицированный SnackBar
         // (фикс чёрного SnackBar на тёмной теме, Requirement 1.1).
         _showMessage(
           name == null || name.isEmpty
@@ -175,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
         );
 
         // Инициализируем сервис уведомлений для нового пользователя.
-        // Не блокируем переход — initialize отработает в фоне
+        // Не блокируем переход - initialize отработает в фоне
         unawaited(NotificationService().initialize());
 
         Navigator.pushReplacement(

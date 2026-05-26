@@ -28,7 +28,7 @@ class ChatBubbleData {
   });
 }
 
-/// Лента чата с композером. AppBar — на стороне страницы.
+/// Лента чата с композером. AppBar - на стороне страницы.
 class ChatThreadView extends StatefulWidget {
   const ChatThreadView({
     super.key,
@@ -61,7 +61,7 @@ class ChatThreadView extends StatefulWidget {
   /// Подгрузка более старой страницы при приближении к верху.
   final VoidCallback onLoadMore;
 
-  /// Повтор начальной загрузки. Если не задан — используется onLoadMore.
+  /// Повтор начальной загрузки. Если не задан - используется onLoadMore.
   final VoidCallback? onRetry;
 
   final bool isInitialLoading;
@@ -69,7 +69,7 @@ class ChatThreadView extends StatefulWidget {
   final bool isComposerEnabled;
   final String composerHint;
 
-  /// Текст ошибки начальной загрузки. Если не null — рендерим error-state.
+  /// Текст ошибки начальной загрузки. Если не null - рендерим error-state.
   final String? error;
 
   /// Жёсткий лимит длины ввода через LengthLimitingTextInputFormatter.
@@ -90,7 +90,7 @@ class _ChatThreadViewState extends State<ChatThreadView> {
   // Триггер для load-more: чтобы не дёргать onLoadMore в каждом скролл-тике.
   bool _isLoadMoreInFlight = false;
 
-  // На пустой ленте maxScrollExtent == 0 — считаем, что мы внизу, чтобы
+  // На пустой ленте maxScrollExtent == 0 - считаем, что мы внизу, чтобы
   // первое сообщение красиво появилось в зоне видимости.
   bool _isAtBottom = true;
 
@@ -109,7 +109,7 @@ class _ChatThreadViewState extends State<ChatThreadView> {
     super.initState();
     _scrollController.addListener(_onScroll);
     _composerController.addListener(_onComposerChanged);
-    // Уже отрендеренные исходящие — считаем виденными, чтобы история не
+    // Уже отрендеренные исходящие - считаем виденными, чтобы история не
     // мигала enter-анимацией при заходе на экран.
     for (final m in widget.messages) {
       if (m.senderId == widget.currentUserId) {
@@ -163,11 +163,11 @@ class _ChatThreadViewState extends State<ChatThreadView> {
     if (!_scrollController.hasClients) return;
     final position = _scrollController.position;
 
-    // 32 px — пользователь «у дна», даже если докрутил почти до самого низа.
+    // 32 px - пользователь «у дна», даже если докрутил почти до самого низа.
     _isAtBottom = position.pixels >= position.maxScrollExtent - 32;
 
     if (widget.isLoadingMore || _isLoadMoreInFlight) return;
-    // Верх списка — самые старые сообщения. Отсюда подгружаем старую страницу.
+    // Верх списка - самые старые сообщения. Отсюда подгружаем старую страницу.
     if (position.pixels <= 80) {
       _isLoadMoreInFlight = true;
       widget.onLoadMore();
@@ -179,7 +179,7 @@ class _ChatThreadViewState extends State<ChatThreadView> {
     if (text.trim().isEmpty) return;
     if (!_composerEnabled) return;
 
-    // Очищаем поле сразу — страница сама создаст оптимистичный пузырь.
+    // Очищаем поле сразу - страница сама создаст оптимистичный пузырь.
     _composerController.clear();
     await widget.onSend(text);
   }
@@ -214,7 +214,7 @@ class _ChatThreadViewState extends State<ChatThreadView> {
 
   Widget _buildMessagesList(ColorScheme colorScheme) {
     // Разворачиваем плоский список сообщений в render-слоты: разделители дней
-    // и пузыри с разметкой кластеризации. Пересчитывается на каждый build —
+    // и пузыри с разметкой кластеризации. Пересчитывается на каждый build -
     // это O(n) и проще, чем держать кэш.
     final slots = _buildRenderSlots(widget.messages, widget.currentUserId);
     // +1 если рендерим верхний лоадер для пагинации.
@@ -398,7 +398,7 @@ List<_RenderSlot> _buildRenderSlots(
     final prev = i > 0 ? messages[i - 1] : null;
     final next = i < messages.length - 1 ? messages[i + 1] : null;
 
-    // Разделитель дня — на старте ленты и при смене календарного дня.
+    // Разделитель дня - на старте ленты и при смене календарного дня.
     if (prev == null || !_isSameLocalDay(prev.createdAt, m.createdAt)) {
       slots.add(_DaySeparatorSlot(m.createdAt.toLocal()));
     }
@@ -442,7 +442,7 @@ String _formatHm(DateTime dt) {
   return '$hh:$mm';
 }
 
-/// Локализованная подпись разделителя дня. `intl` в зависимостях нет, поэтому
+/// Локализованная подпись разделителя дня. intl в зависимостях нет, поэтому
 /// используем ручную таблицу русских месяцев в родительном падеже.
 String _formatDayLabel(DateTime day, DateTime now) {
   const months = <String>[
@@ -549,7 +549,7 @@ class _MessageBubble extends StatelessWidget {
             _formatHm(data.createdAt),
             style: TextStyle(fontSize: 11, color: colorScheme.onSurfaceVariant),
           ),
-          // Иконка доставки только для pending/failed; sent — без иконки.
+          // Иконка доставки только для pending/failed; sent - без иконки.
           if (isOutgoing &&
               data.deliveryState != ChatBubbleDeliveryState.sent) ...[
             const SizedBox(width: 4),
@@ -571,7 +571,7 @@ class _MessageBubble extends StatelessWidget {
       children: [bubble, timeAndDelivery],
     );
 
-    // Аватар — только у нижнего пузыря кластера на стороне собеседника.
+    // Аватар - только у нижнего пузыря кластера на стороне собеседника.
     final showAvatar = !isOutgoing && slot.isLastInCluster;
 
     return Padding(
@@ -642,7 +642,7 @@ class _DeliveryIcon extends StatelessWidget {
         // sent не рисуем: время уже сигнализирует, что сообщение отправлено.
         return const SizedBox.shrink();
       case ChatBubbleDeliveryState.failed:
-        // Тап-таргет 44×44 — иконка ошибки в IconButton с фиксированным размером.
+        // Тап-таргет 44×44 - иконка ошибки в IconButton с фиксированным размером.
         return SizedBox(
           width: 44,
           height: 44,

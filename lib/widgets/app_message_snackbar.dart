@@ -7,7 +7,7 @@ import '../services/app_settings.dart';
 import '../theme/app_color_palette.dart';
 
 /// Унифицированный SnackBar поверх Message_System.
-/// Solid-filled стиль с метриками `top_message`: сплошной фон по severity,
+/// Solid-filled стиль с метриками top_message: сплошной фон по severity,
 /// белый текст и кнопка закрытия, padding 14h x 10v, радиус 12, тень palette.shadow.
 class AppMessageSnackBar {
   AppMessageSnackBar._();
@@ -16,8 +16,8 @@ class AppMessageSnackBar {
   static const Duration _kDurationError = Duration(seconds: 6);
   static const Duration _kDurationCritical = Duration(seconds: 8);
 
-  /// Показывает SnackBar для [message]; null или пустые title и body — no-op,
-  /// возвращает null. Опциональный [action] встраивается между текстом и кнопкой закрытия.
+  /// Показывает SnackBar для message; null или пустые title и body - no-op,
+  /// возвращает null. Опциональный action встраивается между текстом и кнопкой закрытия.
   static ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? show(
     BuildContext context,
     Message? message, {
@@ -72,8 +72,8 @@ Color severityFillColor(MessageSeverity severity, BuildContext context) {
   }
 }
 
-/// Единые метрики для SnackBar, Toast и шапки Dialog — взяты из существующего
-/// `top_message.dart` («Добавлено в избранное») как ground truth.
+/// Единые метрики для SnackBar, Toast и шапки Dialog - взяты из существующего
+/// top_message.dart («Добавлено в избранное») как ground truth.
 class AppMessageMetrics {
   const AppMessageMetrics._();
 
@@ -92,7 +92,7 @@ class AppMessageMetrics {
     return math.min(0.9 * MediaQuery.sizeOf(context).width, 600.0);
   }
 
-  /// Тень в стиле `top_message`: общая для всех плашек, не зависит от заливки.
+  /// Тень в стиле top_message: общая для всех плашек, не зависит от заливки.
   static List<BoxShadow> shadow(BuildContext context) {
     return [
       BoxShadow(

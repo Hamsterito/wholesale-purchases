@@ -21,7 +21,7 @@ class MessageColors {
 /// Подстановка плейсхолдеров, экранирование и подбор стилей по severity.
 class MessageFormatter {
   // Имя плейсхолдера должно начинаться с буквы или подчёркивания,
-  // чтобы не цеплять случайные `{...}` в обычном тексте.
+  // чтобы не цеплять случайные {...} в обычном тексте.
   static final RegExp _placeholderPattern = RegExp(
     r'\{([A-Za-z_][A-Za-z0-9_]*)\}',
   );
@@ -34,7 +34,7 @@ class MessageFormatter {
     return _sanitize(withValues);
   }
 
-  /// Возвращает только размер и вес шрифта. Цвет берётся через [getColors].
+  /// Возвращает только размер и вес шрифта. Цвет берётся через getColors.
   static TextStyle getStyle(MessageSeverity severity) {
     switch (severity) {
       case MessageSeverity.info:
@@ -77,7 +77,7 @@ class MessageFormatter {
           icon: Icons.error_outline,
         );
       case MessageSeverity.critical:
-        // Белый текст на цветном фоне — задокументированное исключение из color-system-usage.md
+        // Белый текст на цветном фоне - задокументированное исключение из color-system-usage.md
         // ради контраста при сплошном красном фоне.
         return MessageColors(
           backgroundColor: palette.error,
@@ -94,7 +94,7 @@ class MessageFormatter {
     return message.body;
   }
 
-  /// Отсутствующие ключи остаются в тексте — так заметнее опечатки в шаблонах.
+  /// Отсутствующие ключи остаются в тексте - так заметнее опечатки в шаблонах.
   static String replacePlaceholders(
     String template,
     Map<String, dynamic> values,

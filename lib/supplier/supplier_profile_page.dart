@@ -9,7 +9,7 @@ class SupplierProfilePage extends StatelessWidget {
   const SupplierProfilePage({super.key});
 
   Future<void> _logout(BuildContext context) async {
-    // Сначала очищаем сервис уведомлений, пока userId ещё доступен —
+    // Сначала очищаем сервис уведомлений, пока userId ещё доступен -
     // иначе следующий пользователь увидит чужие счётчики
     await NotificationService().clearForLogout();
     await TemplatesStore.instance.clearCache();

@@ -9,7 +9,7 @@ class CartStore extends ChangeNotifier {
 
   final Map<String, List<CartItem>> _itemsBySupplier = {};
 
-  // Гранулярные слушатели по productId — чтобы виджеты подписывались только
+  // Гранулярные слушатели по productId - чтобы виджеты подписывались только
   // на изменения конкретного товара, а не перестраивались при любом изменении корзины
   final Map<String, List<VoidCallback>> _productListeners = {};
 
@@ -58,7 +58,7 @@ class CartStore extends ChangeNotifier {
     }
   }
 
-  // Уведомляем только тех, кто подписан на конкретный товар — избегаем
+  // Уведомляем только тех, кто подписан на конкретный товар - избегаем
   // каскадных перестроек всех карточек при изменении одной позиции
   void notifyListenersForProduct(String productId) {
     final listeners = _productListeners[productId];

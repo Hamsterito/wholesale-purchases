@@ -3,7 +3,7 @@
 import '../theme/app_color_palette.dart';
 
 /// Диалог «Заменить корзину товарами из шаблона?». Показывается только
-/// при непустой корзине (R5.2, R5.3); true - подтверждено, иначе - отмена.
+/// при непустой корзине; true - подтверждено, иначе - отмена.
 class ApplyTemplateConfirmDialog extends StatelessWidget {
   const ApplyTemplateConfirmDialog({super.key});
 
@@ -11,7 +11,7 @@ class ApplyTemplateConfirmDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.colorPalette;
 
-    // Ограничиваем масштабирование текста сверху до 2.0 (R14.3).
+    // Ограничиваем масштабирование текста сверху до 2.0.
     return MediaQuery.withClampedTextScaling(
       minScaleFactor: 1.0,
       maxScaleFactor: 2.0,

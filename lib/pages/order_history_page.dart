@@ -315,8 +315,8 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       );
     }
 
-    // Страница — архив завершённых заказов: показываем только принятые
-    // и отменённые. Активные живут отдельно в `lib/profile/zakazi.dart`.
+    // Страница - архив завершённых заказов: показываем только принятые
+    // и отменённые. Активные живут отдельно в lib/profile/zakazi.dart.
     final visibleOrders = _orders
         .where((o) => _isHistoryStatus(o.status))
         .toList();
@@ -832,7 +832,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
   bool _isCancelledStatus(String status) {
     final normalized = _normalizeStatus(status);
     // Корень 'отмен' покрывает и существительное «отмена», и причастия
-    // «отменён»/«отменен»/«отменено»/«отменена» — без зависимости от буквы ё/е.
+    // «отменён»/«отменен»/«отменено»/«отменена» - без зависимости от буквы ё/е.
     return normalized.contains('отмен') ||
         normalized == 'cancelled' ||
         normalized == 'canceled';
@@ -870,7 +870,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       final fileName =
           'orders_export_${_formatShortDate(_rangeStart)}_to_${_formatShortDate(_rangeEnd)}.xlsx';
 
-      // На вебе saveAs не реализован (UnimplementedError) — используем
+      // На вебе saveAs не реализован (UnimplementedError) - используем
       // saveFile, который инициирует обычное скачивание через браузер.
       // На мобильных оставляем saveAs, чтобы открывался системный диалог
       // выбора места сохранения.

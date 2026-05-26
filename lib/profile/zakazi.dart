@@ -926,7 +926,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     });
   }
 
-  // Хелпер для показа унифицированного SnackBar: тело — verbatim текст,
+  // Хелпер для показа унифицированного SnackBar: тело - verbatim текст,
   // title пустой согласно ADR из decisions.md.
   void _showMessage(String body, MessageSeverity severity) {
     final message = Message(

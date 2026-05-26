@@ -170,7 +170,7 @@ class SupplierCard extends StatelessWidget {
   }
 
   // Формируем текст доставки: предпочитаем расчётный из DeliverySchedule;
-  // если строка не парсится — показываем deliveryInfo и старую строку.
+  // если строка не парсится - показываем deliveryInfo и старую строку.
   String _resolveDeliveryText() {
     final raw = supplier.deliveryDate.trim().isNotEmpty
         ? supplier.deliveryDate

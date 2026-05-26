@@ -1,7 +1,7 @@
 /// Чистые init-функции для edit-режима SupplierProductWizardPage.
 ///
 /// Вынесены в отдельный модуль, чтобы покрыть property-тестами без
-/// поднятия Flutter-стека: ни один import из `package:flutter` здесь
+/// поднятия Flutter-стека: ни один import из package:flutter здесь
 /// не нужен.
 library;
 
@@ -10,12 +10,12 @@ library;
 const String _countryCharacteristicKey = 'Страна производителя';
 const String _shelfLifeCharacteristicKey = 'Срок годности';
 
-/// Превращает `product.characteristics` в список черновиков для блока
+/// Превращает product.characteristics в список черновиков для блока
 /// произвольных характеристик. Записи с ключами «Страна производителя» и
-/// «Срок годности» (точное совпадение после `trim`) выкидываются — их
+/// «Срок годности» (точное совпадение после trim) выкидываются - их
 /// редактируют отдельные поля.
 ///
-/// Порядок и оригинальные `name`/`value` сохраняются как в `Map.entries`;
+/// Порядок и оригинальные name/value сохраняются как в Map.entries;
 /// trim делает уже валидатор при сохранении.
 List<({String name, String value})> initCustomCharacteristicDrafts(
   Map<String, String> characteristics,
@@ -32,11 +32,11 @@ List<({String name, String value})> initCustomCharacteristicDrafts(
 
 /// Подготавливает список изображений для edit-режима визарда.
 ///
-/// Каждый путь триммится; пустые строки и пути, которые `isDisplayable`
+/// Каждый путь триммится; пустые строки и пути, которые isDisplayable
 /// не распознал (битые URL, неизвестные схемы), отбрасываются. Дубликаты
-/// удаляются по первому вхождению — порядок остаётся стабильным.
+/// удаляются по первому вхождению - порядок остаётся стабильным.
 ///
-/// `isDisplayable` инжектится извне, чтобы оставить файл чистым Dart-ом.
+/// isDisplayable инжектится извне, чтобы оставить файл чистым Dart-ом.
 List<String> initWizardImages(
   List<String> imageUrls,
   bool Function(String) isDisplayable,

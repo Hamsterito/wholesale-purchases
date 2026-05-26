@@ -5,7 +5,7 @@ import '../services/api_service.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/phone_input_formatter.dart';
 
-/// Диалог добавления нового модератора. Возвращает созданного [Moderator]
+/// Диалог добавления нового модератора. Возвращает созданного Moderator
 /// при успехе или null при отмене / закрытии.
 class AddModeratorDialog extends StatefulWidget {
   const AddModeratorDialog({super.key});
@@ -71,7 +71,7 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
     if (_isSubmitting) return;
     final form = _formKey.currentState;
     if (form == null) return;
-    // Включаем валидацию по нажатию на «Добавить» — до этого момента
+    // Включаем валидацию по нажатию на «Добавить» - до этого момента
     // пользователю не показываются красные «Заполните поле».
     if (!_showValidation) {
       setState(() => _showValidation = true);
@@ -102,7 +102,7 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
     }
   }
 
-  // Сообщения уровня StateError (нет авторизации) — отдельным алертом,
+  // Сообщения уровня StateError (нет авторизации) - отдельным алертом,
   // прочие ошибки показываем плашкой внутри диалога
   String _humanizeError(Object error) {
     if (error is StateError) return error.message;
@@ -128,7 +128,7 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
-            // До первого нажатия «Добавить» поля молчат, после — валидируют
+            // До первого нажатия «Добавить» поля молчат, после - валидируют
             // на каждое изменение, чтобы ошибки гасились по мере исправления.
             autovalidateMode: _showValidation
                 ? AutovalidateMode.onUserInteraction

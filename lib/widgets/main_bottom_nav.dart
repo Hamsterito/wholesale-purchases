@@ -4,8 +4,8 @@ import 'bottom_nav_bar.dart';
 import 'main_navigation.dart';
 
 /// Нижняя навигация для внутренних экранов (история заказов, настройки и т.д.).
-/// При нажатии на вкладку делает [Navigator.pushAndRemoveUntil] и открывает
-/// корневой [MainNavigation] с нужным индексом — внутренние экраны не
+/// При нажатии на вкладку делает Navigator.pushAndRemoveUntil и открывает
+/// корневой MainNavigation с нужным индексом - внутренние экраны не
 /// сохраняются в стеке навигации, чтобы пользователь не "застревал" в них
 /// после переключения вкладки.
 class MainBottomNav extends StatelessWidget {

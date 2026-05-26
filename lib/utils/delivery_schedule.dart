@@ -9,7 +9,7 @@ sealed class DeliverySchedule {
   /// Строка для хранения в Supplier.deliveryDate / SupplierProduct.deliveryDate.
   String encode();
 
-  /// Разбор строки. Поддерживает префиксы `schedule:` / `lead:`,
+  /// Разбор строки. Поддерживает префиксы schedule: / lead:,
   /// а также старый weekly-формат без префикса для обратной совместимости.
   static DeliverySchedule? decode(String raw) {
     final source = raw.trim();
@@ -21,7 +21,7 @@ sealed class DeliverySchedule {
     if (source.startsWith('lead:')) {
       return _decodeLeadTime(source.substring('lead:'.length).trim());
     }
-    // Без префикса — попытка распарсить старый weekly-формат
+    // Без префикса - попытка распарсить старый weekly-формат
     return _decodeWeekly(source);
   }
 }
@@ -71,7 +71,7 @@ String formatScheduleSummary(DeliverySchedule s) {
     final preset = _matchWeeklyPreset(s.weekdays);
     if (preset != null) return preset;
     final sorted = _sortWeekdays(s.weekdays);
-    // Один день показываем полным названием — «Вторник», «Пятница».
+    // Один день показываем полным названием - «Вторник», «Пятница».
     if (sorted.length == 1) {
       return _fullWeekdayNominative[sorted.first] ?? 'Пн';
     }
@@ -103,7 +103,7 @@ String? formatDeliveryTimeNote(DeliverySchedule s) {
   return null;
 }
 
-/// Только время «14:00» без префикса — для компактной строки с иконкой.
+/// Только время «14:00» без префикса - для компактной строки с иконкой.
 String? formatDeliveryTimeShort(DeliverySchedule s) {
   if (s is WeeklyDeliverySchedule) {
     return _formatHm(s.hour, s.minute);
@@ -116,7 +116,7 @@ String? formatDeliveryTimeShort(DeliverySchedule s) {
   return null;
 }
 
-/// Только дата «26 мая» без префикса «Доставка» — для компактной строки.
+/// Только дата «26 мая» без префикса «Доставка» - для компактной строки.
 String? formatDeliveryDateShort(DeliverySchedule s, DateTime now) {
   if (s is WeeklyDeliverySchedule) {
     if (s.weekdays.isEmpty) return null;
@@ -196,7 +196,7 @@ String _formatWeeklyExpected(WeeklyDeliverySchedule s, DateTime now) {
 String _formatLeadTimeExpected(LeadTimeDeliverySchedule s, DateTime now) {
   var min = s.minDays;
   var max = s.maxDays;
-  // Если задано время отсечки и сейчас уже позже — сдвигаем оба края на день
+  // Если задано время отсечки и сейчас уже позже - сдвигаем оба края на день
   final cutoff = s.cutoff;
   if (cutoff != null) {
     final nowMinutes = now.hour * 60 + now.minute;
@@ -208,7 +208,7 @@ String _formatLeadTimeExpected(LeadTimeDeliverySchedule s, DateTime now) {
   }
   if (min == 0 && max == 0) return 'Доставка сегодня';
   if (min == 1 && max == 1) return 'Доставка завтра';
-  // Календарные даты вместо «через N дней» — покупатель сразу видит число.
+  // Календарные даты вместо «через N дней» - покупатель сразу видит число.
   final fromDate = now.add(Duration(days: min));
   if (min == max) return 'Доставка ${_formatDayMonth(fromDate)}';
   final toDate = now.add(Duration(days: max));
@@ -220,8 +220,8 @@ String _formatDayMonth(DateTime date) {
 }
 
 String _formatDateRange(DateTime from, DateTime to) {
-  // Если даты в одном месяце — пишем месяц один раз: «13–15 ноября»,
-  // иначе «30 октября – 2 ноября».
+  // Если даты в одном месяце - пишем месяц один раз: «13-15 ноября»,
+  // иначе «30 октября - 2 ноября».
   if (from.month == to.month && from.year == to.year) {
     return '${from.day}–${to.day} ${_genitiveMonth[to.month] ?? ''}';
   }
@@ -255,7 +255,7 @@ WeeklyDeliverySchedule? _decodeWeekly(String raw) {
 }
 
 LeadTimeDeliverySchedule? _decodeLeadTime(String raw) {
-  // Формат: `1-3` или `1-3 cutoff:14:00`
+  // Формат: 1-3 или 1-3 cutoff:14:00
   final parts = raw.split(_kWhitespace);
   if (parts.isEmpty) return null;
   final rangeMatch = _kLeadRange.firstMatch(parts.first);

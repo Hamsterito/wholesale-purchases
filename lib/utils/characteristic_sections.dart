@@ -2,7 +2,7 @@ import '../models/product.dart';
 import '../models/supplier_product.dart';
 
 /// Раздел характеристик товара, отображаемый одним блоком в табе «Характеристики».
-/// Состав хранится одной записью с пустым ключом — UI рендерит её одной строкой.
+/// Состав хранится одной записью с пустым ключом - UI рендерит её одной строкой.
 class CharacteristicSection {
   final String title;
   final List<MapEntry<String, String>> items;
@@ -24,7 +24,7 @@ List<CharacteristicSection> buildCharacteristicSections(Product product) {
   );
 }
 
-/// Те же разделы, но из SupplierProduct — для модератора, который видит
+/// Те же разделы, но из SupplierProduct - для модератора, который видит
 /// сырую заявку поставщика без агрегации по продавцам.
 List<CharacteristicSection> buildSupplierProductSections(
   SupplierProduct product,
@@ -96,12 +96,12 @@ List<CharacteristicSection> _buildSections({
 }
 
 /// Возвращает true, если описание товара отсутствует или состоит только
-/// из пробельных символов — тогда Description_Tab показывает плейсхолдер.
+/// из пробельных символов - тогда Description_Tab показывает плейсхолдер.
 bool shouldShowDescriptionPlaceholder(String? description) {
   return description == null || description.trim().isEmpty;
 }
 
-/// Целые значения показываем без дробной части, остальное — с одним знаком после точки.
+/// Целые значения показываем без дробной части, остальное - с одним знаком после точки.
 String _formatNumber(double value) {
   if (value == value.truncateToDouble()) {
     return value.toStringAsFixed(0);

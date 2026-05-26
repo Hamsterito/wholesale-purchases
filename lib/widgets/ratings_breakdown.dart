@@ -37,7 +37,7 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
   Color get _cardBg => _palette.card;
   Color get _ink => _palette.ink;
   Color get _mutedText => _palette.muted;
-  // Подложка под индикатор прогресса — мягкая линия из палитры,
+  // Подложка под индикатор прогресса - мягкая линия из палитры,
   // в тёмной теме чуть приглушаем, чтобы трек не сливался с фоном
   Color get _trackBg => _palette.line.withValues(alpha: _isDark ? 0.78 : 0.9);
   Color get _softBorder => _palette.line;
@@ -345,7 +345,7 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(999),
                       // Градиент собираем из звёздного цвета и более тёплого
-                      // оттенка warning — он близок к прежнему 0xFFF2A900
+                      // оттенка warning - он близок к прежнему 0xFFF2A900
                       gradient: LinearGradient(
                         colors: [_star, _palette.warning],
                       ),

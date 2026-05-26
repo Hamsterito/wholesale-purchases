@@ -13,7 +13,7 @@ class AppMessageToast {
   static OverlayEntry? _currentEntry;
   static Timer? _currentTimer;
 
-  /// Показывает toast; null или whitespace-only message — no-op.
+  /// Показывает toast; null или whitespace-only message - no-op.
   /// Повторный вызов заменяет текущий toast и сбрасывает таймер.
   static void show(BuildContext context, Message? message) {
     if (message == null) return;

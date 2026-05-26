@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 import '../models/product.dart';
 
 /// Кеш свежих агрегатов поставщика: rating и reviewCount.
-/// Источник истины — `ApiService.getSupplier`. Когда `Supplier` приходит из
-/// `Product.suppliers` или из других выборок, его рейтинг может отставать —
+/// Источник истины - ApiService.getSupplier. Когда Supplier приходит из
+/// Product.suppliers или из других выборок, его рейтинг может отставать -
 /// этот стор позволяет подмешать актуальные значения там, где они показываются.
 class SupplierStatsStore extends ChangeNotifier {
   SupplierStatsStore._();
@@ -28,12 +28,12 @@ class SupplierStatsStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Возвращает актуальный rating, если он известен. Иначе — `fallback`.
+  /// Возвращает актуальный rating, если он известен. Иначе - fallback.
   double rating(String supplierId, {required double fallback}) {
     return _stats[supplierId.trim()]?.rating ?? fallback;
   }
 
-  /// Возвращает актуальный reviewCount, если он известен. Иначе — `fallback`.
+  /// Возвращает актуальный reviewCount, если он известен. Иначе - fallback.
   int reviewCount(String supplierId, {required int fallback}) {
     return _stats[supplierId.trim()]?.reviewCount ?? fallback;
   }

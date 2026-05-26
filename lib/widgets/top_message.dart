@@ -3,13 +3,56 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_color_palette.dart';
 
-/// Корневой Overlay для top-message баннеров. Монтируется в MaterialApp.builder,
-/// живёт выше Navigator - поэтому баннеры не уезжают при смене страниц.
+/// Корневой Overlay для top-message. Живёт выше Navigator, монтируется в MaterialApp.builder.
 final GlobalKey<OverlayState> rootMessageOverlayKey = GlobalKey<OverlayState>();
 
 OverlayEntry? _topMessageEntry;
 Timer? _topMessageTimer;
 GlobalKey<_TopMessageBannerState>? _topMessageKey;
+
+// Если true, NavigatorObserver не закрывает баннер при смене маршрута.
+bool _currentMessagePersists = false;
+
+@visibleForTesting
+bool debugTopMessageHasState() =>
+    _topMessageEntry != null ||
+    _topMessageTimer != null ||
+    _topMessageKey != null;
+
+@visibleForTesting
+void debugTopMessageReset() {
+  _topMessageTimer?.cancel();
+  _topMessageTimer = null;
+  _topMessageEntry = null;
+  _topMessageKey = null;
+  _currentMessagePersists = false;
+}
+
+/// Явно закрывает активный top-message. Игнорирует persistAcrossNavigation.
+/// immediate: true убирает без анимации, false запускает реверс ~180 мс.
+void dismissTopMessage({bool immediate = false}) {
+  // Отменяем таймер до hide(), чтобы не дёрнул hide() второй раз.
+  _topMessageTimer?.cancel();
+  _topMessageTimer = null;
+
+  final state = _topMessageKey?.currentState;
+  if (state != null) {
+    state.hide(immediate: immediate);
+    return;
+  }
+
+  // State уже нет, но в ссылках мог остаться хвост - подчищаем руками.
+  _topMessageEntry?.remove();
+  _topMessageEntry = null;
+  _topMessageKey = null;
+  _currentMessagePersists = false;
+}
+
+// Закрытие от NavigatorObserver - в отличие от публичного, уважает persist-флаг.
+void _dismissForNavigation({bool immediate = false}) {
+  if (_currentMessagePersists) return;
+  dismissTopMessage(immediate: immediate);
+}
 
 void showTopMessage(
   BuildContext context,
@@ -23,6 +66,9 @@ void showTopMessage(
   bool showAtBottom = false,
   double bottomOffset = 0,
   int maxLines = 1,
+
+  /// Если true, баннер не закрывается на навигации - живёт по своему таймеру.
+  bool persistAcrossNavigation = false,
 }) {
   _topMessageTimer?.cancel();
   _topMessageTimer = null;
@@ -30,6 +76,7 @@ void showTopMessage(
   _topMessageKey = null;
   _topMessageEntry?.remove();
   _topMessageEntry = null;
+  _currentMessagePersists = persistAcrossNavigation;
 
   final overlay =
       rootMessageOverlayKey.currentState ??
@@ -39,6 +86,7 @@ void showTopMessage(
     _topMessageEntry?.remove();
     _topMessageEntry = null;
     _topMessageKey = null;
+    _currentMessagePersists = false;
   }
 
   _topMessageKey = GlobalKey<_TopMessageBannerState>();
@@ -55,7 +103,6 @@ void showTopMessage(
   _topMessageEntry = OverlayEntry(
     builder: (context) {
       final palette = context.colorPalette;
-      // Если фон не передан — используем акцентный цвет из палитры
       final resolvedBackground = backgroundColor ?? palette.accent;
       final mediaPadding = MediaQuery.paddingOf(context);
       final resolvedBottom = showAtBottom
@@ -184,8 +231,7 @@ class _TopMessageBannerState extends State<_TopMessageBanner>
     const countdownSize = 28.0;
     const bannerPadding = EdgeInsets.symmetric(horizontal: 14, vertical: 10);
     final bannerHeight = countdownSize + bannerPadding.vertical;
-    // Белый цвет используется для текста и иконок на цветном фоне баннера
-    // для обеспечения хорошей контрастности в обеих темах
+    // Белый поверх цветного фона - контраст в обеих темах.
     const textColor = Colors.white;
     return Material(
       color: Colors.transparent,
@@ -343,5 +389,33 @@ class _CountdownRingState extends State<_CountdownRing>
         );
       },
     );
+  }
+}
+
+/// NavigatorObserver, закрывающий активный top-message при смене корневого маршрута.
+/// Уважает persistAcrossNavigation. Подключается через MaterialApp.navigatorObservers.
+class TopMessageNavigatorObserver extends NavigatorObserver {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPush(route, previousRoute);
+    _dismissForNavigation();
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPop(route, previousRoute);
+    _dismissForNavigation();
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
+    _dismissForNavigation();
+  }
+
+  @override
+  void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didRemove(route, previousRoute);
+    _dismissForNavigation();
   }
 }

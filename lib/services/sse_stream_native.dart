@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 import 'app_http_client.dart';
 
-/// Один SSE-стрим по uri. Завершается при разрыве — reconnect/backoff
+/// Один SSE-стрим по uri. Завершается при разрыве - reconnect/backoff
 /// делает _SharedEventStream.
 Stream<Map<String, dynamic>> openSseStream(
   Uri uri, {

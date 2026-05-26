@@ -7,7 +7,7 @@ import 'message_validator.dart';
 class MessagePrettyPrinter {
   static const int _bodyTruncateLimit = 200;
 
-  /// `detailed = true` — многострочный отчёт, `false` — однострочная сводка.
+  /// detailed = true - многострочный отчёт, false - однострочная сводка.
   static String prettyPrint(Message message, {bool detailed = true}) {
     if (!detailed) {
       return _compactSummary(message);
@@ -15,7 +15,7 @@ class MessagePrettyPrinter {
     return _detailedReport(message);
   }
 
-  /// При ошибке кодирования возвращаем `toString()` — лучше что-то читаемое, чем падение лога.
+  /// При ошибке кодирования возвращаем toString() - лучше что-то читаемое, чем падение лога.
   static String prettyPrintJson(Map<String, dynamic> json) {
     try {
       return const JsonEncoder.withIndent('  ').convert(json);
@@ -77,7 +77,7 @@ class MessagePrettyPrinter {
     return out.endsWith('\n') ? out.substring(0, out.length - 1) : out;
   }
 
-  // Локально-нейтральный формат `YYYY-MM-DD HH:mm:ss` без зависимости от часового пояса.
+  // Локально-нейтральный формат YYYY-MM-DD HH:mm:ss без зависимости от часового пояса.
   static String _formatTimestamp(DateTime dt) {
     final y = dt.year.toString().padLeft(4, '0');
     final m = dt.month.toString().padLeft(2, '0');
@@ -94,7 +94,7 @@ class MessagePrettyPrinter {
     return '${s.substring(0, max)}...';
   }
 
-  // Вложенные структуры сериализуем через jsonEncode, остальное — toString.
+  // Вложенные структуры сериализуем через jsonEncode, остальное - toString.
   static String _formatMetadata(
     Map<String, dynamic> metadata, {
     String indent = '  ',

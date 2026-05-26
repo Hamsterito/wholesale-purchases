@@ -213,7 +213,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
   }
 
   // Загружаем данные о товаре только когда они реально нужны (при открытии модала).
-  // Если товар уже в кэше — сразу возвращаем, иначе подгружаем весь список
+  // Если товар уже в кэше - сразу возвращаем, иначе подгружаем весь список
   // поставщика и заполняем кэш, чтобы следующие открытия были мгновенными.
   Future<void> _ensureProductLoaded(String productId) async {
     if (_productMap.containsKey(productId)) return;

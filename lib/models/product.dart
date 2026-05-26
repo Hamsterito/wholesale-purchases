@@ -120,7 +120,7 @@ class Supplier {
   final String deliveryInfo;
   final String deliveryBadge;
 
-  // Поля профиля поставщика — могут отсутствовать в старых ответах API
+  // Поля профиля поставщика - могут отсутствовать в старых ответах API
   final String? logoUrl;
   final String? description;
   final String? address;
@@ -216,7 +216,7 @@ class Supplier {
       deliveryDate: normalize(json['deliveryDate']?.toString() ?? ''),
       deliveryInfo: normalize(json['deliveryInfo']?.toString() ?? ''),
       deliveryBadge: normalize(json['deliveryBadge']?.toString() ?? ''),
-      // Новые поля профиля — null если отсутствуют в JSON (обратная совместимость)
+      // Новые поля профиля - null если отсутствуют в JSON (обратная совместимость)
       logoUrl: json['logoUrl']?.toString(),
       description: json['description']?.toString(),
       address: json['address']?.toString(),
@@ -240,7 +240,7 @@ class RatingDistribution {
   }
 }
 
-// Ответ API для полного профиля поставщика — объединяет данные компании и её товары
+// Ответ API для полного профиля поставщика - объединяет данные компании и её товары
 class SupplierProfile {
   final Supplier supplier;
   final List<Product> products;

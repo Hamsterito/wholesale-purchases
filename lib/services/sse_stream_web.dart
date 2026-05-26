@@ -38,7 +38,7 @@ Stream<Map<String, dynamic>> openSseStream(
       final decoded = jsonDecode(raw);
       if (decoded is Map) {
         final m = Map<String, dynamic>.from(decoded);
-        // Прокидываем имя кадра в payload под ключом 'event' — как в native.
+        // Прокидываем имя кадра в payload под ключом 'event' - как в native.
         if (name.isNotEmpty && name != 'message') {
           m['event'] = name;
         }
@@ -64,7 +64,7 @@ Stream<Map<String, dynamic>> openSseStream(
 
       errSub = source!.onError.listen((_) {
         // EventSource сам реконнектится, пока readyState != CLOSED. Если
-        // CLOSED — пробрасываем ошибку наверх для backoff'а в _SharedEventStream.
+        // CLOSED - пробрасываем ошибку наверх для backoff'а в _SharedEventStream.
         final rs = source?.readyState ?? html.EventSource.CLOSED;
         if (rs == html.EventSource.CLOSED) {
           if (!controller.isClosed) {

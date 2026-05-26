@@ -43,7 +43,7 @@ class PurchaseTemplate {
     );
   }
 
-  // Порядок ключей зафиксирован для детерминированного encode (R10.4).
+  // Порядок ключей зафиксирован для детерминированного encode.
   Map<String, dynamic> toJson() => <String, dynamic>{
     'id': id,
     'name': name,
@@ -52,7 +52,7 @@ class PurchaseTemplate {
     'items': items.map((e) => e.toJson()).toList(),
   };
 
-  /// При невалидности кидает FormatException - выше decode ловит и пропускает запись (R9.5).
+  /// При невалидности кидает FormatException - выше decode ловит и пропускает запись.
   static PurchaseTemplate fromJson(Map<String, dynamic> json) {
     final id = json['id'];
     final name = json['name'];
@@ -462,7 +462,7 @@ class TemplatesStore extends ChangeNotifier {
   int get count => _templates.length;
 
   /// Неизменяемая копия списка шаблонов, отсортированного по updatedAt
-  /// от свежих к старым (R4.1).
+  /// от свежих к старым.
   List<PurchaseTemplate> get templates {
     final sorted = List<PurchaseTemplate>.from(_templates)
       ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
@@ -473,7 +473,7 @@ class TemplatesStore extends ChangeNotifier {
   static String _storageKey(int userId) => '$_keyPrefix$userId';
 
   /// Загружает шаблоны текущего пользователя из SharedPreferences.
-  /// На рассогласование isRemembered/userId - пустой список + warning, без исключений (R8.11).
+  /// На рассогласование isRemembered/userId - пустой список + warning, без исключений.
   Future<void> loadForCurrentUser() async {
     final remembered = AuthStorage.isRemembered;
     final userId = AuthStorage.userId;
@@ -514,7 +514,7 @@ class TemplatesStore extends ChangeNotifier {
     }
   }
 
-  /// Очищает шаблоны текущего пользователя из памяти и SharedPreferences (R9.6).
+  /// Очищает шаблоны текущего пользователя из памяти и SharedPreferences.
   /// Зовётся перед AuthStorage.forget() при выходе.
   Future<void> clearCache() async {
     final userId = AuthStorage.userId;
@@ -569,13 +569,13 @@ class TemplatesStore extends ChangeNotifier {
   }
 
   /// Сериализует список в детерминированную JSON-строку: фиксированный порядок
-  /// ключей в toJson, шаблоны и позиции - как в исходных списках (R10.4).
+  /// ключей в toJson, шаблоны и позиции - как в исходных списках.
   static String encode(List<PurchaseTemplate> templates) {
     final list = templates.map((t) => t.toJson()).toList(growable: false);
     return jsonEncode(list);
   }
 
-  /// Мягкий парсинг JSON (R9.5, R10.3): корневая ошибка → пустой список,
+  /// Мягкий парсинг JSON: корневая ошибка → пустой список,
   /// битые элементы массива пропускаются целиком, остальные восстанавливаются.
   static List<PurchaseTemplate> decode(String json) {
     if (json.isEmpty) return const <PurchaseTemplate>[];
@@ -659,7 +659,7 @@ class TemplatesStore extends ChangeNotifier {
 
   // Мутации: create / overwrite / rename / remove / restore
 
-  /// Создаёт новый шаблон. StateError без userId (R8.10),
+  /// Создаёт новый шаблон. StateError без userId,
   /// TemplateValidationException при невалидных входных данных.
   Future<PurchaseTemplate> create({
     required String name,
@@ -695,7 +695,7 @@ class TemplatesStore extends ChangeNotifier {
     return template;
   }
 
-  /// Подменяет состав шаблона. Если состав не изменился - no-op (R8.9 / P4).
+  /// Подменяет состав шаблона. Если состав не изменился - no-op.
   /// Шаблон не найден - тихий no-op.
   Future<void> overwrite({
     required String templateId,
@@ -723,7 +723,7 @@ class TemplatesStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Переименовывает шаблон. Совпадение с текущим именем (после trim) - no-op (R8.9 / P5).
+  /// Переименовывает шаблон. Совпадение с текущим именем (после trim) - no-op.
   /// Дубликат с другим шаблоном - TemplateValidationException. Не найден - no-op.
   Future<void> rename({
     required String templateId,
@@ -773,7 +773,7 @@ class TemplatesStore extends ChangeNotifier {
   }
 
   /// Восстанавливает шаблон по полному снимку для undo после remove.
-  /// Лимит 20 не проверяется (R7.5, P9). Существующий с тем же id - заменяется.
+  /// Лимит 20 не проверяется. Существующий с тем же id - заменяется.
   Future<void> restore(PurchaseTemplate template) async {
     final userId = _requireUserId('restore');
 
@@ -791,7 +791,7 @@ class TemplatesStore extends ChangeNotifier {
 
   /// Применяет шаблон к корзине: фильтрует недоступные, подгоняет qty к границам,
   /// заменяет содержимое корзины. Если применимых позиций нет - корзина не трогается,
-  /// возвращается ApplyTemplateResult.empty() (R5.8). Шаблоны не мутируются.
+  /// возвращается ApplyTemplateResult.empty(). Шаблоны не мутируются.
   Future<ApplyTemplateResult> apply({
     required String templateId,
     required ProductResolver resolver,
@@ -871,7 +871,7 @@ class TemplatesStore extends ChangeNotifier {
     }
 
     if (applicable.isEmpty) {
-      // Корзину не трогаем, шаблон считается неприменённым (R5.8).
+      // Корзину не трогаем, шаблон считается неприменённым.
       return ApplyTemplateResult(
         cartReplaced: false,
         addedCount: 0,
@@ -908,7 +908,7 @@ class TemplatesStore extends ChangeNotifier {
 
   // Внутренние помощники
 
-  /// Требует валидного userId для мутации. R8.10: иначе StateError -
+  /// Требует валидного userId для мутации. Иначе StateError -
   /// мутировать без userId означало бы писать «в никуда».
   int _requireUserId(String op) {
     final userId = AuthStorage.userId;
