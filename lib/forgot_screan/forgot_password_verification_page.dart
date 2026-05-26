@@ -32,9 +32,9 @@ class _ForgotPasswordVerificationPageState
   final TextEditingController _pinController = TextEditingController();
   late StreamController<ErrorAnimationType> _errorController;
 
-  int _remainingTime = 60;
+  late final ValueNotifier<int> _remainingTimeNotifier;
+  late final ValueNotifier<bool> _isButtonDisabledNotifier;
   Timer? _timer;
-  bool _isButtonDisabled = true;
   bool _isLoading = false;
 
   ThemeData get _theme => Theme.of(context);
@@ -50,31 +50,30 @@ class _ForgotPasswordVerificationPageState
   void initState() {
     super.initState();
     _errorController = StreamController<ErrorAnimationType>();
+    _remainingTimeNotifier = ValueNotifier<int>(widget.expiresIn);
+    _isButtonDisabledNotifier = ValueNotifier<bool>(widget.expiresIn > 0);
     _startTimer();
   }
 
   // Запускает таймер с полученным временем истечения
   void _startTimer() {
-    _remainingTime = widget.expiresIn;
-    _isButtonDisabled = _remainingTime > 0;
+    _remainingTimeNotifier.value = widget.expiresIn;
+    _isButtonDisabledNotifier.value = widget.expiresIn > 0;
 
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_remainingTime == 0) {
-        // Таймер истек, активируем кнопку повторной отправки
-        if (mounted) {
-          setState(() {
-            _isButtonDisabled = false;
-          });
-        }
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      final current = _remainingTimeNotifier.value;
+      if (current <= 1) {
+        // Таймер истёк - активируем кнопку повторной отправки
+        _remainingTimeNotifier.value = 0;
+        _isButtonDisabledNotifier.value = false;
         timer.cancel();
       } else {
-        // Уменьшаем оставшееся время
-        if (mounted) {
-          setState(() {
-            _remainingTime--;
-          });
-        }
+        _remainingTimeNotifier.value = current - 1;
       }
     });
   }
@@ -84,6 +83,8 @@ class _ForgotPasswordVerificationPageState
     _timer?.cancel();
     _errorController.close();
     _pinController.dispose();
+    _remainingTimeNotifier.dispose();
+    _isButtonDisabledNotifier.dispose();
     super.dispose();
   }
 
@@ -183,10 +184,8 @@ class _ForgotPasswordVerificationPageState
         _showMessage('Код отправлен повторно', MessageSeverity.info);
 
         // Обновляем время истечения и перезапускаем таймер
-        setState(() {
-          _remainingTime = expiresIn;
-          _isButtonDisabled = true;
-        });
+        _remainingTimeNotifier.value = expiresIn;
+        _isButtonDisabledNotifier.value = true;
         _startTimer();
       } else {
         // Ошибка повторной отправки
@@ -302,30 +301,45 @@ class _ForgotPasswordVerificationPageState
                           ),
                           Row(
                             children: [
-                              Text(
-                                _isButtonDisabled
-                                    ? '$_remainingTime секунд'
-                                    : '',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: _mutedText,
-                                ),
+                              ValueListenableBuilder<int>(
+                                valueListenable: _remainingTimeNotifier,
+                                builder: (context, remainingTime, _) {
+                                  return ValueListenableBuilder<bool>(
+                                    valueListenable: _isButtonDisabledNotifier,
+                                    builder: (context, isDisabled, _) {
+                                      return Text(
+                                        isDisabled
+                                            ? '$remainingTime секунд'
+                                            : '',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: _mutedText,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                               const SizedBox(width: 4),
-                              TextButton(
-                                onPressed: _isButtonDisabled || _isLoading
-                                    ? null
-                                    : _resendCode,
-                                child: Text(
-                                  'Отправить снова',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: _isButtonDisabled
-                                        ? _mutedText
-                                        : _colorScheme.onSurface,
-                                  ),
-                                ),
+                              ValueListenableBuilder<bool>(
+                                valueListenable: _isButtonDisabledNotifier,
+                                builder: (context, isDisabled, _) {
+                                  return TextButton(
+                                    onPressed: isDisabled || _isLoading
+                                        ? null
+                                        : _resendCode,
+                                    child: Text(
+                                      'Отправить снова',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: isDisabled
+                                            ? _mutedText
+                                            : _colorScheme.onSurface,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),

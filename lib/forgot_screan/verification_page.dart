@@ -23,7 +23,8 @@ class _VerificationPageState extends State<VerificationPage> {
   final TextEditingController _pinController = TextEditingController();
   late StreamController<ErrorAnimationType> _errorController;
 
-  int _remainingTime = 60;
+  late final ValueNotifier<int> _remainingTimeNotifier;
+  late final ValueNotifier<bool> _isButtonDisabledNotifier;
   Timer? _timer;
 
   ThemeData get _theme => Theme.of(context);
@@ -34,34 +35,34 @@ class _VerificationPageState extends State<VerificationPage> {
   Color get _inputFill => _isDark
       ? _colorScheme.surfaceContainerHighest
       : context.colorPalette.bgTop;
-  bool _isButtonDisabled = true;
 
   @override
   void initState() {
     super.initState();
     _errorController = StreamController<ErrorAnimationType>();
+    _remainingTimeNotifier = ValueNotifier<int>(60);
+    _isButtonDisabledNotifier = ValueNotifier<bool>(true);
     _startTimer();
   }
 
   void _startTimer() {
-    _remainingTime = 60;
-    _isButtonDisabled = true;
+    _remainingTimeNotifier.value = 60;
+    _isButtonDisabledNotifier.value = true;
 
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_remainingTime == 0) {
-        if (mounted) {
-          setState(() {
-            _isButtonDisabled = false;
-          });
-        }
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      final current = _remainingTimeNotifier.value;
+      if (current <= 1) {
+        // Таймер истёк - активируем кнопку повторной отправки
+        _remainingTimeNotifier.value = 0;
+        _isButtonDisabledNotifier.value = false;
         timer.cancel();
       } else {
-        if (mounted) {
-          setState(() {
-            _remainingTime--;
-          });
-        }
+        _remainingTimeNotifier.value = current - 1;
       }
     });
   }
@@ -71,6 +72,8 @@ class _VerificationPageState extends State<VerificationPage> {
     _timer?.cancel();
     _errorController.close();
     _pinController.dispose();
+    _remainingTimeNotifier.dispose();
+    _isButtonDisabledNotifier.dispose();
     super.dispose();
   }
 
@@ -262,32 +265,47 @@ class _VerificationPageState extends State<VerificationPage> {
                           ),
                           Row(
                             children: [
-                              Text(
-                                _isButtonDisabled
-                                    ? '$_remainingTime секунд'
-                                    : '',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: _mutedText,
-                                ),
+                              ValueListenableBuilder<int>(
+                                valueListenable: _remainingTimeNotifier,
+                                builder: (context, remainingTime, _) {
+                                  return ValueListenableBuilder<bool>(
+                                    valueListenable: _isButtonDisabledNotifier,
+                                    builder: (context, isDisabled, _) {
+                                      return Text(
+                                        isDisabled
+                                            ? '$remainingTime секунд'
+                                            : '',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: _mutedText,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                               const SizedBox(width: 4),
-                              TextButton(
-                                onPressed: _isButtonDisabled
-                                    ? null
-                                    : () {
-                                        _resendCode();
-                                      },
-                                child: Text(
-                                  'Отправить снова',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: _isButtonDisabled
-                                        ? _mutedText
-                                        : _colorScheme.onSurface,
-                                  ),
-                                ),
+                              ValueListenableBuilder<bool>(
+                                valueListenable: _isButtonDisabledNotifier,
+                                builder: (context, isDisabled, _) {
+                                  return TextButton(
+                                    onPressed: isDisabled
+                                        ? null
+                                        : () {
+                                            _resendCode();
+                                          },
+                                    child: Text(
+                                      'Отправить снова',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: isDisabled
+                                            ? _mutedText
+                                            : _colorScheme.onSurface,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),

@@ -98,6 +98,10 @@ class _ChatThreadViewState extends State<ChatThreadView> {
   // rebuild'ах и рециклинге ListView анимация не должна перезапускаться.
   final Set<String> _seenOutgoingIds = <String>{};
 
+  // Активность кнопки отправки. Меняется только на переходах
+  // пусто/непусто, чтобы не дёргать setState на каждом keystroke.
+  late final ValueNotifier<bool> _composerHasText;
+
   // Композер дизейблится не только пропом, но и при загрузке/ошибке.
   bool get _composerEnabled =>
       widget.isComposerEnabled &&
@@ -107,6 +111,9 @@ class _ChatThreadViewState extends State<ChatThreadView> {
   @override
   void initState() {
     super.initState();
+    _composerHasText = ValueNotifier<bool>(
+      _composerController.text.trim().isNotEmpty,
+    );
     _scrollController.addListener(_onScroll);
     _composerController.addListener(_onComposerChanged);
     // Уже отрендеренные исходящие - считаем виденными, чтобы история не
@@ -141,6 +148,16 @@ class _ChatThreadViewState extends State<ChatThreadView> {
         );
       });
     }
+
+    // Обрезаем _seenOutgoingIds до id, реально присутствующих в актуальной
+    // ленте - иначе Set растёт без границ на долгой переписке.
+    if (!identical(oldWidget.messages, widget.messages)) {
+      final currentOutgoingIds = <String>{
+        for (final m in widget.messages)
+          if (m.senderId == widget.currentUserId) m.id,
+      };
+      _seenOutgoingIds.retainAll(currentOutgoingIds);
+    }
   }
 
   @override
@@ -148,15 +165,17 @@ class _ChatThreadViewState extends State<ChatThreadView> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
-    _composerController
-      ..removeListener(_onComposerChanged)
-      ..dispose();
+    _composerController.removeListener(_onComposerChanged);
+    _composerController.dispose();
+    _composerHasText.dispose();
     super.dispose();
   }
 
   void _onComposerChanged() {
-    // Перерисовываем для активации/деактивации кнопки отправки.
-    if (mounted) setState(() {});
+    final hasText = _composerController.text.trim().isNotEmpty;
+    if (_composerHasText.value != hasText) {
+      _composerHasText.value = hasText;
+    }
   }
 
   void _onScroll() {
@@ -263,19 +282,9 @@ class _ChatThreadViewState extends State<ChatThreadView> {
   }
 
   Widget _buildComposer(ColorScheme colorScheme) {
-    final hasText = _composerController.text.trim().isNotEmpty;
-    final canSend = _composerEnabled && hasText;
-
     final maxLength = widget.composerMaxLength;
     final counterThreshold = widget.composerCounterThreshold;
-    // Считаем по UTF-16 как LengthLimitingTextInputFormatter, иначе порог
-    // обрезки и порог счётчика разойдутся на эмодзи.
-    final currentLength = _composerController.text.length;
-    // Счётчик появляется только при приближении к лимиту.
-    final showCounter =
-        maxLength != null &&
-        counterThreshold != null &&
-        currentLength > counterThreshold;
+    final showCounterEnabled = maxLength != null && counterThreshold != null;
 
     return SafeArea(
       top: false,
@@ -334,23 +343,40 @@ class _ChatThreadViewState extends State<ChatThreadView> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                _SendButton(
-                  enabled: canSend,
-                  onPressed: _handleSend,
-                  colorScheme: colorScheme,
+                ValueListenableBuilder<bool>(
+                  valueListenable: _composerHasText,
+                  builder: (context, hasText, _) {
+                    final canSend = _composerEnabled && hasText;
+                    return _SendButton(
+                      enabled: canSend,
+                      onPressed: _handleSend,
+                      colorScheme: colorScheme,
+                    );
+                  },
                 ),
               ],
             ),
-            if (showCounter)
-              Padding(
-                padding: const EdgeInsets.only(top: 4, right: 4),
-                child: Text(
-                  '$currentLength/$maxLength',
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: context.colorPalette.muted,
-                  ),
-                ),
+            // Счётчик читает длину напрямую из контроллера, чтобы обновляться
+            // на каждый keystroke без ребилда всего composer'а.
+            if (showCounterEnabled)
+              ValueListenableBuilder<TextEditingValue>(
+                valueListenable: _composerController,
+                builder: (context, value, _) {
+                  final currentLength = value.text.length;
+                  if (currentLength <= counterThreshold) {
+                    return const SizedBox.shrink();
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 4, right: 4),
+                    child: Text(
+                      '$currentLength/$maxLength',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: context.colorPalette.muted,
+                      ),
+                    ),
+                  );
+                },
               ),
           ],
         ),

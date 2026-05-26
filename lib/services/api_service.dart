@@ -28,8 +28,25 @@ final http = AppHttpClient.instance;
 // (когда сервер отдаёт keywords строкой, а не массивом).
 final RegExp _keywordsSplitRegExp = RegExp(r'[;,|]');
 
+// Снимок дерева категорий с моментом получения - для TTL-кэша.
+class _CatalogTreeCacheEntry {
+  _CatalogTreeCacheEntry({required this.tree, required this.fetchedAt});
+  final List<Map<String, dynamic>> tree;
+  final DateTime fetchedAt;
+}
+
 class ApiService {
   static String get baseUrl => ApiConfig.baseUrl;
+
+  // CatalogTree_Cache: процессный кэш дерева категорий с TTL и дедупликацией
+  // одновременных запросов. Ключ - флаг includeInactive, потому что это
+  // два разных набора данных. TTL подобран так, чтобы переходы между
+  // home/catalog/wizard в одной сессии не дёргали сеть, но административные
+  // изменения категорий подхватывались на следующем экране.
+  static const Duration _catalogTreeCacheTtl = Duration(minutes: 5);
+  static final Map<bool, _CatalogTreeCacheEntry> _catalogTreeCache = {};
+  static final Map<bool, Future<List<Map<String, dynamic>>>>
+  _catalogTreeInFlight = {};
 
   // Последнее сообщение об ошибке API (для диагностики и отображения)
   static Message? _lastErrorMessage;
@@ -181,6 +198,41 @@ class ApiService {
   }
 
   static Future<List<Map<String, dynamic>>> getCatalogCategoryTree({
+    bool includeInactive = false,
+  }) {
+    final now = DateTime.now();
+    final cached = _catalogTreeCache[includeInactive];
+    if (cached != null &&
+        now.difference(cached.fetchedAt) < _catalogTreeCacheTtl) {
+      // Возвращаем неизменяемый снимок, иначе вызывающий код может нечаянно
+      // мутировать общий кэш.
+      return Future.value(List<Map<String, dynamic>>.unmodifiable(cached.tree));
+    }
+
+    // Если запрос уже в полёте - шарим его, чтобы параллельные вызовы
+    // из разных страниц не дёргали HTTP несколько раз.
+    final inFlight = _catalogTreeInFlight[includeInactive];
+    if (inFlight != null) {
+      return inFlight;
+    }
+
+    final future = _fetchCatalogCategoryTree(includeInactive: includeInactive)
+        .then((tree) {
+          _catalogTreeCache[includeInactive] = _CatalogTreeCacheEntry(
+            tree: List<Map<String, dynamic>>.unmodifiable(tree),
+            fetchedAt: DateTime.now(),
+          );
+          return List<Map<String, dynamic>>.unmodifiable(tree);
+        })
+        .whenComplete(() {
+          _catalogTreeInFlight.remove(includeInactive);
+        });
+
+    _catalogTreeInFlight[includeInactive] = future;
+    return future;
+  }
+
+  static Future<List<Map<String, dynamic>>> _fetchCatalogCategoryTree({
     bool includeInactive = false,
   }) async {
     try {
@@ -1702,6 +1754,38 @@ class ApiService {
       }
     } catch (e) {
       debugPrint('Ошибка при экспорте заказов: $e');
+      rethrow;
+    }
+  }
+
+  /// Экспорт принятых заказов поставщика в Excel за период.
+  /// В выгрузку попадают только позиции этого поставщика и только заказы
+  /// со статусом «Принят» - симметрично покупательскому экспорту.
+  static Future<Uint8List> exportSupplierOrdersExcel({
+    required int userId,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/export/supplier/orders/excel'),
+        headers: {'content-type': 'application/json'},
+        body: jsonEncode({
+          'userId': userId,
+          'startDate': startDate.toIso8601String(),
+          'endDate': endDate.toIso8601String(),
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return Uint8List.fromList(response.bodyBytes);
+      } else {
+        throw Exception(
+          'Не удалось экспортировать заказы поставщика: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      debugPrint('Ошибка при экспорте заказов поставщика: $e');
       rethrow;
     }
   }

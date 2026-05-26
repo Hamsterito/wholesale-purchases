@@ -1,6 +1,4 @@
-﻿import 'dart:convert';
-
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
@@ -12,6 +10,7 @@ import '../services/api_service.dart';
 import '../services/auth_storage.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/main_bottom_nav.dart';
+import '../widgets/smart_image.dart';
 
 class MyOrdersPage extends StatefulWidget {
   const MyOrdersPage({super.key});
@@ -184,7 +183,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
       padding: const EdgeInsets.all(16),
       itemCount: orders.length,
       itemBuilder: (context, index) {
-        return _buildOrderCard(orders[index]);
+        return RepaintBoundary(child: _buildOrderCard(orders[index]));
       },
     );
   }
@@ -658,36 +657,10 @@ class _MyOrdersPageState extends State<MyOrdersPage>
       return _buildOrderImageFallback();
     }
 
-    if (raw.startsWith('base64:') || raw.startsWith('data:image')) {
-      try {
-        String base64Part = raw;
-
-        if (raw.startsWith('data:image')) {
-          final comma = raw.indexOf(',');
-          if (comma != -1) {
-            base64Part = raw.substring(comma + 1);
-          }
-        } else if (raw.startsWith('base64:')) {
-          base64Part = raw.substring('base64:'.length);
-          final colon = base64Part.indexOf(':');
-          if (colon != -1) {
-            base64Part = base64Part.substring(colon + 1);
-          }
-        }
-
-        final bytes = base64Decode(base64Part);
-        return Image.memory(
-          bytes,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) =>
-              _buildOrderImageFallback(),
-        );
-      } catch (_) {
-        return _buildOrderImageFallback();
-      }
-    }
-
-    if (raw.contains(',')) {
+    // SmartImage сам различает data:image / base64: / http(s) / asset, поэтому
+    // достаточно нормализовать CSV и достроить префикс assets/ для локальных путей.
+    final isEncoded = raw.startsWith('base64:') || raw.startsWith('data:image');
+    if (!isEncoded && raw.contains(',')) {
       raw = raw
           .split(',')
           .map((value) => value.trim())
@@ -697,24 +670,14 @@ class _MyOrdersPageState extends State<MyOrdersPage>
       }
     }
 
-    if (_isNetworkUrl(raw)) {
-      return Image.network(
-        raw,
-        fit: BoxFit.cover,
-        cacheWidth: 240,
-        cacheHeight: 240,
-        errorBuilder: (context, error, stackTrace) =>
-            _buildOrderImageFallback(),
-      );
-    }
+    final path = (isEncoded || _isNetworkUrl(raw) || raw.startsWith('assets/'))
+        ? raw
+        : 'assets/$raw';
 
-    final assetPath = raw.startsWith('assets/') ? raw : 'assets/$raw';
-    return Image.asset(
-      assetPath,
+    return SmartImage(
+      path: path,
       fit: BoxFit.cover,
-      cacheWidth: 240,
-      cacheHeight: 240,
-      errorBuilder: (context, error, stackTrace) => _buildOrderImageFallback(),
+      placeholder: _buildOrderImageFallback(),
     );
   }
 

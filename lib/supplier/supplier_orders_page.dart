@@ -1,4 +1,6 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter_project/widgets/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../models/message.dart';
@@ -8,7 +10,8 @@ import '../services/auth_storage.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/main_bottom_nav.dart';
-import 'dart:convert';
+import '../widgets/date_range_picker_dialog.dart' as custom_picker;
+import '../widgets/smart_image.dart';
 
 enum _SupplierOrderTab { active, history }
 
@@ -27,17 +30,43 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     'Доставлен',
   ];
 
+  static const _periodDay = 'За день';
+  static const _periodWeek = 'Неделя';
+  static const _periodMonth = 'Месяц';
+  static const _periodQuarter = 'Квартал';
+  static const _periodCustom = '__custom__';
+
   List<SupplierOrder> _orders = [];
+  // Кэш разделения _orders на активные/историю - пересоздаётся лениво
+  // в геттерах, инвалидируется в _invalidateOrdersCache при любой
+  // мутации _orders. Иначе на каждом ребилде делаем два прохода
+  // по списку.
+  List<SupplierOrder>? _cachedActiveOrders;
+  List<SupplierOrder>? _cachedHistoryOrders;
+  // История дополнительно фильтруется по диапазону дат на клиенте,
+  // активные показываем все - для них фильтр по датам бессмысленен.
+  List<SupplierOrder>? _cachedFilteredHistoryOrders;
+  late DateTime _historyRangeStart;
+  late DateTime _historyRangeEnd;
+  String _selectedPeriod = _periodMonth;
+  bool _isExportingHistory = false;
   bool _isLoading = true;
   String? _error;
   final Set<String> _updatingOrderIds = {};
   _SupplierOrderTab _selectedTab = _SupplierOrderTab.active;
+
+  void _invalidateOrdersCache() {
+    _cachedActiveOrders = null;
+    _cachedHistoryOrders = null;
+    _cachedFilteredHistoryOrders = null;
+  }
 
   int? get _userId => AuthStorage.userId;
 
   @override
   void initState() {
     super.initState();
+    _applyPeriodSelection(_selectedPeriod, notify: false);
     _loadOrders();
     startAutoRefresh();
   }
@@ -64,6 +93,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
       if (!mounted) return;
       setState(() {
         _orders = orders;
+        _invalidateOrdersCache();
         _error = null;
       });
     } catch (e) {
@@ -203,17 +233,41 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     return _isAcceptedStatus(status) || _isCancelledStatus(status);
   }
 
-  List<SupplierOrder> _activeOrders() {
-    return _orders.where((order) => !_isHistoryStatus(order.status)).toList();
+  List<SupplierOrder> get _activeOrders {
+    return _cachedActiveOrders ??= _orders
+        .where((order) => !_isHistoryStatus(order.status))
+        .toList(growable: false);
   }
 
-  List<SupplierOrder> _historyOrders() {
-    return _orders.where((order) => _isHistoryStatus(order.status)).toList();
+  List<SupplierOrder> get _historyOrders {
+    return _cachedHistoryOrders ??= _orders
+        .where((order) => _isHistoryStatus(order.status))
+        .toList(growable: false);
   }
+
+  /// История, дополнительно ограниченная диапазоном дат, выбранным
+  /// поставщиком. Используется и в UI, и в счётчике вкладки «История»,
+  /// чтобы число рядом с названием соответствовало видимому списку.
+  List<SupplierOrder> get _filteredHistoryOrders {
+    return _cachedFilteredHistoryOrders ??= _historyOrders
+        .where(_isInHistoryRange)
+        .toList(growable: false);
+  }
+
+  bool _isInHistoryRange(SupplierOrder order) {
+    final orderDay = _startOfDay(order.date);
+    if (orderDay.isBefore(_historyRangeStart)) return false;
+    if (orderDay.isAfter(_historyRangeEnd)) return false;
+    return true;
+  }
+
+  DateTime _startOfDay(DateTime date) =>
+      DateTime(date.year, date.month, date.day);
 
   String _emptyOrdersMessage({
     required List<SupplierOrder> activeOrders,
     required List<SupplierOrder> historyOrders,
+    required List<SupplierOrder> filteredHistoryOrders,
   }) {
     if (_orders.isEmpty) {
       return 'Пока нет заказов';
@@ -221,8 +275,17 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     if (_selectedTab == _SupplierOrderTab.active) {
       return 'Активных заказов пока нет';
     }
-    if (historyOrders.isEmpty && activeOrders.isNotEmpty) {
-      return 'История заказов пока пустая';
+    // На вкладке "История" различаем два пустых случая: история вообще
+    // пуста или просто отфильтрованный диапазон ничего не вернул - чтобы
+    // подсказать поставщику, что фильтр "съел" заказы.
+    if (historyOrders.isEmpty) {
+      if (activeOrders.isNotEmpty) {
+        return 'История заказов пока пустая';
+      }
+      return 'Пока нет заказов';
+    }
+    if (filteredHistoryOrders.isEmpty) {
+      return 'За выбранный период заказов нет';
     }
     return 'Пока нет заказов';
   }
@@ -260,6 +323,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
                   existing.id == updatedOrder.id ? updatedOrder : existing,
             )
             .toList();
+        _invalidateOrdersCache();
       });
       _showSnack('Статус обновлен: ${_statusLabel(updatedOrder.status)}');
     } catch (e) {
@@ -323,6 +387,109 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     AppMessageSnackBar.show(context, msg);
   }
 
+  void _applyPeriodSelection(String period, {bool notify = true}) {
+    final end = _startOfDay(DateTime.now());
+    DateTime start;
+    switch (period) {
+      case _periodWeek:
+        start = end.subtract(const Duration(days: 6));
+        break;
+      case _periodMonth:
+        start = end.subtract(const Duration(days: 29));
+        break;
+      case _periodQuarter:
+        start = end.subtract(const Duration(days: 89));
+        break;
+      case _periodDay:
+      default:
+        start = end;
+        break;
+    }
+
+    if (notify) {
+      setState(() {
+        _selectedPeriod = period;
+        _historyRangeStart = start;
+        _historyRangeEnd = end;
+        _cachedFilteredHistoryOrders = null;
+      });
+    } else {
+      _selectedPeriod = period;
+      _historyRangeStart = start;
+      _historyRangeEnd = end;
+    }
+  }
+
+  Future<void> _pickHistoryRange() async {
+    final initialRange = DateTimeRange(
+      start: _historyRangeStart,
+      end: _historyRangeEnd,
+    );
+    final picked = await showDialog<DateTimeRange>(
+      context: context,
+      builder: (context) =>
+          custom_picker.CustomDateRangePickerDialog(initialRange: initialRange),
+    );
+    if (!mounted || picked == null) return;
+    setState(() {
+      _selectedPeriod = _periodCustom;
+      _historyRangeStart = _startOfDay(picked.start);
+      _historyRangeEnd = _startOfDay(picked.end);
+      _cachedFilteredHistoryOrders = null;
+    });
+  }
+
+  Future<void> _exportHistoryToExcel() async {
+    if (_isExportingHistory) return;
+    final userId = _userId;
+    if (userId == null || userId == 0) {
+      _showSnack('Требуется авторизация', severity: MessageSeverity.error);
+      return;
+    }
+
+    setState(() => _isExportingHistory = true);
+    try {
+      final bytes = await ApiService.exportSupplierOrdersExcel(
+        userId: userId,
+        startDate: _historyRangeStart,
+        endDate: _historyRangeEnd,
+      );
+
+      final fileName =
+          'supplier_orders_${_formatDate(_historyRangeStart)}_to_${_formatDate(_historyRangeEnd)}.xlsx';
+
+      // На вебе saveAs не реализован (UnimplementedError) - используем
+      // saveFile, который инициирует обычное скачивание через браузер.
+      // На мобильных оставляем saveAs, чтобы открывался системный диалог
+      // выбора места сохранения.
+      if (kIsWeb) {
+        await FileSaver.instance.saveFile(
+          name: fileName,
+          bytes: bytes,
+          ext: 'xlsx',
+          mimeType: MimeType.microsoftExcel,
+        );
+      } else {
+        await FileSaver.instance.saveAs(
+          name: fileName,
+          bytes: bytes,
+          ext: 'xlsx',
+          mimeType: MimeType.microsoftExcel,
+        );
+      }
+
+      if (!mounted) return;
+      _showSnack('Файл загружен');
+    } catch (e) {
+      if (!mounted) return;
+      _showSnack('Ошибка экспорта: $e', severity: MessageSeverity.error);
+    } finally {
+      if (mounted) {
+        setState(() => _isExportingHistory = false);
+      }
+    }
+  }
+
   @override
   Future<void> onAutoRefresh() async {
     if (_isLoading || _updatingOrderIds.isNotEmpty) return;
@@ -337,14 +504,15 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
 
   @override
   Widget build(BuildContext context) {
-    final activeOrders = _activeOrders();
-    final historyOrders = _historyOrders();
-    final visibleOrders = _selectedTab == _SupplierOrderTab.active
-        ? activeOrders
-        : historyOrders;
+    final activeOrders = _activeOrders;
+    final historyOrders = _historyOrders;
+    final filteredHistoryOrders = _filteredHistoryOrders;
+    final isHistoryTab = _selectedTab == _SupplierOrderTab.history;
+    final visibleOrders = isHistoryTab ? filteredHistoryOrders : activeOrders;
     final emptyMessage = _emptyOrdersMessage(
       activeOrders: activeOrders,
       historyOrders: historyOrders,
+      filteredHistoryOrders: filteredHistoryOrders,
     );
 
     return Scaffold(
@@ -359,9 +527,14 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
                   child: _buildOrdersTabSelector(
                     activeCount: activeOrders.length,
-                    historyCount: historyOrders.length,
+                    historyCount: filteredHistoryOrders.length,
                   ),
                 ),
+                if (isHistoryTab) ...[
+                  _buildHistoryFilterSection(),
+                  const SizedBox(height: 8),
+                  _buildHistoryPeriodTabs(),
+                ],
                 Expanded(
                   child: RefreshIndicator(
                     onRefresh: _loadOrders,
@@ -382,9 +555,11 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
                               final isUpdating = _updatingOrderIds.contains(
                                 order.id,
                               );
-                              return _buildOrderCard(
-                                order,
-                                isUpdating: isUpdating,
+                              return RepaintBoundary(
+                                child: _buildOrderCard(
+                                  order,
+                                  isUpdating: isUpdating,
+                                ),
                               );
                             },
                           ),
@@ -393,6 +568,133 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
               ],
             ),
       bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+    );
+  }
+
+  Widget _buildHistoryFilterSection() {
+    final colorScheme = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
+    final rangeLabel =
+        '${_formatDate(_historyRangeStart)} - ${_formatDate(_historyRangeEnd)}';
+
+    return Container(
+      color: palette.card,
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Фильтр',
+            style: TextStyle(
+              fontSize: 14,
+              color: colorScheme.onSurface,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 12),
+          InkWell(
+            onTap: _pickHistoryRange,
+            borderRadius: BorderRadius.circular(8),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+              decoration: BoxDecoration(
+                border: Border.all(color: colorScheme.outlineVariant),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      rangeLabel,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: colorScheme.onSurface,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(
+                    Icons.calendar_today,
+                    size: 20,
+                    color: colorScheme.onSurface,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            height: 46,
+            child: ElevatedButton(
+              onPressed: _isExportingHistory ? null : _exportHistoryToExcel,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: palette.accent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                elevation: 0,
+              ),
+              child: _isExportingHistory
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                  : const Text(
+                      'Экспортировать в .excel',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHistoryPeriodTabs() {
+    final palette = AppColorPalette.of(context);
+    return Container(
+      color: palette.card,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _buildPeriodTab(_periodDay),
+            const SizedBox(width: 16),
+            _buildPeriodTab(_periodWeek),
+            const SizedBox(width: 16),
+            _buildPeriodTab(_periodMonth),
+            const SizedBox(width: 16),
+            _buildPeriodTab(_periodQuarter),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPeriodTab(String text) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final palette = AppColorPalette.of(context);
+    final isSelected = _selectedPeriod == text;
+    return GestureDetector(
+      onTap: () => _applyPeriodSelection(text),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+          color: isSelected ? palette.accent : colorScheme.onSurfaceVariant,
+        ),
+      ),
     );
   }
 
@@ -1043,13 +1345,10 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: SizedBox(
-                            width: 80,
-                            height: 80,
-                            child: _buildSupplierItemImage(item),
-                          ),
+                        SizedBox(
+                          width: 80,
+                          height: 80,
+                          child: _buildSupplierItemImage(item),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
@@ -1097,57 +1396,38 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
 
   Widget _buildSupplierItemImage(SupplierOrderItem item) {
     var raw = item.imageUrl.trim();
-    if (raw.isEmpty) return _buildSupplierItemImageFallback();
-
-    if (raw.startsWith('base64:') || raw.startsWith('data:image')) {
-      try {
-        String base64Part = raw;
-
-        if (raw.startsWith('data:image')) {
-          final comma = raw.indexOf(',');
-          if (comma != -1) base64Part = raw.substring(comma + 1);
-        } else if (raw.startsWith('base64:')) {
-          base64Part = raw.substring('base64:'.length);
-          final colon = base64Part.indexOf(':');
-          if (colon != -1) base64Part = base64Part.substring(colon + 1);
-        }
-
-        final bytes = base64Decode(base64Part);
-        return Image.memory(
-          bytes,
-          fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => _buildSupplierItemImageFallback(),
-        );
-      } catch (_) {
-        return _buildSupplierItemImageFallback();
-      }
-    }
-
-    if (raw.contains(',')) {
-      raw = raw
-          .split(',')
-          .map((e) => e.trim())
-          .firstWhere((e) => e.isNotEmpty, orElse: () => '');
-      if (raw.isEmpty) return _buildSupplierItemImageFallback();
-    }
-
-    if (_isNetworkUrl(raw)) {
-      return Image.network(
-        raw,
-        fit: BoxFit.cover,
-        cacheWidth: 240,
-        cacheHeight: 240,
-        errorBuilder: (_, __, ___) => _buildSupplierItemImageFallback(),
+    if (raw.isEmpty) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: _buildSupplierItemImageFallback(),
       );
     }
 
-    final assetPath = raw.startsWith('assets/') ? raw : 'assets/$raw';
-    return Image.asset(
-      assetPath,
+    // SmartImage сам различает data:image / base64: / http(s) / asset, поэтому
+    // достаточно нормализовать CSV и достроить префикс assets/ для локальных путей.
+    final isEncoded = raw.startsWith('base64:') || raw.startsWith('data:image');
+    if (!isEncoded && raw.contains(',')) {
+      raw = raw
+          .split(',')
+          .map((value) => value.trim())
+          .firstWhere((value) => value.isNotEmpty, orElse: () => '');
+      if (raw.isEmpty) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: _buildSupplierItemImageFallback(),
+        );
+      }
+    }
+
+    final path = (isEncoded || _isNetworkUrl(raw) || raw.startsWith('assets/'))
+        ? raw
+        : 'assets/$raw';
+
+    return SmartImage(
+      path: path,
       fit: BoxFit.cover,
-      cacheWidth: 240,
-      cacheHeight: 240,
-      errorBuilder: (_, __, ___) => _buildSupplierItemImageFallback(),
+      borderRadius: BorderRadius.circular(10),
+      placeholder: _buildSupplierItemImageFallback(),
     );
   }
 

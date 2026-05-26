@@ -61,29 +61,19 @@ void main() {
         await _warmupFonts();
         WidgetsBinding.instance.allowFirstFrame();
 
-        // Загружаем переменные окружения из .env файла
-        try {
-          await dotenv.load(fileName: '.env');
-          AppLogger.info('Environment variables loaded', scope: 'startup');
-        } catch (e) {
-          AppLogger.warning(
-            'Failed to load .env file, using defaults',
-            scope: 'startup',
-          );
-        }
+        // Первая волна инициализации идёт параллельно: dotenv не зависит
+        // от Prefs вовсе, AppSettings/AuthStorage/FavoritesStore читают Prefs
+        // независимо друг от друга. Каждая safeXxx ловит свои ошибки внутри,
+        // чтобы Future.wait не падал на первой неудаче.
+        await Future.wait([
+          _safeDotenvLoad(),
+          _safeAppSettingsInit(),
+          _safeAuthStorageInit(),
+          _safeFavoritesLoad(),
+        ]);
 
-        await AppSettings.init();
-        AppLogger.info('Application settings initialized', scope: 'startup');
-
-        await AuthStorage.init();
-        AppLogger.info(
-          'Auth storage initialized: remembered=${AuthStorage.isRemembered}, userId=${AuthStorage.userId}',
-          scope: 'startup',
-        );
-
-        await FavoritesStore.instance.loadFromStorage();
-        AppLogger.info('Favorites loaded from storage', scope: 'startup');
-
+        // Вторая волна последовательная: TemplatesStore и NotificationService
+        // читают userId из готового AuthStorage.
         await TemplatesStore.instance.loadForCurrentUser();
         AppLogger.info('Templates loaded for current user', scope: 'startup');
 
@@ -123,6 +113,67 @@ void main() {
       );
     },
   );
+}
+
+/// Безопасная загрузка .env: ошибка не валит остальные шаги первой волны.
+Future<void> _safeDotenvLoad() async {
+  try {
+    await dotenv.load(fileName: '.env');
+    AppLogger.info('Environment variables loaded', scope: 'startup');
+  } catch (e) {
+    AppLogger.warning(
+      'Failed to load .env file, using defaults',
+      scope: 'startup',
+    );
+  }
+}
+
+/// Безопасная инициализация AppSettings - ошибка не валит остальные шаги.
+Future<void> _safeAppSettingsInit() async {
+  try {
+    await AppSettings.init();
+    AppLogger.info('Application settings initialized', scope: 'startup');
+  } catch (e, st) {
+    AppLogger.error(
+      'AppSettings initialization failed',
+      scope: 'startup',
+      error: e,
+      stackTrace: st,
+    );
+  }
+}
+
+/// Безопасная инициализация AuthStorage - ошибка не валит остальные шаги.
+Future<void> _safeAuthStorageInit() async {
+  try {
+    await AuthStorage.init();
+    AppLogger.info(
+      'Auth storage initialized: remembered=${AuthStorage.isRemembered}, userId=${AuthStorage.userId}',
+      scope: 'startup',
+    );
+  } catch (e, st) {
+    AppLogger.error(
+      'AuthStorage initialization failed',
+      scope: 'startup',
+      error: e,
+      stackTrace: st,
+    );
+  }
+}
+
+/// Безопасная загрузка избранного - ошибка не валит остальные шаги.
+Future<void> _safeFavoritesLoad() async {
+  try {
+    await FavoritesStore.instance.loadFromStorage();
+    AppLogger.info('Favorites loaded from storage', scope: 'startup');
+  } catch (e, st) {
+    AppLogger.error(
+      'Favorites loading failed',
+      scope: 'startup',
+      error: e,
+      stackTrace: st,
+    );
+  }
 }
 
 /// Прогрев шрифтов: регистрируем их в FontEngine до первого кадра.

@@ -96,6 +96,11 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
   List<_QAListItem>? _cachedListItems;
   _TabType? _cachedListTab;
 
+  // Кэш разделения вопросов на отвеченные и без ответа.
+  // Без него _buildListItems делает два прохода .where(...).toList() на каждом ребилде.
+  List<Question>? _cachedUnanswered;
+  List<Question>? _cachedAnswered;
+
   @override
   void initState() {
     super.initState();
@@ -123,6 +128,23 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
   void _invalidateListItemsCache() {
     _cachedListItems = null;
     _cachedListTab = null;
+  }
+
+  void _invalidateQuestionsSplitCache() {
+    _cachedUnanswered = null;
+    _cachedAnswered = null;
+  }
+
+  List<Question> get _unansweredQuestions {
+    return _cachedUnanswered ??= _questions
+        .where((q) => !q.isAnswered)
+        .toList(growable: false);
+  }
+
+  List<Question> get _answeredQuestions {
+    return _cachedAnswered ??= _questions
+        .where((q) => q.isAnswered)
+        .toList(growable: false);
   }
 
   void _onScroll() {
@@ -260,6 +282,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             _page++;
           }
           _invalidateListItemsCache();
+          _invalidateQuestionsSplitCache();
         });
       }
     } catch (e) {
@@ -458,6 +481,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             _questionsById[updatedQuestion.id] = updatedQuestion;
             _calculateUnansweredCount();
             _invalidateListItemsCache();
+            _invalidateQuestionsSplitCache();
           });
         }
 
@@ -549,6 +573,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             _questions[questionIndex] = updatedQuestion;
             _questionsById[updatedQuestion.id] = updatedQuestion;
             _invalidateListItemsCache();
+            _invalidateQuestionsSplitCache();
           });
         }
 
@@ -966,8 +991,8 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     final items = <_QAListItem>[];
 
     if (_selectedTab == _TabType.questions) {
-      final unanswered = _questions.where((q) => !q.isAnswered).toList();
-      final answered = _questions.where((q) => q.isAnswered).toList();
+      final unanswered = _unansweredQuestions;
+      final answered = _answeredQuestions;
 
       if (unanswered.isNotEmpty) {
         items.add(_SectionHeaderItem('Вопросы без ответов', unanswered.length));

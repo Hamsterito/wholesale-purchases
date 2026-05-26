@@ -435,9 +435,11 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
             return _LoadMoreIndicator(visible: _isLoadingMore);
           }
           final supplier = visible[index];
-          return _SupplierListItem(
-            supplier: supplier,
-            onTap: () => _onSupplierTap(supplier),
+          return RepaintBoundary(
+            child: _SupplierListItem(
+              supplier: supplier,
+              onTap: () => _onSupplierTap(supplier),
+            ),
           );
         },
       ),

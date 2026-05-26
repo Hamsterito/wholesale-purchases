@@ -281,17 +281,19 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
               separatorBuilder: (_, __) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final entry = _addresses[index];
-                return _buildAddressCard(
-                  context: context,
-                  icon: _resolveIcon(entry),
-                  iconColor: context.colorPalette.accent,
-                  iconBgColor: primarySoft,
-                  title: entry.displayTitle,
-                  address: entry.displayAddress,
-                  isSelected: entry.id == _selectedAddressId,
-                  onTap: () => _selectAddress(entry.id),
-                  onEdit: () => _openAddressEditor(address: entry),
-                  onDelete: () => _confirmDelete(entry),
+                return RepaintBoundary(
+                  child: _buildAddressCard(
+                    context: context,
+                    icon: _resolveIcon(entry),
+                    iconColor: context.colorPalette.accent,
+                    iconBgColor: primarySoft,
+                    title: entry.displayTitle,
+                    address: entry.displayAddress,
+                    isSelected: entry.id == _selectedAddressId,
+                    onTap: () => _selectAddress(entry.id),
+                    onEdit: () => _openAddressEditor(address: entry),
+                    onDelete: () => _confirmDelete(entry),
+                  ),
                 );
               },
             ),

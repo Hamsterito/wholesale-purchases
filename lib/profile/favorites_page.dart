@@ -186,12 +186,15 @@ class _SuppliersTab extends StatelessWidget {
       itemCount: suppliers.length,
       itemBuilder: (context, index) {
         final supplier = suppliers[index];
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: SupplierCardFavorites(
-            supplier: supplier,
-            onTap: () => _openSupplierProfile(context, supplier),
-            onRemove: () => FavoritesStore.instance.removeSupplier(supplier.id),
+        return RepaintBoundary(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: SupplierCardFavorites(
+              supplier: supplier,
+              onTap: () => _openSupplierProfile(context, supplier),
+              onRemove: () =>
+                  FavoritesStore.instance.removeSupplier(supplier.id),
+            ),
           ),
         );
       },

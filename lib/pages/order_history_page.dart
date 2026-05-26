@@ -10,7 +10,7 @@ import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/main_bottom_nav.dart';
 import '../widgets/date_range_picker_dialog.dart' as custom_picker;
-import 'dart:convert';
+import '../widgets/smart_image.dart';
 import 'package:file_saver/file_saver.dart';
 
 class OrderHistoryPage extends StatefulWidget {
@@ -34,6 +34,26 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
   final Map<String, bool> _expandedItems = {};
   List<Order> _orders = [];
   bool _isLoading = true;
+
+  // Мемоизация _visibleOrders по identity текущего _orders. Каждое присваивание
+  // нового _orders в setState меняет identityHashCode и сам сбрасывает кэш.
+  List<Order>? _cachedVisibleOrders;
+  int _cachedOrdersIdentity = 0;
+
+  List<Order> get _visibleOrders {
+    final identity = identityHashCode(_orders);
+    final cached = _cachedVisibleOrders;
+    if (cached != null && _cachedOrdersIdentity == identity) {
+      return cached;
+    }
+    // Страница - архив завершённых заказов: показываем только принятые
+    // и отменённые. Активные живут отдельно в lib/profile/zakazi.dart.
+    final filtered = _orders.where((o) => _isHistoryStatus(o.status)).toList();
+    _cachedVisibleOrders = filtered;
+    _cachedOrdersIdentity = identity;
+    return filtered;
+  }
+
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   Color get _pageBg => _theme.scaffoldBackgroundColor;
@@ -317,9 +337,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
 
     // Страница - архив завершённых заказов: показываем только принятые
     // и отменённые. Активные живут отдельно в lib/profile/zakazi.dart.
-    final visibleOrders = _orders
-        .where((o) => _isHistoryStatus(o.status))
-        .toList();
+    final visibleOrders = _visibleOrders;
 
     return RefreshIndicator(
       color: context.colorPalette.accent,
@@ -340,7 +358,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
               padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
               itemCount: visibleOrders.length,
               itemBuilder: (context, index) =>
-                  _buildOrderItem(visibleOrders[index]),
+                  RepaintBoundary(child: _buildOrderItem(visibleOrders[index])),
             ),
     );
   }
@@ -731,34 +749,10 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     var raw = item.imageUrl.trim();
     if (raw.isEmpty) return _buildItemImageFallback();
 
-    if (raw.startsWith('base64:') || raw.startsWith('data:image')) {
-      try {
-        String base64Part = raw;
-
-        if (raw.startsWith('data:image')) {
-          final comma = raw.indexOf(',');
-          if (comma != -1) base64Part = raw.substring(comma + 1);
-        } else {
-          base64Part = raw.substring('base64:'.length);
-
-          final colon = base64Part.indexOf(':');
-          if (colon != -1) {
-            base64Part = base64Part.substring(colon + 1);
-          }
-        }
-
-        final bytes = base64Decode(base64Part);
-        return Image.memory(
-          bytes,
-          fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => _buildItemImageFallback(),
-        );
-      } catch (_) {
-        return _buildItemImageFallback();
-      }
-    }
-
-    if (raw.contains(',')) {
+    // SmartImage сам различает data:image / base64: / http(s) / asset, поэтому
+    // достаточно нормализовать CSV и достроить префикс assets/ для локальных путей.
+    final isEncoded = raw.startsWith('base64:') || raw.startsWith('data:image');
+    if (!isEncoded && raw.contains(',')) {
       raw = raw
           .split(',')
           .map((e) => e.trim())
@@ -766,37 +760,14 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       if (raw.isEmpty) return _buildItemImageFallback();
     }
 
-    if (_isNetworkUrl(raw)) {
-      return Image.network(
-        raw,
-        fit: BoxFit.cover,
-        cacheWidth: 240,
-        cacheHeight: 240,
-        errorBuilder: (_, __, ___) => _buildItemImageFallback(),
-      );
-    }
+    final path = (isEncoded || _isNetworkUrl(raw) || raw.startsWith('assets/'))
+        ? raw
+        : 'assets/$raw';
 
-    // Если это base64 или сетевой URL
-    if (raw.isNotEmpty && !raw.startsWith('assets/')) {
-      try {
-        final bytes = base64Decode(raw);
-        return Image.memory(
-          bytes,
-          fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => _buildItemImageFallback(),
-        );
-      } catch (_) {}
-    }
-
-    if (raw.isEmpty) return _buildItemImageFallback();
-
-    final assetPath = raw.startsWith('assets/') ? raw : 'assets/$raw';
-    return Image.asset(
-      assetPath,
+    return SmartImage(
+      path: path,
       fit: BoxFit.cover,
-      cacheWidth: 240,
-      cacheHeight: 240,
-      errorBuilder: (_, __, ___) => _buildItemImageFallback(),
+      placeholder: _buildItemImageFallback(),
     );
   }
 

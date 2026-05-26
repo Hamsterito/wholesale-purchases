@@ -285,10 +285,12 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
         itemBuilder: (_, i) {
           final m = filtered[i];
           final busy = _busyIds.contains(m.id);
-          return _ModeratorRow(
-            moderator: m,
-            isBusy: busy,
-            onDelete: busy ? null : () => _confirmAndDelete(m),
+          return RepaintBoundary(
+            child: _ModeratorRow(
+              moderator: m,
+              isBusy: busy,
+              onDelete: busy ? null : () => _confirmAndDelete(m),
+            ),
           );
         },
       ),

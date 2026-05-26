@@ -52,11 +52,16 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   final ScrollController _scrollController = ScrollController();
   final GlobalKey _similarProductsKey = GlobalKey();
   List<ReviewEntry> _productReviews = const <ReviewEntry>[];
-  bool _isLoadingReviews = false;
+  // Стартуем с true - тогда первый кадр сразу рисует CircularProgressIndicator,
+  // не дожидаясь setState из отложенного _loadProductReviews.
+  bool _isLoadingReviews = true;
   List<Question> _productQuestions = [];
-  bool _isLoadingQuestions = false;
+  bool _isLoadingQuestions = true;
   int _totalQuestions = 0;
   TabController? _tabController;
+  // Индекс активной вкладки в отдельном ValueNotifier - меняется на
+  // переключении табов, без полного setState всей страницы.
+  late final ValueNotifier<int> _selectedTabIndex;
   bool _isFavorite = false;
   // Избранное компании-поставщика - отдельный флаг, не связанный с избранным товара.
   bool _isSupplierFavorite = false;
@@ -95,10 +100,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _tabController!.addListener(() {
-      if (_tabController!.indexIsChanging) return;
-      setState(() {});
-    });
+    _selectedTabIndex = ValueNotifier<int>(_tabController!.index);
+    _tabController!.addListener(_onTabIndexChanged);
     _scrollController.addListener(_handleScroll);
     _pageController = PageController();
     _reviewsPreviewController = PageController(viewportFraction: 0.94);
@@ -128,18 +131,23 @@ class _ProductDetailPageState extends State<ProductDetailPage>
         _selectedSupplierId!,
       );
     }
-    _loadProductReviews();
-    _loadProductQuestions();
-    _refreshSupplierStats();
+    // Откладываем сетевые загрузки на следующий кадр - первый билд страницы
+    // не блокируется, секции отзывов/вопросов сразу показывают индикатор
+    // загрузки благодаря _isLoadingReviews/_isLoadingQuestions = true.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
+      _loadProductReviews();
+      _loadProductQuestions();
+      _refreshSupplierStats();
       _updateBottomAffordances();
     });
   }
 
   @override
   void dispose() {
+    _tabController!.removeListener(_onTabIndexChanged);
     _tabController!.dispose();
+    _selectedTabIndex.dispose();
     _scrollController.dispose();
     _pageController.dispose();
     _reviewsPreviewController.dispose();
@@ -148,6 +156,12 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     _showPersistentPriceBar.dispose();
     _showScrollToTopButton.dispose();
     super.dispose();
+  }
+
+  void _onTabIndexChanged() {
+    if (_tabController!.indexIsChanging) return;
+    if (_selectedTabIndex.value == _tabController!.index) return;
+    _selectedTabIndex.value = _tabController!.index;
   }
 
   @override
@@ -464,11 +478,16 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                         ),
                         Container(
                           color: _pageBg,
-                          child: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 200),
-                            child: _tabController!.index == 0
-                                ? _buildReviewsPreview()
-                                : _buildQuestionsPreview(),
+                          child: ValueListenableBuilder<int>(
+                            valueListenable: _selectedTabIndex,
+                            builder: (context, index, _) {
+                              return AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 200),
+                                child: index == 0
+                                    ? _buildReviewsPreview()
+                                    : _buildQuestionsPreview(),
+                              );
+                            },
                           ),
                         ),
                       ],

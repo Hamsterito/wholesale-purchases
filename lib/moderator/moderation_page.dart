@@ -1,4 +1,6 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
@@ -30,6 +32,8 @@ class _ModerationPageState extends State<ModerationPage> {
   final Set<String> _updatingIds = {};
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
+  Timer? _searchDebounce;
+  static const Duration _searchDebounceDuration = Duration(milliseconds: 300);
 
   @override
   void initState() {
@@ -397,8 +401,19 @@ class _ModerationPageState extends State<ModerationPage> {
         .toList();
   }
 
+  // Дебаунсим ввод 300мс - иначе setState и пересчёт фильтра дёргаются на каждый
+  // символ при быстром наборе.
+  void _onSearchChanged(String value) {
+    _searchDebounce?.cancel();
+    _searchDebounce = Timer(_searchDebounceDuration, () {
+      if (!mounted) return;
+      setState(() => _searchQuery = value);
+    });
+  }
+
   @override
   void dispose() {
+    _searchDebounce?.cancel();
     _searchController.dispose();
     super.dispose();
   }
@@ -491,7 +506,7 @@ class _ModerationPageState extends State<ModerationPage> {
               child: TextField(
                 controller: _searchController,
                 textAlignVertical: TextAlignVertical.center,
-                onChanged: (value) => setState(() => _searchQuery = value),
+                onChanged: _onSearchChanged,
                 decoration: InputDecoration(
                   isDense: true,
                   hintText: 'Поиск: товар, поставщик, категория',
@@ -511,6 +526,7 @@ class _ModerationPageState extends State<ModerationPage> {
                       : IconButton(
                           tooltip: 'Очистить',
                           onPressed: () {
+                            _searchDebounce?.cancel();
                             _searchController.clear();
                             setState(() => _searchQuery = '');
                           },
@@ -588,315 +604,331 @@ class _ModerationPageState extends State<ModerationPage> {
                                   ),
                                 ),
                               );
-                              return Card(
-                                key: ValueKey<String>(
-                                  'moderation-${product.id}',
-                                ),
-                                margin: const EdgeInsets.only(top: 1),
-                                elevation: 0,
-                                shadowColor: colorScheme.shadow.withValues(
-                                  alpha: 0.08,
-                                ),
-                                color: colorScheme.surface,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  side: BorderSide(
-                                    color: colorScheme.outlineVariant,
+                              return RepaintBoundary(
+                                child: Card(
+                                  key: ValueKey<String>(
+                                    'moderation-${product.id}',
                                   ),
-                                ),
-                                clipBehavior: Clip.antiAlias,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          if (showImage) ...[
-                                            SmartImage(
-                                              path: product.imageUrls.first,
-                                              width: 72,
-                                              height: 72,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
-                                            const SizedBox(width: 12),
-                                          ],
-                                          Expanded(
-                                            child: LayoutBuilder(
-                                              builder: (context, constraints) {
-                                                final isCompact =
-                                                    constraints.maxWidth < 230;
-                                                final title = Text(
-                                                  product.name,
-                                                  maxLines: isCompact ? 2 : 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                );
+                                  margin: const EdgeInsets.only(top: 1),
+                                  elevation: 0,
+                                  shadowColor: colorScheme.shadow.withValues(
+                                    alpha: 0.08,
+                                  ),
+                                  color: colorScheme.surface,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                    side: BorderSide(
+                                      color: colorScheme.outlineVariant,
+                                    ),
+                                  ),
+                                  clipBehavior: Clip.antiAlias,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            if (showImage) ...[
+                                              SmartImage(
+                                                path: product.imageUrls.first,
+                                                width: 72,
+                                                height: 72,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              const SizedBox(width: 12),
+                                            ],
+                                            Expanded(
+                                              child: LayoutBuilder(
+                                                builder: (context, constraints) {
+                                                  final isCompact =
+                                                      constraints.maxWidth <
+                                                      230;
+                                                  final title = Text(
+                                                    product.name,
+                                                    maxLines: isCompact ? 2 : 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  );
 
-                                                if (isCompact) {
+                                                  if (isCompact) {
+                                                    return Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        title,
+                                                        const SizedBox(
+                                                          height: 8,
+                                                        ),
+                                                        statusChip,
+                                                      ],
+                                                    );
+                                                  }
+
                                                   return Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      title,
-                                                      const SizedBox(height: 8),
-                                                      statusChip,
+                                                      Row(
+                                                        children: [
+                                                          Expanded(
+                                                            child: title,
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 8,
+                                                          ),
+                                                          Flexible(
+                                                            child: Align(
+                                                              alignment: Alignment
+                                                                  .centerRight,
+                                                              child: statusChip,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ],
                                                   );
-                                                }
-
-                                                return Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Expanded(child: title),
-                                                        const SizedBox(
-                                                          width: 8,
-                                                        ),
-                                                        Flexible(
-                                                          child: Align(
-                                                            alignment: Alignment
-                                                                .centerRight,
-                                                            child: statusChip,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      if (product.description
-                                          .trim()
-                                          .isNotEmpty) ...[
-                                        const SizedBox(height: 10),
-                                        Text(
-                                          product.description.trim(),
-                                          maxLines: 3,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: colorScheme.onSurfaceVariant,
-                                          ),
-                                        ),
-                                      ],
-                                      const SizedBox(height: 12),
-                                      Wrap(
-                                        spacing: 8,
-                                        runSpacing: 8,
-                                        children: [
-                                          _ModerationInfoPill(
-                                            icon: Icons.storefront_outlined,
-                                            text: product.supplierName,
-                                          ),
-                                          ..._buildCategoryPills(product),
-                                          _ModerationInfoPill(
-                                            icon: Icons.inventory_2_outlined,
-                                            text:
-                                                'Остаток: ${product.stockQuantity} шт.',
-                                          ),
-                                          if (product.deliveryBadge
-                                                  .trim()
-                                                  .isNotEmpty ||
-                                              product.deliveryDate
-                                                  .trim()
-                                                  .isNotEmpty)
-                                            _ModerationInfoPill(
-                                              icon:
-                                                  Icons.local_shipping_outlined,
-                                              text: _deliveryDisplay(product),
-                                            ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 12),
-                                      Container(
-                                        width: double.infinity,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          color:
-                                              context.colorPalette.accentMist,
-                                          borderRadius: BorderRadius.circular(
-                                            12,
-                                          ),
-                                          border: Border.all(
-                                            color: context.colorPalette.line,
-                                          ),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            _ModerationMetricRow(
-                                              label: 'Цена',
-                                              value:
-                                                  '${product.pricePerUnit} ₸ за единицу',
-                                            ),
-                                            const SizedBox(height: 8),
-                                            _ModerationMetricRow(
-                                              label: 'Партия',
-                                              value: _quantityLabel(product),
+                                                },
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ),
-                                      const SizedBox(height: 12),
-                                      _ModerationAboutTile(
-                                        product: product,
-                                        onTap: () => _openAboutSheet(product),
-                                      ),
-                                      if (product.moderationComment.isNotEmpty)
+                                        if (product.description
+                                            .trim()
+                                            .isNotEmpty) ...[
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            product.description.trim(),
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color:
+                                                  colorScheme.onSurfaceVariant,
+                                            ),
+                                          ),
+                                        ],
+                                        const SizedBox(height: 12),
+                                        Wrap(
+                                          spacing: 8,
+                                          runSpacing: 8,
+                                          children: [
+                                            _ModerationInfoPill(
+                                              icon: Icons.storefront_outlined,
+                                              text: product.supplierName,
+                                            ),
+                                            ..._buildCategoryPills(product),
+                                            _ModerationInfoPill(
+                                              icon: Icons.inventory_2_outlined,
+                                              text:
+                                                  'Остаток: ${product.stockQuantity} шт.',
+                                            ),
+                                            if (product.deliveryBadge
+                                                    .trim()
+                                                    .isNotEmpty ||
+                                                product.deliveryDate
+                                                    .trim()
+                                                    .isNotEmpty)
+                                              _ModerationInfoPill(
+                                                icon: Icons
+                                                    .local_shipping_outlined,
+                                                text: _deliveryDisplay(product),
+                                              ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 12),
                                         Container(
                                           width: double.infinity,
-                                          margin: const EdgeInsets.only(
-                                            top: 12,
-                                          ),
                                           padding: const EdgeInsets.all(12),
                                           decoration: BoxDecoration(
-                                            color: statusColor.withValues(
-                                              alpha: 0.09,
-                                            ),
+                                            color:
+                                                context.colorPalette.accentMist,
                                             borderRadius: BorderRadius.circular(
                                               12,
                                             ),
                                             border: Border.all(
-                                              color: statusColor.withValues(
-                                                alpha: 0.35,
-                                              ),
+                                              color: context.colorPalette.line,
                                             ),
                                           ),
-                                          child: Text(
-                                            'Комментарий модерации: ${product.moderationComment}',
-                                            style: TextStyle(
-                                              color:
-                                                  colorScheme.onSurfaceVariant,
-                                              fontSize: 13,
-                                            ),
+                                          child: Column(
+                                            children: [
+                                              _ModerationMetricRow(
+                                                label: 'Цена',
+                                                value:
+                                                    '${product.pricePerUnit} ₸ за единицу',
+                                              ),
+                                              const SizedBox(height: 8),
+                                              _ModerationMetricRow(
+                                                label: 'Партия',
+                                                value: _quantityLabel(product),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      const SizedBox(height: 12),
-                                      LayoutBuilder(
-                                        builder: (context, constraints) {
-                                          final isCompact =
-                                              constraints.maxWidth < 320;
-                                          final deleteButton = OutlinedButton.icon(
-                                            onPressed: isUpdating
-                                                ? null
-                                                : () =>
-                                                      _deleteProductForViolation(
-                                                        product,
-                                                      ),
-                                            style: OutlinedButton.styleFrom(
-                                              foregroundColor: const Color(
-                                                0xFFB91C1C,
+                                        const SizedBox(height: 12),
+                                        _ModerationAboutTile(
+                                          product: product,
+                                          onTap: () => _openAboutSheet(product),
+                                        ),
+                                        if (product
+                                            .moderationComment
+                                            .isNotEmpty)
+                                          Container(
+                                            width: double.infinity,
+                                            margin: const EdgeInsets.only(
+                                              top: 12,
+                                            ),
+                                            padding: const EdgeInsets.all(12),
+                                            decoration: BoxDecoration(
+                                              color: statusColor.withValues(
+                                                alpha: 0.09,
                                               ),
-                                              side: BorderSide(
-                                                color:
-                                                    context.colorPalette.error,
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              border: Border.all(
+                                                color: statusColor.withValues(
+                                                  alpha: 0.35,
+                                                ),
                                               ),
                                             ),
-                                            icon: isUpdating
-                                                ? const SizedBox(
-                                                    width: 18,
-                                                    height: 18,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                          strokeWidth: 2,
+                                            child: Text(
+                                              'Комментарий модерации: ${product.moderationComment}',
+                                              style: TextStyle(
+                                                color: colorScheme
+                                                    .onSurfaceVariant,
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                          ),
+                                        const SizedBox(height: 12),
+                                        LayoutBuilder(
+                                          builder: (context, constraints) {
+                                            final isCompact =
+                                                constraints.maxWidth < 320;
+                                            final deleteButton = OutlinedButton.icon(
+                                              onPressed: isUpdating
+                                                  ? null
+                                                  : () =>
+                                                        _deleteProductForViolation(
+                                                          product,
                                                         ),
-                                                  )
-                                                : const Icon(
-                                                    Icons
-                                                        .delete_outline_rounded,
+                                              style: OutlinedButton.styleFrom(
+                                                foregroundColor: const Color(
+                                                  0xFFB91C1C,
+                                                ),
+                                                side: BorderSide(
+                                                  color: context
+                                                      .colorPalette
+                                                      .error,
+                                                ),
+                                              ),
+                                              icon: isUpdating
+                                                  ? const SizedBox(
+                                                      width: 18,
+                                                      height: 18,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                            strokeWidth: 2,
+                                                          ),
+                                                    )
+                                                  : const Icon(
+                                                      Icons
+                                                          .delete_outline_rounded,
+                                                      size: 18,
+                                                    ),
+                                              label: const Text(
+                                                'Удалить за нарушение',
+                                              ),
+                                            );
+
+                                            // На этапе pending кнопку «Удалить за нарушение»
+                                            // не показываем - для отказа есть «Отклонить»,
+                                            // удаление имеет смысл только для уже опубликованных
+                                            // или ранее отклонённых товаров.
+                                            if (product.moderationStatus !=
+                                                'pending') {
+                                              return SizedBox(
+                                                width: double.infinity,
+                                                child: deleteButton,
+                                              );
+                                            }
+
+                                            final approveButton =
+                                                ElevatedButton.icon(
+                                                  onPressed: isUpdating
+                                                      ? null
+                                                      : () => _updateStatus(
+                                                          product,
+                                                          'approved',
+                                                        ),
+                                                  icon: const Icon(
+                                                    Icons.check_circle_outline,
                                                     size: 18,
                                                   ),
-                                            label: const Text(
-                                              'Удалить за нарушение',
-                                            ),
-                                          );
-
-                                          // На этапе pending кнопку «Удалить за нарушение»
-                                          // не показываем - для отказа есть «Отклонить»,
-                                          // удаление имеет смысл только для уже опубликованных
-                                          // или ранее отклонённых товаров.
-                                          if (product.moderationStatus !=
-                                              'pending') {
-                                            return SizedBox(
-                                              width: double.infinity,
-                                              child: deleteButton,
-                                            );
-                                          }
-
-                                          final approveButton =
-                                              ElevatedButton.icon(
-                                                onPressed: isUpdating
-                                                    ? null
-                                                    : () => _updateStatus(
-                                                        product,
-                                                        'approved',
+                                                  label: const Text('Одобрить'),
+                                                );
+                                            final rejectButton =
+                                                OutlinedButton.icon(
+                                                  onPressed: isUpdating
+                                                      ? null
+                                                      : () => _updateStatus(
+                                                          product,
+                                                          'rejected',
+                                                        ),
+                                                  style:
+                                                      OutlinedButton.styleFrom(
+                                                        foregroundColor:
+                                                            const Color(
+                                                              0xFFEF4444,
+                                                            ),
+                                                        side: BorderSide(
+                                                          color: context
+                                                              .colorPalette
+                                                              .error,
+                                                        ),
                                                       ),
-                                                icon: const Icon(
-                                                  Icons.check_circle_outline,
-                                                  size: 18,
-                                                ),
-                                                label: const Text('Одобрить'),
-                                              );
-                                          final rejectButton =
-                                              OutlinedButton.icon(
-                                                onPressed: isUpdating
-                                                    ? null
-                                                    : () => _updateStatus(
-                                                        product,
-                                                        'rejected',
-                                                      ),
-                                                style: OutlinedButton.styleFrom(
-                                                  foregroundColor: const Color(
-                                                    0xFFEF4444,
+                                                  icon: const Icon(
+                                                    Icons.highlight_off,
+                                                    size: 18,
                                                   ),
-                                                  side: BorderSide(
-                                                    color: context
-                                                        .colorPalette
-                                                        .error,
+                                                  label: const Text(
+                                                    'Отклонить',
                                                   ),
-                                                ),
-                                                icon: const Icon(
-                                                  Icons.highlight_off,
-                                                  size: 18,
-                                                ),
-                                                label: const Text('Отклонить'),
-                                              );
+                                                );
 
-                                          if (isCompact) {
-                                            return Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.stretch,
+                                            if (isCompact) {
+                                              return Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.stretch,
+                                                children: [
+                                                  approveButton,
+                                                  const SizedBox(height: 8),
+                                                  rejectButton,
+                                                ],
+                                              );
+                                            }
+
+                                            return Row(
                                               children: [
-                                                approveButton,
-                                                const SizedBox(height: 8),
-                                                rejectButton,
+                                                Expanded(child: approveButton),
+                                                const SizedBox(width: 12),
+                                                Expanded(child: rejectButton),
                                               ],
                                             );
-                                          }
-
-                                          return Row(
-                                            children: [
-                                              Expanded(child: approveButton),
-                                              const SizedBox(width: 12),
-                                              Expanded(child: rejectButton),
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                    ],
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );

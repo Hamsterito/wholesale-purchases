@@ -3592,21 +3592,28 @@ void _registerMutationRoutes(Router router, Connection connection) {
         59,
       );
 
-      // Получаем данные заказов
+      // Берём только финально закрытые заказы покупателя - статус "Принят".
+      // Поставщик строки берём из order_items: либо supplier_user_id (новые
+      // позиции), либо fallback на supplier_name (исторические данные без id).
       final result = await connection.execute(
         Sql.named('''
           SELECT
             o.id as order_id,
             o.created_at as order_date,
             o.status as order_status,
-            u.name as client_name,
             oi.name as service_name,
             oi.price as price,
-            oi.quantity as quantity
+            oi.quantity as quantity,
+            COALESCE(NULLIF(su.name, ''), NULLIF(su.supplier_name, ''), oi.supplier_name, '') as supplier_name
           FROM orders o
-          JOIN users u ON o.user_id = u.id
           JOIN order_items oi ON o.id = oi.order_id
-          WHERE o.user_id = @user_id AND o.created_at >= @start_date AND o.created_at <= @end_date
+          LEFT JOIN users su ON su.id = oi.supplier_user_id
+          WHERE o.user_id = @user_id
+            AND o.created_at >= @start_date
+            AND o.created_at <= @end_date
+            AND LOWER(TRIM(o.status)) IN (
+              'принят', 'принята', 'принято', 'приняты', 'accepted', 'received'
+            )
           ORDER BY o.id, oi.id
         '''),
         parameters: {
@@ -3616,60 +3623,38 @@ void _registerMutationRoutes(Router router, Connection connection) {
         },
       );
 
-      // Генерируем Excel
       final excel = Excel.createExcel();
       final sheet = excel['Orders'];
 
-      // Добавляем заголовки
-      sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0))
-          .value = TextCellValue(
+      const headers = <String>[
         'ID заказа',
-      );
-      sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: 0))
-          .value = TextCellValue(
-        'Клиент',
-      );
-      sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: 0))
-          .value = TextCellValue(
+        'Поставщик',
         'Товар',
-      );
-      sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: 0))
-          .value = TextCellValue(
+        'Количество',
         'Цена',
-      );
-      sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: 0))
-          .value = TextCellValue(
+        'Сумма',
         'Дата',
-      );
-      sheet
-          .cell(CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: 0))
-          .value = TextCellValue(
         'Статус',
-      );
-
-      // Стилизуем заголовки
-      for (var col = 0; col < 6; col++) {
+      ];
+      for (var col = 0; col < headers.length; col++) {
         final cell = sheet.cell(
           CellIndex.indexByColumnRow(columnIndex: col, rowIndex: 0),
         );
+        cell.value = TextCellValue(headers[col]);
         cell.cellStyle = CellStyle(
           bold: true,
           fontFamily: getFontFamily(FontFamily.Calibri),
         );
       }
 
-      // Добавляем данные
       for (var i = 0; i < result.length; i++) {
         final row = result[i].toColumnMap();
         final orderId = row['order_id'].toString();
-        final clientName = row['client_name'] ?? '';
+        final supplierName = row['supplier_name'] ?? '';
         final serviceName = row['service_name'] ?? '';
         final price = _toPositiveInt(row['price']);
+        final quantity = _toPositiveInt(row['quantity'], fallback: 1);
+        final total = price * quantity;
         final orderDate = row['order_date'];
         final orderStatus = row['order_status'] ?? '';
 
@@ -3679,40 +3664,66 @@ void _registerMutationRoutes(Router router, Connection connection) {
               '${orderDate.day.toString().padLeft(2, '0')}.${orderDate.month.toString().padLeft(2, '0')}.${orderDate.year}';
         }
 
+        final rowIndex = i + 1;
         sheet
-            .cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: i + 1))
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: rowIndex),
+            )
             .value = TextCellValue(
           orderId,
         );
         sheet
-            .cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: i + 1))
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: rowIndex),
+            )
             .value = TextCellValue(
-          clientName,
+          supplierName.toString(),
         );
         sheet
-            .cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: i + 1))
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: rowIndex),
+            )
             .value = TextCellValue(
-          serviceName,
+          serviceName.toString(),
         );
         sheet
-            .cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: i + 1))
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: rowIndex),
+            )
+            .value = IntCellValue(
+          quantity,
+        );
+        sheet
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: rowIndex),
+            )
             .value = IntCellValue(
           price,
         );
         sheet
-            .cell(CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: i + 1))
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: rowIndex),
+            )
+            .value = IntCellValue(
+          total,
+        );
+        sheet
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 6, rowIndex: rowIndex),
+            )
             .value = TextCellValue(
           formattedDate,
         );
         sheet
-            .cell(CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: i + 1))
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: rowIndex),
+            )
             .value = TextCellValue(
-          orderStatus,
+          orderStatus.toString(),
         );
       }
 
-      // Автоподбор ширины колонок
-      for (var col = 0; col < 6; col++) {
+      for (var col = 0; col < headers.length; col++) {
         sheet.setColumnAutoFit(col);
       }
 
@@ -3730,6 +3741,224 @@ void _registerMutationRoutes(Router router, Connection connection) {
       );
     } catch (e, st) {
       print('Ошибка экспорта заказов: $e\n$st');
+      return _jsonError('Ошибка сервера', 500);
+    }
+  });
+
+  router.post('/export/supplier/orders/excel', (Request request) async {
+    try {
+      final body = await request.readAsString();
+      final decoded = jsonDecode(body);
+      if (decoded is! Map) {
+        return _jsonError('Ожидается JSON объект', 400);
+      }
+      final payload = Map<String, dynamic>.from(decoded);
+
+      final userId = _toPositiveInt(payload['userId']);
+      final startDateRaw = payload['startDate'];
+      final endDateRaw = payload['endDate'];
+
+      if (userId == 0) {
+        return _jsonError('userId обязателен', 400);
+      }
+      if (startDateRaw == null || endDateRaw == null) {
+        return _jsonError('startDate и endDate обязательны', 400);
+      }
+
+      final startDateRawDt = _toNullableDateTime(startDateRaw);
+      final endDateRawDt = _toNullableDateTime(endDateRaw);
+      if (startDateRawDt == null || endDateRawDt == null) {
+        return _jsonError('Неверный формат дат', 400);
+      }
+      if (startDateRawDt.isAfter(endDateRawDt)) {
+        return _jsonError('startDate не может быть позже endDate', 400);
+      }
+
+      final startDateTime = DateTime(
+        startDateRawDt.year,
+        startDateRawDt.month,
+        startDateRawDt.day,
+        0,
+        0,
+        0,
+      );
+      final endDateTime = DateTime(
+        endDateRawDt.year,
+        endDateRawDt.month,
+        endDateRawDt.day,
+        23,
+        59,
+        59,
+      );
+
+      // Проверяем, что пользователь существует и это именно поставщик.
+      // Без этого любой userId смог бы выгрузить чужие позиции.
+      final userResult = await connection.execute(
+        Sql.named('SELECT id, role, supplier_name FROM users WHERE id = @id'),
+        parameters: {'id': userId},
+      );
+      if (userResult.isEmpty) {
+        return _jsonError('Пользователь не найден', 404);
+      }
+      final user = userResult.first.toColumnMap();
+      if ((user['role'] ?? _defaultRole) != 'supplier') {
+        return Response.forbidden('Доступ только для поставщика');
+      }
+      final supplierName = (user['supplier_name'] ?? '').toString();
+
+      // В одном заказе могут быть позиции разных поставщиков - выгружаем
+      // только свои. Историческим позициям без supplier_user_id матчимся
+      // по supplier_name (тот же fallback используется в /supplier/orders).
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT
+            o.id as order_id,
+            o.created_at as order_date,
+            o.status as order_status,
+            COALESCE(NULLIF(bu.name, ''), '') as buyer_name,
+            oi.name as service_name,
+            oi.price as price,
+            oi.quantity as quantity
+          FROM order_items oi
+          JOIN orders o ON o.id = oi.order_id
+          LEFT JOIN users bu ON bu.id = o.user_id
+          WHERE (
+              oi.supplier_user_id = @supplier_user_id
+              OR (oi.supplier_user_id IS NULL AND oi.supplier_name = @supplier_name)
+            )
+            AND o.created_at >= @start_date
+            AND o.created_at <= @end_date
+            AND LOWER(TRIM(o.status)) IN (
+              'принят', 'принята', 'принято', 'приняты', 'accepted', 'received'
+            )
+          ORDER BY o.id, oi.id
+        '''),
+        parameters: {
+          'supplier_user_id': userId,
+          'supplier_name': supplierName,
+          'start_date': startDateTime.toIso8601String(),
+          'end_date': endDateTime.toIso8601String(),
+        },
+      );
+
+      final excel = Excel.createExcel();
+      final sheet = excel['SupplierOrders'];
+
+      const headers = <String>[
+        'ID заказа',
+        'Покупатель',
+        'Товар',
+        'Количество',
+        'Цена',
+        'Сумма',
+        'Дата',
+        'Статус',
+      ];
+      for (var col = 0; col < headers.length; col++) {
+        final cell = sheet.cell(
+          CellIndex.indexByColumnRow(columnIndex: col, rowIndex: 0),
+        );
+        cell.value = TextCellValue(headers[col]);
+        cell.cellStyle = CellStyle(
+          bold: true,
+          fontFamily: getFontFamily(FontFamily.Calibri),
+        );
+      }
+
+      for (var i = 0; i < result.length; i++) {
+        final row = result[i].toColumnMap();
+        final orderId = row['order_id'].toString();
+        final buyerName = (row['buyer_name'] ?? '').toString();
+        final serviceName = (row['service_name'] ?? '').toString();
+        final price = _toPositiveInt(row['price']);
+        final quantity = _toPositiveInt(row['quantity'], fallback: 1);
+        final total = price * quantity;
+        final orderDate = row['order_date'];
+        final orderStatus = (row['order_status'] ?? '').toString();
+
+        String formattedDate = '';
+        if (orderDate is DateTime) {
+          formattedDate =
+              '${orderDate.day.toString().padLeft(2, '0')}.${orderDate.month.toString().padLeft(2, '0')}.${orderDate.year}';
+        }
+
+        final rowIndex = i + 1;
+        sheet
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: rowIndex),
+            )
+            .value = TextCellValue(
+          orderId,
+        );
+        sheet
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: rowIndex),
+            )
+            .value = TextCellValue(
+          buyerName,
+        );
+        sheet
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: rowIndex),
+            )
+            .value = TextCellValue(
+          serviceName,
+        );
+        sheet
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: rowIndex),
+            )
+            .value = IntCellValue(
+          quantity,
+        );
+        sheet
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: rowIndex),
+            )
+            .value = IntCellValue(
+          price,
+        );
+        sheet
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: rowIndex),
+            )
+            .value = IntCellValue(
+          total,
+        );
+        sheet
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 6, rowIndex: rowIndex),
+            )
+            .value = TextCellValue(
+          formattedDate,
+        );
+        sheet
+            .cell(
+              CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: rowIndex),
+            )
+            .value = TextCellValue(
+          orderStatus,
+        );
+      }
+
+      for (var col = 0; col < headers.length; col++) {
+        sheet.setColumnAutoFit(col);
+      }
+
+      final bytes = excel.encode();
+
+      return Response(
+        200,
+        body: bytes,
+        headers: {
+          'content-type':
+              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'content-disposition':
+              'attachment; filename="supplier_orders_export.xlsx"',
+        },
+      );
+    } catch (e, st) {
+      print('Ошибка экспорта заказов поставщика: $e\n$st');
       return _jsonError('Ошибка сервера', 500);
     }
   });
