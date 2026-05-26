@@ -2658,30 +2658,25 @@ class ApiService {
       throw ArgumentError('userId должен быть положительным');
     }
 
-    // Запускаем только те запросы, которые нужны для роли пользователя
+    // Любая роль может быть покупателем - фильтруем по роли только модерационный запрос.
     final futures = await Future.wait([
       _fetchUnreadMessagesCount(userId),
-      // У покупателя и поставщика заказы лежат в разных эндпоинтах,
-      // поэтому используем разные методы загрузки
-      role == 'buyer'
-          ? _fetchPendingOrdersCount(userId)
-          : role == 'supplier'
-          ? _fetchPendingSupplierOrdersCount(userId)
-          : Future.value(0),
-      role == 'buyer' ? _fetchPendingReviewsCount(userId) : Future.value(0),
-      role == 'supplier' || role == 'moderator'
+      _fetchPendingOrdersCount(userId),
+      _fetchPendingSupplierOrdersCount(userId),
+      _fetchPendingReviewsCount(userId),
+      role == 'supplier' || role == 'moderator' || role == 'super_admin'
           ? _fetchPendingModerationsCount()
           : Future.value(0),
-      // Доставленные заказы — только для покупателя
-      role == 'buyer' ? _fetchDeliveredOrdersCount(userId) : Future.value(0),
+      _fetchDeliveredOrdersCount(userId),
     ]);
 
     return NotificationCounts(
       unreadMessages: futures[0],
-      pendingOrders: futures[1],
-      pendingReviews: futures[2],
-      pendingModerations: futures[3],
-      deliveredOrders: futures[4],
+      pendingBuyerOrders: futures[1],
+      pendingSupplierOrders: futures[2],
+      pendingReviews: futures[3],
+      pendingModerations: futures[4],
+      deliveredOrders: futures[5],
     );
   }
 
@@ -2703,39 +2698,30 @@ class ApiService {
     }
   }
 
-  /// Считает заказы в активных статусах (не завершены и не отменены).
-  /// Принятые заказы ("Принят", "accepted", "received") считаются финальными
-  /// и не попадают в счётчик ожидающих.
+  /// Считает покупательские заказы со статусом «В пути» - те, что ждут действия покупателя.
   static Future<int> _fetchPendingOrdersCount(int userId) async {
     try {
       final orders = await getOrders(userId: userId).timeout(
         const Duration(seconds: 5),
         onTimeout: () => throw Exception('Таймаут'),
       );
-      return orders.where((o) {
-        final s = o.status.trim().toLowerCase();
-        final isDone =
-            s == 'доставлен' ||
-            s == 'получено' ||
-            s == 'delivered' ||
-            s == 'принят' ||
-            s == 'принята' ||
-            s == 'принято' ||
-            s == 'приняты' ||
-            s == 'accepted' ||
-            s == 'received' ||
-            s == 'завершено' ||
-            s == 'completed';
-        final isCancelled =
-            s.contains('отмена') ||
-            s == 'cancelled' ||
-            s == 'отменён' ||
-            s == 'отменен';
-        return !isDone && !isCancelled;
-      }).length;
+      return orders.where((o) => isInTransitStatus(o.status)).length;
     } catch (_) {
       return 0;
     }
+  }
+
+  /// Заказ в пути к покупателю.
+  @visibleForTesting
+  static bool isInTransitStatus(String status) {
+    final s = status.trim().toLowerCase();
+    return s == 'в пути' ||
+        s == 'in transit' ||
+        s == 'in_transit' ||
+        s == 'shipped' ||
+        s == 'on the way' ||
+        s == 'отправлен' ||
+        s == 'отправлено';
   }
 
   /// Считает заказы поставщика, ожидающие действия:

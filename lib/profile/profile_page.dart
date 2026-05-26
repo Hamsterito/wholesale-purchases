@@ -268,10 +268,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: Icons.shopping_cart_outlined,
                   iconColor: context.colorPalette.success,
                   title: 'Мои заказы',
-                  badge: ValueListenableBuilder<int>(
-                    valueListenable: NotificationService().deliveredOrdersCount,
-                    builder: (context, count, _) =>
-                        _buildInlineBadge(context, count),
+                  badge: AnimatedBuilder(
+                    animation: Listenable.merge([
+                      NotificationService().pendingBuyerOrdersCount,
+                      NotificationService().deliveredOrdersCount,
+                    ]),
+                    builder: (context, _) {
+                      final total =
+                          NotificationService().pendingBuyerOrdersCount.value +
+                          NotificationService().deliveredOrdersCount.value;
+                      return _buildInlineBadge(context, total);
+                    },
                   ),
                   onTap: () async {
                     await Navigator.push(
