@@ -9,6 +9,7 @@ Product getSampleProduct() {
     imageUrls: ['assets/coca_cola.jpeg'],
     rating: 4.7,
     reviewCount: 13,
+    questionCount: 5,
     categories: ['Напитки', 'Газированные напитки'],
     nutritionalInfo: NutritionalInfo(
       calories: 42,

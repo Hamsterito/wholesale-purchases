@@ -58,6 +58,10 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   List<Question> _productQuestions = [];
   bool _isLoadingQuestions = true;
   int _totalQuestions = 0;
+  // True после первой успешной загрузки вопросов. Дальше счётчик во вкладке
+  // «Вопросы (N)» берём из _totalQuestions, а не из widget.product.questionCount,
+  // чтобы при возврате с QuestionsPage не откатываться к устаревшему каталогу.
+  bool _hasLoadedQuestionsOnce = false;
   TabController? _tabController;
   // Индекс активной вкладки в отдельном ValueNotifier - меняется на
   // переключении табов, без полного setState всей страницы.
@@ -95,6 +99,10 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   int get _resolvedReviewCount => _productReviews.isNotEmpty
       ? _productReviews.length
       : widget.product.reviewCount;
+  // До первой успешной загрузки берём счётчик из каталога,
+  // чтобы вкладка «Вопросы (N)» не моргала нулём.
+  int get _resolvedQuestionCount =>
+      _hasLoadedQuestionsOnce ? _totalQuestions : widget.product.questionCount;
 
   @override
   void initState() {
@@ -339,6 +347,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       setState(() {
         _productQuestions = questions;
         _totalQuestions = data['total'] as int;
+        _hasLoadedQuestionsOnce = true;
       });
     } catch (_) {
       if (!mounted) {
@@ -347,6 +356,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       setState(() {
         _productQuestions = [];
         _totalQuestions = 0;
+        _hasLoadedQuestionsOnce = true;
       });
     } finally {
       if (mounted) {
@@ -472,7 +482,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                             ),
                             tabs: [
                               Tab(text: 'Оценки ($_resolvedReviewCount)'),
-                              Tab(text: 'Вопросы ($_totalQuestions)'),
+                              Tab(text: 'Вопросы ($_resolvedQuestionCount)'),
                             ],
                           ),
                         ),
@@ -1419,7 +1429,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             onTap: _openAllQuestions,
             icon: Icons.mode_comment_outlined,
             iconColor: palette.accent,
-            value: '$_totalQuestions',
+            value: '$_resolvedQuestionCount',
             label: 'вопросов',
           ),
         ],
@@ -1557,8 +1567,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     );
   }
 
-  void _openAllQuestions() {
-    Navigator.push(
+  void _openAllQuestions() async {
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => QuestionsPage(
@@ -1570,6 +1580,9 @@ class _ProductDetailPageState extends State<ProductDetailPage>
         ),
       ),
     );
+    if (!mounted) return;
+    // Пользователь мог задать вопрос - перезагружаем счётчик и превью.
+    _loadProductQuestions();
   }
 
   Future<void> _shareProductStub() async {

@@ -159,7 +159,7 @@ class _SettingsPageState extends State<SettingsPage> {
               title: 'Версия приложения',
               icon: Icons.info_outline,
               trailing: Text(
-                '1.0.0',
+                '2.6.7',
                 style: TextStyle(
                   fontSize: 14,
                   color: colorScheme.onSurfaceVariant,

@@ -7,6 +7,7 @@ import '../services/api/api_service.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/phone_input_formatter.dart';
 import '../widgets/messages/top_message.dart';
+import '../widgets/navigation/main_bottom_nav.dart';
 import 'add_moderator_dialog.dart';
 import 'moderator_filter.dart';
 
@@ -248,6 +249,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
+      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
     );
   }
 

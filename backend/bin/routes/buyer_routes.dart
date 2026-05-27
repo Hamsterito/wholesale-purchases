@@ -1598,6 +1598,30 @@ void _registerCatalogRoutes(Router router, Connection connection) {
         }
       }
 
+      // Считаем количество вопросов одним запросом - чтобы вкладка
+      // «Вопросы (N)» на детальной странице не моргала нулём, пока
+      // подгружается список.
+      final questionCountByProduct = <int, int>{};
+      if (productIds.isNotEmpty) {
+        final questionRows = await connection.execute(
+          Sql.named('''
+            SELECT product_id, COUNT(*) AS count
+            FROM questions
+            WHERE product_id = ANY(@ids)
+            GROUP BY product_id;
+          '''),
+          parameters: {'ids': productIds},
+        );
+
+        for (final row in questionRows) {
+          final map = row.toColumnMap();
+          final productId = _toPositiveInt(map['product_id']);
+          final count = _toPositiveInt(map['count']);
+          if (productId <= 0) continue;
+          questionCountByProduct[productId] = count;
+        }
+      }
+
       final products = rows.map((map) {
         final productId = _toPositiveInt(map['id']);
         final name = (map['name'] ?? '').toString();
@@ -1645,6 +1669,7 @@ void _registerCatalogRoutes(Router router, Connection connection) {
           'imageUrls': imageUrls,
           'rating': rating,
           'reviewCount': reviewCount,
+          'questionCount': questionCountByProduct[productId] ?? 0,
           'categories': categories,
           'nutritionalInfo': {
             'calories': _toNonNegativeDouble(map['nutrition_calories']),

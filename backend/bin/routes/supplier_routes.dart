@@ -1209,9 +1209,11 @@ void _registerSupplierPublicRoutes(Router router, Connection connection) {
                    SELECT 1 FROM order_items oi WHERE oi.product_id = p.id
                  ) AS has_orders,
                  COALESCE(AVG(r.rating), 0) AS avg_rating,
-                 COUNT(DISTINCT r.id) AS review_count
+                 COUNT(DISTINCT r.id) AS review_count,
+                 COUNT(DISTINCT q.id) AS question_count
           FROM products p
           LEFT JOIN reviews r ON r.product_id = p.id
+          LEFT JOIN questions q ON q.product_id = p.id
           WHERE p.supplier_user_id = @supplier_id
             AND (p.moderation_status = 'approved' OR p.moderation_status IS NULL)
           GROUP BY p.id
@@ -1244,6 +1246,7 @@ void _registerSupplierPublicRoutes(Router router, Connection connection) {
         }
         final avgRating = _toNonNegativeDouble(map['avg_rating']);
         final reviewCount = _toPositiveInt(map['review_count']);
+        final questionCount = _toPositiveInt(map['question_count']);
 
         return {
           'id': productId.toString(),
@@ -1252,6 +1255,7 @@ void _registerSupplierPublicRoutes(Router router, Connection connection) {
           'imageUrls': imageUrls,
           'rating': avgRating,
           'reviewCount': reviewCount,
+          'questionCount': questionCount,
           'categories': _parseCategories(map['category']),
           'nutritionalInfo': {
             'calories': _toNonNegativeDouble(map['nutrition_calories']),
@@ -1455,31 +1459,35 @@ void _registerSupplierDashboardRoutes(Router router, Connection connection) {
         return Response(
           403,
           body: jsonEncode({
-            'error': 'You do not have permission to view these reviews',
+            'error': 'You do not have permission to view these questions',
           }),
           headers: {'content-type': 'application/json; charset=utf-8'},
         );
       }
 
-      // Парсим параметры пагинации
       final page =
           int.tryParse(request.url.queryParameters['page'] ?? '1') ?? 1;
       final limit =
           int.tryParse(request.url.queryParameters['limit'] ?? '20') ?? 20;
       final offset = (page - 1) * limit;
 
-      // Запрашиваем отзывы для товаров поставщика
+      // Вопросы по товарам этого поставщика. LEFT JOIN на question_answers,
+      // чтобы тянуть и неотвеченные тоже - именно по ним показывается «Ответить».
       final result = await connection.execute(
         Sql.named('''
           SELECT
-            r.id, r.order_id, r.order_item_id, r.product_id, r.rating, r.review_text, r.created_at,
+            q.id, q.product_id, q.user_id, q.question_text, q.created_at, q.is_answered,
+            u.name as user_name,
             p.name as product_name, p.image_url as product_image,
-            u.name as reviewer_name
-          FROM reviews r
-          JOIN products p ON r.product_id = p.id
-          JOIN users u ON r.user_id = u.id
+            qa.id as answer_id, qa.answer_text, qa.answered_at,
+            us.supplier_name as supplier_name, us.id as supplier_id
+          FROM questions q
+          JOIN products p ON q.product_id = p.id
+          JOIN users u ON q.user_id = u.id
+          LEFT JOIN question_answers qa ON q.id = qa.question_id
+          LEFT JOIN users us ON qa.supplier_user_id = us.id
           WHERE p.supplier_user_id = @supplier_user_id
-          ORDER BY r.created_at DESC
+          ORDER BY q.created_at DESC
           LIMIT @limit OFFSET @offset
         '''),
         parameters: {
@@ -1489,45 +1497,63 @@ void _registerSupplierDashboardRoutes(Router router, Connection connection) {
         },
       );
 
-      // Получаем общее количество
       final countResult = await connection.execute(
         Sql.named('''
-          SELECT COUNT(*) as cnt FROM reviews r
-          JOIN products p ON r.product_id = p.id
+          SELECT COUNT(*) as cnt
+          FROM questions q
+          JOIN products p ON q.product_id = p.id
           WHERE p.supplier_user_id = @supplier_user_id
         '''),
         parameters: {'supplier_user_id': userId},
       );
       final total = _toPositiveInt(countResult.first.toColumnMap()['cnt']);
 
-      // Преобразуем результаты в формат ответа
-      final reviews = result.map((row) {
+      final questions = result.map((row) {
         final map = row.toColumnMap();
+
         final createdAt = map['created_at'];
-        String? createdAtIso = (createdAt is DateTime)
+        final createdAtIso = (createdAt is DateTime)
             ? createdAt.toIso8601String()
+            : null;
+        final answeredAt = map['answered_at'];
+        final answeredAtIso = (answeredAt is DateTime)
+            ? answeredAt.toIso8601String()
+            : null;
+
+        // Считаем вопрос отвеченным, если реально есть запись в question_answers,
+        // а не только по флагу is_answered - флаг бывает рассинхронизирован.
+        final hasAnswer = map['answer_id'] != null;
+        final answerDto = hasAnswer
+            ? {
+                'id': map['answer_id'].toString(),
+                'questionId': map['id'].toString(),
+                'supplierId': map['supplier_id']?.toString(),
+                'supplierName': map['supplier_name'] ?? '',
+                'answerText': map['answer_text'] ?? '',
+                'answeredAt': answeredAtIso,
+              }
             : null;
 
         return {
           'id': map['id'].toString(),
-          'orderId': map['order_id'].toString(),
-          'orderItemId': map['order_item_id'].toString(),
           'productId': map['product_id'].toString(),
           'productName': map['product_name'] ?? '',
           'productImage': map['product_image'] ?? '',
-          'reviewerName': map['reviewer_name'] ?? 'Пользователь',
-          'rating': map['rating'] ?? 0,
-          'reviewText': map['review_text'] ?? '',
+          'userId': map['user_id'].toString(),
+          'userName': map['user_name'] ?? 'Пользователь',
+          'questionText': map['question_text'] ?? '',
           'createdAt': createdAtIso,
+          'isAnswered': hasAnswer || map['is_answered'] == true,
+          'answer': answerDto,
         };
       }).toList();
 
       return Response.ok(
-        jsonEncode({'reviews': reviews, 'total': total}),
+        jsonEncode({'questions': questions, 'total': total}),
         headers: {'content-type': 'application/json; charset=utf-8'},
       );
     } catch (e, st) {
-      print('Error fetching supplier reviews: $e\n$st');
+      print('Error fetching supplier questions: $e\n$st');
       return Response.internalServerError(
         body: jsonEncode({'error': 'Internal server error'}),
         headers: {'content-type': 'application/json; charset=utf-8'},

@@ -7,6 +7,9 @@ class Product {
   final List<String> imageUrls;
   final double rating;
   final int reviewCount;
+  // Кол-во вопросов по товару из каталога - чтобы вкладка «Вопросы (N)»
+  // на странице товара не моргала нулём, пока подгружается список.
+  final int questionCount;
   final List<String> categories;
   final NutritionalInfo nutritionalInfo;
   final String ingredients;
@@ -22,6 +25,7 @@ class Product {
     required this.imageUrls,
     required this.rating,
     required this.reviewCount,
+    this.questionCount = 0,
     required this.categories,
     required this.nutritionalInfo,
     required this.ingredients,
@@ -61,6 +65,7 @@ class Product {
       imageUrls: List<String>.from(json['imageUrls'] ?? []),
       rating: (json['rating'] ?? 0).toDouble(),
       reviewCount: json['reviewCount'] ?? 0,
+      questionCount: json['questionCount'] ?? 0,
       categories: categories,
       nutritionalInfo: NutritionalInfo.fromJson(json['nutritionalInfo'] ?? {}),
       ingredients: normalize(json['ingredients']?.toString() ?? ''),
