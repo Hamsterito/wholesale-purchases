@@ -862,16 +862,18 @@ void _registerBuyerReviewRoutes(Router router, Connection connection) {
                  COALESCE(p.name, oi.name) AS product_name,
                  COALESCE(p.image_url, oi.image_url) AS product_image,
                  oi.name AS order_item_name,
-                 oi.image_url AS order_item_image
+                 oi.image_url AS order_item_image,
+                 u.avatar_url AS user_avatar_url
           FROM reviews r
           LEFT JOIN order_items oi ON oi.id = r.order_item_id
           LEFT JOIN products p ON p.id = r.product_id
+          LEFT JOIN users u ON u.id = r.user_id
           WHERE r.id = @id;
           '''),
         parameters: {'id': reviewId},
       );
 
-      final dto = _reviewRowToDto(reviewResult.first.toColumnMap());
+      final dto = _reviewRowToDto(reviewResult.first.toColumnMap(), request);
       return Response(
         201,
         body: jsonEncode(dto),
@@ -951,16 +953,18 @@ void _registerBuyerReviewRoutes(Router router, Connection connection) {
                  COALESCE(p.name, oi.name) AS product_name,
                  COALESCE(p.image_url, oi.image_url) AS product_image,
                  oi.name AS order_item_name,
-                 oi.image_url AS order_item_image
+                 oi.image_url AS order_item_image,
+                 u.avatar_url AS user_avatar_url
           FROM reviews r
           LEFT JOIN order_items oi ON oi.id = r.order_item_id
           LEFT JOIN products p ON p.id = r.product_id
+          LEFT JOIN users u ON u.id = r.user_id
           WHERE r.id = @id;
           '''),
         parameters: {'id': reviewId},
       );
 
-      final dto = _reviewRowToDto(reviewResult.first.toColumnMap());
+      final dto = _reviewRowToDto(reviewResult.first.toColumnMap(), request);
       return Response.ok(
         jsonEncode(dto),
         headers: {'content-type': 'application/json; charset=utf-8'},
@@ -1328,18 +1332,38 @@ void _registerPublicUserRoutes(Router router, Connection connection) {
       );
     }
 
-    final result = await connection.execute(
-      Sql.named(
-        'SELECT id, name, email, role, supplier_name, phone FROM users WHERE id = @id',
-      ),
-      parameters: {'id': userId},
-    );
-
-    if (result.isEmpty) {
-      return Response.notFound('Ресурс не найден');
+    // Если столбца avatar_url ещё нет в БД (миграция не накатилась) -
+    // SELECT упадёт. Тогда читаем без avatar_url и возвращаем avatarUrl: null,
+    // чтобы остальные поля профиля всё равно ушли клиенту.
+    Map<String, dynamic>? user;
+    Object? rawAvatarUrl;
+    try {
+      final result = await connection.execute(
+        Sql.named(
+          'SELECT id, name, email, role, supplier_name, phone, avatar_url '
+          'FROM users WHERE id = @id',
+        ),
+        parameters: {'id': userId},
+      );
+      if (result.isEmpty) {
+        return Response.notFound('Ресурс не найден');
+      }
+      user = result.first.toColumnMap();
+      rawAvatarUrl = user['avatar_url'];
+    } catch (_) {
+      final result = await connection.execute(
+        Sql.named(
+          'SELECT id, name, email, role, supplier_name, phone FROM users WHERE id = @id',
+        ),
+        parameters: {'id': userId},
+      );
+      if (result.isEmpty) {
+        return Response.notFound('Ресурс не найден');
+      }
+      user = result.first.toColumnMap();
+      rawAvatarUrl = null;
     }
 
-    final user = result.first.toColumnMap();
     final role = user['role'] ?? _defaultRole;
     return Response.ok(
       jsonEncode({
@@ -1349,6 +1373,7 @@ void _registerPublicUserRoutes(Router router, Connection connection) {
         'role': role,
         'supplierName': _supplierNameForRole(role, user['supplier_name']),
         'phone': user['phone'] ?? '',
+        'avatarUrl': _avatarUrlOrNull(request, rawAvatarUrl),
       }),
       headers: {'content-type': 'application/json; charset=utf-8'},
     );
@@ -1782,7 +1807,7 @@ void _registerBuyerReadRoutes(Router router, Connection connection) {
       );
 
       query += '''
-        AND o.created_at >= @start_date::timestamp 
+        AND o.created_at >= @start_date::timestamp
         AND o.created_at <= @end_date::timestamp
       ''';
       parameters['start_date'] = startDateTime.toIso8601String();
@@ -1869,6 +1894,7 @@ void _registerBuyerReadRoutes(Router router, Connection connection) {
                  oi.image_url AS order_item_image,
                  oi.supplier_name,
                  u.name AS reviewer_name,
+                 u.avatar_url AS user_avatar_url,
                  srr.id AS response_id,
                  srr.response_text,
                  srr.created_at AS response_created_at,
@@ -1887,7 +1913,7 @@ void _registerBuyerReadRoutes(Router router, Connection connection) {
       );
 
       final reviews = result
-          .map((row) => _reviewRowToDto(row.toColumnMap()))
+          .map((row) => _reviewRowToDto(row.toColumnMap(), request))
           .toList();
 
       return Response.ok(
@@ -2037,7 +2063,7 @@ void _registerBuyerReadRoutes(Router router, Connection connection) {
         Sql.named('''
           SELECT
             q.id, q.product_id, q.user_id, q.question_text, q.created_at, q.is_answered,
-            u.name as user_name, u.email as user_email, -- аватарки нет в users, используем инициалы на клиенте
+            u.name as user_name, u.email as user_email, u.avatar_url as user_avatar_url,
             qa.id as answer_id, qa.answer_text, qa.answered_at,
             us.supplier_name as supplier_name, us.id as supplier_id
           FROM questions q
@@ -2084,6 +2110,7 @@ void _registerBuyerReadRoutes(Router router, Connection connection) {
           'productId': map['product_id'].toString(),
           'userId': map['user_id'].toString(),
           'userName': map['user_name'] ?? 'Пользователь',
+          'userAvatarUrl': _avatarUrlOrNull(request, map['user_avatar_url']),
           'questionText': map['question_text'] ?? '',
           'createdAt': createdAtIso,
           'isAnswered': map['is_answered'] == true,

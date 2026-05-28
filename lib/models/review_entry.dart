@@ -35,6 +35,7 @@ class ReviewEntry {
   final String productName;
   final String productImage;
   final String reviewerName;
+  final String? userAvatarUrl;
   final int rating;
   final String reviewText;
   final DateTime createdAt;
@@ -49,6 +50,7 @@ class ReviewEntry {
     required this.productName,
     required this.productImage,
     required this.reviewerName,
+    this.userAvatarUrl,
     required this.rating,
     required this.reviewText,
     required this.createdAt,
@@ -65,6 +67,7 @@ class ReviewEntry {
       productName: json['productName']?.toString() ?? '',
       productImage: json['productImage']?.toString() ?? '',
       reviewerName: json['reviewerName']?.toString() ?? '',
+      userAvatarUrl: _parseAvatarUrl(json['userAvatarUrl']),
       rating: _parseInt(json['rating']),
       reviewText: json['reviewText']?.toString() ?? '',
       createdAt: _parseDate(json['createdAt'] ?? json['date']),
@@ -88,6 +91,7 @@ class ReviewEntry {
       productName: productName,
       productImage: productImage,
       reviewerName: reviewerName,
+      userAvatarUrl: userAvatarUrl,
       rating: rating ?? this.rating,
       reviewText: reviewText ?? this.reviewText,
       createdAt: createdAt,
@@ -101,6 +105,12 @@ class ReviewEntry {
     if (value is double) return value.round();
     final parsed = int.tryParse(value?.toString() ?? '');
     return parsed ?? 0;
+  }
+
+  static String? _parseAvatarUrl(dynamic value) {
+    if (value == null) return null;
+    final str = value.toString().trim();
+    return str.isEmpty ? null : str;
   }
 
   static DateTime _parseDate(dynamic value) {

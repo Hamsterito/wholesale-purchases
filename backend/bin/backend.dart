@@ -12,6 +12,9 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:excel/excel.dart';
+import 'package:path/path.dart' as p;
+import 'package:uuid/uuid.dart';
+import 'package:mime/mime.dart';
 
 part 'utils/constants.dart';
 part 'utils/converters.dart';
@@ -21,6 +24,7 @@ part 'utils/support_helpers.dart';
 part 'utils/order_helpers.dart';
 part 'utils/address_helpers.dart';
 part 'utils/product_helpers.dart';
+part 'utils/avatar_helpers.dart';
 
 part 'schema_tables.dart';
 part 'crud_operations.dart';
@@ -33,6 +37,8 @@ part 'routes/admin_routes.dart';
 part 'routes/auth_routes.dart';
 part 'routes/two_factor_routes.dart';
 part 'routes/support_routes.dart';
+part 'routes/avatar_routes.dart';
+part 'routes/static_routes.dart';
 
 // Главная функция приложения
 void main() async {
@@ -77,9 +83,14 @@ void main() async {
   // Каталог поставщиков (модератор)
   _registerSupplierDirectoryRoute(router, connection);
 
+  // Статическая раздача файлов аватарок
+  _registerStaticRoutes(router);
+
   // Настройка middleware для обработки CORS и логирования запросов.
   // Расширяем список разрешённых заголовков, чтобы пропускать кастомный
   // X-User-Id (используется эндпоинтами /admin/moderators*).
+  // shelf_cors_headers сам отвечает 200 на OPTIONS-preflight, когда в
+  // запросе есть Origin - это покрывает все cross-origin случаи из браузера.
   final handler = const Pipeline()
       .addMiddleware(logRequests())
       .addMiddleware(
@@ -87,6 +98,8 @@ void main() async {
           headers: const {
             ACCESS_CONTROL_ALLOW_HEADERS:
                 'accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, x-user-id',
+            ACCESS_CONTROL_ALLOW_METHODS:
+                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
           },
         ),
       )

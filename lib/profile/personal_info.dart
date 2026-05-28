@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +10,33 @@ import '../services/storage/auth_storage.dart';
 import '../services/api/api_service.dart';
 import '../models/message.dart';
 import '../models/user_profile.dart';
+import '../widgets/profile/user_avatar.dart';
+
+// Лимит размера аватарки совпадает с серверным - чтобы не гонять сетевой
+// запрос ради 413.
+const int _avatarMaxSizeBytes = 5 * 1024 * 1024;
+
+// Для multipart важно отдать сервереный MIME из whitelist, иначе backend вернёт 415.
+String? _avatarMimeFromName(String name) {
+  final lower = name.toLowerCase();
+  if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) return 'image/jpeg';
+  if (lower.endsWith('.png')) return 'image/png';
+  if (lower.endsWith('.webp')) return 'image/webp';
+  return null;
+}
+
+// На Web XFile.name бывает пустым - возвращаем дефолтное имя с расширением.
+String _avatarFilename(XFile picked) {
+  final raw = picked.name.trim();
+  if (raw.isNotEmpty) return raw;
+  final mime = picked.mimeType?.toLowerCase() ?? '';
+  final ext = mime == 'image/png'
+      ? 'png'
+      : mime == 'image/webp'
+          ? 'webp'
+          : 'jpg';
+  return 'avatar.$ext';
+}
 
 class PersonalInfoPage extends StatefulWidget {
   const PersonalInfoPage({super.key});
@@ -25,6 +53,11 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
   late final TextEditingController _emailController;
   late final TextEditingController _phoneController;
   late final TextEditingController _companyController;
+
+  final _AvatarPicker _avatarPicker = _AvatarPicker();
+
+  String? _avatarUrl;
+  bool _avatarUploading = false;
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
@@ -47,6 +80,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
   @override
   void initState() {
     super.initState();
+    _avatarUrl = AuthStorage.avatarUrl;
     _role = (AuthStorage.role ?? '').trim();
     _name = AuthStorage.name ?? '';
     _email = AuthStorage.email ?? '';
@@ -92,6 +126,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
     if (normalizedRole.isNotEmpty) {
       _role = normalizedRole;
     }
+    _avatarUrl = profile.avatarUrl;
 
     final phoneDigits = profile.phone.replaceAll(RegExp(r'\D'), '');
     _phone = phoneDigits;
@@ -335,6 +370,145 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
     }
   }
 
+  // Действия с аватаркой
+
+  void _openAvatarSheet() {
+    if (_avatarUploading || _isSavingProfile) return;
+    final palette = context.colorPalette;
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: palette.card,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.photo_camera, color: palette.accent),
+                title: Text(
+                  'Сделать снимок',
+                  style: TextStyle(color: palette.ink),
+                ),
+                onTap: () {
+                  Navigator.of(sheetContext).pop();
+                  _handlePickFromCamera();
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.photo_library, color: palette.accent),
+                title: Text(
+                  'Выбрать из галереи',
+                  style: TextStyle(color: palette.ink),
+                ),
+                onTap: () {
+                  Navigator.of(sheetContext).pop();
+                  _handlePickFromGallery();
+                },
+              ),
+              if (_avatarUrl != null)
+                ListTile(
+                  leading: Icon(Icons.delete_outline, color: palette.error),
+                  title: Text(
+                    'Удалить фото',
+                    style: TextStyle(color: palette.error),
+                  ),
+                  onTap: () {
+                    Navigator.of(sheetContext).pop();
+                    _handleDeleteAvatar();
+                  },
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _handlePickFromCamera() async {
+    try {
+      final file = await _avatarPicker.pickFromCamera();
+      if (file == null) return;
+      await _uploadFile(file);
+    } catch (e) {
+      _showSnack(_errorMessage(e), severity: MessageSeverity.error);
+    }
+  }
+
+  Future<void> _handlePickFromGallery() async {
+    try {
+      final file = await _avatarPicker.pickFromGallery();
+      if (file == null) return;
+      await _uploadFile(file);
+    } catch (e) {
+      _showSnack(_errorMessage(e), severity: MessageSeverity.error);
+    }
+  }
+
+  Future<void> _uploadFile(XFile picked) async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      _showSnack('Вы не авторизованы', severity: MessageSeverity.error);
+      return;
+    }
+
+    // Читаем байты напрямую из XFile - File(picked.path) не работает на Web,
+    // там path это blob URL и dart:io File падает с _Namespace.
+    final bytes = await picked.readAsBytes();
+    if (bytes.length > _avatarMaxSizeBytes) {
+      _showSnack(
+        'Размер файла не должен превышать 5 МБ',
+        severity: MessageSeverity.warning,
+      );
+      return;
+    }
+
+    setState(() => _avatarUploading = true);
+    try {
+      final newUrl = await ApiService.uploadAvatar(
+        userId: userId,
+        bytes: bytes,
+        filename: _avatarFilename(picked),
+        mimeType: picked.mimeType ?? _avatarMimeFromName(picked.name),
+      );
+      if (!mounted) return;
+      setState(() => _avatarUrl = newUrl);
+      await AuthStorage.setAvatarUrl(newUrl);
+    } catch (e) {
+      if (!mounted) return;
+      _showSnack(_errorMessage(e), severity: MessageSeverity.error);
+    } finally {
+      if (mounted) {
+        setState(() => _avatarUploading = false);
+      }
+    }
+  }
+
+  Future<void> _handleDeleteAvatar() async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      _showSnack('Вы не авторизованы', severity: MessageSeverity.error);
+      return;
+    }
+
+    setState(() => _avatarUploading = true);
+    try {
+      await ApiService.deleteAvatar(userId: userId);
+      if (!mounted) return;
+      setState(() => _avatarUrl = null);
+      await AuthStorage.setAvatarUrl(null);
+    } catch (e) {
+      if (!mounted) return;
+      _showSnack(_errorMessage(e), severity: MessageSeverity.error);
+    } finally {
+      if (mounted) {
+        setState(() => _avatarUploading = false);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -369,13 +543,62 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
             ),
             child: Row(
               children: [
-                CircleAvatar(
-                  radius: 35,
-                  backgroundColor: _colorScheme.surfaceContainerHighest,
-                  child: Icon(
-                    Icons.person,
-                    size: 36,
-                    color: _colorScheme.onSurfaceVariant,
+                GestureDetector(
+                  onTap: _avatarUploading ? null : _openAvatarSheet,
+                  behavior: HitTestBehavior.opaque,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    alignment: Alignment.center,
+                    children: [
+                      UserAvatar(
+                        avatarUrl: _avatarUrl,
+                        displayName: _name.isNotEmpty
+                            ? _name
+                            : (AuthStorage.name ?? ''),
+                        radius: 35,
+                      ),
+                      if (_avatarUploading)
+                        Container(
+                          width: 70,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.4),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Center(
+                            child: SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.5,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      Positioned(
+                        bottom: -2,
+                        right: -2,
+                        child: Material(
+                          color: context.colorPalette.accent,
+                          shape: const CircleBorder(),
+                          child: InkWell(
+                            customBorder: const CircleBorder(),
+                            onTap: _avatarUploading ? null : _openAvatarSheet,
+                            child: const Padding(
+                              padding: EdgeInsets.all(5),
+                              child: Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                                size: 14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -628,6 +851,28 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
           ),
         ),
       ],
+    );
+  }
+}
+
+// Локальная обёртка над image_picker - позволяет проще мокать в тестах
+// и не тащит ImagePicker по всему стейту страницы.
+class _AvatarPicker {
+  final ImagePicker _picker = ImagePicker();
+
+  Future<XFile?> pickFromCamera() {
+    return _picker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 90,
+      maxWidth: 2048,
+    );
+  }
+
+  Future<XFile?> pickFromGallery() {
+    return _picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 90,
+      maxWidth: 2048,
     );
   }
 }

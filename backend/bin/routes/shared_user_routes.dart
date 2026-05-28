@@ -107,30 +107,61 @@ void _registerSharedUserProfileRoutes(Router router, Connection connection) {  r
         return Response.badRequest(body: 'Supplier name is required');
       }
 
-      final updated = await connection.execute(
-        Sql.named('''
-          UPDATE users
-          SET name = @name,
-              email = @email,
-              phone = @phone,
-              supplier_name = @supplier_name
-          WHERE id = @id
-          RETURNING id, name, email, role, supplier_name, phone;
-          '''),
-        parameters: {
-          'id': userId,
-          'name': nextName,
-          'email': nextEmail,
-          'phone': nextPhone,
-          'supplier_name': nextSupplierName,
-        },
-      );
-
-      if (updated.isEmpty) {
-        return Response.notFound('User not found');
+      // Сначала пробуем UPDATE с RETURNING avatar_url. Если столбца нет
+      // (миграция ещё не применилась) - откатываемся к запросу без него
+      // и отдаём avatarUrl: null, чтобы PATCH остальных полей не падал.
+      Map<String, dynamic>? updatedUser;
+      Object? rawAvatarUrl;
+      try {
+        final updated = await connection.execute(
+          Sql.named('''
+            UPDATE users
+            SET name = @name,
+                email = @email,
+                phone = @phone,
+                supplier_name = @supplier_name
+            WHERE id = @id
+            RETURNING id, name, email, role, supplier_name, phone, avatar_url;
+            '''),
+          parameters: {
+            'id': userId,
+            'name': nextName,
+            'email': nextEmail,
+            'phone': nextPhone,
+            'supplier_name': nextSupplierName,
+          },
+        );
+        if (updated.isEmpty) {
+          return Response.notFound('User not found');
+        }
+        updatedUser = updated.first.toColumnMap();
+        rawAvatarUrl = updatedUser['avatar_url'];
+      } catch (_) {
+        final updated = await connection.execute(
+          Sql.named('''
+            UPDATE users
+            SET name = @name,
+                email = @email,
+                phone = @phone,
+                supplier_name = @supplier_name
+            WHERE id = @id
+            RETURNING id, name, email, role, supplier_name, phone;
+            '''),
+          parameters: {
+            'id': userId,
+            'name': nextName,
+            'email': nextEmail,
+            'phone': nextPhone,
+            'supplier_name': nextSupplierName,
+          },
+        );
+        if (updated.isEmpty) {
+          return Response.notFound('User not found');
+        }
+        updatedUser = updated.first.toColumnMap();
+        rawAvatarUrl = null;
       }
 
-      final updatedUser = updated.first.toColumnMap();
       nextRole = (updatedUser['role'] ?? nextRole).toString();
 
       return Response.ok(
@@ -144,6 +175,7 @@ void _registerSharedUserProfileRoutes(Router router, Connection connection) {  r
             updatedUser['supplier_name'],
           ),
           'phone': updatedUser['phone'] ?? '',
+          'avatarUrl': _avatarUrlOrNull(request, rawAvatarUrl),
         }),
         headers: {'content-type': 'application/json; charset=utf-8'},
       );

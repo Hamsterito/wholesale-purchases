@@ -160,7 +160,13 @@ Map<String, dynamic> _productRowToModerationDto(Map<String, dynamic> map) {
   };
 }
 
-Map<String, dynamic> _reviewRowToDto(Map<String, dynamic> map) {
+// request нужен, чтобы собрать абсолютный URL аватарки автора отзыва.
+// Если в карте нет user_avatar_url (например, без JOIN на users) -
+// userAvatarUrl будет null, фронт корректно интерпретирует как «аватарки нет».
+Map<String, dynamic> _reviewRowToDto(
+  Map<String, dynamic> map,
+  Request request,
+) {
   String? createdAtIso;
   final createdAt = map['created_at'];
   if (createdAt is DateTime) {
@@ -196,6 +202,7 @@ Map<String, dynamic> _reviewRowToDto(Map<String, dynamic> map) {
     'rating': map['rating'] ?? 0,
     'reviewText': map['review_text'] ?? '',
     'reviewerName': map['reviewer_name'] ?? '',
+    'userAvatarUrl': _avatarUrlOrNull(request, map['user_avatar_url']),
     'supplierName': map['supplier_name'] ?? '',
     if (createdAtIso != null) 'createdAt': createdAtIso,
     if (responseData != null) 'response': responseData,

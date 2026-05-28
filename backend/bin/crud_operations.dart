@@ -7,6 +7,9 @@ void _registerMutationRoutes(Router router, Connection connection) {
   // Общие пользовательские роуты: профиль и пароль
   _registerSharedUserProfileRoutes(router, connection);
 
+  // Загрузка/удаление аватарки пользователя
+  _registerAvatarRoutes(router, connection);
+
   // Поставщик: товары и статусы заказов
   _registerSupplierProductRoutes(router, connection);
 

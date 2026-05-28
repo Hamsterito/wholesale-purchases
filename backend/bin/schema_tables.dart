@@ -191,6 +191,13 @@ Future<void> _ensureUserSchema(Connection connection) async {
     ALTER TABLE public.users
       ADD COLUMN IF NOT EXISTS is_verified BOOLEAN NOT NULL DEFAULT false;
   ''');
+  // Аватарка: относительный путь вида /uploads/avatars/<filename> или NULL.
+  // На существующих записях PostgreSQL заполнит NULL автоматически, новые
+  // регистрации тоже не указывают avatar_url явно - получают NULL по умолчанию.
+  await connection.execute('''
+    ALTER TABLE public.users
+      ADD COLUMN IF NOT EXISTS avatar_url VARCHAR(500);
+  ''');
   await connection.execute(
     'CREATE INDEX IF NOT EXISTS idx_users_role ON public.users(role);',
   );

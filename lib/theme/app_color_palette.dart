@@ -12,6 +12,7 @@ class AppColorPalette {
     required this.accent,
     required this.accentDark,
     required this.accentSoft,
+    required this.onAccentSoft,
     required this.accentMist,
 
     // Семантические цвета
@@ -48,6 +49,8 @@ class AppColorPalette {
   final Color accent;
   final Color accentDark;
   final Color accentSoft;
+  // Цвет текста и иконок поверх accentSoft фона.
+  final Color onAccentSoft;
   final Color accentMist;
 
   // Семантические цвета
@@ -85,6 +88,7 @@ class AppColorPalette {
     accent: Color(0xFF6288D5),
     accentDark: Color(0xFF4F70C6),
     accentSoft: Color(0xFFDCE6FA),
+    onAccentSoft: Color(0xFF4F70C6),
     accentMist: Color(0xFFF0F4FF),
 
     // Семантические цвета
@@ -123,6 +127,7 @@ class AppColorPalette {
     accent: Color(0xFF6288D5),
     accentDark: Color(0xFF9BB6FF),
     accentSoft: Color(0xFF243251),
+    onAccentSoft: Color(0xFF9BB6FF),
     accentMist: Color(0xFF1A243A),
 
     // Семантические цвета

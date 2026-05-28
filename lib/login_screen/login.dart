@@ -197,12 +197,14 @@ class _LoginPageState extends State<LoginPage> {
         final userId = int.tryParse(data['id']?.toString() ?? '') ?? 0;
         final name = data['name']?.toString();
         final supplierName = data['supplierName']?.toString();
+        final avatarUrl = data['avatarUrl']?.toString();
         await _finalizeLoginSession(
           email: email,
           role: role,
           userId: userId,
           name: name,
           supplierName: supplierName,
+          avatarUrl: avatarUrl,
         );
       } else {
         AppLogger.warning(
@@ -256,6 +258,7 @@ class _LoginPageState extends State<LoginPage> {
     required int userId,
     required String? name,
     required String? supplierName,
+    String? avatarUrl,
   }) async {
     AppLogger.info(
       'Login succeeded for userId=$userId role=$role',
@@ -269,6 +272,7 @@ class _LoginPageState extends State<LoginPage> {
         userId: userId,
         name: name,
         supplierName: supplierName,
+        avatarUrl: avatarUrl,
       );
     } else {
       await TemplatesStore.instance.clearCache();
@@ -279,6 +283,7 @@ class _LoginPageState extends State<LoginPage> {
         userId: userId,
         name: name,
         supplierName: supplierName,
+        avatarUrl: avatarUrl,
       );
     }
     if (!mounted) return;

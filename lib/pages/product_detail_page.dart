@@ -18,6 +18,7 @@ import '../utils/characteristic_sections.dart';
 import '../utils/delivery_schedule.dart';
 import '../utils/rating_format.dart';
 import '../widgets/pages/similar_products_carousel.dart';
+import '../widgets/profile/user_avatar.dart';
 import '../widgets/smooth_sheet.dart';
 import '../widgets/messages/top_message.dart';
 import '../widgets/product/rating_stars.dart';
@@ -882,6 +883,14 @@ class _ProductDetailPageState extends State<ProductDetailPage>
               padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
               child: Row(
                 children: [
+                  // Supplier пока не передаёт avatarUrl - показываем placeholder
+                  // с первой буквой имени, как и для пользователей.
+                  UserAvatar(
+                    avatarUrl: null,
+                    displayName: supplier.name,
+                    radius: 20,
+                  ),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1903,14 +1912,6 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
     return DateFormatter.formatDate(value);
   }
 
-  String _initial(String value) {
-    final normalized = value.trim();
-    if (normalized.isEmpty) {
-      return 'П';
-    }
-    return normalized[0].toUpperCase();
-  }
-
   @override
   Widget build(BuildContext context) {
     final palette = context.colorPalette;
@@ -1933,17 +1934,10 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
         children: [
           Row(
             children: [
-              CircleAvatar(
+              UserAvatar(
+                avatarUrl: widget.review.userAvatarUrl,
+                displayName: name,
                 radius: 20,
-                backgroundColor: palette.accentMist,
-                child: Text(
-                  _initial(name),
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: palette.accent,
-                  ),
-                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -2073,17 +2067,10 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
         children: [
           Row(
             children: [
-              CircleAvatar(
+              UserAvatar(
+                avatarUrl: widget.question.userAvatarUrl,
+                displayName: name,
                 radius: 20,
-                backgroundColor: palette.accentMist,
-                child: Text(
-                  name[0].toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: palette.accent,
-                  ),
-                ),
               ),
               const SizedBox(width: 12),
               Expanded(

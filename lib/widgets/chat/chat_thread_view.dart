@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../theme/app_color_palette.dart';
+import '../profile/user_avatar.dart';
 
 /// Состояние доставки пузыря в чат-ленте.
 enum ChatBubbleDeliveryState { pending, sent, failed }
@@ -16,6 +17,7 @@ class ChatBubbleData {
   final DateTime createdAt;
   final ChatBubbleDeliveryState deliveryState;
   final String? avatarUrl;
+  final String senderName;
 
   const ChatBubbleData({
     required this.id,
@@ -25,6 +27,7 @@ class ChatBubbleData {
     this.clientId,
     this.deliveryState = ChatBubbleDeliveryState.sent,
     this.avatarUrl,
+    this.senderName = '',
   });
 }
 
@@ -612,7 +615,11 @@ class _MessageBubble extends StatelessWidget {
             SizedBox(
               width: 32,
               child: showAvatar
-                  ? _Avatar(url: data.avatarUrl)
+                  ? UserAvatar(
+                      avatarUrl: data.avatarUrl,
+                      displayName: data.senderName,
+                      radius: 16,
+                    )
                   : const SizedBox.shrink(),
             ),
             const SizedBox(width: 8),
@@ -620,26 +627,6 @@ class _MessageBubble extends StatelessWidget {
           Flexible(child: bubbleColumn),
         ],
       ),
-    );
-  }
-}
-
-class _Avatar extends StatelessWidget {
-  const _Avatar({required this.url});
-
-  final String? url;
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final hasUrl = url != null && url!.isNotEmpty;
-    return CircleAvatar(
-      radius: 16,
-      backgroundColor: cs.surfaceContainerHighest,
-      backgroundImage: hasUrl ? NetworkImage(url!) : null,
-      child: hasUrl
-          ? null
-          : Icon(Icons.person, size: 18, color: cs.onSurfaceVariant),
     );
   }
 }

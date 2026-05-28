@@ -9,6 +9,7 @@ class AuthStorage {
   static const _userIdKey = 'auth_user_id';
   static const _nameKey = 'auth_name';
   static const _supplierNameKey = 'auth_supplier_name';
+  static const _avatarUrlKey = 'auth_avatar_url';
   static const _selectedAddressKeyPrefix = 'selected_address_id_';
   static const _deviceTokenKeyPrefix = 'device_token_';
   static const _deviceTokenEmailKeyPrefix = 'device_token_email_';
@@ -19,6 +20,7 @@ class AuthStorage {
   static int? _userId;
   static String? _name;
   static String? _supplierName;
+  static String? _avatarUrl;
   static int? _selectedAddressId;
 
   static bool get isRemembered => _remembered;
@@ -27,7 +29,15 @@ class AuthStorage {
   static int? get userId => _userId;
   static String? get name => _name;
   static String? get supplierName => _supplierName;
+  static String? get avatarUrl => _avatarUrl;
   static int? get selectedAddressId => _selectedAddressId;
+
+  // Пустую строку нормализуем в null - сервер может прислать "" вместо null.
+  static String? _normalizeAvatarUrl(String? value) {
+    if (value == null) return null;
+    final trimmed = value.trim();
+    return trimmed.isEmpty ? null : trimmed;
+  }
 
   // Хелпер для UI: проверка роли главного администратора без преобразования
   // самой сохранённой роли
@@ -54,6 +64,7 @@ class AuthStorage {
       _userId = prefs.getInt(_userIdKey);
       _name = prefs.getString(_nameKey);
       _supplierName = prefs.getString(_supplierNameKey);
+      _avatarUrl = _normalizeAvatarUrl(prefs.getString(_avatarUrlKey));
 
       // Безопасная инициализация selectedAddressId
       if (_userId != null && _userId! > 0) {
@@ -69,6 +80,7 @@ class AuthStorage {
       _userId = null;
       _name = null;
       _supplierName = null;
+      _avatarUrl = null;
       _selectedAddressId = null;
       rethrow;
     }
@@ -80,6 +92,7 @@ class AuthStorage {
     required int userId,
     String? name,
     String? supplierName,
+    String? avatarUrl,
   }) async {
     _remembered = true;
     _email = email;
@@ -87,6 +100,7 @@ class AuthStorage {
     _userId = userId;
     _name = name;
     _supplierName = supplierName;
+    _avatarUrl = _normalizeAvatarUrl(avatarUrl);
     final prefs = await SharedPrefsProvider.getInstance();
     await prefs.setBool(_rememberKey, true);
     await prefs.setString(_emailKey, email);
@@ -102,6 +116,11 @@ class AuthStorage {
     } else {
       await prefs.remove(_supplierNameKey);
     }
+    if (_avatarUrl != null) {
+      await prefs.setString(_avatarUrlKey, _avatarUrl!);
+    } else {
+      await prefs.remove(_avatarUrlKey);
+    }
     _selectedAddressId = prefs.getInt(_selectedAddressKey(userId));
   }
 
@@ -111,14 +130,31 @@ class AuthStorage {
     required int userId,
     String? name,
     String? supplierName,
+    String? avatarUrl,
   }) async {
     _email = email;
     _role = role;
     _userId = userId;
     _name = name;
     _supplierName = supplierName;
+    _avatarUrl = _normalizeAvatarUrl(avatarUrl);
     final prefs = await SharedPrefsProvider.getInstance();
     _selectedAddressId = prefs.getInt(_selectedAddressKey(userId));
+  }
+
+  // Точечное обновление avatarUrl - после загрузки/удаления через профиль.
+  // Если пользователь не remembered, обновляем только in-memory значение.
+  static Future<void> setAvatarUrl(String? value) async {
+    _avatarUrl = _normalizeAvatarUrl(value);
+    if (!_remembered) {
+      return;
+    }
+    final prefs = await SharedPrefsProvider.getInstance();
+    if (_avatarUrl == null) {
+      await prefs.remove(_avatarUrlKey);
+    } else {
+      await prefs.setString(_avatarUrlKey, _avatarUrl!);
+    }
   }
 
   static Future<void> updateProfile({
@@ -178,6 +214,7 @@ class AuthStorage {
     _userId = null;
     _name = null;
     _supplierName = null;
+    _avatarUrl = null;
     _selectedAddressId = null;
     final prefs = await SharedPrefsProvider.getInstance();
     await prefs.setBool(_rememberKey, false);
@@ -186,6 +223,7 @@ class AuthStorage {
     await prefs.remove(_userIdKey);
     await prefs.remove(_nameKey);
     await prefs.remove(_supplierNameKey);
+    await prefs.remove(_avatarUrlKey);
 
     if (lastUserId != null && lastUserId > 0) {
       await prefs.remove(_deviceTokenKey(lastUserId));

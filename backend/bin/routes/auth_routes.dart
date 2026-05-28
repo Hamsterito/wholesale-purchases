@@ -694,7 +694,7 @@ void _registerLoginRoute(Router router, Connection connection) {
 
       final result = await connection.execute(
         Sql.named(
-          'SELECT id, name, email, password, role, supplier_name, is_verified, two_factor_enabled FROM users WHERE LOWER(email) = @email LIMIT 1',
+          'SELECT id, name, email, password, role, supplier_name, avatar_url, is_verified, two_factor_enabled FROM users WHERE LOWER(email) = @email LIMIT 1',
         ),
         parameters: {'email': email},
       );
@@ -782,6 +782,7 @@ void _registerLoginRoute(Router router, Connection connection) {
           'email': user['email'] ?? '',
           'role': role,
           'supplierName': _supplierNameForRole(role, user['supplier_name']),
+          'avatarUrl': _avatarUrlOrNull(request, user['avatar_url']),
         },
       });
     } on FormatException {

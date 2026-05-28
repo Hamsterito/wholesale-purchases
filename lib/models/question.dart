@@ -3,6 +3,7 @@ class Question {
   final String productId;
   final String userId;
   final String userName;
+  final String? userAvatarUrl;
   final String questionText;
   final DateTime createdAt;
   final bool isAnswered;
@@ -15,6 +16,7 @@ class Question {
     required this.productId,
     required this.userId,
     required this.userName,
+    this.userAvatarUrl,
     required this.questionText,
     required this.createdAt,
     required this.isAnswered,
@@ -29,6 +31,7 @@ class Question {
       productId: json['productId'] ?? '',
       userId: json['userId'] ?? '',
       userName: json['userName'] ?? '',
+      userAvatarUrl: _parseAvatarUrl(json['userAvatarUrl']),
       questionText: json['questionText'] ?? '',
       createdAt: DateTime.parse(json['createdAt']),
       isAnswered: json['isAnswered'] ?? false,
@@ -43,6 +46,7 @@ class Question {
         'productId': productId,
         'userId': userId,
         'userName': userName,
+        'userAvatarUrl': userAvatarUrl,
         'questionText': questionText,
         'createdAt': createdAt.toIso8601String(),
         'isAnswered': isAnswered,
@@ -50,6 +54,12 @@ class Question {
         'productName': productName,
         'productImage': productImage,
       };
+}
+
+// Пустую строку трактуем как отсутствие аватарки - бекенд может прислать "" вместо null.
+String? _parseAvatarUrl(dynamic value) {
+  final str = value?.toString().trim() ?? '';
+  return str.isEmpty ? null : str;
 }
 
 class QuestionAnswer {

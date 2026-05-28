@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
+
 import '../models/message.dart';
+import '../services/api/api_service.dart';
+import '../services/storage/auth_storage.dart';
 import '../theme/app_color_palette.dart';
-import '../widgets/phone_input_formatter.dart';
 import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/phone_input_formatter.dart';
+import '../widgets/profile/user_avatar.dart';
 
 class EditProfilePage extends StatefulWidget {
   final String title;
@@ -23,11 +28,42 @@ class EditProfilePage extends StatefulWidget {
   State<EditProfilePage> createState() => _EditProfilePageState();
 }
 
+// Лимит размера аватарки совпадает с серверным - чтобы не гонять сетевой
+// запрос ради 413.
+const int _avatarMaxSizeBytes = 5 * 1024 * 1024;
+
+// Для multipart важно отдать сервереный MIME из whitelist, иначе backend вернёт 415.
+String? _avatarMimeFromName(String name) {
+  final lower = name.toLowerCase();
+  if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) return 'image/jpeg';
+  if (lower.endsWith('.png')) return 'image/png';
+  if (lower.endsWith('.webp')) return 'image/webp';
+  return null;
+}
+
+// На Web XFile.name бывает пустым - возвращаем дефолтное имя с расширением.
+String _avatarFilename(XFile picked) {
+  final raw = picked.name.trim();
+  if (raw.isNotEmpty) return raw;
+  final mime = picked.mimeType?.toLowerCase() ?? '';
+  final ext = mime == 'image/png'
+      ? 'png'
+      : mime == 'image/webp'
+          ? 'webp'
+          : 'jpg';
+  return 'avatar.$ext';
+}
+
 class _EditProfilePageState extends State<EditProfilePage> {
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _phoneController;
   late TextEditingController _descriptionController;
+
+  final _AvatarPicker _avatarPicker = _AvatarPicker();
+
+  String? _avatarUrl;
+  bool _avatarUploading = false;
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
@@ -38,6 +74,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void initState() {
     super.initState();
+    _avatarUrl = AuthStorage.avatarUrl;
     _nameController = TextEditingController(text: 'Иван Иванов');
     _emailController = TextEditingController(text: 'ivanov@mail.ru');
     _phoneController = TextEditingController(
@@ -60,9 +97,188 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return digits.length == 11;
   }
 
+  // Действия с аватаркой
+
+  void _openAvatarSheet() {
+    if (_avatarUploading) return;
+    final palette = context.colorPalette;
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: palette.card,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.photo_camera, color: palette.accent),
+                title: Text(
+                  'Сделать снимок',
+                  style: TextStyle(color: palette.ink),
+                ),
+                onTap: () {
+                  Navigator.of(sheetContext).pop();
+                  _handlePickFromCamera();
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.photo_library, color: palette.accent),
+                title: Text(
+                  'Выбрать из галереи',
+                  style: TextStyle(color: palette.ink),
+                ),
+                onTap: () {
+                  Navigator.of(sheetContext).pop();
+                  _handlePickFromGallery();
+                },
+              ),
+              if (_avatarUrl != null)
+                ListTile(
+                  leading: Icon(Icons.delete_outline, color: palette.error),
+                  title: Text(
+                    'Удалить фото',
+                    style: TextStyle(color: palette.error),
+                  ),
+                  onTap: () {
+                    Navigator.of(sheetContext).pop();
+                    _handleDeleteAvatar();
+                  },
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _handlePickFromCamera() async {
+    try {
+      final file = await _avatarPicker.pickFromCamera();
+      if (file == null) return;
+      await _uploadFile(file);
+    } catch (e) {
+      _showError(_errorMessage(e));
+    }
+  }
+
+  Future<void> _handlePickFromGallery() async {
+    try {
+      final file = await _avatarPicker.pickFromGallery();
+      if (file == null) return;
+      await _uploadFile(file);
+    } catch (e) {
+      _showError(_errorMessage(e));
+    }
+  }
+
+  Future<void> _uploadFile(XFile picked) async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      _showError('Вы не авторизованы');
+      return;
+    }
+
+    // Читаем байты напрямую из XFile - File(picked.path) не работает на Web,
+    // там path это blob URL и dart:io File падает с _Namespace.
+    final bytes = await picked.readAsBytes();
+    if (bytes.length > _avatarMaxSizeBytes) {
+      _showError('Размер файла не должен превышать 5 МБ');
+      return;
+    }
+
+    setState(() => _avatarUploading = true);
+    try {
+      final newUrl = await ApiService.uploadAvatar(
+        userId: userId,
+        bytes: bytes,
+        filename: _avatarFilename(picked),
+        mimeType: picked.mimeType ?? _avatarMimeFromName(picked.name),
+      );
+      if (!mounted) return;
+      setState(() => _avatarUrl = newUrl);
+      await AuthStorage.setAvatarUrl(newUrl);
+    } catch (e) {
+      if (!mounted) return;
+      _showError(_errorMessage(e));
+    } finally {
+      if (mounted) {
+        setState(() => _avatarUploading = false);
+      }
+    }
+  }
+
+  Future<void> _handleDeleteAvatar() async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) {
+      _showError('Вы не авторизованы');
+      return;
+    }
+
+    setState(() => _avatarUploading = true);
+    try {
+      await ApiService.deleteAvatar(userId: userId);
+      if (!mounted) return;
+      setState(() => _avatarUrl = null);
+      await AuthStorage.setAvatarUrl(null);
+    } catch (e) {
+      if (!mounted) return;
+      _showError(_errorMessage(e));
+    } finally {
+      if (mounted) {
+        setState(() => _avatarUploading = false);
+      }
+    }
+  }
+
+  String _errorMessage(Object error) {
+    final text = error.toString().trim();
+    const prefix = 'Exception:';
+    if (text.startsWith(prefix)) {
+      return text.substring(prefix.length).trim();
+    }
+    return text;
+  }
+
+  void _showError(String body) {
+    if (!mounted || body.isEmpty) return;
+    AppMessageSnackBar.show(
+      context,
+      Message(
+        id: const Uuid().v4(),
+        type: MessageType.notification,
+        severity: MessageSeverity.error,
+        title: '',
+        body: body,
+        timestamp: DateTime.now(),
+        language: 'ru',
+      ),
+    );
+  }
+
+  void _showWarning(String body) {
+    if (!mounted || body.isEmpty) return;
+    AppMessageSnackBar.show(
+      context,
+      Message(
+        id: const Uuid().v4(),
+        type: MessageType.notification,
+        severity: MessageSeverity.warning,
+        title: '',
+        body: body,
+        timestamp: DateTime.now(),
+        language: 'ru',
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final primaryColor = context.colorPalette.accent;
+    final palette = context.colorPalette;
+    final primaryColor = palette.accent;
+    final displayName = AuthStorage.name ?? '';
 
     return Scaffold(
       backgroundColor: _pageBg,
@@ -88,37 +304,70 @@ class _EditProfilePageState extends State<EditProfilePage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // Аватар с кнопкой редактирования
-            Stack(
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: const AssetImage('assets/icons/avatar.png'),
-                  backgroundColor: _colorScheme.surfaceContainerHighest,
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.edit, color: Colors.white, size: 20),
+            // Аватар с кнопкой редактирования и оверлеем загрузки
+            GestureDetector(
+              onTap: _avatarUploading ? null : _openAvatarSheet,
+              behavior: HitTestBehavior.opaque,
+              child: Stack(
+                clipBehavior: Clip.none,
+                alignment: Alignment.center,
+                children: [
+                  UserAvatar(
+                    avatarUrl: _avatarUrl,
+                    displayName: displayName,
+                    radius: 50,
                   ),
-                ),
-              ],
+                  if (_avatarUploading)
+                    Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.4),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Center(
+                        child: SizedBox(
+                          width: 32,
+                          height: 32,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Material(
+                      color: primaryColor,
+                      shape: const CircleBorder(),
+                      child: InkWell(
+                        customBorder: const CircleBorder(),
+                        onTap: _avatarUploading ? null : _openAvatarSheet,
+                        child: const Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
 
             const SizedBox(height: 32),
 
-            // ФИО
             _buildTextField(label: 'ФИО', controller: _nameController),
 
             const SizedBox(height: 16),
 
-            // ЭЛ. ПОЧТА
             _buildTextField(
               label: 'ЭЛ. ПОЧТА',
               controller: _emailController,
@@ -127,7 +376,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
             const SizedBox(height: 16),
 
-            // НОМЕР
             _buildTextField(
               label: 'НОМЕР',
               controller: _phoneController,
@@ -141,7 +389,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
             const SizedBox(height: 16),
 
-            // ОПИСАНИЕ
             _buildTextField(
               label: 'ОПИСАНИЕ',
               controller: _descriptionController,
@@ -150,29 +397,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
             const SizedBox(height: 32),
 
-            // Кнопка сохранить
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  if (!_isValidPhone(_phoneController.text)) {
-                    AppMessageSnackBar.show(
-                      context,
-                      Message(
-                        id: const Uuid().v4(),
-                        type: MessageType.notification,
-                        severity: MessageSeverity.warning,
-                        title: '',
-                        body:
-                            '\u041d\u043e\u043c\u0435\u0440 \u0434\u043e\u043b\u0436\u0435\u043d \u0431\u044b\u0442\u044c \u0432 \u0444\u043e\u0440\u043c\u0430\u0442\u0435 +7-XXX-XXX-XXXX',
-                        timestamp: DateTime.now(),
-                        language: 'ru',
-                      ),
-                    );
-                    return;
-                  }
-                  Navigator.pop(context);
-                },
+                onPressed: _avatarUploading
+                    ? null
+                    : () {
+                        if (!_isValidPhone(_phoneController.text)) {
+                          _showWarning(
+                            'Номер должен быть в формате +7-XXX-XXX-XXXX',
+                          );
+                          return;
+                        }
+                        Navigator.pop(context);
+                      },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,
                   foregroundColor: Colors.white,
@@ -182,7 +420,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   elevation: 0,
                 ),
-                child: Text(
+                child: const Text(
                   'СОХРАНИТЬ',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
@@ -233,6 +471,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         ),
       ],
+    );
+  }
+}
+
+// Локальная обёртка над image_picker - позволяет проще мокать в тестах
+// и не тащит ImagePicker по всему стейту страницы.
+class _AvatarPicker {
+  final ImagePicker _picker = ImagePicker();
+
+  Future<XFile?> pickFromCamera() {
+    return _picker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 90,
+      maxWidth: 2048,
+    );
+  }
+
+  Future<XFile?> pickFromGallery() {
+    return _picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 90,
+      maxWidth: 2048,
     );
   }
 }

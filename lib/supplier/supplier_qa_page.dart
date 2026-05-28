@@ -12,6 +12,7 @@ import '../widgets/supplier/supplier_qa_answer_modal.dart';
 import '../widgets/supplier/supplier_qa_response_modal.dart';
 import '../widgets/expandable_text_block.dart';
 import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/profile/user_avatar.dart';
 import '../widgets/smooth_sheet.dart';
 import '../utils/date_formatter.dart';
 import '../theme/app_color_palette.dart';
@@ -1135,19 +1136,10 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
         children: [
           Row(
             children: [
-              CircleAvatar(
+              UserAvatar(
+                avatarUrl: question.userAvatarUrl,
+                displayName: question.userName,
                 radius: 18,
-                backgroundColor: palette.accentSoft,
-                child: Text(
-                  question.userName.isNotEmpty
-                      ? question.userName[0].toUpperCase()
-                      : '?',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: palette.accent,
-                  ),
-                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -1287,19 +1279,10 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
         children: [
           Row(
             children: [
-              CircleAvatar(
+              UserAvatar(
+                avatarUrl: review.userAvatarUrl,
+                displayName: review.reviewerName,
                 radius: 18,
-                backgroundColor: palette.accentSoft,
-                child: Text(
-                  review.reviewerName.isNotEmpty
-                      ? review.reviewerName[0].toUpperCase()
-                      : '?',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: palette.accent,
-                  ),
-                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -1544,19 +1527,10 @@ class _AnsweredQuestionsPage extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          CircleAvatar(
+                          UserAvatar(
+                            avatarUrl: question.userAvatarUrl,
+                            displayName: question.userName,
                             radius: 18,
-                            backgroundColor: palette.accentSoft,
-                            child: Text(
-                              question.userName.isNotEmpty
-                                  ? question.userName[0].toUpperCase()
-                                  : '?',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: palette.accent,
-                              ),
-                            ),
                           ),
                           const SizedBox(width: 12),
                           Expanded(

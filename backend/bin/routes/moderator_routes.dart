@@ -237,25 +237,30 @@ void _registerModeratorProductRoutes(Router router, Connection connection) {
 
           final insertedMessage = await connection.execute(
             Sql.named('''
-              INSERT INTO support_messages (
-                chat_id,
-                user_id,
-                sender_role,
-                sender_user_id,
-                category,
-                subject,
-                message_text
+              WITH inserted AS (
+                INSERT INTO support_messages (
+                  chat_id,
+                  user_id,
+                  sender_role,
+                  sender_user_id,
+                  category,
+                  subject,
+                  message_text
+                )
+                VALUES (
+                  @chat_id,
+                  @user_id,
+                  'moderator',
+                  @sender_user_id,
+                  @category,
+                  @subject,
+                  @message_text
+                )
+                RETURNING *
               )
-              VALUES (
-                @chat_id,
-                @user_id,
-                'moderator',
-                @sender_user_id,
-                @category,
-                @subject,
-                @message_text
-              )
-              RETURNING *;
+              SELECT i.*, u.avatar_url AS sender_avatar_url
+              FROM inserted i
+              LEFT JOIN public.users u ON u.id = i.sender_user_id;
             '''),
             parameters: {
               'chat_id': chatId,
@@ -285,6 +290,7 @@ void _registerModeratorProductRoutes(Router router, Connection connection) {
 
             final messageDto = _supportMessageRowToDto(
               insertedMessage.first.toColumnMap(),
+              request,
             );
             _emitSupportEvent(
               kind: 'message',
@@ -721,7 +727,7 @@ void _registerSupplierDirectoryRoute(Router router, Connection connection) {
 
       final itemsResult = await connection.execute(
         Sql.named('''
-          SELECT u.id, u.name, u.email, u.supplier_name
+          SELECT u.id, u.name, u.email, u.supplier_name, u.avatar_url
           FROM public.users u
           WHERE $whereSql
           ORDER BY
@@ -755,6 +761,7 @@ void _registerSupplierDirectoryRoute(Router router, Connection connection) {
           'displayName': name,
           'companyName': companyName,
           if (email.isNotEmpty) 'email': email,
+          'avatarUrl': _avatarUrlOrNull(request, m['avatar_url']),
         };
       }).toList();
 

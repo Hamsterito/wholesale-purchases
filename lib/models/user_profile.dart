@@ -5,6 +5,7 @@ class UserProfile {
   final String role;
   final String supplierName;
   final String phone;
+  final String? avatarUrl;
 
   UserProfile({
     required this.id,
@@ -13,6 +14,7 @@ class UserProfile {
     required this.role,
     required this.supplierName,
     required this.phone,
+    this.avatarUrl,
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,23 @@ class UserProfile {
       role: json['role']?.toString() ?? '',
       supplierName: json['supplierName']?.toString() ?? '',
       phone: json['phone']?.toString() ?? '',
+      avatarUrl: _parseAvatarUrl(json['avatarUrl']),
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'email': email,
+        'role': role,
+        'supplierName': supplierName,
+        'phone': phone,
+        'avatarUrl': avatarUrl,
+      };
+}
+
+// Пустую строку трактуем как отсутствие аватарки - бекенд может прислать "" вместо null.
+String? _parseAvatarUrl(dynamic value) {
+  final str = value?.toString().trim() ?? '';
+  return str.isEmpty ? null : str;
 }

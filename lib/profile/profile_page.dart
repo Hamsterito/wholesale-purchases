@@ -23,6 +23,7 @@ import '../models/user_profile.dart';
 import '../services/notification_service.dart';
 import '../services/store/templates_store.dart';
 import '../utils/ru_plural.dart';
+import '../widgets/profile/user_avatar.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -160,14 +161,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     child: Row(
                       children: [
-                        CircleAvatar(
+                        UserAvatar(
+                          avatarUrl: AuthStorage.avatarUrl,
+                          displayName: AuthStorage.name ?? '',
                           radius: 35,
-                          backgroundColor: colorScheme.surfaceContainerHighest,
-                          child: Icon(
-                            Icons.person,
-                            size: 36,
-                            color: colorScheme.onSurfaceVariant,
-                          ),
                         ),
                         const SizedBox(width: 16),
                         Column(

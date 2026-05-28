@@ -1,9 +1,16 @@
+// Пустую строку трактуем как отсутствие аватарки - бекенд может прислать "" вместо null.
+String? _parseAvatarUrl(dynamic value) {
+  final str = value?.toString().trim() ?? '';
+  return str.isEmpty ? null : str;
+}
+
 class SupportMessage {
   final String id;
   final int chatId;
   final int userId;
   final String senderRole;
   final int? senderUserId;
+  final String? senderAvatarUrl;
   final String category;
   final String subject;
   final String text;
@@ -15,6 +22,7 @@ class SupportMessage {
     required this.userId,
     required this.senderRole,
     required this.senderUserId,
+    this.senderAvatarUrl,
     required this.category,
     required this.subject,
     required this.text,
@@ -52,6 +60,7 @@ class SupportMessage {
       userId: parseInt(json['userId']),
       senderRole: senderRole == 'moderator' ? 'moderator' : 'user',
       senderUserId: parseNullableInt(json['senderUserId']),
+      senderAvatarUrl: _parseAvatarUrl(json['senderAvatarUrl']),
       category: json['category']?.toString() ?? '',
       subject: json['subject']?.toString() ?? '',
       text: json['text']?.toString() ?? '',
@@ -70,6 +79,7 @@ class SupportChat {
   final DateTime createdAt;
   final DateTime? closedAt;
   final int? closedByUserId;
+  final String? userAvatarUrl;
 
   SupportChat({
     required this.id,
@@ -81,6 +91,7 @@ class SupportChat {
     required this.createdAt,
     required this.closedAt,
     required this.closedByUserId,
+    this.userAvatarUrl,
   });
 
   bool get isOpen => status == 'open';
@@ -127,6 +138,7 @@ class SupportChat {
       createdAt: parseDate(json['createdAt']),
       closedAt: parseNullableDate(json['closedAt']),
       closedByUserId: parseNullableInt(json['closedByUserId']),
+      userAvatarUrl: _parseAvatarUrl(json['userAvatarUrl']),
     );
   }
 }
@@ -170,6 +182,7 @@ class SupportChatSummary {
   final String userName;
   final String userEmail;
   final String userRole;
+  final String? userAvatarUrl;
   final String supplierName;
   final String lastMessage;
   final String lastSenderRole;
@@ -187,6 +200,7 @@ class SupportChatSummary {
     required this.userName,
     required this.userEmail,
     required this.userRole,
+    this.userAvatarUrl,
     required this.supplierName,
     required this.lastMessage,
     required this.lastSenderRole,
@@ -233,6 +247,7 @@ class SupportChatSummary {
       userName: json['userName']?.toString() ?? '',
       userEmail: json['userEmail']?.toString() ?? '',
       userRole: json['userRole']?.toString() ?? '',
+      userAvatarUrl: _parseAvatarUrl(json['userAvatarUrl']),
       supplierName: json['supplierName']?.toString() ?? '',
       lastMessage: json['lastMessage']?.toString() ?? '',
       lastSenderRole: senderRole == 'moderator' ? 'moderator' : 'user',

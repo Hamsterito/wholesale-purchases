@@ -12,6 +12,7 @@ import '../services/storage/auth_storage.dart';
 import '../widgets/chat/chat_thread_view.dart';
 import '../widgets/chat/adapters.dart';
 import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/profile/user_avatar.dart';
 import 'suppliers_directory_page.dart';
 
 class ModeratorSupportChatsPage extends StatefulWidget {
@@ -114,12 +115,6 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
     final base = chat.userName.trim();
     if (base.isNotEmpty) return base;
     return 'Пользователь #${chat.userId}';
-  }
-
-  String _avatarText(SupportChatSummary chat) {
-    final label = _displayName(chat).trim();
-    if (label.isEmpty) return '?';
-    return label.substring(0, 1).toUpperCase();
   }
 
   String _formatTime(DateTime dateTime) {
@@ -318,11 +313,10 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
                                   ),
                                 ),
                                 tileColor: chatTileColor,
-                                leading: CircleAvatar(
-                                  backgroundColor: colorScheme.primary
-                                      .withValues(alpha: 0.12),
-                                  foregroundColor: colorScheme.primary,
-                                  child: Text(_avatarText(chat)),
+                                leading: UserAvatar(
+                                  avatarUrl: chat.userAvatarUrl,
+                                  displayName: _displayName(chat),
+                                  radius: 20,
                                 ),
                                 title: Text(
                                   _displayName(chat),
@@ -725,7 +719,10 @@ class _ModeratorSupportDialogPageState
             ),
           Expanded(
             child: ChatThreadView(
-              messages: chatBubblesFromSupportMessages(_messages),
+              messages: chatBubblesFromSupportMessages(
+                _messages,
+                counterpartName: userName,
+              ),
               currentUserId: moderatorId,
               counterpartName: userName,
               onSend: _sendMessageText,

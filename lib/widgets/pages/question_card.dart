@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/question.dart';
 import '../../theme/app_color_palette.dart';
 import '../expandable_text_block.dart';
+import '../profile/user_avatar.dart';
 import '../../utils/date_formatter.dart';
 
 class QuestionCard extends StatelessWidget {
@@ -18,7 +19,6 @@ class QuestionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final name = question.userName;
     final relativeTime = DateFormatter.formatDate(question.createdAt);
-    final avatarInitial = name.isNotEmpty ? name[0].toUpperCase() : '?';
     final questionText = question.questionText.trim().isEmpty
         ? 'Без текста'
         : question.questionText.trim();
@@ -42,17 +42,10 @@ class QuestionCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(
+              UserAvatar(
+                avatarUrl: question.userAvatarUrl,
+                displayName: name,
                 radius: 20,
-                backgroundColor: palette.accentSoft,
-                child: Text(
-                  avatarInitial,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: palette.accent,
-                  ),
-                ),
               ),
               const SizedBox(width: 12),
               Expanded(

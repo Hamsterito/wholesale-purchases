@@ -1477,7 +1477,7 @@ void _registerSupplierDashboardRoutes(Router router, Connection connection) {
         Sql.named('''
           SELECT
             q.id, q.product_id, q.user_id, q.question_text, q.created_at, q.is_answered,
-            u.name as user_name,
+            u.name as user_name, u.avatar_url as user_avatar_url,
             p.name as product_name, p.image_url as product_image,
             qa.id as answer_id, qa.answer_text, qa.answered_at,
             us.supplier_name as supplier_name, us.id as supplier_id
@@ -1541,6 +1541,7 @@ void _registerSupplierDashboardRoutes(Router router, Connection connection) {
           'productImage': map['product_image'] ?? '',
           'userId': map['user_id'].toString(),
           'userName': map['user_name'] ?? 'Пользователь',
+          'userAvatarUrl': _avatarUrlOrNull(request, map['user_avatar_url']),
           'questionText': map['question_text'] ?? '',
           'createdAt': createdAtIso,
           'isAnswered': hasAnswer || map['is_answered'] == true,
@@ -1615,6 +1616,7 @@ void _registerSupplierDashboardRoutes(Router router, Connection connection) {
             r.rating,
             r.review_text,
             u.name as reviewer_name,
+            u.avatar_url as user_avatar_url,
             r.created_at
           FROM reviews r
           JOIN order_items oi ON r.order_item_id = oi.id
@@ -1632,7 +1634,7 @@ void _registerSupplierDashboardRoutes(Router router, Connection connection) {
       );
 
       final reviews = result
-          .map((row) => _reviewRowToDto(row.toColumnMap()))
+          .map((row) => _reviewRowToDto(row.toColumnMap(), request))
           .toList();
 
       return Response.ok(

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http_package;
 import '../../models/product.dart';
@@ -534,6 +535,99 @@ class ApiService {
       throw Exception('Не удалось обновить пароль: ${response.statusCode}');
     } catch (e) {
       debugPrint('Ошибка при смене пароля: $e');
+      rethrow;
+    }
+  }
+
+  // Загрузка аватарки пользователя через multipart/form-data.
+  // Принимает байты, чтобы работало и на mobile/desktop (через File.readAsBytes),
+  // и на Web (через XFile.readAsBytes - dart:io File там недоступен).
+  // Возвращает абсолютный URL новой аватарки (или null, если сервер вернул
+  // пустую строку). На любой статус вне 200..299 - Exception с телом ответа.
+  static Future<String?> uploadAvatar({
+    required int userId,
+    required List<int> bytes,
+    required String filename,
+    String? mimeType,
+  }) async {
+    if (userId <= 0) {
+      throw ArgumentError('userId должен быть положительным');
+    }
+
+    try {
+      // На Web BrowserClient.send не поддерживает streaming body, поэтому
+      // MultipartRequest иногда падает с "Failed to fetch". Собираем
+      // multipart-тело руками и отправляем как обычный http.post с
+      // фиксированным Content-Length - это работает одинаково на всех
+      // платформах.
+      final boundary =
+          '----dart-multipart-${DateTime.now().microsecondsSinceEpoch}';
+      final mime = (mimeType == null || mimeType.trim().isEmpty)
+          ? 'application/octet-stream'
+          : mimeType.trim();
+      final safeFilename = filename.replaceAll('"', '');
+
+      final preamble = utf8.encode(
+        '--$boundary\r\n'
+        'Content-Disposition: form-data; name="file"; filename="$safeFilename"\r\n'
+        'Content-Type: $mime\r\n'
+        '\r\n',
+      );
+      final epilogue = utf8.encode('\r\n--$boundary--\r\n');
+
+      final body = Uint8List(preamble.length + bytes.length + epilogue.length);
+      body.setRange(0, preamble.length, preamble);
+      body.setRange(preamble.length, preamble.length + bytes.length, bytes);
+      body.setRange(preamble.length + bytes.length, body.length, epilogue);
+
+      final actorId = AuthStorage.userId;
+      final response = await http.post(
+        Uri.parse('$baseUrl/users/$userId/avatar'),
+        headers: {
+          'Content-Type': 'multipart/form-data; boundary=$boundary',
+          if (actorId != null) 'X-User-Id': actorId.toString(),
+        },
+        body: body,
+      );
+      final responseBody = _decodeBody(response.bodyBytes);
+
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        throw Exception(responseBody);
+      }
+
+      final decoded = jsonDecode(responseBody);
+      if (decoded is! Map<String, dynamic>) {
+        return null;
+      }
+      final raw = decoded['avatarUrl'];
+      if (raw == null) return null;
+      final url = raw.toString().trim();
+      return url.isEmpty ? null : url;
+    } catch (e) {
+      debugPrint('Ошибка при загрузке аватарки: $e');
+      rethrow;
+    }
+  }
+
+  // Удаление аватарки пользователя.
+  // На любой статус вне 200..299 - Exception с телом ответа.
+  static Future<void> deleteAvatar({required int userId}) async {
+    if (userId <= 0) {
+      throw ArgumentError('userId должен быть положительным');
+    }
+
+    try {
+      final actorId = AuthStorage.userId;
+      final response = await http.delete(
+        Uri.parse('$baseUrl/users/$userId/avatar'),
+        headers: {if (actorId != null) 'X-User-Id': actorId.toString()},
+      );
+
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        throw Exception(_decodeBody(response.bodyBytes));
+      }
+    } catch (e) {
+      debugPrint('Ошибка при удалении аватарки: $e');
       rethrow;
     }
   }

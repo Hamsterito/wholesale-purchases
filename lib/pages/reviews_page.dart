@@ -7,6 +7,7 @@ import '../theme/app_color_palette.dart';
 import '../widgets/product/rating_stars.dart';
 import '../widgets/expandable_text_block.dart';
 import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/profile/user_avatar.dart';
 import '../utils/date_formatter.dart';
 
 class ReviewsPage extends StatefulWidget {
@@ -99,14 +100,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
       return 'Покупатель';
     }
     return normalized;
-  }
-
-  String _initial(String value) {
-    final normalized = value.trim();
-    if (normalized.isEmpty) {
-      return 'П';
-    }
-    return normalized.characters.first.toUpperCase();
   }
 
   @override
@@ -501,17 +494,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
           // Верхняя строка: аватар + имя/дата + звёзды
           Row(
             children: [
-              CircleAvatar(
+              UserAvatar(
+                avatarUrl: review.userAvatarUrl,
+                displayName: name,
                 radius: 20,
-                backgroundColor: palette.accentSoft,
-                child: Text(
-                  _initial(name),
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: palette.accent,
-                  ),
-                ),
               ),
               const SizedBox(width: 12),
               Expanded(

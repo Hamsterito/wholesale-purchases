@@ -17,6 +17,8 @@ dependencies:
   mailer: ^6.2.0
   dotenv: ^4.2.0
   excel: ^4.0.3
+  uuid: ^4.4.0
+  mime: ^1.0.5
 
 dev_dependencies:
   lints: ^6.0.0

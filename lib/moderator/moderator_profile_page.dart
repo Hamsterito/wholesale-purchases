@@ -4,6 +4,7 @@ import '../login_screen/login.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/notification_service.dart';
 import '../services/store/templates_store.dart';
+import '../widgets/profile/user_avatar.dart';
 
 class ModeratorProfilePage extends StatelessWidget {
   const ModeratorProfilePage({super.key});
@@ -30,6 +31,16 @@ class ModeratorProfilePage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: UserAvatar(
+                avatarUrl: AuthStorage.avatarUrl,
+                displayName: name,
+                radius: 50,
+              ),
+            ),
+          ),
           _InfoTile(label: 'Имя', value: name),
           _InfoTile(label: 'Эл. почта', value: email),
           const SizedBox(height: 24),

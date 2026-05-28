@@ -147,7 +147,14 @@ Map<String, dynamic> _supportChatRowToDto(Map<String, dynamic> map) {
   };
 }
 
-Map<String, dynamic> _supportMessageRowToDto(Map<String, dynamic> map) {
+// request нужен, чтобы собрать абсолютный URL аватарки. Если в карте нет
+// поля sender_avatar_url (например, после голого INSERT ... RETURNING *
+// без JOIN) - senderAvatarUrl будет null, что фронт корректно
+// интерпретирует как «аватарки нет».
+Map<String, dynamic> _supportMessageRowToDto(
+  Map<String, dynamic> map,
+  Request request,
+) {
   String? createdAtIso;
   final createdAt = map['created_at'];
   if (createdAt is DateTime) {
@@ -160,6 +167,7 @@ Map<String, dynamic> _supportMessageRowToDto(Map<String, dynamic> map) {
     'userId': _toPositiveInt(map['user_id']),
     'senderRole': _normalizeSupportSenderRole(map['sender_role']),
     'senderUserId': _toNullablePositiveInt(map['sender_user_id']),
+    'senderAvatarUrl': _avatarUrlOrNull(request, map['sender_avatar_url']),
     'category': map['category'] ?? '',
     'subject': map['subject'] ?? '',
     'text': map['message_text'] ?? '',
@@ -170,18 +178,22 @@ Map<String, dynamic> _supportMessageRowToDto(Map<String, dynamic> map) {
 Future<List<Map<String, dynamic>>> _loadSupportMessagesByChat(
   Connection connection,
   int chatId,
+  Request request,
 ) async {
+  // LEFT JOIN с users по sender_user_id - системные сообщения без отправителя
+  // (sender_user_id IS NULL) корректно отдают null в sender_avatar_url.
   final result = await connection.execute(
     Sql.named('''
-      SELECT *
-      FROM support_messages
-      WHERE chat_id = @chat_id
-      ORDER BY id ASC;
+      SELECT sm.*, u.avatar_url AS sender_avatar_url
+      FROM support_messages sm
+      LEFT JOIN public.users u ON u.id = sm.sender_user_id
+      WHERE sm.chat_id = @chat_id
+      ORDER BY sm.id ASC;
     '''),
     parameters: {'chat_id': chatId},
   );
   return result
-      .map((row) => _supportMessageRowToDto(row.toColumnMap()))
+      .map((row) => _supportMessageRowToDto(row.toColumnMap(), request))
       .toList();
 }
 
@@ -242,7 +254,8 @@ Future<Map<String, dynamic>?> _loadPreferredSupportChatForUser(
 
 Future<Map<String, dynamic>> _loadSupportThreadForUser(
   Connection connection,
-  int userId, {
+  int userId,
+  Request request, {
   int? chatId,
 }) async {
   final chatMap = await _loadPreferredSupportChatForUser(
@@ -256,7 +269,7 @@ Future<Map<String, dynamic>> _loadSupportThreadForUser(
 
   final resolvedChatId = _toPositiveInt(chatMap['id']);
   final messages = resolvedChatId > 0
-      ? await _loadSupportMessagesByChat(connection, resolvedChatId)
+      ? await _loadSupportMessagesByChat(connection, resolvedChatId, request)
       : <Map<String, dynamic>>[];
 
   return {'chat': _supportChatRowToDto(chatMap), 'messages': messages};

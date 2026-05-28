@@ -165,25 +165,30 @@ void _registerSupportMessageRoute(Router router, Connection connection) {
 
       final inserted = await connection.execute(
         Sql.named('''
-          INSERT INTO support_messages (
-            chat_id,
-            user_id,
-            sender_role,
-            sender_user_id,
-            category,
-            subject,
-            message_text
+          WITH inserted AS (
+            INSERT INTO support_messages (
+              chat_id,
+              user_id,
+              sender_role,
+              sender_user_id,
+              category,
+              subject,
+              message_text
+            )
+            VALUES (
+              @chat_id,
+              @user_id,
+              @sender_role,
+              @sender_user_id,
+              @category,
+              @subject,
+              @message_text
+            )
+            RETURNING *
           )
-          VALUES (
-            @chat_id,
-            @user_id,
-            @sender_role,
-            @sender_user_id,
-            @category,
-            @subject,
-            @message_text
-          )
-          RETURNING *;
+          SELECT i.*, u.avatar_url AS sender_avatar_url
+          FROM inserted i
+          LEFT JOIN public.users u ON u.id = i.sender_user_id;
         '''),
         parameters: {
           'chat_id': chatId,
@@ -218,7 +223,10 @@ void _registerSupportMessageRoute(Router router, Connection connection) {
         },
       );
 
-      final insertedDto = _supportMessageRowToDto(inserted.first.toColumnMap());
+      final insertedDto = _supportMessageRowToDto(
+        inserted.first.toColumnMap(),
+        request,
+      );
       _emitSupportEvent(
         kind: 'message',
         userId: _toPositiveInt(insertedDto['userId']),
@@ -262,6 +270,7 @@ void _registerSupportReadRoutes(Router router, Connection connection) {
       final thread = await _loadSupportThreadForUser(
         connection,
         userId,
+        request,
         chatId: chatId,
       );
       return Response.ok(
@@ -325,6 +334,7 @@ void _registerSupportReadRoutes(Router router, Connection connection) {
           : await _loadSupportMessagesByChat(
               connection,
               _toPositiveInt(chat['id']),
+              request,
             );
       return Response.ok(
         jsonEncode(messages),
@@ -356,7 +366,8 @@ void _registerSupportReadRoutes(Router router, Connection connection) {
           u.name AS user_name,
           u.email AS user_email,
           u.role AS user_role,
-          u.supplier_name
+          u.supplier_name,
+          u.avatar_url AS user_avatar_url
         FROM support_chats sc
         JOIN users u ON u.id = sc.user_id
         LEFT JOIN LATERAL (
@@ -412,6 +423,7 @@ void _registerSupportReadRoutes(Router router, Connection connection) {
           'userName': map['user_name'] ?? '',
           'userEmail': map['user_email'] ?? '',
           'userRole': map['user_role'] ?? _defaultRole,
+          'userAvatarUrl': _avatarUrlOrNull(request, map['user_avatar_url']),
           'supplierName': map['supplier_name'] ?? '',
           'lastMessage': map['last_message'] ?? '',
           'lastSenderRole': _normalizeSupportSenderRole(
@@ -475,7 +487,7 @@ void _registerSupportReadRoutes(Router router, Connection connection) {
       final chatId = _toPositiveInt(chat['id']);
       final messages = chatId <= 0
           ? <Map<String, dynamic>>[]
-          : await _loadSupportMessagesByChat(connection, chatId);
+          : await _loadSupportMessagesByChat(connection, chatId, request);
       return Response.ok(
         jsonEncode(messages),
         headers: {'content-type': 'application/json; charset=utf-8'},
@@ -501,7 +513,11 @@ void _registerSupportReadRoutes(Router router, Connection connection) {
         return Response.notFound('chatId обязателен');
       }
 
-      final messages = await _loadSupportMessagesByChat(connection, chatId);
+      final messages = await _loadSupportMessagesByChat(
+        connection,
+        chatId,
+        request,
+      );
       return Response.ok(
         jsonEncode({'chat': _supportChatRowToDto(chat), 'messages': messages}),
         headers: {'content-type': 'application/json; charset=utf-8'},

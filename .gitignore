@@ -49,3 +49,6 @@ app.*.map.json
 # Environment variables
 .env
 *.env
+
+# Загруженные файлы (аватарки и пр.) - храним только на сервере, не в git
+backend/uploads/

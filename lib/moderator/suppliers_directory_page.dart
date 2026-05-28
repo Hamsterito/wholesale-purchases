@@ -13,6 +13,7 @@ import '../utils/search_normalizer.dart';
 import '../widgets/messages/app_message_snackbar.dart';
 import '../widgets/navigation/main_bottom_nav.dart';
 import '../widgets/moderator/supplier_search_field.dart';
+import '../widgets/profile/user_avatar.dart';
 import 'support_chats_page.dart';
 import 'widgets/two_factor_admin_disable_tile.dart';
 
@@ -474,9 +475,10 @@ class _SupplierListItem extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  _SupplierAvatar(
+                  UserAvatar(
                     avatarUrl: supplier.avatarUrl,
-                    companyName: supplier.companyName,
+                    displayName: supplier.companyName,
+                    radius: 22,
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -530,49 +532,6 @@ class _SupplierListItem extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class _SupplierAvatar extends StatelessWidget {
-  const _SupplierAvatar({required this.avatarUrl, required this.companyName});
-
-  final String? avatarUrl;
-  final String companyName;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.colorPalette;
-    final hasUrl = avatarUrl != null && avatarUrl!.trim().isNotEmpty;
-
-    if (hasUrl) {
-      return CircleAvatar(
-        radius: 22,
-        backgroundColor: palette.accentSoft,
-        backgroundImage: NetworkImage(avatarUrl!),
-        // На сбое загрузки картинки оставляем фон палитры.
-        onBackgroundImageError: (_, __) {},
-      );
-    }
-
-    return CircleAvatar(
-      radius: 22,
-      backgroundColor: palette.accentSoft,
-      foregroundColor: palette.primary,
-      child: Text(
-        _initialFor(companyName),
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: palette.primary,
-        ),
-      ),
-    );
-  }
-
-  static String _initialFor(String label) {
-    final trimmed = label.trim();
-    if (trimmed.isEmpty) return '?';
-    return trimmed.characters.first.toUpperCase();
   }
 }
 
