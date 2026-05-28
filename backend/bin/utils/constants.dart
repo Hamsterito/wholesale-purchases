@@ -29,6 +29,13 @@ const Set<String> _selfRegistrationDeniedRoles = {'moderator', 'super_admin'};
 const String _superAdminEmail = 'dota@gmail.com';
 const String _superAdminName = 'dota';
 const String _superAdminInitialPassword = '123456';
+
+// Дефолтный поставщик: создаётся при старте, если такого email ещё нет.
+// Удобно для локальной разработки - всегда есть готовый supplier-аккаунт.
+const String _defaultSupplierEmail = 'dima@gmail.com';
+const String _defaultSupplierName = 'dima';
+const String _defaultSupplierCompanyName = 'dima';
+const String _defaultSupplierInitialPassword = '123456';
 const Set<String> _allowedSupportChatStatuses = {'open', 'closed'};
 const Set<String> _allowedModerationStatuses = {
   'pending',

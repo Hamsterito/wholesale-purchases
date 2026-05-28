@@ -141,6 +141,7 @@ const List<Map<String, Object?>> _catalogHierarchySeed = [
 
 Future<void> _ensureDatabaseSchema(Connection connection) async {
   await _ensureUserSchema(connection);
+  await _ensureTwoFactorSchema(connection);
   await _ensureEmailVerificationSchema(connection);
   await _ensurePasswordResetSchema(connection);
   await _ensureAddressSchema(connection);
@@ -156,6 +157,24 @@ Future<void> _ensureDatabaseSchema(Connection connection) async {
 }
 
 Future<void> _ensureUserSchema(Connection connection) async {
+  // Базовая таблица пользователей. Раньше создавалась только через shop_db.sql,
+  // из-за чего на свежей БД backend падал на первом ALTER TABLE.
+  await connection.execute('''
+    CREATE TABLE IF NOT EXISTS public.users (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(100) NOT NULL,
+      email VARCHAR(100) NOT NULL UNIQUE,
+      password VARCHAR(100) NOT NULL,
+      is_verified BOOLEAN NOT NULL DEFAULT false,
+      role VARCHAR(20) NOT NULL DEFAULT 'buyer',
+      supplier_name VARCHAR(255),
+      phone VARCHAR(20),
+      created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+    );
+  ''');
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_users_email ON public.users(email);',
+  );
   await connection.execute('''
     ALTER TABLE public.users
       ADD COLUMN IF NOT EXISTS role VARCHAR(20) NOT NULL DEFAULT 'buyer';
@@ -216,6 +235,14 @@ Future<void> _ensureEmailVerificationSchema(Connection connection) async {
     );
   }
 
+  // purpose: назначение OTP - enable/disable/regenerate/revoke для 2FA, NULL
+  // для не-2FA (регистрация, forgot-password). Verify-эндпоинты фильтруют по
+  // нему, чтобы код, выпущенный под одну операцию, не проходил под другую.
+  await connection.execute('''
+    ALTER TABLE public.email_verifications
+      ADD COLUMN IF NOT EXISTS purpose VARCHAR(32);
+  ''');
+
   await connection.execute(
     'CREATE INDEX IF NOT EXISTS idx_email_verifications_user_id ON public.email_verifications(user_id);',
   );
@@ -245,6 +272,41 @@ Future<void> _ensurePasswordResetSchema(Connection connection) async {
 }
 
 Future<void> _ensureProductSchema(Connection connection) async {
+  // Базовая таблица товаров. Раньше создавалась только через shop_db.sql,
+  // из-за чего на свежей БД backend падал на первом ALTER TABLE.
+  await connection.execute('''
+    CREATE TABLE IF NOT EXISTS public.products (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      description TEXT,
+      image_url TEXT,
+      ingredients TEXT,
+      nutrition_calories NUMERIC(10,2) NOT NULL DEFAULT 0,
+      nutrition_protein NUMERIC(10,2) NOT NULL DEFAULT 0,
+      nutrition_fat NUMERIC(10,2) NOT NULL DEFAULT 0,
+      nutrition_carbohydrates NUMERIC(10,2) NOT NULL DEFAULT 0,
+      characteristics TEXT,
+      stock_quantity INTEGER NOT NULL DEFAULT 0,
+      rating NUMERIC(2,1) NOT NULL DEFAULT 0.0,
+      review_count INTEGER NOT NULL DEFAULT 0,
+      category VARCHAR(100),
+      price_per_unit INTEGER NOT NULL DEFAULT 0,
+      min_quantity INTEGER NOT NULL DEFAULT 1,
+      max_quantity INTEGER,
+      supplier_name VARCHAR(255),
+      delivery_date VARCHAR(100),
+      delivery_badge VARCHAR(100),
+      supplier_user_id INTEGER,
+      moderation_status VARCHAR(20) NOT NULL DEFAULT 'approved',
+      moderation_comment TEXT
+    );
+  ''');
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_products_category ON public.products(category);',
+  );
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_products_supplier_name ON public.products(supplier_name);',
+  );
   await connection.execute('''
     ALTER TABLE public.products
       ADD COLUMN IF NOT EXISTS supplier_user_id INTEGER;
@@ -1044,6 +1106,91 @@ Future<void> _ensureQuestionsSchema(Connection connection) async {
   ''');
 }
 
+Future<void> _ensureTwoFactorSchema(Connection connection) async {
+  // Флаг включения 2FA на пользователе
+  await connection.execute('''
+    ALTER TABLE public.users
+      ADD COLUMN IF NOT EXISTS two_factor_enabled BOOLEAN NOT NULL DEFAULT false;
+  ''');
+
+  // Backup-коды
+  await connection.execute('''
+    CREATE TABLE IF NOT EXISTS public.two_factor_backup_codes (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+      code_hash VARCHAR(255) NOT NULL,
+      used BOOLEAN NOT NULL DEFAULT false,
+      created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+      used_at TIMESTAMP WITH TIME ZONE
+    );
+  ''');
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_2fa_backup_codes_user ON public.two_factor_backup_codes(user_id);',
+  );
+  // Частичный индекс для быстрого выбора неиспользованных кодов
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_2fa_backup_codes_user_unused ON public.two_factor_backup_codes(user_id) WHERE used = false;',
+  );
+
+  // Доверенные устройства
+  await connection.execute('''
+    CREATE TABLE IF NOT EXISTS public.two_factor_trusted_devices (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+      token_hash VARCHAR(255) NOT NULL,
+      expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+      revoked BOOLEAN NOT NULL DEFAULT false,
+      created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+    );
+  ''');
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_2fa_trusted_user ON public.two_factor_trusted_devices(user_id);',
+  );
+  // Частичный индекс для быстрого подбора активных устройств при логине
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_2fa_trusted_active ON public.two_factor_trusted_devices(user_id, expires_at) WHERE revoked = false;',
+  );
+
+  // Pending-сессии 2FA-челленджа при логине
+  await connection.execute('''
+    CREATE TABLE IF NOT EXISTS public.two_factor_pending_sessions (
+      id UUID PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+      code_hash VARCHAR(255) NOT NULL,
+      attempts INTEGER NOT NULL DEFAULT 0,
+      expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+      used BOOLEAN NOT NULL DEFAULT false,
+      created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+      last_resend_at TIMESTAMP WITH TIME ZONE
+    );
+  ''');
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_2fa_pending_user ON public.two_factor_pending_sessions(user_id);',
+  );
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_2fa_pending_expires ON public.two_factor_pending_sessions(expires_at);',
+  );
+
+  // Журнал аудита 2FA-действий
+  await connection.execute('''
+    CREATE TABLE IF NOT EXISTS public.two_factor_audit (
+      id BIGSERIAL PRIMARY KEY,
+      actor_user_id INTEGER REFERENCES public.users(id) ON DELETE SET NULL,
+      target_user_id INTEGER NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+      action VARCHAR(40) NOT NULL,
+      context VARCHAR(40),
+      ip_address VARCHAR(64),
+      created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+    );
+  ''');
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_2fa_audit_target ON public.two_factor_audit(target_user_id, created_at DESC);',
+  );
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_2fa_audit_action ON public.two_factor_audit(action, created_at DESC);',
+  );
+}
+
 // наличие учётной записи Super_Admin (dota@gmail.com).
 Future<void> _ensureSuperAdminUser(Connection connection) async {
   try {
@@ -1087,5 +1234,69 @@ Future<void> _ensureSuperAdminUser(Connection connection) async {
   } catch (e, st) {
     // Не валим запуск сервера, если БД временно недоступна или схема не готова
     print('Не удалось подготовить Super_Admin: $e\n$st');
+  }
+}
+
+// Дефолтный поставщик dima@gmail.com / 123456: создаётся при старте, если
+// такой записи ещё нет. Если запись есть, но заблокирована флагом is_verified
+// = false (например, осталась с прошлого старта без подтверждения почты),
+// мягко её допиливаем до рабочего supplier-аккаунта.
+Future<void> _ensureDefaultSupplierUser(Connection connection) async {
+  try {
+    final existing = await connection.execute(
+      Sql.named(
+        'SELECT id, role, is_verified FROM public.users WHERE LOWER(email) = @email LIMIT 1',
+      ),
+      parameters: {'email': _defaultSupplierEmail},
+    );
+
+    if (existing.isEmpty) {
+      await connection.execute(
+        Sql.named('''
+          INSERT INTO public.users (
+            name, email, password, role, supplier_name, is_verified, created_at
+          )
+          VALUES (
+            @name, @email, @password, 'supplier', @supplier_name, true, NOW()
+          );
+        '''),
+        parameters: {
+          'name': _defaultSupplierName,
+          'email': _defaultSupplierEmail,
+          'password': _hashPassword(_defaultSupplierInitialPassword),
+          'supplier_name': _defaultSupplierCompanyName,
+        },
+      );
+      return;
+    }
+
+    final row = existing.first.toColumnMap();
+    final currentRole = (row['role']?.toString() ?? '').trim().toLowerCase();
+    final isVerified = row['is_verified'] == true;
+
+    // Уже supplier и подтверждён - ничего не трогаем, чтобы не перетирать
+    // настоящие данные/пароль пользователя.
+    if (currentRole == 'supplier' && isVerified) {
+      return;
+    }
+
+    // Иначе чиним до рабочего состояния: роль supplier, подтверждён.
+    // Пароль не сбрасываем - вдруг пользователь его уже менял.
+    await connection.execute(
+      Sql.named('''
+        UPDATE public.users
+        SET role = 'supplier',
+            is_verified = true,
+            supplier_name = COALESCE(NULLIF(supplier_name, ''), @supplier_name)
+        WHERE id = @id;
+      '''),
+      parameters: {
+        'id': row['id'],
+        'supplier_name': _defaultSupplierCompanyName,
+      },
+    );
+  } catch (e, st) {
+    // Не валим запуск сервера, если БД временно недоступна или схема не готова
+    print('Не удалось подготовить дефолтного поставщика: $e\n$st');
   }
 }

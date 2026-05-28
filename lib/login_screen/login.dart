@@ -1,20 +1,21 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 import 'package:flutter_project/reg_screan/register_page.dart';
 import 'package:flutter_project/forgot_screan/forgot_password_page.dart';
 import '../models/message.dart';
 import '../services/api/api_config.dart';
 import '../services/api/app_http_client.dart';
+import '../services/api/two_factor_api.dart';
 import '../services/app_logger.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/notification_service.dart';
 import '../services/store/templates_store.dart';
-import '../widgets/messages/app_message_snackbar.dart';
+import '../widgets/messages/top_message.dart';
 import '../widgets/navigation/main_navigation.dart';
 import '../forgot_screan/verification_page.dart';
+import 'two_factor_challenge_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -33,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
   bool get _isDark => _theme.brightness == Brightness.dark;
-  Color get _cardBg => _colorScheme.surface;
+  Color get _cardBg => context.colorPalette.card;
   Color get _mutedText => _colorScheme.onSurfaceVariant;
   Color get _inputFill => _isDark
       ? _colorScheme.surfaceContainerHighest
@@ -56,20 +57,21 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  // Унифицированный показ SnackBar поверх Message_System.
-  // title оставляем пустым: исходные SnackBar содержали только content без заголовка.
+  // Показ сообщения сверху экрана. Цвет берём из палитры по severity,
+  // чтобы login/register выглядели одинаково с остальными экранами.
   void _showMessage(String body, MessageSeverity severity) {
-    AppMessageSnackBar.show(
+    final palette = context.colorPalette;
+    final color = switch (severity) {
+      MessageSeverity.info => palette.accent,
+      MessageSeverity.warning => palette.warning,
+      MessageSeverity.error => palette.error,
+      MessageSeverity.critical => palette.error,
+    };
+    showTopMessage(
       context,
-      Message(
-        id: const Uuid().v4(),
-        type: MessageType.notification,
-        severity: severity,
-        title: '',
-        body: body,
-        timestamp: DateTime.now(),
-        language: 'ru',
-      ),
+      body,
+      backgroundColor: color,
+      duration: const Duration(seconds: 4),
     );
   }
 
@@ -102,11 +104,18 @@ class _LoginPageState extends State<LoginPage> {
     try {
       AppLogger.info('Login started', scope: 'auth');
       final url = Uri.parse('${ApiConfig.baseUrl}/login');
+      // Подставляем device-токен 2FA для этого email, если он есть -
+      // сервер пропустит challenge на доверенном устройстве.
+      final headers = <String, String>{
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      };
+      final deviceToken = await AuthStorage.getDeviceTokenForLogin(email);
+      if (deviceToken != null && deviceToken.isNotEmpty) {
+        headers['X-Device-Token'] = deviceToken;
+      }
       final response = await AppHttpClient.instance.post(
         url,
-        headers: const {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-        },
+        headers: headers,
         encoding: utf8,
         body: {'email': email, 'password': password},
       );
@@ -135,52 +144,65 @@ class _LoginPageState extends State<LoginPage> {
           }
           return;
         }
+
+        // 2FA-челлендж: пользователь прошёл пароль, но нужен второй фактор.
+        if (responseData['requiresTwoFactor'] == true) {
+          final challengeId = responseData['challengeId']?.toString() ?? '';
+          if (challengeId.isEmpty) {
+            if (mounted) {
+              _showMessage(
+                'Сервер не вернул challenge для 2FA',
+                MessageSeverity.error,
+              );
+            }
+            return;
+          }
+          if (!mounted) return;
+          final result = await Navigator.push<TwoFactorLoginResult>(
+            context,
+            MaterialPageRoute(
+              builder: (_) => TwoFactorChallengePage(
+                challengeId: challengeId,
+                email: email,
+                rememberMeForSession: _rememberMe,
+              ),
+            ),
+          );
+          // null - пользователь отменил или истёк challenge,
+          // LoginPage остаётся открытой, пусть повторно жмёт «Войти».
+          if (result == null) return;
+          if (!mounted) return;
+
+          final token = result.deviceToken;
+          if (token != null && token.isNotEmpty) {
+            await AuthStorage.setDeviceToken(
+              userId: result.user.userId,
+              email: email,
+              token: token,
+            );
+          }
+          if (!mounted) return;
+          await _finalizeLoginSession(
+            email: email,
+            role: result.user.role,
+            userId: result.user.userId,
+            name: result.user.name,
+            supplierName: result.user.supplierName,
+          );
+          return;
+        }
+
         final data = responseData['user'] as Map<String, dynamic>;
         final role = data['role']?.toString() ?? 'buyer';
         final userId = int.tryParse(data['id']?.toString() ?? '') ?? 0;
         final name = data['name']?.toString();
         final supplierName = data['supplierName']?.toString();
-        AppLogger.info(
-          'Login succeeded for userId=$userId role=$role',
-          scope: 'auth',
-        );
-
-        if (_rememberMe) {
-          await AuthStorage.remember(
-            email: email,
-            role: role,
-            userId: userId,
-            name: name,
-            supplierName: supplierName,
-          );
-        } else {
-          await TemplatesStore.instance.clearCache();
-          await AuthStorage.forget();
-          await AuthStorage.setSession(
-            email: email,
-            role: role,
-            userId: userId,
-            name: name,
-            supplierName: supplierName,
-          );
-        }
-        if (!mounted) return;
-        // Успешный вход - приветственное сообщение через унифицированный SnackBar
-        // (фикс чёрного SnackBar на тёмной теме, Requirement 1.1).
-        _showMessage(
-          name == null || name.isEmpty
-              ? 'Вход выполнен'
-              : 'Добро пожаловать, $name!',
-          MessageSeverity.info,
-        );
-
-        // Инициализируем сервис уведомлений для нового пользователя.
-        // Не блокируем переход - initialize отработает в фоне
-        unawaited(NotificationService().initialize());
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MainNavigation()),
+        await _finalizeLoginSession(
+          email: email,
+          role: role,
+          userId: userId,
+          name: name,
+          supplierName: supplierName,
         );
       } else {
         AppLogger.warning(
@@ -223,6 +245,58 @@ class _LoginPageState extends State<LoginPage> {
         setState(() => _isLoading = false);
       }
     }
+  }
+
+  // Завершение успешного входа: применяем remember/session-режим, показываем
+  // приветствие, инициализируем уведомления и переходим в основное приложение.
+  // Используется как для обычного логина, так и после успешного 2FA-челленджа.
+  Future<void> _finalizeLoginSession({
+    required String email,
+    required String role,
+    required int userId,
+    required String? name,
+    required String? supplierName,
+  }) async {
+    AppLogger.info(
+      'Login succeeded for userId=$userId role=$role',
+      scope: 'auth',
+    );
+
+    if (_rememberMe) {
+      await AuthStorage.remember(
+        email: email,
+        role: role,
+        userId: userId,
+        name: name,
+        supplierName: supplierName,
+      );
+    } else {
+      await TemplatesStore.instance.clearCache();
+      await AuthStorage.forget();
+      await AuthStorage.setSession(
+        email: email,
+        role: role,
+        userId: userId,
+        name: name,
+        supplierName: supplierName,
+      );
+    }
+    if (!mounted) return;
+    _showMessage(
+      name == null || name.isEmpty
+          ? 'Вход выполнен'
+          : 'Добро пожаловать, $name!',
+      MessageSeverity.info,
+    );
+
+    // Инициализируем сервис уведомлений для нового пользователя.
+    // Не блокируем переход - initialize отработает в фоне
+    unawaited(NotificationService().initialize());
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const MainNavigation()),
+    );
   }
 
   @override

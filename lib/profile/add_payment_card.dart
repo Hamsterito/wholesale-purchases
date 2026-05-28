@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
-import 'package:uuid/uuid.dart';
-import '../models/message.dart';
 import '../theme/app_color_palette.dart';
 import '../services/storage/payment_card_storage.dart';
 import '../services/storage/auth_storage.dart';
+import '../widgets/messages/top_message.dart';
 import '../widgets/navigation/main_bottom_nav.dart';
 
 // Один общий RegExp для удаления нецифровых символов - используется
@@ -166,35 +164,22 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
     if (_isSaving) {
       return;
     }
+    final palette = context.colorPalette;
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
-      AppMessageSnackBar.show(
+      showTopMessage(
         context,
-        Message(
-          id: const Uuid().v4(),
-          type: MessageType.notification,
-          severity: MessageSeverity.error,
-          title: '',
-          body: 'Войдите, чтобы добавить карту',
-          timestamp: DateTime.now(),
-          language: 'ru',
-        ),
+        'Войдите, чтобы добавить карту',
+        backgroundColor: palette.error,
       );
       return;
     }
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) {
-      AppMessageSnackBar.show(
+      showTopMessage(
         context,
-        Message(
-          id: const Uuid().v4(),
-          type: MessageType.notification,
-          severity: MessageSeverity.warning,
-          title: '',
-          body: 'Проверьте введённые данные',
-          timestamp: DateTime.now(),
-          language: 'ru',
-        ),
+        'Проверьте введённые данные',
+        backgroundColor: palette.warning,
       );
       return;
     }
@@ -225,17 +210,10 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
       setState(() {
         _isSaving = false;
       });
-      AppMessageSnackBar.show(
+      showTopMessage(
         context,
-        Message(
-          id: const Uuid().v4(),
-          type: MessageType.notification,
-          severity: MessageSeverity.error,
-          title: '',
-          body: 'Не удалось сохранить карту',
-          timestamp: DateTime.now(),
-          language: 'ru',
-        ),
+        'Не удалось сохранить карту',
+        backgroundColor: context.colorPalette.error,
       );
       return;
     }

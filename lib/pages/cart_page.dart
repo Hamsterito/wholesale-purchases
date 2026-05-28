@@ -1801,7 +1801,7 @@ class _CartPageState extends State<CartPage> {
       context,
       'Шаблон сохранён',
       showAtBottom: true,
-      bottomOffset: _bottomMessageOffset,
+      bottomOffset: _bottomMessageOffset + 40,
     );
   }
 

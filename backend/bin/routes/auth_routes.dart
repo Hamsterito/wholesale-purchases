@@ -93,7 +93,7 @@ void _registerAuthRoutes(Router router, Connection connection) {
       final expiresAt = DateTime.now().toUtc().add(_emailVerificationOtpTtl);
       late final int userId;
       var message =
-          'Регистрация успешна. Проверьте почту для подтверждения кода.';
+          'Регистрация успешна. Проверьте почту для подтверждения.';
 
       if (existing.isNotEmpty) {
         final user = existing.first.toColumnMap();
@@ -133,6 +133,7 @@ void _registerAuthRoutes(Router router, Connection connection) {
             userId: userId,
             codeHash: otpHash,
             expiresAt: expiresAt,
+            purpose: null,
           );
         });
 
@@ -164,6 +165,7 @@ void _registerAuthRoutes(Router router, Connection connection) {
             userId: userId,
             codeHash: otpHash,
             expiresAt: expiresAt,
+            purpose: null,
           );
         });
       }
@@ -220,6 +222,7 @@ void _registerAuthRoutes(Router router, Connection connection) {
           SELECT id, code_hash, expires_at, used
           FROM public.email_verifications
           WHERE user_id = @user_id AND used = false AND expires_at > NOW()
+            AND purpose IS NULL
           ORDER BY created_at DESC
           LIMIT 1
         '''),
@@ -298,6 +301,7 @@ void _registerAuthRoutes(Router router, Connection connection) {
           userId: userId,
           codeHash: otpHash,
           expiresAt: expiresAt,
+          purpose: null,
         );
       });
 
@@ -627,10 +631,13 @@ void _registerAuthRoutes(Router router, Connection connection) {
 
       // Обновляем пароль
       final hashedPassword = _hashPassword(newPassword);
+      final ip = _extractClientIp(request);
       await connection.runTx((session) async {
-        await session.execute(
+        // RETURNING id нужен, чтобы в той же транзакции отозвать
+        // доверенные устройства и записать аудит без отдельного SELECT.
+        final updated = await session.execute(
           Sql.named(
-            'UPDATE users SET password = @password WHERE LOWER(email) = @email',
+            'UPDATE users SET password = @password WHERE LOWER(email) = @email RETURNING id',
           ),
           parameters: {'email': email, 'password': hashedPassword},
         );
@@ -642,6 +649,22 @@ void _registerAuthRoutes(Router router, Connection connection) {
           ),
           parameters: {'email': email},
         );
+
+        // После смены пароля все доверенные устройства теряют силу,
+        // даже если 2FA не была включена. two_factor_enabled и
+        // backup-коды не трогаем - сброс пароля не отключает 2FA.
+        if (updated.isNotEmpty) {
+          final userId = updated.first.toColumnMap()['id'] as int;
+          await _revokeAllDeviceTokens(session, userId);
+          await _writeTwoFactorAudit(
+            session,
+            actorUserId: userId,
+            targetUserId: userId,
+            action: 'trusted_devices_revoked',
+            context: 'password_reset',
+            ipAddress: ip,
+          );
+        }
       });
 
       return _jsonSuccess('Пароль успешно изменён');
@@ -671,7 +694,7 @@ void _registerLoginRoute(Router router, Connection connection) {
 
       final result = await connection.execute(
         Sql.named(
-          'SELECT id, name, email, password, role, supplier_name, is_verified FROM users WHERE LOWER(email) = @email LIMIT 1',
+          'SELECT id, name, email, password, role, supplier_name, is_verified, two_factor_enabled FROM users WHERE LOWER(email) = @email LIMIT 1',
         ),
         parameters: {'email': email},
       );
@@ -701,9 +724,60 @@ void _registerLoginRoute(Router router, Connection connection) {
       }
 
       final role = user['role'] ?? _defaultRole;
+      final userId = user['id'] as int;
+      final twoFactorEnabled = (user['two_factor_enabled'] as bool?) ?? false;
+
+      // 2FA включена - проверяем доверенное устройство; если токен валиден,
+      // пропускаем челлендж и сразу выдаём обычный логин-ответ.
+      if (twoFactorEnabled) {
+        final deviceToken = request.headers['x-device-token']?.trim() ?? '';
+        final trusted =
+            deviceToken.isNotEmpty &&
+            await _validateDeviceToken(
+              connection,
+              userId: userId,
+              token: deviceToken,
+            );
+
+        if (!trusted) {
+          // Создаём pending-сессию, отправляем OTP, возвращаем challenge.
+          // Сам user в ответе НЕ возвращаем - клиент получит его после
+          // успешной проверки кода через /auth/2fa/verify.
+          final otp = _generateOtpCode();
+          final otpHash = _hashOtp(otp);
+          final expiresAt = DateTime.now().toUtc().add(
+            _emailVerificationOtpTtl,
+          );
+
+          late String challengeId;
+          await connection.runTx((session) async {
+            challengeId = await _createTwoFactorPendingSession(
+              session,
+              userId: userId,
+              codeHash: otpHash,
+              expiresAt: expiresAt,
+            );
+          });
+
+          final emailForOtp = user['email']?.toString() ?? email;
+          Future.microtask(() async {
+            try {
+              await _sendVerificationEmail(emailForOtp, otp);
+            } catch (e) {
+              print('Не удалось отправить OTP для 2FA-челленджа: $e');
+            }
+          });
+
+          return _jsonSuccess('Введите код из почты', {
+            'requiresTwoFactor': true,
+            'challengeId': challengeId,
+          });
+        }
+      }
+
       return _jsonSuccess('Login successful', {
         'user': {
-          'id': user['id'],
+          'id': userId,
           'name': user['name'] ?? '',
           'email': user['email'] ?? '',
           'role': role,

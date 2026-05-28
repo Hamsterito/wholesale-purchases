@@ -25,6 +25,9 @@ void _registerMutationRoutes(Router router, Connection connection) {
   // Аутентификация: регистрация, верификация, восстановление пароля
   _registerAuthRoutes(router, connection);
 
+  // Двухфакторная аутентификация: enable/disable, login challenge, admin-disable
+  _registerTwoFactorRoutes(router, connection);
+
   // Экспорт заказов: покупатель и поставщик
   _registerBuyerExportRoute(router, connection);
   _registerSupplierExportRoute(router, connection);

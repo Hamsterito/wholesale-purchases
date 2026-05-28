@@ -10,6 +10,8 @@ class AuthStorage {
   static const _nameKey = 'auth_name';
   static const _supplierNameKey = 'auth_supplier_name';
   static const _selectedAddressKeyPrefix = 'selected_address_id_';
+  static const _deviceTokenKeyPrefix = 'device_token_';
+  static const _deviceTokenEmailKeyPrefix = 'device_token_email_';
 
   static bool _remembered = false;
   static String? _email;
@@ -33,6 +35,13 @@ class AuthStorage {
 
   static String _selectedAddressKey(int userId) =>
       '$_selectedAddressKeyPrefix$userId';
+
+  static String _deviceTokenKey(int userId) => '$_deviceTokenKeyPrefix$userId';
+
+  static String _deviceTokenEmailKey(String email) =>
+      '$_deviceTokenEmailKeyPrefix${_normalizeEmail(email)}';
+
+  static String _normalizeEmail(String email) => email.trim().toLowerCase();
 
   // Инициализация хранилища аутентификации
   // Вызывается в main() ДО runApp для предотвращения ошибок зоны
@@ -159,6 +168,10 @@ class AuthStorage {
   }
 
   static Future<void> forget() async {
+    // Снимок до сброса - чтобы знать, какие device-token-ключи чистить.
+    final lastUserId = _userId;
+    final lastEmail = _email;
+
     _remembered = false;
     _email = null;
     _role = null;
@@ -173,6 +186,13 @@ class AuthStorage {
     await prefs.remove(_userIdKey);
     await prefs.remove(_nameKey);
     await prefs.remove(_supplierNameKey);
+
+    if (lastUserId != null && lastUserId > 0) {
+      await prefs.remove(_deviceTokenKey(lastUserId));
+    }
+    if (lastEmail != null && lastEmail.isNotEmpty) {
+      await prefs.remove(_deviceTokenEmailKey(lastEmail));
+    }
   }
 
   static Future<void> saveSelectedAddressId(int? addressId) async {
@@ -191,5 +211,51 @@ class AuthStorage {
     }
 
     await prefs.setInt(key, addressId);
+  }
+
+  // Device-токен 2FA: храним под двумя ключами - по userId (после логина)
+  // и по нормализованному email (чтобы подставить X-Device-Token до логина,
+  // когда userId ещё неизвестен).
+  static Future<void> setDeviceToken({
+    required int userId,
+    required String email,
+    required String token,
+  }) async {
+    final prefs = await SharedPrefsProvider.getInstance();
+    await prefs.setString(_deviceTokenKey(userId), token);
+    final normalized = _normalizeEmail(email);
+    if (normalized.isNotEmpty) {
+      await prefs.setString(_deviceTokenEmailKey(normalized), token);
+    }
+  }
+
+  static Future<String?> getDeviceTokenForLogin(String email) async {
+    final normalized = _normalizeEmail(email);
+    if (normalized.isEmpty) {
+      return null;
+    }
+    final prefs = await SharedPrefsProvider.getInstance();
+    return prefs.getString(_deviceTokenEmailKey(normalized));
+  }
+
+  static Future<String?> getDeviceTokenForUser(int userId) async {
+    if (userId <= 0) {
+      return null;
+    }
+    final prefs = await SharedPrefsProvider.getInstance();
+    return prefs.getString(_deviceTokenKey(userId));
+  }
+
+  static Future<void> clearDeviceToken(int userId, {String? email}) async {
+    final prefs = await SharedPrefsProvider.getInstance();
+    if (userId > 0) {
+      await prefs.remove(_deviceTokenKey(userId));
+    }
+    if (email != null) {
+      final normalized = _normalizeEmail(email);
+      if (normalized.isNotEmpty) {
+        await prefs.remove(_deviceTokenEmailKey(normalized));
+      }
+    }
   }
 }

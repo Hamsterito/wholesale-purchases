@@ -7,7 +7,9 @@ import 'package:flutter/services.dart';
 import '../services/api/api_config.dart';
 import '../services/api/app_http_client.dart';
 import '../services/app_logger.dart';
+import '../services/storage/otp_cooldown_store.dart';
 import '../forgot_screan/verification_page.dart';
+import '../widgets/messages/top_message.dart';
 import '../widgets/phone_input_formatter.dart';
 
 // Один общий RegExp для удаления нецифровых символов в валидации телефона.
@@ -34,9 +36,6 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _obscureConfirmPassword = true;
   bool _isLoading = false;
   int _step = 0;
-  String? _topMessage;
-  List<String> _topErrors = const <String>[];
-  bool _topMessageIsError = true;
   Timer? _emailCheckDebounce;
   int _emailCheckTicket = 0;
   String _lastCheckedEmail = '';
@@ -210,60 +209,38 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+  // Показ ошибок поверх экрана. Список errors склеиваем в одно сообщение,
+  // потому что top-message - однострочный баннер, а детальные ошибки
+  // и так уже видны под каждым полем.
   void _showTopError(String message, Iterable<String> errors) {
-    final normalized = <String>{};
+    final cleaned = <String>{};
     for (final error in errors) {
-      final cleaned = error.trim();
-      if (cleaned.isNotEmpty) {
-        normalized.add(cleaned);
-      }
+      final trimmed = error.trim();
+      if (trimmed.isNotEmpty) cleaned.add(trimmed);
     }
-
-    setState(() {
-      _topMessage = message;
-      _topErrors = normalized.toList();
-      _topMessageIsError = true;
-    });
+    final body = cleaned.isEmpty
+        ? message
+        : '$message: ${cleaned.join('; ')}';
+    showTopMessage(
+      context,
+      body,
+      backgroundColor: context.colorPalette.error,
+      duration: const Duration(seconds: 4),
+      maxLines: 3,
+    );
   }
 
   void _showTopSuccess(String message) {
-    setState(() {
-      _topMessage = message;
-      _topErrors = const <String>[];
-      _topMessageIsError = false;
-    });
+    showTopMessage(
+      context,
+      message,
+      backgroundColor: context.colorPalette.success,
+      duration: const Duration(seconds: 3),
+    );
   }
 
   void _clearTopMessage() {
-    if (_topMessage == null && _topErrors.isEmpty) {
-      return;
-    }
-    setState(() {
-      _topMessage = null;
-      _topErrors = const <String>[];
-      _topMessageIsError = true;
-    });
-  }
-
-  void _syncTopErrorsWithCurrentStep() {
-    if (!_topMessageIsError || _topMessage == null) {
-      return;
-    }
-
-    final currentErrors = <String>{};
-    for (final field in _fieldsForStep(_step)) {
-      final error = _validateField(field);
-      if (error != null) {
-        currentErrors.add(error);
-      }
-    }
-
-    if (currentErrors.isEmpty) {
-      _topMessage = null;
-      _topErrors = const <String>[];
-      return;
-    }
-    _topErrors = currentErrors.toList();
+    dismissTopMessage();
   }
 
   void _scheduleEmailAvailabilityCheck() {
@@ -315,7 +292,6 @@ class _RegisterPageState extends State<RegisterPage> {
         _lastCheckedEmail = email;
         _emailAvailabilityError = availabilityError;
         _fieldErrors['email'] = _validateEmail(_emailController.text);
-        _syncTopErrorsWithCurrentStep();
       });
     } catch (_) {
       if (!mounted || ticket != _emailCheckTicket) {
@@ -329,7 +305,6 @@ class _RegisterPageState extends State<RegisterPage> {
         _lastCheckedEmail = email;
         _emailAvailabilityError = null;
         _fieldErrors['email'] = _validateEmail(_emailController.text);
-        _syncTopErrorsWithCurrentStep();
       });
     }
   }
@@ -340,28 +315,9 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     final fieldError = _validateField(field);
-    final currentFields = _fieldsForStep(_step);
-    final currentErrors = <String>{};
-
-    for (final currentField in currentFields) {
-      final error = currentField == field
-          ? fieldError
-          : _validateField(currentField);
-      if (error != null) {
-        currentErrors.add(error);
-      }
-    }
 
     setState(() {
       _fieldErrors[field] = fieldError;
-      if (_topMessageIsError && _topMessage != null) {
-        if (currentErrors.isEmpty) {
-          _topMessage = null;
-          _topErrors = const <String>[];
-        } else {
-          _topErrors = currentErrors.toList();
-        }
-      }
     });
   }
 
@@ -380,17 +336,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
     setState(() {
       _fieldErrors.addAll(errors);
-      if (messages.isEmpty) {
-        if (_topMessageIsError) {
-          _topMessage = null;
-          _topErrors = const <String>[];
-        }
-      } else {
-        _topMessage = 'Проверьте заполнение полей';
-        _topErrors = messages.toList();
-        _topMessageIsError = true;
-      }
     });
+
+    if (messages.isEmpty) {
+      _clearTopMessage();
+    } else {
+      _showTopError('Проверьте заполнение полей', messages);
+    }
 
     return messages.isEmpty;
   }
@@ -422,87 +374,18 @@ class _RegisterPageState extends State<RegisterPage> {
 
     setState(() {
       _fieldErrors.addAll(errors);
-      if (messages.isNotEmpty) {
-        _topMessage = 'Проверьте заполнение полей';
-        _topErrors = messages.toList();
-        _topMessageIsError = true;
-        if (targetStep != null) {
-          _step = targetStep;
-        }
-      } else if (_topMessageIsError) {
-        _topMessage = null;
-        _topErrors = const <String>[];
+      if (messages.isNotEmpty && targetStep != null) {
+        _step = targetStep;
       }
     });
 
-    return messages.isEmpty;
-  }
-
-  Widget _buildTopMessageBox() {
-    if (_topMessage == null && _topErrors.isEmpty) {
-      return const SizedBox.shrink();
+    if (messages.isEmpty) {
+      _clearTopMessage();
+    } else {
+      _showTopError('Проверьте заполнение полей', messages);
     }
 
-    final isError = _topMessageIsError;
-    final background = isError
-        ? _colorScheme.errorContainer
-        : context.colorPalette.success.withValues(
-            alpha: 0.12,
-          ); // Светло-зеленый фон для успеха
-    final textColor = isError
-        ? _colorScheme.onErrorContainer
-        : context.colorPalette.success; // Темно-зеленый текст для успеха
-
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: background,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                isError ? Icons.error_outline : Icons.check_circle,
-                color: textColor,
-                size: 18,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  _topMessage ?? '',
-                  style: TextStyle(
-                    color: textColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14, // Увеличенный размер для консистентности
-                  ),
-                ),
-              ),
-            ],
-          ),
-          if (_topErrors.isNotEmpty) ...[
-            const SizedBox(height: 8),
-            ..._topErrors.map(
-              (error) => Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: Text(
-                  '- $error',
-                  style: TextStyle(
-                    color: textColor,
-                    fontSize: 14,
-                  ), // Увеличенный размер
-                ),
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
+    return messages.isEmpty;
   }
 
   Widget _buildAccountStep(double fieldGap) {
@@ -646,20 +529,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   _role = nextRole;
                   _fieldErrors['supplierName'] = null;
                 });
-                if (_topMessageIsError && _topMessage != null) {
-                  final visibleErrors = <String>{};
-                  for (final field in _fieldsForStep(_step)) {
-                    final error = _validateField(field);
-                    if (error != null) {
-                      visibleErrors.add(error);
-                    }
-                  }
-                  if (visibleErrors.isEmpty) {
-                    _clearTopMessage();
-                  } else {
-                    _showTopError('Проверьте заполнение полей', visibleErrors);
-                  }
-                }
+                // Меняется роль - старый баннер может быть неактуален,
+                // прячем его. Следующая валидация покажет новый при необходимости.
+                _clearTopMessage();
               },
             ),
           ),
@@ -865,11 +737,10 @@ class _RegisterPageState extends State<RegisterPage> {
       } else {
         _step -= 1;
       }
-      if (_topMessageIsError) {
-        _topMessage = null;
-        _topErrors = const <String>[];
-      }
     });
+    // Возврат на предыдущий шаг - убираем баннер ошибок, чтобы не висел
+    // поверх формы, пока пользователь правит поля.
+    _clearTopMessage();
   }
 
   Future<void> _registerUser() async {
@@ -916,6 +787,7 @@ class _RegisterPageState extends State<RegisterPage> {
             'Registration succeeded for role=$role',
             scope: 'auth',
           );
+          await OtpCooldownStore.markRequested(email, 'register');
           _showTopSuccess(
             responseData['message']?.toString() ?? 'Регистрация прошла успешно',
           );
@@ -1122,7 +994,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           ],
                         ),
                         SizedBox(height: sectionGap),
-                        _buildTopMessageBox(),
                         Expanded(
                           child: AnimatedSwitcher(
                             duration: const Duration(milliseconds: 200),

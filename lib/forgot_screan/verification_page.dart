@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 import '../models/message.dart';
 import '../theme/app_color_palette.dart';
-import '../widgets/messages/app_message_snackbar.dart';
+import '../widgets/messages/top_message.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../services/api/api_config.dart';
 import '../services/api/app_http_client.dart';
 import '../services/app_logger.dart';
+import '../services/storage/otp_cooldown_store.dart';
 
 class VerificationPage extends StatefulWidget {
   final String email;
@@ -42,11 +42,29 @@ class _VerificationPageState extends State<VerificationPage> {
     _errorController = StreamController<ErrorAnimationType>();
     _remainingTimeNotifier = ValueNotifier<int>(60);
     _isButtonDisabledNotifier = ValueNotifier<bool>(true);
+    _initTimer();
+  }
+
+  // Если у юзера ещё активен cooldown по этому email - подхватываем его.
+  // Иначе стартуем с дефолта 60 сек.
+  Future<void> _initTimer() async {
+    final remaining = await OtpCooldownStore.remainingSeconds(
+      widget.email,
+      'register',
+    );
+    if (!mounted) return;
+    if (remaining > 0) {
+      _remainingTimeNotifier.value = remaining;
+      _isButtonDisabledNotifier.value = true;
+    }
     _startTimer();
   }
 
   void _startTimer() {
-    _remainingTimeNotifier.value = 60;
+    final initial = _remainingTimeNotifier.value > 0
+        ? _remainingTimeNotifier.value
+        : 60;
+    _remainingTimeNotifier.value = initial;
     _isButtonDisabledNotifier.value = true;
 
     _timer?.cancel();
@@ -81,29 +99,30 @@ class _VerificationPageState extends State<VerificationPage> {
     _confirmCode();
   }
 
-  // Унифицированный показ SnackBar поверх Message_System.
-  // title оставляем пустым: исходные SnackBar содержали только content без заголовка.
+  // Показ сообщения сверху экрана. Цвет берём из палитры по severity,
+  // как в LoginPage - единый стиль для всей цепочки auth-страниц.
   void _showMessage(String body, MessageSeverity severity) {
-    AppMessageSnackBar.show(
+    final palette = context.colorPalette;
+    final color = switch (severity) {
+      MessageSeverity.info => palette.accent,
+      MessageSeverity.warning => palette.warning,
+      MessageSeverity.error => palette.error,
+      MessageSeverity.critical => palette.error,
+    };
+    showTopMessage(
       context,
-      Message(
-        id: const Uuid().v4(),
-        type: MessageType.notification,
-        severity: severity,
-        title: '',
-        body: body,
-        timestamp: DateTime.now(),
-        language: 'ru',
-      ),
+      body,
+      backgroundColor: color,
+      duration: const Duration(seconds: 4),
     );
   }
 
   Future<void> _confirmCode() async {
     final code = _pinController.text.trim();
-    if (code.length != 4) {
+    if (code.length != 6) {
       AppLogger.warning('Invalid code length: $code', scope: 'auth');
       _errorController.add(ErrorAnimationType.shake);
-      _showMessage('Введите 4-значный код', MessageSeverity.warning);
+      _showMessage('Введите 6-значный код', MessageSeverity.warning);
       return;
     }
 
@@ -120,6 +139,7 @@ class _VerificationPageState extends State<VerificationPage> {
 
       if (!mounted) return;
       if (response.statusCode == 200) {
+        await OtpCooldownStore.clear(widget.email, 'register');
         _showMessage(
           'Email подтверждён. Теперь можно войти.',
           MessageSeverity.info,
@@ -138,6 +158,17 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   Future<void> _resendCode() async {
+    final cooldown = await OtpCooldownStore.remainingSeconds(
+      widget.email,
+      'register',
+    );
+    if (cooldown > 0) {
+      if (!mounted) return;
+      _remainingTimeNotifier.value = cooldown;
+      _isButtonDisabledNotifier.value = true;
+      _startTimer();
+      return;
+    }
     try {
       final url = Uri.parse('${ApiConfig.baseUrl}/resend-verification');
       final response = await AppHttpClient.instance.post(
@@ -151,7 +182,9 @@ class _VerificationPageState extends State<VerificationPage> {
 
       if (!mounted) return;
       if (response.statusCode == 200) {
+        await OtpCooldownStore.markRequested(widget.email, 'register');
         _showMessage('Код отправлен повторно', MessageSeverity.info);
+        _remainingTimeNotifier.value = 60;
         _startTimer();
       } else {
         final body = utf8.decode(response.bodyBytes);
@@ -314,41 +347,54 @@ class _VerificationPageState extends State<VerificationPage> {
                       const SizedBox(height: 16),
 
                       // ПОЛЯ ВВОДА КОДА
-                      PinCodeTextField(
-                        appContext: context,
-                        controller: _pinController,
-                        length: 4,
-                        animationType: AnimationType.fade,
-                        pinTheme: PinTheme(
-                          shape: PinCodeFieldShape.box,
-                          borderRadius: BorderRadius.circular(12),
-                          fieldHeight: 65,
-                          fieldWidth: 65,
-                          activeFillColor: _inputFill,
-                          inactiveFillColor: _inputFill,
-                          selectedFillColor: _inputFill,
-                          activeColor: _colorScheme.primary,
-                          inactiveColor: Colors.transparent,
-                          selectedColor: _colorScheme.primary,
-                          borderWidth: 2,
-                        ),
-                        cursorColor: _colorScheme.primary,
-                        cursorHeight: 32,
-                        cursorWidth: 2,
-                        animationDuration: const Duration(milliseconds: 50),
-                        animationCurve: Curves.easeInOut,
-                        enableActiveFill: true,
-                        keyboardType: TextInputType.number,
-                        textStyle: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        onCompleted: _onPinCompleted,
-                        errorAnimationController: _errorController,
-                        beforeTextPaste: (text) {
-                          final digits =
-                              text?.replaceAll(RegExp(r'\D'), '') ?? '';
-                          return digits.length == 4;
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          final cellWidth = ((constraints.maxWidth - 10) / 6)
+                              .clamp(40.0, 56.0);
+                          final cellHeight = cellWidth + 6;
+                          final inactiveBorder = _colorScheme.outline
+                              .withValues(alpha: 0.6);
+                          return PinCodeTextField(
+                            appContext: context,
+                            controller: _pinController,
+                            length: 6,
+                            animationType: AnimationType.fade,
+                            // Сами владеем контроллером - LayoutBuilder
+                            // перестраивает PinCodeTextField и при
+                            // autoDispose=true диспозит наш контроллер.
+                            autoDisposeControllers: false,
+                            pinTheme: PinTheme(
+                              shape: PinCodeFieldShape.box,
+                              borderRadius: BorderRadius.circular(12),
+                              fieldHeight: cellHeight,
+                              fieldWidth: cellWidth,
+                              activeFillColor: _inputFill,
+                              inactiveFillColor: _inputFill,
+                              selectedFillColor: _inputFill,
+                              activeColor: _colorScheme.primary,
+                              inactiveColor: inactiveBorder,
+                              selectedColor: _colorScheme.primary,
+                              borderWidth: 2,
+                            ),
+                            cursorColor: _colorScheme.primary,
+                            cursorHeight: 28,
+                            cursorWidth: 2,
+                            animationDuration: const Duration(milliseconds: 50),
+                            animationCurve: Curves.easeInOut,
+                            enableActiveFill: true,
+                            keyboardType: TextInputType.number,
+                            textStyle: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            onCompleted: _onPinCompleted,
+                            errorAnimationController: _errorController,
+                            beforeTextPaste: (text) {
+                              final digits =
+                                  text?.replaceAll(RegExp(r'\D'), '') ?? '';
+                              return digits.length == 6;
+                            },
+                          );
                         },
                       ),
                       const SizedBox(height: 32),

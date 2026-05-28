@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 import '../models/message.dart';
 import '../theme/app_color_palette.dart';
-import '../widgets/messages/app_message_snackbar.dart';
+import '../widgets/messages/top_message.dart';
 import 'forgot_password_verification_page.dart';
 import '../services/api/api_config.dart';
 import '../services/api/app_http_client.dart';
 import '../services/app_logger.dart';
+import '../services/storage/otp_cooldown_store.dart';
 import '../utils/api_response_parser.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -37,24 +37,24 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     super.dispose();
   }
 
-  // Унифицированный показ SnackBar поверх Message_System.
-  // title оставляем пустым: исходные SnackBar содержали только content без заголовка.
+  // Показ сообщения сверху экрана. Цвет берём из палитры по severity,
+  // как в LoginPage - единый стиль для всей цепочки восстановления пароля.
   void _showMessage(String body, MessageSeverity severity) {
-    AppMessageSnackBar.show(
+    final palette = context.colorPalette;
+    final color = switch (severity) {
+      MessageSeverity.info => palette.accent,
+      MessageSeverity.warning => palette.warning,
+      MessageSeverity.error => palette.error,
+      MessageSeverity.critical => palette.error,
+    };
+    showTopMessage(
       context,
-      Message(
-        id: const Uuid().v4(),
-        type: MessageType.notification,
-        severity: severity,
-        title: '',
-        body: body,
-        timestamp: DateTime.now(),
-        language: 'ru',
-      ),
+      body,
+      backgroundColor: color,
+      duration: const Duration(seconds: 4),
     );
   }
 
-  // Отправляет код сброса пароля на email
   Future<void> _sendResetCode() async {
     final email = _emailController.text.trim();
     if (email.isEmpty) {
@@ -63,6 +63,25 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     }
 
     setState(() => _isLoading = true);
+
+    // Если ещё активен cooldown - не дёргаем сервер, сразу переходим
+    // на verification-страницу с оставшимся TTL.
+    final cooldown = await OtpCooldownStore.remainingSeconds(
+      email,
+      'password_reset',
+    );
+    if (cooldown > 0) {
+      if (!mounted) return;
+      setState(() => _isLoading = false);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              ForgotPasswordVerificationPage(email: email, expiresIn: cooldown),
+        ),
+      );
+      return;
+    }
 
     try {
       final url = Uri.parse('${ApiConfig.baseUrl}/forgot-password/send-code');
@@ -78,10 +97,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       if (!mounted) return;
 
       if (response.statusCode == 200) {
-        // Успешно отправлен код, переходим к экрану верификации
         final body = utf8.decode(response.bodyBytes);
         final responseData = parseApiResponseWithData(body);
         final expiresIn = responseData.data['expires_in'] as int? ?? 60;
+        await OtpCooldownStore.markRequested(email, 'password_reset');
+        if (!mounted) return;
 
         Navigator.push(
           context,
@@ -93,7 +113,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ),
         );
       } else {
-        // Ошибка при отправке кода
         final body = utf8.decode(response.bodyBytes);
         final message = parseApiMessage(body, fallback: 'Ошибка сервера');
         _showMessage(message, MessageSeverity.error);

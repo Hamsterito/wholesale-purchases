@@ -10,6 +10,7 @@ import '../widgets/messages/top_message.dart';
 import '../widgets/navigation/main_bottom_nav.dart';
 import 'add_moderator_dialog.dart';
 import 'moderator_filter.dart';
+import 'widgets/two_factor_admin_disable_tile.dart';
 
 /// Страница управления модераторами для Super_Admin: список,
 /// поиск, добавление и удаление.
@@ -393,84 +394,96 @@ class _ModeratorRow extends StatelessWidget {
         ],
       ),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Аватар с иконкой щита на акцентном фоне
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: palette.accentSoft,
-              shape: BoxShape.circle,
-            ),
-            alignment: Alignment.center,
-            child: Icon(
-              Icons.verified_user_rounded,
-              color: palette.primary,
-              size: 24,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  moderator.name.isEmpty ? 'Без имени' : moderator.name,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: cs.onSurface,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Аватар с иконкой щита на акцентном фоне
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: palette.accentSoft,
+                  shape: BoxShape.circle,
                 ),
-                const SizedBox(height: 4),
-                _ContactLine(
-                  icon: Icons.alternate_email_rounded,
-                  text: moderator.email,
-                ),
-                if (moderator.phone.isNotEmpty) ...[
-                  const SizedBox(height: 2),
-                  _ContactLine(
-                    icon: Icons.phone_outlined,
-                    text: _displayPhone(moderator.phone),
-                  ),
-                ],
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
-          // Кнопка удаления - с мягкой подложкой error-цвета для контраста
-          Material(
-            color: palette.error.withValues(alpha: 0.10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(10),
-              onTap: onDelete,
-              child: SizedBox(
-                width: 38,
-                height: 38,
-                child: Center(
-                  child: isBusy
-                      ? SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: palette.error,
-                          ),
-                        )
-                      : Icon(
-                          Icons.delete_outline_rounded,
-                          size: 20,
-                          color: palette.error,
-                        ),
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.verified_user_rounded,
+                  color: palette.primary,
+                  size: 24,
                 ),
               ),
-            ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      moderator.name.isEmpty ? 'Без имени' : moderator.name,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: cs.onSurface,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    _ContactLine(
+                      icon: Icons.alternate_email_rounded,
+                      text: moderator.email,
+                    ),
+                    if (moderator.phone.isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      _ContactLine(
+                        icon: Icons.phone_outlined,
+                        text: _displayPhone(moderator.phone),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              // Кнопка удаления - с мягкой подложкой error-цвета для контраста
+              Material(
+                color: palette.error.withValues(alpha: 0.10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: onDelete,
+                  child: SizedBox(
+                    width: 38,
+                    height: 38,
+                    child: Center(
+                      child: isBusy
+                          ? SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: palette.error,
+                              ),
+                            )
+                          : Icon(
+                              Icons.delete_outline_rounded,
+                              size: 20,
+                              color: palette.error,
+                            ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          // Тайл принудительного отключения 2FA - сам прячется, если у
+          // модератора 2FA выключена или статус не удалось загрузить.
+          TwoFactorAdminDisableTile(
+            targetUserId: moderator.id,
+            targetUserName: moderator.name.isEmpty ? null : moderator.name,
           ),
         ],
       ),

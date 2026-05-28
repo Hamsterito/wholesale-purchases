@@ -1,0 +1,34 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "ignoreRegExpList": [
+    "/[\\u0400-\\u04FF]+/g"
+  ],
+  "words": [
+    "screan",
+    "cooldown",
+    "Kabdrashev",
+    "ncvrngksvjteeigp",
+    "syncfusion",
+    "dotenv",
+    "shelf",
+    "bcrypt",
+    "scram",
+    "postgres",
+    "datname",
+    "databasename"
+  ],
+  "ignorePaths": [
+    ".dart_tool/**",
+    "build/**",
+    "android/**",
+    "ios/**",
+    "windows/**",
+    "linux/**",
+    "macos/**",
+    "web/**",
+    "**/*.g.dart",
+    "**/*.freezed.dart",
+    "**/pubspec.lock"
+  ]
+}

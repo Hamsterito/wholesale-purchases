@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
+import '../services/api/two_factor_api.dart';
 import '../services/store/app_settings.dart';
 import '../widgets/navigation/main_bottom_nav.dart';
 import 'change_password_page.dart';
+import 'security/two_factor_settings_page.dart';
+
+/// Сигнатура загрузчика статуса 2FA для trailing-индикатора.
+/// В проде указывает на TwoFactorApi.getStatus, в тестах подменяется фейком.
+typedef SettingsTwoFactorStatusLoader = Future<TwoFactorStatus> Function();
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+  const SettingsPage({
+    super.key,
+    @visibleForTesting this.twoFactorStatusLoader,
+  });
+
+  /// Точка инъекции для виджет-тестов. Если null - используется
+  /// TwoFactorApi.getStatus, который ходит в реальный backend.
+  final SettingsTwoFactorStatusLoader? twoFactorStatusLoader;
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -13,6 +26,9 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool _darkMode = false;
+
+  // Статус 2FA для trailing-индикатора. null - ещё не загружен или ошибка.
+  TwoFactorStatus? _twoFactorStatus;
 
   Color get _settingsAccent {
     final theme = Theme.of(context);
@@ -33,6 +49,21 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     super.initState();
     _darkMode = AppSettings.isDark;
+    _loadTwoFactorStatus();
+  }
+
+  Future<void> _loadTwoFactorStatus() async {
+    try {
+      final loader =
+          widget.twoFactorStatusLoader ?? () => TwoFactorApi.getStatus();
+      final status = await loader();
+      if (!mounted) return;
+      setState(() => _twoFactorStatus = status);
+    } catch (_) {
+      // Сбой запроса не должен ломать страницу - показываем «Выключена» как fallback.
+      if (!mounted) return;
+      setState(() => _twoFactorStatus = null);
+    }
   }
 
   @override
@@ -139,6 +170,20 @@ class _SettingsPageState extends State<SettingsPage> {
                         builder: (context) => const ChangePasswordPage(),
                       ),
                     );
+                  },
+                ),
+                Divider(height: 1, indent: 16, endIndent: 16),
+                _buildActionTile(
+                  title: 'Двухфакторная аутентификация',
+                  icon: Icons.shield_outlined,
+                  trailing: _buildTwoFactorTrailing(),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TwoFactorSettingsPage(),
+                      ),
+                    ).then((_) => _loadTwoFactorStatus());
                   },
                 ),
               ],
@@ -249,6 +294,28 @@ class _SettingsPageState extends State<SettingsPage> {
           trailing ??
           Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
       onTap: onTap,
+    );
+  }
+
+  Widget _buildTwoFactorTrailing() {
+    final colorScheme = Theme.of(context).colorScheme;
+    final palette = context.colorPalette;
+    final enabled = _twoFactorStatus?.enabled ?? false;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          enabled ? 'Включена' : 'Выключена',
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: enabled ? palette.success : colorScheme.onSurfaceVariant,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
+      ],
     );
   }
 

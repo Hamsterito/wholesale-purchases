@@ -31,6 +31,7 @@ part 'routes/supplier_routes.dart';
 part 'routes/moderator_routes.dart';
 part 'routes/admin_routes.dart';
 part 'routes/auth_routes.dart';
+part 'routes/two_factor_routes.dart';
 part 'routes/support_routes.dart';
 
 // Главная функция приложения
@@ -42,7 +43,7 @@ void main() async {
       port: 5432,
       database: 'shop_db',
       username: 'postgres',
-      password: '123',
+      password: '1234',
     ),
     settings: const ConnectionSettings(sslMode: SslMode.disable),
   );
@@ -58,6 +59,9 @@ void main() async {
 
   // Создаём/чиним главного администратора при каждом старте
   await _ensureSuperAdminUser(connection);
+
+  // Дефолтный поставщик dima@gmail.com / 123456 - удобный аккаунт для разработки.
+  await _ensureDefaultSupplierUser(connection);
 
   final router = Router();
 
@@ -92,6 +96,8 @@ void main() async {
   Timer.periodic(const Duration(minutes: 10), (_) async {
     await _cleanupExpiredEmailVerifications(connection);
     await _cleanupExpiredPasswordResets(connection);
+    await _cleanupExpiredTwoFactorPendingSessions(connection);
+    await _cleanupExpiredTrustedDevices(connection);
   });
 
   // Запуск HTTP сервера на порту 8080

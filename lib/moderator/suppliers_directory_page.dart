@@ -14,6 +14,7 @@ import '../widgets/messages/app_message_snackbar.dart';
 import '../widgets/navigation/main_bottom_nav.dart';
 import '../widgets/moderator/supplier_search_field.dart';
 import 'support_chats_page.dart';
+import 'widgets/two_factor_admin_disable_tile.dart';
 
 /// Каталог поставщиков для модератора. По тапу открывает support-чат
 /// с поставщиком (создаёт новый, если открытого ещё нет).
@@ -461,53 +462,72 @@ class _SupplierListItem extends StatelessWidget {
     return Material(
       color: palette.card,
       borderRadius: BorderRadius.circular(14),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(14),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _SupplierAvatar(
-                avatarUrl: supplier.avatarUrl,
-                companyName: supplier.companyName,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      supplier.companyName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: cs.onSurface,
-                        height: 1.2,
-                      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(14),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _SupplierAvatar(
+                    avatarUrl: supplier.avatarUrl,
+                    companyName: supplier.companyName,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          supplier.companyName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: cs.onSurface,
+                            height: 1.2,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          supplier.displayName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: cs.onSurfaceVariant,
+                            height: 1.25,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      supplier.displayName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: cs.onSurfaceVariant,
-                        height: 1.25,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  Icon(
+                    Icons.chevron_right,
+                    color: cs.onSurfaceVariant,
+                    size: 20,
+                  ),
+                ],
               ),
-              Icon(Icons.chevron_right, color: cs.onSurfaceVariant, size: 20),
-            ],
+            ),
           ),
-        ),
+          // Тайл принудительного отключения 2FA - молча скрыт, если 2FA
+          // у поставщика выключена или статус не загрузился.
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
+            child: TwoFactorAdminDisableTile(
+              targetUserId: supplier.supplierId,
+              targetUserName: supplier.companyName,
+            ),
+          ),
+        ],
       ),
     );
   }

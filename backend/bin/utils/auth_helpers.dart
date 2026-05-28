@@ -4,10 +4,13 @@ part of '../backend.dart';
 // замена кода подтверждения, периодическая очистка истекших кодов,
 // отправка email с кодом подтверждения.
 
-// Генерация 4-значного OTP кода
+// Длина OTP - 6 знаков. Экспортируется как debugOtpCodeLength для PBT.
+const int debugOtpCodeLength = 6;
+
+// Генерация 6-значного OTP кода
 String _generateOtpCode() {
   final rnd = Random.secure();
-  return List<int>.generate(4, (_) => rnd.nextInt(10)).join();
+  return List<int>.generate(debugOtpCodeLength, (_) => rnd.nextInt(10)).join();
 }
 
 // Хеширование пароля с солью
@@ -24,6 +27,15 @@ String _hashOtp(String otp) => BCrypt.hashpw(otp, BCrypt.gensalt());
 // Проверка OTP кода с хешем
 bool _checkOtp(String otp, String hashed) => BCrypt.checkpw(otp, hashed);
 
+// Публичные обёртки для property-тестов: _hashOtp и _checkOtp приватные,
+// а тестам нужен прямой доступ, чтобы валидировать инвариант
+// «правильный код проходит, любой другой - нет» без БД и моков.
+String debugHashOtp(String otp) => _hashOtp(otp);
+bool debugCheckOtp(String otp, String hashed) => _checkOtp(otp, hashed);
+
+// Тестовая обёртка вокруг _generateOtpCode - используется PBT энтропии OTP.
+String debugGenerateOtpCode() => _generateOtpCode();
+
 // Замена ожидающего кода подтверждения email
 // Деактивирует старые коды пользователя и создает новый
 Future<void> _replacePendingEmailVerificationCode(
@@ -31,6 +43,7 @@ Future<void> _replacePendingEmailVerificationCode(
   required int userId,
   required String codeHash,
   required DateTime expiresAt,
+  String? purpose,
 }) async {
   // Помечаем старые неиспользованные коды как использованные
   await session.execute(
@@ -56,13 +69,14 @@ Future<void> _replacePendingEmailVerificationCode(
   // Создаем новый код верификации
   await session.execute(
     Sql.named('''
-      INSERT INTO public.email_verifications (user_id, code_hash, expires_at, used, created_at)
-      VALUES (@user_id, @code_hash, @expires_at, false, NOW());
+      INSERT INTO public.email_verifications (user_id, code_hash, expires_at, used, purpose, created_at)
+      VALUES (@user_id, @code_hash, @expires_at, false, @purpose, NOW());
     '''),
     parameters: {
       'user_id': userId,
       'code_hash': codeHash,
       'expires_at': expiresAt,
+      'purpose': purpose,
     },
   );
 }
@@ -143,5 +157,42 @@ Future<void> _sendVerificationEmail(String toEmail, String code) async {
     print('Email с подтверждением отправлен: $sendReport');
   } catch (e, st) {
     print('Не удалось отправить email с подтверждением: $e\n$st');
+  }
+}
+
+// Уведомление пользователю о принудительном отключении 2FA модератором.
+// Использует ту же SMTP-инфраструктуру, что и _sendVerificationEmail:
+// при отсутствии SMTP-кредов в env молча пропускаем отправку, исключения
+// SMTP не пробрасываем - вызывающий код всё равно дёргает функцию из
+// Future.microtask и не должен падать из-за сбоя почты.
+Future<void> _sendAdminDisableEmail(String toEmail) async {
+  final smtpUser = env['SMTP_USERNAME'];
+  final smtpPass = env['SMTP_PASSWORD'];
+  if (smtpUser == null || smtpPass == null) {
+    print(
+      'SMTP учетные данные не настроены в переменных окружения. '
+      'Пропускаем отправку уведомления об admin-disable.',
+    );
+    return;
+  }
+
+  final smtpServer = gmail(smtpUser, smtpPass);
+
+  final message = Message()
+    ..from = Address(smtpUser, 'Wholesale Purchases')
+    ..recipients.add(toEmail)
+    ..subject = 'Двухфакторная аутентификация отключена'
+    ..text =
+        'Двухфакторная аутентификация на вашем аккаунте отключена '
+        'сотрудником поддержки. Все доверенные устройства отозваны и '
+        'резервные коды удалены.\n\n'
+        'Если вы не запрашивали отключение, обратитесь в поддержку '
+        'и при необходимости включите 2FA повторно в настройках.';
+
+  try {
+    final sendReport = await send(message, smtpServer);
+    print('Email об отключении 2FA отправлен: $sendReport');
+  } catch (e, st) {
+    print('Не удалось отправить уведомление об отключении 2FA: $e\n$st');
   }
 }

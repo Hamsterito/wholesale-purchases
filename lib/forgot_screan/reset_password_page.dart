@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 import '../models/message.dart';
 import '../theme/app_color_palette.dart';
-import '../widgets/messages/app_message_snackbar.dart';
+import '../widgets/messages/top_message.dart';
 import '../services/api/api_config.dart';
 import '../services/api/app_http_client.dart';
 import '../services/app_logger.dart';
+import '../services/storage/otp_cooldown_store.dart';
 import '../utils/api_response_parser.dart';
 
 class ResetPasswordPage extends StatefulWidget {
@@ -42,20 +42,21 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     super.dispose();
   }
 
-  // Унифицированный показ SnackBar поверх Message_System.
-  // title оставляем пустым: исходные SnackBar содержали только content без заголовка.
+  // Показ сообщения сверху экрана. Цвет берём из палитры по severity,
+  // как в LoginPage - единый стиль для всей цепочки восстановления пароля.
   void _showMessage(String body, MessageSeverity severity) {
-    AppMessageSnackBar.show(
+    final palette = context.colorPalette;
+    final color = switch (severity) {
+      MessageSeverity.info => palette.accent,
+      MessageSeverity.warning => palette.warning,
+      MessageSeverity.error => palette.error,
+      MessageSeverity.critical => palette.error,
+    };
+    showTopMessage(
       context,
-      Message(
-        id: const Uuid().v4(),
-        type: MessageType.notification,
-        severity: severity,
-        title: '',
-        body: body,
-        timestamp: DateTime.now(),
-        language: 'ru',
-      ),
+      body,
+      backgroundColor: color,
+      duration: const Duration(seconds: 4),
     );
   }
 
@@ -103,6 +104,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       if (!mounted) return;
 
       if (response.statusCode == 200) {
+        await OtpCooldownStore.clear(widget.email, 'password_reset');
         _showMessage('Пароль успешно изменён', MessageSeverity.info);
         await Future<void>.delayed(const Duration(milliseconds: 600));
         if (!mounted) return;

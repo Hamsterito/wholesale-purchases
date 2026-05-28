@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 import '../models/message.dart';
 import '../theme/app_color_palette.dart';
-import '../widgets/messages/app_message_snackbar.dart';
+import '../widgets/messages/top_message.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../services/api/api_config.dart';
 import '../services/api/app_http_client.dart';
 import '../services/app_logger.dart';
+import '../services/storage/otp_cooldown_store.dart';
 import '../utils/api_response_parser.dart';
 import 'reset_password_page.dart';
 
@@ -92,29 +92,30 @@ class _ForgotPasswordVerificationPageState
     _verifyCode();
   }
 
-  // Унифицированный показ SnackBar поверх Message_System.
-  // title оставляем пустым: исходные SnackBar содержали только content без заголовка.
+  // Показ сообщения сверху экрана. Цвет берём из палитры по severity,
+  // как в LoginPage - единый стиль для всей цепочки восстановления пароля.
   void _showMessage(String body, MessageSeverity severity) {
-    AppMessageSnackBar.show(
+    final palette = context.colorPalette;
+    final color = switch (severity) {
+      MessageSeverity.info => palette.accent,
+      MessageSeverity.warning => palette.warning,
+      MessageSeverity.error => palette.error,
+      MessageSeverity.critical => palette.error,
+    };
+    showTopMessage(
       context,
-      Message(
-        id: const Uuid().v4(),
-        type: MessageType.notification,
-        severity: severity,
-        title: '',
-        body: body,
-        timestamp: DateTime.now(),
-        language: 'ru',
-      ),
+      body,
+      backgroundColor: color,
+      duration: const Duration(seconds: 4),
     );
   }
 
   // Верифицирует введенный OTP код
   Future<void> _verifyCode() async {
     final code = _pinController.text.trim();
-    if (code.length != 4) {
+    if (code.length != 6) {
       _errorController.add(ErrorAnimationType.shake);
-      _showMessage('Введите 4-значный код', MessageSeverity.warning);
+      _showMessage('Введите 6-значный код', MessageSeverity.warning);
       return;
     }
 
@@ -162,6 +163,19 @@ class _ForgotPasswordVerificationPageState
 
   // Повторно отправляет код сброса пароля
   Future<void> _resendCode() async {
+    // Если cooldown ещё не истёк - не дёргаем сервер, просто синхронизируем
+    // оставшийся таймер с текущим TTL.
+    final cooldown = await OtpCooldownStore.remainingSeconds(
+      widget.email,
+      'password_reset',
+    );
+    if (cooldown > 0) {
+      if (!mounted) return;
+      _remainingTimeNotifier.value = cooldown;
+      _isButtonDisabledNotifier.value = true;
+      _startTimer();
+      return;
+    }
     try {
       final url = Uri.parse('${ApiConfig.baseUrl}/forgot-password/resend-code');
       final response = await AppHttpClient.instance.post(
@@ -180,6 +194,7 @@ class _ForgotPasswordVerificationPageState
         final body = utf8.decode(response.bodyBytes);
         final responseData = parseApiResponseWithData(body);
         final expiresIn = responseData.data['expires_in'] as int? ?? 60;
+        await OtpCooldownStore.markRequested(widget.email, 'password_reset');
 
         _showMessage('Код отправлен повторно', MessageSeverity.info);
 
@@ -348,41 +363,54 @@ class _ForgotPasswordVerificationPageState
                       const SizedBox(height: 16),
 
                       // ПОЛЯ ВВОДА КОДА
-                      PinCodeTextField(
-                        appContext: context,
-                        controller: _pinController,
-                        length: 4,
-                        animationType: AnimationType.fade,
-                        pinTheme: PinTheme(
-                          shape: PinCodeFieldShape.box,
-                          borderRadius: BorderRadius.circular(12),
-                          fieldHeight: 65,
-                          fieldWidth: 65,
-                          activeFillColor: _inputFill,
-                          inactiveFillColor: _inputFill,
-                          selectedFillColor: _inputFill,
-                          activeColor: _colorScheme.primary,
-                          inactiveColor: Colors.transparent,
-                          selectedColor: _colorScheme.primary,
-                          borderWidth: 2,
-                        ),
-                        cursorColor: _colorScheme.primary,
-                        cursorHeight: 32,
-                        cursorWidth: 2,
-                        animationDuration: const Duration(milliseconds: 50),
-                        animationCurve: Curves.easeInOut,
-                        enableActiveFill: true,
-                        keyboardType: TextInputType.number,
-                        textStyle: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        onCompleted: _onPinCompleted,
-                        errorAnimationController: _errorController,
-                        beforeTextPaste: (text) {
-                          final digits =
-                              text?.replaceAll(RegExp(r'\D'), '') ?? '';
-                          return digits.length == 4;
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          final cellWidth = ((constraints.maxWidth - 10) / 6)
+                              .clamp(40.0, 56.0);
+                          final cellHeight = cellWidth + 6;
+                          final inactiveBorder = _colorScheme.outline
+                              .withValues(alpha: 0.6);
+                          return PinCodeTextField(
+                            appContext: context,
+                            controller: _pinController,
+                            length: 6,
+                            animationType: AnimationType.fade,
+                            // Сами владеем контроллером - LayoutBuilder
+                            // перестраивает PinCodeTextField и при
+                            // autoDispose=true диспозит наш контроллер.
+                            autoDisposeControllers: false,
+                            pinTheme: PinTheme(
+                              shape: PinCodeFieldShape.box,
+                              borderRadius: BorderRadius.circular(12),
+                              fieldHeight: cellHeight,
+                              fieldWidth: cellWidth,
+                              activeFillColor: _inputFill,
+                              inactiveFillColor: _inputFill,
+                              selectedFillColor: _inputFill,
+                              activeColor: _colorScheme.primary,
+                              inactiveColor: inactiveBorder,
+                              selectedColor: _colorScheme.primary,
+                              borderWidth: 2,
+                            ),
+                            cursorColor: _colorScheme.primary,
+                            cursorHeight: 28,
+                            cursorWidth: 2,
+                            animationDuration: const Duration(milliseconds: 50),
+                            animationCurve: Curves.easeInOut,
+                            enableActiveFill: true,
+                            keyboardType: TextInputType.number,
+                            textStyle: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            onCompleted: _onPinCompleted,
+                            errorAnimationController: _errorController,
+                            beforeTextPaste: (text) {
+                              final digits =
+                                  text?.replaceAll(RegExp(r'\D'), '') ?? '';
+                              return digits.length == 6;
+                            },
+                          );
                         },
                       ),
                       const SizedBox(height: 32),
