@@ -11,6 +11,7 @@ import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import 'support_chat_page.dart';
 import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/animated_select_field.dart';
 
 class SupportPage extends StatefulWidget {
   const SupportPage({super.key});
@@ -482,40 +483,25 @@ class _SupportPageState extends State<SupportPage> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  DropdownButtonFormField<String>(
-                    initialValue: _selectedCategory,
-                    hint: Text(
-                      'Выберите категорию',
-                      style: TextStyle(color: textMuted),
-                    ),
-                    isExpanded: true,
-                    borderRadius: BorderRadius.circular(14),
-                    menuMaxHeight: 260,
-                    dropdownColor: cardBackground,
-                    elevation: 10,
-                    style: TextStyle(
+                  AnimatedSelectField<String>(
+                    value: _selectedCategory,
+                    hintText: 'Выберите категорию',
+                    decoration: baseFieldDecoration,
+                    textStyle: TextStyle(
                       fontSize: 16,
                       color: textPrimary,
                       fontWeight: FontWeight.w400,
                     ),
-                    decoration: baseFieldDecoration,
-                    items: _categories.map((String category) {
-                      return DropdownMenuItem<String>(
-                        value: category,
-                        child: Text(
-                          category,
-                          style: TextStyle(
-                            color: textPrimary,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
+                    hintStyle: TextStyle(fontSize: 16, color: textMuted),
+                    onChanged: (value) {
                       setState(() {
-                        _selectedCategory = newValue;
+                        _selectedCategory = value;
                       });
                     },
+                    options: [
+                      for (final category in _categories)
+                        SelectOption(category, category),
+                    ],
                   ),
                   const SizedBox(height: 20),
                   Text(

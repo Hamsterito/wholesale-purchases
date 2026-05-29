@@ -11,6 +11,7 @@ import '../services/storage/otp_cooldown_store.dart';
 import '../forgot_screan/verification_page.dart';
 import '../widgets/messages/top_message.dart';
 import '../widgets/phone_input_formatter.dart';
+import '../widgets/animated_select_field.dart';
 
 // Один общий RegExp для удаления нецифровых символов в валидации телефона.
 // Top-level final - чтобы не пересоздавать на каждое нажатие клавиши.
@@ -31,6 +32,18 @@ class _RegisterPageState extends State<RegisterPage> {
   final _confirmPasswordController = TextEditingController();
   final _supplierNameController = TextEditingController();
   final Map<String, String?> _fieldErrors = {};
+  // Поля, с которых пользователь уже уходил (или которые подсветила
+  // валидация при переходе на след. шаг). Только для них показываем ошибки -
+  // чтобы не дёргать сообщениями на каждой клавише.
+  final Set<String> _touchedFields = {};
+  final Map<String, FocusNode> _focusNodes = {
+    'name': FocusNode(),
+    'email': FocusNode(),
+    'phone': FocusNode(),
+    'supplierName': FocusNode(),
+    'password': FocusNode(),
+    'confirmPassword': FocusNode(),
+  };
   String _role = 'buyer';
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -49,14 +62,17 @@ class _RegisterPageState extends State<RegisterPage> {
   Color get _inputFill => _isDark
       ? _colorScheme.surfaceContainerHighest
       : context.colorPalette.bgTop;
-  TextStyle get _labelStyle => const TextStyle(
-    fontSize: 12,
+  TextStyle get _labelStyle => TextStyle(
+    fontSize: 11,
     fontWeight: FontWeight.w600,
-    letterSpacing: 0.5,
+    letterSpacing: 0.6,
+    color: _mutedText,
   );
   static final RegExp _emailRegex = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
 
-  // Вспомогательный виджет для поля с зарезервированным местом под ошибку
+  // Вспомогательный виджет для поля с зарезервированным местом под ошибку.
+  // Место под ошибку резервируем всегда (min-height), чтобы соседние поля
+  // не прыгали при появлении/исчезновении сообщения.
   Widget _buildFieldWithError({
     required String label,
     required Widget field,
@@ -66,27 +82,67 @@ class _RegisterPageState extends State<RegisterPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: _labelStyle),
-        const SizedBox(height: 8),
+        const SizedBox(height: 5),
         field,
-        // Зарезервированное место под ошибку (высота строки текста + отступ)
-        SizedBox(
-          height: errorText != null
-              ? 24
-              : 24, // Увеличенная фиксированная высота
+        ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 18),
           child: errorText != null
               ? Padding(
                   padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    errorText,
-                    style: TextStyle(
-                      color: _colorScheme.error,
-                      fontSize: 14, // Увеличенный размер шрифта
-                    ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.error_outline,
+                        size: 14,
+                        color: _colorScheme.error,
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          errorText,
+                          style: TextStyle(
+                            color: _colorScheme.error,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 )
               : null,
         ),
       ],
+    );
+  }
+
+  // Единый InputDecoration для всех полей: красная рамка в состоянии ошибки,
+  // светлая - в обычном. Иначе пришлось бы дублировать border в каждом поле.
+  InputDecoration _inputDecoration({
+    required String hintText,
+    required bool hasError,
+    Widget? suffixIcon,
+  }) {
+    final borderColor = hasError
+        ? _colorScheme.error
+        : context.colorPalette.line;
+    OutlineInputBorder buildBorder(Color color) => OutlineInputBorder(
+      borderRadius: BorderRadius.circular(8),
+      borderSide: BorderSide(color: color),
+    );
+    return InputDecoration(
+      hintText: hintText,
+      hintStyle: TextStyle(color: _mutedText),
+      filled: true,
+      fillColor: _inputFill,
+      isDense: true,
+      enabledBorder: buildBorder(borderColor),
+      border: buildBorder(borderColor),
+      focusedBorder: buildBorder(
+        hasError ? _colorScheme.error : context.colorPalette.accent,
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      suffixIcon: suffixIcon,
     );
   }
 
@@ -226,7 +282,6 @@ class _RegisterPageState extends State<RegisterPage> {
       body,
       backgroundColor: context.colorPalette.error,
       duration: const Duration(seconds: 4),
-      maxLines: 3,
     );
   }
 
@@ -291,7 +346,11 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         _lastCheckedEmail = email;
         _emailAvailabilityError = availabilityError;
-        _fieldErrors['email'] = _validateEmail(_emailController.text);
+        // Сам результат проверки сохраняем всегда, но в видимую ошибку
+        // пишем только если с поля уже уходили - чтобы не выскакивало при наборе.
+        if (_touchedFields.contains('email')) {
+          _fieldErrors['email'] = _validateEmail(_emailController.text);
+        }
       });
     } catch (_) {
       if (!mounted || ticket != _emailCheckTicket) {
@@ -304,7 +363,9 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         _lastCheckedEmail = email;
         _emailAvailabilityError = null;
-        _fieldErrors['email'] = _validateEmail(_emailController.text);
+        if (_touchedFields.contains('email')) {
+          _fieldErrors['email'] = _validateEmail(_emailController.text);
+        }
       });
     }
   }
@@ -312,6 +373,13 @@ class _RegisterPageState extends State<RegisterPage> {
   void _onFieldChanged(String field) {
     if (field == 'email') {
       _scheduleEmailAvailabilityCheck();
+    }
+
+    // Пока поле не "тронуто" (фокус с него не уходил) - не зажигаем ошибку
+    // во время набора. Но если ошибка уже показана, гасим её сразу,
+    // как только ввод стал валидным.
+    if (!_touchedFields.contains(field) && _fieldErrors[field] == null) {
+      return;
     }
 
     final fieldError = _validateField(field);
@@ -335,6 +403,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     setState(() {
+      _touchedFields.addAll(fields);
       _fieldErrors.addAll(errors);
     });
 
@@ -373,6 +442,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     setState(() {
+      _touchedFields.addAll(fields);
       _fieldErrors.addAll(errors);
       if (messages.isNotEmpty && targetStep != null) {
         _step = targetStep;
@@ -388,6 +458,37 @@ class _RegisterPageState extends State<RegisterPage> {
     return messages.isEmpty;
   }
 
+  void _selectRole(String nextRole) {
+    if (nextRole == _role) return;
+    setState(() {
+      _role = nextRole;
+      _fieldErrors['supplierName'] = null;
+    });
+    // Меняется роль - старый баннер может быть неактуален,
+    // прячем его. Следующая валидация покажет новый при необходимости.
+    _clearTopMessage();
+  }
+
+  // Кастомное меню роли вместо стандартного DropdownButton: у того меню
+  // рисуется во всю ширину без скруглений. AnimatedSelectField раскрывает
+  // список по ширине поля с плавной анимацией.
+  Widget _buildRoleField() {
+    return _buildFieldWithError(
+      label: 'РОЛЬ',
+      errorText: null,
+      field: AnimatedSelectField<String>(
+        value: _role,
+        decoration: _inputDecoration(hintText: '', hasError: false),
+        textStyle: TextStyle(color: _colorScheme.onSurface, fontSize: 15),
+        onChanged: _selectRole,
+        options: const [
+          SelectOption('buyer', 'Покупатель'),
+          SelectOption('supplier', 'Поставщик'),
+        ],
+      ),
+    );
+  }
+
   Widget _buildAccountStep(double fieldGap) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -397,22 +498,13 @@ class _RegisterPageState extends State<RegisterPage> {
           errorText: _fieldErrors['name'],
           field: TextField(
             controller: _nameController,
+            focusNode: _focusNodes['name'],
             keyboardType: TextInputType.text,
             textCapitalization: TextCapitalization.words,
             onChanged: (_) => _onFieldChanged('name'),
-            decoration: InputDecoration(
+            decoration: _inputDecoration(
               hintText: 'Введите имя',
-              hintStyle: TextStyle(color: _mutedText),
-              filled: true,
-              fillColor: _inputFill,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 14,
-              ),
+              hasError: _fieldErrors['name'] != null,
             ),
           ),
         ),
@@ -422,21 +514,12 @@ class _RegisterPageState extends State<RegisterPage> {
           errorText: _fieldErrors['email'],
           field: TextField(
             controller: _emailController,
+            focusNode: _focusNodes['email'],
             keyboardType: TextInputType.text,
             onChanged: (_) => _onFieldChanged('email'),
-            decoration: InputDecoration(
+            decoration: _inputDecoration(
               hintText: 'primer@pochta.ru',
-              hintStyle: TextStyle(color: _mutedText),
-              filled: true,
-              fillColor: _inputFill,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 14,
-              ),
+              hasError: _fieldErrors['email'] != null,
             ),
           ),
         ),
@@ -446,6 +529,7 @@ class _RegisterPageState extends State<RegisterPage> {
           errorText: _fieldErrors['phone'],
           field: TextField(
             controller: _phoneController,
+            focusNode: _focusNodes['phone'],
             keyboardType: TextInputType.phone,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
@@ -453,89 +537,14 @@ class _RegisterPageState extends State<RegisterPage> {
               const PhoneNumberInputFormatter(),
             ],
             onChanged: (_) => _onFieldChanged('phone'),
-            decoration: InputDecoration(
+            decoration: _inputDecoration(
               hintText: '+7-___-___-____',
-              hintStyle: TextStyle(color: _mutedText),
-              filled: true,
-              fillColor: _inputFill,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 14,
-              ),
+              hasError: _fieldErrors['phone'] != null,
             ),
           ),
         ),
         SizedBox(height: fieldGap),
-        _buildFieldWithError(
-          label: 'РОЛЬ',
-          errorText: null,
-          field: Container(
-            constraints: const BoxConstraints(minHeight: 48),
-            child: DropdownButtonFormField<String>(
-              initialValue: _role,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: _inputFill,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.only(
-                  left: 16,
-                  right: 48, // Место для иконки стрелки
-                  top: 14,
-                  bottom: 14,
-                ),
-                suffixIcon: Icon(Icons.keyboard_arrow_down, color: _mutedText),
-              ),
-              style: TextStyle(color: _colorScheme.onSurface, fontSize: 16),
-              dropdownColor: _cardBg,
-              icon: const SizedBox.shrink(),
-              menuMaxHeight: 200,
-              elevation: 4,
-              alignment: AlignmentDirectional.centerStart,
-              isExpanded: true, // Расширяем на всю ширину контейнера
-              itemHeight: 48,
-              items: [
-                DropdownMenuItem(
-                  value: 'buyer',
-                  child: Text(
-                    'Покупатель',
-                    style: TextStyle(
-                      color: _colorScheme.onSurface,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: 'supplier',
-                  child: Text(
-                    'Поставщик',
-                    style: TextStyle(
-                      color: _colorScheme.onSurface,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ],
-              onChanged: (value) {
-                final nextRole = value ?? 'buyer';
-                if (nextRole == _role) return;
-                setState(() {
-                  _role = nextRole;
-                  _fieldErrors['supplierName'] = null;
-                });
-                // Меняется роль - старый баннер может быть неактуален,
-                // прячем его. Следующая валидация покажет новый при необходимости.
-                _clearTopMessage();
-              },
-            ),
-          ),
-        ),
+        _buildRoleField(),
       ],
     );
   }
@@ -550,22 +559,13 @@ class _RegisterPageState extends State<RegisterPage> {
             errorText: _fieldErrors['supplierName'],
             field: TextField(
               controller: _supplierNameController,
+              focusNode: _focusNodes['supplierName'],
               keyboardType: TextInputType.text,
               textCapitalization: TextCapitalization.words,
               onChanged: (_) => _onFieldChanged('supplierName'),
-              decoration: InputDecoration(
+              decoration: _inputDecoration(
                 hintText: 'Например, ТОО Склад Манса',
-                hintStyle: TextStyle(color: _mutedText),
-                filled: true,
-                fillColor: _inputFill,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 14,
-                ),
+                hasError: _fieldErrors['supplierName'] != null,
               ),
             ),
           ),
@@ -588,24 +588,15 @@ class _RegisterPageState extends State<RegisterPage> {
         errorText: _fieldErrors['password'],
         field: TextField(
           controller: _passwordController,
+          focusNode: _focusNodes['password'],
           obscureText: _obscurePassword,
           onChanged: (_) {
             _onFieldChanged('password');
             _onFieldChanged('confirmPassword');
           },
-          decoration: InputDecoration(
+          decoration: _inputDecoration(
             hintText: '************',
-            hintStyle: TextStyle(color: _mutedText),
-            filled: true,
-            fillColor: _inputFill,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide.none,
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
-            ),
+            hasError: _fieldErrors['password'] != null,
             suffixIcon: IconButton(
               icon: Icon(
                 _obscurePassword ? Icons.visibility_off : Icons.visibility,
@@ -626,21 +617,12 @@ class _RegisterPageState extends State<RegisterPage> {
         errorText: _fieldErrors['confirmPassword'],
         field: TextField(
           controller: _confirmPasswordController,
+          focusNode: _focusNodes['confirmPassword'],
           obscureText: _obscureConfirmPassword,
           onChanged: (_) => _onFieldChanged('confirmPassword'),
-          decoration: InputDecoration(
+          decoration: _inputDecoration(
             hintText: '************',
-            hintStyle: TextStyle(color: _mutedText),
-            filled: true,
-            fillColor: _inputFill,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide.none,
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
-            ),
+            hasError: _fieldErrors['confirmPassword'] != null,
             suffixIcon: IconButton(
               icon: Icon(
                 _obscureConfirmPassword
@@ -668,6 +650,23 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // На потере фокуса помечаем поле как "тронутое" и валидируем -
+    // так ошибка появляется когда пользователь ушёл с поля, а не на каждой клавише.
+    _focusNodes.forEach((field, node) {
+      node.addListener(() {
+        if (!node.hasFocus) {
+          _touchedFields.add(field);
+          setState(() {
+            _fieldErrors[field] = _validateField(field);
+          });
+        }
+      });
+    });
+  }
+
+  @override
   void dispose() {
     _emailCheckDebounce?.cancel();
     _nameController.dispose();
@@ -676,6 +675,9 @@ class _RegisterPageState extends State<RegisterPage> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _supplierNameController.dispose();
+    for (final node in _focusNodes.values) {
+      node.dispose();
+    }
     super.dispose();
   }
 
@@ -849,13 +851,13 @@ class _RegisterPageState extends State<RegisterPage> {
     final headerTitleSize = isCompact ? 28.0 : 32.0;
     final headerSubtitleSize = isCompact ? 14.0 : 16.0;
     final backBorderColor = context.colorPalette.line;
-    final backTextEnabledColor = context.colorPalette.accent;
+    final backTextEnabledColor = context.colorPalette.muted;
     final backTextDisabledColor = context.colorPalette.muted;
     final primaryButtonColor = context.colorPalette.ink;
     final primaryButtonDisabled = context.colorPalette.ink;
-    final buttonRadius = BorderRadius.circular(28);
+    final buttonRadius = BorderRadius.circular(100);
     final backButtonStyle = ButtonStyle(
-      minimumSize: const WidgetStatePropertyAll(Size.fromHeight(48)),
+      minimumSize: const WidgetStatePropertyAll(Size.fromHeight(46)),
       padding: const WidgetStatePropertyAll(
         EdgeInsets.symmetric(horizontal: 14),
       ),
@@ -879,7 +881,7 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
     final primaryButtonStyle = ButtonStyle(
-      minimumSize: const WidgetStatePropertyAll(Size.fromHeight(48)),
+      minimumSize: const WidgetStatePropertyAll(Size.fromHeight(46)),
       padding: const WidgetStatePropertyAll(
         EdgeInsets.symmetric(horizontal: 14),
       ),
@@ -965,8 +967,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: BoxDecoration(
                   color: _cardBg,
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
                   ),
                 ),
                 child: SafeArea(
@@ -982,8 +984,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             Text(
                               _stepTitle,
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
                                 color: _colorScheme.onSurface,
                               ),
                             ),
@@ -1036,7 +1038,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 10),
                             Expanded(
                               child: SizedBox(
                                 child: ElevatedButton(

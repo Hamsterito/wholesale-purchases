@@ -65,7 +65,7 @@ void showTopMessage(
   bool showClose = true,
   bool showAtBottom = false,
   double bottomOffset = 0,
-  int maxLines = 1,
+  int? maxLines,
 
   /// Если true, баннер не закрывается на навигации - живёт по своему таймеру.
   bool persistAcrossNavigation = false,
@@ -148,7 +148,7 @@ class _TopMessageBanner extends StatefulWidget {
   final bool showCountdown;
   final bool showClose;
   final bool fromBottom;
-  final int maxLines;
+  final int? maxLines;
   final VoidCallback onDismiss;
 
   const _TopMessageBanner({
@@ -230,7 +230,7 @@ class _TopMessageBannerState extends State<_TopMessageBanner>
     final showClose = widget.showClose;
     const countdownSize = 28.0;
     const bannerPadding = EdgeInsets.symmetric(horizontal: 14, vertical: 10);
-    final bannerHeight = countdownSize + bannerPadding.vertical;
+    final minBannerHeight = countdownSize + bannerPadding.vertical;
     // Белый поверх цветного фона - контраст в обеих темах.
     const textColor = Colors.white;
     return Material(
@@ -241,7 +241,7 @@ class _TopMessageBannerState extends State<_TopMessageBanner>
           opacity: _fade,
           child: Container(
             padding: bannerPadding,
-            height: bannerHeight,
+            constraints: BoxConstraints(minHeight: minBannerHeight),
             alignment: Alignment.centerLeft,
             decoration: BoxDecoration(
               color: widget.backgroundColor,
@@ -255,6 +255,7 @@ class _TopMessageBannerState extends State<_TopMessageBanner>
               ],
             ),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 if (showCountdown) ...[
                   _CountdownRing(
@@ -269,7 +270,9 @@ class _TopMessageBannerState extends State<_TopMessageBanner>
                   child: Text(
                     widget.message,
                     maxLines: widget.maxLines,
-                    overflow: TextOverflow.ellipsis,
+                    overflow: widget.maxLines == null
+                        ? TextOverflow.clip
+                        : TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: textColor,
                       fontWeight: FontWeight.w600,
