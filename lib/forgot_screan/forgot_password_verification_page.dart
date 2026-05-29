@@ -14,12 +14,15 @@ import 'reset_password_page.dart';
 
 class ForgotPasswordVerificationPage extends StatefulWidget {
   final String email;
-  final int expiresIn;
+
+  /// Сколько секунд до разблокировки кнопки повторной отправки. Это не срок
+  /// жизни кода (он на сервере дольше), а окно между перезапросами.
+  final int resendCooldownSeconds;
 
   const ForgotPasswordVerificationPage({
     super.key,
     required this.email,
-    required this.expiresIn,
+    required this.resendCooldownSeconds,
   });
 
   @override
@@ -50,15 +53,17 @@ class _ForgotPasswordVerificationPageState
   void initState() {
     super.initState();
     _errorController = StreamController<ErrorAnimationType>();
-    _remainingTimeNotifier = ValueNotifier<int>(widget.expiresIn);
-    _isButtonDisabledNotifier = ValueNotifier<bool>(widget.expiresIn > 0);
+    _remainingTimeNotifier = ValueNotifier<int>(widget.resendCooldownSeconds);
+    _isButtonDisabledNotifier = ValueNotifier<bool>(
+      widget.resendCooldownSeconds > 0,
+    );
     _startTimer();
   }
 
-  // Запускает таймер с полученным временем истечения
+  // Запускает таймер обратного отсчёта до разблокировки кнопки «Отправить снова»
   void _startTimer() {
-    _remainingTimeNotifier.value = widget.expiresIn;
-    _isButtonDisabledNotifier.value = widget.expiresIn > 0;
+    _remainingTimeNotifier.value = widget.resendCooldownSeconds;
+    _isButtonDisabledNotifier.value = widget.resendCooldownSeconds > 0;
 
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -190,16 +195,12 @@ class _ForgotPasswordVerificationPageState
       if (!mounted) return;
 
       if (response.statusCode == 200) {
-        // Код отправлен повторно, обновляем таймер
-        final body = utf8.decode(response.bodyBytes);
-        final responseData = parseApiResponseWithData(body);
-        final expiresIn = responseData.data['expires_in'] as int? ?? 60;
+        // Код отправлен повторно. Таймер крутим по cooldown'у, а не по TTL кода.
         await OtpCooldownStore.markRequested(widget.email, 'password_reset');
 
         _showMessage('Код отправлен повторно', MessageSeverity.info);
 
-        // Обновляем время истечения и перезапускаем таймер
-        _remainingTimeNotifier.value = expiresIn;
+        _remainingTimeNotifier.value = OtpCooldownStore.cooldown.inSeconds;
         _isButtonDisabledNotifier.value = true;
         _startTimer();
       } else {

@@ -11,8 +11,6 @@ class SelectOption<T> {
 }
 
 /// Поле-выпадашка с анимацией. Список всплывает поверх остального контента
-/// через Overlay (не раздвигает соседние поля) и анимированно раскрывается
-/// и сворачивается обратно.
 class AnimatedSelectField<T> extends StatefulWidget {
   const AnimatedSelectField({
     super.key,

@@ -7,8 +7,10 @@ final env = DotEnv()..load([File('${Directory.current.path}/.env').path]);
 // Роль пользователя по умолчанию
 const String _defaultRole = 'buyer';
 
-// Время жизни OTP кода подтверждения email (в минутах)
-const int _emailVerificationOtpTtlMinutes = 1;
+// Время жизни OTP кода подтверждения email (в минутах).
+// 5 минут, чтобы успеть получить письмо и ввести код. Это не cooldown на
+// повторную отправку - тот короче (см. OtpCooldownStore во фронте).
+const int _emailVerificationOtpTtlMinutes = 5;
 const Duration _emailVerificationOtpTtl = Duration(
   minutes: _emailVerificationOtpTtlMinutes,
 );

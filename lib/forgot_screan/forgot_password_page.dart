@@ -76,8 +76,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              ForgotPasswordVerificationPage(email: email, expiresIn: cooldown),
+          builder: (context) => ForgotPasswordVerificationPage(
+            email: email,
+            resendCooldownSeconds: cooldown,
+          ),
         ),
       );
       return;
@@ -97,9 +99,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       if (!mounted) return;
 
       if (response.statusCode == 200) {
-        final body = utf8.decode(response.bodyBytes);
-        final responseData = parseApiResponseWithData(body);
-        final expiresIn = responseData.data['expires_in'] as int? ?? 60;
         await OtpCooldownStore.markRequested(email, 'password_reset');
         if (!mounted) return;
 
@@ -108,7 +107,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           MaterialPageRoute(
             builder: (context) => ForgotPasswordVerificationPage(
               email: email,
-              expiresIn: expiresIn,
+              resendCooldownSeconds: OtpCooldownStore.cooldown.inSeconds,
             ),
           ),
         );

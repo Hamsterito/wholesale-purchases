@@ -442,22 +442,9 @@ void _registerAuthRoutes(Router router, Connection connection) {
         Sql.named('DELETE FROM password_resets WHERE expires_at < NOW()'),
       );
 
-      // Проверяем, есть ли активный код
-      final activeResult = await connection.execute(
-        Sql.named('''
-          SELECT expires_at FROM password_resets
-          WHERE email = @email AND used = false AND expires_at > NOW()
-          ORDER BY created_at DESC
-          LIMIT 1
-        '''),
-        parameters: {'email': email},
-      );
-
-      if (activeResult.isNotEmpty) {
-        return _jsonError('Код ещё активен. Подождите истечения таймера.', 429);
-      }
-
-      // Ограничение частоты: проверяем, отправлялся ли код недавно (последняя 1 минута)
+      // Повторную отправку ограничиваем только окном в 1 минуту, а не сроком
+      // жизни кода: код валиден 5 минут, но перезапросить новый можно уже через
+      // минуту, если письмо не дошло. Старый код при этом гасится ниже.
       final recentResult = await connection.execute(
         Sql.named('''
           SELECT id FROM password_resets

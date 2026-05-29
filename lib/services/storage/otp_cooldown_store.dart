@@ -1,8 +1,9 @@
 import 'shared_prefs_provider.dart';
 
 /// Cooldown запросов OTP в SharedPreferences по ключу (identifier, purpose).
-/// Окно равно TTL OTP на сервере (60 сек), чтобы повторный заход на экран
-/// не дёргал /request - сервер вернул бы остаток того же кода.
+/// Это окно между повторными отправками кода, а не срок жизни самого кода:
+/// код на сервере валиден дольше (см. _emailVerificationOtpTtl), чтобы успеть
+/// получить письмо и ввести его, а перезапрашивать можно уже через минуту.
 class OtpCooldownStore {
   OtpCooldownStore._();
 
