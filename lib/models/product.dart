@@ -131,6 +131,7 @@ class Supplier {
   final String? address;
   final String? phone;
   final String? email;
+  final String? avatarUrl;
 
   Supplier({
     required this.id,
@@ -149,6 +150,7 @@ class Supplier {
     this.address,
     this.phone,
     this.email,
+    this.avatarUrl,
   });
 
   int getTotalPrice(int quantity) {
@@ -227,8 +229,15 @@ class Supplier {
       address: json['address']?.toString(),
       phone: json['phone']?.toString(),
       email: json['email']?.toString(),
+      avatarUrl: _normalizeAvatarUrl(json['avatarUrl']),
     );
   }
+}
+
+// Пустую строку считаем за «нет аватарки» - сервер может прислать "" вместо null.
+String? _normalizeAvatarUrl(dynamic value) {
+  final str = value?.toString().trim() ?? '';
+  return str.isEmpty ? null : str;
 }
 
 class RatingDistribution {

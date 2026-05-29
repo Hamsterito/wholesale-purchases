@@ -1,13 +1,41 @@
 import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../login_screen/login.dart';
+import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/notification_service.dart';
 import '../services/store/templates_store.dart';
 import '../widgets/profile/user_avatar.dart';
 
-class ModeratorProfilePage extends StatelessWidget {
+class ModeratorProfilePage extends StatefulWidget {
   const ModeratorProfilePage({super.key});
+
+  @override
+  State<ModeratorProfilePage> createState() => _ModeratorProfilePageState();
+}
+
+class _ModeratorProfilePageState extends State<ModeratorProfilePage> {
+  // null пока профиль не загружен - тогда берём аватарку из кэша AuthStorage.
+  String? _avatarUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _avatarUrl = AuthStorage.avatarUrl;
+    _loadAvatar();
+  }
+
+  // Подтягиваем актуальную аватарку с сервера и синхронизируем кэш
+  Future<void> _loadAvatar() async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) return;
+    try {
+      final profile = await ApiService.getUserProfile(userId: userId);
+      await AuthStorage.setAvatarUrl(profile.avatarUrl);
+      if (!mounted) return;
+      setState(() => _avatarUrl = profile.avatarUrl);
+    } catch (_) {}
+  }
 
   Future<void> _logout(BuildContext context) async {
     // Сначала очищаем уведомления - пока userId ещё доступен в AuthStorage
@@ -35,7 +63,7 @@ class ModeratorProfilePage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: UserAvatar(
-                avatarUrl: AuthStorage.avatarUrl,
+                avatarUrl: _avatarUrl,
                 displayName: name,
                 radius: 50,
               ),

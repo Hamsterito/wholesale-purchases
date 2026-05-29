@@ -203,11 +203,11 @@ class AuthStorage {
     }
   }
 
+  // Device-токен 2FA намеренно НЕ трогаем - доверенное устройство должно
+  // переживать обычный выход, иначе «запомнить устройство» теряет смысл.
+  // Токен отзывается только сервером (смена пароля, отключение 2FA, ручной
+  // отзыв) либо через явный clearDeviceToken.
   static Future<void> forget() async {
-    // Снимок до сброса - чтобы знать, какие device-token-ключи чистить.
-    final lastUserId = _userId;
-    final lastEmail = _email;
-
     _remembered = false;
     _email = null;
     _role = null;
@@ -224,13 +224,6 @@ class AuthStorage {
     await prefs.remove(_nameKey);
     await prefs.remove(_supplierNameKey);
     await prefs.remove(_avatarUrlKey);
-
-    if (lastUserId != null && lastUserId > 0) {
-      await prefs.remove(_deviceTokenKey(lastUserId));
-    }
-    if (lastEmail != null && lastEmail.isNotEmpty) {
-      await prefs.remove(_deviceTokenEmailKey(lastEmail));
-    }
   }
 
   static Future<void> saveSelectedAddressId(int? addressId) async {

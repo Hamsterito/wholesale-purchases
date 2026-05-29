@@ -112,6 +112,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
     }
     try {
       final profile = await ApiService.getUserProfile(userId: userId);
+      // Кладём свежий URL в кэш - профильные экраны читают AuthStorage.
+      await AuthStorage.setAvatarUrl(profile.avatarUrl);
       if (!mounted) return;
       setState(() {
         _applyProfile(profile);

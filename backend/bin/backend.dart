@@ -97,7 +97,7 @@ void main() async {
         corsHeaders(
           headers: const {
             ACCESS_CONTROL_ALLOW_HEADERS:
-                'accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, x-user-id',
+                'accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, x-user-id, x-device-token',
             ACCESS_CONTROL_ALLOW_METHODS:
                 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
           },

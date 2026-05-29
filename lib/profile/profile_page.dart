@@ -51,7 +51,12 @@ class _ProfilePageState extends State<ProfilePage> {
       return null;
     }
     try {
-      return await ApiService.getUserProfile(userId: userId);
+      final profile = await ApiService.getUserProfile(userId: userId);
+      // Сервер - источник правды по аватарке. Синхронизируем AuthStorage,
+      // чтобы экраны, читающие только кэш (профиль поставщика/модератора),
+      // тоже показывали актуальную картинку.
+      await AuthStorage.setAvatarUrl(profile.avatarUrl);
+      return profile;
     } catch (_) {
       return null;
     }
@@ -150,6 +155,13 @@ class _ProfilePageState extends State<ProfilePage> {
               final profile = snapshot.data;
               final name = _resolveName(profile);
               final subtitle = _resolveSubtitle(profile);
+              // Пока профиль грузится - показываем кэш из AuthStorage,
+              // после загрузки берём актуальный URL с сервера.
+              final avatarUrl = profile?.avatarUrl ?? AuthStorage.avatarUrl;
+              final avatarName = _pickValue(
+                [profile?.name, AuthStorage.name],
+                '',
+              );
               return Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -162,8 +174,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Row(
                       children: [
                         UserAvatar(
-                          avatarUrl: AuthStorage.avatarUrl,
-                          displayName: AuthStorage.name ?? '',
+                          avatarUrl: avatarUrl,
+                          displayName: avatarName,
                           radius: 35,
                         ),
                         const SizedBox(width: 16),

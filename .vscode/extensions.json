@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "dart-code.dart-code",
+    "dart-code.flutter",
+    "nash.awesome-flutter-snippets",
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "streetsidesoftware.code-spell-checker",
+    "streetsidesoftware.code-spell-checker-russian",
+    "usernamehw.errorlens",
+    "naumovs.color-highlight",
+    "pflannery.vscode-versionlens",
+    "gruntfuggly.todo-tree"
+  ]
+}

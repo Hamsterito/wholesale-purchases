@@ -16,7 +16,8 @@
     "scram",
     "postgres",
     "datname",
-    "databasename"
+    "databasename",
+    "webp"
   ],
   "ignorePaths": [
     ".dart_tool/**",

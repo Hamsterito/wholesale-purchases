@@ -869,6 +869,12 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           supplier.id,
           fallback: supplier.rating,
         );
+        // Название компании из свежего профиля - оно может отличаться от
+        // supplier.name из каталога, который мог сохраниться с именем поставщика.
+        final companyName = SupplierStatsStore.instance.name(
+          supplier.id,
+          fallback: supplier.name,
+        );
         return Material(
           color: palette.card,
           borderRadius: const BorderRadius.vertical(
@@ -883,11 +889,9 @@ class _ProductDetailPageState extends State<ProductDetailPage>
               padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
               child: Row(
                 children: [
-                  // Supplier пока не передаёт avatarUrl - показываем placeholder
-                  // с первой буквой имени, как и для пользователей.
                   UserAvatar(
-                    avatarUrl: null,
-                    displayName: supplier.name,
+                    avatarUrl: supplier.avatarUrl,
+                    displayName: companyName,
                     radius: 20,
                   ),
                   const SizedBox(width: 12),
@@ -897,7 +901,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          supplier.name,
+                          companyName,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,

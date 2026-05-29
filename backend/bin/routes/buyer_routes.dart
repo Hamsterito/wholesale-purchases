@@ -1574,12 +1574,14 @@ void _registerCatalogRoutes(Router router, Connection connection) {
     try {
       final result = await connection.execute('''
         SELECT p.*,
+               u.avatar_url AS supplier_avatar_url,
                EXISTS(
                  SELECT 1
                  FROM order_items oi
                  WHERE oi.product_id = p.id
                ) AS has_orders
         FROM products p
+        LEFT JOIN users u ON u.id = p.supplier_user_id
         WHERE p.moderation_status = 'approved' OR p.moderation_status IS NULL;
       ''');
       final rows = result.map((row) => row.toColumnMap()).toList();
@@ -1719,6 +1721,7 @@ void _registerCatalogRoutes(Router router, Connection connection) {
               'deliveryDate': map['delivery_date'] ?? '',
               'deliveryInfo': 'Доставка по согласованию',
               'deliveryBadge': map['delivery_badge'] ?? '',
+              'avatarUrl': _avatarUrlOrNull(request, map['supplier_avatar_url']),
             },
           ],
           'similarProducts': const <Map<String, dynamic>>[],
