@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
-import '../login_screen/login.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
-import '../services/notification_service.dart';
-import '../services/store/templates_store.dart';
+import '../utils/logout_flow.dart';
 import '../widgets/profile/user_avatar.dart';
 
 class ModeratorProfilePage extends StatefulWidget {
@@ -37,18 +35,6 @@ class _ModeratorProfilePageState extends State<ModeratorProfilePage> {
     } catch (_) {}
   }
 
-  Future<void> _logout(BuildContext context) async {
-    // Сначала очищаем уведомления - пока userId ещё доступен в AuthStorage
-    await NotificationService().clearForLogout();
-    await TemplatesStore.instance.clearCache();
-    await AuthStorage.forget();
-    if (!context.mounted) return;
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const LoginPage()),
-      (_) => false,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final name = AuthStorage.name ?? 'Модератор';
@@ -73,7 +59,7 @@ class _ModeratorProfilePageState extends State<ModeratorProfilePage> {
           _InfoTile(label: 'Эл. почта', value: email),
           const SizedBox(height: 24),
           ElevatedButton(
-            onPressed: () => _logout(context),
+            onPressed: () => performLogout(context),
             style: ElevatedButton.styleFrom(
               backgroundColor: context.colorPalette.error,
               foregroundColor: Colors.white,

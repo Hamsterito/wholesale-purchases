@@ -3,7 +3,7 @@ import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import 'add_payment_card.dart';
 import '../models/message.dart';
 import '../services/storage/payment_card_storage.dart';
@@ -260,7 +260,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
           ],
         ),
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
   }
 

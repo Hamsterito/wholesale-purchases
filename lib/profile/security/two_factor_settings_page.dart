@@ -9,7 +9,7 @@ import '../../services/storage/auth_storage.dart';
 import '../../services/storage/otp_cooldown_store.dart';
 import '../../theme/app_color_palette.dart';
 import '../../widgets/messages/top_message.dart';
-import '../../widgets/navigation/main_bottom_nav.dart';
+import '../../widgets/navigation/role_internal_nav_bar.dart';
 import 'two_factor_backup_codes_view.dart';
 import 'two_factor_disable_otp_page.dart';
 import 'two_factor_enable_otp_page.dart';
@@ -340,7 +340,7 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
         iconTheme: IconThemeData(color: cs.onSurface),
       ),
       body: SafeArea(child: _buildBody(palette, cs)),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
   }
 

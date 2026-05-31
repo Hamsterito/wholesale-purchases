@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../theme/app_color_palette.dart';
 import '../../utils/ru_plural.dart';
+import 'nav_helpers.dart';
 
 /// Виджет значка уведомлений - отображает счётчик в виде круглого бейджа.
 class NotificationBadge extends StatefulWidget {
@@ -111,10 +112,9 @@ class _NotificationBadgeState extends State<NotificationBadge>
 
     final palette = AppColorPalette.of(context);
 
-    // Текст: "99+" если превышен порог, иначе само число
-    final label = _displayCount > widget.maxCount
-        ? '${widget.maxCount}+'
-        : _displayCount.toString();
+    // Текст значка берём из badgeDisplayText - единый источник правды
+    // с property-тестами. При 0 значок уже скрыт выше по коду.
+    final label = badgeDisplayText(_displayCount, maxCount: widget.maxCount);
 
     // Семантическая метка для screen readers с правильным склонением
     final semanticText =

@@ -11,7 +11,7 @@ import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../widgets/chat/chat_thread_view.dart';
 import '../widgets/chat/adapters.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/moderator/moderator_empty_state.dart';
 import '../widgets/profile/user_avatar.dart';
 import 'suppliers_directory_page.dart';
 
@@ -200,6 +200,27 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
     );
   }
 
+  Widget _buildTopPanel(ColorScheme colorScheme) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+      child: Row(
+        children: [
+          _buildFilterButton(
+            label: 'Открытые',
+            selected: !_showHistory,
+            onTap: () => setState(() => _showHistory = false),
+          ),
+          const SizedBox(width: 10),
+          _buildFilterButton(
+            label: 'История',
+            selected: _showHistory,
+            onTap: () => setState(() => _showHistory = true),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -231,24 +252,7 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-            child: Row(
-              children: [
-                _buildFilterButton(
-                  label: 'Открытые',
-                  selected: !_showHistory,
-                  onTap: () => setState(() => _showHistory = false),
-                ),
-                const SizedBox(width: 10),
-                _buildFilterButton(
-                  label: 'История',
-                  selected: _showHistory,
-                  onTap: () => setState(() => _showHistory = true),
-                ),
-              ],
-            ),
-          ),
+          _buildTopPanel(colorScheme),
           Expanded(
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
@@ -272,17 +276,10 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
                 : RefreshIndicator(
                     onRefresh: _loadChats,
                     child: visibleChats.isEmpty
-                        ? ListView(
-                            children: [
-                              const SizedBox(height: 140),
-                              Center(
-                                child: Text(
-                                  _showHistory
-                                      ? 'Закрытых чатов пока нет'
-                                      : 'Открытых чатов сейчас нет',
-                                ),
-                              ),
-                            ],
+                        ? ModeratorEmptyState(
+                            message: _showHistory
+                                ? 'Закрытых чатов пока нет'
+                                : 'Открытых чатов сейчас нет',
                           )
                         : ListView.separated(
                             padding: const EdgeInsets.all(16),
@@ -353,7 +350,6 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
           ),
         ],
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
     );
   }
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../../models/message.dart';
 import 'api_config.dart';
@@ -24,8 +25,21 @@ class AiService {
   static const int _maxRetries = 3;
   static const Duration _timeout = Duration(seconds: 45);
 
+  // HTTP-клиент для запросов к модели. В продакшене - реальный http.Client,
+  // в тестах подменяется на MockClient через httpClient.
+  static http.Client _client = http.Client();
+
+  /// Подменяет HTTP-клиент - нужно для перехвата запросов в тестах через
+  /// MockClient из package:http/testing.dart.
+  @visibleForTesting
+  static set httpClient(http.Client client) => _client = client;
+
+  /// Возвращает реальный http.Client по умолчанию - сброс после тестов.
+  @visibleForTesting
+  static void resetHttpClient() => _client = http.Client();
+
   // RegExp для очистки markdown - компилируем один раз на класс,
-  // _cleanMarkdown зовётся на каждый ответ модели.
+  // cleanMarkdown зовётся на каждый ответ модели.
   static final RegExp _markdownBoldStarsRegExp = RegExp(r'\*\*([^*]+)\*\*');
   static final RegExp _markdownBoldUnderscoresRegExp = RegExp(r'__([^_]+)__');
   static final RegExp _markdownItalicStarsRegExp = RegExp(r'\*([^*]+)\*');
@@ -70,11 +84,7 @@ class AiService {
     }
 
     // Пробуем основную модель, затем fallback модели
-    final primaryModel = ApiConfig.aiModel;
-    final modelsToTry = [
-      primaryModel,
-      ..._fallbackModels.where((m) => m != primaryModel),
-    ];
+    final modelsToTry = buildModelList(ApiConfig.aiModel, _fallbackModels);
 
     AiException? lastException;
 
@@ -100,6 +110,13 @@ class AiService {
         );
   }
 
+  /// Строит список моделей для перебора: primary первым, затем fallback
+  /// в исходном порядке, без повторного вхождения primary.
+  @visibleForTesting
+  static List<String> buildModelList(String primary, List<String> fallbacks) {
+    return [primary, ...fallbacks.where((m) => m != primary)];
+  }
+
   /// Пробует сгенерировать резюме с конкретной моделью
   static Future<String> _tryGenerateWithModel(
     String apiKey,
@@ -108,12 +125,12 @@ class AiService {
   ) async {
     for (int attempt = 0; attempt < _maxRetries; attempt++) {
       try {
-        final prompt = _constructPrompt(stats);
+        final prompt = constructPrompt(stats);
 
         const temperature = 0.7;
         const maxTokens = 300;
 
-        final response = await http
+        final response = await _client
             .post(
               Uri.parse('${ApiConfig.aiEndpoint}/chat/completions'),
               headers: {
@@ -139,7 +156,7 @@ class AiService {
             )
             .timeout(_timeout);
 
-        final generated = _handleResponse(response);
+        final generated = handleResponse(response);
 
         // Параллельно логируем сгенерированный контент в MessageStore
         // для аналитики и отладки. Сбой логирования не должен ронять основной поток.
@@ -165,7 +182,7 @@ class AiService {
         );
       } on AiException catch (e) {
         // Если это ошибка лимита (429), пробуем другую модель без повторов
-        if (_isRateLimitError(e.message)) {
+        if (isRateLimitError(e.message)) {
           AppLogger.info(
             'Лимит запросов для модели $model, переходим на другую',
             scope: 'ai',
@@ -173,7 +190,7 @@ class AiService {
           rethrow; // Выбрасываем, чтобы перейти на следующую модель в generateSupplierSummary
         }
 
-        if (_shouldRetry(e.message) && attempt < _maxRetries - 1) {
+        if (shouldRetry(e.message) && attempt < _maxRetries - 1) {
           final delaySeconds = 1 << attempt; // 2^attempt
           AppLogger.info(
             'Повтор через $delaySeconds сек (попытка ${attempt + 1}/$_maxRetries)',
@@ -199,7 +216,8 @@ class AiService {
   }
 
   /// Обрабатывает ответ от AI API
-  static String _handleResponse(http.Response response) {
+  @visibleForTesting
+  static String handleResponse(http.Response response) {
     if (response.statusCode == 401) {
       throw AiException(
         message: 'Unauthorized: Invalid API key',
@@ -277,7 +295,7 @@ class AiService {
 
       AppLogger.info('AI-резюме успешно сгенерировано', scope: 'ai');
 
-      return _cleanMarkdown(content);
+      return cleanMarkdown(content);
     } catch (e) {
       if (e is AiException) rethrow;
       throw AiException(
@@ -288,13 +306,29 @@ class AiService {
   }
 
   /// Убирает markdown форматирование из текста
-  static String _cleanMarkdown(String text) {
+  @visibleForTesting
+  static String cleanMarkdown(String text) {
     String cleaned = text;
 
-    cleaned = cleaned.replaceAll(_markdownBoldStarsRegExp, r'$1');
-    cleaned = cleaned.replaceAll(_markdownBoldUnderscoresRegExp, r'$1');
-    cleaned = cleaned.replaceAll(_markdownItalicStarsRegExp, r'$1');
-    cleaned = cleaned.replaceAll(_markdownItalicUnderscoresRegExp, r'$1');
+    // replaceAllMapped, а не replaceAll с $1 - в Dart replaceAll вставляет
+    // строку замены буквально, без подстановки групп, поэтому **текст** иначе
+    // превратился бы в литерал $1, а не в содержимое разметки.
+    cleaned = cleaned.replaceAllMapped(
+      _markdownBoldStarsRegExp,
+      (m) => m.group(1)!,
+    );
+    cleaned = cleaned.replaceAllMapped(
+      _markdownBoldUnderscoresRegExp,
+      (m) => m.group(1)!,
+    );
+    cleaned = cleaned.replaceAllMapped(
+      _markdownItalicStarsRegExp,
+      (m) => m.group(1)!,
+    );
+    cleaned = cleaned.replaceAllMapped(
+      _markdownItalicUnderscoresRegExp,
+      (m) => m.group(1)!,
+    );
     cleaned = cleaned.replaceAll(_markdownHeadingRegExp, '');
     cleaned = cleaned.replaceAll(_markdownBulletRegExp, '');
     cleaned = cleaned.replaceAll(_markdownNumberedListRegExp, '');
@@ -303,14 +337,16 @@ class AiService {
   }
 
   /// Определяет, нужно ли повторять попытку для данной ошибки
-  static bool _shouldRetry(String message) {
+  @visibleForTesting
+  static bool shouldRetry(String message) {
     // Повторяем для транзиентных ошибок (429, 5xx)
     // OpenRouter free иногда временно возвращает 429
     return message.contains('Server error') || message.contains('Rate limit');
   }
 
   /// Проверяет, является ли ошибка ошибкой лимита запросов
-  static bool _isRateLimitError(String message) {
+  @visibleForTesting
+  static bool isRateLimitError(String message) {
     return message.contains('Rate limit');
   }
 
@@ -340,8 +376,9 @@ class AiService {
     return message;
   }
 
-  /// Конструирует промпт на английском языке на основе статистики
-  static String _constructPrompt(Map<String, dynamic> stats) {
+  /// Конструирует промпт на русском языке на основе статистики поставщика
+  @visibleForTesting
+  static String constructPrompt(Map<String, dynamic> stats) {
     final totalRevenue = stats['totalRevenue'] ?? 0;
     final monthlyRevenue = stats['monthlyRevenue'] ?? 0;
     final totalOrders = stats['totalOrders'] ?? 0;
@@ -355,41 +392,38 @@ class AiService {
     final averageFulfillmentDays = stats['averageFulfillmentDays'] ?? 0;
     final cancelledOrdersPercentage = stats['cancelledOrdersPercentage'] ?? 0;
 
-    return '''You are a professional business analyst. Analyze supplier performance data and write a clear, actionable summary in Russian.
+    return '''Ты опытный бизнес-аналитик оптовой торговой площадки. Проанализируй показатели работы поставщика и подготовь короткое, конкретное и полезное резюме на русском языке.
 
-Performance Data:
-• Total Revenue: ₸$totalRevenue
-• Monthly Revenue: ₸$monthlyRevenue  
-• Total Orders: $totalOrders
-• Average Order Value: ₸$averageOrderValue
-• Customer Rating: $averageRating/5.0 ($totalReviews reviews)
-• Repeat Buyers: $repeatBuyersPercentage%
-• New Buyers This Month: $newBuyersThisMonth
-• Top Performing Products: $topProductsCount
-• Products With Zero Sales: $productsWithZeroSales
-• Average Fulfillment Time: $averageFulfillmentDays days
-• Cancelled Orders: $cancelledOrdersPercentage%
+Показатели поставщика:
+• Общая выручка: $totalRevenue ₸
+• Выручка за месяц: $monthlyRevenue ₸
+• Всего заказов: $totalOrders
+• Средний чек: $averageOrderValue ₸
+• Рейтинг покупателей: $averageRating из 5.0 (отзывов: $totalReviews)
+• Доля повторных покупателей: $repeatBuyersPercentage%
+• Новых покупателей за месяц: $newBuyersThisMonth
+• Товаров-лидеров продаж: $topProductsCount
+• Товаров без продаж: $productsWithZeroSales
+• Среднее время выполнения заказа: $averageFulfillmentDays дн.
+• Доля отменённых заказов: $cancelledOrdersPercentage%
 
-Write a professional analysis in Russian (3-4 sentences) with this structure:
+Структура резюме - три коротких абзаца, разделённых пустой строкой:
 
-Paragraph 1: Highlight key strengths
-- Focus on positive metrics (high revenue, good rating, repeat buyers)
-- Use specific numbers to support points
+Абзац 1. Сильные стороны.
+Назови главные достижения, опираясь на положительные метрики (высокая выручка, хороший рейтинг, повторные покупатели). Подкрепляй выводы конкретными цифрами.
 
-Paragraph 2: Identify areas for improvement
-- Point out concerning metrics (low AOV, cancellations, zero sales products)
-- Explain business impact
+Абзац 2. Зоны роста.
+Укажи проблемные метрики (низкий средний чек, отмены заказов, товары без продаж) и кратко объясни, как они влияют на бизнес.
 
-Paragraph 3: Provide actionable recommendations
-- Give 2 specific, practical recommendations
-- Focus on revenue growth and customer satisfaction
+Абзац 3. Рекомендации.
+Дай 2 конкретные и выполнимые рекомендации, нацеленные на рост выручки и удовлетворённость покупателей.
 
-IMPORTANT FORMATTING RULES:
-- Write in plain Russian text only
-- DO NOT use markdown formatting (no **, __, ##, etc.)
-- DO NOT use bullet points or numbered lists
-- Use natural paragraphs separated by blank lines
-- Write in a professional, conversational tone
-- Be specific with numbers and metrics''';
+Требования к ответу:
+- Пиши только на русском языке, грамотно и в деловом, но живом тоне.
+- Не используй markdown-разметку (никаких **, __, ##, ---).
+- Не используй списки и нумерацию - только связные абзацы.
+- Опирайся на конкретные цифры из показателей выше.
+- Не выдумывай данные, которых нет в показателях.
+- Объём - 5-7 предложений суммарно по трём абзацам.''';
   }
 }

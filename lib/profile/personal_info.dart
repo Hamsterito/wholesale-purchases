@@ -5,7 +5,7 @@ import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
 import 'package:flutter/services.dart';
 import '../widgets/phone_input_formatter.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/api/api_service.dart';
 import '../models/message.dart';
@@ -693,7 +693,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
           ),
         ],
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
   }
 

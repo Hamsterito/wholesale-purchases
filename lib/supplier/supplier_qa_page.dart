@@ -11,7 +11,7 @@ import '../widgets/product/rating_stars.dart';
 import '../widgets/supplier/supplier_qa_answer_modal.dart';
 import '../widgets/supplier/supplier_qa_response_modal.dart';
 import '../widgets/expandable_text_block.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/profile/user_avatar.dart';
 import '../widgets/smooth_sheet.dart';
 import '../utils/date_formatter.dart';
@@ -822,7 +822,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
           ),
         ],
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
   }
 

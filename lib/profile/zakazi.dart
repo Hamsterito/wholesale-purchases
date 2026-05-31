@@ -9,7 +9,7 @@ import '../pages/order_history_page.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../utils/auto_refresh.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/smart_image.dart';
 
 class MyOrdersPage extends StatefulWidget {
@@ -135,7 +135,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
         centerTitle: true,
       ),
       body: _buildBody(context, activeOrders, historyCount),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
   }
 

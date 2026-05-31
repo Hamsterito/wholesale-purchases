@@ -11,7 +11,7 @@ import '../services/storage/auth_storage.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/search_normalizer.dart';
 import '../widgets/messages/app_message_snackbar.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/moderator/supplier_search_field.dart';
 import '../widgets/profile/user_avatar.dart';
 import 'support_chats_page.dart';
@@ -383,7 +383,7 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
       backgroundColor: palette.bgTop,
       appBar: AppBar(title: const Text('Поставщики')),
       body: SafeArea(child: _buildBody(palette)),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
   }
 

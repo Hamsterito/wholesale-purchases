@@ -10,7 +10,7 @@ import '../services/store/cart_store.dart';
 import '../services/store/favorites_store.dart';
 import '../services/store/supplier_stats_store.dart';
 import '../widgets/pages/category_tags.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/pages/product_image_carousel.dart';
 import '../widgets/pages/rating_section.dart';
 import '../theme/app_color_palette.dart';
@@ -1113,7 +1113,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
 
   Widget _buildBottomBar() {
     if (widget.product.suppliers.isEmpty) {
-      return const MainBottomNav(currentIndex: null);
+      return const RoleInternalNavBar(currentIndex: null);
     }
 
     final supplier = widget.product.suppliers.firstWhere(
@@ -1162,7 +1162,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             ),
           ),
         ),
-        const MainBottomNav(currentIndex: null),
+        const RoleInternalNavBar(currentIndex: null),
       ],
     );
   }

@@ -8,7 +8,7 @@ import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/date_range_picker_dialog.dart' as custom_picker;
 import '../widgets/smart_image.dart';
 import 'package:file_saver/file_saver.dart';
@@ -133,7 +133,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _pageBg,
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
       appBar: AppBar(
         backgroundColor: _cardBg,
         elevation: 0,

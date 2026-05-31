@@ -4,7 +4,7 @@ import '../theme/app_color_palette.dart';
 import '../services/storage/payment_card_storage.dart';
 import '../services/storage/auth_storage.dart';
 import '../widgets/messages/top_message.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 
 // Один общий RegExp для удаления нецифровых символов - используется
 // в валидации и при сохранении карты. Объявляем top-level final, чтобы
@@ -441,7 +441,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
           ),
         ),
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
   }
 }

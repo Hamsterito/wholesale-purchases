@@ -650,6 +650,13 @@ class NotificationService with WidgetsBindingObserver {
     _totalNotificationCount.value = _computeTotal();
   }
 
+  /// Пересчитывает итог под текущую AuthStorage.role и подтягивает свежие
+  /// счётчики. Синхронный _recalculateTotal обновляет total сразу, не дожидаясь сети.
+  void recomputeForActiveRole() {
+    _recalculateTotal();
+    refreshNotifications(force: true);
+  }
+
   /// Считает суммарный счётчик по роли. Покупательская активность
   /// (заказы, отзывы, доставленные) плюсуется во всех ветках, потому что
   /// поставщик/модератор тоже могут быть в роли покупателя.

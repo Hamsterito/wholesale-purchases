@@ -12,7 +12,7 @@ import '../utils/search_normalizer.dart';
 import '../widgets/product/product_card.dart';
 import '../widgets/smooth_sheet.dart';
 import '../widgets/messages/top_message.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import 'product_detail_page.dart';
 
 enum _SortField { price, rating }
@@ -255,7 +255,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
           ],
         ),
       ),
-      bottomNavigationBar: const MainBottomNav(),
+      bottomNavigationBar: const RoleInternalNavBar(),
     );
   }
 

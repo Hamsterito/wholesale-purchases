@@ -157,6 +157,15 @@ class AuthStorage {
     }
   }
 
+  // Точечная смена роли: in-memory и в SharedPreferences под auth_role.
+  // В отличие от updateProfile пишем в prefs всегда, без флага remember,
+  // остальные поля сессии не трогаем.
+  static Future<void> setRole(String role) async {
+    _role = role;
+    final prefs = await SharedPrefsProvider.getInstance();
+    await prefs.setString(_roleKey, role);
+  }
+
   static Future<void> updateProfile({
     String? name,
     String? email,

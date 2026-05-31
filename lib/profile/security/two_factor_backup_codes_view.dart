@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 
 import '../../theme/app_color_palette.dart';
 import '../../widgets/messages/top_message.dart';
-import '../../widgets/navigation/main_bottom_nav.dart';
+import '../../widgets/navigation/role_internal_nav_bar.dart';
 
 /// Одноразовый показ резервных backup-кодов 2FA.
 class TwoFactorBackupCodesView extends StatelessWidget {
@@ -175,7 +175,7 @@ class TwoFactorBackupCodesView extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
   }
 }

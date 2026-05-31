@@ -14,7 +14,7 @@ import 'package:flutter_project/services/store/favorites_store.dart';
 import 'package:flutter_project/services/notification_service.dart';
 import 'package:flutter_project/services/storage/shared_prefs_provider.dart';
 import 'package:flutter_project/services/store/templates_store.dart';
-import 'package:flutter_project/widgets/navigation/main_navigation.dart';
+import 'package:flutter_project/widgets/navigation/navigation_shell.dart';
 import 'package:flutter_project/widgets/messages/top_message.dart';
 import 'package:flutter_project/theme/app_color_palette.dart';
 
@@ -255,7 +255,7 @@ class _AppHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AuthStorage.isRemembered
-        ? const MainNavigation()
+        ? const NavigationShell()
         : const LoginPage();
   }
 }
@@ -277,6 +277,11 @@ class _MyAppState extends State<MyApp> {
   // при смене маршрута, чтобы баннер не "переезжал" на новый экран.
   final TopMessageNavigatorObserver _topMessageObserver =
       TopMessageNavigatorObserver();
+
+  // Корневой Navigator: его контекст нужен отладочной кнопке смены роли,
+  // чтобы открыть sheet и пересоздать оболочку над всем приложением.
+  final GlobalKey<NavigatorState> _rootNavigatorKey =
+      GlobalKey<NavigatorState>();
 
   @override
   void initState() {
@@ -314,6 +319,7 @@ class _MyAppState extends State<MyApp> {
       theme: _lightTheme,
       darkTheme: _darkTheme,
       themeMode: AppSettings.themeMode.value,
+      navigatorKey: _rootNavigatorKey,
       navigatorObservers: [_topMessageObserver],
       home: const _AppHome(),
       // Корневой Overlay поверх Navigator - top-message баннеры монтируются

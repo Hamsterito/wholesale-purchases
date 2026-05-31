@@ -4,7 +4,6 @@ import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
 import '../widgets/smart_image.dart';
 import '../widgets/messages/top_message.dart';
 import 'supplier_product_wizard.dart';
@@ -632,7 +631,6 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
         child: const Icon(Icons.add_rounded),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
     );
   }
 }

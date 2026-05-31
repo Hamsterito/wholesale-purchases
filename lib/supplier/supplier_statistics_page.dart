@@ -10,7 +10,6 @@ import '../services/statistics/revenue_chart_service.dart';
 import '../services/statistics/statistics_cache_service.dart';
 import '../widgets/date_range_picker_dialog.dart';
 import '../utils/month_year_parser.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
 import '../theme/app_color_palette.dart';
 
 // Вспомогательные классы данных
@@ -344,7 +343,6 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
         onRefresh: _handleRefresh,
         child: _buildBody(),
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
     );
   }
 

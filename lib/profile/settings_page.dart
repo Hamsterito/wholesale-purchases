@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../services/api/two_factor_api.dart';
 import '../services/store/app_settings.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import 'change_password_page.dart';
 import 'security/two_factor_settings_page.dart';
 
@@ -215,7 +215,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ],
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
   }
 

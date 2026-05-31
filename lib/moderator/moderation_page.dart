@@ -9,10 +9,10 @@ import '../models/supplier_product.dart';
 import '../utils/characteristic_sections.dart';
 import '../utils/delivery_schedule.dart';
 import '../widgets/moderator/about_product_sheet.dart';
+import '../widgets/moderator/moderator_empty_state.dart';
 import 'support_chats_page.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
 import '../widgets/smart_image.dart';
 
 class ModerationPage extends StatefulWidget {
@@ -418,6 +418,127 @@ class _ModerationPageState extends State<ModerationPage> {
     super.dispose();
   }
 
+  Widget _buildTopPanel(ColorScheme colorScheme) {
+    return Container(
+      height: 136,
+      margin: const EdgeInsets.fromLTRB(16, 12, 16, 10),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: colorScheme.outlineVariant.withValues(alpha: 0.72),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: _StatusChip(
+                  label: 'На проверке',
+                  isActive: _statusFilter == 'pending',
+                  onTap: () {
+                    setState(() => _statusFilter = 'pending');
+                    _loadProducts();
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: _StatusChip(
+                  label: 'Одобрено',
+                  isActive: _statusFilter == 'approved',
+                  onTap: () {
+                    setState(() => _statusFilter = 'approved');
+                    _loadProducts();
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: _StatusChip(
+                  label: 'Отклонено',
+                  isActive: _statusFilter == 'rejected',
+                  onTap: () {
+                    setState(() => _statusFilter = 'rejected');
+                    _loadProducts();
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: _StatusChip(
+                  label: 'Все',
+                  isActive: _statusFilter == 'all',
+                  onTap: () {
+                    setState(() => _statusFilter = 'all');
+                    _loadProducts();
+                  },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            width: double.infinity,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: colorScheme.surfaceContainerHighest.withValues(
+                  alpha: 0.34,
+                ),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: colorScheme.outlineVariant.withValues(alpha: 0.9),
+                ),
+              ),
+              child: TextField(
+                controller: _searchController,
+                textAlignVertical: TextAlignVertical.center,
+                onChanged: _onSearchChanged,
+                decoration: InputDecoration(
+                  isDense: true,
+                  hintText: 'Поиск: товар, поставщик, категория',
+                  hintStyle: TextStyle(
+                    color: colorScheme.onSurfaceVariant.withValues(alpha: 0.88),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search_rounded,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                  prefixIconConstraints: const BoxConstraints(
+                    minWidth: 42,
+                    minHeight: 44,
+                  ),
+                  suffixIcon: _searchQuery.trim().isEmpty
+                      ? null
+                      : IconButton(
+                          tooltip: 'Очистить',
+                          onPressed: () {
+                            _searchDebounce?.cancel();
+                            _searchController.clear();
+                            setState(() => _searchQuery = '');
+                          },
+                          icon: const Icon(Icons.close_rounded),
+                        ),
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.fromLTRB(0, 12, 12, 12),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -443,101 +564,7 @@ class _ModerationPageState extends State<ModerationPage> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 6, 12, 2),
-            child: Row(
-              children: [
-                Expanded(
-                  child: _StatusChip(
-                    label: 'На проверке',
-                    isActive: _statusFilter == 'pending',
-                    onTap: () {
-                      setState(() => _statusFilter = 'pending');
-                      _loadProducts();
-                    },
-                  ),
-                ),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: _StatusChip(
-                    label: 'Одобрено',
-                    isActive: _statusFilter == 'approved',
-                    onTap: () {
-                      setState(() => _statusFilter = 'approved');
-                      _loadProducts();
-                    },
-                  ),
-                ),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: _StatusChip(
-                    label: 'Отклонено',
-                    isActive: _statusFilter == 'rejected',
-                    onTap: () {
-                      setState(() => _statusFilter = 'rejected');
-                      _loadProducts();
-                    },
-                  ),
-                ),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: _StatusChip(
-                    label: 'Все',
-                    isActive: _statusFilter == 'all',
-                    onTap: () {
-                      setState(() => _statusFilter = 'all');
-                      _loadProducts();
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: colorScheme.surface,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(
-                  color: colorScheme.outlineVariant.withValues(alpha: 0.9),
-                ),
-              ),
-              child: TextField(
-                controller: _searchController,
-                textAlignVertical: TextAlignVertical.center,
-                onChanged: _onSearchChanged,
-                decoration: InputDecoration(
-                  isDense: true,
-                  hintText: 'Поиск: товар, поставщик, категория',
-                  hintStyle: TextStyle(
-                    color: colorScheme.onSurfaceVariant.withValues(alpha: 0.88),
-                  ),
-                  prefixIcon: Icon(
-                    Icons.search_rounded,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                  prefixIconConstraints: const BoxConstraints(
-                    minWidth: 40,
-                    minHeight: 40,
-                  ),
-                  suffixIcon: _searchQuery.trim().isEmpty
-                      ? null
-                      : IconButton(
-                          tooltip: 'Очистить',
-                          onPressed: () {
-                            _searchDebounce?.cancel();
-                            _searchController.clear();
-                            setState(() => _searchQuery = '');
-                          },
-                          icon: const Icon(Icons.close_rounded),
-                        ),
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
-                ),
-              ),
-            ),
-          ),
+          _buildTopPanel(colorScheme),
           Expanded(
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
@@ -546,24 +573,12 @@ class _ModerationPageState extends State<ModerationPage> {
                 : RefreshIndicator(
                     onRefresh: _loadProducts,
                     child: _products.isEmpty
-                        ? ListView(
-                            children: const [
-                              SizedBox(height: 120),
-                              Center(child: Text('Нет заявок')),
-                            ],
-                          )
+                        ? const ModeratorEmptyState(message: 'Нет заявок')
                         : visibleProducts.isEmpty
-                        ? ListView(
-                            children: [
-                              const SizedBox(height: 120),
-                              Center(
-                                child: Text(
-                                  hasSearchQuery
-                                      ? 'По вашему запросу ничего не найдено'
-                                      : 'Нет подходящих товаров',
-                                ),
-                              ),
-                            ],
+                        ? ModeratorEmptyState(
+                            message: hasSearchQuery
+                                ? 'По вашему запросу ничего не найдено'
+                                : 'Нет подходящих товаров',
                           )
                         : ListView.separated(
                             padding: const EdgeInsets.fromLTRB(12, 8, 12, 14),
@@ -938,7 +953,6 @@ class _ModerationPageState extends State<ModerationPage> {
           ),
         ],
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
     );
   }
 }
@@ -975,21 +989,23 @@ class _StatusChip extends StatelessWidget {
             border: Border.all(color: borderColor),
           ),
           child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 38),
+            constraints: const BoxConstraints(minHeight: 42),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 9),
               child: Center(
-                child: Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: isActive
-                        ? colorScheme.primary
-                        : colorScheme.onSurfaceVariant,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: isActive
+                          ? colorScheme.primary
+                          : colorScheme.onSurfaceVariant,
+                      fontSize: 12.5,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),

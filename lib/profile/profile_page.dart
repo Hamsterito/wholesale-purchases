@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../profile/personal_info.dart';
 import '../profile/my_addresses.dart';
-import '../login_screen/login.dart';
 import '../profile/payment_method.dart';
 import '../profile/faqs_page.dart';
 import 'package:flutter_project/profile/reviews_page.dart' as profile_reviews;
@@ -21,7 +20,7 @@ import '../services/storage/auth_storage.dart';
 import '../services/api/api_service.dart';
 import '../models/user_profile.dart';
 import '../services/notification_service.dart';
-import '../services/store/templates_store.dart';
+import '../utils/logout_flow.dart';
 import '../utils/ru_plural.dart';
 import '../widgets/profile/user_avatar.dart';
 
@@ -52,9 +51,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
     try {
       final profile = await ApiService.getUserProfile(userId: userId);
-      // Сервер - источник правды по аватарке. Синхронизируем AuthStorage,
-      // чтобы экраны, читающие только кэш (профиль поставщика/модератора),
-      // тоже показывали актуальную картинку.
       await AuthStorage.setAvatarUrl(profile.avatarUrl);
       return profile;
     } catch (_) {
@@ -128,6 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final isSupplier = role == 'supplier';
     final isModerator = role == 'moderator';
     final isSuperAdmin = role == 'super_admin';
+    final isBuyer = role == 'buyer';
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -155,8 +152,6 @@ class _ProfilePageState extends State<ProfilePage> {
               final profile = snapshot.data;
               final name = _resolveName(profile);
               final subtitle = _resolveSubtitle(profile);
-              // Пока профиль грузится - показываем кэш из AuthStorage,
-              // после загрузки берём актуальный URL с сервера.
               final avatarUrl = profile?.avatarUrl ?? AuthStorage.avatarUrl;
               final avatarName = _pickValue(
                 [profile?.name, AuthStorage.name],
@@ -219,148 +214,154 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 16),
           ],
 
-          // Личная информация и адреса
-          Container(
-            decoration: BoxDecoration(
-              color: context.colorPalette.card,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              children: [
-                _buildMenuItem(
-                  context: context,
-                  icon: Icons.person_outline,
-                  iconColor: context.colorPalette.error,
-                  title: 'Личная информация',
-                  onTap: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const PersonalInfoPage(),
-                      ),
-                    );
-                    if (!mounted) return;
-                    setState(_reloadProfile);
-                  },
-                ),
-                _buildMenuDivider(context),
-                _buildMenuItem(
-                  context: context,
-                  icon: Icons.location_on_outlined,
-                  iconColor: context.colorPalette.warning,
-                  title: 'Адреса',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MyAddressesPage(),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
-          // Оплаты
-          Container(
-            decoration: BoxDecoration(
-              color: context.colorPalette.card,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              children: [
-                _buildMenuItem(
-                  context: context,
-                  icon: Icons.shopping_cart_outlined,
-                  iconColor: context.colorPalette.success,
-                  title: 'Мои заказы',
-                  badge: AnimatedBuilder(
-                    animation: Listenable.merge([
-                      NotificationService().pendingBuyerOrdersCount,
-                      NotificationService().deliveredOrdersCount,
-                    ]),
-                    builder: (context, _) {
-                      final total =
-                          NotificationService().pendingBuyerOrdersCount.value +
-                          NotificationService().deliveredOrdersCount.value;
-                      return _buildInlineBadge(context, total);
+          // Личная информация доступна всем ролям, адреса - только покупателям.
+          if (isBuyer || isSupplier || isModerator || isSuperAdmin) ...[
+            Container(
+              decoration: BoxDecoration(
+                color: context.colorPalette.card,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                children: [
+                  _buildMenuItem(
+                    context: context,
+                    icon: Icons.person_outline,
+                    iconColor: context.colorPalette.error,
+                    title: 'Личная информация',
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PersonalInfoPage(),
+                        ),
+                      );
+                      if (!mounted) return;
+                      setState(_reloadProfile);
                     },
                   ),
-                  onTap: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MyOrdersPage(),
-                      ),
-                    );
-                    // Синхронизируем счётчики после возврата с экрана заказов
-                    if (mounted) {
-                      NotificationService().refreshNotifications();
-                    }
-                  },
-                ),
-                _buildMenuDivider(context),
-                _buildMenuItem(
-                  context: context,
-                  icon: Icons.history_rounded,
-                  iconColor: context.colorPalette.info,
-                  title: 'История заказов',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const OrderHistoryPage(),
-                      ),
-                    );
-                  },
-                ),
-                _buildMenuDivider(context),
-                _buildMenuItem(
-                  context: context,
-                  icon: Icons.credit_card,
-                  iconColor: context.colorPalette.success,
-                  title: 'Способ оплаты',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const PaymentMethodPage(),
-                      ),
-                    );
-                  },
-                ),
-              ],
+                  if (isBuyer) ...[
+                    _buildMenuDivider(context),
+                    _buildMenuItem(
+                      context: context,
+                      icon: Icons.location_on_outlined,
+                      iconColor: context.colorPalette.warning,
+                      title: 'Адреса',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MyAddressesPage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ],
+              ),
             ),
-          ),
+            const SizedBox(height: 16),
+          ],
 
-          const SizedBox(height: 16),
-
-          Container(
-            decoration: BoxDecoration(
-              color: context.colorPalette.card,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: _buildMenuItem(
-              context: context,
-              icon: Icons.favorite_outline,
-              iconColor: context.colorPalette.accent,
-              title: '\u0418\u0437\u0431\u0440\u0430\u043d\u043d\u043e\u0435',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const FavoritesPage(),
+          // Оплаты (только для покупателей)
+          if (isBuyer) ...[
+            Container(
+              decoration: BoxDecoration(
+                color: context.colorPalette.card,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                children: [
+                  _buildMenuItem(
+                    context: context,
+                    icon: Icons.shopping_cart_outlined,
+                    iconColor: context.colorPalette.success,
+                    title: 'Мои заказы',
+                    badge: AnimatedBuilder(
+                      animation: Listenable.merge([
+                        NotificationService().pendingBuyerOrdersCount,
+                        NotificationService().deliveredOrdersCount,
+                      ]),
+                      builder: (context, _) {
+                        final total =
+                            NotificationService().pendingBuyerOrdersCount.value +
+                            NotificationService().deliveredOrdersCount.value;
+                        return _buildInlineBadge(context, total);
+                      },
+                    ),
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MyOrdersPage(),
+                        ),
+                      );
+                      if (mounted) {
+                        NotificationService().refreshNotifications();
+                      }
+                    },
                   ),
-                );
-              },
+                  _buildMenuDivider(context),
+                  _buildMenuItem(
+                    context: context,
+                    icon: Icons.history_rounded,
+                    iconColor: context.colorPalette.info,
+                    title: 'История заказов',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const OrderHistoryPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  _buildMenuDivider(context),
+                  _buildMenuItem(
+                    context: context,
+                    icon: Icons.credit_card,
+                    iconColor: context.colorPalette.success,
+                    title: 'Способ оплаты',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PaymentMethodPage(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
+            const SizedBox(height: 16),
+          ],
 
-          const SizedBox(height: 16),
+          // Избранное (только для покупателей)
+          if (isBuyer) ...[
+            Container(
+              decoration: BoxDecoration(
+                color: context.colorPalette.card,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: _buildMenuItem(
+                context: context,
+                icon: Icons.favorite_outline,
+                iconColor: context.colorPalette.accent,
+                title: 'Избранное',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FavoritesPage(),
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
 
+          // Вопросы, отзывы, настройки
           Container(
             decoration: BoxDecoration(
               color: context.colorPalette.card,
@@ -380,31 +381,32 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                   },
                 ),
-                _buildMenuDivider(context),
-                _buildMenuItem(
-                  context: context,
-                  icon: Icons.rate_review_outlined,
-                  iconColor: context.colorPalette.info,
-                  title: 'Ваши отзывы',
-                  badge: ValueListenableBuilder<int>(
-                    valueListenable: NotificationService().pendingReviewsCount,
-                    builder: (context, count, _) =>
-                        _buildInlineBadge(context, count),
+                if (isBuyer) ...[
+                  _buildMenuDivider(context),
+                  _buildMenuItem(
+                    context: context,
+                    icon: Icons.rate_review_outlined,
+                    iconColor: context.colorPalette.info,
+                    title: 'Ваши отзывы',
+                    badge: ValueListenableBuilder<int>(
+                      valueListenable: NotificationService().pendingReviewsCount,
+                      builder: (context, count, _) =>
+                          _buildInlineBadge(context, count),
+                    ),
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const profile_reviews.ReviewsPage(),
+                        ),
+                      );
+                      if (mounted) {
+                        NotificationService().refreshNotifications();
+                      }
+                    },
                   ),
-                  onTap: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const profile_reviews.ReviewsPage(),
-                      ),
-                    );
-                    // Синхронизируем счётчики после возврата со страницы отзывов
-                    if (mounted) {
-                      NotificationService().refreshNotifications();
-                    }
-                  },
-                ),
+                ],
                 _buildMenuDivider(context),
                 _buildMenuItem(
                   context: context,
@@ -426,36 +428,36 @@ class _ProfilePageState extends State<ProfilePage> {
 
           const SizedBox(height: 16),
 
-          // Техподдержка
-          Container(
-            decoration: BoxDecoration(
-              color: context.colorPalette.card,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: _buildMenuItem(
-              context: context,
-              icon: Icons.support_agent_outlined,
-              iconColor: context.colorPalette.success,
-              title: 'Техподдержка',
-              badge: ValueListenableBuilder<int>(
-                valueListenable: NotificationService().unreadMessagesCount,
-                builder: (context, count, _) =>
-                    _buildInlineBadge(context, count),
+          // Техподдержка (для покупателей и поставщиков)
+          if (isBuyer || isSupplier) ...[
+            Container(
+              decoration: BoxDecoration(
+                color: context.colorPalette.card,
+                borderRadius: BorderRadius.circular(12),
               ),
-              onTap: () async {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SupportPage()),
-                );
-                // Синхронизируем счётчики после возврата из техподдержки
-                if (mounted) {
-                  NotificationService().refreshNotifications();
-                }
-              },
+              child: _buildMenuItem(
+                context: context,
+                icon: Icons.support_agent_outlined,
+                iconColor: context.colorPalette.success,
+                title: 'Техподдержка',
+                badge: ValueListenableBuilder<int>(
+                  valueListenable: NotificationService().unreadMessagesCount,
+                  builder: (context, count, _) =>
+                      _buildInlineBadge(context, count),
+                ),
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SupportPage()),
+                  );
+                  if (mounted) {
+                    NotificationService().refreshNotifications();
+                  }
+                },
+              ),
             ),
-          ),
-
-          const SizedBox(height: 16),
+            const SizedBox(height: 16),
+          ],
 
           // Выход
           Container(
@@ -468,17 +470,7 @@ class _ProfilePageState extends State<ProfilePage> {
               icon: Icons.logout,
               iconColor: context.colorPalette.error,
               title: 'Выйти',
-              onTap: () async {
-                // Чистим счётчики, пока userId ещё доступен в AuthStorage.
-                await NotificationService().clearForLogout();
-                await TemplatesStore.instance.clearCache();
-                await AuthStorage.forget();
-                if (!context.mounted) return;
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                );
-              },
+              onTap: () => performLogout(context),
               showArrow: false,
             ),
           ),
@@ -521,7 +513,6 @@ class _ProfilePageState extends State<ProfilePage> {
           icon: Icons.receipt_long,
           iconColor: context.colorPalette.success,
           title: 'Заказы поставщика',
-          // Значок показывает количество заказов, ожидающих действия поставщика
           badge: ValueListenableBuilder<int>(
             valueListenable: NotificationService().pendingSupplierOrdersCount,
             builder: (context, count, _) => _buildInlineBadge(context, count),
@@ -533,7 +524,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 builder: (context) => const SupplierOrdersPage(),
               ),
             );
-            // Обновляем счётчик после возврата - поставщик мог принять заказы
             if (mounted) {
               NotificationService().refreshNotifications();
             }
@@ -627,9 +617,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  /// Строит инлайн-значок уведомлений для пунктов меню.
-  /// В отличие от NotificationBadge (который использует Positioned),
-  /// этот виджет можно размещать прямо в Row.
   Widget _buildInlineBadge(BuildContext context, int count) {
     if (count == 0) return const SizedBox.shrink();
 
@@ -657,7 +644,6 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Text(
             label,
             style: const TextStyle(
-              // Colors.white - допустимое исключение для контраста на цветном фоне
               color: Colors.white,
               fontSize: 11,
               fontWeight: FontWeight.bold,
@@ -688,7 +674,6 @@ class _ProfilePageState extends State<ProfilePage> {
     required VoidCallback onTap,
     Color? iconColor,
     bool showArrow = true,
-    // Опциональный значок уведомлений - отображается справа от названия пункта
     Widget? badge,
   }) {
     final theme = Theme.of(context);

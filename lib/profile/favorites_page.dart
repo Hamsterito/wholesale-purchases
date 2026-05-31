@@ -4,7 +4,7 @@ import '../pages/product_detail_page.dart';
 import '../pages/supplier_profile_page.dart';
 import '../services/store/favorites_store.dart';
 import '../theme/app_color_palette.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/product/product_card.dart';
 import '../widgets/profile/supplier_card_favorites.dart';
 
@@ -100,7 +100,7 @@ class _FavoritesPageState extends State<FavoritesPage>
           );
         },
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
   }
 }

@@ -6,7 +6,7 @@ import '../services/api/api_service.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/product/rating_stars.dart';
 import '../widgets/expandable_text_block.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/profile/user_avatar.dart';
 import '../utils/date_formatter.dart';
 
@@ -140,7 +140,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
           ),
         ],
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: null),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: null),
     );
   }
 

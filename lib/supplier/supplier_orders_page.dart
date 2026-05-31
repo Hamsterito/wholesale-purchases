@@ -9,7 +9,6 @@ import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
 import '../widgets/date_range_picker_dialog.dart' as custom_picker;
 import '../widgets/smart_image.dart';
 
@@ -567,7 +566,6 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
                 ),
               ],
             ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
     );
   }
 

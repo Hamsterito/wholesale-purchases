@@ -8,7 +8,7 @@ import '../models/message.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../theme/app_color_palette.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/phone_input_formatter.dart';
 import '../widgets/profile/user_avatar.dart';
 
@@ -429,7 +429,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ],
         ),
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
   }
 

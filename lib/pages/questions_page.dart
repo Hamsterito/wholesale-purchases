@@ -4,7 +4,7 @@ import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/pages/question_card.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/smart_image.dart';
 import '../widgets/smooth_sheet.dart';
 
@@ -198,7 +198,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
         label: const Text('Задать вопрос'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      bottomNavigationBar: const MainBottomNav(currentIndex: null),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: null),
     );
   }
 

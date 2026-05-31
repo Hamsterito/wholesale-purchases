@@ -9,7 +9,7 @@ import '../../services/storage/auth_storage.dart';
 import '../../services/storage/otp_cooldown_store.dart';
 import '../../theme/app_color_palette.dart';
 import '../../widgets/messages/top_message.dart';
-import '../../widgets/navigation/main_bottom_nav.dart';
+import '../../widgets/navigation/role_internal_nav_bar.dart';
 
 /// Экран ввода OTP для выключения 2FA; после успеха показывает top-сообщение.
 class TwoFactorDisableOtpPage extends StatefulWidget {
@@ -330,7 +330,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
           ),
         ),
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
   }
 

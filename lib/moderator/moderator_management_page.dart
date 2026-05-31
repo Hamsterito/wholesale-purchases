@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import '../login_screen/login.dart';
 import '../services/api/api_service.dart';
 import '../theme/app_color_palette.dart';
+import '../widgets/moderator/moderator_empty_state.dart';
 import '../widgets/phone_input_formatter.dart';
 import '../widgets/messages/top_message.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
 import 'add_moderator_dialog.dart';
 import 'moderator_filter.dart';
 import 'widgets/two_factor_admin_disable_tile.dart';
@@ -212,28 +212,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
           ? _buildAccessDenied(theme, palette)
           : Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-                  child: TextField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      hintText: 'Поиск по имени или email',
-                      prefixIcon: const Icon(Icons.search),
-                      suffixIcon: _searchQuery.isEmpty
-                          ? null
-                          : IconButton(
-                              icon: const Icon(Icons.close),
-                              onPressed: () {
-                                _searchController.clear();
-                              },
-                            ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      isDense: true,
-                    ),
-                  ),
-                ),
+                _buildTopPanel(cs),
                 Expanded(child: _buildBody(filtered, cs, palette)),
               ],
             ),
@@ -250,7 +229,52 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+    );
+  }
+
+  Widget _buildTopPanel(ColorScheme cs) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+      child: SizedBox(
+        width: double.infinity,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: cs.surfaceContainerHighest.withValues(alpha: 0.34),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: cs.outlineVariant.withValues(alpha: 0.9),
+            ),
+          ),
+          child: TextField(
+            controller: _searchController,
+            textAlignVertical: TextAlignVertical.center,
+            decoration: InputDecoration(
+              isDense: true,
+              hintText: 'Поиск по имени или email',
+              hintStyle: TextStyle(
+                color: cs.onSurfaceVariant.withValues(alpha: 0.88),
+              ),
+              prefixIcon: Icon(
+                Icons.search_rounded,
+                color: cs.onSurfaceVariant,
+              ),
+              prefixIconConstraints: const BoxConstraints(
+                minWidth: 42,
+                minHeight: 44,
+              ),
+              suffixIcon: _searchQuery.isEmpty
+                  ? null
+                  : IconButton(
+                      tooltip: 'Очистить',
+                      icon: const Icon(Icons.close_rounded),
+                      onPressed: _searchController.clear,
+                    ),
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.fromLTRB(0, 12, 12, 12),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -266,17 +290,10 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
       return _buildError(cs, palette);
     }
     if (filtered.isEmpty) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Text(
-            _searchQuery.isEmpty
-                ? 'Модераторы не найдены'
-                : 'Ничего не найдено по запросу',
-            style: TextStyle(color: cs.onSurfaceVariant),
-            textAlign: TextAlign.center,
-          ),
-        ),
+      return ModeratorEmptyState(
+        message: _searchQuery.isEmpty
+            ? 'Модераторы не найдены'
+            : 'Ничего не найдено по запросу',
       );
     }
     return RefreshIndicator(

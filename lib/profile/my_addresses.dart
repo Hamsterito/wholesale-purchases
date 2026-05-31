@@ -6,7 +6,7 @@ import '../models/message.dart';
 import '../models/user_address.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import 'package:flutter_project/profile/address_page.dart';
 
 class MyAddressesPage extends StatefulWidget {
@@ -297,7 +297,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
                 );
               },
             ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
   }
 

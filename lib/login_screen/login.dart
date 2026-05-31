@@ -13,7 +13,7 @@ import '../services/storage/auth_storage.dart';
 import '../services/notification_service.dart';
 import '../services/store/templates_store.dart';
 import '../widgets/messages/top_message.dart';
-import '../widgets/navigation/main_navigation.dart';
+import '../widgets/navigation/navigation_shell.dart';
 import '../forgot_screan/verification_page.dart';
 import 'two_factor_challenge_page.dart';
 
@@ -300,7 +300,7 @@ class _LoginPageState extends State<LoginPage> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const MainNavigation()),
+      MaterialPageRoute(builder: (context) => const NavigationShell()),
     );
   }
 

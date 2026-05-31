@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../models/product.dart';
 import '../services/api/api_service.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/product/product_card.dart';
 import '../utils/auto_refresh.dart';
 import 'product_detail_page.dart';
@@ -115,7 +115,6 @@ class _CategoryProductsPageState extends State<CategoryProductsPage>
         iconTheme: IconThemeData(color: _colorScheme.onSurface),
       ),
       body: _buildContent(),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 1),
     );
   }
 

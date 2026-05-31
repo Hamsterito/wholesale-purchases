@@ -1,6 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 
 class FAQsPage extends StatefulWidget {
   const FAQsPage({super.key});
@@ -187,7 +187,7 @@ class _FAQsPageState extends State<FAQsPage> {
           );
         },
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 3),
+      bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
   }
 }

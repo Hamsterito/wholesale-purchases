@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import '../login_screen/login.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
-import '../services/notification_service.dart';
-import '../services/store/templates_store.dart';
 import '../theme/app_color_palette.dart';
+import '../utils/logout_flow.dart';
 import '../widgets/profile/user_avatar.dart';
 
 class SupplierProfilePage extends StatefulWidget {
@@ -37,19 +35,6 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
     } catch (_) {}
   }
 
-  Future<void> _logout(BuildContext context) async {
-    // Сначала очищаем сервис уведомлений, пока userId ещё доступен -
-    // иначе следующий пользователь увидит чужие счётчики
-    await NotificationService().clearForLogout();
-    await TemplatesStore.instance.clearCache();
-    await AuthStorage.forget();
-    if (!context.mounted) return;
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const LoginPage()),
-      (_) => false,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final palette = AppColorPalette.of(context);
@@ -77,7 +62,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
           _InfoTile(label: 'Компания', value: supplierName),
           const SizedBox(height: 24),
           ElevatedButton(
-            onPressed: () => _logout(context),
+            onPressed: () => performLogout(context),
             style: ElevatedButton.styleFrom(
               backgroundColor: palette.error,
               foregroundColor: Colors.white,

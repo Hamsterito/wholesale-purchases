@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../services/api/api_service.dart';
 import 'category_products_page.dart';
-import '../widgets/navigation/main_bottom_nav.dart';
+import '../widgets/navigation/role_internal_nav_bar.dart';
 
 // RegExp вызываются на каждом keystroke в поиске и при парсинге keywords
 // при загрузке категорий - выносим в top-level final, чтобы не пересоздавать.
@@ -656,7 +656,6 @@ class _SubcategoriesPageState extends State<_SubcategoriesPage> {
           ),
         ],
       ),
-      bottomNavigationBar: const MainBottomNav(currentIndex: 1),
     );
   }
 
