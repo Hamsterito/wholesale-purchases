@@ -11,6 +11,7 @@ import '../utils/delivery_schedule.dart';
 import '../widgets/moderator/about_product_sheet.dart';
 import '../widgets/moderator/moderator_empty_state.dart';
 import 'support_chats_page.dart';
+import 'suppliers_directory_page.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../widgets/smart_image.dart';
@@ -163,21 +164,12 @@ class _ModerationPageState extends State<ModerationPage> {
       if (!mounted) return;
       await _loadProducts();
       if (!mounted) return;
-      final action = result['action']?.toString() ?? '';
       final supplierNotified = result['supplierNotified'] == true;
-      if (action == 'hidden_from_catalog') {
-        _showSnack(
-          supplierNotified
-              ? 'Товар снят с публикации, поставщик уведомлен'
-              : 'Товар снят с публикации',
-        );
-      } else {
-        _showSnack(
-          supplierNotified
-              ? 'Товар удален, поставщик уведомлен'
-              : 'Товар удален',
-        );
-      }
+      _showSnack(
+        supplierNotified
+            ? 'Товар удален, поставщик уведомлен'
+            : 'Товар удален',
+      );
     } catch (e) {
       _showSnack(
         _extractErrorMessage(e, fallback: 'Не удалось удалить товар'),
@@ -560,6 +552,18 @@ class _ModerationPageState extends State<ModerationPage> {
               );
             },
           ),
+          IconButton(
+            tooltip: 'Поставщики',
+            icon: const Icon(Icons.business_center_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const SuppliersDirectoryPage(),
+                ),
+              );
+            },
+          ),
         ],
       ),
       body: Column(
@@ -665,7 +669,7 @@ class _ModerationPageState extends State<ModerationPage> {
                                                       230;
                                                   final title = Text(
                                                     product.name,
-                                                    maxLines: isCompact ? 2 : 1,
+                                                    maxLines: 2,
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: const TextStyle(

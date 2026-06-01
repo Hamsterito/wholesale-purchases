@@ -10,7 +10,7 @@ Future<void> _recalculateProductRating(
     Sql.named('''
       SELECT COUNT(*) AS count, COALESCE(AVG(rating), 0) AS avg_rating
       FROM reviews
-      WHERE product_id = @product_id;
+      WHERE product_id = @product_id AND product_id IS NOT NULL;
       '''),
     parameters: {'product_id': productId},
   );

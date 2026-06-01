@@ -665,7 +665,7 @@ Future<void> _ensureOrderItemsSchema(Connection connection) async {
           AND (
             c.conname <> 'fk_order_items_product_id'
             OR c.confrelid <> 'public.products'::regclass
-            OR c.confdeltype <> 'r'
+            OR c.confdeltype <> 'n'
           )
           AND EXISTS (
             SELECT 1
@@ -697,13 +697,13 @@ Future<void> _ensureOrderItemsSchema(Connection connection) async {
           ADD CONSTRAINT fk_order_items_product_id
           FOREIGN KEY (product_id)
           REFERENCES public.products(id)
-          ON DELETE RESTRICT;
+          ON DELETE SET NULL;
       END IF;
     END
     $$;
   ''');
   await connection.execute(
-    'ALTER TABLE public.order_items ALTER COLUMN product_id SET NOT NULL;',
+    'ALTER TABLE public.order_items ALTER COLUMN product_id DROP NOT NULL;',
   );
   await connection.execute(
     'CREATE INDEX IF NOT EXISTS idx_order_items_supplier_name ON public.order_items(supplier_name);',
@@ -785,7 +785,7 @@ Future<void> _ensureReviewSchema(Connection connection) async {
           AND (
             c.conname <> 'fk_reviews_product_id'
             OR c.confrelid <> 'public.products'::regclass
-            OR c.confdeltype <> 'r'
+            OR c.confdeltype <> 'c'
           )
           AND EXISTS (
             SELECT 1
@@ -817,7 +817,7 @@ Future<void> _ensureReviewSchema(Connection connection) async {
           ADD CONSTRAINT fk_reviews_product_id
           FOREIGN KEY (product_id)
           REFERENCES public.products(id)
-          ON DELETE RESTRICT;
+          ON DELETE CASCADE;
       END IF;
     END
     $$;

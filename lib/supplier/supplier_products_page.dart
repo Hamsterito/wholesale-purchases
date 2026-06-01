@@ -123,7 +123,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
           title: const Text('Удалить товар?'),
           content: Text(
             'Товар "${product.name}" будет удалён. '
-            'Если по нему уже есть заказы или отзывы, он только снимется с публикации.',
+            'Отзывы и вопросы по нему также будут удалены.',
           ),
           actions: [
             TextButton(
@@ -151,43 +151,17 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
     });
 
     try {
-      final result = await ApiService.deleteSupplierProduct(
+      await ApiService.deleteSupplierProduct(
         productId: product.id,
         userId: userId,
       );
       if (!mounted) return;
-      final action = result['action']?.toString() ?? '';
-      final hiddenMessage = result['message']?.toString().trim();
 
       setState(() {
-        if (action == 'hidden_from_catalog') {
-          _products = _products.map((item) {
-            if (item.id != product.id) {
-              return item;
-            }
-            return item.copyWith(
-              moderationStatus: 'rejected',
-              moderationComment: hiddenMessage?.isNotEmpty == true
-                  ? hiddenMessage
-                  : 'Товар снят с публикации.',
-              stockQuantity: 0,
-            );
-          }).toList();
-          return;
-        }
-
         _products.removeWhere((item) => item.id == product.id);
       });
 
-      if (action == 'hidden_from_catalog') {
-        _showSnack(
-          hiddenMessage?.isNotEmpty == true
-              ? hiddenMessage!
-              : 'Товар снят с публикации',
-        );
-      } else {
-        _showSnack('Товар удалён');
-      }
+      _showSnack('Товар удалён');
     } catch (e) {
       _showSnack(
         _extractErrorMessage(e, fallback: 'Не удалось удалить товар'),

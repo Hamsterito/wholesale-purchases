@@ -236,8 +236,6 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
       context,
       added ? 'Добавлено в избранное' : 'Удалено из избранного',
       backgroundColor: added ? palette.accent : palette.error,
-      showAtBottom: true,
-      bottomOffset: 80,
     );
   }
 

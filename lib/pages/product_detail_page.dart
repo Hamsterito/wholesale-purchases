@@ -1021,8 +1021,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       context,
       added ? 'Добавлено в избранное' : 'Удалено из избранного',
       backgroundColor: added ? _palette.accent : _palette.error,
-      showAtBottom: true,
-      bottomOffset: _bottomMessageOffset,
     );
   }
 

@@ -6,19 +6,22 @@ import '../../models/chart_data.dart';
 class RevenueChartService {
   /// Строит данные графика из дневных данных
   static ChartData buildChartDataFromDaily(List<DailyRevenue> dailyRevenues) {
-    final spots = dailyRevenues
+    final now = DateTime.now();
+    final filtered = dailyRevenues.where((r) => !r.date.isAfter(now)).toList();
+
+    final spots = filtered
         .asMap()
         .entries
         .map((e) => FlSpot(e.key.toDouble(), e.value.revenue.toDouble()))
         .toList();
 
-    final labels = dailyRevenues.map((r) => r.formattedDate).toList();
+    final labels = filtered.map((r) => r.formattedDate).toList();
 
-    final maxY = dailyRevenues.isEmpty
+    final maxY = filtered.isEmpty
         ? 0.0
-        : (dailyRevenues.map((r) => r.revenue).reduce((a, b) => a > b ? a : b) *
-                  1.25)
-              .toDouble();
+        : (filtered.map((r) => r.revenue).reduce((a, b) => a > b ? a : b) *
+                1.25)
+            .toDouble();
 
     return ChartData(
       spots: spots,
@@ -32,21 +35,26 @@ class RevenueChartService {
   static ChartData buildChartDataFromMonthly(
     List<RevenueHistory> monthlyRevenues,
   ) {
-    final spots = monthlyRevenues
+    final now = DateTime.now();
+    final filtered = monthlyRevenues
+        .where((r) => r.date == null || !r.date!.isAfter(DateTime(now.year, now.month + 1)))
+        .toList();
+
+    final spots = filtered
         .asMap()
         .entries
         .map((e) => FlSpot(e.key.toDouble(), e.value.revenue.toDouble()))
         .toList();
 
-    final labels = monthlyRevenues.map((r) => r.month).toList();
+    final labels = filtered.map((r) => r.month).toList();
 
-    final maxY = monthlyRevenues.isEmpty
+    final maxY = filtered.isEmpty
         ? 0.0
-        : (monthlyRevenues
-                      .map((r) => r.revenue)
-                      .reduce((a, b) => a > b ? a : b) *
-                  1.25)
-              .toDouble();
+        : (filtered
+                .map((r) => r.revenue)
+                .reduce((a, b) => a > b ? a : b) *
+                1.25)
+            .toDouble();
 
     return ChartData(
       spots: spots,

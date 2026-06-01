@@ -403,71 +403,26 @@ void _registerSupplierProductRoutes(Router router, Connection connection) {
         return Response.forbidden('Только поставщик может удалить свой товар');
       }
 
-      const hiddenMessage =
-          'Товар снят с публикации, потому что уже участвует в заказах или отзывах.';
+      final deleted = await connection.execute(
+        Sql.named('''
+          DELETE FROM products
+          WHERE id = @id AND supplier_user_id = @supplier_user_id
+          RETURNING id;
+        '''),
+        parameters: {'id': productId, 'supplier_user_id': userId},
+      );
 
-      Future<bool> hideFromCatalog() async {
-        final updated = await connection.execute(
-          Sql.named('''
-            UPDATE products
-            SET moderation_status = 'rejected',
-                moderation_comment = @comment,
-                stock_quantity = 0
-            WHERE id = @id AND supplier_user_id = @supplier_user_id
-            RETURNING id;
-          '''),
-          parameters: {
-            'id': productId,
-            'supplier_user_id': userId,
-            'comment': hiddenMessage,
-          },
-        );
-        return updated.isNotEmpty;
+      if (deleted.isEmpty) {
+        return Response.notFound('Товар не найден');
       }
 
-      try {
-        final deleted = await connection.execute(
-          Sql.named('''
-            DELETE FROM products
-            WHERE id = @id AND supplier_user_id = @supplier_user_id
-            RETURNING id;
-          '''),
-          parameters: {'id': productId, 'supplier_user_id': userId},
-        );
-
-        if (deleted.isEmpty) {
-          return Response.notFound('Товар не найден');
-        }
-
-        return Response.ok(
-          jsonEncode({
-            'deleted': true,
-            'id': productId.toString(),
-            'action': 'hard_deleted',
-          }),
-          headers: {'content-type': 'application/json; charset=utf-8'},
-        );
-      } catch (e) {
-        final constraintError = _supplierProductDeleteConstraintMessage(e);
-        if (constraintError == null) {
-          rethrow;
-        }
-
-        final hidden = await hideFromCatalog();
-        if (!hidden) {
-          return Response.notFound('Товар не найден');
-        }
-
-        return Response.ok(
-          jsonEncode({
-            'deleted': true,
-            'id': productId.toString(),
-            'action': 'hidden_from_catalog',
-            'message': hiddenMessage,
-          }),
-          headers: {'content-type': 'application/json; charset=utf-8'},
-        );
-      }
+      return Response.ok(
+        jsonEncode({
+          'deleted': true,
+          'id': productId.toString(),
+        }),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
     } catch (e, st) {
       final constraintError = _supplierProductDeleteConstraintMessage(e);
       if (constraintError != null) {

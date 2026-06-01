@@ -117,69 +117,17 @@ void _registerModeratorProductRoutes(Router router, Connection connection) {
       final productMap = productResult.first.toColumnMap();
       final productName = (productMap['name'] ?? 'Товар').toString().trim();
       final normalizedReason = reason.replaceAll(RegExp(r'\s+'), ' ').trim();
-      final moderationComment = 'Удалено модератором: $normalizedReason';
 
-      Future<bool> hideFromCatalog() async {
-        final updated = await connection.execute(
-          Sql.named('''
-            UPDATE products
-            SET moderation_status = 'rejected',
-                moderation_comment = @comment,
-                stock_quantity = 0
-            WHERE id = @id
-            RETURNING id;
-          '''),
-          parameters: {'id': productId, 'comment': moderationComment},
-        );
-        return updated.isNotEmpty;
-      }
-
-      final linkedOrders = await connection.execute(
+      final deleted = await connection.execute(
         Sql.named('''
-          SELECT o.status
-          FROM order_items oi
-          JOIN orders o ON o.id = oi.order_id
-          WHERE oi.product_id = @id;
+          DELETE FROM products
+          WHERE id = @id
+          RETURNING id;
         '''),
         parameters: {'id': productId},
       );
-      final hasUnacceptedOrders = linkedOrders.any((row) {
-        final status = row.toColumnMap()['status'];
-        return !_isAcceptedOrderStatus(status) &&
-            !_isCancelledOrderStatus(status);
-      });
-
-      var action = 'hard_deleted';
-      if (hasUnacceptedOrders) {
-        final hidden = await hideFromCatalog();
-        if (!hidden) {
-          return Response.notFound('Товар не найден');
-        }
-        action = 'hidden_from_catalog';
-      } else {
-        try {
-          final deleted = await connection.execute(
-            Sql.named('''
-              DELETE FROM products
-              WHERE id = @id
-              RETURNING id;
-            '''),
-            parameters: {'id': productId},
-          );
-          if (deleted.isEmpty) {
-            return Response.notFound('Товар не найден');
-          }
-        } catch (e) {
-          final constraintError = _supplierProductDeleteConstraintMessage(e);
-          if (constraintError == null) {
-            rethrow;
-          }
-          final hidden = await hideFromCatalog();
-          if (!hidden) {
-            return Response.notFound('Товар не найден');
-          }
-          action = 'hidden_from_catalog';
-        }
+      if (deleted.isEmpty) {
+        return Response.notFound('Товар не найден');
       }
 
       final supplierUserId = _toPositiveInt(productMap['supplier_user_id']);
@@ -229,11 +177,9 @@ void _registerModeratorProductRoutes(Router router, Connection connection) {
           final subject =
               _normalizeOptionalText(resolvedChatMap['subject']) ??
               'Действие по товару за нарушение';
-          final notificationText = action == 'hidden_from_catalog'
-              ? 'Товар "$productName" снят с публикации модератором за нарушение. '
-                    'Причина: $normalizedReason'
-              : 'Товар "$productName" удален модератором за нарушение. '
-                    'Причина: $normalizedReason';
+          final notificationText =
+              'Товар "$productName" удален модератором за нарушение. '
+              'Причина: $normalizedReason';
 
           final insertedMessage = await connection.execute(
             Sql.named('''
@@ -308,7 +254,6 @@ void _registerModeratorProductRoutes(Router router, Connection connection) {
         jsonEncode({
           'deleted': true,
           'id': productId.toString(),
-          'action': action,
           'supplierUserId': supplierUserId > 0 ? supplierUserId : null,
           'supplierNotified': supplierNotified,
         }),

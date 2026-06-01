@@ -116,13 +116,6 @@ String? _supplierProductDeleteConstraintMessage(Object error) {
     return null;
   }
 
-  if (text.contains('fk_order_items_product_id') ||
-      text.contains('fk_reviews_product_id') ||
-      text.contains('order_items_product_id_fkey') ||
-      text.contains('reviews_product_id_fkey')) {
-    return 'Нельзя удалить товар: он уже участвует в заказах или отзывах.';
-  }
-
   return 'Нельзя удалить товар из-за связанных записей.';
 }
 

@@ -33,8 +33,6 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  static const double _bottomMessageOffset = 146;
-
   late final CartStore _cartStore = CartStore.instance;
   bool _isPlacingAllOrders = false;
   final Set<String> _submittingSuppliers = <String>{};
@@ -196,8 +194,6 @@ class _CartPageState extends State<CartPage> {
       },
       showCountdown: true,
       showClose: false,
-      showAtBottom: true,
-      bottomOffset: _bottomMessageOffset,
     );
   }
 
@@ -733,8 +729,6 @@ class _CartPageState extends State<CartPage> {
     showTopMessage(
       context,
       message,
-      showAtBottom: true,
-      bottomOffset: _bottomMessageOffset,
     );
   }
 
@@ -1311,73 +1305,7 @@ class _CartPageState extends State<CartPage> {
               ),
             ],
           ),
-          _buildTemplatesFab(),
         ],
-      ),
-    );
-  }
-
-  // Плавающая кнопка возврата к свёрнутому sheet - bounce + slide снизу.
-  Widget _buildTemplatesFab() {
-    final palette = context.colorPalette;
-    return Positioned(
-      right: 16,
-      // Чуть выше кнопки оплаты, чтобы не перекрывать её.
-      bottom: _bottomMessageOffset - 30,
-      child: IgnorePointer(
-        ignoring: !_isTemplatesMinimized,
-        child: AnimatedSlide(
-          offset: _isTemplatesMinimized ? Offset.zero : const Offset(0, 0.4),
-          duration: const Duration(milliseconds: 260),
-          curve: Curves.easeOutBack,
-          child: AnimatedOpacity(
-            opacity: _isTemplatesMinimized ? 1 : 0,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeOut,
-            child: AnimatedScale(
-              scale: _isTemplatesMinimized ? 1 : 0.85,
-              duration: const Duration(milliseconds: 220),
-              curve: Curves.easeOutBack,
-              child: Material(
-                color: palette.accent,
-                elevation: 6,
-                shadowColor: palette.accent.withValues(alpha: 0.4),
-                borderRadius: BorderRadius.circular(28),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(28),
-                  onTap: _isTemplatesMinimized ? _restoreTemplatesSheet : null,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 18,
-                      vertical: 12,
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.bookmark_outline,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          _templatesCount > 0
-                              ? 'Шаблоны · $_templatesCount'
-                              : 'Шаблоны',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -1455,8 +1383,6 @@ class _CartPageState extends State<CartPage> {
       showTopMessage(
         context,
         'Войдите, чтобы пользоваться шаблонами',
-        showAtBottom: true,
-        bottomOffset: _bottomMessageOffset,
       );
       return;
     }
@@ -1475,12 +1401,6 @@ class _CartPageState extends State<CartPage> {
     setState(() {
       _isTemplatesMinimized = result == TemplatesSheetResult.minimized;
     });
-  }
-
-  // Возврат свёрнутого sheet через FAB.
-  void _restoreTemplatesSheet() {
-    setState(() => _isTemplatesMinimized = false);
-    _openTemplatesSheet();
   }
 
   // Применяем шаблон: при непустой корзине просим подтверждение, потом
@@ -1507,8 +1427,6 @@ class _CartPageState extends State<CartPage> {
         context,
         'Не удалось применить шаблон',
         backgroundColor: context.colorPalette.error,
-        showAtBottom: true,
-        bottomOffset: _bottomMessageOffset,
       );
       return;
     }
@@ -1521,8 +1439,6 @@ class _CartPageState extends State<CartPage> {
         context,
         'Шаблон не применён: ни один товар не доступен',
         backgroundColor: context.colorPalette.error,
-        showAtBottom: true,
-        bottomOffset: _bottomMessageOffset,
       );
       return;
     }
@@ -1553,8 +1469,6 @@ class _CartPageState extends State<CartPage> {
       onAction: hasSkipped
           ? () => _showSkippedItemsDialog(result.skipped)
           : null,
-      showAtBottom: true,
-      bottomOffset: _bottomMessageOffset,
     );
   }
 
@@ -1660,8 +1574,6 @@ class _CartPageState extends State<CartPage> {
       showTopMessage(
         context,
         e.userMessage,
-        showAtBottom: true,
-        bottomOffset: _bottomMessageOffset,
       );
       return;
     }
@@ -1669,8 +1581,6 @@ class _CartPageState extends State<CartPage> {
     showTopMessage(
       context,
       'Шаблон переименован',
-      showAtBottom: true,
-      bottomOffset: _bottomMessageOffset,
     );
   }
 
@@ -1716,8 +1626,6 @@ class _CartPageState extends State<CartPage> {
       onAction: () => TemplatesStore.instance.restore(snapshot),
       duration: const Duration(seconds: 5),
       showCountdown: true,
-      showAtBottom: true,
-      bottomOffset: _bottomMessageOffset,
     );
   }
 
@@ -1728,8 +1636,6 @@ class _CartPageState extends State<CartPage> {
       showTopMessage(
         context,
         'Войдите, чтобы пользоваться шаблонами',
-        showAtBottom: true,
-        bottomOffset: _bottomMessageOffset,
       );
       return;
     }
@@ -1747,8 +1653,6 @@ class _CartPageState extends State<CartPage> {
       showTopMessage(
         context,
         'В шаблоне может быть не более 100 позиций.',
-        showAtBottom: true,
-        bottomOffset: _bottomMessageOffset,
       );
       return;
     }
@@ -1778,8 +1682,6 @@ class _CartPageState extends State<CartPage> {
           showTopMessage(
             context,
             'Достигнут лимит шаблонов: 20. Удалите ненужный шаблон.',
-            showAtBottom: true,
-            bottomOffset: _bottomMessageOffset,
           );
           return;
         }
@@ -1790,8 +1692,6 @@ class _CartPageState extends State<CartPage> {
       showTopMessage(
         context,
         e.userMessage,
-        showAtBottom: true,
-        bottomOffset: _bottomMessageOffset,
       );
       return;
     }
@@ -1800,8 +1700,6 @@ class _CartPageState extends State<CartPage> {
     showTopMessage(
       context,
       'Шаблон сохранён',
-      showAtBottom: true,
-      bottomOffset: _bottomMessageOffset + 40,
     );
   }
 
