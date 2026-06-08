@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import '../models/supplier_product.dart';
 import '../services/api/api_service.dart';
+import '../services/localization/localization_extension.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/custom_characteristic_validation.dart';
 import '../utils/delivery_schedule.dart';
@@ -1490,10 +1491,10 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
               _syncDeliveryControllers();
             },
             decoration: InputDecoration(
-              hintText: '14:00 (необязательно)',
-              helperText: 'Заказы до этого времени уезжают сегодня',
+              hintText: '14:00 (${context.l10n.optional})',
+              helperText: context.l10n.ordersCutoffTime,
               helperMaxLines: 1,
-              errorText: _cutoffInputInvalid ? 'Некорректное время' : null,
+              errorText: _cutoffInputInvalid ? context.l10n.invalidTime : null,
               prefixIcon: const Icon(Icons.schedule_outlined),
               filled: true,
               fillColor: colorScheme.surface,
@@ -1660,7 +1661,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Выберите категорию из каталога. Новые категории добавляются через модерацию.',
+            context.l10n.selectCategoryFromCatalog,
             style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant),
           ),
           const SizedBox(height: 8),

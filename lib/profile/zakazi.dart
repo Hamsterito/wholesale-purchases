@@ -8,6 +8,7 @@ import '../models/order.dart';
 import '../pages/order_history_page.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
+import '../services/message/message_localization.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/smart_image.dart';
@@ -899,7 +900,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
       title: '',
       body: body,
       timestamp: DateTime.now(),
-      language: 'ru',
+      language: MessageLocalizationManager.getCurrentLanguage(),
     );
     AppMessageSnackBar.show(context, message);
   }

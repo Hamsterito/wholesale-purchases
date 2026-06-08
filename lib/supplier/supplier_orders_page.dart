@@ -7,6 +7,8 @@ import '../models/message.dart';
 import '../models/supplier_order.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
+import '../services/message/message_localization.dart';
+import '../services/localization/localization_extension.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/date_range_picker_dialog.dart' as custom_picker;
@@ -24,15 +26,15 @@ class SupplierOrdersPage extends StatefulWidget {
 class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     with AutoRefreshMixin<SupplierOrdersPage> {
   static const List<String> _supplierFlowStatuses = [
-    'Собирается',
-    'В пути',
-    'Доставлен',
+    'assembling',
+    'in_transit',
+    'delivered',
   ];
 
-  static const _periodDay = 'За день';
-  static const _periodWeek = 'Неделя';
-  static const _periodMonth = 'Месяц';
-  static const _periodQuarter = 'Квартал';
+  static const _periodDay = 'day';
+  static const _periodWeek = 'week';
+  static const _periodMonth = 'month';
+  static const _periodQuarter = 'quarter';
   static const _periodCustom = '__custom__';
 
   List<SupplierOrder> _orders = [];
@@ -74,7 +76,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     final userId = _userId;
     if (userId == null || userId == 0) {
       setState(() {
-        _error = 'Вы не авторизованы. Пожалуйста, войдите.';
+        _error = context.l10n.unauthorizedError;
         _isLoading = false;
       });
       return;
@@ -98,7 +100,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     } catch (e) {
       if (!mounted) return;
       if (!showLoading) return;
-      setState(() => _error = 'Не удалось загрузить заказы');
+      setState(() => _error = context.l10n.failedToLoadOrders);
     }
 
     if (!mounted || !showLoading) return;
@@ -140,6 +142,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     final normalized = _normalizeStatus(status);
     return normalized.contains('в пути') ||
         normalized == 'in transit' ||
+        normalized == 'in_transit' ||
         normalized == 'on the way';
   }
 
@@ -175,11 +178,11 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
   }
 
   String _statusLabel(String status) {
-    if (_isAssemblingStatus(status)) return 'Собирается';
-    if (_isInTransitStatus(status)) return 'В пути';
-    if (_isDeliveredStatus(status)) return 'Доставлен';
-    if (_isAcceptedStatus(status)) return 'Принят';
-    if (_isCancelledStatus(status)) return 'Отменен';
+    if (_isAssemblingStatus(status)) return context.l10n.statusAssembling;
+    if (_isInTransitStatus(status)) return context.l10n.statusInTransit;
+    if (_isDeliveredStatus(status)) return context.l10n.statusDelivered;
+    if (_isAcceptedStatus(status)) return context.l10n.statusAccepted;
+    if (_isCancelledStatus(status)) return context.l10n.statusCancelled;
     return status;
   }
 
@@ -269,30 +272,27 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     required List<SupplierOrder> filteredHistoryOrders,
   }) {
     if (_orders.isEmpty) {
-      return 'Пока нет заказов';
+      return context.l10n.emptyOrdersMessageNoOrders;
     }
     if (_selectedTab == _SupplierOrderTab.active) {
-      return 'Активных заказов пока нет';
+      return context.l10n.emptyOrdersMessageActive;
     }
-    // На вкладке "История" различаем два пустых случая: история вообще
-    // пуста или просто отфильтрованный диапазон ничего не вернул - чтобы
-    // подсказать поставщику, что фильтр "съел" заказы.
     if (historyOrders.isEmpty) {
       if (activeOrders.isNotEmpty) {
-        return 'История заказов пока пустая';
+        return context.l10n.emptyOrdersMessageHistory;
       }
-      return 'Пока нет заказов';
+      return context.l10n.emptyOrdersMessageNoOrders;
     }
     if (filteredHistoryOrders.isEmpty) {
-      return 'За выбранный период заказов нет';
+      return context.l10n.emptyOrdersMessagePeriod;
     }
-    return 'Пока нет заказов';
+    return context.l10n.emptyOrdersMessageNoOrders;
   }
 
-  Future<void> _updateOrderStatus(SupplierOrder order, String status) async {
+Future<void> _updateOrderStatus(SupplierOrder order, String status) async {
     final userId = _userId;
     if (userId == null || userId == 0) {
-      _showSnack('Сессия недействительна', severity: MessageSeverity.error);
+      _showSnack(context.l10n.sessionExpired, severity: MessageSeverity.error);
       return;
     }
     if (_updatingOrderIds.contains(order.id)) {
@@ -300,7 +300,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     }
     if (!_canMoveToStatus(order.status, status)) {
       _showSnack(
-        'Доступен только следующий шаг статуса',
+        context.l10n.statusChangeStep,
         severity: MessageSeverity.warning,
       );
       return;
@@ -324,9 +324,9 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
             .toList();
         _invalidateOrdersCache();
       });
-      _showSnack('Статус обновлен: ${_statusLabel(updatedOrder.status)}');
+      _showSnack(context.l10n.statusUpdated);
     } catch (e) {
-      _showSnack('Не удалось обновить статус', severity: MessageSeverity.error);
+      _showSnack(context.l10n.statusUpdateFailed, severity: MessageSeverity.error);
     } finally {
       if (mounted) {
         setState(() => _updatingOrderIds.remove(order.id));
@@ -346,19 +346,19 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: const Text('Подтвердите смену статуса'),
+          title: Text(context.l10n.statusConfirmChange),
           content: Text(
-            'Изменить статус заказа №${order.id}\n'
-            'с "${_statusLabel(order.status)}" на "${_statusLabel(nextStatus)}"?',
+            '${context.l10n.orderPrefix}${order.id}\n'
+            '${context.l10n.from} "${_statusLabel(order.status)}" ${context.l10n.to} "${_statusLabel(nextStatus)}"?',
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('Отмена'),
+              child: Text(context.l10n.cancel),
             ),
             FilledButton(
               onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text('Подтвердить'),
+              child: Text(context.l10n.confirm),
             ),
           ],
         );
@@ -381,7 +381,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
       title: '',
       body: message,
       timestamp: DateTime.now(),
-      language: 'ru',
+      language: MessageLocalizationManager.getCurrentLanguage(),
     );
     AppMessageSnackBar.show(context, msg);
   }
@@ -442,9 +442,9 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     if (_isExportingHistory) return;
     final userId = _userId;
     if (userId == null || userId == 0) {
-      _showSnack('Требуется авторизация', severity: MessageSeverity.error);
-      return;
-    }
+      _showSnack(context.l10n.sessionExpired, severity: MessageSeverity.error);
+       return;
+     }
 
     setState(() => _isExportingHistory = true);
     try {
@@ -478,10 +478,10 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
       }
 
       if (!mounted) return;
-      _showSnack('Файл загружен');
+      _showSnack(context.l10n.exportSuccess);
     } catch (e) {
       if (!mounted) return;
-      _showSnack('Ошибка экспорта: $e', severity: MessageSeverity.error);
+      _showSnack(context.l10n.exportError(e.toString()), severity: MessageSeverity.error);
     } finally {
       if (mounted) {
         setState(() => _isExportingHistory = false);
@@ -515,7 +515,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     );
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Заказы покупателей')),
+      appBar: AppBar(title: Text(context.l10n.buyerOrders)),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _error != null
@@ -582,7 +582,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Фильтр',
+            context.l10n.filterLabel,
             style: TextStyle(
               fontSize: 14,
               color: colorScheme.onSurface,
@@ -604,9 +604,9 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
                   Expanded(
                     child: Text(
                       rangeLabel,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: colorScheme.onSurface,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
@@ -633,23 +633,23 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
                 ),
                 elevation: 0,
               ),
-              child: _isExportingHistory
-                  ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
-                    )
-                  : const Text(
-                      'Экспортировать в .excel',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    ),
+child: _isExportingHistory
+                   ? const SizedBox(
+                       width: 18,
+                       height: 18,
+                       child: CircularProgressIndicator(
+                         strokeWidth: 2,
+                         color: Colors.white,
+                       ),
+                     )
+                   : Text(
+                       context.l10n.exportToExcel,
+                       style: TextStyle(
+                         fontSize: 15,
+                         fontWeight: FontWeight.w500,
+                         color: Colors.white,
+                       ),
+                     ),
             ),
           ),
         ],
@@ -679,6 +679,21 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     );
   }
 
+  String _periodLabel(String period) {
+    switch (period) {
+      case _periodDay:
+        return context.l10n.periodDay;
+      case _periodWeek:
+        return context.l10n.periodWeek;
+      case _periodMonth:
+        return context.l10n.periodMonth;
+      case _periodQuarter:
+        return context.l10n.periodQuarter;
+      default:
+        return period;
+    }
+  }
+
   Widget _buildPeriodTab(String text) {
     final colorScheme = Theme.of(context).colorScheme;
     final palette = AppColorPalette.of(context);
@@ -686,7 +701,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     return GestureDetector(
       onTap: () => _applyPeriodSelection(text),
       child: Text(
-        text,
+        _periodLabel(text),
         style: TextStyle(
           fontSize: 14,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
@@ -716,7 +731,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
         children: [
           Expanded(
             child: _buildOrdersTabButton(
-              title: 'Активные',
+              title: context.l10n.activeOrdersTab,
               count: activeCount,
               selected: _selectedTab == _SupplierOrderTab.active,
               onTap: () {
@@ -728,7 +743,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
           const SizedBox(width: 6),
           Expanded(
             child: _buildOrdersTabButton(
-              title: 'История',
+              title: context.l10n.historyOrdersTab,
               count: historyCount,
               selected: _selectedTab == _SupplierOrderTab.history,
               onTap: () {
@@ -938,10 +953,10 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
           icon: Icons.calendar_today_rounded,
           text: _formatDate(order.date),
         ),
-        _buildMetaBadge(
-          icon: Icons.shopping_bag_outlined,
-          text: '${order.items.length} поз.',
-        ),
+_buildMetaBadge(
+           icon: Icons.shopping_bag_outlined,
+           text: '${order.items.length} ${context.l10n.itemsCountShort}',
+         ),
         _buildMetaBadge(
           icon: _statusIcon(order.status),
           text: _statusLabel(order.status),
@@ -959,11 +974,11 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Заказ №${order.id}',
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
-        ),
+Text(
+           '${context.l10n.orderPrefix} №${order.id}',
+           overflow: TextOverflow.ellipsis,
+           style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
+         ),
         const SizedBox(height: 8),
         _buildPriceBadge(amountText),
       ],
@@ -1007,10 +1022,10 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
           icon: Icons.view_agenda_outlined,
           text: '${order.items.length} поз.',
         ),
-        _buildMetaBadge(
-          icon: Icons.shopping_cart_outlined,
-          text: '${order.totalUnits} шт.',
-        ),
+_buildMetaBadge(
+           icon: Icons.shopping_cart_outlined,
+           text: '${order.totalUnits} ${context.l10n.unitsCountShort}',
+         ),
         _buildMetaBadge(
           icon: _statusIcon(order.status),
           text: _statusLabel(order.status),
@@ -1026,9 +1041,9 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     final colorScheme = Theme.of(context).colorScheme;
     final statusColor = _statusColor(order.status);
     final hasAddress = order.deliveryAddress.trim().isNotEmpty;
-    final receivedSummary = order.items.isEmpty
-        ? 'нет товаров'
-        : '${order.receivedItemsCount}/${order.items.length} поз.';
+final receivedSummary = order.items.isEmpty
+          ? context.l10n.orderItemsEmpty
+          : '${order.receivedItemsCount}/${order.items.length} ${context.l10n.itemsCountShort}';
 
     return Container(
       width: double.infinity,
@@ -1041,30 +1056,30 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHistoryDetailRow(
-            icon: Icons.verified_rounded,
-            label: 'Статус',
-            value: _statusLabel(order.status),
-            valueColor: statusColor,
-          ),
-          const SizedBox(height: 10),
-          _buildHistoryDetailRow(
-            icon: Icons.inventory_2_outlined,
-            label: 'Товарных позиций',
-            value: '${order.items.length}',
-          ),
-          const SizedBox(height: 10),
-          _buildHistoryDetailRow(
-            icon: Icons.widgets_outlined,
-            label: 'Единиц товара',
-            value: '${order.totalUnits} шт.',
-          ),
-          const SizedBox(height: 10),
-          _buildHistoryDetailRow(
-            icon: Icons.task_alt_rounded,
-            label: 'Подтверждено',
-            value: receivedSummary,
-          ),
+_buildHistoryDetailRow(
+               icon: Icons.verified_rounded,
+               label: context.l10n.orderStatusLabel,
+               value: _statusLabel(order.status),
+               valueColor: statusColor,
+             ),
+             const SizedBox(height: 10),
+             _buildHistoryDetailRow(
+               icon: Icons.inventory_2_outlined,
+               label: context.l10n.goodsPositionsLabel,
+               value: '${order.items.length}',
+             ),
+             const SizedBox(height: 10),
+             _buildHistoryDetailRow(
+               icon: Icons.widgets_outlined,
+               label: context.l10n.unitsCountLabel,
+               value: '${order.totalUnits} ${context.l10n.unitShort}',
+             ),
+             const SizedBox(height: 10),
+             _buildHistoryDetailRow(
+               icon: Icons.task_alt_rounded,
+               label: context.l10n.confirmedLabel,
+               value: receivedSummary,
+             ),
           if (hasAddress) ...[
             const SizedBox(height: 10),
             Divider(
@@ -1161,17 +1176,17 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Адрес доставки',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  hasAddress ? address : 'Не указан',
+Text(
+                   context.l10n.deliveryAddressLabel,
+                   style: TextStyle(
+                     fontSize: 12,
+                     fontWeight: FontWeight.w600,
+                     color: colorScheme.onSurfaceVariant,
+                   ),
+                 ),
+                 const SizedBox(height: 4),
+                 Text(
+                   hasAddress ? address : context.l10n.addressNotSpecified,
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
@@ -1205,99 +1220,99 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
         color: colorScheme.surfaceContainerLow.withValues(alpha: 0.72),
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (order.items.isEmpty)
-            Text(
-              'Список товаров пуст',
-              style: TextStyle(color: colorScheme.onSurfaceVariant),
-            )
-          else
-            ...order.items.asMap().entries.map((entry) {
-              final index = entry.key;
-              final item = entry.value;
-              final lineTotal = item.price * item.quantity;
+child: Column(
+         crossAxisAlignment: CrossAxisAlignment.start,
+         children: [
+           if (order.items.isEmpty)
+             Text(
+               context.l10n.orderItemsEmpty,
+               style: TextStyle(color: colorScheme.onSurfaceVariant),
+             )
+           else
+             ...order.items.asMap().entries.map((entry) {
+               final index = entry.key;
+               final item = entry.value;
+               final lineTotal = item.price * item.quantity;
 
-              return Padding(
-                padding: EdgeInsets.only(
-                  bottom: index == order.items.length - 1 ? 0 : 10,
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            item.name,
-                            style: const TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Text(
-                          '${item.quantity} × ${_formatMoney(item.price)} ₸',
-                          style: TextStyle(
-                            color: colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        '${_formatMoney(lineTotal)} ₸',
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                    if (index != order.items.length - 1) ...[
-                      const SizedBox(height: 8),
-                      Divider(
-                        height: 1,
-                        color: colorScheme.outlineVariant.withValues(
-                          alpha: 0.5,
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
-              );
-            }),
-          const SizedBox(height: 12),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            decoration: BoxDecoration(
-              color: context.colorPalette.card,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: colorScheme.outlineVariant.withValues(alpha: 0.45),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Итого',
-                  style: TextStyle(
-                    color: colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Text(
-                  '${_formatMoney(order.totalAmount)} ₸',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+               return Padding(
+                 padding: EdgeInsets.only(
+                   bottom: index == order.items.length - 1 ? 0 : 10,
+                 ),
+                 child: Column(
+                   children: [
+                     Row(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                         Expanded(
+                           child: Text(
+                             item.name,
+                             style: const TextStyle(fontWeight: FontWeight.w600),
+                           ),
+                         ),
+                         const SizedBox(width: 12),
+                         Text(
+                           '${item.quantity} × ${_formatMoney(item.price)} ₸',
+                           style: TextStyle(
+                             color: colorScheme.onSurfaceVariant,
+                             fontWeight: FontWeight.w500,
+                           ),
+                         ),
+                       ],
+                     ),
+                     const SizedBox(height: 4),
+                     Align(
+                       alignment: Alignment.centerRight,
+                       child: Text(
+                         '${_formatMoney(lineTotal)} ₸',
+                         style: const TextStyle(fontWeight: FontWeight.w700),
+                       ),
+                     ),
+                     if (index != order.items.length - 1) ...[
+                       const SizedBox(height: 8),
+                       Divider(
+                         height: 1,
+                         color: colorScheme.outlineVariant.withValues(
+                           alpha: 0.5,
+                         ),
+                       ),
+                     ],
+                   ],
+                 ),
+               );
+             }),
+           const SizedBox(height: 12),
+           Container(
+             width: double.infinity,
+             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+             decoration: BoxDecoration(
+               color: context.colorPalette.card,
+               borderRadius: BorderRadius.circular(12),
+               border: Border.all(
+                 color: colorScheme.outlineVariant.withValues(alpha: 0.45),
+               ),
+             ),
+             child: Row(
+               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
+                 Text(
+                   context.l10n.orderTotalLabel,
+                   style: TextStyle(
+                     color: colorScheme.onSurfaceVariant,
+                     fontWeight: FontWeight.w600,
+                   ),
+                 ),
+                 Text(
+                   '${_formatMoney(order.totalAmount)} ₸',
+                   style: const TextStyle(
+                     fontSize: 16,
+                     fontWeight: FontWeight.w800,
+                   ),
+                 ),
+               ],
+             ),
+           ),
+         ],
+       ),
     );
   }
 
@@ -1315,7 +1330,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Товары в заказе',
+            context.l10n.productsInOrder,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w700,
@@ -1323,11 +1338,11 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
             ),
           ),
           const SizedBox(height: 10),
-          if (order.items.isEmpty)
-            Text(
-              'Список товаров пуст',
-              style: TextStyle(color: colorScheme.onSurfaceVariant),
-            )
+if (order.items.isEmpty)
+             Text(
+               context.l10n.orderItemsEmpty,
+               style: TextStyle(color: colorScheme.onSurfaceVariant),
+             )
           else
             ...order.items.asMap().entries.map((entry) {
               final index = entry.key;
@@ -1460,13 +1475,13 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Прогресс заказа',
-              style: TextStyle(
-                color: colorScheme.onSurfaceVariant,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+Text(
+               context.l10n.orderProgress,
+               style: TextStyle(
+                 color: colorScheme.onSurfaceVariant,
+                 fontWeight: FontWeight.w600,
+               ),
+             ),
             Text(
               '${(progress * 100).round()}%',
               style: TextStyle(
@@ -1530,10 +1545,10 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
           children: [
             Icon(_statusIcon(order.status), size: 18, color: statusColor),
             const SizedBox(width: 6),
-            Text(
-              'Текущий статус: ${_statusLabel(order.status)}',
-              style: TextStyle(color: statusColor, fontWeight: FontWeight.w700),
-            ),
+Text(
+               context.l10n.getCurrentStatus(_statusLabel(order.status)),
+               style: TextStyle(color: statusColor, fontWeight: FontWeight.w700),
+             ),
           ],
         ),
         const SizedBox(height: 10),
@@ -1559,7 +1574,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
                     ? optionColor
                     : colorScheme.onSurfaceVariant,
               ),
-              label: Text(statusOption),
+              label: Text(_statusLabel(statusOption)),
               selected: isSelected,
               onSelected: canSelect
                   ? (_) => _confirmStatusChange(order, statusOption)
@@ -1588,22 +1603,22 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
             );
           }).toList(),
         ),
-        if (isUpdating) ...[
-          const SizedBox(height: 10),
-          const LinearProgressIndicator(minHeight: 3),
-        ] else if (_isAcceptedStatus(order.status)) ...[
-          const SizedBox(height: 8),
-          Text(
-            'Заказ уже подтвержден покупателем',
-            style: TextStyle(color: colorScheme.onSurfaceVariant),
-          ),
-        ] else if (_isDeliveredStatus(order.status)) ...[
-          const SizedBox(height: 8),
-          Text(
-            'Ожидается подтверждение покупателем',
-            style: TextStyle(color: colorScheme.onSurfaceVariant),
-          ),
-        ],
+if (isUpdating) ...[
+           const SizedBox(height: 10),
+           const LinearProgressIndicator(minHeight: 3),
+         ] else if (_isAcceptedStatus(order.status)) ...[
+           const SizedBox(height: 8),
+           Text(
+             context.l10n.orderConfirmedByBuyer,
+             style: TextStyle(color: colorScheme.onSurfaceVariant),
+           ),
+         ] else if (_isDeliveredStatus(order.status)) ...[
+           const SizedBox(height: 8),
+           Text(
+             context.l10n.waitingBuyerConfirmation,
+             style: TextStyle(color: colorScheme.onSurfaceVariant),
+           ),
+         ],
       ],
     );
   }

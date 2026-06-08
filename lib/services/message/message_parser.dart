@@ -7,9 +7,10 @@ import 'package:http/http.dart' as http;
 import '../../models/message.dart';
 import '../../models/support_message.dart';
 import 'message_validator.dart';
+import 'message_localization.dart';
 
 /// Приводит разнородные источники к единой Message. На любой сбой возвращает
-/// Message типа MessageType.error, чтобы вызывающий код не ловил исключений.
+/// Message типа MessageType.error, чтобы вызывающий код не ловил иключения.
 class MessageParser {
   static final RegExp _uuidRegex = RegExp(
     r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
@@ -190,7 +191,7 @@ class MessageParser {
       title: msg.subject,
       body: _truncate(msg.text, MessageValidator.maxBodyLength),
       timestamp: msg.createdAt,
-      language: 'ru',
+      language: MessageLocalizationManager.getCurrentLanguage(),
       metadata: metadata,
     );
 
@@ -334,7 +335,7 @@ class MessageParser {
       title: 'AI-генерация',
       body: _truncate(content, MessageValidator.maxBodyLength),
       timestamp: DateTime.now(),
-      language: 'ru',
+      language: MessageLocalizationManager.getCurrentLanguage(),
       metadata: metadata,
     );
 
@@ -381,7 +382,7 @@ class MessageParser {
       ),
       code: 'PARSE_ERROR',
       timestamp: DateTime.now(),
-      language: 'ru',
+      language: MessageLocalizationManager.getCurrentLanguage(),
       metadata: enriched,
     );
   }

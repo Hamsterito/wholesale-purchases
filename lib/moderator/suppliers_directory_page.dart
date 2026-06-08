@@ -8,6 +8,7 @@ import '../models/message.dart';
 import '../models/support_message.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
+import '../services/message/message_localization.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/search_normalizer.dart';
 import '../widgets/messages/app_message_snackbar.dart';
@@ -331,7 +332,7 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
       title: '',
       body: body,
       timestamp: DateTime.now(),
-      language: 'ru',
+      language: MessageLocalizationManager.getCurrentLanguage(),
     );
     AppMessageSnackBar.show(context, msg);
   }

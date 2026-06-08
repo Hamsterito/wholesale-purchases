@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../services/api/two_factor_api.dart';
 import '../services/store/app_settings.dart';
+import '../services/localization/app_localizations.dart';
+import '../services/localization/localization_extension.dart';
+import '../models/language.dart';
+import '../models/currency.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import 'change_password_page.dart';
 import 'security/two_factor_settings_page.dart';
 
-/// Сигнатура загрузчика статуса 2FA для trailing-индикатора.
-/// В проде указывает на TwoFactorApi.getStatus, в тестах подменяется фейком.
 typedef SettingsTwoFactorStatusLoader = Future<TwoFactorStatus> Function();
 
 class SettingsPage extends StatefulWidget {
@@ -16,8 +18,6 @@ class SettingsPage extends StatefulWidget {
     @visibleForTesting this.twoFactorStatusLoader,
   });
 
-  /// Точка инъекции для виджет-тестов. Если null - используется
-  /// TwoFactorApi.getStatus, который ходит в реальный backend.
   final SettingsTwoFactorStatusLoader? twoFactorStatusLoader;
 
   @override
@@ -26,8 +26,8 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool _darkMode = false;
-
-  // Статус 2FA для trailing-индикатора. null - ещё не загружен или ошибка.
+  late Language _selectedLanguage;
+  late Currency _selectedCurrency;
   TwoFactorStatus? _twoFactorStatus;
 
   Color get _settingsAccent {
@@ -42,14 +42,30 @@ class _SettingsPageState extends State<SettingsPage> {
     ).primary;
   }
 
-  String _selectedLanguage = 'Русский';
-  String _selectedCurrency = '₸ (Тенге)';
-
   @override
   void initState() {
     super.initState();
     _darkMode = AppSettings.isDark;
+    _selectedLanguage = AppSettings.language.value;
+    _selectedCurrency = AppSettings.currency.value;
     _loadTwoFactorStatus();
+
+    AppSettings.language.addListener(_onSettingsChanged);
+    AppSettings.currency.addListener(_onSettingsChanged);
+  }
+
+  void _onSettingsChanged() {
+    setState(() {
+      _selectedLanguage = AppSettings.language.value;
+      _selectedCurrency = AppSettings.currency.value;
+    });
+  }
+
+  @override
+  void dispose() {
+    AppSettings.language.removeListener(_onSettingsChanged);
+    AppSettings.currency.removeListener(_onSettingsChanged);
+    super.dispose();
   }
 
   Future<void> _loadTwoFactorStatus() async {
@@ -60,7 +76,6 @@ class _SettingsPageState extends State<SettingsPage> {
       if (!mounted) return;
       setState(() => _twoFactorStatus = status);
     } catch (_) {
-      // Сбой запроса не должен ломать страницу - показываем «Выключена» как fallback.
       if (!mounted) return;
       setState(() => _twoFactorStatus = null);
     }
@@ -70,6 +85,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = context.l10n;
     final sectionLabelStyle = theme.textTheme.labelSmall?.copyWith(
       fontWeight: FontWeight.w600,
       color: colorScheme.onSurfaceVariant,
@@ -87,7 +103,7 @@ class _SettingsPageState extends State<SettingsPage> {
           },
         ),
         title: Text(
-          'Параметры',
+          l10n.settings,
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
           ),
@@ -96,8 +112,7 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Внешний вид
-          Text('ВНЕШНИЙ ВИД', style: sectionLabelStyle),
+          Text(l10n.appearance.toUpperCase(), style: sectionLabelStyle),
           const SizedBox(height: 12),
           Container(
             decoration: BoxDecoration(
@@ -105,8 +120,8 @@ class _SettingsPageState extends State<SettingsPage> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: _buildSwitchTile(
-              title: 'Темная тема',
-              subtitle: 'Использовать темное оформление',
+              title: l10n.darkMode,
+              subtitle: l10n.useDarkTheme,
               value: _darkMode,
               onChanged: (value) {
                 setState(() {
@@ -116,11 +131,8 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
           ),
-
           const SizedBox(height: 24),
-
-          // Язык и регион
-          Text('ЯЗЫК И РЕГИОН', style: sectionLabelStyle),
+          Text(l10n.languageAndRegion.toUpperCase(), style: sectionLabelStyle),
           const SizedBox(height: 12),
           Container(
             decoration: BoxDecoration(
@@ -130,16 +142,17 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Column(
               children: [
                 _buildSelectTile(
-                  title: 'Язык',
-                  value: _selectedLanguage,
+                  title: l10n.languageLabel,
+                  value: _selectedLanguage.displayNameInLanguage,
                   onTap: () {
                     _showLanguageDialog();
                   },
                 ),
                 Divider(height: 1, indent: 16, endIndent: 16),
                 _buildSelectTile(
-                  title: 'Валюта',
-                  value: _selectedCurrency,
+                  title: l10n.currency,
+                  value:
+                      '${_selectedCurrency.code.symbol} (${l10n.currencyName(_selectedCurrency.code.code)})',
                   onTap: () {
                     _showCurrencyDialog();
                   },
@@ -147,11 +160,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ],
             ),
           ),
-
           const SizedBox(height: 24),
-
-          // Безопасность
-          Text('БЕЗОПАСНОСТЬ', style: sectionLabelStyle),
+          Text(l10n.security.toUpperCase(), style: sectionLabelStyle),
           const SizedBox(height: 12),
           Container(
             decoration: BoxDecoration(
@@ -161,7 +171,7 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Column(
               children: [
                 _buildActionTile(
-                  title: 'Изменить пароль',
+                  title: l10n.changePassword,
                   icon: Icons.lock_outline,
                   onTap: () {
                     Navigator.push(
@@ -174,7 +184,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 Divider(height: 1, indent: 16, endIndent: 16),
                 _buildActionTile(
-                  title: 'Двухфакторная аутентификация',
+                  title: l10n.twoFactorAuthentication,
                   icon: Icons.shield_outlined,
                   trailing: _buildTwoFactorTrailing(),
                   onTap: () {
@@ -189,11 +199,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ],
             ),
           ),
-
           const SizedBox(height: 24),
-
-          // О приложении
-          Text('О ПРИЛОЖЕНИИ', style: sectionLabelStyle),
+          Text(l10n.about.toUpperCase(), style: sectionLabelStyle),
           const SizedBox(height: 12),
           Container(
             decoration: BoxDecoration(
@@ -201,7 +208,7 @@ class _SettingsPageState extends State<SettingsPage> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: _buildActionTile(
-              title: 'Версия приложения',
+              title: l10n.appVersion,
               icon: Icons.info_outline,
               trailing: Text(
                 '2.6.7',
@@ -306,7 +313,7 @@ class _SettingsPageState extends State<SettingsPage> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          enabled ? 'Включена' : 'Выключена',
+          enabled ? context.l10n.enabled : context.l10n.disabled,
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w500,
@@ -320,25 +327,31 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _showLanguageDialog() {
+    final l10n = context.l10n;
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Выберите язык'),
-          content: RadioGroup<String>(
-            groupValue: _selectedLanguage,
+          title: Text(l10n.languageLabel),
+          content: RadioGroup<LanguageCode>(
+            groupValue: _selectedLanguage.code,
             onChanged: (value) {
-              if (value == null) {
-                return;
-              }
+              if (value == null) return;
               setState(() {
-                _selectedLanguage = value;
+                _selectedLanguage =
+                    Language.supported.firstWhere((l) => l.code == value);
               });
+              AppSettings.setLanguage(_selectedLanguage);
               Navigator.pop(context);
             },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [_buildLanguageOption('Русский')],
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (final lang in Language.supported)
+                    _buildLanguageOption(lang),
+                ],
+              ),
             ),
           ),
         );
@@ -346,34 +359,40 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildLanguageOption(String language) {
-    return RadioListTile<String>(
-      title: Text(language),
-      value: language,
+  Widget _buildLanguageOption(Language lang) {
+    return RadioListTile<LanguageCode>(
+      title: Text(lang.displayNameInLanguage),
+      value: lang.code,
       activeColor: _settingsAccent,
     );
   }
 
   void _showCurrencyDialog() {
+    final l10n = context.l10n;
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Выберите валюту'),
-          content: RadioGroup<String>(
-            groupValue: _selectedCurrency,
+          title: Text(l10n.currency),
+          content: RadioGroup<CurrencyCode>(
+            groupValue: _selectedCurrency.code,
             onChanged: (value) {
-              if (value == null) {
-                return;
-              }
+              if (value == null) return;
               setState(() {
-                _selectedCurrency = value;
+                _selectedCurrency =
+                    Currency.supported.firstWhere((c) => c.code == value);
               });
+              AppSettings.setCurrency(_selectedCurrency);
               Navigator.pop(context);
             },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [_buildCurrencyOption('₸ (Тенге)')],
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (final curr in Currency.supported)
+                    _buildCurrencyOption(curr, l10n),
+                ],
+              ),
             ),
           ),
         );
@@ -381,10 +400,10 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildCurrencyOption(String currency) {
-    return RadioListTile<String>(
-      title: Text(currency),
-      value: currency,
+  Widget _buildCurrencyOption(Currency curr, AppLocalizations l10n) {
+    return RadioListTile<CurrencyCode>(
+      title: Text('${curr.code.symbol} (${l10n.currencyName(curr.code.code)})'),
+      value: curr.code,
       activeColor: _settingsAccent,
     );
   }

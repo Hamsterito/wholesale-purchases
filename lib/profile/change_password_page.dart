@@ -6,6 +6,7 @@ import '../theme/app_color_palette.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
+import '../services/message/message_localization.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -113,7 +114,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           title: '',
           body: 'Проверьте введённые данные',
           timestamp: DateTime.now(),
-          language: 'ru',
+          language: MessageLocalizationManager.getCurrentLanguage(),
         ),
       );
       return;
@@ -130,7 +131,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           title: '',
           body: 'Сессия истекла. Войдите снова.',
           timestamp: DateTime.now(),
-          language: 'ru',
+          language: MessageLocalizationManager.getCurrentLanguage(),
         ),
       );
       return;
@@ -164,7 +165,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           title: '',
           body: _normalizeErrorMessage(error),
           timestamp: DateTime.now(),
-          language: 'ru',
+          language: MessageLocalizationManager.getCurrentLanguage(),
         ),
       );
       return;

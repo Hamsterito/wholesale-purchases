@@ -30,7 +30,7 @@ class RoleInternalNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     // resolveNavRole сам сводит нераспознанную роль к buyer, поэтому панель
     // никогда не остаётся без набора вкладок.
-    final tabs = tabsForRole(resolveNavRole(AuthStorage.role));
+    final tabs = tabsForRole(resolveNavRole(AuthStorage.role), context);
     return RoleNavigationBar(
       tabs: tabs,
       currentIndex: currentIndex,

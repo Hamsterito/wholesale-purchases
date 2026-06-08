@@ -9,6 +9,7 @@ import '../models/message.dart';
 import '../models/support_message.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
+import '../services/message/message_localization.dart';
 import 'support_chat_page.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/animated_select_field.dart';
@@ -245,7 +246,7 @@ class _SupportPageState extends State<SupportPage> {
       title: '',
       body: message,
       timestamp: DateTime.now(),
-      language: 'ru',
+      language: MessageLocalizationManager.getCurrentLanguage(),
     );
     AppMessageSnackBar.show(context, msg);
   }

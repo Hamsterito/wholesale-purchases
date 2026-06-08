@@ -8,6 +8,7 @@ import '../services/storage/auth_storage.dart';
 import '../services/api/ai_service.dart';
 import '../services/statistics/revenue_chart_service.dart';
 import '../services/statistics/statistics_cache_service.dart';
+import '../services/localization/localization_extension.dart';
 import '../widgets/date_range_picker_dialog.dart';
 import '../utils/month_year_parser.dart';
 import '../theme/app_color_palette.dart';
@@ -1071,7 +1072,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
         : 1.0;
 
     return _card(
-      title: 'Топ товары',
+      title: context.l10n.topProducts,
       icon: Icons.emoji_events_rounded,
       child: Column(
         children: _topProducts.take(5).toList().asMap().entries.map((e) {
@@ -1347,7 +1348,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     final palette = AppColorPalette.of(context);
 
     return _card(
-      title: 'Последние заказы',
+      title: context.l10n.recentOrders,
       icon: Icons.receipt_rounded,
       child: Column(
         children: _orderStats!.recentOrders.take(5).map((order) {

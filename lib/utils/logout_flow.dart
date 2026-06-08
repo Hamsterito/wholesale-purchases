@@ -29,10 +29,7 @@ Future<void> performLogout(BuildContext context) async {
   }
 
   if (!navigator.mounted) return;
-  navigator.pushAndRemoveUntil(
-    _instantRoute(const LoginPage()),
-    (_) => false,
-  );
+  navigator.pushAndRemoveUntil(_instantRoute(const LoginPage()), (_) => false);
 }
 
 PageRoute<void> _instantRoute(Widget page) {
@@ -49,6 +46,7 @@ class _LogoutTransitionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      floatingActionButton: null,
       body: Center(child: CircularProgressIndicator()),
     );
   }

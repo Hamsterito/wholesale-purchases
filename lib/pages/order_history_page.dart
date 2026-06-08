@@ -6,6 +6,7 @@ import '../models/message.dart';
 import '../models/order.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
+import '../services/message/message_localization.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
@@ -825,7 +826,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
           title: '',
           body: 'Требуется авторизация',
           timestamp: DateTime.now(),
-          language: 'ru',
+          language: MessageLocalizationManager.getCurrentLanguage(),
         ),
       );
       return;
@@ -871,7 +872,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
           title: '',
           body: 'Файл загружен',
           timestamp: DateTime.now(),
-          language: 'ru',
+          language: MessageLocalizationManager.getCurrentLanguage(),
         ),
       );
     } catch (e) {
@@ -885,7 +886,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
           title: '',
           body: 'Ошибка экспорта: $e',
           timestamp: DateTime.now(),
-          language: 'ru',
+          language: MessageLocalizationManager.getCurrentLanguage(),
         ),
       );
     }

@@ -11,6 +11,7 @@ import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/message/message_service_adapters.dart';
 import '../services/message/message_store.dart';
+import '../services/message/message_localization.dart';
 import '../widgets/chat/chat_thread_view.dart';
 import '../widgets/chat/adapters.dart';
 
@@ -226,7 +227,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
       title: '',
       body: message,
       timestamp: DateTime.now(),
-      language: 'ru',
+      language: MessageLocalizationManager.getCurrentLanguage(),
     );
     AppMessageSnackBar.show(context, msg);
   }

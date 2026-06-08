@@ -7,7 +7,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:flutter_project/login_screen/login.dart';
+import 'package:flutter_project/models/language.dart';
 import 'package:flutter_project/services/app_logger.dart';
+import 'package:flutter_project/services/localization/app_localizations.dart';
 import 'package:flutter_project/services/store/app_settings.dart';
 import 'package:flutter_project/services/storage/auth_storage.dart';
 import 'package:flutter_project/services/store/favorites_store.dart';
@@ -91,7 +93,7 @@ void main() {
           );
         }
 
-        //Запуск приложения после полной инициализации
+        // Запуск приложения после полной инициализации
         runApp(const MyApp());
       } catch (error, stackTrace) {
         AppLogger.error(
@@ -288,11 +290,16 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     // Подписываемся на изменения темы; setState обновляет только themeMode
     AppSettings.themeMode.addListener(_onThemeChanged);
+    // Подписываемся на изменения языка и валюты
+    AppSettings.language.addListener(_onLanguageChanged);
+    AppSettings.currency.addListener(_onCurrencyChanged);
   }
 
   @override
   void dispose() {
     AppSettings.themeMode.removeListener(_onThemeChanged);
+    AppSettings.language.removeListener(_onLanguageChanged);
+    AppSettings.currency.removeListener(_onCurrencyChanged);
     // NotificationService - singleton, живёт всё время приложения.
     // Его dispose() здесь не вызываем: при hot reload это бы привело к
     // обращению к освобождённым ValueNotifier-ам после восстановления MyApp.
@@ -304,32 +311,53 @@ class _MyAppState extends State<MyApp> {
     setState(() {});
   }
 
+  void _onLanguageChanged() {
+    // Пересчитать UI при смене языка
+    setState(() {});
+  }
+
+  void _onCurrencyChanged() {
+    // Пересчитать UI при смене валюты
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Оптовые закупки',
-      debugShowCheckedModeBanner: false,
-      locale: const Locale('ru'),
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('ru'), Locale('en'), Locale('kk')],
-      theme: _lightTheme,
-      darkTheme: _darkTheme,
-      themeMode: AppSettings.themeMode.value,
-      navigatorKey: _rootNavigatorKey,
-      navigatorObservers: [_topMessageObserver],
-      home: const _AppHome(),
-      // Корневой Overlay поверх Navigator - top-message баннеры монтируются
-      // сюда и поэтому не уезжают вместе со сменой страницы.
-      builder: (context, child) {
-        return Overlay(
-          key: rootMessageOverlayKey,
-          initialEntries: [
-            OverlayEntry(builder: (_) => child ?? const SizedBox.shrink()),
-          ],
+    return ValueListenableBuilder<Language>(
+      valueListenable: AppSettings.language,
+      builder: (context, language, _) {
+        // Получаем текущую локализацию
+        final localizations = AppLocalizations.current;
+
+        return AppLocalizationsProvider(
+          localizations: localizations,
+          child: MaterialApp(
+            title: 'Оптовые закупки',
+            debugShowCheckedModeBanner: false,
+            locale: Locale(language.code.code),
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('ru'), Locale('en'), Locale('kk')],
+            theme: _lightTheme,
+            darkTheme: _darkTheme,
+            themeMode: AppSettings.themeMode.value,
+            navigatorKey: _rootNavigatorKey,
+            navigatorObservers: [_topMessageObserver],
+            home: const _AppHome(),
+            // Корневой Overlay поверх Navigator - top-message баннеры монтируются
+            // сюда и поэтому не уезжают вместе со сменой страницы.
+            builder: (context, child) {
+              return Overlay(
+                key: rootMessageOverlayKey,
+                initialEntries: [
+                  OverlayEntry(builder: (_) => child ?? const SizedBox.shrink()),
+                ],
+              );
+            },
+          ),
         );
       },
     );

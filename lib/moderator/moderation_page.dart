@@ -10,6 +10,7 @@ import '../utils/characteristic_sections.dart';
 import '../utils/delivery_schedule.dart';
 import '../widgets/moderator/about_product_sheet.dart';
 import '../widgets/moderator/moderator_empty_state.dart';
+import '../services/message/message_localization.dart';
 import 'support_chats_page.dart';
 import 'suppliers_directory_page.dart';
 import '../services/api/api_service.dart';
@@ -302,7 +303,7 @@ class _ModerationPageState extends State<ModerationPage> {
       title: '',
       body: message,
       timestamp: DateTime.now(),
-      language: 'ru',
+      language: MessageLocalizationManager.getCurrentLanguage(),
     );
     AppMessageSnackBar.show(context, msg);
   }

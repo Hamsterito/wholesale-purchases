@@ -33,6 +33,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  intl: ^0.20.2
   shared_preferences: ^2.2.3
   share_plus: ^7.2.1
   image_picker: ^1.1.2
@@ -84,6 +85,7 @@ flutter:
     - assets/icons/
     - assets/coca_cola.jpeg
     - assets/icons/catalog.svg
+    - lib/l10n/
 
   fonts:
     - family: Roboto

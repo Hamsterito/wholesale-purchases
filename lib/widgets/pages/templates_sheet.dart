@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../services/store/templates_store.dart';
+import '../../services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../smart_image.dart';
 import '../smooth_sheet.dart';
@@ -211,7 +212,7 @@ class _EmptyState extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Добавьте товары в корзину и сохраните их как шаблон',
+            context.l10n.addProductsToCart,
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 13, color: palette.muted, height: 1.35),
           ),

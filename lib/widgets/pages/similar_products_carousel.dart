@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/product.dart';
+import '../../services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../product/product_card.dart';
 
@@ -34,7 +35,7 @@ class SimilarProductsCarousel extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: gridPadding),
                 child: Text(
-                  'Похожие товары',
+                  context.l10n.similarProducts,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

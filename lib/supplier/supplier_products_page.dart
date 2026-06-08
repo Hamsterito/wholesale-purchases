@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/supplier_product.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
+import '../services/localization/localization_extension.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/smart_image.dart';
@@ -40,7 +41,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
     final userId = _userId;
     if (userId == null || userId == 0) {
       setState(() {
-        _error = 'Вы не авторизованы. Пожалуйста, войдите.';
+        _error = context.l10n.unauthorizedError;
         _isLoading = false;
       });
       return;
@@ -62,7 +63,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
       if (!mounted) return;
       if (!showLoading) return;
       setState(() {
-        _error = 'Не удалось загрузить товары';
+        _error = context.l10n.failedToLoadProducts;
       });
     }
 
@@ -73,7 +74,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
   Future<void> _openProductWizard({SupplierProduct? product}) async {
     final userId = _userId;
     if (userId == null || userId == 0) {
-      _showSnack('Требуется авторизация', isError: true);
+      _showSnack(context.l10n.loginRequired, isError: true);
       return;
     }
 
@@ -86,17 +87,21 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
 
     if (result == null) return;
 
+    if (!mounted) return;
     setState(() => _isSubmitting = true);
     try {
       if (product == null) {
         await ApiService.createSupplierProduct(product: result, userId: userId);
-        _showSnack('Товар отправлен на модерацию');
+        if (!mounted) return;
+        _showSnack(context.l10n.productSentForModeration);
       } else {
         await ApiService.updateSupplierProduct(product: result, userId: userId);
-        _showSnack('Изменения отправлены на модерацию');
+        if (!mounted) return;
+        _showSnack(context.l10n.productChangesSentForModeration);
       }
       await _loadProducts();
     } catch (e) {
+      if (!mounted) return;
       _showSnack(
         _extractErrorMessage(e, fallback: 'Ошибка операции'),
         isError: true,
@@ -119,23 +124,24 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
     final approved = await showDialog<bool>(
       context: context,
       builder: (context) {
+        final l10n = context.l10n;
         return AlertDialog(
-          title: const Text('Удалить товар?'),
+          title: Text(context.l10n.deleteProduct),
           content: Text(
-            'Товар "${product.name}" будет удалён. '
-            'Отзывы и вопросы по нему также будут удалены.',
+            '${context.l10n.product} "${product.name}" ${context.l10n.delete.toLowerCase()}. '
+            '${l10n.deleteProductConfirm}',
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Отмена'),
+              child: Text(l10n.cancel),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context, true),
               style: TextButton.styleFrom(
                 foregroundColor: AppColorPalette.of(context).error,
               ),
-              child: const Text('Удалить'),
+              child: Text(context.l10n.delete),
             ),
           ],
         );
@@ -158,13 +164,37 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
       if (!mounted) return;
 
       setState(() {
+        if (action == 'hidden_from_catalog') {
+          _products = _products.map((item) {
+            if (item.id != product.id) {
+              return item;
+            }
+            return item.copyWith(
+              moderationStatus: 'rejected',
+              moderationComment: hiddenMessage?.isNotEmpty == true
+                  ? hiddenMessage
+                  : 'Товар снят с публикации.',
+              stockQuantity: 0,
+            );
+          }).toList();
+          return;
+        }
+
         _products.removeWhere((item) => item.id == product.id);
       });
 
-      _showSnack('Товар удалён');
+      if (action == 'hidden_from_catalog') {
+        _showSnack(
+          hiddenMessage?.isNotEmpty == true
+              ? hiddenMessage!
+              : 'Товар снят с публикации',
+        );
+      } else {
+        _showSnack('Товар удалён');
+      }
     } catch (e) {
       _showSnack(
-        _extractErrorMessage(e, fallback: 'Не удалось удалить товар'),
+        _extractErrorMessage(e, fallback: context.l10n.couldNotDeleteProduct),
         isError: true,
       );
     } finally {
@@ -226,11 +256,11 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
   String _statusLabel(String status) {
     switch (status) {
       case 'approved':
-        return 'Одобрен';
+        return context.l10n.approved;
       case 'rejected':
-        return 'Отклонён';
+        return context.l10n.rejected;
       default:
-        return 'На проверке';
+        return context.l10n.pending;
     }
   }
 
@@ -314,11 +344,11 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
                       const SizedBox(),
                       Row(
                         children: [
-                          Expanded(
-                            child: Text(
-                              product.name.isEmpty
-                                  ? 'Без названия'
-                                  : product.name,
+Expanded(
+                          child: Text(
+                            product.name.isEmpty
+                                    ? context.l10n.noTitle
+                                    : product.name,
                               style: const TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w700,
@@ -355,7 +385,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
                       const SizedBox(height: 4),
                       _ExpandableDescription(
                         text: product.description.isEmpty
-                            ? 'Описание пока не добавлено'
+                            ? context.l10n.noDescription
                             : product.description,
                         isExpanded: _isDescriptionExpanded(product.id),
                         onToggle: () => _toggleDescription(product.id),
@@ -517,7 +547,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Мои товары')),
+      appBar: AppBar(title: Text(context.l10n.myProducts)),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _error != null
@@ -766,11 +796,11 @@ class _ExpandableDescription extends StatelessWidget {
         final reservedTextHeight =
             lineHeightPainter.height * _collapsedMaxLines;
 
-        final actionPainter = TextPainter(
-          text: TextSpan(text: 'Подробнее', style: actionStyle),
-          textDirection: direction,
-        )..layout();
-        final actionHeight = actionPainter.height;
+final actionPainter = TextPainter(
+           text: TextSpan(text: context.l10n.moreLabel, style: actionStyle),
+           textDirection: direction,
+         )..layout();
+         final actionHeight = actionPainter.height;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -801,7 +831,7 @@ class _ExpandableDescription extends StatelessWidget {
                   ? GestureDetector(
                       onTap: onToggle,
                       child: Text(
-                        isExpanded ? 'Свернуть' : 'Подробнее',
+                        isExpanded ? context.l10n.lessLabel : context.l10n.moreLabel,
                         style: actionStyle,
                       ),
                     )

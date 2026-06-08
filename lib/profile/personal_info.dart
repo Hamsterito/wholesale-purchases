@@ -8,6 +8,7 @@ import '../widgets/phone_input_formatter.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/api/api_service.dart';
+import '../services/message/message_localization.dart';
 import '../models/message.dart';
 import '../models/user_profile.dart';
 import '../widgets/profile/user_avatar.dart';
@@ -181,7 +182,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
       title: '',
       body: message,
       timestamp: DateTime.now(),
-      language: 'ru',
+      language: MessageLocalizationManager.getCurrentLanguage(),
     );
     AppMessageSnackBar.show(context, msg);
   }

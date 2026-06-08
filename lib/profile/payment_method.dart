@@ -8,6 +8,7 @@ import 'add_payment_card.dart';
 import '../models/message.dart';
 import '../services/storage/payment_card_storage.dart';
 import '../services/storage/auth_storage.dart';
+import '../services/message/message_localization.dart';
 
 class PaymentMethodPage extends StatefulWidget {
   const PaymentMethodPage({super.key});
@@ -181,7 +182,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
         title: '',
         body: 'Карта добавлена',
         timestamp: DateTime.now(),
-        language: 'ru',
+        language: MessageLocalizationManager.getCurrentLanguage(),
       ),
     );
   }
@@ -535,7 +536,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
         title: '',
         body: 'Карта удалена',
         timestamp: DateTime.now(),
-        language: 'ru',
+        language: MessageLocalizationManager.getCurrentLanguage(),
       ),
     );
   }

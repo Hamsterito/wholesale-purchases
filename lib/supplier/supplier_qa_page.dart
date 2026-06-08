@@ -7,6 +7,8 @@ import '../models/review_entry.dart';
 import '../models/product.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
+import '../services/message/message_localization.dart';
+import '../services/localization/localization_extension.dart';
 import '../widgets/product/rating_stars.dart';
 import '../widgets/supplier/supplier_qa_answer_modal.dart';
 import '../widgets/supplier/supplier_qa_response_modal.dart';
@@ -162,13 +164,13 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     if (_isLoadingMore && loadMore) return;
 
     final userId = AuthStorage.userId;
-    if (userId == null || userId <= 0) {
-      setState(() {
-        _errorMessage = 'Вы не авторизованы';
-        _pageState = _PageState.error;
-      });
-      return;
-    }
+if (userId == null || userId <= 0) {
+       setState(() {
+         _errorMessage = context.l10n.notAuthorized;
+         _pageState = _PageState.error;
+       });
+       return;
+     }
 
     if (loadMore) {
       setState(() => _isLoadingMore = true);
@@ -427,18 +429,18 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
       if (mounted) {
-        AppMessageSnackBar.show(
-          context,
-          Message(
-            id: const Uuid().v4(),
-            type: MessageType.notification,
-            severity: MessageSeverity.error,
-            title: '',
-            body: 'Ошибка: вы не авторизованы',
-            timestamp: DateTime.now(),
-            language: 'ru',
-          ),
-        );
+AppMessageSnackBar.show(
+           context,
+           Message(
+             id: const Uuid().v4(),
+             type: MessageType.notification,
+             severity: MessageSeverity.error,
+             title: '',
+             body: context.l10n.notAuthorized,
+             timestamp: DateTime.now(),
+             language: MessageLocalizationManager.getCurrentLanguage(),
+           ),
+         );
       }
       return;
     }
@@ -465,14 +467,14 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             questionText: question.questionText,
             createdAt: question.createdAt,
             isAnswered: true,
-            answer: QuestionAnswer(
-              id: '',
-              questionId: question.id,
-              supplierId: userId.toString(),
-              supplierName: 'Поставщик',
-              answerText: answerText,
-              answeredAt: DateTime.now(),
-            ),
+answer: QuestionAnswer(
+               id: '',
+               questionId: question.id,
+               supplierId: userId.toString(),
+               supplierName: context.l10n.supplierDefaultLabel,
+               answerText: answerText,
+               answeredAt: DateTime.now(),
+             ),
             productName: question.productName,
             productImage: question.productImage,
           );
@@ -482,35 +484,35 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             _questionsById[updatedQuestion.id] = updatedQuestion;
             _calculateUnansweredCount();
             _invalidateListItemsCache();
-            _invalidateQuestionsSplitCache();
-          });
-        }
+_invalidateQuestionsSplitCache();
+           });
+         }
 
-        AppMessageSnackBar.show(
-          context,
-          Message(
-            id: const Uuid().v4(),
-            type: MessageType.notification,
-            severity: MessageSeverity.info,
-            title: '',
-            body: 'Ответ отправлен успешно',
+         AppMessageSnackBar.show(
+           context,
+           Message(
+             id: const Uuid().v4(),
+             type: MessageType.notification,
+             severity: MessageSeverity.info,
+             title: '',
+             body: context.l10n.qaAnswerSentSuccess,
+             timestamp: DateTime.now(),
+             language: MessageLocalizationManager.getCurrentLanguage(),
+           ),
+         );
+       }
+     } catch (e) {
+       if (mounted) {
+         AppMessageSnackBar.show(
+           context,
+           Message(
+             id: const Uuid().v4(),
+             type: MessageType.notification,
+             severity: MessageSeverity.error,
+             title: '',
+body: context.l10n.qaErrorWithDetailsMsg(e.toString().replaceFirst('Exception: ', '')),
             timestamp: DateTime.now(),
-            language: 'ru',
-          ),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        AppMessageSnackBar.show(
-          context,
-          Message(
-            id: const Uuid().v4(),
-            type: MessageType.notification,
-            severity: MessageSeverity.error,
-            title: '',
-            body: 'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
-            timestamp: DateTime.now(),
-            language: 'ru',
+            language: MessageLocalizationManager.getCurrentLanguage(),
           ),
         );
       }
@@ -521,18 +523,18 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
       if (mounted) {
-        AppMessageSnackBar.show(
-          context,
-          Message(
-            id: const Uuid().v4(),
-            type: MessageType.notification,
-            severity: MessageSeverity.error,
-            title: '',
-            body: 'Ошибка: вы не авторизованы',
-            timestamp: DateTime.now(),
-            language: 'ru',
-          ),
-        );
+AppMessageSnackBar.show(
+           context,
+           Message(
+             id: const Uuid().v4(),
+             type: MessageType.notification,
+             severity: MessageSeverity.error,
+             title: '',
+             body: context.l10n.notAuthorized,
+             timestamp: DateTime.now(),
+             language: MessageLocalizationManager.getCurrentLanguage(),
+           ),
+         );
       }
       return;
     }
@@ -558,73 +560,73 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             questionText: question.questionText,
             createdAt: question.createdAt,
             isAnswered: true,
-            answer: QuestionAnswer(
-              id: question.answer?.id ?? '',
-              questionId: question.id,
-              supplierId: userId.toString(),
-              supplierName: question.answer?.supplierName ?? 'Поставщик',
-              answerText: newAnswerText,
-              answeredAt: DateTime.now(),
-            ),
-            productName: question.productName,
-            productImage: question.productImage,
-          );
+answer: QuestionAnswer(
+               id: question.answer?.id ?? '',
+               questionId: question.id,
+               supplierId: userId.toString(),
+               supplierName: question.answer?.supplierName ?? context.l10n.supplierDefaultLabel,
+               answerText: newAnswerText,
+               answeredAt: DateTime.now(),
+             ),
+             productName: question.productName,
+             productImage: question.productImage,
+           );
 
-          setState(() {
-            _questions[questionIndex] = updatedQuestion;
-            _questionsById[updatedQuestion.id] = updatedQuestion;
-            _invalidateListItemsCache();
-            _invalidateQuestionsSplitCache();
-          });
-        }
+           setState(() {
+             _questions[questionIndex] = updatedQuestion;
+             _questionsById[updatedQuestion.id] = updatedQuestion;
+             _invalidateListItemsCache();
+             _invalidateQuestionsSplitCache();
+           });
+         }
 
-        AppMessageSnackBar.show(
-          context,
-          Message(
-            id: const Uuid().v4(),
-            type: MessageType.notification,
-            severity: MessageSeverity.info,
-            title: '',
-            body: 'Ответ обновлен успешно',
-            timestamp: DateTime.now(),
-            language: 'ru',
-          ),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        AppMessageSnackBar.show(
-          context,
-          Message(
-            id: const Uuid().v4(),
-            type: MessageType.notification,
-            severity: MessageSeverity.error,
-            title: '',
-            body: 'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
-            timestamp: DateTime.now(),
-            language: 'ru',
-          ),
-        );
-      }
-    }
-  }
+         AppMessageSnackBar.show(
+           context,
+           Message(
+             id: const Uuid().v4(),
+             type: MessageType.notification,
+             severity: MessageSeverity.info,
+             title: '',
+             body: context.l10n.qaAnswerUpdatedSuccess,
+             timestamp: DateTime.now(),
+             language: MessageLocalizationManager.getCurrentLanguage(),
+           ),
+         );
+       }
+     } catch (e) {
+       if (mounted) {
+         AppMessageSnackBar.show(
+           context,
+           Message(
+             id: const Uuid().v4(),
+             type: MessageType.notification,
+             severity: MessageSeverity.error,
+             title: '',
+             body: context.l10n.qaErrorWithDetailsMsg(e.toString().replaceFirst('Exception: ', '')),
+             timestamp: DateTime.now(),
+             language: MessageLocalizationManager.getCurrentLanguage(),
+           ),
+         );
+       }
+     }
+   }
 
-  Future<void> _submitResponse(ReviewEntry review, String responseText) async {
+   Future<void> _submitResponse(ReviewEntry review, String responseText) async {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
       if (mounted) {
-        AppMessageSnackBar.show(
-          context,
-          Message(
-            id: const Uuid().v4(),
-            type: MessageType.notification,
-            severity: MessageSeverity.error,
-            title: '',
-            body: 'Ошибка: вы не авторизованы',
-            timestamp: DateTime.now(),
-            language: 'ru',
-          ),
-        );
+AppMessageSnackBar.show(
+           context,
+           Message(
+             id: const Uuid().v4(),
+             type: MessageType.notification,
+             severity: MessageSeverity.error,
+             title: '',
+             body: context.l10n.notAuthorized,
+             timestamp: DateTime.now(),
+             language: MessageLocalizationManager.getCurrentLanguage(),
+           ),
+         );
       }
       return;
     }
@@ -653,14 +655,14 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             rating: review.rating,
             reviewText: review.reviewText,
             createdAt: review.createdAt,
-            response: ReviewResponse(
-              id: '',
-              reviewId: review.id,
-              supplierId: userId.toString(),
-              supplierName: 'Поставщик',
-              responseText: responseText,
-              respondedAt: DateTime.now(),
-            ),
+response: ReviewResponse(
+               id: '',
+               reviewId: review.id,
+               supplierId: userId.toString(),
+               supplierName: context.l10n.supplierDefaultLabel,
+               responseText: responseText,
+               respondedAt: DateTime.now(),
+             ),
           );
 
           setState(() {
@@ -677,9 +679,9 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             type: MessageType.notification,
             severity: MessageSeverity.info,
             title: '',
-            body: 'Ответ отправлен успешно',
+            body: context.l10n.qaAnswerUpdatedSuccess,
             timestamp: DateTime.now(),
-            language: 'ru',
+            language: MessageLocalizationManager.getCurrentLanguage(),
           ),
         );
       }
@@ -692,9 +694,9 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             type: MessageType.notification,
             severity: MessageSeverity.error,
             title: '',
-            body: 'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
+            body: context.l10n.qaErrorWithDetailsMsg(e.toString().replaceFirst('Exception: ', '')),
             timestamp: DateTime.now(),
-            language: 'ru',
+            language: MessageLocalizationManager.getCurrentLanguage(),
           ),
         );
       }
@@ -712,9 +714,9 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             type: MessageType.notification,
             severity: MessageSeverity.error,
             title: '',
-            body: 'Ошибка: вы не авторизованы',
+            body: context.l10n.notAuthorized,
             timestamp: DateTime.now(),
-            language: 'ru',
+            language: MessageLocalizationManager.getCurrentLanguage(),
           ),
         );
       }
@@ -749,7 +751,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
               id: review.response?.id ?? '',
               reviewId: review.id,
               supplierId: userId.toString(),
-              supplierName: review.response?.supplierName ?? 'Поставщик',
+              supplierName: review.response?.supplierName ?? context.l10n.supplierDefaultLabel,
               responseText: newResponseText,
               respondedAt: DateTime.now(),
             ),
@@ -769,9 +771,9 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             type: MessageType.notification,
             severity: MessageSeverity.info,
             title: '',
-            body: 'Ответ обновлен успешно',
+            body: context.l10n.qaAnswerUpdatedSuccess,
             timestamp: DateTime.now(),
-            language: 'ru',
+            language: MessageLocalizationManager.getCurrentLanguage(),
           ),
         );
       }
@@ -784,9 +786,9 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             type: MessageType.notification,
             severity: MessageSeverity.error,
             title: '',
-            body: 'Ошибка: ${e.toString().replaceFirst('Exception: ', '')}',
+            body: context.l10n.qaErrorWithDetailsMsg(e.toString().replaceFirst('Exception: ', '')),
             timestamp: DateTime.now(),
-            language: 'ru',
+            language: MessageLocalizationManager.getCurrentLanguage(),
           ),
         );
       }
@@ -850,7 +852,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
                 IconButton(
                   onPressed: () => Navigator.pop(context),
                   icon: Icon(Icons.arrow_back, color: palette.ink),
-                  tooltip: 'Назад',
+                  tooltip: context.l10n.back,
                   style: IconButton.styleFrom(
                     minimumSize: const Size(32, 32),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -862,19 +864,19 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Q&A',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        color: palette.ink,
-                      ),
-                    ),
+Text(
+                       context.l10n.qaTitle,
+                       style: TextStyle(
+                         fontSize: 22,
+                         fontWeight: FontWeight.w700,
+                         color: palette.ink,
+                       ),
+                     ),
                     if (_unansweredCount > 0)
-                      Text(
-                        'Без ответов: $_unansweredCount',
-                        style: TextStyle(fontSize: 12, color: palette.muted),
-                      ),
+Text(
+                         context.l10n.unansweredQuestions(_unansweredCount),
+                         style: TextStyle(fontSize: 12, color: palette.muted),
+                       ),
                   ],
                 ),
               ),
@@ -882,7 +884,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
                 onPressed: () => _loadData(),
                 icon: const Icon(Icons.refresh),
                 color: palette.accent,
-                tooltip: 'Обновить',
+                tooltip: context.l10n.retry,
                 style: IconButton.styleFrom(
                   minimumSize: const Size(32, 32),
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -896,16 +898,16 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             width: double.infinity,
             child: SegmentedButton<_TabType>(
               segments: [
-                ButtonSegment(
-                  value: _TabType.questions,
-                  label: Text('Вопросы'),
-                  icon: const Icon(Icons.help_outline),
-                ),
-                ButtonSegment(
-                  value: _TabType.reviews,
-                  label: Text('Отзывы'),
-                  icon: const Icon(Icons.star_outline),
-                ),
+ButtonSegment(
+                       value: _TabType.questions,
+                       label: Text(context.l10n.qaQuestionsTab),
+                       icon: const Icon(Icons.help_outline),
+                     ),
+                     ButtonSegment(
+                       value: _TabType.reviews,
+                       label: Text(context.l10n.qaReviewsTab),
+                       icon: const Icon(Icons.star_outline),
+                     ),
               ],
               selected: {_selectedTab},
               onSelectionChanged: (Set<_TabType> newSelection) {
@@ -940,13 +942,13 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
             children: [
-              _buildErrorBanner(_errorMessage ?? 'Неизвестная ошибка', palette),
+              _buildErrorBanner(_errorMessage ?? context.l10n.unknownError, palette),
               const SizedBox(height: 24),
               Center(
                 child: FilledButton.icon(
                   onPressed: () => _loadData(),
                   icon: const Icon(Icons.refresh),
-                  label: const Text('Повторить'),
+                  label: Text(context.l10n.qaRetry),
                   style: FilledButton.styleFrom(
                     backgroundColor: palette.accent,
                   ),
@@ -986,9 +988,9 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
     }
   }
 
-  /// Формирует плоский список типизированных элементов для текущей вкладки.
-  /// Разделение на типы позволяет itemBuilder строить виджеты лениво.
-  List<_QAListItem> _buildListItems() {
+/// Формирует плоский список типизированных элементов для текущей вкладки.
+   /// Разделение на типы позволяет itemBuilder строить виджеты лениво.
+   List<_QAListItem> _buildListItems() {
     final items = <_QAListItem>[];
 
     if (_selectedTab == _TabType.questions) {
@@ -996,7 +998,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
       final answered = _answeredQuestions;
 
       if (unanswered.isNotEmpty) {
-        items.add(_SectionHeaderItem('Вопросы без ответов', unanswered.length));
+        items.add(_SectionHeaderItem(context.l10n.qaQuestionsWithoutAnswers, unanswered.length));
         for (final q in unanswered) {
           items.add(_QuestionItem(q));
         }
@@ -1008,16 +1010,16 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
       }
 
       if (unanswered.isEmpty && answered.isEmpty) {
-        items.add(const _EmptyTabItem('Нет вопросов'));
+        items.add(_EmptyTabItem(context.l10n.qaNoQuestions));
       }
     } else {
       if (_reviews.isNotEmpty) {
-        items.add(_SectionHeaderItem('Отзывы', _reviews.length));
+        items.add(_SectionHeaderItem(context.l10n.qaReviewsTab, _reviews.length));
         for (final r in _reviews) {
           items.add(_ReviewItem(r));
         }
       } else {
-        items.add(const _EmptyTabItem('Нет отзывов'));
+        items.add(_EmptyTabItem(context.l10n.qaNoReviews));
       }
     }
 
@@ -1045,24 +1047,24 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
         padding: const EdgeInsets.only(bottom: 12),
         child: _buildReviewCard(review, palette),
       ),
-      _AnsweredButtonItem(:final answeredQuestions) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: SizedBox(
-          width: double.infinity,
-          child: FilledButton.icon(
-            onPressed: () => _navigateToAnsweredQuestions(answeredQuestions),
-            style: FilledButton.styleFrom(
-              backgroundColor: palette.accent,
-              padding: const EdgeInsets.symmetric(vertical: 12),
-            ),
-            icon: const Icon(Icons.check_circle_outline),
-            label: Text(
-              'Отвеченные вопросы (${answeredQuestions.length})',
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-            ),
-          ),
-        ),
-      ),
+_AnsweredButtonItem(:final answeredQuestions) => Padding(
+         padding: const EdgeInsets.symmetric(vertical: 12),
+         child: SizedBox(
+           width: double.infinity,
+           child: FilledButton.icon(
+             onPressed: () => _navigateToAnsweredQuestions(answeredQuestions),
+             style: FilledButton.styleFrom(
+               backgroundColor: palette.accent,
+               padding: const EdgeInsets.symmetric(vertical: 12),
+             ),
+             icon: const Icon(Icons.check_circle_outline),
+             label: Text(
+               context.l10n.qaAnsweredQuestions,
+               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+             ),
+           ),
+         ),
+       ),
       _EmptyTabItem(:final message) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 24),
         child: Center(
@@ -1161,102 +1163,106 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
                   ],
                 ),
               ),
-              if (!question.isAnswered)
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: palette.error.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    'Без ответа',
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                      color: palette.error,
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ExpandableTextBlock(
-            question.questionText.trim().isEmpty
-                ? 'Без текста'
-                : question.questionText.trim(),
-            textStyle: TextStyle(fontSize: 14, color: palette.ink, height: 1.4),
-            actionColor: palette.accent,
-            collapsedMaxLines: 3,
-            moreLabel: 'Подробнее',
-            lessLabel: 'Свернуть',
-          ),
-          if (question.isAnswered && question.answer != null) ...[
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: palette.accentMist,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: palette.line.withValues(alpha: 0.3)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.store_rounded,
-                        size: 14,
-                        color: palette.accent,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        'Ответ продавца',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 11,
-                          color: palette.accent,
+if (!question.isAnswered)
+                 Container(
+                   padding: const EdgeInsets.symmetric(
+                     horizontal: 8,
+                     vertical: 4,
+                   ),
+                   decoration: BoxDecoration(
+                     color: palette.error.withValues(alpha: 0.1),
+                     borderRadius: BorderRadius.circular(6),
+                   ),
+                   child: Text(
+                     context.l10n.qaWithoutAnswer,
+                     style: TextStyle(
+                       fontSize: 10,
+                       fontWeight: FontWeight.w600,
+                       color: palette.error,
+                     ),
+                   ),
+                 ),
+               ],
+             ),
+             const SizedBox(height: 12),
+ExpandableTextBlock(
+                          question.questionText.trim().isEmpty
+                              ? context.l10n.qaNoText
+                              : question.questionText.trim(),
+                          textStyle: TextStyle(
+                            fontSize: 14,
+                            color: palette.ink,
+                            height: 1.4,
+                          ),
+                          actionColor: palette.accent,
+                          collapsedMaxLines: 3,
+                          moreLabel: context.l10n.qaExpand,
+                          lessLabel: context.l10n.qaCollapse,
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  ExpandableTextBlock(
-                    question.answer!.answerText,
-                    textStyle: TextStyle(
-                      fontSize: 13,
-                      color: palette.ink,
-                      height: 1.4,
-                    ),
-                    actionColor: palette.accent,
-                    collapsedMaxLines: 2,
-                    moreLabel: 'Подробнее',
-                    lessLabel: 'Свернуть',
-                  ),
-                ],
-              ),
-            ),
-          ] else if (!question.isAnswered) ...[
-            const SizedBox(height: 12),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton.icon(
-                onPressed: () => _showAnswerModal(question),
-                style: FilledButton.styleFrom(
-                  backgroundColor: palette.accent,
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                ),
-                icon: const Icon(Icons.reply, size: 16),
-                label: const Text('Ответить'),
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
+             if (question.isAnswered && question.answer != null) ...[
+               const SizedBox(height: 12),
+               Container(
+                 padding: const EdgeInsets.all(12),
+                 decoration: BoxDecoration(
+                   color: palette.accentMist,
+                   borderRadius: BorderRadius.circular(8),
+                   border: Border.all(color: palette.line.withValues(alpha: 0.3)),
+                 ),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                     Row(
+                       children: [
+                         Icon(
+                           Icons.store_rounded,
+                           size: 14,
+                           color: palette.accent,
+                         ),
+                         const SizedBox(width: 6),
+                         Text(
+                           context.l10n.qaSellerAnswer,
+                           style: TextStyle(
+                             fontWeight: FontWeight.w600,
+                             fontSize: 11,
+                             color: palette.accent,
+                           ),
+                         ),
+                       ],
+                     ),
+                     const SizedBox(height: 8),
+                     ExpandableTextBlock(
+                       question.answer!.answerText,
+                       textStyle: TextStyle(
+                         fontSize: 13,
+                         color: palette.ink,
+                         height: 1.4,
+                       ),
+                       actionColor: palette.accent,
+                       collapsedMaxLines: 3,
+                       moreLabel: context.l10n.qaExpand,
+                       lessLabel: context.l10n.qaCollapse,
+                       ),
+                     ],
+                   ),
+                 ),
+               ] else if (!question.isAnswered) ...[
+                         const SizedBox(height: 12),
+                         SizedBox(
+                           width: double.infinity,
+                           child: FilledButton.icon(
+                             onPressed: () => _showAnswerModal(question),
+                             style: FilledButton.styleFrom(
+                               backgroundColor: palette.accent,
+                               padding: const EdgeInsets.symmetric(vertical: 10),
+                             ),
+                             icon: const Icon(Icons.reply, size: 16),
+                             label: Text(context.l10n.qaRespond),
+                           ),
+                         ),
+                       ],
+                     ],
+                   ),
+                 );
   }
 
   Widget _buildReviewCard(ReviewEntry review, AppColorPalette palette) {
@@ -1313,77 +1319,77 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
             ],
           ),
           const SizedBox(height: 12),
-          ExpandableTextBlock(
-            review.reviewText.trim().isEmpty
-                ? 'Без текста'
-                : review.reviewText.trim(),
-            textStyle: TextStyle(fontSize: 14, color: palette.ink, height: 1.4),
-            actionColor: palette.accent,
-            collapsedMaxLines: 3,
-            moreLabel: 'Подробнее',
-            lessLabel: 'Свернуть',
-          ),
-          if (review.response != null) ...[
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: palette.accentMist,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: palette.line.withValues(alpha: 0.3)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.store_rounded,
-                        size: 14,
-                        color: palette.accent,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        'Ответ продавца',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 11,
-                          color: palette.accent,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  ExpandableTextBlock(
-                    review.response!.responseText,
-                    textStyle: TextStyle(
-                      fontSize: 13,
-                      color: palette.ink,
-                      height: 1.4,
-                    ),
-                    actionColor: palette.accent,
-                    collapsedMaxLines: 2,
-                    moreLabel: 'Подробнее',
-                    lessLabel: 'Свернуть',
-                  ),
-                ],
-              ),
-            ),
-          ] else ...[
-            const SizedBox(height: 12),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton.icon(
-                onPressed: () => _showResponseModal(review),
-                style: FilledButton.styleFrom(
-                  backgroundColor: palette.accent,
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                ),
-                icon: const Icon(Icons.reply, size: 16),
-                label: const Text('Ответить'),
-              ),
-            ),
-          ],
+ExpandableTextBlock(
+             review.reviewText.trim().isEmpty
+                 ? context.l10n.qaNoText
+                 : review.reviewText.trim(),
+             textStyle: TextStyle(fontSize: 14, color: palette.ink, height: 1.4),
+             actionColor: palette.accent,
+             collapsedMaxLines: 3,
+             moreLabel: context.l10n.qaExpand,
+             lessLabel: context.l10n.qaCollapse,
+           ),
+           if (review.response != null) ...[
+             const SizedBox(height: 12),
+             Container(
+               padding: const EdgeInsets.all(12),
+               decoration: BoxDecoration(
+                 color: palette.accentMist,
+                 borderRadius: BorderRadius.circular(8),
+                 border: Border.all(color: palette.line.withValues(alpha: 0.3)),
+               ),
+               child: Column(
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                 children: [
+                   Row(
+                     children: [
+                       Icon(
+                         Icons.store_rounded,
+                         size: 14,
+                         color: palette.accent,
+                       ),
+                       const SizedBox(width: 6),
+                       Text(
+                         context.l10n.qaSellerAnswer,
+                         style: TextStyle(
+                           fontWeight: FontWeight.w600,
+                           fontSize: 11,
+                           color: palette.accent,
+                         ),
+                       ),
+                     ],
+                   ),
+                   const SizedBox(height: 8),
+                   ExpandableTextBlock(
+                     review.response!.responseText,
+                     textStyle: TextStyle(
+                       fontSize: 13,
+                       color: palette.ink,
+                       height: 1.4,
+                     ),
+                     actionColor: palette.accent,
+                     collapsedMaxLines: 2,
+                     moreLabel: context.l10n.qaExpand,
+                     lessLabel: context.l10n.qaCollapse,
+                   ),
+                 ],
+               ),
+             ),
+           ] else ...[
+             const SizedBox(height: 12),
+             SizedBox(
+               width: double.infinity,
+               child: FilledButton.icon(
+                 onPressed: () => _showResponseModal(review),
+                 style: FilledButton.styleFrom(
+                   backgroundColor: palette.accent,
+                   padding: const EdgeInsets.symmetric(vertical: 10),
+                 ),
+                 icon: const Icon(Icons.reply, size: 16),
+                 label: Text(context.l10n.qaRespond),
+               ),
+             ),
+           ],
         ],
       ),
     );
@@ -1428,7 +1434,7 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
           ),
           const SizedBox(height: 16),
           Text(
-            _selectedTab == _TabType.questions ? 'Нет вопросов' : 'Нет отзывов',
+            _selectedTab == _TabType.questions ? context.l10n.qaNoQuestions : context.l10n.qaNoReviews,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -1438,8 +1444,8 @@ class _SupplierQAPageState extends State<SupplierQAPage> {
           const SizedBox(height: 8),
           Text(
             _selectedTab == _TabType.questions
-                ? 'Покупатели еще не задавали вопросы'
-                : 'Покупатели еще не оставляли отзывы',
+                ? context.l10n.qaCustomersNoQuestions
+                : context.l10n.qaCustomersNoReviews,
             style: TextStyle(fontSize: 13, color: palette.muted),
           ),
         ],
@@ -1476,7 +1482,7 @@ class _AnsweredQuestionsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: palette.card,
         title: Text(
-          'Отвеченные вопросы',
+          context.l10n.qaAnsweredQuestions,
           style: TextStyle(color: palette.ink, fontWeight: FontWeight.w700),
         ),
         leading: IconButton(
@@ -1555,41 +1561,41 @@ class _AnsweredQuestionsPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: palette.success.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
-                              'Отвечено',
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                                color: palette.success,
-                              ),
-                            ),
+Container(
+                             padding: const EdgeInsets.symmetric(
+                               horizontal: 8,
+                               vertical: 4,
+                             ),
+                             decoration: BoxDecoration(
+                               color: palette.success.withValues(alpha: 0.1),
+                               borderRadius: BorderRadius.circular(6),
+                             ),
+                             child: Text(
+                               context.l10n.answeredLabel,
+                               style: TextStyle(
+                                 fontSize: 10,
+                                 fontWeight: FontWeight.w600,
+                                 color: palette.success,
+                               ),
+                             ),
+                           ),
+                         ],
+                       ),
+                       const SizedBox(height: 12),
+ExpandableTextBlock(
+                          question.questionText.trim().isEmpty
+                              ? context.l10n.qaNoText
+                              : question.questionText.trim(),
+                          textStyle: TextStyle(
+                            fontSize: 14,
+                            color: palette.ink,
+                            height: 1.4,
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      ExpandableTextBlock(
-                        question.questionText.trim().isEmpty
-                            ? 'Без текста'
-                            : question.questionText.trim(),
-                        textStyle: TextStyle(
-                          fontSize: 14,
-                          color: palette.ink,
-                          height: 1.4,
+                          actionColor: palette.accent,
+                          collapsedMaxLines: 3,
+                          moreLabel: context.l10n.qaExpand,
+                          lessLabel: context.l10n.qaCollapse,
                         ),
-                        actionColor: palette.accent,
-                        collapsedMaxLines: 3,
-                        moreLabel: 'Подробнее',
-                        lessLabel: 'Свернуть',
-                      ),
                       if (question.answer != null) ...[
                         const SizedBox(height: 12),
                         Container(
@@ -1612,29 +1618,29 @@ class _AnsweredQuestionsPage extends StatelessWidget {
                                     color: palette.accent,
                                   ),
                                   const SizedBox(width: 6),
-                                  Text(
-                                    'Ответ продавца',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 11,
-                                      color: palette.accent,
-                                    ),
-                                  ),
+Text(
+                                     context.l10n.qaSellerAnswer,
+                                     style: TextStyle(
+                                       fontWeight: FontWeight.w600,
+                                       fontSize: 11,
+                                       color: palette.accent,
+                                     ),
+                                   ),
                                 ],
                               ),
                               const SizedBox(height: 8),
-                              ExpandableTextBlock(
-                                question.answer!.answerText,
-                                textStyle: TextStyle(
-                                  fontSize: 13,
-                                  color: palette.ink,
-                                  height: 1.4,
-                                ),
-                                actionColor: palette.accent,
-                                collapsedMaxLines: 2,
-                                moreLabel: 'Подробнее',
-                                lessLabel: 'Свернуть',
-                              ),
+ExpandableTextBlock(
+                                 question.answer!.answerText,
+                                 textStyle: TextStyle(
+                                   fontSize: 13,
+                                   color: palette.ink,
+                                   height: 1.4,
+                                 ),
+                                 actionColor: palette.accent,
+                                 collapsedMaxLines: 2,
+                                 moreLabel: context.l10n.qaExpand,
+                                 lessLabel: context.l10n.qaCollapse,
+                               ),
                             ],
                           ),
                         ),

@@ -6,6 +6,7 @@ import '../models/message.dart';
 import '../models/user_address.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
+import '../services/message/message_localization.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import 'package:flutter_project/profile/address_page.dart';
 
@@ -216,7 +217,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
       title: '',
       body: message,
       timestamp: DateTime.now(),
-      language: 'ru',
+      language: MessageLocalizationManager.getCurrentLanguage(),
     );
     AppMessageSnackBar.show(context, msg);
   }

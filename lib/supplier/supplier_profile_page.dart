@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
+import '../services/localization/localization_extension.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/logout_flow.dart';
 import '../widgets/profile/user_avatar.dart';
@@ -38,12 +39,13 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
   @override
   Widget build(BuildContext context) {
     final palette = AppColorPalette.of(context);
+    final l10n = context.l10n;
     final name = AuthStorage.name ?? 'Поставщик';
     final email = AuthStorage.email ?? '-';
     final supplierName = AuthStorage.supplierName ?? '-';
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Профиль поставщика')),
+      appBar: AppBar(title: Text(l10n.supplierProfileTitle)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
