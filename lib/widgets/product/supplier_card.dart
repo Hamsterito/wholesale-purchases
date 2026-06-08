@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/product.dart';
+import '../../services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../../utils/delivery_schedule.dart';
 import '../../utils/rating_format.dart';
@@ -25,7 +26,7 @@ class SupplierCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final totalPrice = supplier.pricePerUnit * quantity;
     final palette = context.colorPalette;
-    final deliveryText = _resolveDeliveryText();
+    final deliveryText = _resolveDeliveryText(context);
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -80,73 +81,73 @@ class SupplierCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              SizedBox(
-                height: 32,
-                child: ElevatedButton(
-                  onPressed: onSelect,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isSelected
-                        ? palette.success
-                        : palette.accent,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+SizedBox(
+                  height: 32,
+                  child: ElevatedButton(
+                    onPressed: onSelect,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isSelected
+                          ? palette.success
+                          : palette.accent,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      elevation: 0,
                     ),
-                    elevation: 0,
+                    child: Text(
+                      isSelected ? context.l10n.supplierSelected : context.l10n.supplierSelect,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 8),
+Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  '${supplier.pricePerUnit} \u20B8',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: palette.ink,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Text(context.l10n.supplierUnitShort, style: TextStyle(fontSize: 12, color: palette.muted)),
+              ],
+            ),
+          const SizedBox(height: 6),
+Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: palette.accentSoft,
+                    borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    isSelected ? 'Выбран' : 'Выбрать',
-                    style: const TextStyle(
-                      fontSize: 13,
+                    '$totalPrice \u20B8',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: palette.accent,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                '${supplier.pricePerUnit} \u20B8',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: palette.ink,
+                const SizedBox(width: 8),
+                Text(
+                  '$quantity ${context.l10n.supplierUnitShort}.',
+                  style: TextStyle(fontSize: 12, color: palette.muted),
                 ),
-              ),
-              const SizedBox(width: 4),
-              Text('шт', style: TextStyle(fontSize: 12, color: palette.muted)),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: palette.accentSoft,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  '$totalPrice \u20B8',
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: palette.accent,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                '$quantity шт.',
-                style: TextStyle(fontSize: 12, color: palette.muted),
-              ),
-            ],
-          ),
+              ],
+            ),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -171,7 +172,7 @@ class SupplierCard extends StatelessWidget {
 
   // Формируем текст доставки: предпочитаем расчётный из DeliverySchedule;
   // если строка не парсится - показываем deliveryInfo и старую строку.
-  String _resolveDeliveryText() {
+  String _resolveDeliveryText(BuildContext context) {
     final raw = supplier.deliveryDate.trim().isNotEmpty
         ? supplier.deliveryDate
         : supplier.deliveryBadge;
@@ -183,7 +184,7 @@ class SupplierCard extends StatelessWidget {
     }
     final fallback = raw.trim();
     final info = supplier.deliveryInfo.trim();
-    if (info.isEmpty && fallback.isEmpty) return 'Доставка';
+    if (info.isEmpty && fallback.isEmpty) return context.l10n.supplierDeliveryDefault;
     if (info.isEmpty) return fallback;
     if (fallback.isEmpty) return info;
     return '$info, $fallback';

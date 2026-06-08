@@ -671,30 +671,29 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     final message = isEdit
         ? 'Изменения будут отправлены на модерацию. Текущая версия товара останется активной до проверки.'
         : 'Товар будет отправлен на модерацию. Покупатели увидят его после проверки.';
-    final confirmLabel = isEdit ? 'Сохранить' : 'Создать';
-
-    return showDialog<bool>(
-      context: context,
-      builder: (dialogContext) {
-        final palette = context.colorPalette;
-        return AlertDialog(
-          backgroundColor: palette.card,
-          title: Text(title),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('Отмена'),
-            ),
-            FilledButton(
-              onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: Text(confirmLabel),
-            ),
-          ],
-        );
-      },
-    );
-  }
+    final confirmLabel = isEdit ? context.l10n.save : 'Создать';
+     return showDialog<bool>(
+       context: context,
+       builder: (dialogContext) {
+         final palette = context.colorPalette;
+         return AlertDialog(
+           backgroundColor: palette.card,
+           title: Text(title),
+           content: Text(message),
+           actions: [
+             TextButton(
+               onPressed: () => Navigator.of(dialogContext).pop(false),
+               child: Text(context.l10n.cancel),
+             ),
+             FilledButton(
+               onPressed: () => Navigator.of(dialogContext).pop(true),
+               child: Text(confirmLabel),
+             ),
+           ],
+         );
+       },
+     );
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -749,7 +748,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  child: const Text('Назад'),
+                  child: Text(context.l10n.backTooltip),
                 ),
               ),
               const SizedBox(width: 12),
@@ -764,8 +763,8 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                     ),
                   ),
                   child: _step == _totalSteps - 1
-                      ? const Text('Сохранить')
-                      : const Text('Далее'),
+                      ? Text(context.l10n.save)
+                      : Text(context.l10n.next),
                 ),
               ),
             ],
@@ -1321,7 +1320,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             runSpacing: 8,
             children: [
               ChoiceChip(
-                label: const Text('Будни'),
+                label: Text(context.l10n.productWeekdays),
                 selected: _isPresetSelected(_workdayPreset),
                 onSelected: (selected) {
                   if (!selected) {
@@ -1331,7 +1330,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                 },
               ),
               ChoiceChip(
-                label: const Text('Выходные'),
+                label: Text(context.l10n.productWeekend),
                 selected: _isPresetSelected(_weekendPreset),
                 onSelected: (selected) {
                   if (!selected) {
@@ -1341,7 +1340,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                 },
               ),
               ChoiceChip(
-                label: const Text('Ежедневно'),
+                label: Text(context.l10n.productEveryday),
                 selected: _isPresetSelected(_weekdayOrder),
                 onSelected: (selected) {
                   if (!selected) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../profile/user_avatar.dart';
 
@@ -473,27 +474,27 @@ String _formatHm(DateTime dt) {
 
 /// Локализованная подпись разделителя дня. intl в зависимостях нет, поэтому
 /// используем ручную таблицу русских месяцев в родительном падеже.
-String _formatDayLabel(DateTime day, DateTime now) {
-  const months = <String>[
-    'января',
-    'февраля',
-    'марта',
-    'апреля',
-    'мая',
-    'июня',
-    'июля',
-    'августа',
-    'сентября',
-    'октября',
-    'ноября',
-    'декабря',
+String _formatDayLabel(DateTime day, DateTime now, BuildContext context) {
+  final months = <String>[
+    context.l10n.monthJanuary,
+    context.l10n.monthFebruary,
+    context.l10n.monthMarch,
+    context.l10n.monthApril,
+    context.l10n.monthMay,
+    context.l10n.monthJune,
+    context.l10n.monthJuly,
+    context.l10n.monthAugust,
+    context.l10n.monthSeptember,
+    context.l10n.monthOctober,
+    context.l10n.monthNovember,
+    context.l10n.monthDecember,
   ];
   final local = day.toLocal();
   final today = DateTime(now.year, now.month, now.day);
   final yesterday = today.subtract(const Duration(days: 1));
   final that = DateTime(local.year, local.month, local.day);
-  if (that == today) return 'Сегодня';
-  if (that == yesterday) return 'Вчера';
+  if (that == today) return context.l10n.chatToday;
+  if (that == yesterday) return context.l10n.chatYesterday;
   return '${local.day} ${months[local.month - 1]} ${local.year}';
 }
 
@@ -515,7 +516,7 @@ class _DaySeparator extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
-            _formatDayLabel(day, DateTime.now()),
+            _formatDayLabel(day, DateTime.now(), context),
             style: TextStyle(
               fontSize: 12,
               color: cs.onSurfaceVariant,
@@ -663,7 +664,7 @@ class _DeliveryIcon extends StatelessWidget {
             iconSize: 18,
             padding: EdgeInsets.zero,
             visualDensity: VisualDensity.compact,
-            tooltip: 'Повторить отправку',
+            tooltip: context.l10n.chatRetrySend,
             onPressed: onRetry,
             icon: Icon(Icons.error_outline, color: colorScheme.error),
           ),
@@ -726,7 +727,7 @@ class _EmptyState extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              'Сообщений пока нет',
+              context.l10n.chatEmptyTitle,
               style: TextStyle(
                 color: colorScheme.onSurface,
                 fontSize: 16,
@@ -735,7 +736,7 @@ class _EmptyState extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              'Напишите первое сообщение${counterpartName.isNotEmpty ? ' - $counterpartName ответит здесь' : ''}',
+              '${context.l10n.chatEmptyHint}${counterpartName.isNotEmpty ? ' - $counterpartName ${context.l10n.chatBuyerDefault}' : ''}',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: colorScheme.onSurfaceVariant,
@@ -772,7 +773,7 @@ class _ErrorState extends StatelessWidget {
               style: TextStyle(color: colorScheme.onSurface, fontSize: 14),
             ),
             const SizedBox(height: 12),
-            ElevatedButton(onPressed: onRetry, child: const Text('Повторить')),
+            ElevatedButton(onPressed: onRetry, child: Text(context.l10n.retry)),
           ],
         ),
       ),

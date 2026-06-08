@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/question.dart';
+import '../../services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../expandable_text_block.dart';
 import '../profile/user_avatar.dart';
@@ -71,19 +72,19 @@ class QuestionCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          ExpandableTextBlock(
-            questionText,
-            textStyle: TextStyle(
-              fontSize: 15,
-              color: palette.ink,
-              height: 1.4,
-              fontWeight: FontWeight.w500,
-            ),
-            actionColor: palette.accent,
-            collapsedMaxLines: 3,
-            moreLabel: 'Подробнее',
-            lessLabel: 'Свернуть',
-          ),
+ExpandableTextBlock(
+             questionText,
+             textStyle: TextStyle(
+               fontSize: 15,
+               color: palette.ink,
+               height: 1.4,
+               fontWeight: FontWeight.w500,
+             ),
+             actionColor: palette.accent,
+             collapsedMaxLines: 3,
+             moreLabel: context.l10n.qaExpand,
+             lessLabel: context.l10n.qaCollapse,
+           ),
           if (question.answer != null) ...[
             const SizedBox(height: 12),
             Container(
@@ -123,19 +124,19 @@ class QuestionCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  ExpandableTextBlock(
-                    question.answer!.answerText,
-                    textStyle: TextStyle(
-                      fontSize: 15,
-                      color: palette.ink,
-                      height: 1.4,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    actionColor: palette.accent,
-                    collapsedMaxLines: 3,
-                    moreLabel: 'Подробнее',
-                    lessLabel: 'Свернуть',
-                  ),
+ExpandableTextBlock(
+                     question.answer!.answerText,
+                     textStyle: TextStyle(
+                       fontSize: 15,
+                       color: palette.ink,
+                       height: 1.4,
+                       fontWeight: FontWeight.w500,
+                     ),
+                     actionColor: palette.accent,
+                     collapsedMaxLines: 3,
+                     moreLabel: context.l10n.qaExpand,
+                     lessLabel: context.l10n.qaCollapse,
+                   ),
                 ],
               ),
             ),

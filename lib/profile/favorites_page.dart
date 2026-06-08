@@ -3,6 +3,7 @@ import '../models/product.dart';
 import '../pages/product_detail_page.dart';
 import '../pages/supplier_profile_page.dart';
 import '../services/store/favorites_store.dart';
+import '../services/localization/localization_extension.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/product/product_card.dart';
@@ -74,13 +75,13 @@ class _FavoritesPageState extends State<FavoritesPage>
             Tab(
               child: Semantics(
                 label: 'Вкладка избранные товары',
-                child: const Text('Товары'),
+                child: Text(context.l10n.favoritesTabProducts),
               ),
             ),
             Tab(
               child: Semantics(
                 label: 'Вкладка избранные компании',
-                child: const Text('Компании'),
+                child: Text(context.l10n.favoritesTabCompanies),
               ),
             ),
           ],

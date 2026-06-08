@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../services/api/two_factor_api.dart';
+import '../../services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../../widgets/messages/top_message.dart';
 
@@ -100,21 +101,21 @@ class _TwoFactorAdminDisableTileState extends State<TwoFactorAdminDisableTile> {
         final dialogPalette = dialogContext.colorPalette;
         return AlertDialog(
           backgroundColor: dialogPalette.card,
-          title: const Text('Отключить 2FA?'),
-          content: Text(confirmText),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('Отмена'),
-            ),
-            FilledButton(
-              style: FilledButton.styleFrom(
-                backgroundColor: dialogPalette.error,
-                foregroundColor: Colors.white,
-              ),
-              onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text('Отключить'),
-            ),
+title: Text(context.l10n.twoFactorDisableTitle),
+           content: Text(confirmText),
+           actions: [
+             TextButton(
+               onPressed: () => Navigator.of(dialogContext).pop(false),
+               child: Text(context.l10n.cancel),
+             ),
+             FilledButton(
+               style: FilledButton.styleFrom(
+                 backgroundColor: dialogPalette.error,
+                 foregroundColor: Colors.white,
+               ),
+               onPressed: () => Navigator.of(dialogContext).pop(true),
+               child: Text(context.l10n.twoFactorDisableButton),
+             ),
           ],
         );
       },

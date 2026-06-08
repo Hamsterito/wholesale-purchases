@@ -7,6 +7,7 @@ import '../theme/app_color_palette.dart';
 import '../widgets/product/product_card.dart';
 import '../widgets/smooth_sheet.dart';
 import '../services/api/api_service.dart';
+import '../services/localization/localization_extension.dart';
 import '../utils/search_normalizer.dart';
 import '../utils/auto_refresh.dart';
 import 'product_detail_page.dart';
@@ -80,7 +81,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
   int _selectedTabIndex = 0;
-  List<String> _tabs = ['Все'];
+  List<String> _tabs = [];
   Map<String, Set<String>> _mainCategoryAliases = {};
   List<Product> _products = [];
   List<Product> _filteredProducts = [];
@@ -136,8 +137,8 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
       final tree = await ApiService.getCatalogCategoryTree();
       if (!mounted) return;
 
-      final tabs = <String>['Все'];
-      final seenMain = <String>{'все'};
+      final tabs = <String>[context.l10n.homeAllTab];
+      final seenMain = <String>{'все', 'all', 'барлығы'};
       final aliasesByMain = <String, Set<String>>{};
 
       for (final row in tree) {
@@ -178,7 +179,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
       final selectedLabel =
           (_selectedTabIndex >= 0 && _selectedTabIndex < _tabs.length)
           ? _tabs[_selectedTabIndex]
-          : 'Все';
+          : context.l10n.homeAllTab;
       final nextSelectedIndex = tabs.indexOf(selectedLabel);
 
       setState(() {
@@ -265,7 +266,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
             Icon(Icons.error_outline, size: 64, color: _mutedText),
             const SizedBox(height: 16),
             Text(
-              _errorMessage!,
+              context.l10n.homeLoadingError(_errorMessage!),
               style: TextStyle(color: _mutedText),
               textAlign: TextAlign.center,
             ),
@@ -275,7 +276,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.colorPalette.accent,
               ),
-              child: const Text('Повторить'),
+              child: Text(context.l10n.retry),
             ),
           ],
         ),
@@ -285,7 +286,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
     if (_filteredProducts.isEmpty) {
       return Center(
         child: Text(
-          'Товары не найдены',
+          context.l10n.homeNoProducts,
           style: TextStyle(color: _mutedText, fontSize: 16),
         ),
       );
@@ -295,6 +296,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
   }
 
   Widget _buildHeader() {
+    final l10n = context.l10n;
     return Container(
       color: _cardBg,
       padding: const EdgeInsets.all(16),
@@ -302,7 +304,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
         children: [
           Expanded(
             child: Text(
-              'Главная',
+              l10n.homeTitle,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -317,6 +319,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
   }
 
   Widget _buildSearchBar() {
+    final l10n = context.l10n;
     return Container(
       color: _cardBg,
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -326,7 +329,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
         textInputAction: TextInputAction.search,
         onChanged: _onSearchChanged,
         decoration: InputDecoration(
-          hintText: 'Поиск...',
+          hintText: l10n.search,
           hintStyle: TextStyle(color: _mutedText),
           prefixIcon: Icon(Icons.search, color: _mutedText),
           suffixIcon: _searchQuery.isEmpty
@@ -747,7 +750,8 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) {
+      builder: (innerContext) {
+        final innerL10n = innerContext.l10n;
         RangeValues priceRange = initialRange;
         double minRating = initialRating;
         bool maxUnlimited = initialMaxUnlimited;
@@ -792,8 +796,8 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      const Text(
-                        'Фильтры',
+                      Text(
+                        innerL10n.filtersSheetTitle,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
@@ -812,16 +816,16 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                             toController.text = '';
                           });
                         },
-                        child: const Text('Сбросить'),
+                        child: Text(innerL10n.filtersResetButton),
                       ),
                     ],
                   ),
-                  _buildFilterSectionTitle('Цена за шт.'),
+                  _buildFilterSectionTitle(innerL10n.filterPriceTitle),
                   const SizedBox(height: 8),
                   Row(
                     children: [
                       _buildInputPill(
-                        label: 'от',
+                        label: innerL10n.filterPriceFrom,
                         controller: fromController,
                         onChanged: (value) {
                           final parsed = value.isEmpty
@@ -841,7 +845,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                       ),
                       const SizedBox(width: 12),
                       _buildInputPill(
-                        label: 'до',
+                        label: innerL10n.filterPriceTo,
                         controller: toController,
                         hintText: '\u221E',
                         onChanged: (value) {
@@ -899,7 +903,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  _buildFilterSectionTitle('Сортировка'),
+                  _buildFilterSectionTitle(innerL10n.filterSortTitle),
                   const SizedBox(height: 8),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2),
@@ -908,14 +912,14 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                       runSpacing: 8,
                       children: [
                         _buildSortChip(
-                          label: 'Цена',
+                          label: innerL10n.filterSortPrice,
                           selected: sortField == SortField.price,
                           onTap: () => setSheetState(() {
                             sortField = SortField.price;
                           }),
                         ),
                         _buildSortChip(
-                          label: 'Рейтинг',
+                          label: innerL10n.filterSortRating,
                           selected: sortField == SortField.rating,
                           onTap: () => setSheetState(() {
                             sortField = SortField.rating;
@@ -925,7 +929,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  _buildFilterSectionTitle('Порядок'),
+                  _buildFilterSectionTitle(innerL10n.filterOrderTitle),
                   const SizedBox(height: 6),
                   Container(
                     decoration: BoxDecoration(
@@ -936,7 +940,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                     child: Column(
                       children: [
                         _buildSortOrderOption(
-                          label: 'По возрастанию',
+                          label: innerL10n.filterOrderAsc,
                           icon: Icons.arrow_upward,
                           selected: sortAscending,
                           onTap: () => setSheetState(() {
@@ -945,7 +949,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                         ),
                         Divider(height: 1, color: _borderColor),
                         _buildSortOrderOption(
-                          label: 'По убыванию',
+                          label: innerL10n.filterOrderDesc,
                           icon: Icons.arrow_downward,
                           selected: !sortAscending,
                           onTap: () => setSheetState(() {
@@ -956,11 +960,11 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  _buildFilterSectionTitle('Рейтинг'),
+                  _buildFilterSectionTitle(innerL10n.filterRatingTitle),
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      _buildValuePill('от', minRating.toStringAsFixed(1)),
+                      _buildValuePill(innerL10n.filterRatingFrom, minRating.toStringAsFixed(1)),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Slider(
@@ -1004,7 +1008,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                         ),
                         elevation: 0,
                       ),
-                      child: Text('Показать $previewCount'),
+                      child: Text(innerL10n.filterShowButton(previewCount)),
                     ),
                   ),
                 ],

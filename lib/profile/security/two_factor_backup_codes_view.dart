@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../theme/app_color_palette.dart';
+import '../../services/localization/localization_extension.dart';
 import '../../widgets/messages/top_message.dart';
 import '../../widgets/navigation/role_internal_nav_bar.dart';
 
@@ -118,7 +119,7 @@ class TwoFactorBackupCodesView extends StatelessWidget {
                     child: OutlinedButton.icon(
                       onPressed: () => _copyToClipboard(context),
                       icon: const Icon(Icons.copy_outlined),
-                      label: const Text('Скопировать все'),
+                      label: Text(context.l10n.twoFactorCopyAll),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: palette.primary,
                         side: BorderSide(color: palette.primary),
@@ -134,7 +135,7 @@ class TwoFactorBackupCodesView extends StatelessWidget {
                     child: ElevatedButton.icon(
                       onPressed: () => _saveToFile(context),
                       icon: const Icon(Icons.download_outlined),
-                      label: const Text('Сохранить в файл'),
+                      label: Text(context.l10n.twoFactorSaveFile),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: palette.primary,
                         foregroundColor: Colors.white,

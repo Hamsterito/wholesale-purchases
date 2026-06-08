@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import '../services/localization/localization_extension.dart';
 import '../theme/app_color_palette.dart';
 
 class CustomDateRangePickerDialog extends StatefulWidget {
@@ -41,19 +42,21 @@ class _QuickFilterButton extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(20),
           ),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: primaryColor,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+child: Text(
+             label,
+             style: TextStyle(
+               fontSize: 14,
+               fontWeight: FontWeight.w500,
+               color: primaryColor,
+             ),
+           ),
+         ),
+       ),
+     );
+   }
+ }
+
+ enum _QuickFilterType { today, week, month, quarter }
 
 class _CustomDateRangePickerDialogState
     extends State<CustomDateRangePickerDialog> {
@@ -93,33 +96,31 @@ class _CustomDateRangePickerDialogState
     });
   }
 
-  void _applyQuickFilter(String filter) {
+void _applyQuickFilter(_QuickFilterType filter) {
     final now = DateTime.now();
     DateTime start;
     DateTime end;
 
     switch (filter) {
-      case 'Сегодня':
+      case _QuickFilterType.today:
         start = DateTime(now.year, now.month, now.day);
         end = start;
         break;
-      case 'Неделя':
+      case _QuickFilterType.week:
         final monday = now.subtract(Duration(days: now.weekday - 1));
         start = DateTime(monday.year, monday.month, monday.day);
         final endOfWeek = start.add(const Duration(days: 6));
         end = now.isBefore(endOfWeek) ? now : endOfWeek;
         break;
-      case 'Месяц':
+      case _QuickFilterType.month:
         start = DateTime(now.year, now.month, 1);
         final lastDayOfMonth = DateTime(now.year, now.month + 1, 0);
         end = now.isBefore(lastDayOfMonth) ? now : lastDayOfMonth;
         break;
-      case 'Квартал':
+      case _QuickFilterType.quarter:
         end = DateTime(now.year, now.month, now.day);
         start = end.subtract(const Duration(days: 89));
         break;
-      default:
-        return;
     }
 
     setState(() {
@@ -146,7 +147,7 @@ class _CustomDateRangePickerDialogState
 
   String _getSelectedRangeText() {
     if (_selectedRange.startDate == null) {
-      return 'Выберите диапазон дат';
+      return context.l10n.selectDateRange;
     }
     final start = _formatDate(_selectedRange.startDate!);
     final end = _selectedRange.endDate != null
@@ -155,7 +156,7 @@ class _CustomDateRangePickerDialogState
     return '$start - $end';
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
     final palette = AppColorPalette.of(context);
     return Dialog(
@@ -172,7 +173,7 @@ class _CustomDateRangePickerDialogState
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Выберите диапазон дат',
+              context.l10n.dateRangePickerTitle,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -181,31 +182,31 @@ class _CustomDateRangePickerDialogState
             ),
             const SizedBox(height: 16),
             // Быстрые фильтры
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _QuickFilterButton(
-                  label: 'Сегодня',
-                  onTap: () => _applyQuickFilter('Сегодня'),
-                  primaryColor: palette.accent,
-                ),
-                _QuickFilterButton(
-                  label: 'Неделя',
-                  onTap: () => _applyQuickFilter('Неделя'),
-                  primaryColor: palette.accent,
-                ),
-                _QuickFilterButton(
-                  label: 'Месяц',
-                  onTap: () => _applyQuickFilter('Месяц'),
-                  primaryColor: palette.accent,
-                ),
-                _QuickFilterButton(
-                  label: 'Квартал',
-                  onTap: () => _applyQuickFilter('Квартал'),
-                  primaryColor: palette.accent,
-                ),
-              ],
-            ),
+Row(
+               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+               children: [
+                 _QuickFilterButton(
+                   label: context.l10n.dateRangePickerToday,
+                   onTap: () => _applyQuickFilter(_QuickFilterType.today),
+                   primaryColor: palette.accent,
+                 ),
+                 _QuickFilterButton(
+                   label: context.l10n.dateRangePickerWeek,
+                   onTap: () => _applyQuickFilter(_QuickFilterType.week),
+                   primaryColor: palette.accent,
+                 ),
+                 _QuickFilterButton(
+                   label: context.l10n.dateRangePickerMonth,
+                   onTap: () => _applyQuickFilter(_QuickFilterType.month),
+                   primaryColor: palette.accent,
+                 ),
+                 _QuickFilterButton(
+                   label: context.l10n.dateRangePickerQuarter,
+                   onTap: () => _applyQuickFilter(_QuickFilterType.quarter),
+                   primaryColor: palette.accent,
+                 ),
+               ],
+             ),
             const SizedBox(height: 16),
             SizedBox(
               height: 380,
@@ -306,7 +307,7 @@ class _CustomDateRangePickerDialogState
                 TextButton(
                   onPressed: _clearSelection,
                   child: Text(
-                    'Очистить',
+                    context.l10n.dateRangePickerClear,
                     style: TextStyle(color: palette.accent),
                   ),
                 ),
@@ -314,23 +315,23 @@ class _CustomDateRangePickerDialogState
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text(
-                    'Отмена',
+                    context.l10n.cancel,
                     style: TextStyle(color: palette.accent),
                   ),
                 ),
                 const SizedBox(width: 12),
-                ElevatedButton(
-                  onPressed: _saveSelection,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: palette.accent,
-                    foregroundColor: palette.card,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                  ),
-                  child: const Text('Сохранить'),
-                ),
+               ElevatedButton(
+                   onPressed: _saveSelection,
+                   style: ElevatedButton.styleFrom(
+                     backgroundColor: palette.accent,
+                     foregroundColor: palette.card,
+                     padding: const EdgeInsets.symmetric(
+                       horizontal: 16,
+                       vertical: 12,
+                     ),
+                   ),
+                   child: Text(context.l10n.save),
+                 ),
               ],
             ),
           ],

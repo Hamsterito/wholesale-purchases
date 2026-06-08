@@ -19,6 +19,29 @@
           "ignoreFailures": true
         }
       ]
+    },
+    {
+      "name": "Flutter: Launch Emulator",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "flutterMode": "emulator",
+      "env": {
+        "ANDROID_AVD_HOME": "D:\\programing-3\\avd",
+        "ANDROID_SDK_ROOT": "D:\\programing-3\\Android-sdk",
+        "FLUTTER_ROOT": "D:\\programing-3\\mobile\\flutter"
+      }
+    },
+    {
+      "name": "Flutter: Attach to Emulator",
+      "type": "dart",
+      "request": "attach",
+      "flutterMode": "emulator",
+      "env": {
+        "ANDROID_AVD_HOME": "D:\\programing-3\\avd",
+        "ANDROID_SDK_ROOT": "D:\\programing-3\\Android-sdk",
+        "FLUTTER_ROOT": "D:\\programing-3\\mobile\\flutter"
+      }
     }
   ]
 }

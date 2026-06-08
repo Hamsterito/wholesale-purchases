@@ -5,6 +5,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../services/api/two_factor_api.dart';
 import '../../services/app_logger.dart';
+import '../../services/localization/localization_extension.dart';
 import '../../services/storage/auth_storage.dart';
 import '../../services/storage/otp_cooldown_store.dart';
 import '../../theme/app_color_palette.dart';
@@ -738,7 +739,7 @@ class _OtpInputDialogState extends State<_OtpInputDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text('Отмена', style: TextStyle(color: cs.onSurfaceVariant)),
+          child: Text(context.l10n.cancel, style: TextStyle(color: cs.onSurfaceVariant)),
         ),
         ElevatedButton(
           onPressed: _ttlExpired ? null : _submit,

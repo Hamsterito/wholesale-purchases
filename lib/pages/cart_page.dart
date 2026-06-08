@@ -22,6 +22,7 @@ import '../widgets/smart_image.dart';
 import '../widgets/smooth_sheet.dart';
 import '../widgets/pages/templates_sheet.dart';
 import '../widgets/messages/top_message.dart';
+import '../services/localization/app_localizations.dart';
 
 const double _buttonRadius = 18;
 
@@ -180,11 +181,12 @@ class _CartPageState extends State<CartPage> {
   }
 
   void _showUndoSnackBar(CartItem removedItem) {
+    final l10n = AppLocalizations.of(context);
     showTopMessage(
       context,
-      'Товар удален',
+      l10n.getString('cart_item_removed'),
       duration: const Duration(seconds: 3),
-      actionText: 'Отменить',
+      actionText: l10n.getString('cart_undo_remove'),
       onAction: () {
         _cartStore.addOrUpdate(
           product: removedItem.product,
@@ -198,17 +200,18 @@ class _CartPageState extends State<CartPage> {
   }
 
   Future<void> _confirmClearCart() async {
+    final l10n = AppLocalizations.of(context);
     if (_cartItemsBySupplier.isEmpty) return;
     final shouldClear = await showDialog<bool>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Очистить корзину?'),
-          content: const Text('Все товары будут удалены из корзины.'),
+          title: Text(l10n.getString('cart_clear_title')),
+          content: Text(l10n.getString('cart_clear_message')),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Отмена'),
+              child: Text(l10n.getString('common_cancel')),
             ),
             ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
@@ -216,7 +219,7 @@ class _CartPageState extends State<CartPage> {
                 backgroundColor: context.colorPalette.error,
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Очистить'),
+              child: Text(l10n.getString('cart_clear_button')),
             ),
           ],
         );
@@ -234,12 +237,13 @@ class _CartPageState extends State<CartPage> {
     String? paymentLabel,
   }) async {
     if (!mounted) return false;
+    final l10n = AppLocalizations.of(context);
     final formattedAmount = _formatMoney(amount);
     final result = await showDialog<bool>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Подтверждение оплаты'),
+          title: Text(l10n.getString('cart_payment_confirm_title')),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,19 +258,19 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ),
               if (title.isNotEmpty) const SizedBox(height: 8),
-              _buildConfirmRow('Сумма', '$formattedAmount ₸'),
+              _buildConfirmRow(l10n.getString('cart_confirm_row_amount'), '$formattedAmount ₸'),
               const SizedBox(height: 6),
-              _buildConfirmRow('Штук', '$units'),
+              _buildConfirmRow(l10n.getString('cart_confirm_row_units'), '$units'),
               if (paymentLabel != null && paymentLabel.trim().isNotEmpty) ...[
                 const SizedBox(height: 6),
-                _buildConfirmRow('Оплата', paymentLabel.trim()),
+                _buildConfirmRow(l10n.getString('cart_confirm_row_payment'), paymentLabel.trim()),
               ],
             ],
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Отмена'),
+              child: Text(l10n.getString('common_cancel')),
             ),
             ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
@@ -274,7 +278,7 @@ class _CartPageState extends State<CartPage> {
                 backgroundColor: context.colorPalette.accent,
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Оплатить'),
+              child: Text(l10n.getString('cart_payment_button')),
             ),
           ],
         );
@@ -303,7 +307,7 @@ class _CartPageState extends State<CartPage> {
   Future<_CheckoutPaymentChoice?> _resolveCheckoutPaymentChoice() async {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
-      _showCheckoutSnackBar('Войдите, чтобы выбрать оплату', isError: true);
+      _showCheckoutSnackBar(AppLocalizations.of(context).getString('cart_checkout_login_required'), isError: true);
       return null;
     }
 
@@ -342,14 +346,16 @@ class _CartPageState extends State<CartPage> {
     final selectedMethod = await _promptCheckoutPaymentMethod(
       selectedCard: selectedCard,
     );
+    if (!mounted) return null;
     if (selectedMethod == null) {
       return null;
     }
 
     if (selectedMethod == _CheckoutMethodAction.cash) {
-      const cashChoice = _CheckoutPaymentChoice(
+      final l10n = AppLocalizations.of(context);
+      final cashChoice = _CheckoutPaymentChoice(
         method: 'Cash',
-        label: 'Наличными при получении',
+        label: l10n.getString('cart_payment_method_cash'),
       );
       await PaymentCardStorage.saveSelection(
         const PaymentSelection(method: 'Cash'),
@@ -403,6 +409,7 @@ class _CartPageState extends State<CartPage> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (context) {
+        final l10n = AppLocalizations.of(context);
         final colorScheme = Theme.of(context).colorScheme;
         final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
         return StatefulBuilder(
@@ -410,7 +417,7 @@ class _CartPageState extends State<CartPage> {
             final hasCard = selectedCard != null;
             final cardSubtitle = hasCard
                 ? '${selectedCard.brand} ${selectedCard.maskedNumber}'
-                : 'Карта не добавлена';
+                : l10n.getString('cart_payment_method_card_none');
             return SafeArea(
               top: false,
               child: Container(
@@ -443,7 +450,7 @@ class _CartPageState extends State<CartPage> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Способ оплаты',
+                        l10n.getString('cart_confirm_row_payment'),
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -454,8 +461,8 @@ class _CartPageState extends State<CartPage> {
                     const SizedBox(height: 8),
                     _buildPaymentSheetTile(
                       icon: Icons.payments_outlined,
-                      title: 'Наличные',
-                      subtitle: 'Оплата при получении',
+                      title: l10n.getString('cart_payment_method_cash'),
+                      subtitle: l10n.getString('cart_payment_method_cash'),
                       isSelected: selectedMethod == _CheckoutMethodAction.cash,
                       onTap: () {
                         setModalState(() {
@@ -466,7 +473,7 @@ class _CartPageState extends State<CartPage> {
                     const SizedBox(height: 10),
                     _buildPaymentSheetTile(
                       icon: Icons.credit_card_outlined,
-                      title: 'Карта',
+                      title: l10n.getString('cart_payment_method_card'),
                       subtitle: cardSubtitle,
                       isSelected: selectedMethod == _CheckoutMethodAction.card,
                       onTap: () {
@@ -479,6 +486,7 @@ class _CartPageState extends State<CartPage> {
                     _buildSelectedPaymentBanner(
                       selectedMethod: selectedMethod,
                       selectedCard: selectedCard,
+                      l10n: l10n,
                     ),
                     const SizedBox(height: 12),
                     SizedBox(
@@ -494,8 +502,8 @@ class _CartPageState extends State<CartPage> {
                           ),
                           elevation: 0,
                         ),
-                        child: const Text(
-                          'Подтвердить выбор',
+                        child: Text(
+                          l10n.getString('cart_payment_confirm_choice'),
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -584,12 +592,16 @@ class _CartPageState extends State<CartPage> {
   Widget _buildSelectedPaymentBanner({
     required _CheckoutMethodAction selectedMethod,
     required PaymentCard? selectedCard,
+    required AppLocalizations l10n,
   }) {
     final text = selectedMethod == _CheckoutMethodAction.cash
-        ? 'Оплата наличными при получении'
+        ? l10n.getString('cart_payment_banner_cash')
         : selectedCard == null
-        ? 'Оплата картой. На следующем шаге добавьте карту.'
-        : 'Оплата картой ${selectedCard.brand} ${selectedCard.maskedNumber}';
+        ? l10n.getString('cart_payment_banner_card_none')
+        : l10n.getString('cart_payment_banner_card', params: {
+            'brand': selectedCard.brand,
+            'number': selectedCard.maskedNumber,
+          });
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -704,15 +716,16 @@ class _CartPageState extends State<CartPage> {
   }
 
   String _friendlyCheckoutError(Object error) {
+    final l10n = AppLocalizations.of(context);
     final message = error.toString().toLowerCase();
     if (message.contains('socketexception') ||
         message.contains('failed host lookup')) {
-      return 'Нет соединения с сервером';
+      return l10n.getString('cart_checkout_error_network');
     }
     if (message.contains('400')) {
-      return 'Некорректные данные заказа';
+      return l10n.getString('cart_checkout_error_data');
     }
-    return 'Не удалось оформить заказ';
+    return l10n.getString('cart_checkout_error_generic');
   }
 
   void _showCheckoutSnackBar(String message, {bool isError = false}) {
@@ -756,9 +769,10 @@ class _CartPageState extends State<CartPage> {
   }
 
   Future<UserAddress?> _pickDeliveryAddress() async {
+    final l10n = AppLocalizations.of(context);
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
-      _showCheckoutSnackBar('Войдите, чтобы выбрать адрес', isError: true);
+      _showCheckoutSnackBar(l10n.getString('cart_checkout_address_login_required'), isError: true);
       return null;
     }
 
@@ -766,7 +780,7 @@ class _CartPageState extends State<CartPage> {
     try {
       addresses = await ApiService.getUserAddresses(userId: userId);
     } catch (_) {
-      _showCheckoutSnackBar('Не удалось загрузить адреса', isError: true);
+      _showCheckoutSnackBar(l10n.getString('cart_checkout_address_load_error'), isError: true);
       return null;
     }
 
@@ -812,6 +826,7 @@ class _CartPageState extends State<CartPage> {
         final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
         return StatefulBuilder(
           builder: (context, setModalState) {
+            final l10n = AppLocalizations.of(context);
             final selectedAddress = _findAddressById(addresses, selectedId);
             return SafeArea(
               top: false,
@@ -866,7 +881,7 @@ class _CartPageState extends State<CartPage> {
                               selectedId = created.id;
                             });
                           },
-                          child: const Text('Добавить'),
+                          child: Text(l10n.getString('common_add')),
                         ),
                       ],
                     ),
@@ -1113,6 +1128,7 @@ class _CartPageState extends State<CartPage> {
     final itemsSnapshot = List<CartItem>.from(sourceItems);
     final supplierTotal = _getSupplierTotal(itemsSnapshot);
     final supplierUnits = _getSupplierUnits(itemsSnapshot);
+    final l10n = AppLocalizations.of(context);
     final supplierName = _formatSupplierName(itemsSnapshot.first.supplier.name);
     final selectedAddress = await _pickDeliveryAddress();
     if (selectedAddress == null) {
@@ -1128,7 +1144,7 @@ class _CartPageState extends State<CartPage> {
       return;
     }
     final shouldPay = await _confirmPayment(
-      title: supplierName.isNotEmpty ? supplierName : 'Заказ',
+      title: supplierName.isNotEmpty ? supplierName : l10n.getString('supplier_order_prefix'),
       amount: supplierTotal,
       units: supplierUnits,
       paymentLabel: paymentChoice.label,
@@ -1141,23 +1157,23 @@ class _CartPageState extends State<CartPage> {
       _submittingSuppliers.add(supplierId);
     });
 
-    try {
-      await ApiService.createOrder(
-        items: _buildOrderItemsPayload(itemsSnapshot),
-        status: 'Собирается',
-        deliveryAddress: selectedAddress.displayAddress,
-        userId: userId,
-      );
+try {
+       await ApiService.createOrder(
+         items: _buildOrderItemsPayload(itemsSnapshot),
+         status: l10n.getString('supplier_status_assembling'),
+         deliveryAddress: selectedAddress.displayAddress,
+         userId: userId,
+       );
 
-      for (final item in itemsSnapshot) {
-        _cartStore.removeItem(
-          supplierId: supplierId,
-          productId: item.product.id,
-        );
-      }
+       for (final item in itemsSnapshot) {
+         _cartStore.removeItem(
+           supplierId: supplierId,
+           productId: item.product.id,
+         );
+       }
 
-      _showCheckoutSnackBar('Заказ по поставщику оформлен');
-    } catch (error) {
+       _showCheckoutSnackBar(l10n.getString('cart_checkout_supplier_success'));
+     } catch (error) {
       _showCheckoutSnackBar(_friendlyCheckoutError(error), isError: true);
     } finally {
       if (mounted) {
@@ -1169,6 +1185,7 @@ class _CartPageState extends State<CartPage> {
   }
 
   Future<void> _placeAllOrders() async {
+    final l10n = AppLocalizations.of(context);
     if (_isPlacingAllOrders || _cartItemsBySupplier.isEmpty) {
       return;
     }
@@ -1188,7 +1205,7 @@ class _CartPageState extends State<CartPage> {
     }
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
-      _showCheckoutSnackBar('Войдите, чтобы оформить заказ', isError: true);
+      _showCheckoutSnackBar(l10n.getString('cart_checkout_order_login_required'), isError: true);
       return;
     }
     final paymentChoice = await _resolveCheckoutPaymentChoice();
@@ -1197,7 +1214,7 @@ class _CartPageState extends State<CartPage> {
     }
 
     final shouldPay = await _confirmPayment(
-      title: 'Все заказы',
+      title: l10n.getString('cart_checkout_all_orders_title'),
       amount: _totalAmount,
       units: _totalUnits,
       paymentLabel: paymentChoice.label,
@@ -1218,7 +1235,7 @@ class _CartPageState extends State<CartPage> {
       try {
         await ApiService.createOrder(
           items: _buildOrderItemsPayload(entry.value),
-          status: 'Собирается',
+          status: l10n.getString('supplier_status_assembling'),
           deliveryAddress: selectedAddress.displayAddress,
           userId: userId,
         );
@@ -1240,17 +1257,17 @@ class _CartPageState extends State<CartPage> {
     });
 
     if (successCount > 0 && failCount == 0) {
-      _showCheckoutSnackBar('Все заказы успешно оформлены');
+      _showCheckoutSnackBar(l10n.getString('cart_checkout_all_success'));
       return;
     }
     if (successCount > 0 && failCount > 0) {
       _showCheckoutSnackBar(
-        'Оформлено: $successCount, с ошибкой: $failCount',
+        l10n.getString('cart_checkout_partial_success', params: {'success': successCount, 'fail': failCount}),
         isError: true,
       );
       return;
     }
-    _showCheckoutSnackBar('Не удалось оформить заказы', isError: true);
+    _showCheckoutSnackBar(l10n.getString('cart_checkout_all_failed'), isError: true);
   }
 
   Widget _buildAnimatedValueText(
@@ -1311,6 +1328,7 @@ class _CartPageState extends State<CartPage> {
   }
 
   Widget _buildHeader(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       color: _cardBg,
       child: SafeArea(
@@ -1325,7 +1343,7 @@ class _CartPageState extends State<CartPage> {
                   Padding(
                     padding: const EdgeInsets.only(left: 0),
                     child: Text(
-                      'Корзина',
+                      l10n.getString('cart_title'),
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -1337,8 +1355,8 @@ class _CartPageState extends State<CartPage> {
                   // Иконка часов - навигация в историю заказов.
                   _HeaderIconButton(
                     icon: Icons.history,
-                    tooltip: 'История заказов',
-                    semanticsLabel: 'Открыть историю заказов',
+                    tooltip: l10n.getString('order_history'),
+                    semanticsLabel: l10n.getString('order_history'),
                     color: _mutedText,
                     onTap: () {
                       Navigator.push(
@@ -1354,16 +1372,16 @@ class _CartPageState extends State<CartPage> {
                   if (_cartItemsBySupplier.isNotEmpty)
                     _HeaderIconButton(
                       icon: Icons.bookmark_add_outlined,
-                      tooltip: 'Сохранить как шаблон',
-                      semanticsLabel: 'Сохранить текущую корзину как шаблон',
+                      tooltip: l10n.getString('cart_template_save'),
+                      semanticsLabel: l10n.getString('cart_template_save'),
                       color: _mutedText,
                       onTap: _saveCurrentCartAsTemplate,
                     ),
                   // Иконка закладки с бейджем-счётчиком - навигация в шаблоны.
                   _HeaderIconButton(
                     icon: Icons.bookmark_outline,
-                    tooltip: 'Шаблоны',
-                    semanticsLabel: 'Открыть список шаблонов покупок',
+                    tooltip: l10n.getString('cart_template_title'),
+                    semanticsLabel: l10n.getString('cart_template_title'),
                     color: _mutedText,
                     badgeCount: _templatesCount,
                     onTap: _openTemplatesSheet,
@@ -1378,11 +1396,12 @@ class _CartPageState extends State<CartPage> {
   }
 
   void _openTemplatesSheet() async {
+    final l10n = AppLocalizations.of(context);
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
       showTopMessage(
         context,
-        'Войдите, чтобы пользоваться шаблонами',
+        l10n.getString('cart_template_login_required'),
       );
       return;
     }
@@ -1406,6 +1425,7 @@ class _CartPageState extends State<CartPage> {
   // Применяем шаблон: при непустой корзине просим подтверждение, потом
   // TemplatesStore.apply и сводку с пропущенными.
   Future<void> _applyTemplate(PurchaseTemplate template) async {
+    final l10n = AppLocalizations.of(context);
     if (!mounted) return;
 
     if (_cartStore.totalPositions > 0) {
@@ -1425,7 +1445,7 @@ class _CartPageState extends State<CartPage> {
       if (!mounted) return;
       showTopMessage(
         context,
-        'Не удалось применить шаблон',
+        l10n.getString('cart_template_apply_error'),
         backgroundColor: context.colorPalette.error,
       );
       return;
@@ -1437,7 +1457,7 @@ class _CartPageState extends State<CartPage> {
       // Все позиции отвалились - корзина не тронута.
       showTopMessage(
         context,
-        'Шаблон не применён: ни один товар не доступен',
+        l10n.getString('cart_template_apply_none'),
         backgroundColor: context.colorPalette.error,
       );
       return;
@@ -1447,14 +1467,13 @@ class _CartPageState extends State<CartPage> {
     Navigator.of(context).maybePop();
 
     final summary = StringBuffer(
-      'Корзина заменена шаблоном «${template.name}»: '
-      'добавлено ${result.addedCount} товаров',
+      l10n.getString('cart_template_apply_success', params: {'name': template.name, 'added': result.addedCount}),
     );
     if (result.skippedCount > 0) {
-      summary.write(', пропущено ${result.skippedCount}');
+      summary.write(l10n.getString('cart_template_apply_skipped', params: {'skipped': result.skippedCount}));
     }
     if (result.adjustedCount > 0) {
-      summary.write(', скорректировано ${result.adjustedCount}');
+      summary.write(l10n.getString('cart_template_apply_adjusted', params: {'adjusted': result.adjustedCount}));
     }
 
     final hasSkipped = result.skippedCount > 0;
@@ -1465,7 +1484,7 @@ class _CartPageState extends State<CartPage> {
       maxLines: 2,
       // Action виден только при skipped > 0 - открывает модалку
       // со списком пропущенных позиций и причинами.
-      actionText: hasSkipped ? 'Подробнее' : null,
+      actionText: hasSkipped ? l10n.getString('common_more_details') : null,
       onAction: hasSkipped
           ? () => _showSkippedItemsDialog(result.skipped)
           : null,
@@ -1474,6 +1493,7 @@ class _CartPageState extends State<CartPage> {
 
   // Модалка со списком пропущенных позиций - Material 3.
   Future<void> _showSkippedItemsDialog(List<SkippedTemplateItem> items) async {
+    final l10n = AppLocalizations.of(context);
     if (!mounted) return;
     await showDialog<void>(
       context: context,
@@ -1488,7 +1508,7 @@ class _CartPageState extends State<CartPage> {
           child: AlertDialog(
             backgroundColor: palette.card,
             title: Text(
-              'Пропущено ${items.length} ${_skippedSuffix(items.length)}',
+              l10n.getString('cart_template_skipped_title', params: {'count': items.length, 'plural': _skippedSuffix(items.length)}),
             ),
             content: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 360, maxHeight: 360),
@@ -1530,7 +1550,7 @@ class _CartPageState extends State<CartPage> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(dialogContext).pop(),
-                child: const Text('Закрыть'),
+                child: Text(l10n.getString('common_close')),
               ),
             ],
           ),
@@ -1551,16 +1571,18 @@ class _CartPageState extends State<CartPage> {
   }
 
   String _skipReasonText(SkipReason reason) {
+    final l10n = AppLocalizations.of(context);
     switch (reason) {
       case SkipReason.productMissing:
-        return 'Товар недоступен';
+        return l10n.getString('cart_template_skip_product_missing');
       case SkipReason.supplierMissing:
-        return 'Поставщик больше не предлагает товар';
+        return l10n.getString('cart_template_skip_supplier_missing');
     }
   }
 
   // Переименование: валидация в диалоге; rename в то же имя - no-op в сторе.
   Future<void> _renameTemplate(PurchaseTemplate template) async {
+    final l10n = AppLocalizations.of(context);
     final newName = await showRenameTemplateDialog(context, template: template);
     if (newName == null) return;
     if (!mounted) return;
@@ -1580,22 +1602,23 @@ class _CartPageState extends State<CartPage> {
     if (!mounted) return;
     showTopMessage(
       context,
-      'Шаблон переименован',
+      l10n.getString('cart_template_rename_success'),
     );
   }
 
   // Снимок берём до remove, чтобы restore вернул шаблон с прежними
   // id, именем, составом и датами.
   Future<void> _deleteTemplate(PurchaseTemplate template) async {
+    final l10n = AppLocalizations.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Удалить шаблон ${template.name}?'),
+          title: Text(l10n.getString('cart_template_delete_title', params: {'name': template.name})),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Отмена'),
+              child: Text(l10n.getString('common_cancel')),
             ),
             ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
@@ -1603,7 +1626,7 @@ class _CartPageState extends State<CartPage> {
                 backgroundColor: context.colorPalette.error,
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Удалить'),
+              child: Text(l10n.getString('common_delete')),
             ),
           ],
         );
@@ -1621,8 +1644,8 @@ class _CartPageState extends State<CartPage> {
     }
     showTopMessage(
       context,
-      'Шаблон удалён',
-      actionText: 'Отменить',
+      l10n.getString('cart_template_delete_success'),
+      actionText: l10n.getString('common_cancel'),
       onAction: () => TemplatesStore.instance.restore(snapshot),
       duration: const Duration(seconds: 5),
       showCountdown: true,
@@ -1631,11 +1654,12 @@ class _CartPageState extends State<CartPage> {
 
   // Сохраняет текущий состав корзины как шаблон (новый или перезапись).
   Future<void> _saveCurrentCartAsTemplate() async {
+    final l10n = AppLocalizations.of(context);
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
       showTopMessage(
         context,
-        'Войдите, чтобы пользоваться шаблонами',
+        l10n.getString('cart_template_login_required'),
       );
       return;
     }
@@ -1652,7 +1676,7 @@ class _CartPageState extends State<CartPage> {
     if (cartItems.length > 100) {
       showTopMessage(
         context,
-        'В шаблоне может быть не более 100 позиций.',
+        l10n.getString('cart_template_limit_items'),
       );
       return;
     }
@@ -1661,7 +1685,7 @@ class _CartPageState extends State<CartPage> {
     // поэтому решение принимаем после возврата из диалога.
     final templatesCount = TemplatesStore.instance.count;
 
-    final defaultName = 'Шаблон от ${_formatTemplateDate(DateTime.now())}';
+    final defaultName = l10n.getString('cart_template_default_name', params: {'date': _formatTemplateDate(DateTime.now())});
     final result = await showSaveTemplateDialog(
       context,
       defaultName: defaultName,
@@ -1681,7 +1705,7 @@ class _CartPageState extends State<CartPage> {
         if (templatesCount >= 20) {
           showTopMessage(
             context,
-            'Достигнут лимит шаблонов: 20. Удалите ненужный шаблон.',
+            l10n.getString('cart_template_limit_templates'),
           );
           return;
         }
@@ -1699,7 +1723,7 @@ class _CartPageState extends State<CartPage> {
     if (!mounted) return;
     showTopMessage(
       context,
-      'Шаблон сохранён',
+      l10n.getString('cart_template_save_success'),
     );
   }
 
@@ -1710,6 +1734,7 @@ class _CartPageState extends State<CartPage> {
   }
 
   Widget _buildPayAllBar() {
+    final l10n = AppLocalizations.of(context);
     final canCheckout = _cartItemsBySupplier.isNotEmpty && !_isPlacingAllOrders;
     final hasItems = _cartItemsBySupplier.isNotEmpty;
     const buttonHeight = 48.0;
@@ -1761,8 +1786,8 @@ class _CartPageState extends State<CartPage> {
                           : Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Text(
-                                  'Оформить все заказы',
+                                Text(
+                                  l10n.getString('cart_checkout_all_orders'),
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
@@ -1784,7 +1809,7 @@ class _CartPageState extends State<CartPage> {
                                     ),
                                     const SizedBox(width: 6),
                                     Text(
-                                      '· $_totalUnits шт.',
+                                      l10n.getString('cart_pay_all_details', params: {'units': _totalUnits}),
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
@@ -1813,6 +1838,7 @@ class _CartPageState extends State<CartPage> {
   }
 
   Widget _buildSummaryCard() {
+    final l10n = AppLocalizations.of(context);
     final hasItems = _cartItemsBySupplier.isNotEmpty;
     return Container(
       margin: const EdgeInsets.only(bottom: 16, top: 8),
@@ -1827,7 +1853,7 @@ class _CartPageState extends State<CartPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Общая сумма заказа',
+            l10n.getString('cart_total_amount_title'),
             style: TextStyle(
               fontSize: 13,
               color: Colors.white.withValues(alpha: 0.9),
@@ -1844,7 +1870,7 @@ class _CartPageState extends State<CartPage> {
           ),
           const SizedBox(height: 3),
           Text(
-            'Штук: $_totalUnits  Позиций: $_totalPositions',
+            l10n.getString('cart_total_summary', params: {'units': _totalUnits, 'positions': _totalPositions}),
             style: TextStyle(
               fontSize: 12,
               color: Colors.white.withValues(alpha: 0.9),
@@ -1861,6 +1887,7 @@ class _CartPageState extends State<CartPage> {
   }
 
   Widget _buildSummaryProductsCard() {
+    final l10n = AppLocalizations.of(context);
     final items = _cartItemsBySupplier.values
         .expand((supplier) => supplier)
         .toList();
@@ -1880,40 +1907,40 @@ class _CartPageState extends State<CartPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          for (int i = 0; i < shown.length; i++) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      '${shown[i].product.name} - ${shown[i].quantity} шт.',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: _isDark
-                            ? _colorScheme.onSurface
-                            : context.colorPalette.ink,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  _buildSummaryRemoveButton(shown[i]),
-                ],
-              ),
-            ),
-            if (i < shown.length - 1)
-              Divider(
-                height: 8,
-                thickness: 1,
-                color: _colorScheme.outlineVariant.withValues(alpha: 0.6),
-              ),
-          ],
+for (int i = 0; i < shown.length; i++) ...[
+             Padding(
+               padding: const EdgeInsets.symmetric(vertical: 2),
+               child: Row(
+                 children: [
+                   Expanded(
+                     child: Text(
+                       l10n.getString('cart_summary_item', params: {'name': shown[i].product.name, 'quantity': shown[i].quantity}),
+                       maxLines: 1,
+                       overflow: TextOverflow.ellipsis,
+                       style: TextStyle(
+                         fontSize: 12,
+                         fontWeight: FontWeight.w600,
+                         color: _isDark
+                             ? _colorScheme.onSurface
+                             : context.colorPalette.ink,
+                       ),
+                     ),
+                   ),
+                   const SizedBox(width: 8),
+                   _buildSummaryRemoveButton(shown[i]),
+                 ],
+               ),
+             ),
+             if (i < shown.length - 1)
+               Divider(
+                 height: 8,
+                 thickness: 1,
+                 color: _colorScheme.outlineVariant.withValues(alpha: 0.6),
+               ),
+           ],
           if (restCount > 0)
             Text(
-              '+$restCount еще в корзине',
+              l10n.getString('cart_summary_more_items', params: {'count': restCount}),
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
@@ -1941,6 +1968,7 @@ class _CartPageState extends State<CartPage> {
   }
 
   Widget _buildSupplierSection(String supplierId, List<CartItem> items) {
+    final l10n = AppLocalizations.of(context);
     if (items.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -1980,7 +2008,7 @@ class _CartPageState extends State<CartPage> {
               ),
               const SizedBox(height: 2),
               Text(
-                'Штук: $supplierUnits · Позиций: ${items.length}',
+                l10n.getString('cart_supplier_info', params: {'units': supplierUnits, 'positions': items.length}),
                 style: TextStyle(fontSize: 12, color: _mutedText),
               ),
             ],
@@ -2006,11 +2034,12 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _buildSupplierSummaryCard({
+Widget _buildSupplierSummaryCard({
     required String supplierId,
     required int supplierTotal,
     required int supplierUnits,
   }) {
+    final l10n = AppLocalizations.of(context);
     final isSubmitting =
         _isPlacingAllOrders || _submittingSuppliers.contains(supplierId);
 
@@ -2034,7 +2063,7 @@ class _CartPageState extends State<CartPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Итого по поставщику',
+                  l10n.getString('cart_supplier_total_title'),
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -2085,8 +2114,8 @@ class _CartPageState extends State<CartPage> {
                           color: Colors.white,
                         ),
                       )
-                    : const Text(
-                        'Оформить заказ',
+                    : Text(
+                        l10n.getString('cart_checkout_order'),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14,
@@ -2102,6 +2131,7 @@ class _CartPageState extends State<CartPage> {
   }
 
   Widget _buildCartItemCard(String supplierId, int index, CartItem item) {
+    final l10n = AppLocalizations.of(context);
     final totalPrice = item.supplier.pricePerUnit * item.quantity;
     final tags = _getSortedTags(item.product.id, item.product.categories);
     final imagePath = _resolveCartImage(item);
@@ -2166,7 +2196,7 @@ class _CartPageState extends State<CartPage> {
                   ),
                   Center(
                     child: Text(
-                      '${item.quantity} шт.',
+                      l10n.getString('cart_quantity_suffix', params: {'count': item.quantity}),
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 18,
@@ -2206,7 +2236,7 @@ class _CartPageState extends State<CartPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Дата доставки: ${_resolveDeliveryDateText(item.supplier)}',
+                          l10n.getString('cart_delivery_date', params: {'date': _resolveDeliveryDateText(item.supplier)}),
                           style: TextStyle(fontSize: 12, color: _mutedText),
                         ),
                         const SizedBox(height: 4),
@@ -2240,7 +2270,7 @@ class _CartPageState extends State<CartPage> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Text(
-                                'Минимум: ${item.supplier.minQuantity} шт.',
+                                l10n.getString('cart_min_quantity', params: {'count': item.supplier.minQuantity}),
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: _mutedText,

@@ -19,7 +19,7 @@ class ApplyTemplateConfirmDialog extends StatelessWidget {
       maxScaleFactor: 2.0,
       child: AlertDialog(
         backgroundColor: palette.card,
-        title: Text(l10n.replaceCart),
+        title: Text(l10n.templateApplyConfirm),
         content: Text(l10n.replaceCartConfirm),
         actions: [
           TextButton(
@@ -28,7 +28,7 @@ class ApplyTemplateConfirmDialog extends StatelessWidget {
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Заменить'),
+            child: Text(l10n.ok),
           ),
         ],
       ),

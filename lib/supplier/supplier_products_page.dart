@@ -157,11 +157,14 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
     });
 
     try {
-      await ApiService.deleteSupplierProduct(
+      final deleteResult = await ApiService.deleteSupplierProduct(
         productId: product.id,
         userId: userId,
       );
       if (!mounted) return;
+
+      final action = deleteResult['action'] as String?;
+      final hiddenMessage = deleteResult['hiddenMessage'] as String?;
 
       setState(() {
         if (action == 'hidden_from_catalog') {
@@ -490,7 +493,7 @@ Expanded(
                         ? null
                         : () => _openProductWizard(product: product),
                     icon: const Icon(Icons.edit_outlined, size: 18),
-                    label: const Text('Редактировать'),
+                    label: Text(context.l10n.edit),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
@@ -601,7 +604,7 @@ Expanded(
                               ? null
                               : () => _openProductWizard(),
                           icon: const Icon(Icons.add_rounded),
-                          label: const Text('Добавить товар'),
+                          label: Text(context.l10n.add),
                           style: FilledButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 12),
                           ),

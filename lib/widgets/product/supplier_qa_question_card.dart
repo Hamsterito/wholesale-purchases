@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/question.dart';
 import '../../models/product.dart';
+import '../../services/localization/localization_extension.dart';
 import '../smart_image.dart';
 import '../../utils/date_formatter.dart';
 
@@ -148,56 +149,56 @@ class SupplierQAQuestionCard extends StatelessWidget {
               ),
             ),
           ],
-          const SizedBox(height: 12),
-          // Кнопки действий
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              if (!question.isAnswered)
-                FilledButton(
-                  onPressed: onAnswer,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: palette.accent,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                  ),
-                  child: const Text('Ответить', style: TextStyle(fontSize: 12)),
-                )
-              else ...[
-                OutlinedButton(
-                  onPressed: onEdit,
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: palette.accent),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                  ),
-                  child: Text(
-                    'Редактировать',
-                    style: TextStyle(fontSize: 12, color: palette.accent),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                OutlinedButton(
-                  onPressed: onDelete,
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: palette.danger),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                  ),
-                  child: Text(
-                    'Удалить',
-                    style: TextStyle(fontSize: 12, color: palette.danger),
-                  ),
-                ),
-              ],
-            ],
-          ),
+const SizedBox(height: 12),
+           // Кнопки действий
+           Row(
+             mainAxisAlignment: MainAxisAlignment.end,
+             children: [
+               if (!question.isAnswered)
+                 FilledButton(
+                   onPressed: onAnswer,
+                   style: FilledButton.styleFrom(
+                     backgroundColor: palette.accent,
+                     padding: const EdgeInsets.symmetric(
+                       horizontal: 16,
+                       vertical: 8,
+                     ),
+                   ),
+                   child: Text(context.l10n.qaRespond, style: TextStyle(fontSize: 12)),
+                 )
+               else ...[
+                 OutlinedButton(
+                   onPressed: onEdit,
+                   style: OutlinedButton.styleFrom(
+                     side: BorderSide(color: palette.accent),
+                     padding: const EdgeInsets.symmetric(
+                       horizontal: 16,
+                       vertical: 8,
+                     ),
+                   ),
+                   child: Text(
+                     context.l10n.edit,
+                     style: TextStyle(fontSize: 12, color: palette.accent),
+                   ),
+                 ),
+                 const SizedBox(width: 8),
+                 OutlinedButton(
+                   onPressed: onDelete,
+                   style: OutlinedButton.styleFrom(
+                     side: BorderSide(color: palette.danger),
+                     padding: const EdgeInsets.symmetric(
+                       horizontal: 16,
+                       vertical: 8,
+                     ),
+                   ),
+                   child: Text(
+                     context.l10n.delete,
+                     style: TextStyle(fontSize: 12, color: palette.danger),
+                   ),
+                 ),
+               ],
+             ],
+           ),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/question.dart';
 import '../../models/product.dart';
+import '../../services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../smart_image.dart';
 
@@ -375,7 +376,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
                                 backgroundColor: palette.accent,
                                 minimumSize: const Size.fromHeight(44),
                               ),
-                              child: const Text('Отправить'),
+                              child: Text(context.l10n.send),
                             ),
                     ),
                   ],

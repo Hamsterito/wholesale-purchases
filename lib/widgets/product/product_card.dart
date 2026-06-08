@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../smart_image.dart';
 import '../../models/cart_item.dart';
 import '../../models/product.dart';
+import '../../services/localization/localization_extension.dart';
 import '../../services/store/cart_store.dart';
 import '../../services/store/favorites_store.dart';
 import '../../theme/app_color_palette.dart';
 import '../../utils/delivery_schedule.dart';
 import '../../utils/ru_plural.dart';
+import '../smart_image.dart';
 import 'rating_stars.dart';
 import '../smooth_sheet.dart';
 import '../messages/top_message.dart';
@@ -40,23 +41,23 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
-  static const Map<int, String> _weekdaysFull = <int, String>{
-    DateTime.monday: 'Понедельник',
-    DateTime.tuesday: 'Вторник',
-    DateTime.wednesday: 'Среда',
-    DateTime.thursday: 'Четверг',
-    DateTime.friday: 'Пятница',
-    DateTime.saturday: 'Суббота',
-    DateTime.sunday: 'Воскресенье',
-  };
   static const Map<int, String> _weekdaysShort = <int, String>{
-    DateTime.monday: 'Пн',
-    DateTime.tuesday: 'Вт',
-    DateTime.wednesday: 'Ср',
-    DateTime.thursday: 'Чт',
-    DateTime.friday: 'Пт',
-    DateTime.saturday: 'Сб',
-    DateTime.sunday: 'Вс',
+    DateTime.monday: 'weekday_mon_short',
+    DateTime.tuesday: 'weekday_tue_short',
+    DateTime.wednesday: 'weekday_wed_short',
+    DateTime.thursday: 'weekday_thu_short',
+    DateTime.friday: 'weekday_fri_short',
+    DateTime.saturday: 'weekday_sat_short',
+    DateTime.sunday: 'weekday_sun_short',
+  };
+  static const Map<int, String> _weekdaysFull = <int, String>{
+    DateTime.monday: 'weekday_monday',
+    DateTime.tuesday: 'weekday_tuesday',
+    DateTime.wednesday: 'weekday_wednesday',
+    DateTime.thursday: 'weekday_thursday',
+    DateTime.friday: 'weekday_friday',
+    DateTime.saturday: 'weekday_saturday',
+    DateTime.sunday: 'weekday_sunday',
   };
   static const List<int> _weekdayOrder = <int>[
     DateTime.monday,
@@ -257,7 +258,7 @@ class _ProductCardState extends State<ProductCard> {
       if (showMessages) {
         showTopMessage(
           context,
-          'Нет в наличии: ${product.name}',
+          context.l10n.productOutOfStock,
           backgroundColor: _palette.error,
         );
       }
@@ -276,7 +277,7 @@ class _ProductCardState extends State<ProductCard> {
       if (showMessages) {
         showTopMessage(
           context,
-          'Удалено из корзины: ${product.name}',
+          context.l10n.undo,
           backgroundColor: _palette.error,
         );
       }
@@ -423,10 +424,10 @@ class _ProductCardState extends State<ProductCard> {
                 if (showFavoritesUndo) {
                   showTopMessage(
                     context,
-                    'Удалено из избранного',
+                    context.l10n.productRemovedFromFavorites,
                     backgroundColor: _palette.error,
                     duration: const Duration(seconds: 3),
-                    actionText: 'Отменить',
+                    actionText: context.l10n.undo,
                     showCountdown: true,
                     showClose: false,
                     onAction: () {
@@ -441,7 +442,7 @@ class _ProductCardState extends State<ProductCard> {
                 } else {
                   showTopMessage(
                     context,
-                    'Удалено из избранного',
+                    context.l10n.productRemovedFromFavorites,
                     backgroundColor: _palette.error,
                     showClose: !showFavoritesUndo,
                   );
@@ -531,7 +532,7 @@ class _ProductCardState extends State<ProductCard> {
         ? supplier.deliveryBadge.trim()
         : supplier.deliveryDate.trim();
     if (source.isEmpty) {
-      return 'Доставка';
+      return context.l10n.supplierDeliveryDefault;
     }
 
     // Сначала пробуем новый структурированный формат
@@ -565,21 +566,22 @@ class _ProductCardState extends State<ProductCard> {
         '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
 
     if (sortedWeekdays.length == 1) {
-      final day = _weekdaysFull[sortedWeekdays.first] ?? 'Понедельник';
+      final weekdayKey = _weekdaysFull[sortedWeekdays.first] ?? 'weekday_monday';
+      final day = context.l10n.getString(weekdayKey);
       return '$day $time';
     }
     if (_sameWeekdays(sortedWeekdays, _weekdayOrder)) {
-      return 'Ежедневно $time';
+      return context.l10n.productEveryday;
     }
     if (_sameWeekdays(sortedWeekdays, _workdaysPreset)) {
-      return 'Будни $time';
+      return context.l10n.productWeekdays;
     }
     if (_sameWeekdays(sortedWeekdays, _weekendPreset)) {
-      return 'Выходные $time';
+      return context.l10n.productWeekend;
     }
     if (sortedWeekdays.length <= 3) {
       final label = sortedWeekdays
-          .map((weekday) => _weekdaysShort[weekday] ?? 'Пн')
+          .map((weekday) => context.l10n.getString(_weekdaysShort[weekday] ?? 'weekday_mon_short'))
           .join(', ');
       return '$label $time';
     }
@@ -913,7 +915,7 @@ class _ProductCardState extends State<ProductCard> {
 
   Widget _buildMinOrder(Supplier supplier) {
     return Text(
-      'Минимум: ${supplier.minQuantity} шт.',
+      context.l10n.productMinQuantity(supplier.minQuantity),
       style: TextStyle(fontSize: compact ? 10 : 11, color: _mutedText),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -979,7 +981,7 @@ class _ProductCardState extends State<ProductCard> {
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Text(
-                isAvailable ? '$totalPrice \u20B8' : 'Нет в наличии',
+                isAvailable ? '$totalPrice \u20B8' : context.l10n.productOutOfStock,
                 style: TextStyle(
                   fontSize: compact ? 10 : 11,
                   color: isAvailable ? _palette.accent : _palette.error,
@@ -1255,20 +1257,20 @@ class _QuantityPickerSheetState extends State<_QuantityPickerSheet> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      'Количество',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        height: 0.95,
-                      ),
-                    ),
-                    Text(
-                      'Минимум: ${widget.minQuantity} шт.',
-                      style: TextStyle(
-                        fontSize: 14,
-                        height: 0.85,
-                        color: _mutedText,
+Text(
+                       context.l10n.productQuantityTitle,
+                       style: TextStyle(
+                         fontSize: 16,
+                         fontWeight: FontWeight.w600,
+                         height: 0.95,
+                       ),
+                     ),
+Text(
+                        '${context.l10n.productMinQuantity(widget.minQuantity)}: ${widget.minQuantity} ${context.l10n.productQuantity(0)}',
+                       style: TextStyle(
+                         fontSize: 14,
+                         height: 0.85,
+                         color: _mutedText,
                       ),
                     ),
                   ],
@@ -1301,10 +1303,10 @@ class _QuantityPickerSheetState extends State<_QuantityPickerSheet> {
                 ),
                 elevation: 0,
               ),
-              child: Text(
-                'Добавить',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-              ),
+child: Text(
+              context.l10n.add,
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            ),
             ),
           ),
         ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/message.dart';
+import '../../services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import 'app_message_snackbar.dart' show AppMessageMetrics, severityFillColor;
 
@@ -51,7 +52,7 @@ class _DefaultOkAction extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () => Navigator.pop(context),
-      child: const Text('OK'),
+      child: Text(context.l10n.ok),
     );
   }
 }

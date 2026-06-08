@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
+import '../services/localization/localization_extension.dart';
 import '../models/message.dart';
 import '../models/user_address.dart';
 import '../services/api/api_service.dart';
@@ -355,7 +356,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
                   ),
                   elevation: 0,
                 ),
-                child: const Text('Добавить адрес'),
+                child: Text(context.l10n.addressAddButton),
               ),
             ),
           ],

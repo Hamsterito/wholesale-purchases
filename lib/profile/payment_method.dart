@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
+import '../services/localization/localization_extension.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import 'add_payment_card.dart';
@@ -496,21 +497,21 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Удалить карту?'),
+        title: Text(context.l10n.paymentCardDeleteTitle),
         content: Text(
           'Вы уверены, что хотите удалить карту **** ${card.last4}?',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Отмена'),
+            child: Text(context.l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             style: TextButton.styleFrom(
               foregroundColor: context.colorPalette.accent,
             ),
-            child: const Text('Удалить'),
+            child: Text(context.l10n.commonDeleteButton),
           ),
         ],
       ),

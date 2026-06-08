@@ -1,0 +1,2233 @@
+{
+  "@@locale": "ru",
+  "@@context": "Wholesale Purchases App",
+  "common_ok": "Хорошо",
+  "@common_ok": {
+    "description": "Кнопка подтверждения в диалогах"
+  },
+  "common_cancel": "Отмена",
+  "@common_cancel": {
+    "description": "Кнопка отмены действия"
+  },
+  "common_save": "Сохранить",
+  "@common_save": {
+    "description": "Кнопка Сохранить изменения"
+  },
+  "common_delete": "Удалить",
+  "@common_delete": {
+    "description": "Кнопка удаления"
+  },
+  "common_edit": "Править",
+  "@common_edit": {
+    "description": "Кнопка редактирования"
+  },
+  "common_loading": "Загрузка...",
+  "@common_loading": {
+    "description": "Уведомление о загрузке данных"
+  },
+  "common_error": "Ошибка",
+  "@common_error": {
+    "description": "Тема ошибки"
+  },
+  "common_success": "Успешно",
+  "@common_success": {
+    "description": "Уведомление об успешном выполнении"
+  },
+  "common_no_data": "Нет данных",
+  "@common_no_data": {
+    "description": "Уведомление об отсутствии данных"
+  },
+  "common_try_again": "Попробуйте снова",
+  "@common_try_again": {
+    "description": "Кнопка повторного действия"
+  },
+  "common_retry": "Повторение",
+  "@common_retry": {
+    "description": "Кнопка повтора действия"
+  },
+  "common_send": "Отправить",
+  "@common_send": {
+    "description": "Кнопка отправки данных"
+  },
+  "common_back": "Назад",
+  "@common_back": {
+    "description": "Кнопка возврата к предыдущему экрану"
+  },
+  "common_next": "Далее",
+  "@common_next": {
+    "description": "Кнопка перехода к следующему шагу"
+  },
+  "common_close": "Закрыть",
+  "@common_close": {
+    "description": "Кнопка закрытия диалога или экрана"
+  },
+  "common_add": "Добавить",
+  "@common_add": {
+    "description": "Кнопка добавить элемент"
+  },
+  "common_search": "Поиск...",
+  "@common_search": {
+    "description": "Заполнитель поля поиска"
+  },
+  "common_confirm": "Подтвердить",
+  "@common_confirm": {
+    "description": "Кнопка подтверждения действия"
+  },
+  "common_unit_short": "шт.",
+  "@common_unit_short": {
+    "description": "Сокращение единицы измерения (шт.)"
+  },
+  "auth_login_title": "Вход в аккаунт",
+  "@auth_login_title": {
+    "description": "Заголовок страницы входа"
+  },
+  "auth_register_title": "Регистрация",
+  "@auth_register_title": {
+    "description": "Заголовок страницы регистрации"
+  },
+  "auth_forgot_password": "Забыли пароль?",
+  "@auth_forgot_password": {
+    "description": "Ссылка для сброса пароля"
+  },
+  "auth_reset_password_title": "Сброс пароля",
+  "@auth_reset_password_title": {
+    "description": "Заголовок страницы сброса пароля"
+  },
+  "auth_email_label": "Email",
+  "@auth_email_label": {
+    "description": "Знак поля ввода Email"
+  },
+  "auth_password_label": "Пароль",
+  "@auth_password_label": {
+    "description": "Символ поля ввода пароля"
+  },
+  "auth_name_label": "Имя",
+  "@auth_name_label": {
+    "description": "Имя символ поля ввода"
+  },
+  "auth_name_hint": "Введите свое имя",
+  "@auth_name_hint": {
+    "description": "Совет поля ввода имени"
+  },
+  "auth_supplier_name_hint": "Например, ООО Манса склад",
+  "@auth_supplier_name_hint": {
+    "description": "Совет поля ввода названия компании-поставщика"
+  },
+  "auth_password_hint": "Введите новый пароль",
+  "@auth_password_hint": {
+    "description": "Совет по вводу нового пароля"
+  },
+  "auth_password_confirm_hint": "Подтвердите новый пароль",
+  "@auth_password_confirm_hint": {
+    "description": "Подсказка поля подтверждения пароля"
+  },
+  "auth_current_password_hint": "Введите текущий пароль",
+  "@auth_current_password_hint": {
+    "description": "Совет по текущему полю ввода пароля"
+  },
+  "auth_password_repeat_hint": "Введите пароль еще раз",
+  "@auth_password_repeat_hint": {
+    "description": "Совет по повторному вводу пароля"
+  },
+  "auth_password_min_length": "Не менее 6 символов",
+  "@auth_password_min_length": {
+    "description": "Совет по минимальной длине пароля"
+  },
+  "auth_logout": "Выход",
+  "@auth_logout": {
+    "description": "Кнопка выхода из аккаунта"
+  },
+  "catalog_title": "Каталог",
+  "@catalog_title": {
+    "description": "Заголовок страницы каталога"
+  },
+  "catalog_search_hint": "Поиск...",
+  "@catalog_search_hint": {
+    "description": "Подсказка поля поиска в каталоге"
+  },
+  "catalog_search_categories": "Поиск категорий...",
+  "@catalog_search_categories": {
+    "description": "Совет по поиску категорий"
+  },
+  "catalog_search_subcategories": "Поиск подкатегорий...",
+  "@catalog_search_subcategories": {
+    "description": "Совет по поиску категорий"
+  },
+  "catalog_no_products": "Товары не найдены",
+  "@catalog_no_products": {
+    "description": "Уведомление об отсутствии продуктов"
+  },
+  "cart_title": "Корзина",
+  "@cart_title": {
+    "description": "Тема страницы корзины"
+  },
+  "cart_empty": "Ваша корзина пуста",
+  "@cart_empty": {
+    "description": "Уведомление о пустой корзине"
+  },
+  "cart_clear_title": "Нужно очистить корзину?",
+  "@cart_clear_title": {
+    "description": "Тема диалога очистки корзины"
+  },
+  "cart_clear_message": "Все продукты будут удалены из корзины.",
+  "@cart_clear_message": {
+    "description": "Сообщение в диалоге очистки корзины"
+  },
+  "cart_clear_button": "Очистить",
+  "@cart_clear_button": {
+    "description": "Кнопка очистки корзины"
+  },
+  "cart_payment_confirm_title": "Подтверждение оплаты",
+  "@cart_payment_confirm_title": {
+    "description": "Тема диалога подтверждения платежа"
+  },
+  "cart_payment_button": "Оплатить",
+  "@cart_payment_button": {
+    "description": "Кнопка оплаты Заказа"
+  },
+  "order_title": "Заказы",
+  "@order_title": {
+    "description": "Заголовок страницы заказов"
+  },
+  "order_history": "История заказов",
+  "@order_history": {
+    "description": "Тема истории заказов"
+  },
+  "order_no_orders": "Нет заказов",
+  "@order_no_orders": {
+    "description": "Уведомление об отсутствии заказов"
+  },
+  "product_details": "Детали продукта",
+  "@product_details": {
+    "description": "Заголовок страницы сведений о продукте"
+  },
+  "product_reviews": "Отзывы",
+  "@product_reviews": {
+    "description": "Тема раздела комментариев"
+  },
+  "product_questions": "Вопросы",
+  "@product_questions": {
+    "description": "Тема раздела вопросов"
+  },
+  "product_answer_button": "Ответить",
+  "@product_answer_button": {
+    "description": "Кнопка ответа на вопрос"
+  },
+  "product_review_hint": "Текст комментария",
+  "@product_review_hint": {
+    "description": "Совет поля ввода мнений"
+  },
+  "product_review_share": "Поделитесь впечатлениями",
+  "@product_review_share": {
+    "description": "Совет поля мнений"
+  },
+  "profile_title": "Профиль",
+  "@profile_title": {
+    "description": "Заголовок страницы профиля"
+  },
+  "profile_settings": "Настройки",
+  "@profile_settings": {
+    "description": "Тема настроек профиля"
+  },
+  "profile_personal_info": "Личная информация",
+  "@profile_personal_info": {
+    "description": "Тема раздела личная информация"
+  },
+  "profile_change_password": "Изменить пароль",
+  "@profile_change_password": {
+    "description": "Заголовок страницы изменения пароля"
+  },
+  "profile_payment_cards": "Платежные карты",
+  "@profile_payment_cards": {
+    "description": "Тема раздела платежные карты"
+  },
+  "profile_addresses": "Адреса доставки",
+  "@profile_addresses": {
+    "description": "Тема раздела адреса доставки"
+  },
+  "profile_edit_field_hint": "Введите новое значение",
+  "@profile_edit_field_hint": {
+    "description": "Совет поля редактирования профиля"
+  },
+  "supplier_products": "Продукты",
+  "@supplier_products": {
+    "description": "Заголовок страницы продуктов поставщика"
+  },
+  "supplier_orders": "Заказы",
+  "@supplier_orders": {
+    "description": "Заголовок страницы заказов поставщиков"
+  },
+  "supplier_profile": "Профиль поставщика",
+  "@supplier_profile": {
+    "description": "Заголовок профиля поставщика"
+  },
+  "supplier_add_product": "Добавление продукта",
+  "@supplier_add_product": {
+    "description": "Кнопка Добавить продукт"
+  },
+  "supplier_edit_product": "Править",
+  "@supplier_edit_product": {
+    "description": "Кнопка редактирования продукта"
+  },
+  "supplier_search_suppliers": "Поиск по поставщикам",
+  "@supplier_search_suppliers": {
+    "description": "Совет по поиску поставщиков"
+  },
+  "supplier_country_hint": "Например, Казахстан",
+  "@supplier_country_hint": {
+    "description": "Подсказка поля страны-производителя"
+  },
+  "supplier_shelf_life_hint": "Например, 12 месяцев",
+  "@supplier_shelf_life_hint": {
+    "description": "Совет по срокам годности"
+  },
+  "supplier_weight_hint": "Например, 1450",
+  "@supplier_weight_hint": {
+    "description": "Совет по весу продукта"
+  },
+  "supplier_calories_hint": "Например, 120",
+  "@supplier_calories_hint": {
+    "description": "Совет по калориям"
+  },
+  "supplier_category_search": "Поиск категории",
+  "@supplier_category_search": {
+    "description": "Совет по поиску категорий"
+  },
+  "supplier_add_photo": "Добавить",
+  "@supplier_add_photo": {
+    "description": "Кнопка Добавить Фото"
+  },
+  "supplier_schedule_weekdays": "Будни",
+  "@supplier_schedule_weekdays": {
+    "description": "Знак выбора рабочих дней"
+  },
+  "supplier_schedule_weekend": "Выходные дни",
+  "@supplier_schedule_weekend": {
+    "description": "Знак выбора выходных"
+  },
+  "supplier_schedule_daily": "Каждый день",
+  "@supplier_schedule_daily": {
+    "description": "Знак ежедневного расписания"
+  },
+  "moderator_title": "Модерация",
+  "@moderator_title": {
+    "description": "Тема профиля модератора"
+  },
+  "moderator_search_hint": "Поиск: товар, поставщик, категория",
+  "@moderator_search_hint": {
+    "description": "Совет по поиску в умеренности"
+  },
+  "moderator_search_users": "Поиск по имени или email",
+  "@moderator_search_users": {
+    "description": "Совет по поиску пользователей"
+  },
+  "moderator_delete_reason": "Причина удаления для поставщика",
+  "@moderator_delete_reason": {
+    "description": "Причина удаления продукта"
+  },
+  "moderator_close_reason": "Причина закрытия (необязательно)",
+  "@moderator_close_reason": {
+    "description": "Причина закрытия чата"
+  },
+  "moderator_support_chats": "Поддерживающие чаты",
+  "@moderator_support_chats": {
+    "description": "Заголовок страницы чата поддержки"
+  },
+  "support_category_hint": "Выберите категорию",
+  "@support_category_hint": {
+    "description": "Совет по выбору категории заявки"
+  },
+  "support_subject_hint": "Введите тему",
+  "@support_subject_hint": {
+    "description": "Консультация по теме обращения"
+  },
+  "template_save_title": "Сохранить как шаблон",
+  "@template_save_title": {
+    "description": "Тема диалога сохранения шаблона"
+  },
+  "template_overwrite": "Переписать",
+  "@template_overwrite": {
+    "description": "Кнопка перезаписи существующего шаблона"
+  },
+  "template_save_another": "Сохранить под другим именем",
+  "@template_save_another": {
+    "description": "Кнопка сохранения с другим именем"
+  },
+  "template_rename_title": "Переименование шаблона",
+  "@template_rename_title": {
+    "description": "Заголовок диалога переименования шаблона"
+  },
+  "template_name_label": "Название шаблона",
+  "@template_name_label": {
+    "description": "Название модели метка поля ввода"
+  },
+  "template_name_error": "Название шаблона: от 1 до 50 символов",
+  "@template_name_error": {
+    "description": "Ошибка имени модели"
+  },
+  "template_duplicate_exists": "Название уже занято",
+  "@template_duplicate_exists": {
+    "description": "Название модели дубликат"
+  },
+  "template_apply_confirm": "Замена",
+  "@template_apply_confirm": {
+    "description": "Кнопка подтверждения использования шаблона"
+  },
+  "payment_card_expiry_hint": "ММ/ГГ",
+  "@payment_card_expiry_hint": {
+    "description": "Подсказка поля даты истечения срока действия карты"
+  },
+  "validation_required": "Это поле обязательно",
+  "@validation_required": {
+    "description": "Уведомление об обязательном поле"
+  },
+  "validation_email_invalid": "Неверный формат Email",
+  "@validation_email_invalid": {
+    "description": "Сообщение о некорректности формата Email"
+  },
+  "validation_password_short": "Пароль слишком короткий",
+  "@validation_password_short": {
+    "description": "Слишком короткое сообщение пароля"
+  },
+  "validation_passwords_mismatch": "Пароли несовместимы",
+  "@validation_passwords_mismatch": {
+    "description": "Уведомление о несоответствии паролей"
+  },
+  "error_network": "Ошибка сети. Проверьте соединение и попробуйте снова",
+  "@error_network": {
+    "description": "Сообщение об ошибке сети"
+  },
+  "error_timeout": "Более длительное время отклика сервера",
+  "@error_timeout": {
+    "description": "Сообщение об ошибке таймаута"
+  },
+  "error_unknown": "Произошла неизвестная ошибка",
+  "@error_unknown": {
+    "description": "Неизвестное сообщение об ошибке"
+  },
+  "error_auth_required": "Требуется Авторизация",
+  "@error_auth_required": {
+    "description": "Уведомление о необходимости авторизации"
+  },
+  "error_not_found": "Не найден",
+  "@error_not_found": {
+    "description": "Уведомление об отсутствии запрошенного ресурса"
+  },
+  "message_order_not_found": "ID {orderId} существующий заказ не найден",
+  "@message_order_not_found": {
+    "description": "Образец уведомления о не найденном заказе"
+  },
+  "message_order_confirmed": "Ваш #{orderId} заказ подтвержден",
+  "@message_order_confirmed": {
+    "description": "Образец уведомления о подтверждении заказа"
+  },
+  "message_order_delivered": "#{orderId} заказ доставлен",
+  "@message_order_delivered": {
+    "description": "Образец уведомления о доставке заказа"
+  },
+  "message_product_not_found": "ID {productId} существующий продукт не найден",
+  "@message_product_not_found": {
+    "description": "Образец уведомления о незаработанном продукте"
+  },
+  "message_network_error": "Ошибка сети. Проверьте соединение и попробуйте снова",
+  "@message_network_error": {
+    "description": "Шаблон сообщения об ошибке сети"
+  },
+  "message_timeout_error": "Более длительное время отклика сервера",
+  "@message_timeout_error": {
+    "description": "Шаблон сообщения об ошибке таймаута"
+  },
+  "message_validation_error": "Ошибка подтверждения: {details}",
+  "@message_validation_error": {
+    "description": "Шаблон сообщения об ошибке подтверждения"
+  },
+  "message_auth_required": "Требуется Авторизация",
+  "@message_auth_required": {
+    "description": "Образец уведомления о необходимости авторизации"
+  },
+  "message_parse_error": "Сообщение не может быть проанализировано",
+  "@message_parse_error": {
+    "description": "Шаблон сообщения об ошибке анализа"
+  },
+  "message_ai_generation_failed": "Невозможно построить ответ AI: {reason}",
+  "@message_ai_generation_failed": {
+    "description": "Шаблон сообщения об ошибке генерации AI"
+  },
+  "format_date_pattern": "DD.MM.YYYY HH:mm",
+  "@format_date_pattern": {
+    "description": "Формат отображения даты и времени"
+  },
+  "format_number_thousands_separator": "\\u202F",
+  "@format_number_thousands_separator": {
+    "description": "Разделитель тысяч (узкий неразрывный пробел)"
+  },
+  "format_number_decimal_separator": ",",
+  "@format_number_decimal_separator": {
+    "description": "Делитель дробной части"
+  },
+  "common_more": "Еще",
+  "@common_more": {
+    "description": "Кнопка открытия текста"
+  },
+  "common_less": "Скрыть",
+  "@common_less": {
+    "description": "Кнопка для скрытия текста"
+  },
+  "auth_session_expired": "Сеанс завершен. Войдите снова",
+  "@auth_session_expired": {
+    "description": "Уведомление об окончании сеанса"
+  },
+  "product_similar": "Организационные продукты",
+  "@product_similar": {
+    "description": "Тема секции организационных продуктов"
+  },
+  "supplier_error_load_products": "Не удалось загрузить продукты",
+  "@supplier_error_load_products": {
+    "description": "Ошибка загрузки продуктов"
+  },
+  "supplier_error_load_orders": "Не удалось загрузить заказы",
+  "@supplier_error_load_orders": {
+    "description": "Ошибка загрузки заказов"
+  },
+  "supplier_login_required": "Необходимо войти в аккаунт",
+  "@supplier_login_required": {
+    "description": "Уведомление о необходимости входа"
+  },
+  "supplier_product_sent_moderation": "Товар отправлен на модерацию",
+  "@supplier_product_sent_moderation": {
+    "description": "Уведомление о отправке продукта на модерацию"
+  },
+  "supplier_changes_sent_moderation": "Изменения направлены на модерацию",
+  "@supplier_changes_sent_moderation": {
+    "description": "Уведомление о внесении изменений в модерацию"
+  },
+  "supplier_delete_product": "Удалить продукт?",
+  "@supplier_delete_product": {
+    "description": "Тема диалога удаления продукта"
+  },
+  "supplier_product": "Продукт",
+  "@supplier_product": {
+    "description": "Наименование субъекта продукции"
+  },
+  "supplier_removed_from_publication": "Продукт взят из публицистики",
+  "@supplier_removed_from_publication": {
+    "description": "Извещение о снятии продукции с публицистики"
+  },
+  "supplier_product_deleted": "Продукт уничтожен",
+  "@supplier_product_deleted": {
+    "description": "Уведомление об уничтожении продукта"
+  },
+  "supplier_error_delete_product": "Не удалось удалить продукт",
+  "@supplier_error_delete_product": {
+    "description": "Сообщение об ошибке удаления продукта"
+  },
+  "supplier_apprved": "Утверждено",
+  "@supplier_apprved": {
+    "description": "Утвержденный статус продукта"
+  },
+  "supplier_rejected": "Не вставлен",
+  "@supplier_rejected": {
+    "description": "Статус продукта без вставки"
+  },
+  "supplier_pending": "В умеренности",
+  "@supplier_pending": {
+    "description": "Статус продукта в умеренности"
+  },
+  "supplier_no_title": "Без названия",
+  "@supplier_no_title": {
+    "description": "Текст для безымянного продукта"
+  },
+  "supplier_no_description": "Без описания",
+  "@supplier_no_description": {
+    "description": "Текст для продукта без описания"
+  },
+  "supplier_orders_empty_no_orders": "Нет заказов",
+  "@supplier_orders_empty_no_orders": {
+    "description": "Уведомление об отсутствии заказов"
+  },
+  "supplier_orders_empty_active": "Нет активных заказов",
+  "@supplier_orders_empty_active": {
+    "description": "Уведомление об отсутствии активных заказов"
+  },
+  "supplier_orders_empty_history": "В истории нет заказов",
+  "@supplier_orders_empty_history": {
+    "description": "Уведомление об отсутствии заказов в истории"
+  },
+  "supplier_orders_empty_period": "Нет заказов на выбранный период",
+  "@supplier_orders_empty_period": {
+    "description": "Уведомление об отсутствии заказов на период"
+  },
+  "supplier_status_change_step": "Невозможно пройти в выбранном статусе",
+  "@supplier_status_change_step": {
+    "description": "Сообщение об ошибке изменения статуса"
+  },
+  "supplier_status_updated": "Обновлен статус заказа",
+  "@supplier_status_updated": {
+    "description": "Уведомление об обновлении статуса"
+  },
+  "supplier_status_update_failed": "Не удалось обновить статус",
+  "@supplier_status_update_failed": {
+    "description": "Сообщение об ошибке обновления статуса"
+  },
+  "supplier_status_confirm_change": "Подтверждение изменения статуса",
+  "@supplier_status_confirm_change": {
+    "description": "Тема диалога изменения статуса"
+  },
+  "supplier_order_prefix": "Заказ",
+  "@supplier_order_prefix": {
+    "description": "Префикс для номера заказа"
+  },
+  "supplier_from": "из",
+  "@supplier_from": {
+    "description": "Предлог статуса (иске)"
+  },
+  "supplier_to": "в",
+  "@supplier_to": {
+    "description": "Предлог статуса (я)"
+  },
+  "supplier_period_day": "День",
+  "@supplier_period_day": {
+    "description": "Подпис солнечного периода"
+  },
+  "supplier_period_week": "Неделя",
+  "@supplier_period_week": {
+    "description": "Подпис периода недели"
+  },
+  "supplier_period_month": "Месяц",
+  "@supplier_period_month": {
+    "description": "Подпис лунного периода"
+  },
+  "supplier_period_quarter": "Квартал",
+  "@supplier_period_quarter": {
+    "description": "Подпис периода девяноста"
+  },
+  "supplier_active_orders_tab": "Активный",
+  "@supplier_active_orders_tab": {
+    "description": "Имя вкладки \"активные заказы\""
+  },
+  "supplier_history_orders_tab": "История",
+  "@supplier_history_orders_tab": {
+    "description": "Название вкладки история заказов"
+  },
+  "supplier_filter_label": "Фильтр по датам",
+  "@supplier_filter_label": {
+    "description": "Подпис фильтра по датам"
+  },
+  "supplier_export_excel": "Экспорт в файл Excel",
+  "@supplier_export_excel": {
+    "description": "Кнопка экспорта в файл Excel"
+  },
+  "supplier_products_in_order": "Продукты на заказ",
+  "@supplier_products_in_order": {
+    "description": "Тема секции продукции на заказ"
+  },
+  "supplier_top_products": "Популярные товары",
+  "@supplier_top_products": {
+    "description": "Тема секции продуктов группы"
+  },
+  "supplier_recent_orders": "Последние заказы",
+  "@supplier_recent_orders": {
+    "description": "Тема секции конечных заказов"
+  },
+  "supplier_unanswered_questions": "Вопросов без ответа: {count}",
+  "@supplier_unanswered_questions": {
+    "description": "Расчет вопросов без ответа"
+  },
+  "template_add_to_cart": "Добавить в корзину",
+  "@template_add_to_cart": {
+    "description": "Текст кнопки Добавить в корзину"
+  },
+  "review_quick_fast_delivery": "Быстрая доставка",
+  "@review_quick_fast_delivery": {
+    "description": "Быстрая доставка тег"
+  },
+  "review_quick_good_price": "Хорошая цена",
+  "@review_quick_good_price": {
+    "description": "Хорошая ценник"
+  },
+  "review_quick_quality_packaging": "Качественная упаковка",
+  "review_quick_fresh_product": "Свежий товар",
+  "@review_quick_fresh_product": {
+    "description": "Тег продукта свежий"
+  },
+  "review_quick_polite_courier": "Вежливый курьер",
+  "@review_quick_polite_courier": {
+    "description": "Ахсан глагол курьер фамилия"
+  },
+  "review_no_text": "Без текста",
+  "@review_no_text": {
+    "description": "Текст пустого поля по умолчанию"
+  },
+  "wizard_optional": "не обязательно",
+  "@wizard_optional": {
+    "description": "подписка на обязательность поля"
+  },
+  "wizard_orders_cutoff_time": "Время, когда прием заказов заканчивается",
+  "@wizard_orders_cutoff_time": {
+    "description": "Совет по времени закрытия заказов"
+  },
+  "wizard_invalid_time": "Неправильный формат времени",
+  "@wizard_invalid_time": {
+    "description": "Сообщение об ошибке формата времени"
+  },
+  "wizard_select_category": "Выберите категорию из каталога",
+  "@wizard_select_category": {
+    "description": "Совет по выбору категории"
+  },
+  "settings_enabled": "Включено",
+  "@settings_enabled": {
+    "description": "Добавлена грива подписка"
+  },
+  "settings_disabled": "Выключено",
+  "@settings_disabled": {
+    "description": "Стертая грива подписка"
+  },
+  "price": "Цена",
+  "@price": {
+    "description": "Название поля цены"
+  },
+  "checkout": "Оформление заказа",
+  "@checkout": {
+    "description": "Название страницы кладки"
+  },
+  "supplier_status_assembling": "Подготовка идет",
+  "@supplier_status_assembling": {
+    "description": "Статус при подготовке заказа"
+  },
+  "supplier_status_in_transit": "В пути",
+  "@supplier_status_in_transit": {
+    "description": "Статус в заказе"
+  },
+  "supplier_status_delivered": "Доставлено",
+  "@supplier_status_delivered": {
+    "description": "Заказ доставлен статус"
+  },
+  "supplier_status_accepted": "Получено",
+  "@supplier_status_accepted": {
+    "description": "Заказ получен статус"
+  },
+  "supplier_status_cancelled": "Отменён",
+  "@supplier_status_cancelled": {
+    "description": "Заказ отменён статус"
+  },
+  "supplier_order_progress": "Прогресс заказа",
+  "@supplier_order_progress": {
+    "description": "Тема прогресса заказа"
+  },
+  "supplier_current_status": "Текущий статус: {status}",
+  "@supplier_current_status": {
+    "description": "Текущий статус о подписке"
+  },
+  "supplier_order_confirmed_by_buyer": "Заказ подтвержден покупателем",
+  "@supplier_order_confirmed_by_buyer": {
+    "description": "Заказ подтвержденное уведомление"
+  },
+  "supplier_waiting_buyer_confirmation": "Ожидает подтверждения покупателем",
+  "@supplier_waiting_buyer_confirmation": {
+    "description": "Уведомление ожидания подтверждения"
+  },
+  "units_count_short": "шт.",
+  "@units_count_short": {
+    "description": "Сокращение фрагмента категории"
+  },
+  "items_count_short": "поз.",
+  "@items_count_short": {
+    "description": "Сокращение числа позиций"
+  },
+  "supplier_export_success": "Файл загружен",
+  "@supplier_export_success": {
+    "description": "Успешное уведомление об экспорте"
+  },
+  "supplier_order_items_empty": "В заказе нет товаров",
+  "@supplier_order_items_empty": {
+    "description": "Уведомление об отсутствии товаров в заказе"
+  },
+  "supplier_export_error": "Ошибка экспорта: {error}",
+  "@supplier_export_error": {
+    "description": "Сообщение об ошибке экспорта"
+  },
+"answered_label": "Ответ дан",
+  "@answered_label": {
+    "description": "Метка статуса ответа дан"
+  },
+  "supplier_order_total_label": "Всего",
+  "@supplier_order_total_label": {
+    "description": "Подпись общей суммы заказа"
+  },
+  "supplier_delivery_address_label": "Адрес доставки",
+  "@supplier_delivery_address_label": {
+    "description": "Подпись адреса доставки"
+  },
+  "supplier_order_status_label": "Статус заказа",
+  "@supplier_order_status_label": {
+    "description": "Подпись статуса заказа"
+  },
+  "supplier_goods_positions_label": "Товарные позиции",
+  "@supplier_goods_positions_label": {
+    "description": "Подпись товарных позиций"
+  },
+  "supplier_units_count_label": "Количество единиц",
+  "@supplier_units_count_label": {
+    "description": "Подпись количества единиц"
+  },
+  "supplier_confirmed_label": "Подтверждено",
+  "@supplier_confirmed_label": {
+    "description": "Подпись подтверждённого статуса"
+  },
+  "supplier_order_total_label": "Всего",
+  "@supplier_order_total_label": {
+    "description": "Заказать Симма подписывайся"
+  },
+  "supplier_delivery_address_label": "Адрес доставки",
+  "@supplier_delivery_address_label": {
+    "description": "Адрес доставки подпишись"
+  },
+  "supplier_address_not_specified": "Не указано",
+  "@supplier_address_not_specified": {
+    "description": "Когда адрес не указан"
+  },
+  "supplier_order_status_label": "Статус заказа",
+  "@supplier_order_status_label": {
+    "description": "Статус заказа подписывайтесь"
+  },
+  "supplier_goods_positions_label": "Товарные позиции",
+  "@supplier_goods_positions_label": {
+    "description": "Товарные позиции подписывайтесь"
+  },
+  "supplier_units_count_label": "Количество единиц",
+  "@supplier_units_count_label": {
+    "description": "Количество единиц подписывайся"
+  },
+  "supplier_confirmed_label": "Подтверждено",
+  "@supplier_confirmed_label": {
+    "description": "Подтвержденный статус подписка"
+  },
+  "qa_title": "Вопросы и ответы",
+  "@qa_title": {
+    "description": "Тема страницы вопросов и ответов"
+  },
+  "qa_questions_tab": "Вопросы",
+  "@qa_questions_tab": {
+    "description": "Название вкладки \"вопросы\""
+  },
+  "qa_reviews_tab": "Отзывы",
+  "@qa_reviews_tab": {
+    "description": "Название вкладки комментариев"
+  },
+  "qa_questions_without_answers": "Вопросы, на которые уже даны ответы",
+  "@qa_questions_without_answers": {
+    "description": "Тема секции вопросов с ответами"
+  },
+  "qa_answered_questions": "Вопросы с ответами",
+  "@qa_answered_questions": {
+    "description": "Ответы на вопросы подписывайтесь"
+  },
+  "qa_no_questions": "Нет вопросов",
+  "@qa_no_questions": {
+    "description": "Уведомление об отсутствии вопросов"
+  },
+  "qa_no_reviews": "Нет комментариев",
+  "@qa_no_reviews": {
+    "description": "Сообщение об отсутствии комментариев"
+  },
+  "qa_no_text": "Без текста",
+  "@qa_no_text": {
+    "description": "Текст пустого поля по умолчанию"
+  },
+  "qa_seller_answer": "Ответ поставщика",
+  "@qa_seller_answer": {
+    "description": "Поставщик ответ подписка"
+  },
+  "qa_without_answer": "Нет ответа",
+  "@qa_without_answer": {
+    "description": "Метка вопроса без ответа"
+  },
+  "qa_answer_sent_success": "Ответ отправлен успешно",
+  "@qa_answer_sent_success": {
+    "description": "Уведомление о моменте отправки ответа"
+  },
+  "qa_answer_updated_success": "Ответ был успешно обновлен",
+  "@qa_answer_updated_success": {
+    "description": "Ответ уведомление о моменте обновления"
+  },
+  "qa_not_authorized": "Вы не авторизованы",
+  "@qa_not_authorized": {
+    "description": "Сообщение о неавторизованном пользователе"
+  },
+  "qa_refresh": "Обновление",
+  "@qa_refresh": {
+    "description": "Кнопка обновления подписка"
+  },
+  "qa_retry": "Повторение",
+  "@qa_retry": {
+    "description": "Кнопка повтора подписка"
+  },
+  "qa_expand": "Подробнее",
+  "@qa_expand": {
+    "description": "Кнопка открывания текста подписывайся"
+  },
+  "qa_collapse": "Скрыть",
+  "@qa_collapse": {
+    "description": "Кнопка скрытия текста подписка"
+  },
+  "qa_respond": "Ответить",
+  "@qa_respond": {
+    "description": "Кнопка ответа подписывайся"
+  },
+  "qa_customers_no_questions": "Товаришки еще не задавали вопросов",
+  "@qa_customers_no_questions": {
+    "description": "Уведомление о том, что товарные знаки не задали вопрос"
+  },
+  "qa_customers_no_reviews": "Товаришки пока не оставили отзывов",
+  "@qa_customers_no_reviews": {
+    "description": "Сообщение о том, что товар не оставил отзыв"
+  },
+  "qa_no_answer": "Нет ответа",
+  "@qa_no_answer": {
+    "description": "Когда нет ответа"
+  },
+  "qa_error_with_details": "Ошибка: {details}",
+  "@qa_error_with_details": {
+    "description": "Сообщение об ошибке с подробностями"
+  },
+  "qa_answer_updated": "Ответ обновлен",
+  "@qa_answer_updated": {
+    "description": "Ответ уведомление об обновлении"
+  },
+  "supplier_label": "Поставщик",
+  "@supplier_label": {
+    "description": "Метка перед поставщиком"
+  },
+  "unknown_error": "Неизвестная ошибка",
+  "@unknown_error": {
+    "description": "Неизвестное сообщение об ошибке"
+  },
+  "profile_reviews_title": "Ваши комментарии",
+  "@profile_reviews_title": {
+    "description": "Заголовок страницы комментариев"
+  },
+  "profile_reviews_empty": "пока нет комментариев",
+  "@profile_reviews_empty": {
+    "description": "Сообщение об отсутствии комментариев"
+  },
+  "profile_reviews_pending_title": "Ждите комментариев",
+  "@profile_reviews_pending_title": {
+    "description": "Тема ожидаемой секции комментариев"
+  },
+  "profile_reviews_pending_subtitle": "Дайте оценку покупкам-это поможет другим",
+  "@profile_reviews_pending_subtitle": {
+    "description": "Подзаголовок секции ожидаемых отзывов"
+  },
+  "profile_reviews_leave_review": "Оставить комментарий",
+  "@profile_reviews_leave_review": {
+    "description": "Кнопка Оставить комментарий"
+  },
+  "profile_reviews_total_count": "{count} всего",
+  "@profile_reviews_total_count": {
+    "description": "Расчет отзывов"
+  },
+  "profile_reviews_section_title": "Ваши комментарии",
+  "@profile_reviews_section_title": {
+    "description": "Тема секции комментариев"
+  },
+  "profile_reviews_section_subtitle_empty": "Отзывы по всем покупкам",
+  "@profile_reviews_section_subtitle_empty": {
+    "description": "Комментарии к разделу пустые подзаголовки"
+  },
+  "profile_reviews_section_subtitle_total": "Всего: {count}",
+  "@profile_reviews_section_subtitle_total": {
+    "description": "Расчет отзывов в подзаголовке"
+  },
+  "profile_reviews_rate_product": "Дайте товару оценку",
+  "@profile_reviews_rate_product": {
+    "description": "Ценообразование товара подписывайся"
+  },
+  "profile_reviews_add_details": "Добавить детали",
+  "@profile_reviews_add_details": {
+    "description": "Т қосу добавить записи подписка"
+  },
+  "profile_reviews_edit_button": "Править",
+  "@profile_reviews_edit_button": {
+    "description": "Кнопка редактирования"
+  },
+  "profile_reviews_delete_button": "Удалить",
+  "@profile_reviews_delete_button": {
+    "description": "Кнопка удаления"
+  },
+  "profile_reviews_sending": "Отправка...",
+  "@profile_reviews_sending": {
+    "description": "Посылка"
+  },
+  "profile_reviews_save_button": "Сохранить",
+  "@profile_reviews_save_button": {
+    "description": "Кнопка сохранения"
+  },
+  "profile_reviews_saved_success": "Комментарий обновлен",
+  "@profile_reviews_saved_success": {
+    "description": "Сообщение об успешном сохранении"
+  },
+  "profile_reviews_save_error": "Комментарий не удалось сохранить",
+  "@profile_reviews_save_error": {
+    "description": "Сообщение об ошибке сохранения"
+  },
+  "profile_reviews_login_required": "Войдите, чтобы отредактировать отзыв",
+  "@profile_reviews_login_required": {
+    "description": "Уведомление о необходимости авторизации"
+  },
+  "profile_reviews_rating_required": "Дайте товару оценку",
+  "@profile_reviews_rating_required": {
+    "description": "Уведомление о необходимости оценки"
+  },
+  "profile_reviews_submit_success": "Спасибо за комментарий!",
+  "@profile_reviews_submit_success": {
+    "description": "Успешное отправление сообщения"
+  },
+  "profile_reviews_submit_error": "Не удалось отправить комментарий",
+  "@profile_reviews_submit_error": {
+    "description": "Сообщение об ошибке отправки"
+  },
+  "profile_reviews_delete_confirm": "Удалить комментарий?",
+  "@profile_reviews_delete_confirm": {
+    "description": "Подтверждение удаления"
+  },
+  "profile_reviews_delete_success": "Комментарий удален",
+  "@profile_reviews_delete_success": {
+    "description": "Сообщение об успешном удалении"
+  },
+  "profile_reviews_delete_error": "Удалить комментарий не удалось",
+  "@profile_reviews_delete_error": {
+    "description": "Сообщение об ошибке удаления"
+  },
+  "profile_reviews_close_dialog": "Закрыть",
+  "@profile_reviews_close_dialog": {
+    "description": "Кнопка закрытия диалога"
+  },
+  "profile_reviews_cancel_button": "Отмена",
+  "@profile_reviews_cancel_button": {
+    "description": "Кнопка отмены"
+  },
+  "profile_reviews_change_button": "Изменить",
+  "@profile_reviews_change_button": {
+    "description": "Кнопка переключения"
+  },
+  "profile_reviews_order_label": "Заказ {orderId}",
+  "@profile_reviews_order_label": {
+    "description": "Метка заказа"
+  },
+  "profile_review_hint": "Текст комментария",
+  "@profile_review_hint": {
+    "description": "Совет поля ввода мнений"
+  },
+"review_sending": "Отправляется...",
+  "@review_sending": {
+    "description": "Отправка"
+  },
+  "review_your_text": "Ваше мнение",
+  "@review_your_text": {
+    "description": "Заголовок поля комментариев"
+  },
+  "review_rate_product": "Дайте товару оценку",
+  "@review_rate_product": {
+    "description": "Оценка товара"
+  },
+  "review_add_details": "Добавить детали",
+  "@review_add_details": {
+    "description": "Добавить детали"
+  },
+  "review_save_button": "Сохранить",
+  "@review_save_button": {
+    "description": "Кнопка сохранения"
+  },
+  "review_sending_text": "Отправляется...",
+  "@review_sending_text": {
+    "description": "Отправка"
+  },
+  "review_save_draft": "Сохранить",
+  "@review_save_draft": {
+    "description": "Кнопка сохранения"
+  },
+  "review_cancel_draft": "Отмена",
+  "@review_cancel_draft": {
+    "description": "Кнопка отмены"
+  },
+  "review_change_draft": "Изменить",
+  "@review_change_draft": {
+    "description": "Кнопка изменения"
+  },
+  "review_your_text": "Ваше мнение",
+  "@review_your_text": {
+    "description": "Заголовок поля комментариев"
+  },
+  "review_rate_product": "Дайте товару оценку",
+  "@review_rate_product": {
+    "description": "Ценообразование товара подписывайся"
+  },
+  "review_add_details": "Добавить детали",
+  "@review_add_details": {
+    "description": "Т қосу добавить записи подписка"
+  },
+  "review_share_feedback": "Поделитесь впечатлениями",
+  "@review_share_feedback": {
+    "description": "Совет поля мнений"
+  },
+  "review_save_button": "Хранение",
+  "@review_save_button": {
+    "description": "Кнопка сохранения"
+  },
+  "review_edit_button": "Править",
+  "@review_edit_button": {
+    "description": "Кнопка редактирования"
+  },
+  "review_delete_button": "Удалить",
+  "@review_delete_button": {
+    "description": "Кнопка удаления"
+  },
+  "review_cancel_button": "Отмена",
+  "@review_cancel_button": {
+    "description": "Кнопка отмены"
+  },
+  "review_change_button": "Изменить",
+  "@review_change_button": {
+    "description": "Кнопка переключения"
+  },
+  "review_leave_button": "Оставить комментарий",
+  "@review_leave_button": {
+    "description": "Кнопка Оставить комментарий"
+  },
+  "review_submit_button": "Отправить комментарий",
+  "@review_submit_button": {
+    "description": "Кнопка отправить комментарий"
+  },
+  "review_delete_confirm": "Удалить комментарий?",
+  "@review_delete_confirm": {
+    "description": "Подтверждение удаления"
+  },
+  "review_close_dialog": "Закрыть",
+  "@review_close_dialog": {
+    "description": "Кнопка закрытия диалога"
+  },
+  "review_sending_text": "Отправляется...",
+  "@review_sending_text": {
+    "description": "Посылка"
+  },
+  "review_save_draft": "Сохранить",
+  "@review_save_draft": {
+    "description": "Кнопка сохранения"
+  },
+  "review_edit_draft": "Править",
+  "@review_edit_draft": {
+    "description": "Кнопка редактирования"
+  },
+  "review_delete_draft": "Удалить",
+  "@review_delete_draft": {
+    "description": "Кнопка удаления"
+  },
+  "review_cancel_draft": "Отмена",
+  "@review_cancel_draft": {
+    "description": "Кнопка отмены"
+  },
+  "review_change_draft": "Изменить",
+  "@review_change_draft": {
+    "description": "Кнопка изменения"
+  },
+  "review_leave_draft": "Оставить комментарий",
+  "@review_leave_draft": {
+    "description": "Кнопка Оставить комментарий"
+  },
+  "review_submit_draft": "Отправить комментарий",
+  "@review_submit_draft": {
+    "description": "Кнопка отправить комментарий"
+  },
+  "review_thank_you": "Спасибо за комментарий!",
+  "@review_thank_you": {
+    "description": "Сообщение Спасибо за комментарий"
+  },
+  "review_no_questions_empty": "пока нет комментариев",
+  "@review_no_questions_empty": {
+    "description": "Сообщение об отсутствии комментариев"
+  },
+  "confirm_delete": "Удалить",
+  "@confirm_delete": {
+    "description": "Удалить кнопка подтверждения"
+  },
+  "confirm_cancel": "Отмена",
+  "@confirm_cancel": {
+    "description": "Кнопка подтверждения отмены"
+  },
+  "cannot_be_undone": "Это действие нельзя отменить",
+  "@cannot_be_undone": {
+    "description": "Предупреждение о невозможности отменить действие"
+  },
+  "settings_appearance": "Внешний вид",
+  "@settings_appearance": {
+    "description": "Раздел настройки внешнего вида"
+  },
+  "settings_dark_mode": "Темная тема",
+  "@settings_dark_mode": {
+    "description": "Название темной темы"
+  },
+  "settings_use_dark_theme": "Использование темной темы",
+  "@settings_use_dark_theme": {
+    "description": "Описание переключателя темной темы"
+  },
+  "settings_language_region": "Язык и регион",
+  "@settings_language_region": {
+    "description": "Раздел настроек языка и региона"
+  },
+  "settings_language_label": "Язык",
+  "@settings_language_label": {
+    "description": "Знак выбора языка"
+  },
+  "settings_currency": "Валюта",
+  "@settings_currency": {
+    "description": "Символ выбора валюты"
+  },
+  "settings_currency_name": "{code}",
+  "@settings_currency_name": {
+    "description": "Наименование валюты по коду"
+  },
+  "settings_security": "Безопасность",
+  "@settings_security": {
+    "description": "Раздел настроек безопасности"
+  },
+  "settings_change_password": "Изменить пароль",
+  "@settings_change_password": {
+    "description": "Кнопка смены пароля"
+  },
+  "settings_two_factor_auth": "Двухфакторная аутентификация",
+  "@settings_two_factor_auth": {
+    "description": "Параметр двухфакторной аутентификации"
+  },
+  "settings_about": "О приложении",
+  "@settings_about": {
+    "description": "Раздел информации о приложении"
+  },
+  "settings_app_version": "Версия приложения",
+  "@settings_app_version": {
+    "description": "Значок версии приложения"
+  },
+  "nav_home": "Главная",
+  "@nav_home": {
+    "description": "Навигация: Домашняя страница"
+  },
+  "nav_statistics": "Статистика",
+  "@nav_statistics": {
+    "description": "Навигация: статистика"
+  },
+  "nav_moderation": "Модерация",
+  "@nav_moderation": {
+    "description": "Навигация: модерация"
+  },
+  "nav_chats": "Чаты",
+  "@nav_chats": {
+    "description": "Навигация: чаты поддержки"
+  },
+  "nav_moderators": "Модераторы",
+  "@nav_moderators": {
+    "description": "Навигация: список модераторов"
+  },
+  "supplier_delete_product_confirm": "Вы уверены, что хотите удалить этот продукт?",
+  "@supplier_delete_product_confirm": {
+    "description": "Подтверждение удаления продукта"
+  },
+  "supplier_profile_title": "Профиль поставщика",
+  "@supplier_profile_title": {
+    "description": "Заголовок профиля поставщика"
+  },
+  "template_replace_cart": "Замена корзины",
+  "@template_replace_cart": {
+    "description": "Тема диалога переключения корзины"
+  },
+  "template_replace_cart_confirm": "Текущая корзина заменяется продуктами из шаблона. Продолжать?",
+  "@template_replace_cart_confirm": {
+    "description": "Подтверждение замены корзины образцом"
+  },
+  "zakazi_my_orders": "Мои заказы",
+  "@zakazi_my_orders": {
+    "description": "Заголовок страницы Мои заказы"
+  },
+  "zakazi_no_orders": "Нет заказов",
+  "@zakazi_no_orders": {
+    "description": "Уведомление об отсутствии заказов"
+  },
+  "zakazi_history_button": "История заказов",
+  "@zakazi_history_button": {
+    "description": "Кнопка история заказов"
+  },
+  "zakazi_history_button_count": "История заказов ({count})",
+  "@zakazi_history_button_count": {
+    "description": "Кнопка история заказов в цифрах"
+  },
+  "zakazi_order_label": "Заказ {orderId}",
+  "@zakazi_order_label": {
+    "description": "Метка заказа"
+  },
+  "zakazi_total_amount_label": "Общая сумма:",
+  "@zakazi_total_amount_label": {
+    "description": "Общая сумма подписывайтесь"
+  },
+  "zakazi_today": "Сегодня",
+  "@zakazi_today": {
+    "description": "Дата сегодня"
+  },
+  "zakazi_yesterday": "Вчера",
+  "@zakazi_yesterday": {
+    "description": "Дата вчера"
+  },
+  "zakazi_tomorrow": "Завтра",
+  "@zakazi_tomorrow": {
+    "description": "Дата завтра"
+  },
+  "zakazi_month_january": "январь",
+  "@zakazi_month_january": {
+    "description": "Январь месяц"
+  },
+  "zakazi_month_february": "февраль",
+  "@zakazi_month_february": {
+    "description": "Февраль месяц"
+  },
+  "zakazi_month_march": "март",
+  "@zakazi_month_march": {
+    "description": "Месяц марта"
+  },
+  "zakazi_month_april": "апрель",
+  "@zakazi_month_april": {
+    "description": "Апрель месяц"
+  },
+  "zakazi_month_may": "май",
+  "@zakazi_month_may": {
+    "description": "Май месяц"
+  },
+  "zakazi_month_june": "июнь",
+  "@zakazi_month_june": {
+    "description": "Июнь месяц"
+  },
+  "zakazi_month_july": "июль",
+  "@zakazi_month_july": {
+    "description": "Месяц июля"
+  },
+  "zakazi_month_august": "август",
+  "@zakazi_month_august": {
+    "description": "Месяц августа"
+  },
+  "zakazi_month_september": "сентябрь",
+  "@zakazi_month_september": {
+    "description": "Сентябрь месяц"
+  },
+  "zakazi_month_october": "октябрь",
+  "@zakazi_month_october": {
+    "description": "Месяц октября"
+  },
+  "zakazi_month_november": "ноябрь",
+  "@zakazi_month_november": {
+    "description": "Ноябрь месяц"
+  },
+  "zakazi_month_december": "декабрь",
+  "@zakazi_month_december": {
+    "description": "Месяц декабря"
+  },
+  "zakazi_quantity_short": "шт.",
+  "@zakazi_quantity_short": {
+    "description": "Сокращение категории"
+  },
+  "zakazi_accepted_label": "Получено",
+  "@zakazi_accepted_label": {
+    "description": "Полученный статус подпишись"
+  },
+  "zakazi_after_delivery": "С доставкой",
+  "@zakazi_after_delivery": {
+    "description": "С доставкой подпишись"
+  },
+  "zakazi_can_accept_after_delivery": "Можно получить после доставки",
+  "@zakazi_can_accept_after_delivery": {
+    "description": "Уведомление о том, что вы можете получить после доставки"
+  },
+  "zakazi_cancel_available": "Отмена доступна ещё {time}",
+  "@zakazi_cancel_available": {
+    "description": "Оставшееся время для отмены"
+  },
+  "zakazi_cancel_only_first_hour": "Удаление возможно только в течение первого часа",
+  "@zakazi_cancel_only_first_hour": {
+    "description": "Удалить только в течение первого часа"
+  },
+  "zakazi_select_all": "Выбор всего",
+  "@zakazi_select_all": {
+    "description": "Кнопка Выбрать все"
+  },
+  "zakazi_deselect_all": "Снять выбор",
+  "@zakazi_deselect_all": {
+    "description": "Кнопка снять выбор"
+  },
+  "zakazi_accepting": "Получение",
+  "@zakazi_accepting": {
+    "description": "Процесс получения заказа"
+  },
+  "zakazi_accept_button": "Получить",
+  "@zakazi_accept_button": {
+    "description": "Кнопка получения"
+  },
+  "zakazi_mark_items_before_confirm": "Отметьте все товары перед подтверждением заказа.",
+  "@zakazi_mark_items_before_confirm": {
+    "description": "Маркировка товаров перед подтверждением заказа"
+  },
+  "zakazi_confirm_acceptance": "Подтверждение получения",
+  "@zakazi_confirm_acceptance": {
+    "description": "Тема диалога подтверждения получения"
+  },
+  "zakazi_order_amount": "Заказ {orderId} {amount}  в сумме ₸ ",
+  "@zakazi_order_amount": {
+    "description": "Сумма заказа"
+  },
+  "zakazi_cancel_order_title": "Отменить заказ?",
+  "@zakazi_cancel_order_title": {
+    "description": "Тема диалога удаления заказа"
+  },
+  "zakazi_cancel_order_message": "Заказ отменяется, а товары возвращаются на склад.",
+  "@zakazi_cancel_order_message": {
+    "description": "Уведомление об отмене заказа"
+  },
+  "zakazi_no": "Нет",
+  "@zakazi_no": {
+    "description": "Нет ответ"
+  },
+  "zakazi_cancel_button": "Отменить",
+  "@zakazi_cancel_button": {
+    "description": "Кнопка отмены заказа"
+  },
+  "zakazi_cancelling": "Отмена",
+  "@zakazi_cancelling": {
+    "description": "Процесс отмены заказа"
+  },
+  "zakazi_order_accepted": "Заказ получен.",
+  "@zakazi_order_accepted": {
+    "description": "Уведомление о получении заказа"
+  },
+"zakazi_accept_failed": "Получить заказ не удалось. Повторить.",
+  "@zakazi_accept_failed": {
+    "description": "Ошибка получения заказа"
+  },
+  "zakazi_cancel_failed": "Отменить заказ не удалось. Повторить.",
+  "@zakazi_cancel_failed": {
+    "description": "Ошибка отмены заказа"
+  },
+  "zakazi_order_cancelled": "Заказ отменён.",
+  "@zakazi_order_cancelled": {
+    "description": "Уведомление об отмене заказа"
+  },
+  "cart_item_removed": "Товар удалён",
+  "@cart_item_removed": {
+    "description": "Уведомление об удалении товара из корзины"
+  },
+  "cart_undo_remove": "Отменить",
+  "@cart_undo_remove": {
+    "description": "Кнопка отмены удаления товара"
+  },
+  "zakazi_session_expired": "Сеанс завершен. Войдите снова.",
+  "@zakazi_session_expired": {
+    "description": "Уведомление об окончании сеанса"
+  },
+  "zakazi_cancel_failed": "Отменить заказ не удалось. Повторить.",
+  "@zakazi_cancel_failed": {
+    "description": "Отказ от заказа белый"
+  },
+  "zakazi_order_cancelled": "Заказ отменен.",
+  "@zakazi_order_cancelled": {
+    "description": "Уведомление об отмене заказа"
+  },
+  "cart_item_removed": "Продукт уничтожен",
+  "@cart_item_removed": {
+    "description": "Уведомление об удалении продукта из корзины"
+  },
+  "cart_undo_remove": "Избегать",
+  "@cart_undo_remove": {
+    "description": "Кнопка отмены удаления продукта"
+  },
+  "cart_confirm_row_amount": "Сумма",
+  "@cart_confirm_row_amount": {
+    "description": "Символ суммы в диалоге оплаты"
+  },
+  "cart_confirm_row_units": "Шт.",
+  "@cart_confirm_row_units": {
+    "description": "Отметка количества в диалоге оплаты"
+  },
+  "cart_confirm_row_payment": "Оплата",
+  "@cart_confirm_row_payment": {
+    "description": "Символ способа оплаты в диалоге оплаты"
+  },
+  "cart_payment_method_cash": "Наличность при получении",
+  "@cart_payment_method_cash": {
+    "description": "Способ оплаты наличными"
+  },
+  "cart_payment_method_card": "Карта",
+  "@cart_payment_method_card": {
+    "description": "Способ оплаты картой"
+  },
+  "cart_payment_method_card_none": "Карта не включена",
+  "@cart_payment_method_card_none": {
+    "description": "Уведомление об отсутствии подключенной карты"
+  },
+  "cart_payment_confirm_choice": "Подтверждение выбора",
+  "@cart_payment_confirm_choice": {
+    "description": "Кнопка подтверждения способа оплаты"
+  },
+  "cart_payment_banner_cash": "Оплата наличными при получении",
+  "@cart_payment_banner_cash": {
+    "description": "Баннер наличной оплаты"
+  },
+  "cart_payment_banner_card_none": "Оплата картой. Добавьте карту на следующем шаге.",
+  "@cart_payment_banner_card_none": {
+    "description": "Баннер оплаты картой без выбранной карты"
+  },
+  "cart_payment_banner_card": "Оплата картой {brand} {number}",
+  "@cart_payment_banner_card": {
+    "description": "Баннер оплаты реальной картой"
+  },
+  "cart_checkout_login_required": "Войдите, чтобы выбрать оплату",
+  "@cart_checkout_login_required": {
+    "description": "Требование авторизации для выбора платежа"
+  },
+  "cart_checkout_address_login_required": "Войдите, чтобы выбрать адрес",
+  "@cart_checkout_address_login_required": {
+    "description": "Требование авторизации для выбора адреса"
+  },
+  "cart_checkout_order_login_required": "Войдите, чтобы оформить заказ",
+  "@cart_checkout_order_login_required": {
+    "description": "Требование авторизации для оформления заказа"
+  },
+  "cart_checkout_address_load_error": "Не удалось загрузить адреса",
+  "@cart_checkout_address_load_error": {
+    "description": "Ошибка загрузки адресов"
+  },
+  "cart_address_picker_title": "Адрес доставки",
+  "@cart_address_picker_title": {
+    "description": "Тема выбора адреса"
+  },
+  "cart_address_empty_title": "Адресов пока нет",
+  "@cart_address_empty_title": {
+    "description": "Заголовок списка пустых адресов"
+  },
+  "cart_address_empty_subtitle": "Добавьте адрес, чтобы продолжить оформление.",
+  "@cart_address_empty_subtitle": {
+    "description": "Совет при отсутствии адреса"
+  },
+  "cart_address_none": "Без адреса",
+  "@cart_address_none": {
+    "description": "Признак отсутствия адреса"
+  },
+  "cart_checkout_save_address_error": "Адрес не удалось сохранить",
+  "@cart_checkout_save_address_error": {
+    "description": "Ошибка сохранения адреса"
+  },
+  "cart_checkout_supplier_success": "Заказ оформлен по поставщику",
+  "@cart_checkout_supplier_success": {
+    "description": "Успешное оформление заказа по одному поставщику"
+  },
+  "cart_checkout_all_success": "Все заказы успешно оформлены",
+  "@cart_checkout_all_success": {
+    "description": "Успешное оформление всех заказов"
+  },
+  "cart_checkout_partial_success": "Оформлено: {success}, с ошибкой: {fail}",
+  "@cart_checkout_partial_success": {
+    "description": "Частичная успешность оформления заказов"
+  },
+  "cart_checkout_all_failed": "Не удалось оформить заказы",
+  "@cart_checkout_all_failed": {
+    "description": "Полный провал оформления заказов"
+  },
+  "cart_template_save": "Сохранить как шаблон",
+  "@cart_template_save": {
+    "description": "Кнопка Сохранить корзину как шаблон"
+  },
+  "cart_template_title": "Образцы",
+  "@cart_template_title": {
+    "description": "Заголовок списка шаблонов"
+  },
+  "cart_template_login_required": "Чтобы использовать шаблоны, посетите",
+  "@cart_template_login_required": {
+    "description": "Требование авторизации для использования шаблонов"
+  },
+  "cart_template_apply_error": "Не удалось применить образец",
+  "@cart_template_apply_error": {
+    "description": "Ошибка использования шаблона"
+  },
+  "cart_template_apply_none": "Образец не использовался: ни один продукт не доступен",
+  "@cart_template_apply_none": {
+    "description": "Когда ни одна продукция в образце не найдена в каталоге"
+  },
+  "cart_template_apply_success": "Корзина «{name}\"заменено образцом: {added} добавлен продукт",
+  "@cart_template_apply_success": {
+    "description": "Успешное использование шаблона"
+  },
+  "cart_template_apply_skipped": ", {skipped} проведено",
+  "@cart_template_apply_skipped": {
+    "description": "Часть успеха использования шаблона (пропущенные)"
+  },
+  "cart_template_apply_adjusted": ", {adjusted} исправлено",
+  "@cart_template_apply_adjusted": {
+    "description": "Часть успеха использования шаблона (исправленные)"
+  },
+  "cart_template_skipped_title": "{count} {plural} проведено",
+  "@cart_template_skipped_title": {
+    "description": "Тема списка реализованных продуктов"
+  },
+  "cart_checkout_error_network": "Нет связи с сервером",
+  "@cart_checkout_error_network": {
+    "description": "Ошибка сети при оформлении заказа"
+  },
+  "cart_checkout_error_data": "Данные заказа неверны",
+  "@cart_checkout_error_data": {
+    "description": "Ошибка проверки данных заказа"
+  },
+  "cart_checkout_error_generic": "Не удалось оформить заказ",
+  "@cart_checkout_error_generic": {
+    "description": "Распространенная ошибка при оформлении заказа"
+  },
+  "cart_template_skip_product_missing": "Товар недоступен",
+  "@cart_template_skip_product_missing": {
+    "description": "Причина недоступности товара"
+  },
+  "cart_template_skip_supplier_missing": "Поставщик не предлагает этот товар",
+  "@cart_template_skip_supplier_missing": {
+    "description": "Причина непредставления товара поставщиком"
+  },
+  "cart_template_rename_success": "Модель переименована",
+  "@cart_template_rename_success": {
+    "description": "Удачное переименование шаблона"
+  },
+  "cart_template_delete_title": "Удаление шаблона {name}?",
+  "@cart_template_delete_title": {
+    "description": "Тема диалога удаления шаблона"
+  },
+  "cart_template_delete_success": "Образец удален",
+  "@cart_template_delete_success": {
+    "description": "Успешное удаление шаблона"
+  },
+  "cart_template_limit_items": "В образце должно быть не более 100 позиций.",
+  "@cart_template_limit_items": {
+    "description": "Примечание о лимите позиций типа"
+  },
+  "cart_template_limit_templates": "Достиг предела образцов: 20. удалите ненужный образец.",
+  "@cart_template_limit_templates": {
+    "description": "Примечание о лимите количества образцов"
+  },
+  "cart_template_save_success": "Образец сохранился",
+  "@cart_template_save_success": {
+    "description": "Успешное сохранение образца"
+  },
+  "cart_checkout_all_orders": "Оформление всех заказов",
+  "@cart_checkout_all_orders": {
+    "description": "Кнопка для оформления всех заказов"
+  },
+  "cart_checkout_all_orders_title": "Все заказы",
+  "@cart_checkout_all_orders_title": {
+    "description": "Тема диалога оплаты для всех заказов"
+  },
+  "cart_total_amount_title": "Общая сумма заказа",
+  "@cart_total_amount_title": {
+    "description": "Тема общей суммы заказа"
+  },
+  "cart_total_summary": "Шт.: {units} Позиция: {positions}",
+  "@cart_total_summary": {
+    "description": "Сумма количества товаров и позиций"
+  },
+  "cart_summary_more_items": "еще +в корзине{count}",
+  "@cart_summary_more_items": {
+    "description": "Уведомление о дополнительных товарах в корзине"
+  },
+  "cart_supplier_total_title": "Комплект по поставщику",
+  "@cart_supplier_total_title": {
+    "description": "Итоговая сумма по поставщику тема"
+  },
+  "cart_checkout_order": "Оформление заказа",
+  "@cart_checkout_order": {
+    "description": "Кнопка оформления заказа по поставщику"
+  },
+  "cart_supplier_info": "Шт.: {units} * Позиция: {positions}",
+  "@cart_supplier_info": {
+    "description": "Информация о количестве товаров и позиций поставщика"
+  },
+  "cart_delivery_date": "Дата доставки: {date}",
+  "@cart_delivery_date": {
+    "description": "Знак даты поставки товара"
+  },
+  "cart_min_quantity": "Минимум: {count} шт.",
+  "@cart_min_quantity": {
+    "description": "Минимальное количество заказанного товара"
+  },
+  "cart_quantity_suffix": "{count} шт.",
+  "@cart_quantity_suffix": {
+    "description": "Суффикс количества товара"
+  },
+  "cart_pay_all_details": "· {units} шт.",
+  "@cart_pay_all_details": {
+    "description": "Количество на кнопке оформления всего заказа"
+  },
+  "cart_summary_item": "{name} - {quantity} шт.",
+  "@cart_summary_item": {
+    "description": "Товарная строка в наборе корзин"
+  },
+  "cart_template_default_name": "{date} шаблон даты",
+  "@cart_template_default_name": {
+    "description": "Имя шаблона по умолчанию"
+  },
+  "common_more_details": "Подробнее",
+  "@common_more_details": {
+    "description": "Кнопка просмотра деталей"
+  },
+  "common_undo": "Отменить",
+  "@common_undo": {
+    "description": "Кнопка отмены действия"
+  },
+  "cart_clear_cart_link": "Очистка корзины",
+  "@cart_clear_cart_link": {
+    "description": "Ссылка для очистки корзины"
+  },
+  "home_all_tab": "Всего",
+  "@home_all_tab": {
+    "description": "Название вкладки \"Все продукты\""
+  },
+"home_loading_error": "Ошибка загрузки продуктов: {error}",
+  "@home_loading_error": {
+    "description": "Сообщение об ошибке загрузки продуктов"
+  },
+  "home_retry_button": "Повторить",
+  "@home_retry_button": {
+    "description": "Кнопка повтора"
+  },
+  "chat_empty_title": "Нет сообщений",
+  "@chat_empty_title": {
+    "description": "Заголовок пустого чата"
+  },
+  "chat_retry_send": "Повторить отправку",
+  "@chat_retry_send": {
+    "description": "Кнопка повтора отправки"
+  },
+  "chat_yesterday": "Вчера",
+  "@chat_yesterday": {
+    "description": "Подпись вчера в чате"
+  },
+  "chat_buyer_default": "Получатель",
+  "@chat_buyer_default": {
+    "description": "Имя получателя по умолчанию"
+  },
+  "chat_no_review_text": "Нет текста комментария",
+  "@chat_no_review_text": {
+    "description": "Текст комментария по умолчанию"
+  },
+  "home_retry_button": "Повторение",
+  "@home_retry_button": {
+    "description": "Кнопка повтора"
+  },
+  "chat_empty_title": "Нету сообщений",
+  "@chat_empty_title": {
+    "description": "Чат пустой состояния заголовки"
+  },
+  "chat_empty_hint": "Напишите предыдущее сообщение{postfix}",
+  "@chat_empty_hint": {
+    "description": "Совет в пустом чате"
+  },
+  "chat_retry_send": "Повторение отправки",
+  "@chat_retry_send": {
+    "description": "Отправить кнопку повтора tooltip"
+  },
+  "chat_today": "Сегодня",
+  "@chat_today": {
+    "description": "Подпис сегодняшнего дня в чате"
+  },
+  "chat_yesterday": "Вчера",
+  "@chat_yesterday": {
+    "description": "Подпис вашего вечера в чате"
+  },
+  "chat_buyer_default": "Получатель",
+  "@chat_buyer_default": {
+    "description": "Алушının по имени умолчан"
+  },
+  "chat_no_review_text": "Нет текста комментария",
+  "@chat_no_review_text": {
+    "description": "Текст комментария по умолчан"
+  },
+  "home_no_products": "Продукты не найдены",
+  "@home_no_products": {
+    "description": "Уведомление об отсутствии продуктов"
+  },
+  "home_title": "Главная",
+  "@home_title": {
+    "description": "Тема вашей домашней страницы"
+  },
+  "home_search_hint": "Поиск...",
+  "@home_search_hint": {
+    "description": "Подсказка поля поиска"
+  },
+  "filters_sheet_title": "Фильтры",
+  "@filters_sheet_title": {
+    "description": "Зеленая тема фильтров"
+  },
+  "filters_reset_button": "Восстановление",
+  "@filters_reset_button": {
+    "description": "Кнопка сброса фильтров"
+  },
+  "filter_price_title": "Цена за штуку",
+  "@filter_price_title": {
+    "description": "Секция фильтра ценообразования"
+  },
+  "filter_price_from": "с",
+  "@filter_price_from": {
+    "description": "Ценовой минимум"
+  },
+  "filter_price_to": "до",
+  "@filter_price_to": {
+    "description": "Ценовой максимум"
+  },
+  "filter_sort_title": "Сортировка",
+  "@filter_sort_title": {
+    "description": "Сортировочная секция"
+  },
+  "filter_sort_price": "Цена",
+  "@filter_sort_price": {
+    "description": "Сортировка по цене"
+  },
+  "filter_sort_rating": "Рейтинг",
+  "@filter_sort_rating": {
+    "description": "Сортировка по рейтингу"
+  },
+  "filter_order_title": "Последовательность",
+  "@filter_order_title": {
+    "description": "Секция последовательности сортировки"
+  },
+  "filter_order_asc": "Заданный",
+  "@filter_order_asc": {
+    "description": "От меньшего до большего"
+  },
+  "filter_order_desc": "От большего к меньшему",
+  "@filter_order_desc": {
+    "description": "От большего к меньшему"
+  },
+  "filter_rating_title": "Рейтинг",
+  "@filter_rating_title": {
+    "description": "Секция фильтра рейтинга"
+  },
+  "filter_rating_from": "с",
+  "@filter_rating_from": {
+    "description": "Рейтинг минимум"
+  },
+  "filter_show_button": "Показать {count}",
+  "@filter_show_button": {
+    "description": "Кнопка отображения отфильтрованных продуктов"
+  },
+  "filter_discounted": "Товары со скидкой",
+  "@filter_discounted": {
+    "description": "Фильтр товаров со скидкой"
+  },
+  "date_range_picker_title": "Выберите диапазон дат",
+  "@date_range_picker_title": {
+    "description": "Тема диалога выбора диапазона дат"
+  },
+  "date_range_picker_clear": "Очистить",
+  "@date_range_picker_clear": {
+    "description": "Кнопка очистки выбранного диапазона"
+  },
+  "date_range_picker_today": "Сегодня",
+  "@date_range_picker_today": {
+    "description": "Быстрый фильтр на сегодня"
+  },
+  "date_range_picker_week": "Неделя",
+  "@date_range_picker_week": {
+    "description": "Быстрый фильтр на неделю"
+  },
+  "date_range_picker_month": "Месяц",
+  "@date_range_picker_month": {
+    "description": "Быстрый фильтр на месяц"
+  },
+  "date_range_picker_quarter": "Квартал",
+  "@date_range_picker_quarter": {
+    "description": "Быстрый фильтр на квартал"
+  },
+  "select_date_range": "Выберите диапазон дат",
+  "@select_date_range": {
+    "description": "Когда диапазон дат не выбран"
+  },
+  "month_january": "январь",
+  "@month_january": {
+    "description": "Месяц января"
+  },
+  "month_february": "февраль",
+  "@month_february": {
+    "description": "Месяц февраля"
+  },
+  "month_march": "март",
+  "@month_march": {
+    "description": "Месяц марта"
+  },
+  "month_april": "апрель",
+  "@month_april": {
+    "description": "Месяц апреля"
+  },
+  "month_may": "май",
+  "@month_may": {
+    "description": "Месяц мая"
+  },
+  "month_june": "июнь",
+  "@month_june": {
+    "description": "Месяц июня"
+  },
+  "month_july": "июль",
+  "@month_july": {
+    "description": "Месяц июля"
+  },
+  "month_august": "август",
+  "@month_august": {
+    "description": "Месяц августа"
+  },
+  "month_september": "сентябрь",
+  "@month_september": {
+    "description": "Месяц сентября"
+  },
+  "month_october": "октябрь",
+  "@month_october": {
+    "description": "Месяц октября"
+  },
+  "month_november": "ноябрь",
+  "@month_november": {
+    "description": "Месяц ноября"
+  },
+  "month_december": "декабрь",
+  "@month_december": {
+    "description": "Месяц декабря"
+  },
+  "templates_sheet_title": "Шаблоны покупок",
+  "@templates_sheet_title": {
+    "description": "Тема списка шаблонов покупок"
+  },
+  "templates_sheet_no_templates": "Нет сохраненных шаблонов",
+  "@templates_sheet_no_templates": {
+    "description": "Уведомление об отсутствии шаблонов"
+  },
+  "templates_sheet_collapse": "Свернуть",
+  "@templates_sheet_collapse": {
+    "description": "Свернуть шаблоны"
+  },
+  "templates_sheet_expand": "Развернуть",
+  "@templates_sheet_expand": {
+    "description": "Развернуть шаблоны"
+  },
+  "templates_sheet_actions": "Действия",
+  "@templates_sheet_actions": {
+    "description": "Меню действий шаблона"
+  },
+  "templates_sheet_rename": "Переименовать",
+  "@templates_sheet_rename": {
+    "description": "Действие переименования в меню"
+  },
+  "templates_sheet_delete": "Удалить",
+  "@templates_sheet_delete": {
+    "description": "Действие удаления в меню"
+  },
+  "templates_sheet_add_to_cart": "Добавить в корзину",
+  "@templates_sheet_add_to_cart": {
+    "description": "Кнопка добавить шаблон в корзину"
+  },
+  "templates_sheet_position_short": "поз.",
+  "@templates_sheet_position_short": {
+    "description": "Сокращение позиции"
+  },
+  "templates_sheet_unit_short": "шт.",
+  "@templates_sheet_unit_short": {
+    "description": "Сокращение единицы"
+  },
+  "templates_sheet_hide": "Скрыть",
+  "@templates_sheet_hide": {
+    "description": "Скрыть шаблоны"
+  },
+  "product_card_quantity": "{count} шт.",
+  "@product_card_quantity": {
+    "description": "Количество товаров"
+  },
+  "product_card_added_to_favorites": "Выбрано",
+  "@product_card_added_to_favorites": {
+    "description": "Уведомление об избрании"
+  },
+  "product_card_removed_from_favorites": "Удалить",
+  "@product_card_removed_from_favorites": {
+    "description": "Уведомление об удалении"
+  },
+  "product_card_add_to_cart": "Добавить в корзину",
+  "@product_card_add_to_cart": {
+    "description": "Добавить сообщение в корзину"
+  },
+  "product_card_out_of_stock": "В складе нет",
+  "@product_card_out_of_stock": {
+    "description": "Сообщение об отсутствии в складе"
+  },
+  "product_card_quantity_title": "Количество",
+  "@product_card_quantity_title": {
+    "description": "Тема диалога кол-во"
+  },
+  "product_card_min_quantity": "Минимум",
+  "@product_card_min_quantity": {
+    "description": "Минимальное количество"
+  },
+  "product_card_everyday": "Каждый день",
+  "@product_card_everyday": {
+    "description": "Доставка каждый день"
+  },
+  "product_card_weekdays": "Будни",
+  "@product_card_weekdays": {
+    "description": "Доставка в будние дни"
+  },
+  "product_card_weekend": "Выходные дни",
+  "@product_card_weekend": {
+    "description": "Доставка по выходным"
+  },
+  "supplier_selected": "Выбрано",
+  "@supplier_selected": {
+    "description": "Выбранный символ поставщика"
+  },
+  "supplier_select": "Выбор",
+  "@supplier_select": {
+    "description": "Кнопка выбора поставщика"
+  },
+  "supplier_unit_short": "шт.",
+  "@supplier_unit_short": {
+    "description": "Сокращение единицы измерения"
+  },
+  "supplier_delivery_default": "Доставка",
+  "@supplier_delivery_default": {
+    "description": "Доставка текст по умолчан"
+  },
+  "weekday_monday": "Понедельник",
+  "@weekday_monday": {
+    "description": "Понедельник имя"
+  },
+  "weekday_tuesday": "Вторник",
+  "@weekday_tuesday": {
+    "description": "Вторник имя"
+  },
+  "weekday_wednesday": "Среда",
+  "@weekday_wednesday": {
+    "description": "Среда имя"
+  },
+  "weekday_thursday": "Четверг",
+  "@weekday_thursday": {
+    "description": "Имя страницы"
+  },
+  "weekday_friday": "Пятница",
+  "@weekday_friday": {
+    "description": "Имя Жума"
+  },
+  "weekday_saturday": "Суббота",
+  "@weekday_saturday": {
+    "description": "Название субботы"
+  },
+  "weekday_sunday": "Воскресенье",
+  "@weekday_sunday": {
+    "description": "Воскресенье имя"
+  },
+  "weekday_mon_short": "Пн",
+  "@weekday_mon_short": {
+    "description": "Сокращенный понедельник"
+  },
+  "weekday_tue_short": "Вт",
+  "@weekday_tue_short": {
+    "description": "Сокращенный вторник"
+  },
+  "weekday_wed_short": "Ср",
+  "@weekday_wed_short": {
+    "description": "Сокращенная среда"
+  },
+  "weekday_thu_short": "Чт",
+  "@weekday_thu_short": {
+    "description": "Сокращенный четверг"
+  },
+  "weekday_fri_short": "Пт",
+  "@weekday_fri_short": {
+    "description": "Сокращенная пятница"
+  },
+  "weekday_sat_short": "Сб",
+  "@weekday_sat_short": {
+    "description": "Сокращенная суббота"
+  },
+  "weekday_sun_short": "ВС",
+  "@weekday_sun_short": {
+    "description": "Воскресенье сокращено"
+  },
+  "change_password_success_title": "Пароль изменен",
+  "@change_password_success_title": {
+    "description": "Заголовок успешного белого сообщения об изменении пароля"
+  },
+  "change_password_success_message": "Ваш пароль был успешно обновлен.",
+  "@change_password_success_message": {
+    "description": "Успешное белое сообщение об изменении пароля"
+  },
+  "change_password_done_button": "Готово",
+  "@change_password_done_button": {
+    "description": "Кнопка подтверждения"
+  },
+  "order_history_empty": "Список товаров пуст",
+  "@order_history_empty": {
+    "description": "Уведомление об отсутствии товаров"
+  },
+  "favorites_tab_products": "Товары",
+  "@favorites_tab_products": {
+    "description": "Вкладка товары в выбранном"
+  },
+  "favorites_tab_companies": "Компании",
+  "@favorites_tab_companies": {
+    "description": "Выбран в компании вкладка"
+  },
+  "support_chat_title": "Чат техподдержки",
+  "@support_chat_title": {
+    "description": "Тема чата техподдержки"
+  },
+  "supplier_reset_button": "Восстановление",
+  "@supplier_reset_button": {
+    "description": "Кнопка сброса"
+  },
+  "supplier_products_edit": "Править",
+  "@supplier_products_edit": {
+    "description": "Кнопка редактирования товара"
+  },
+  "supplier_products_add": "Добавить товар",
+  "@supplier_products_add": {
+    "description": "Кнопка добавить товар"
+  },
+  "payment_card_delete_title": "Удалить карту?",
+  "@payment_card_delete_title": {
+    "description": "Заголовок диалога удаления карты"
+  },
+  "payment_card_delete_button": "Удалить",
+  "@payment_card_delete_button": {
+    "description": "Кнопка удаления карты"
+  },
+  "address_add_button": "Добавить адрес",
+  "@address_add_button": {
+    "description": "Кнопка Добавить адрес"
+  },
+  "moderation_approve_button": "Утверждение",
+  "@moderation_approve_button": {
+    "description": "Кнопка крепления"
+  },
+  "two_factor_disable_title": "Отключить 2FA?",
+  "@two_factor_disable_title": {
+    "description": "Тема диалога отключения 2FA"
+  },
+  "two_factor_disable_button": "Отключить",
+  "@two_factor_disable_button": {
+    "description": "Кнопка отключения 2FA"
+  },
+  "moderator_management_title": "Управление модераторами",
+  "@moderator_management_title": {
+    "description": "Заголовок страницы управления модераторами"
+  },
+  "moderator_delete_title": "Удалить модератора?",
+  "@moderator_delete_title": {
+    "description": "Тема диалога удаления модератора"
+  },
+  "moderator_add_button": "Добавить",
+  "@moderator_add_button": {
+    "description": "Кнопка Добавить модератора"
+  },
+  "moderator_login_button": "Вход",
+  "@moderator_login_button": {
+    "description": "Кнопка входа"
+  },
+  "two_factor_copy_all": "Копировать все",
+  "@two_factor_copy_all": {
+    "description": "Кнопка копирования всех кодов"
+  },
+  "two_factor_save_file": "Сохранить в файл",
+  "@two_factor_save_file": {
+    "description": "Кнопка Сохранить коды в файл"
+  },
+  "add_moderator_title": "Добавить модератора",
+  "@add_moderator_title": {
+    "description": "Тема диалога добавления модератора"
+  },
+  "supplier_profile_reset": "Восстановление",
+  "@supplier_profile_reset": {
+    "description": "Кнопка сброса фильтров"
+  },
+  "supplier_profile_preview_show": "Показать {count}",
+  "@supplier_profile_preview_show": {
+    "description": "Превью показать кнопка"
+  },
+  "create_chat_title": "Создать Чат?",
+  "@create_chat_title": {
+    "description": "Тема диалога создания чата"
+  },
+  "close_chat_title": "Закрыть чат",
+  "@close_chat_title": {
+    "description": "Тема диалога закрытия чата"
+  },
+  "suppliers_list_title": "Поставщики",
+  "@suppliers_list_title": {
+    "description": "Заголовок списка поставщиков"
+  },
+  "question_ask_button": "Задать вопрос",
+  "@question_ask_button": {
+    "description": "Кнопка Задать вопрос"
+  },
+  "no_button": "Нет",
+  "@no_button": {
+    "description": "Нет кнопка"
+  },
+  "cancel_order_title": "Отменить заказ?",
+  "@cancel_order_title": {
+    "description": "Тема диалога удаления заказа"
+  },
+  "cancel_order_message": "Заказ отменяется, а товары возвращаются на склад.",
+  "@cancel_order_message": {
+    "description": "Уведомление об отмене заказа"
+  },
+  "cancel_order_button": "Отменить",
+  "@cancel_order_button": {
+    "description": "Кнопка отмены заказа"
+  },
+  "accept_order_button": "Получить",
+  "@accept_order_button": {
+    "description": "Кнопка получения заказа"
+  },
+  "suppliers_not_found": "Поставщики не найдены",
+  "@suppliers_not_found": {
+    "description": "Уведомление об отсутствии поставщиков"
+  },
+  "close_chat_button": "Закрытие",
+  "@close_chat_button": {
+    "description": "Кнопка закрытия чата"
+  },
+  "create_chat_confirm": "Обновление",
+  "@create_chat_confirm": {
+    "description": "Кнопка обновления чата"
+  },
+  "moderator_title_profile": "Профиль модератора",
+  "@moderator_title_profile": {
+    "description": "Тема профиля модератора"
+  },
+  "suppliers_load_failed": "Не удалось загрузить поставщиков",
+  "@suppliers_load_failed": {
+    "description": "Сообщение об ошибке загрузки поставщиков"
+  },
+  "session_expired_login_again": "Сеанс завершен, войдите снова",
+  "@session_expired_login_again": {
+    "description": "Уведомление о необходимости повторного входа"
+  },
+  "chat_open_failed": "Не удалось открыть чат с поставщиком",
+  "@chat_open_failed": {
+    "description": "Сообщение об ошибке открытия чата"
+  },
+  "chat_create_failed": "Не удалось пообщаться с поставщиком",
+  "@chat_create_failed": {
+    "description": "Сообщение об ошибке чата"
+  },
+  "search_no_results": "Запрос не был предоставлен без четверостишия",
+  "@search_no_results": {
+    "description": "Сообщение об отсутствии результатов поиска"
+  },
+  "search_no_results_for": "К запросам «{query}\"без саответа не дано",
+  "@search_no_results_for": {
+    "description": "Нет результатов поиска для запроса"
+  },
+  "suppliers_catalog_access_denied": "Каталог поставщиков доступен только модераторам и основным администраторам.",
+  "@suppliers_catalog_access_denied": {
+    "description": "Уведомление об ограничении доступа к каталогу поставщика"
+  }
+}

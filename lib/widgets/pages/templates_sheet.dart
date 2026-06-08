@@ -138,7 +138,7 @@ class _TemplatesSheetState extends State<TemplatesSheet> {
         children: [
           Expanded(
             child: Text(
-              'Шаблоны покупок',
+              context.l10n.templatesSheetTitle,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -147,7 +147,7 @@ class _TemplatesSheetState extends State<TemplatesSheet> {
             ),
           ),
           IconButton(
-            tooltip: 'Свернуть',
+            tooltip: context.l10n.templatesSheetCollapse,
             icon: Icon(Icons.close, color: palette.muted),
             // Возвращаем minimized=true, чтобы cart_page показал FAB
             // и дал быстро открыть sheet обратно.
@@ -202,7 +202,7 @@ class _EmptyState extends StatelessWidget {
           Icon(Icons.bookmark_border, size: 48, color: palette.muted),
           const SizedBox(height: 12),
           Text(
-            'Нет сохранённых шаблонов',
+            context.l10n.templatesSheetNoTemplates,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16,
@@ -212,7 +212,7 @@ class _EmptyState extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            context.l10n.addProductsToCart,
+            context.l10n.templatesSheetAddToCart,
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 13, color: palette.muted, height: 1.35),
           ),
@@ -274,7 +274,7 @@ class _TemplateCard extends StatelessWidget {
                   : const SizedBox(width: double.infinity),
             ),
           ),
-          _buildApplyButton(),
+          _buildApplyButton(context),
         ],
       ),
     );
@@ -305,7 +305,7 @@ class _TemplateCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    _summaryLine(),
+                    _summaryLine(context),
                     style: TextStyle(fontSize: 12, color: palette.muted),
                   ),
                 ],
@@ -313,7 +313,7 @@ class _TemplateCard extends StatelessWidget {
             ),
             _buildMenu(context),
             IconButton(
-              tooltip: expanded ? 'Свернуть' : 'Раскрыть',
+              tooltip: expanded ? context.l10n.templatesSheetCollapse : context.l10n.templatesSheetExpand,
               icon: AnimatedRotation(
                 turns: expanded ? 0.5 : 0,
                 duration: const Duration(milliseconds: 150),
@@ -325,13 +325,6 @@ class _TemplateCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _summaryLine() {
-    final positions = template.items.length;
-    final units = _totalUnits;
-    final amount = _formatPrice(_totalAmount);
-    return '$positions поз. · $units шт · $amount ₸';
   }
 
   static String _formatPrice(int amount) {
@@ -347,7 +340,7 @@ class _TemplateCard extends StatelessWidget {
 
   Widget _buildMenu(BuildContext context) {
     return PopupMenuButton<_TemplateAction>(
-      tooltip: 'Действия',
+      tooltip: context.l10n.templatesSheetActions,
       icon: Icon(Icons.more_vert, color: palette.muted),
       color: palette.card,
       onSelected: (action) {
@@ -365,13 +358,13 @@ class _TemplateCard extends StatelessWidget {
           value: _TemplateAction.rename,
           child: Semantics(
             button: true,
-            label: 'Переименовать шаблон ${template.name}',
+            label: '${context.l10n.templatesSheetRename} шаблон ${template.name}',
             child: Row(
               children: [
                 Icon(Icons.edit_outlined, size: 18, color: palette.muted),
                 const SizedBox(width: 10),
                 Text(
-                  'Переименовать',
+                  context.l10n.templatesSheetRename,
                   style: TextStyle(color: palette.ink, fontSize: 14),
                 ),
               ],
@@ -382,13 +375,13 @@ class _TemplateCard extends StatelessWidget {
           value: _TemplateAction.delete,
           child: Semantics(
             button: true,
-            label: 'Удалить шаблон ${template.name}',
+            label: '${context.l10n.templatesSheetDelete} шаблон ${template.name}',
             child: Row(
               children: [
                 Icon(Icons.delete_outline, size: 18, color: palette.error),
                 const SizedBox(width: 10),
                 Text(
-                  'Удалить',
+                  context.l10n.templatesSheetDelete,
                   style: TextStyle(color: palette.error, fontSize: 14),
                 ),
               ],
@@ -399,7 +392,7 @@ class _TemplateCard extends StatelessWidget {
     );
   }
 
-  Widget _buildItemsList() {
+Widget _buildItemsList() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(14, 0, 14, 8),
       child: Column(
@@ -423,12 +416,19 @@ class _TemplateCard extends StatelessWidget {
     );
   }
 
-  Widget _buildApplyButton() {
+  String _summaryLine(BuildContext context) {
+    final positions = template.items.length;
+    final units = _totalUnits;
+    final amount = _formatPrice(_totalAmount);
+    return '$positions ${context.l10n.templatesSheetPositionShort} · $units ${context.l10n.templatesSheetUnitShort} · $amount ₸';
+  }
+
+  Widget _buildApplyButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 4, 12, 12),
       child: Semantics(
         button: true,
-        label: 'Добавить шаблон ${template.name} в корзину',
+        label: '${context.l10n.templatesSheetAddToCart} шаблон ${template.name}',
         child: SizedBox(
           width: double.infinity,
           height: 44,
@@ -442,8 +442,8 @@ class _TemplateCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            child: const Text(
-              'Добавить в корзину',
+            child: Text(
+              context.l10n.templatesSheetAddToCart,
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ),
@@ -501,14 +501,14 @@ class _TemplateItemRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  '${_TemplateCard._formatPrice(item.pricePerUnit)} ₸ · ${item.quantity} шт',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: palette.ink,
-                  ),
-                ),
+Text(
+                   '${_TemplateCard._formatPrice(item.pricePerUnit)} ₸ · ${item.quantity} ${context.l10n.templatesSheetUnitShort}',
+                   style: TextStyle(
+                     fontSize: 12,
+                     fontWeight: FontWeight.w500,
+                     color: palette.ink,
+                   ),
+                 ),
               ],
             ),
           ),

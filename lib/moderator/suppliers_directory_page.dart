@@ -7,6 +7,7 @@ import '../models/chat.dart';
 import '../models/message.dart';
 import '../models/support_message.dart';
 import '../services/api/api_service.dart';
+import '../services/localization/localization_extension.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/message/message_localization.dart';
 import '../theme/app_color_palette.dart';
@@ -186,13 +187,13 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
     var msg = error.toString();
     const prefix = 'Exception: ';
     if (msg.startsWith(prefix)) msg = msg.substring(prefix.length);
-    return msg.trim().isEmpty ? 'Не удалось загрузить поставщиков' : msg;
+    return msg.trim().isEmpty ? context.l10n.suppliersLoadFailed : msg;
   }
 
   Future<void> _onSupplierTap(SupplierDirectoryEntry supplier) async {
     final moderatorId = AuthStorage.userId;
     if (moderatorId == null || moderatorId <= 0) {
-      _showSnack('Сессия истекла, войдите снова', isError: true);
+      _showSnack(context.l10n.sessionExpiredLoginAgain, isError: true);
       return;
     }
 
@@ -212,10 +213,10 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
     } catch (_) {
       if (!mounted) return;
       final apiMessage = ApiService.getLastErrorMessage();
-      _showSnack(
+_showSnack(
         apiMessage?.body.isNotEmpty == true
             ? apiMessage!.body
-            : 'Не удалось открыть чат с поставщиком',
+            : context.l10n.chatOpenFailed,
         isError: true,
       );
       return;
@@ -241,7 +242,7 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
         _showSnack(
           apiMessage?.body.isNotEmpty == true
               ? apiMessage!.body
-              : 'Не удалось создать чат с поставщиком',
+              : context.l10n.chatCreateFailed,
           isError: true,
         );
         return;
@@ -285,15 +286,15 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
       barrierDismissible: true,
       builder: (dialogContext) => AlertDialog(
         backgroundColor: palette.card,
-        title: const Text('Создать чат?'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Открыть новый чат с этим поставщиком?',
-              style: textTheme.bodyMedium?.copyWith(color: palette.ink),
-            ),
+title: Text(context.l10n.createChatTitle),
+           content: Column(
+             mainAxisSize: MainAxisSize.min,
+             crossAxisAlignment: CrossAxisAlignment.start,
+             children: [
+               Text(
+                 context.l10n.createChatConfirm,
+                 style: textTheme.bodyMedium?.copyWith(color: palette.ink),
+               ),
             const SizedBox(height: 12),
             Text(
               supplier.companyName,
@@ -309,16 +310,16 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
             ),
           ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('Отмена'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('Создать'),
-          ),
-        ],
+actions: [
+           TextButton(
+             onPressed: () => Navigator.of(dialogContext).pop(false),
+             child: Text(context.l10n.cancel),
+           ),
+           FilledButton(
+             onPressed: () => Navigator.of(dialogContext).pop(true),
+             child: Text(context.l10n.createChatButton),
+           ),
+         ],
       ),
     );
   }
@@ -382,7 +383,7 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
 
     return Scaffold(
       backgroundColor: palette.bgTop,
-      appBar: AppBar(title: const Text('Поставщики')),
+      appBar: AppBar(title: Text(context.l10n.suppliersListTitle)),
       body: SafeArea(child: _buildBody(palette)),
       bottomNavigationBar: const RoleInternalNavBar(currentIndex: 3),
     );
@@ -424,7 +425,7 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
       }
       return _EmptyState(onRetry: () => _load(reset: true));
     }
-    return RefreshIndicator(
+return RefreshIndicator(
       color: palette.accent,
       onRefresh: () => _load(reset: true),
       child: ListView.separated(
@@ -521,8 +522,6 @@ class _SupplierListItem extends StatelessWidget {
               ),
             ),
           ),
-          // Тайл принудительного отключения 2FA - молча скрыт, если 2FA
-          // у поставщика выключена или статус не загрузился.
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
             child: TwoFactorAdminDisableTile(
@@ -602,7 +601,7 @@ class _EmptyState extends StatelessWidget {
             Icon(Icons.inventory_2_outlined, size: 56, color: palette.muted),
             const SizedBox(height: 16),
             Text(
-              'Поставщики не найдены',
+              context.l10n.suppliersNotFound,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
@@ -614,7 +613,46 @@ class _EmptyState extends StatelessWidget {
             FilledButton.icon(
               onPressed: onRetry,
               icon: const Icon(Icons.refresh),
-              label: const Text('Повторить'),
+              label: Text(context.l10n.retry),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SearchEmptyState extends StatelessWidget {
+  const _SearchEmptyState({required this.query});
+
+  final String query;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.colorPalette;
+    final cs = Theme.of(context).colorScheme;
+
+    final trimmed = query.trim();
+    final message = trimmed.isEmpty
+        ? context.l10n.searchNoResults
+        : context.l10n.searchNoResultsFor(query);
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.search_off, size: 48, color: palette.muted),
+            const SizedBox(height: 12),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: cs.onSurface,
+              ),
             ),
           ],
         ),
@@ -651,47 +689,7 @@ class _ErrorState extends StatelessWidget {
             FilledButton.icon(
               onPressed: onRetry,
               icon: const Icon(Icons.refresh),
-              label: const Text('Повторить'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SearchEmptyState extends StatelessWidget {
-  const _SearchEmptyState({required this.query});
-
-  final String query;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.colorPalette;
-    final cs = Theme.of(context).colorScheme;
-
-    // Эхо без нормализации: пробелы - без кавычек, текст - в ёлочках.
-    final trimmed = query.trim();
-    final message = trimmed.isEmpty
-        ? 'По запросу ничего не найдено'
-        : 'По запросу «$query» ничего не найдено';
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.search_off, size: 48, color: palette.muted),
-            const SizedBox(height: 12),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: cs.onSurface,
-              ),
+              label: Text(context.l10n.retry),
             ),
           ],
         ),
@@ -716,16 +714,7 @@ class _AccessDeniedState extends StatelessWidget {
             Icon(Icons.lock_outline, size: 48, color: palette.error),
             const SizedBox(height: 12),
             Text(
-              'Доступ запрещён',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: cs.onSurface,
-              ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              'Каталог поставщиков доступен только модераторам и главным администраторам.',
+              context.l10n.suppliersCatalogAccessDenied,
               textAlign: TextAlign.center,
               style: TextStyle(color: cs.onSurfaceVariant),
             ),

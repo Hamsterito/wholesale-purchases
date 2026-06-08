@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/product.dart';
 import '../services/api/api_service.dart';
+import '../services/localization/localization_extension.dart';
 import '../services/store/favorites_store.dart';
 import '../services/store/supplier_stats_store.dart';
 import '../theme/app_color_palette.dart';
@@ -802,20 +803,20 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
                         ),
                       ),
                       const Spacer(),
-                      TextButton(
-                        onPressed: () {
-                          setSheetState(() {
-                            priceRange = RangeValues(0, priceMax);
-                            minRating = 0;
-                            maxUnlimited = true;
-                            sortField = _SortField.price;
-                            sortAscending = true;
-                            fromController.text = '0';
-                            toController.text = '';
-                          });
-                        },
-                        child: const Text('Сбросить'),
-                      ),
+TextButton(
+                         onPressed: () {
+                           setSheetState(() {
+                             priceRange = RangeValues(0, priceMax);
+                             minRating = 0;
+                             maxUnlimited = true;
+                             sortField = _SortField.price;
+                             sortAscending = true;
+                             fromController.text = '0';
+                             toController.text = '';
+                           });
+                         },
+                         child: Text(context.l10n.supplierProfileReset),
+                       ),
                     ],
                   ),
                   _buildFilterSectionTitle('Цена за шт.'),
@@ -993,7 +994,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
                         ),
                         elevation: 0,
                       ),
-                      child: Text('Показать $previewCount'),
+                      child: Text(context.l10n.supplierProfilePreviewShow(previewCount)),
                     ),
                   ),
                 ],

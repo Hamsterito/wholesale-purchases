@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
+import '../services/localization/localization_extension.dart';
 import '../utils/logout_flow.dart';
 import '../widgets/profile/user_avatar.dart';
 
@@ -41,7 +42,7 @@ class _ModeratorProfilePageState extends State<ModeratorProfilePage> {
     final email = AuthStorage.email ?? '-';
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Профиль модератора')),
+      appBar: AppBar(title: Text(context.l10n.moderationTitle)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -64,7 +65,7 @@ class _ModeratorProfilePageState extends State<ModeratorProfilePage> {
               backgroundColor: context.colorPalette.error,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Выйти'),
+            child: Text(context.l10n.authLogout),
           ),
         ],
       ),

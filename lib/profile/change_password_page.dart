@@ -7,6 +7,7 @@ import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/message/message_localization.dart';
+import '../services/localization/localization_extension.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -179,21 +180,21 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
     if (!mounted) return;
 
-    await showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Пароль изменён'),
-          content: const Text('Ваш пароль успешно обновлён.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Готово'),
-            ),
-          ],
-        );
-      },
-    );
+await showDialog<void>(
+       context: context,
+       builder: (context) {
+         return AlertDialog(
+           title: Text(context.l10n.changePasswordSuccessTitle),
+           content: Text(context.l10n.changePasswordSuccessMessage),
+           actions: [
+             TextButton(
+               onPressed: () => Navigator.pop(context),
+               child: Text(context.l10n.changePasswordDoneButton),
+             ),
+           ],
+         );
+       },
+     );
 
     if (!mounted) return;
     Navigator.pop(context);

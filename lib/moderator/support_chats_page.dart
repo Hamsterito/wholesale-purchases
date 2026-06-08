@@ -8,6 +8,7 @@ import '../theme/app_color_palette.dart';
 import '../models/message.dart';
 import '../models/support_message.dart';
 import '../services/api/api_service.dart';
+import '../services/localization/localization_extension.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/message/message_localization.dart';
 import '../widgets/chat/chat_thread_view.dart';
@@ -236,10 +237,10 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Чаты техподдержки'),
+        title: Text(context.l10n.supportChatsTitle),
         actions: [
           IconButton(
-            tooltip: 'Поставщики',
+            tooltip: context.l10n.suppliersListTitle,
             icon: const Icon(Icons.business_center_outlined),
             onPressed: () {
               Navigator.of(context).push(
@@ -268,7 +269,7 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
                           const SizedBox(height: 12),
                           ElevatedButton(
                             onPressed: _loadChats,
-                            child: const Text('Повторить'),
+                            child: Text(context.l10n.retry),
                           ),
                         ],
                       ),
@@ -554,23 +555,23 @@ class _ModeratorSupportDialogPageState
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Закрыть чат'),
-          content: TextField(
-            controller: reasonController,
-            maxLines: 3,
-            decoration: const InputDecoration(
-              hintText: 'Причина закрытия (необязательно)',
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Отмена'),
-            ),
-            FilledButton(
-              onPressed: () => Navigator.pop(context, reasonController.text),
-              child: const Text('Закрыть'),
-            ),
+title: Text(context.l10n.closeChatTitle),
+           content: TextField(
+             controller: reasonController,
+             maxLines: 3,
+             decoration: InputDecoration(
+               hintText: 'Причина закрытия (необязательно)',
+             ),
+           ),
+           actions: [
+             TextButton(
+               onPressed: () => Navigator.pop(context),
+               child: Text(context.l10n.cancel),
+             ),
+             FilledButton(
+               onPressed: () => Navigator.pop(context, reasonController.text),
+               child: Text(context.l10n.closeChatButton),
+             ),
           ],
         );
       },

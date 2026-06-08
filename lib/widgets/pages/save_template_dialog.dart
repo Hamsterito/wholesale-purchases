@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../services/localization/localization_extension.dart';
 import '../../services/store/templates_store.dart';
 import '../../theme/app_color_palette.dart';
 
@@ -63,7 +64,7 @@ class _SaveTemplateDialogState extends State<SaveTemplateDialog> {
 
     if (trimmed.isEmpty || trimmed.length > 50) {
       setState(() {
-        _error = 'Имя шаблона: от 1 до 50 символов';
+        _error = context.l10n.templateNameError;
         _choice = null;
         _duplicate = null;
       });
@@ -119,6 +120,7 @@ class _SaveTemplateDialogState extends State<SaveTemplateDialog> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final palette = context.colorPalette;
+    final l10n = context.l10n;
 
     final showDuplicate = _choice == _DuplicateChoice.unset;
 
@@ -128,7 +130,7 @@ class _SaveTemplateDialogState extends State<SaveTemplateDialog> {
       maxScaleFactor: 2.0,
       child: AlertDialog(
         backgroundColor: palette.card,
-        title: const Text('Сохранить как шаблон'),
+        title: Text(l10n.templateSaveTitle),
         content: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 360),
           child: Column(
@@ -143,7 +145,7 @@ class _SaveTemplateDialogState extends State<SaveTemplateDialog> {
                 onChanged: _onChanged,
                 onSubmitted: (_) => _onConfirm(),
                 decoration: InputDecoration(
-                  labelText: 'Имя шаблона',
+                  labelText: l10n.templateNameLabel,
                   border: const OutlineInputBorder(),
                   errorText: _error,
                   counterText: '',
@@ -153,7 +155,7 @@ class _SaveTemplateDialogState extends State<SaveTemplateDialog> {
               if (showDuplicate) ...[
                 const SizedBox(height: 12),
                 Text(
-                  'Шаблон с таким именем уже существует',
+                  l10n.templateDuplicateExists,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: palette.error,
                   ),
@@ -164,21 +166,21 @@ class _SaveTemplateDialogState extends State<SaveTemplateDialog> {
                 // как Outlined/Filled и располагаем стопкой для длинных подписей.
                 FilledButton(
                   onPressed: _onOverwrite,
-                  child: const Text('Перезаписать'),
+                  child: Text(l10n.templateOverwrite),
                 ),
                 const SizedBox(height: 8),
                 OutlinedButton(
                   onPressed: _onSaveAsAnother,
-                  child: const Text('Сохранить под другим именем'),
+                  child: Text(l10n.templateSaveAnother),
                 ),
               ],
             ],
           ),
         ),
         actions: [
-          TextButton(onPressed: _onCancel, child: const Text('Отмена')),
+          TextButton(onPressed: _onCancel, child: Text(l10n.cancel)),
           if (!showDuplicate)
-            FilledButton(onPressed: _onConfirm, child: const Text('Сохранить')),
+            FilledButton(onPressed: _onConfirm, child: Text(l10n.save)),
         ],
       ),
     );

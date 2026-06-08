@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/review_entry.dart';
 import '../../models/product.dart';
+import '../../services/localization/localization_extension.dart';
 import '../smart_image.dart';
 import 'rating_stars.dart';
 import '../expandable_text_block.dart';
@@ -112,14 +113,14 @@ class SupplierQAReviewCard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           // Текст отзыва черным цветом (цвет чернил)
-          ExpandableTextBlock(
-            review.reviewText,
-            textStyle: TextStyle(fontSize: 13, color: palette.ink, height: 1.4),
-            actionColor: palette.accent,
-            collapsedMaxLines: 3,
-            moreLabel: 'Подробнее',
-            lessLabel: 'Свернуть',
-          ),
+ExpandableTextBlock(
+             review.reviewText,
+             textStyle: TextStyle(fontSize: 13, color: palette.ink, height: 1.4),
+             actionColor: palette.accent,
+             collapsedMaxLines: 3,
+             moreLabel: context.l10n.qaExpand,
+             lessLabel: context.l10n.qaCollapse,
+           ),
           const SizedBox(height: 8),
           // Дата
           Text(
@@ -158,18 +159,18 @@ class SupplierQAReviewCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 6),
-                  ExpandableTextBlock(
-                    responseText!,
-                    textStyle: TextStyle(
-                      fontSize: 12,
-                      color: palette.ink,
-                      height: 1.4,
-                    ),
-                    actionColor: palette.accent,
-                    collapsedMaxLines: 3,
-                    moreLabel: 'Подробнее',
-                    lessLabel: 'Свернуть',
-                  ),
+ExpandableTextBlock(
+                     responseText!,
+                     textStyle: TextStyle(
+                       fontSize: 12,
+                       color: palette.ink,
+                       height: 1.4,
+                     ),
+                     actionColor: palette.accent,
+                     collapsedMaxLines: 3,
+                     moreLabel: context.l10n.qaExpand,
+                     lessLabel: context.l10n.qaCollapse,
+                   ),
                   const SizedBox(height: 6),
                   Text(
                     _formatDate(responseDate ?? DateTime.now()),
@@ -230,10 +231,10 @@ class SupplierQAReviewCard extends StatelessWidget {
             backgroundColor: palette.accent,
             padding: const EdgeInsets.symmetric(vertical: 10),
           ),
-          child: const Text(
-            'Ответить',
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-          ),
+child: Text(
+              context.l10n.qaRespond,
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+            ),
         ),
       );
     }

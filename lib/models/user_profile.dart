@@ -36,14 +36,14 @@ class UserProfile {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'email': email,
-        'role': role,
-        'supplierName': supplierName,
-        'phone': phone,
-        'avatarUrl': avatarUrl,
-      };
+    'id': id,
+    'name': name,
+    'email': email,
+    'role': role,
+    'supplierName': supplierName,
+    'phone': phone,
+    'avatarUrl': avatarUrl,
+  };
 }
 
 // Пустую строку трактуем как отсутствие аватарки - бекенд может прислать "" вместо null.

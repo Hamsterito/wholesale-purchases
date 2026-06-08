@@ -14,6 +14,7 @@ import '../services/message/message_localization.dart';
 import 'support_chats_page.dart';
 import 'suppliers_directory_page.dart';
 import '../services/api/api_service.dart';
+import '../services/localization/localization_extension.dart';
 import '../services/storage/auth_storage.dart';
 import '../widgets/smart_image.dart';
 
@@ -261,7 +262,7 @@ class _ModerationPageState extends State<ModerationPage> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(dialogContext).pop(),
-                  child: const Text('Отмена'),
+                  child: Text(context.l10n.cancel),
                 ),
                 FilledButton(
                   onPressed: canSubmit
@@ -539,10 +540,10 @@ class _ModerationPageState extends State<ModerationPage> {
     final hasSearchQuery = _searchQuery.trim().isNotEmpty;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Модерация'),
+        title: Text(context.l10n.moderation),
         actions: [
           IconButton(
-            tooltip: 'Чаты техподдержки',
+            tooltip: context.l10n.supportChatsTitle,
             icon: const Icon(Icons.support_agent),
             onPressed: () {
               Navigator.push(
@@ -554,7 +555,7 @@ class _ModerationPageState extends State<ModerationPage> {
             },
           ),
           IconButton(
-            tooltip: 'Поставщики',
+            tooltip: context.l10n.suppliersListTitle,
             icon: const Icon(Icons.business_center_outlined),
             onPressed: () {
               Navigator.push(
@@ -895,7 +896,7 @@ class _ModerationPageState extends State<ModerationPage> {
                                                     Icons.check_circle_outline,
                                                     size: 18,
                                                   ),
-                                                  label: const Text('Одобрить'),
+                                                  label: Text(context.l10n.moderationApproveProduct),
                                                 );
                                             final rejectButton =
                                                 OutlinedButton.icon(

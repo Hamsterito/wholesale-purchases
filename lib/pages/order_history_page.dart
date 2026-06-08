@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 import '../models/message.dart';
 import '../models/order.dart';
 import '../services/api/api_service.dart';
+import '../services/localization/localization_extension.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/message/message_localization.dart';
 import '../theme/app_color_palette.dart';
@@ -668,8 +669,8 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
             ),
           ),
           const SizedBox(height: 10),
-          if (order.items.isEmpty)
-            Text('Список товаров пуст', style: TextStyle(color: _mutedText))
+if (order.items.isEmpty)
+             Text(context.l10n.orderHistoryEmpty, style: TextStyle(color: _mutedText))
           else
             ...order.items.asMap().entries.map((entry) {
               final index = entry.key;

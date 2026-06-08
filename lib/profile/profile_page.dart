@@ -21,7 +21,7 @@ import '../services/api/api_service.dart';
 import '../models/user_profile.dart';
 import '../services/notification_service.dart';
 import '../utils/logout_flow.dart';
-import '../utils/ru_plural.dart';
+import '../services/localization/app_localizations.dart';
 import '../widgets/profile/user_avatar.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -69,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   String _resolveName(UserProfile? profile) {
-    return _pickValue([profile?.name, AuthStorage.name], 'Пользователь');
+    return _pickValue([profile?.name, AuthStorage.name], AppLocalizations.current.getString('profile_user_fallback'));
   }
 
   bool _isSupplierRole(String? role) {
@@ -102,15 +102,16 @@ class _ProfilePageState extends State<ProfilePage> {
     if (trimmed == null || trimmed.isEmpty) {
       return null;
     }
+    final l10n = AppLocalizations.current;
     switch (trimmed.toLowerCase()) {
       case 'buyer':
-        return 'Покупатель';
+        return l10n.getString('role_buyer');
       case 'supplier':
-        return 'Поставщик';
+        return l10n.getString('role_supplier');
       case 'moderator':
-        return 'Модератор';
+        return l10n.getString('role_moderator');
       case 'super_admin':
-        return 'Главный администратор';
+        return l10n.getString('role_super_admin');
       default:
         return trimmed;
     }
@@ -118,6 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final role = AuthStorage.role?.toLowerCase();
@@ -136,7 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
         scrolledUnderElevation: 0,
         automaticallyImplyLeading: false,
         title: Text(
-          'Профиль',
+          l10n.getString('profile_title'),
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
           ),
@@ -223,39 +225,39 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               child: Column(
                 children: [
-                  _buildMenuItem(
-                    context: context,
-                    icon: Icons.person_outline,
-                    iconColor: context.colorPalette.error,
-                    title: 'Личная информация',
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PersonalInfoPage(),
+                      _buildMenuItem(
+                        context: context,
+                        icon: Icons.person_outline,
+                        iconColor: context.colorPalette.error,
+                        title: l10n.getString('profile_personal_info'),
+                        onTap: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const PersonalInfoPage(),
+                            ),
+                          );
+                          if (!mounted) return;
+                          setState(_reloadProfile);
+                        },
+                      ),
+                      if (isBuyer) ...[
+                        _buildMenuDivider(context),
+                        _buildMenuItem(
+                          context: context,
+                          icon: Icons.location_on_outlined,
+                          iconColor: context.colorPalette.warning,
+                          title: l10n.getString('profile_addresses_label'),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MyAddressesPage(),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                      if (!mounted) return;
-                      setState(_reloadProfile);
-                    },
-                  ),
-                  if (isBuyer) ...[
-                    _buildMenuDivider(context),
-                    _buildMenuItem(
-                      context: context,
-                      icon: Icons.location_on_outlined,
-                      iconColor: context.colorPalette.warning,
-                      title: 'Адреса',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MyAddressesPage(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                      ],
                 ],
               ),
             ),
@@ -271,65 +273,65 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               child: Column(
                 children: [
-                  _buildMenuItem(
-                    context: context,
-                    icon: Icons.shopping_cart_outlined,
-                    iconColor: context.colorPalette.success,
-                    title: 'Мои заказы',
-                    badge: AnimatedBuilder(
-                      animation: Listenable.merge([
-                        NotificationService().pendingBuyerOrdersCount,
-                        NotificationService().deliveredOrdersCount,
-                      ]),
-                      builder: (context, _) {
-                        final total =
-                            NotificationService().pendingBuyerOrdersCount.value +
-                            NotificationService().deliveredOrdersCount.value;
-                        return _buildInlineBadge(context, total);
-                      },
-                    ),
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MyOrdersPage(),
-                        ),
-                      );
-                      if (mounted) {
-                        NotificationService().refreshNotifications();
-                      }
-                    },
-                  ),
-                  _buildMenuDivider(context),
-                  _buildMenuItem(
-                    context: context,
-                    icon: Icons.history_rounded,
-                    iconColor: context.colorPalette.info,
-                    title: 'История заказов',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const OrderHistoryPage(),
-                        ),
-                      );
-                    },
-                  ),
-                  _buildMenuDivider(context),
-                  _buildMenuItem(
-                    context: context,
-                    icon: Icons.credit_card,
-                    iconColor: context.colorPalette.success,
-                    title: 'Способ оплаты',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PaymentMethodPage(),
-                        ),
-                      );
-                    },
-                  ),
+                   _buildMenuItem(
+                     context: context,
+                     icon: Icons.shopping_cart_outlined,
+                     iconColor: context.colorPalette.success,
+                     title: l10n.getString('zakazi_my_orders'),
+                     badge: AnimatedBuilder(
+                       animation: Listenable.merge([
+                         NotificationService().pendingBuyerOrdersCount,
+                         NotificationService().deliveredOrdersCount,
+                       ]),
+                       builder: (context, _) {
+                         final total =
+                             NotificationService().pendingBuyerOrdersCount.value +
+                             NotificationService().deliveredOrdersCount.value;
+                         return _buildInlineBadge(context, total);
+                       },
+                     ),
+                     onTap: () async {
+                       await Navigator.push(
+                         context,
+                         MaterialPageRoute(
+                           builder: (context) => const MyOrdersPage(),
+                         ),
+                       );
+                       if (mounted) {
+                         NotificationService().refreshNotifications();
+                       }
+                     },
+                   ),
+                   _buildMenuDivider(context),
+                   _buildMenuItem(
+                     context: context,
+                     icon: Icons.history_rounded,
+                     iconColor: context.colorPalette.info,
+                     title: l10n.getString('order_history'),
+                     onTap: () {
+                       Navigator.push(
+                         context,
+                         MaterialPageRoute(
+                           builder: (context) => const OrderHistoryPage(),
+                         ),
+                       );
+                     },
+                   ),
+                   _buildMenuDivider(context),
+                   _buildMenuItem(
+                     context: context,
+                     icon: Icons.credit_card,
+                     iconColor: context.colorPalette.success,
+                     title: l10n.getString('profile_payment_method'),
+                     onTap: () {
+                       Navigator.push(
+                         context,
+                         MaterialPageRoute(
+                           builder: (context) => const PaymentMethodPage(),
+                         ),
+                       );
+                     },
+                   ),
                 ],
               ),
             ),
@@ -343,20 +345,20 @@ class _ProfilePageState extends State<ProfilePage> {
                 color: context.colorPalette.card,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: _buildMenuItem(
-                context: context,
-                icon: Icons.favorite_outline,
-                iconColor: context.colorPalette.accent,
-                title: 'Избранное',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const FavoritesPage(),
-                    ),
-                  );
-                },
-              ),
+               child: _buildMenuItem(
+                 context: context,
+                 icon: Icons.favorite_outline,
+                 iconColor: context.colorPalette.accent,
+                 title: l10n.getString('profile_favorites'),
+                 onTap: () {
+                   Navigator.push(
+                     context,
+                     MaterialPageRoute(
+                       builder: (context) => const FavoritesPage(),
+                     ),
+                   );
+                 },
+               ),
             ),
             const SizedBox(height: 16),
           ],
@@ -369,59 +371,59 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             child: Column(
               children: [
-                _buildMenuItem(
-                  context: context,
-                  icon: Icons.help_outline,
-                  iconColor: context.colorPalette.warning,
-                  title: 'Вопросы и ответы',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const FAQsPage()),
-                    );
-                  },
-                ),
-                if (isBuyer) ...[
-                  _buildMenuDivider(context),
-                  _buildMenuItem(
-                    context: context,
-                    icon: Icons.rate_review_outlined,
-                    iconColor: context.colorPalette.info,
-                    title: 'Ваши отзывы',
-                    badge: ValueListenableBuilder<int>(
-                      valueListenable: NotificationService().pendingReviewsCount,
-                      builder: (context, count, _) =>
-                          _buildInlineBadge(context, count),
-                    ),
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const profile_reviews.ReviewsPage(),
-                        ),
-                      );
-                      if (mounted) {
-                        NotificationService().refreshNotifications();
-                      }
-                    },
-                  ),
-                ],
-                _buildMenuDivider(context),
-                _buildMenuItem(
-                  context: context,
-                  icon: Icons.settings_outlined,
-                  iconColor: context.colorPalette.secondary,
-                  title: 'Настройки',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SettingsPage(),
-                      ),
-                    );
-                  },
-                ),
+                 _buildMenuItem(
+                   context: context,
+                   icon: Icons.help_outline,
+                   iconColor: context.colorPalette.warning,
+                   title: l10n.getString('profile_qa'),
+                   onTap: () {
+                     Navigator.push(
+                       context,
+                       MaterialPageRoute(builder: (context) => const FAQsPage()),
+                     );
+                   },
+                 ),
+                 if (isBuyer) ...[
+                   _buildMenuDivider(context),
+                   _buildMenuItem(
+                     context: context,
+                     icon: Icons.rate_review_outlined,
+                     iconColor: context.colorPalette.info,
+                     title: l10n.getString('profile_reviews_title'),
+                     badge: ValueListenableBuilder<int>(
+                       valueListenable: NotificationService().pendingReviewsCount,
+                       builder: (context, count, _) =>
+                           _buildInlineBadge(context, count),
+                     ),
+                     onTap: () async {
+                       await Navigator.push(
+                         context,
+                         MaterialPageRoute(
+                           builder: (context) =>
+                               const profile_reviews.ReviewsPage(),
+                         ),
+                       );
+                       if (mounted) {
+                         NotificationService().refreshNotifications();
+                       }
+                     },
+                   ),
+                 ],
+                 _buildMenuDivider(context),
+                 _buildMenuItem(
+                   context: context,
+                   icon: Icons.settings_outlined,
+                   iconColor: context.colorPalette.secondary,
+                   title: l10n.getString('profile_settings'),
+                   onTap: () {
+                     Navigator.push(
+                       context,
+                       MaterialPageRoute(
+                         builder: (context) => const SettingsPage(),
+                       ),
+                     );
+                   },
+                 ),
               ],
             ),
           ),
@@ -435,26 +437,26 @@ class _ProfilePageState extends State<ProfilePage> {
                 color: context.colorPalette.card,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: _buildMenuItem(
-                context: context,
-                icon: Icons.support_agent_outlined,
-                iconColor: context.colorPalette.success,
-                title: 'Техподдержка',
-                badge: ValueListenableBuilder<int>(
-                  valueListenable: NotificationService().unreadMessagesCount,
-                  builder: (context, count, _) =>
-                      _buildInlineBadge(context, count),
-                ),
-                onTap: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SupportPage()),
-                  );
-                  if (mounted) {
-                    NotificationService().refreshNotifications();
-                  }
-                },
-              ),
+               child: _buildMenuItem(
+                 context: context,
+                 icon: Icons.support_agent_outlined,
+                 iconColor: context.colorPalette.success,
+                 title: l10n.getString('profile_support'),
+                 badge: ValueListenableBuilder<int>(
+                   valueListenable: NotificationService().unreadMessagesCount,
+                   builder: (context, count, _) =>
+                       _buildInlineBadge(context, count),
+                 ),
+                 onTap: () async {
+                   await Navigator.push(
+                     context,
+                     MaterialPageRoute(builder: (context) => const SupportPage()),
+                   );
+                   if (mounted) {
+                     NotificationService().refreshNotifications();
+                   }
+                 },
+               ),
             ),
             const SizedBox(height: 16),
           ],
@@ -465,14 +467,14 @@ class _ProfilePageState extends State<ProfilePage> {
               color: context.colorPalette.card,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: _buildMenuItem(
-              context: context,
-              icon: Icons.logout,
-              iconColor: context.colorPalette.error,
-              title: 'Выйти',
-              onTap: () => performLogout(context),
-              showArrow: false,
-            ),
+             child: _buildMenuItem(
+               context: context,
+               icon: Icons.logout,
+               iconColor: context.colorPalette.error,
+               title: l10n.getString('auth_logout'),
+               onTap: () => performLogout(context),
+               showArrow: false,
+             ),
           ),
         ],
       ),
@@ -485,6 +487,7 @@ class _ProfilePageState extends State<ProfilePage> {
     required bool isModerator,
     required bool isSuperAdmin,
   }) {
+    final l10n = AppLocalizations.of(context);
     if (!isSupplier && !isModerator && !isSuperAdmin) {
       return const SizedBox.shrink();
     }
@@ -496,7 +499,7 @@ class _ProfilePageState extends State<ProfilePage> {
           context: context,
           icon: Icons.inventory_2_outlined,
           iconColor: context.colorPalette.info,
-          title: 'Мои товары (поставщик)',
+          title: l10n.getString('supplier_my_products'),
           onTap: () {
             Navigator.push(
               context,
@@ -512,7 +515,7 @@ class _ProfilePageState extends State<ProfilePage> {
           context: context,
           icon: Icons.receipt_long,
           iconColor: context.colorPalette.success,
-          title: 'Заказы поставщика',
+          title: l10n.getString('supplier_my_orders'),
           badge: ValueListenableBuilder<int>(
             valueListenable: NotificationService().pendingSupplierOrdersCount,
             builder: (context, count, _) => _buildInlineBadge(context, count),
@@ -535,7 +538,7 @@ class _ProfilePageState extends State<ProfilePage> {
           context: context,
           icon: Icons.analytics_outlined,
           iconColor: context.colorPalette.accent,
-          title: 'Статистика',
+          title: l10n.getString('supplier_stats'),
           onTap: () {
             Navigator.push(
               context,
@@ -554,7 +557,7 @@ class _ProfilePageState extends State<ProfilePage> {
           context: context,
           icon: Icons.fact_check_outlined,
           iconColor: context.colorPalette.warning,
-          title: 'Модерация товаров',
+          title: l10n.getString('mod_product_moderation'),
           onTap: () {
             Navigator.push(
               context,
@@ -568,7 +571,7 @@ class _ProfilePageState extends State<ProfilePage> {
           context: context,
           icon: Icons.forum_outlined,
           iconColor: context.colorPalette.tertiary,
-          title: 'Чаты техподдержки',
+          title: l10n.getString('mod_support_chats'),
           onTap: () {
             Navigator.push(
               context,
@@ -587,7 +590,7 @@ class _ProfilePageState extends State<ProfilePage> {
           context: context,
           icon: Icons.admin_panel_settings_outlined,
           iconColor: context.colorPalette.accent,
-          title: 'Управление модераторами',
+          title: l10n.getString('mod_mod_management'),
           onTap: () {
             Navigator.push(
               context,
@@ -621,10 +624,11 @@ class _ProfilePageState extends State<ProfilePage> {
     if (count == 0) return const SizedBox.shrink();
 
     final label = count > 99 ? '99+' : count.toString();
+    final l10n = AppLocalizations.of(context);
 
     return Semantics(
       label:
-          '$count ${pluralizeRu(count, 'уведомление', 'уведомления', 'уведомлений')}',
+          '$count ${l10n.pluralize('notifications_count', count)}',
       child: Container(
         constraints: const BoxConstraints(minWidth: 18),
         height: 18,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../services/localization/localization_extension.dart';
 import '../../services/store/templates_store.dart';
 import '../../theme/app_color_palette.dart';
 
@@ -34,7 +35,7 @@ class _RenameTemplateDialogState extends State<RenameTemplateDialog> {
     final trimmed = _controller.text.trim();
 
     if (trimmed.isEmpty || trimmed.length > 50) {
-      setState(() => _error = 'Имя шаблона: от 1 до 50 символов');
+      setState(() => _error = context.l10n.templateNameError);
       return;
     }
 
@@ -48,7 +49,7 @@ class _RenameTemplateDialogState extends State<RenameTemplateDialog> {
         excludeId: widget.template.id,
       );
       if (duplicate != null) {
-        setState(() => _error = 'Шаблон с таким именем уже существует');
+        setState(() => _error = context.l10n.templateDuplicateExists);
         return;
       }
     }
@@ -66,6 +67,7 @@ class _RenameTemplateDialogState extends State<RenameTemplateDialog> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final palette = context.colorPalette;
+    final l10n = context.l10n;
 
     // Ограничиваем масштабирование текста сверху до 2.0.
     return MediaQuery.withClampedTextScaling(
@@ -73,7 +75,7 @@ class _RenameTemplateDialogState extends State<RenameTemplateDialog> {
       maxScaleFactor: 2.0,
       child: AlertDialog(
         backgroundColor: palette.card,
-        title: const Text('Переименовать шаблон'),
+        title: Text(l10n.templateRenameTitle),
         content: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 360),
           child: Column(
@@ -88,7 +90,7 @@ class _RenameTemplateDialogState extends State<RenameTemplateDialog> {
                 onChanged: _onChanged,
                 onSubmitted: (_) => _onConfirm(),
                 decoration: InputDecoration(
-                  labelText: 'Имя шаблона',
+                  labelText: l10n.templateNameLabel,
                   border: const OutlineInputBorder(),
                   errorText: _error,
                   counterText: '',
@@ -101,9 +103,9 @@ class _RenameTemplateDialogState extends State<RenameTemplateDialog> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Отмена'),
+            child: Text(l10n.cancel),
           ),
-          FilledButton(onPressed: _onConfirm, child: const Text('Сохранить')),
+          FilledButton(onPressed: _onConfirm, child: Text(l10n.save)),
         ],
       ),
     );

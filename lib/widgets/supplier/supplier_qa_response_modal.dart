@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/review_entry.dart';
 import '../../models/product.dart';
+import '../../services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../smart_image.dart';
 
@@ -379,10 +380,10 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                           minimumSize: const Size.fromHeight(44),
                           side: BorderSide(color: palette.line),
                         ),
-                        child: Text(
-                          'Отмена',
-                          style: TextStyle(color: palette.ink),
-                        ),
+child: Text(
+                           context.l10n.cancel,
+                           style: TextStyle(color: palette.ink),
+                         ),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -411,7 +412,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                                 backgroundColor: palette.accent,
                                 minimumSize: const Size.fromHeight(44),
                               ),
-                              child: const Text('Отправить'),
+                              child: Text(context.l10n.send),
                             ),
                     ),
                   ],

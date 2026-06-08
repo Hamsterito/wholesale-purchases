@@ -9,6 +9,7 @@ import '../pages/order_history_page.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/message/message_localization.dart';
+import '../services/localization/app_localizations.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/smart_image.dart';
@@ -125,14 +126,14 @@ class _MyOrdersPageState extends State<MyOrdersPage>
           icon: Icon(Icons.arrow_back, color: _colorScheme.onSurface),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          'Мои заказы',
-          style: TextStyle(
-            color: _colorScheme.onSurface,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+title: Text(
+           AppLocalizations.of(context).getString('zakazi_my_orders'),
+           style: TextStyle(
+             color: _colorScheme.onSurface,
+             fontSize: 18,
+             fontWeight: FontWeight.w600,
+           ),
+         ),
         centerTitle: true,
       ),
       body: _buildBody(context, activeOrders, historyCount),
@@ -172,7 +173,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
         children: [
           Center(
             child: Text(
-              'Нету заказов',
+              AppLocalizations.of(context).getString('zakazi_no_orders'),
               style: TextStyle(color: _mutedText, fontSize: 15),
             ),
           ),
@@ -190,9 +191,10 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   }
 
   Widget _buildHistoryButton(BuildContext context, int historyCount) {
+    final l10n = AppLocalizations.of(context);
     final label = historyCount > 0
-        ? 'История заказов ($historyCount)'
-        : 'История заказов';
+        ? l10n.getString('zakazi_history_button_count', params: {'count': historyCount})
+        : l10n.getString('zakazi_history_button');
 
     final historyBorderColor = context.colorPalette.accent.withValues(
       alpha: _isDark ? 0.98 : 0.9,
@@ -347,7 +349,8 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     return base.withValues(alpha: _isDark ? 0.22 : 0.12);
   }
 
-  Widget _buildOrderCard(Order order) {
+Widget _buildOrderCard(Order order) {
+    final l10n = AppLocalizations.of(context);
     final totalAmount = _formatMoney(order.totalAmount);
     final isAccepting = _acceptingOrders.contains(order.id);
     final isCancelling = _cancelingOrders.contains(order.id);
@@ -379,7 +382,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Заказ ${order.id}',
+                      l10n.getString('zakazi_order_label', params: {'orderId': order.id}),
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -426,6 +429,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                 order.items[index],
                 order.status,
                 isAccepting: isAccepting || isCancelling,
+                l10n: l10n,
               );
             },
             separatorBuilder: (context, index) =>
@@ -436,6 +440,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
             order,
             isAccepting: isAccepting,
             isCancelling: isCancelling,
+            l10n: l10n,
           ),
 
           Divider(height: 1, color: _borderColor),
@@ -447,7 +452,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Общая сумма:',
+                  l10n.getString('zakazi_total_amount_label'),
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 Text(
@@ -470,6 +475,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     OrderItem item,
     String orderStatus, {
     required bool isAccepting,
+    required AppLocalizations l10n,
   }) {
     final canReceive = _isDeliveredStatus(orderStatus) && !isAccepting;
     final priceLabel = _formatMoney(item.price);
@@ -526,7 +532,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                         border: Border.all(color: _borderColor),
                       ),
                       child: Text(
-                        '${item.quantity} шт',
+                        '${item.quantity} ${l10n.getString('zakazi_quantity_short')}',
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -578,7 +584,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                   ),
                 ),
                 Text(
-                  'Принят',
+                  l10n.getString('zakazi_accepted_label'),
                   style: TextStyle(
                     fontSize: 13,
                     color: canReceive ? _colorScheme.onSurface : _mutedText,
@@ -594,7 +600,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                         const SizedBox(width: 4),
                         Flexible(
                           child: Text(
-                            'После доставки',
+                            l10n.getString('zakazi_after_delivery'),
                             style: TextStyle(
                               fontSize: 11,
                               color: _mutedText,
@@ -700,6 +706,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     Order order, {
     required bool isAccepting,
     required bool isCancelling,
+    required AppLocalizations l10n,
   }) {
     final canReceive = _isDeliveredStatus(order.status);
     final canCancel = _canCancelOrder(order);
@@ -718,6 +725,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                     order,
                     isBusy: isBusy,
                     isCancelling: isCancelling,
+                    l10n: l10n,
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -727,7 +735,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
-                            'Принять можно после доставки',
+                            l10n.getString('zakazi_can_accept_after_delivery'),
                             style: TextStyle(fontSize: 14, color: _mutedText),
                           ),
                         ),
@@ -743,7 +751,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
-                      'Принять можно после доставки',
+                      l10n.getString('zakazi_can_accept_after_delivery'),
                       style: TextStyle(fontSize: 14, color: _mutedText),
                     ),
                   ),
@@ -751,7 +759,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
               ),
             if (!canCancel) ...[
               const SizedBox(height: 8),
-              _buildCancelInfo(order),
+              _buildCancelInfo(order, l10n),
             ],
           ],
         ),
@@ -759,7 +767,9 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     }
 
     final allSelected = _areAllItemsSelected(order);
-    final selectLabel = allSelected ? 'Снять все' : 'Выбрать все';
+    final selectLabel = allSelected
+        ? l10n.getString('zakazi_deselect_all')
+        : l10n.getString('zakazi_select_all');
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
@@ -771,6 +781,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
               order,
               isBusy: isBusy,
               isCancelling: isCancelling,
+              l10n: l10n,
             ),
           if (canCancel) const SizedBox(height: 10),
           Row(
@@ -817,7 +828,9 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                     elevation: 0,
                   ),
                   child: Text(
-                    isAccepting ? 'Принимаем...' : 'Принять',
+                    isAccepting
+                        ? l10n.getString('zakazi_accepting')
+                        : l10n.getString('zakazi_accept_button'),
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -829,7 +842,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
           ),
           if (!canCancel) ...[
             const SizedBox(height: 8),
-            _buildCancelInfo(order),
+            _buildCancelInfo(order, l10n),
           ],
         ],
       ),
@@ -840,11 +853,14 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     Order order, {
     required bool isBusy,
     required bool isCancelling,
+    required AppLocalizations l10n,
   }) {
     return OutlinedButton.icon(
       onPressed: isBusy ? null : () => _confirmCancelOrder(order),
       icon: const Icon(Icons.cancel_outlined, size: 18),
-      label: Text(isCancelling ? 'Отменяем...' : 'Отменить заказ'),
+      label: Text(isCancelling
+          ? l10n.getString('zakazi_cancelling')
+          : l10n.getString('zakazi_cancel_button')),
       style: OutlinedButton.styleFrom(
         foregroundColor: context.colorPalette.statusCancelled,
         side: BorderSide(color: context.colorPalette.statusCancelled),
@@ -855,13 +871,13 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     );
   }
 
-  Widget _buildCancelInfo(Order order) {
+  Widget _buildCancelInfo(Order order, AppLocalizations l10n) {
     final remaining = _remainingCancellationTime(order);
     final hasTime = remaining > Duration.zero;
     final hours = remaining.inHours;
     final minutes = remaining.inMinutes % 60;
     final timeLabel = hours > 0
-        ? '$hours ч ${minutes.toString().padLeft(2, '0')} мин'
+        ? '$hours ч ${(minutes).toString().padLeft(2, '0')} мин'
         : '${remaining.inMinutes} мин';
 
     return Row(
@@ -871,8 +887,8 @@ class _MyOrdersPageState extends State<MyOrdersPage>
         Expanded(
           child: Text(
             hasTime
-                ? 'Отмена доступна ещё $timeLabel'
-                : 'Отмена доступна только в течение первого часа',
+                ? l10n.getString('zakazi_cancel_available', params: {'time': timeLabel})
+                : l10n.getString('zakazi_cancel_only_first_hour'),
             style: TextStyle(fontSize: 12, color: _mutedText),
           ),
         ),
@@ -908,8 +924,9 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   Future<void> _confirmAcceptOrder(Order order) async {
     if (!_areAllItemsSelected(order)) {
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context);
       _showMessage(
-        'Отметьте все товары перед подтверждением.',
+        l10n.getString('zakazi_mark_items_before_confirm'),
         MessageSeverity.warning,
       );
       return;
@@ -924,6 +941,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   }
 
   Future<bool> _showAcceptDialog(Order order) async {
+    final l10n = AppLocalizations.of(context);
     final totalAmount = _formatMoney(order.totalAmount);
     final result = await showDialog<bool>(
       context: context,
@@ -939,7 +957,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Подтвердите принятие',
+                  l10n.getString('zakazi_confirm_acceptance'),
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -948,7 +966,10 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Заказ ${order.id} на сумму $totalAmount ₸',
+                  l10n.getString('zakazi_order_amount', params: {
+                    'orderId': order.id,
+                    'amount': totalAmount,
+                  }),
                   style: TextStyle(fontSize: 14, color: _mutedText),
                   textAlign: TextAlign.center,
                 ),
@@ -966,7 +987,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        child: const Text('Отмена'),
+                        child: Text(l10n.getString('common_cancel')),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -982,7 +1003,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
                           ),
                           elevation: 0,
                         ),
-                        child: const Text('Принять'),
+                        child: Text(l10n.getString('zakazi_accept_button')),
                       ),
                     ),
                   ],
@@ -996,7 +1017,8 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     return result ?? false;
   }
 
-  Future<void> _acceptOrder(Order order) async {
+Future<void> _acceptOrder(Order order) async {
+    final l10n = AppLocalizations.of(context);
     if (order.items.isEmpty) return;
     if (_acceptingOrders.contains(order.id)) return;
 
@@ -1016,24 +1038,25 @@ class _MyOrdersPageState extends State<MyOrdersPage>
             .toList();
         _acceptingOrders.remove(order.id);
       });
-      _showMessage('Заказ принят.', MessageSeverity.info);
+      _showMessage(l10n.getString('zakazi_order_accepted'), MessageSeverity.info);
     } catch (e) {
       if (!mounted) return;
       setState(() {
         _acceptingOrders.remove(order.id);
       });
       _showMessage(
-        'Не удалось принять заказ. Попробуйте еще раз.',
+        l10n.getString('zakazi_accept_failed'),
         MessageSeverity.error,
       );
     }
   }
 
   Future<void> _confirmCancelOrder(Order order) async {
+    final l10n = AppLocalizations.of(context);
     if (!_canCancelOrder(order)) {
       if (!mounted) return;
       _showMessage(
-        'Отмена доступна только в течение первого часа.',
+        l10n.getString('zakazi_cancel_only_first_hour'),
         MessageSeverity.warning,
       );
       return;
@@ -1043,18 +1066,16 @@ class _MyOrdersPageState extends State<MyOrdersPage>
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: const Text('Отменить заказ?'),
-          content: const Text(
-            'Заказ будет отменён, а товары вернутся на склад.',
-          ),
+          title: Text(l10n.getString('zakazi_cancel_order_title')),
+          content: Text(l10n.getString('zakazi_cancel_order_message')),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('Нет'),
+              child: Text(l10n.getString('zakazi_no')),
             ),
             FilledButton(
               onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text('Отменить'),
+              child: Text(l10n.getString('zakazi_cancel_button')),
             ),
           ],
         );
@@ -1069,10 +1090,11 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   }
 
   Future<void> _cancelOrder(Order order) async {
+    final l10n = AppLocalizations.of(context);
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
       if (!mounted) return;
-      _showMessage('Сессия истекла. Войдите снова.', MessageSeverity.error);
+      _showMessage(l10n.getString('auth_session_expired'), MessageSeverity.error);
       return;
     }
     if (_cancelingOrders.contains(order.id)) {
@@ -1098,28 +1120,14 @@ class _MyOrdersPageState extends State<MyOrdersPage>
             .toList();
         _cancelingOrders.remove(order.id);
       });
-      _showMessage('Заказ отменён.', MessageSeverity.info);
+      _showMessage(l10n.getString('zakazi_order_cancelled'), MessageSeverity.info);
     } catch (e) {
       if (!mounted) return;
       setState(() {
         _cancelingOrders.remove(order.id);
       });
-      _showMessage(_cancelOrderErrorMessage(e), MessageSeverity.error);
+      _showMessage(l10n.getString('zakazi_cancel_failed'), MessageSeverity.error);
     }
-  }
-
-  String _cancelOrderErrorMessage(Object error) {
-    final message = error.toString();
-    if (message.contains('первого часа')) {
-      return 'Отмена доступна только в течение первого часа.';
-    }
-    if (message.contains('уже отмен')) {
-      return 'Этот заказ уже отменён.';
-    }
-    if (message.contains('подтвержден')) {
-      return 'Подтверждённый заказ отменить нельзя.';
-    }
-    return 'Не удалось отменить заказ. Попробуйте ещё раз.';
   }
 
   bool _areAllItemsSelected(Order order) {
@@ -1128,19 +1136,20 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   }
 
   String _formatDate(DateTime date) {
+    final l10n = AppLocalizations.of(context);
     final months = [
-      'января',
-      'февраля',
-      'марта',
-      'апреля',
-      'мая',
-      'июня',
-      'июля',
-      'августа',
-      'сентября',
-      'октября',
-      'ноября',
-      'декабря',
+      l10n.getString('zakazi_month_january'),
+      l10n.getString('zakazi_month_february'),
+      l10n.getString('zakazi_month_march'),
+      l10n.getString('zakazi_month_april'),
+      l10n.getString('zakazi_month_may'),
+      l10n.getString('zakazi_month_june'),
+      l10n.getString('zakazi_month_july'),
+      l10n.getString('zakazi_month_august'),
+      l10n.getString('zakazi_month_september'),
+      l10n.getString('zakazi_month_october'),
+      l10n.getString('zakazi_month_november'),
+      l10n.getString('zakazi_month_december'),
     ];
 
     final now = DateTime.now();
@@ -1148,11 +1157,11 @@ class _MyOrdersPageState extends State<MyOrdersPage>
     final orderDay = DateTime(date.year, date.month, date.day);
 
     if (orderDay == today) {
-      return 'Сегодня, ${date.day} ${months[date.month - 1]}';
+      return '${l10n.getString('zakazi_today')}, ${date.day} ${months[date.month - 1]}';
     } else if (orderDay == today.subtract(const Duration(days: 1))) {
-      return 'Вчера, ${date.day} ${months[date.month - 1]}';
+      return '${l10n.getString('zakazi_yesterday')}, ${date.day} ${months[date.month - 1]}';
     } else if (orderDay == today.add(const Duration(days: 1))) {
-      return 'Завтра, ${date.day} ${months[date.month - 1]}';
+      return '${l10n.getString('zakazi_tomorrow')}, ${date.day} ${months[date.month - 1]}';
     } else {
       return '${date.day} ${months[date.month - 1]}';
     }

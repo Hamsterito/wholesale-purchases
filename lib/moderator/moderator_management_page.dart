@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../login_screen/login.dart';
 import '../services/api/api_service.dart';
+import '../services/localization/localization_extension.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/moderator/moderator_empty_state.dart';
 import '../widgets/phone_input_formatter.dart';
@@ -144,14 +145,14 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
         final palette = context.colorPalette;
         return AlertDialog(
           backgroundColor: palette.card,
-          title: const Text('Удалить модератора?'),
+          title: Text(context.l10n.moderatorDeleteTitle),
           content: Text(
             '${m.name} (${m.email}) больше не сможет модерировать товары.',
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('Отмена'),
+              child: Text(context.l10n.cancel),
             ),
             FilledButton.tonal(
               style: FilledButton.styleFrom(
@@ -159,7 +160,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
                 foregroundColor: palette.error,
               ),
               onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text('Удалить'),
+              child: Text(context.l10n.moderatorDeleteButton),
             ),
           ],
         );
@@ -199,7 +200,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Управление модераторами'),
+        title: Text(context.l10n.moderatorManagementTitle),
         actions: [
           IconButton(
             tooltip: 'Добавить модератора',
@@ -335,7 +336,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
             FilledButton.icon(
               onPressed: _load,
               icon: const Icon(Icons.refresh),
-              label: const Text('Повторить'),
+              label: Text(context.l10n.retry),
             ),
           ],
         ),
@@ -361,7 +362,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
             FilledButton.icon(
               onPressed: _goToLogin,
               icon: const Icon(Icons.login),
-              label: const Text('Войти'),
+              label: Text(context.l10n.moderatorLoginButton),
             ),
           ],
         ),

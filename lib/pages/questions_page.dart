@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/question.dart';
 import '../services/api/api_service.dart';
+import '../services/localization/localization_extension.dart';
 import '../services/storage/auth_storage.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/pages/question_card.dart';
@@ -190,13 +191,13 @@ class _QuestionsPageState extends State<QuestionsPage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _showAskModal,
-        backgroundColor: palette.accent,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.help_outline),
-        label: const Text('Задать вопрос'),
-      ),
+floatingActionButton: FloatingActionButton.extended(
+         onPressed: _showAskModal,
+         backgroundColor: palette.accent,
+         foregroundColor: Colors.white,
+         icon: const Icon(Icons.help_outline),
+         label: Text(context.l10n.questionAskButton),
+       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: const RoleInternalNavBar(currentIndex: null),
     );
@@ -286,10 +287,10 @@ class _QuestionsPageState extends State<QuestionsPage> {
                 ),
               ),
               const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () => _fetchQuestions(),
-                child: const Text('Повторить'),
-              ),
+ElevatedButton(
+                 onPressed: () => _fetchQuestions(),
+                 child: Text(context.l10n.retry),
+               ),
             ],
           ),
         );
@@ -315,11 +316,11 @@ class _QuestionsPageState extends State<QuestionsPage> {
                 style: TextStyle(fontSize: 14, color: palette.muted),
               ),
               const SizedBox(height: 24),
-              FilledButton.icon(
-                onPressed: _showAskModal,
-                icon: const Icon(Icons.help_outline),
-                label: const Text('Задать вопрос'),
-              ),
+FilledButton.icon(
+                 onPressed: _showAskModal,
+                 icon: const Icon(Icons.help_outline),
+                 label: Text(context.l10n.questionAskButton),
+               ),
             ],
           ),
         );
@@ -667,10 +668,10 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
                           minimumSize: const Size.fromHeight(44),
                           side: BorderSide(color: palette.line),
                         ),
-                        child: Text(
-                          'Отмена',
-                          style: TextStyle(color: palette.ink),
-                        ),
+child: Text(
+                           context.l10n.cancel,
+                           style: TextStyle(color: palette.ink),
+                         ),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -699,7 +700,7 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
                                 backgroundColor: palette.accent,
                                 minimumSize: const Size.fromHeight(44),
                               ),
-                              child: const Text('Отправить'),
+                              child: Text(context.l10n.send),
                             ),
                     ),
                   ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../services/api/api_service.dart';
+import '../services/localization/localization_extension.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/phone_input_formatter.dart';
 
@@ -122,7 +123,7 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
 
     return AlertDialog(
       backgroundColor: palette.card,
-      title: const Text('Добавить модератора'),
+      title: Text(context.l10n.addModeratorTitle),
       content: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 360),
         child: SingleChildScrollView(
@@ -247,7 +248,7 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
       actions: [
         TextButton(
           onPressed: _isSubmitting ? null : () => Navigator.of(context).pop(),
-          child: const Text('Отмена'),
+          child: Text(context.l10n.cancel),
         ),
         FilledButton(
           onPressed: _isSubmitting ? null : _submit,
@@ -257,7 +258,7 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
                   height: 18,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text('Добавить'),
+              : Text(context.l10n.moderatorAddButton),
         ),
       ],
     );
