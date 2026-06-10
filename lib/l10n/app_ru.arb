@@ -774,33 +774,10 @@
   "@supplier_confirmed_label": {
     "description": "Подпись подтверждённого статуса"
   },
-  "supplier_order_total_label": "Всего",
-  "@supplier_order_total_label": {
-    "description": "Заказать Симма подписывайся"
-  },
-  "supplier_delivery_address_label": "Адрес доставки",
-  "@supplier_delivery_address_label": {
-    "description": "Адрес доставки подпишись"
-  },
+
   "supplier_address_not_specified": "Не указано",
   "@supplier_address_not_specified": {
     "description": "Когда адрес не указан"
-  },
-  "supplier_order_status_label": "Статус заказа",
-  "@supplier_order_status_label": {
-    "description": "Статус заказа подписывайтесь"
-  },
-  "supplier_goods_positions_label": "Товарные позиции",
-  "@supplier_goods_positions_label": {
-    "description": "Товарные позиции подписывайтесь"
-  },
-  "supplier_units_count_label": "Количество единиц",
-  "@supplier_units_count_label": {
-    "description": "Количество единиц подписывайся"
-  },
-  "supplier_confirmed_label": "Подтверждено",
-  "@supplier_confirmed_label": {
-    "description": "Подтвержденный статус подписка"
   },
   "qa_title": "Вопросы и ответы",
   "@qa_title": {
@@ -1054,25 +1031,9 @@
   "@review_change_draft": {
     "description": "Кнопка изменения"
   },
-  "review_your_text": "Ваше мнение",
-  "@review_your_text": {
-    "description": "Заголовок поля комментариев"
-  },
-  "review_rate_product": "Дайте товару оценку",
-  "@review_rate_product": {
-    "description": "Ценообразование товара подписывайся"
-  },
-  "review_add_details": "Добавить детали",
-  "@review_add_details": {
-    "description": "Т қосу добавить записи подписка"
-  },
   "review_share_feedback": "Поделитесь впечатлениями",
   "@review_share_feedback": {
     "description": "Совет поля мнений"
-  },
-  "review_save_button": "Хранение",
-  "@review_save_button": {
-    "description": "Кнопка сохранения"
   },
   "review_edit_button": "Править",
   "@review_edit_button": {
@@ -1106,14 +1067,6 @@
   "@review_close_dialog": {
     "description": "Кнопка закрытия диалога"
   },
-  "review_sending_text": "Отправляется...",
-  "@review_sending_text": {
-    "description": "Посылка"
-  },
-  "review_save_draft": "Сохранить",
-  "@review_save_draft": {
-    "description": "Кнопка сохранения"
-  },
   "review_edit_draft": "Править",
   "@review_edit_draft": {
     "description": "Кнопка редактирования"
@@ -1121,14 +1074,6 @@
   "review_delete_draft": "Удалить",
   "@review_delete_draft": {
     "description": "Кнопка удаления"
-  },
-  "review_cancel_draft": "Отмена",
-  "@review_cancel_draft": {
-    "description": "Кнопка отмены"
-  },
-  "review_change_draft": "Изменить",
-  "@review_change_draft": {
-    "description": "Кнопка изменения"
   },
   "review_leave_draft": "Оставить комментарий",
   "@review_leave_draft": {
@@ -1426,22 +1371,6 @@
   "@zakazi_session_expired": {
     "description": "Уведомление об окончании сеанса"
   },
-  "zakazi_cancel_failed": "Отменить заказ не удалось. Повторить.",
-  "@zakazi_cancel_failed": {
-    "description": "Отказ от заказа белый"
-  },
-  "zakazi_order_cancelled": "Заказ отменен.",
-  "@zakazi_order_cancelled": {
-    "description": "Уведомление об отмене заказа"
-  },
-  "cart_item_removed": "Продукт уничтожен",
-  "@cart_item_removed": {
-    "description": "Уведомление об удалении продукта из корзины"
-  },
-  "cart_undo_remove": "Избегать",
-  "@cart_undo_remove": {
-    "description": "Кнопка отмены удаления продукта"
-  },
   "cart_confirm_row_amount": "Сумма",
   "@cart_confirm_row_amount": {
     "description": "Символ суммы в диалоге оплаты"
@@ -1714,37 +1643,13 @@
   "@chat_no_review_text": {
     "description": "Текст комментария по умолчанию"
   },
-  "home_retry_button": "Повторение",
-  "@home_retry_button": {
-    "description": "Кнопка повтора"
-  },
-  "chat_empty_title": "Нету сообщений",
-  "@chat_empty_title": {
-    "description": "Чат пустой состояния заголовки"
-  },
   "chat_empty_hint": "Напишите предыдущее сообщение{postfix}",
   "@chat_empty_hint": {
     "description": "Совет в пустом чате"
   },
-  "chat_retry_send": "Повторение отправки",
-  "@chat_retry_send": {
-    "description": "Отправить кнопку повтора tooltip"
-  },
   "chat_today": "Сегодня",
   "@chat_today": {
     "description": "Подпис сегодняшнего дня в чате"
-  },
-  "chat_yesterday": "Вчера",
-  "@chat_yesterday": {
-    "description": "Подпис вашего вечера в чате"
-  },
-  "chat_buyer_default": "Получатель",
-  "@chat_buyer_default": {
-    "description": "Алушının по имени умолчан"
-  },
-  "chat_no_review_text": "Нет текста комментария",
-  "@chat_no_review_text": {
-    "description": "Текст комментария по умолчан"
   },
   "home_no_products": "Продукты не найдены",
   "@home_no_products": {
@@ -2228,6 +2133,5 @@
   },
   "suppliers_catalog_access_denied": "Каталог поставщиков доступен только модераторам и основным администраторам.",
   "@suppliers_catalog_access_denied": {
-    "description": "Уведомление об ограничении доступа к каталогу поставщика"
   }
 }
