@@ -415,19 +415,39 @@
   },
   "message_order_not_found": "ID {orderId} существующий заказ не найден",
   "@message_order_not_found": {
-    "description": "Образец уведомления о не найденном заказе"
+    "description": "Образец уведомления о не найденном заказе",
+    "placeholders": {
+      "orderId": {
+        "type": "int"
+      }
+    }
   },
   "message_order_confirmed": "Ваш #{orderId} заказ подтвержден",
   "@message_order_confirmed": {
-    "description": "Образец уведомления о подтверждении заказа"
+    "description": "Образец уведомления о подтверждении заказа",
+    "placeholders": {
+      "orderId": {
+        "type": "int"
+      }
+    }
   },
   "message_order_delivered": "#{orderId} заказ доставлен",
   "@message_order_delivered": {
-    "description": "Образец уведомления о доставке заказа"
+    "description": "Образец уведомления о доставке заказа",
+    "placeholders": {
+      "orderId": {
+        "type": "int"
+      }
+    }
   },
   "message_product_not_found": "ID {productId} существующий продукт не найден",
   "@message_product_not_found": {
-    "description": "Образец уведомления о незаработанном продукте"
+    "description": "Образец уведомления о незаработанном продукте",
+    "placeholders": {
+      "productId": {
+        "type": "String"
+      }
+    }
   },
   "message_network_error": "Ошибка сети. Проверьте соединение и попробуйте снова",
   "@message_network_error": {
@@ -439,7 +459,12 @@
   },
   "message_validation_error": "Ошибка подтверждения: {details}",
   "@message_validation_error": {
-    "description": "Шаблон сообщения об ошибке подтверждения"
+    "description": "Шаблон сообщения об ошибке подтверждения",
+    "placeholders": {
+      "details": {
+        "type": "int"
+      }
+    }
   },
   "message_auth_required": "Требуется Авторизация",
   "@message_auth_required": {
@@ -451,7 +476,12 @@
   },
   "message_ai_generation_failed": "Невозможно построить ответ AI: {reason}",
   "@message_ai_generation_failed": {
-    "description": "Шаблон сообщения об ошибке генерации AI"
+    "description": "Шаблон сообщения об ошибке генерации AI",
+    "placeholders": {
+      "reason": {
+        "type": "int"
+      }
+    }
   },
   "format_date_pattern": "DD.MM.YYYY HH:mm",
   "@format_date_pattern": {
@@ -631,7 +661,12 @@
   },
   "supplier_unanswered_questions": "Вопросов без ответа: {count}",
   "@supplier_unanswered_questions": {
-    "description": "Расчет вопросов без ответа"
+    "description": "Расчет вопросов без ответа",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "template_add_to_cart": "Добавить в корзину",
   "@template_add_to_cart": {
@@ -646,6 +681,9 @@
     "description": "Хорошая ценник"
   },
   "review_quick_quality_packaging": "Качественная упаковка",
+  "@review_quick_quality_packaging": {
+    "description": "Тег качественной упаковки"
+  },
   "review_quick_fresh_product": "Свежий товар",
   "@review_quick_fresh_product": {
     "description": "Тег продукта свежий"
@@ -716,7 +754,12 @@
   },
   "supplier_current_status": "Текущий статус: {status}",
   "@supplier_current_status": {
-    "description": "Текущий статус о подписке"
+    "description": "Текущий статус о подписке",
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
   },
   "supplier_order_confirmed_by_buyer": "Заказ подтвержден покупателем",
   "@supplier_order_confirmed_by_buyer": {
@@ -744,9 +787,14 @@
   },
   "supplier_export_error": "Ошибка экспорта: {error}",
   "@supplier_export_error": {
-    "description": "Сообщение об ошибке экспорта"
+    "description": "Сообщение об ошибке экспорта",
+    "placeholders": {
+      "error": {
+        "type": "int"
+      }
+    }
   },
-"answered_label": "Ответ дан",
+  "answered_label": "Ответ дан",
   "@answered_label": {
     "description": "Метка статуса ответа дан"
   },
@@ -774,7 +822,6 @@
   "@supplier_confirmed_label": {
     "description": "Подпись подтверждённого статуса"
   },
-
   "supplier_address_not_specified": "Не указано",
   "@supplier_address_not_specified": {
     "description": "Когда адрес не указан"
@@ -865,7 +912,12 @@
   },
   "qa_error_with_details": "Ошибка: {details}",
   "@qa_error_with_details": {
-    "description": "Сообщение об ошибке с подробностями"
+    "description": "Сообщение об ошибке с подробностями",
+    "placeholders": {
+      "details": {
+        "type": "int"
+      }
+    }
   },
   "qa_answer_updated": "Ответ обновлен",
   "@qa_answer_updated": {
@@ -901,7 +953,12 @@
   },
   "profile_reviews_total_count": "{count} всего",
   "@profile_reviews_total_count": {
-    "description": "Расчет отзывов"
+    "description": "Расчет отзывов",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "profile_reviews_section_title": "Ваши комментарии",
   "@profile_reviews_section_title": {
@@ -913,7 +970,12 @@
   },
   "profile_reviews_section_subtitle_total": "Всего: {count}",
   "@profile_reviews_section_subtitle_total": {
-    "description": "Расчет отзывов в подзаголовке"
+    "description": "Расчет отзывов в подзаголовке",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "profile_reviews_rate_product": "Дайте товару оценку",
   "@profile_reviews_rate_product": {
@@ -989,13 +1051,18 @@
   },
   "profile_reviews_order_label": "Заказ {orderId}",
   "@profile_reviews_order_label": {
-    "description": "Метка заказа"
+    "description": "Метка заказа",
+    "placeholders": {
+      "orderId": {
+        "type": "int"
+      }
+    }
   },
   "profile_review_hint": "Текст комментария",
   "@profile_review_hint": {
     "description": "Совет поля ввода мнений"
   },
-"review_sending": "Отправляется...",
+  "review_sending": "Отправляется...",
   "@review_sending": {
     "description": "Отправка"
   },
@@ -1129,7 +1196,12 @@
   },
   "settings_currency_name": "{code}",
   "@settings_currency_name": {
-    "description": "Наименование валюты по коду"
+    "description": "Наименование валюты по коду",
+    "placeholders": {
+      "code": {
+        "type": "int"
+      }
+    }
   },
   "settings_security": "Безопасность",
   "@settings_security": {
@@ -1201,11 +1273,21 @@
   },
   "zakazi_history_button_count": "История заказов ({count})",
   "@zakazi_history_button_count": {
-    "description": "Кнопка история заказов в цифрах"
+    "description": "Кнопка история заказов в цифрах",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "zakazi_order_label": "Заказ {orderId}",
   "@zakazi_order_label": {
-    "description": "Метка заказа"
+    "description": "Метка заказа",
+    "placeholders": {
+      "orderId": {
+        "type": "int"
+      }
+    }
   },
   "zakazi_total_amount_label": "Общая сумма:",
   "@zakazi_total_amount_label": {
@@ -1289,7 +1371,12 @@
   },
   "zakazi_cancel_available": "Отмена доступна ещё {time}",
   "@zakazi_cancel_available": {
-    "description": "Оставшееся время для отмены"
+    "description": "Оставшееся время для отмены",
+    "placeholders": {
+      "time": {
+        "type": "int"
+      }
+    }
   },
   "zakazi_cancel_only_first_hour": "Удаление возможно только в течение первого часа",
   "@zakazi_cancel_only_first_hour": {
@@ -1321,7 +1408,15 @@
   },
   "zakazi_order_amount": "Заказ {orderId} {amount}  в сумме ₸ ",
   "@zakazi_order_amount": {
-    "description": "Сумма заказа"
+    "description": "Сумма заказа",
+    "placeholders": {
+      "orderId": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "int"
+      }
+    }
   },
   "zakazi_cancel_order_title": "Отменить заказ?",
   "@zakazi_cancel_order_title": {
@@ -1347,7 +1442,7 @@
   "@zakazi_order_accepted": {
     "description": "Уведомление о получении заказа"
   },
-"zakazi_accept_failed": "Получить заказ не удалось. Повторить.",
+  "zakazi_accept_failed": "Получить заказ не удалось. Повторить.",
   "@zakazi_accept_failed": {
     "description": "Ошибка получения заказа"
   },
@@ -1409,7 +1504,15 @@
   },
   "cart_payment_banner_card": "Оплата картой {brand} {number}",
   "@cart_payment_banner_card": {
-    "description": "Баннер оплаты реальной картой"
+    "description": "Баннер оплаты реальной картой",
+    "placeholders": {
+      "brand": {
+        "type": "int"
+      },
+      "number": {
+        "type": "int"
+      }
+    }
   },
   "cart_checkout_login_required": "Войдите, чтобы выбрать оплату",
   "@cart_checkout_login_required": {
@@ -1457,7 +1560,15 @@
   },
   "cart_checkout_partial_success": "Оформлено: {success}, с ошибкой: {fail}",
   "@cart_checkout_partial_success": {
-    "description": "Частичная успешность оформления заказов"
+    "description": "Частичная успешность оформления заказов",
+    "placeholders": {
+      "success": {
+        "type": "int"
+      },
+      "fail": {
+        "type": "int"
+      }
+    }
   },
   "cart_checkout_all_failed": "Не удалось оформить заказы",
   "@cart_checkout_all_failed": {
@@ -1485,19 +1596,45 @@
   },
   "cart_template_apply_success": "Корзина «{name}\"заменено образцом: {added} добавлен продукт",
   "@cart_template_apply_success": {
-    "description": "Успешное использование шаблона"
+    "description": "Успешное использование шаблона",
+    "placeholders": {
+      "name": {
+        "type": "int"
+      },
+      "added": {
+        "type": "int"
+      }
+    }
   },
   "cart_template_apply_skipped": ", {skipped} проведено",
   "@cart_template_apply_skipped": {
-    "description": "Часть успеха использования шаблона (пропущенные)"
+    "description": "Часть успеха использования шаблона (пропущенные)",
+    "placeholders": {
+      "skipped": {
+        "type": "int"
+      }
+    }
   },
   "cart_template_apply_adjusted": ", {adjusted} исправлено",
   "@cart_template_apply_adjusted": {
-    "description": "Часть успеха использования шаблона (исправленные)"
+    "description": "Часть успеха использования шаблона (исправленные)",
+    "placeholders": {
+      "adjusted": {
+        "type": "int"
+      }
+    }
   },
   "cart_template_skipped_title": "{count} {plural} проведено",
   "@cart_template_skipped_title": {
-    "description": "Тема списка реализованных продуктов"
+    "description": "Тема списка реализованных продуктов",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "plural": {
+        "type": "int"
+      }
+    }
   },
   "cart_checkout_error_network": "Нет связи с сервером",
   "@cart_checkout_error_network": {
@@ -1525,7 +1662,12 @@
   },
   "cart_template_delete_title": "Удаление шаблона {name}?",
   "@cart_template_delete_title": {
-    "description": "Тема диалога удаления шаблона"
+    "description": "Тема диалога удаления шаблона",
+    "placeholders": {
+      "name": {
+        "type": "int"
+      }
+    }
   },
   "cart_template_delete_success": "Образец удален",
   "@cart_template_delete_success": {
@@ -1557,11 +1699,24 @@
   },
   "cart_total_summary": "Шт.: {units} Позиция: {positions}",
   "@cart_total_summary": {
-    "description": "Сумма количества товаров и позиций"
+    "description": "Сумма количества товаров и позиций",
+    "placeholders": {
+      "units": {
+        "type": "int"
+      },
+      "positions": {
+        "type": "int"
+      }
+    }
   },
   "cart_summary_more_items": "еще +в корзине{count}",
   "@cart_summary_more_items": {
-    "description": "Уведомление о дополнительных товарах в корзине"
+    "description": "Уведомление о дополнительных товарах в корзине",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "cart_supplier_total_title": "Комплект по поставщику",
   "@cart_supplier_total_title": {
@@ -1573,31 +1728,72 @@
   },
   "cart_supplier_info": "Шт.: {units} * Позиция: {positions}",
   "@cart_supplier_info": {
-    "description": "Информация о количестве товаров и позиций поставщика"
+    "description": "Информация о количестве товаров и позиций поставщика",
+    "placeholders": {
+      "units": {
+        "type": "int"
+      },
+      "positions": {
+        "type": "int"
+      }
+    }
   },
   "cart_delivery_date": "Дата доставки: {date}",
   "@cart_delivery_date": {
-    "description": "Знак даты поставки товара"
+    "description": "Знак даты поставки товара",
+    "placeholders": {
+      "date": {
+        "type": "int"
+      }
+    }
   },
   "cart_min_quantity": "Минимум: {count} шт.",
   "@cart_min_quantity": {
-    "description": "Минимальное количество заказанного товара"
+    "description": "Минимальное количество заказанного товара",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "cart_quantity_suffix": "{count} шт.",
   "@cart_quantity_suffix": {
-    "description": "Суффикс количества товара"
+    "description": "Суффикс количества товара",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "cart_pay_all_details": "· {units} шт.",
   "@cart_pay_all_details": {
-    "description": "Количество на кнопке оформления всего заказа"
+    "description": "Количество на кнопке оформления всего заказа",
+    "placeholders": {
+      "units": {
+        "type": "int"
+      }
+    }
   },
   "cart_summary_item": "{name} - {quantity} шт.",
   "@cart_summary_item": {
-    "description": "Товарная строка в наборе корзин"
+    "description": "Товарная строка в наборе корзин",
+    "placeholders": {
+      "name": {
+        "type": "int"
+      },
+      "quantity": {
+        "type": "int"
+      }
+    }
   },
   "cart_template_default_name": "{date} шаблон даты",
   "@cart_template_default_name": {
-    "description": "Имя шаблона по умолчанию"
+    "description": "Имя шаблона по умолчанию",
+    "placeholders": {
+      "date": {
+        "type": "int"
+      }
+    }
   },
   "common_more_details": "Подробнее",
   "@common_more_details": {
@@ -1615,9 +1811,14 @@
   "@home_all_tab": {
     "description": "Название вкладки \"Все продукты\""
   },
-"home_loading_error": "Ошибка загрузки продуктов: {error}",
+  "home_loading_error": "Ошибка загрузки продуктов: {error}",
   "@home_loading_error": {
-    "description": "Сообщение об ошибке загрузки продуктов"
+    "description": "Сообщение об ошибке загрузки продуктов",
+    "placeholders": {
+      "error": {
+        "type": "int"
+      }
+    }
   },
   "home_retry_button": "Повторить",
   "@home_retry_button": {
@@ -1645,7 +1846,12 @@
   },
   "chat_empty_hint": "Напишите предыдущее сообщение{postfix}",
   "@chat_empty_hint": {
-    "description": "Совет в пустом чате"
+    "description": "Совет в пустом чате",
+    "placeholders": {
+      "postfix": {
+        "type": "int"
+      }
+    }
   },
   "chat_today": "Сегодня",
   "@chat_today": {
@@ -1717,7 +1923,12 @@
   },
   "filter_show_button": "Показать {count}",
   "@filter_show_button": {
-    "description": "Кнопка отображения отфильтрованных продуктов"
+    "description": "Кнопка отображения отфильтрованных продуктов",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "filter_discounted": "Товары со скидкой",
   "@filter_discounted": {
@@ -1845,7 +2056,12 @@
   },
   "product_card_quantity": "{count} шт.",
   "@product_card_quantity": {
-    "description": "Количество товаров"
+    "description": "Количество товаров",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "product_card_added_to_favorites": "Выбрано",
   "@product_card_added_to_favorites": {
@@ -2053,7 +2269,12 @@
   },
   "supplier_profile_preview_show": "Показать {count}",
   "@supplier_profile_preview_show": {
-    "description": "Превью показать кнопка"
+    "description": "Превью показать кнопка",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "create_chat_title": "Создать Чат?",
   "@create_chat_title": {
@@ -2129,9 +2350,13 @@
   },
   "search_no_results_for": "К запросам «{query}\"без саответа не дано",
   "@search_no_results_for": {
-    "description": "Нет результатов поиска для запроса"
+    "description": "Нет результатов поиска для запроса",
+    "placeholders": {
+      "query": {
+        "type": "int"
+      }
+    }
   },
   "suppliers_catalog_access_denied": "Каталог поставщиков доступен только модераторам и основным администраторам.",
-  "@suppliers_catalog_access_denied": {
-  }
+  "@suppliers_catalog_access_denied": {}
 }

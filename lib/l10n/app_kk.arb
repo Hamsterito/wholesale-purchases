@@ -415,19 +415,39 @@
   },
   "message_order_not_found": "ID {orderId} бар тапсырыс табылмады",
   "@message_order_not_found": {
-    "description": "Табылмаған тапсырыс туралы хабарлама үлгісі"
+    "description": "Табылмаған тапсырыс туралы хабарлама үлгісі",
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
   },
   "message_order_confirmed": "Сіздің #{orderId} тапсырысы растайтылды",
   "@message_order_confirmed": {
-    "description": "Тапсырысты растау туралы хабарлама үлгісі"
+    "description": "Тапсырысты растау туралы хабарлама үлгісі",
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
   },
   "message_order_delivered": "#{orderId} тапсырысы жеткізілді",
   "@message_order_delivered": {
-    "description": "Тапсырысты жеткізу туралы хабарлама үлгісі"
+    "description": "Тапсырысты жеткізу туралы хабарлама үлгісі",
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
   },
   "message_product_not_found": "ID {productId} бар өнім табылмады",
   "@message_product_not_found": {
-    "description": "Табылмаған өнім туралы хабарлама үлгісі"
+    "description": "Табылмаған өнім туралы хабарлама үлгісі",
+    "placeholders": {
+      "productId": {
+        "type": "String"
+      }
+    }
   },
   "message_network_error": "Желінің қатесі. Байланысын тексеріңіз және қайта көріңіз",
   "@message_network_error": {
@@ -439,7 +459,12 @@
   },
   "message_validation_error": "Растау қатесі: {details}",
   "@message_validation_error": {
-    "description": "Растау қатесі туралы хабарлама үлгісі"
+    "description": "Растау қатесі туралы хабарлама үлгісі",
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
   },
   "message_auth_required": "Авторизация қажет",
   "@message_auth_required": {
@@ -451,7 +476,12 @@
   },
   "message_ai_generation_failed": "AI жауабын құрастыру мүмкін болмады: {reason}",
   "@message_ai_generation_failed": {
-    "description": "AI генерациясының қатесі туралы хабарлама үлгісі"
+    "description": "AI генерациясының қатесі туралы хабарлама үлгісі",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
   },
   "format_date_pattern": "DD.MM.YYYY HH:mm",
   "@format_date_pattern": {
@@ -631,7 +661,12 @@
   },
   "supplier_unanswered_questions": "{count} сұраққа жауап жоқ",
   "@supplier_unanswered_questions": {
-    "description": "Жауап жоқ сұрақтарды есептеу"
+    "description": "Жауап жоқ сұрақтарды есептеу",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "template_add_to_cart": "Себетке қосу",
   "@template_add_to_cart": {
@@ -719,7 +754,12 @@
   },
   "supplier_current_status": "Ағымдағы статус: {status}",
   "@supplier_current_status": {
-    "description": "Ағымдағы статус туралы подпись"
+    "description": "Ағымдағы статус туралы подпись",
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
   },
   "supplier_order_confirmed_by_buyer": "Тапсырыс хариқтармен расталды",
   "@supplier_order_confirmed_by_buyer": {
@@ -747,7 +787,12 @@
   },
   "supplier_export_error": "Экспорт қатесі: {error}",
   "@supplier_export_error": {
-    "description": "Экспорт қатесі туралы хабарлама"
+    "description": "Экспорт қатесі туралы хабарлама",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   },
   "answered_label": "Жауап берілді",
   "@answered_label": {
@@ -867,7 +912,12 @@
   },
   "qa_error_with_details": "Қате: {details}",
   "@qa_error_with_details": {
-    "description": "Деталілері бар қате туралы хабарлама"
+    "description": "Деталілері бар қате туралы хабарлама",
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
   },
   "qa_answer_updated": "Жауап жаңартылды",
   "@qa_answer_updated": {
@@ -903,7 +953,12 @@
   },
   "profile_reviews_total_count": "{count} барлығы",
   "@profile_reviews_total_count": {
-    "description": "Пікірлерді есептеу"
+    "description": "Пікірлерді есептеу",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "profile_reviews_section_title": "Сіздің пікірлеріңіз",
   "@profile_reviews_section_title": {
@@ -915,7 +970,12 @@
   },
   "profile_reviews_section_subtitle_total": "Барлығы: {count}",
   "@profile_reviews_section_subtitle_total": {
-    "description": "Подзаголовқындағы пікірлер есептемесі"
+    "description": "Подзаголовқындағы пікірлер есептемесі",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "profile_reviews_rate_product": "Тауарға оценка беріңіз",
   "@profile_reviews_rate_product": {
@@ -991,7 +1051,12 @@
   },
   "profile_reviews_order_label": "Тапсырыс {orderId}",
   "@profile_reviews_order_label": {
-    "description": "Тапсырыс меткасы"
+    "description": "Тапсырыс меткасы",
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
   },
   "profile_review_hint": "Пікір мәтіні",
   "@profile_review_hint": {
@@ -1765,7 +1830,12 @@
   },
   "chat_empty_hint": "Алдыңғы хабарламаны жазыңыз{postfix}",
   "@chat_empty_hint": {
-    "description": "Бос чаттағы кеңес"
+    "description": "Бос чаттағы кеңес",
+    "placeholders": {
+      "postfix": {
+        "type": "String"
+      }
+    }
   },
   "chat_retry_send": "Жіберуді қайталау",
   "@chat_retry_send": {
