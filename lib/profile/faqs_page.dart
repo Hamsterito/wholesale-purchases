@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
@@ -49,7 +49,7 @@ class _FAQsPageState extends State<FAQsPage> {
     {
       'question': context.l10n.getString('auto_kakIzmenitAdresDostavk'),
       'answer':
-          'Вы можете изменить адрес доставки в разделе ${context.l10n.getString('auto_profil')} -> ${context.l10n.getString('auto_adresa')}. Также можно указать новый адрес при оформлении заказа.',
+          'Вы можете изменить адрес доставки в разделе ${context.l10n.getString('auto_profil')} -> ${context.l10n.getString('auto_adresa')}. ${context.l10n.getString('auto_takzheMozhnoUkazatNov')}',
     },
     {
       'question': context.l10n.getString('auto_chtoDelatEsliTovarNe'),
@@ -59,7 +59,7 @@ class _FAQsPageState extends State<FAQsPage> {
     {
       'question': context.l10n.getString('auto_kakSvyazatsyaSPodderzh'),
       'answer':
-          'Вы можете связаться с нами через раздел ${context.l10n.getString('auto_tehpodderzhka')} в приложении, по электронной почте или по телефону горячей линии.',
+          'Вы можете связаться с нами через раздел ${context.l10n.getString('auto_tehpodderzhka')} ${context.l10n.getString('auto_vPrilozheniiPoElektro')}',
     },
     {
       'question': context.l10n.getString('auto_estLiMinimalnayaSumma'),

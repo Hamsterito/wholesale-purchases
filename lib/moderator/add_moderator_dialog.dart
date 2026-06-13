@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../services/api/api_service.dart';
-import '../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/phone_input_formatter.dart';
 
@@ -41,30 +41,30 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
 
   String? _validateName(String? value) {
     final name = value?.trim() ?? '';
-    if (name.isEmpty) return context.l10n.auto_vvediteImya;
-    if (name.length < 2) return context.l10n.auto_slishkomKorotkoe;
+    if (name.isEmpty) return context.l10n.getString('auto_vvediteImya');
+    if (name.length < 2) return context.l10n.getString('auto_slishkomKorotkoe');
     return null;
   }
 
   String? _validateEmail(String? value) {
     final email = value?.trim() ?? '';
-    if (email.isEmpty) return context.l10n.auto_vvediteEmail;
-    if (!_emailRegex.hasMatch(email)) return context.l10n.auto_nekorrektnyyEmail;
+    if (email.isEmpty) return context.l10n.getString('auto_vvediteEmail');
+    if (!_emailRegex.hasMatch(email)) return context.l10n.getString('auto_nekorrektnyyEmail');
     return null;
   }
 
   String? _validatePhone(String? value) {
     final digits = (value ?? '').replaceAll(RegExp(r'\D'), '');
-    if (digits.isEmpty) return context.l10n.auto_vvediteTelefon;
-    if (digits.length != 11) return context.l10n.auto_nuzhno11Tsifr;
-    if (!digits.startsWith('7')) return context.l10n.auto_dolzhenNachinatsyaS7;
+    if (digits.isEmpty) return context.l10n.getString('auto_vvediteTelefon');
+    if (digits.length != 11) return context.l10n.getString('auto_nuzhno11Tsifr');
+    if (!digits.startsWith('7')) return context.l10n.getString('auto_dolzhenNachinatsyaS7');
     return null;
   }
 
   String? _validatePassword(String? value) {
     final pwd = value ?? '';
-    if (pwd.isEmpty) return context.l10n.auto_vvediteParol;
-    if (pwd.length < 6) return context.l10n.auto_minimum6Simvolov;
+    if (pwd.isEmpty) return context.l10n.getString('auto_vvediteParol');
+    if (pwd.length < 6) return context.l10n.getString('auto_minimum6Simvolov');
     return null;
   }
 
@@ -112,7 +112,7 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
     if (msg.startsWith(exceptionPrefix)) {
       msg = msg.substring(exceptionPrefix.length);
     }
-    return msg.trim().isEmpty ? context.l10n.auto_neUdalosSozdatModerato : msg;
+    return msg.trim().isEmpty ? context.l10n.getString('auto_neUdalosSozdatModerato') : msg;
   }
 
   @override
@@ -177,8 +177,8 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
                   controller: _nameController,
                   textCapitalization: TextCapitalization.words,
                   textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(
-                    labelText: context.l10n.auto_imya_1,
+                  decoration: InputDecoration(
+                    labelText: context.l10n.getString('auto_imya_1'),
                     border: OutlineInputBorder(),
                   ),
                   validator: _validateName,
@@ -206,8 +206,8 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
                     LengthLimitingTextInputFormatter(11),
                     const PhoneNumberInputFormatter(),
                   ],
-                  decoration: const InputDecoration(
-                    labelText: context.l10n.auto_telefon,
+                  decoration: InputDecoration(
+                    labelText: context.l10n.getString('auto_telefon'),
                     hintText: '7 (XXX) XXX-XX-XX',
                     border: OutlineInputBorder(),
                   ),
@@ -220,10 +220,10 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
                   obscureText: _obscurePassword,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
-                    labelText: context.l10n.auto_parol_1,
+                    labelText: context.l10n.getString('auto_parol_1'),
                     border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
-                      tooltip: _obscurePassword ? context.l10n.auto_pokazat : context.l10n.auto_skryt,
+                      tooltip: _obscurePassword ? context.l10n.getString('auto_pokazat') : context.l10n.getString('auto_skryt'),
                       icon: Icon(
                         _obscurePassword
                             ? Icons.visibility_outlined

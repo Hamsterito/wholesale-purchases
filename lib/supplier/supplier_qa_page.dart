@@ -8,7 +8,7 @@ import '../models/product.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/message/message_localization.dart';
-import '../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../widgets/product/rating_stars.dart';
 import '../widgets/supplier/supplier_qa_answer_modal.dart';
 import '../widgets/supplier/supplier_qa_response_modal.dart';

@@ -2134,68 +2134,4140 @@
     "description": "Сұрау үшін іздеу нәтижелері жоқ"
   },
   "suppliers_catalog_access_denied": "Жеткізушілер каталогы тек модераторлар мен негізгі әкімшілерге қол жетімді.",
-  "faq_how_to_order": "Қалай тапсырыс беруге болады?",
-  "@faq_how_to_order": {
-    "description": "FAQ"
+  "product_nutritional_info": "Тағамдық құндылығы",
+  "@product_nutritional_info": {
+    "description": "Title for nutritional info"
   },
-  "faq_how_to_order_answer": "Тапсырыс беру үшін каталогтан элементтерді таңдап, оларды себетке қосыңыз және жеткізу мекенжайы мен төлем әдісін көрсету арқылы тапсырыс беріңіз.",
-  "@faq_how_to_order_answer": {
-    "description": "FAQ"
+  "product_per_100g": "100 граммда:",
+  "@product_per_100g": {
+    "description": "Subtitle for nutritional info"
   },
-  "faq_payment_methods": "Қандай төлем әдістері бар?",
-  "@faq_payment_methods": {
-    "description": "FAQ"
+  "product_calories": "Калория",
+  "@product_calories": {
+    "description": "Calories label"
   },
-  "faq_payment_methods_answer": "Біз төлемді қолма-қол ақшамен, банктік карталармен (Visa, Mastercard), сондай-ақ PayPal арқылы қабылдаймыз.",
-  "@faq_payment_methods_answer": {
-    "description": "FAQ"
+  "product_proteins": "Ақуыздар",
+  "@product_proteins": {
+    "description": "Proteins label"
   },
-  "faq_delivery_time": "Жеткізу қанша уақытты алады?",
-  "@faq_delivery_time": {
-    "description": "FAQ"
+  "product_fats": "Майлар",
+  "@product_fats": {
+    "description": "Fats label"
   },
-  "faq_delivery_time_answer": "Стандартты жеткізу 1-3 жұмыс күнін алады. Жедел жеткізу 24 сағат ішінде қол жетімді.",
-  "@faq_delivery_time_answer": {
-    "description": "FAQ"
+  "product_carbohydrates": "Көмірсулар",
+  "@product_carbohydrates": {
+    "description": "Carbs label"
   },
-  "faq_cancel_order": "Тапсырыстан бас тарта аламын ба?",
-  "@faq_cancel_order": {
-    "description": "FAQ"
+  "unit_kcal_short": "к",
+  "@unit_kcal_short": {
+    "description": "Short for kilocalories"
   },
-  "faq_cancel_order_answer": "Тапсырыстан кейін 30 минут ішінде бас тартуға болады. Осыдан кейін тапсырыс жинау үшін қоймаға жіберіледі.",
-  "@faq_cancel_order_answer": {
-    "description": "FAQ"
+  "unit_g_short": "г",
+  "@unit_g_short": {
+    "description": "Short for grams"
   },
-  "faq_change_address": "Жеткізу мекенжайын қалай өзгертуге болады?",
-  "@faq_change_address": {
-    "description": "FAQ"
+  "product_qa_answer_from": "Жауап {name}",
+  "@product_qa_answer_from": {
+    "description": "Prefix for supplier answer"
   },
-  "faq_change_address_answer": "Жеткізу мекенжайын Профиль → мекенжайлар бөлімінен өзгертуге болады. Тапсырысты рәсімдеу кезінде жаңа мекенжайды да көрсетуге болады.",
-  "@faq_change_address_answer": {
-    "description": "FAQ"
+  "qa_edit_answer": "Жауапты өзгерту",
+  "@qa_edit_answer": {
+    "description": "Button to edit answer"
   },
-  "faq_return_item": "Егер Өнім сәйкес келмесе не істеу керек?",
-  "@faq_return_item": {
-    "description": "FAQ"
+  "product_added_to_cart_msg": "Себетке қосылды: {name} -{qty} дана.",
+  "@product_added_to_cart_msg": {
+    "description": "Toast message for cart"
   },
-  "faq_return_item_answer": "Сіз затты алғаннан кейін 14 күн ішінде қайтара аласыз. Қайтаруды тіркеу үшін біздің қолдау қызметіне хабарласыңыз.",
-  "@faq_return_item_answer": {
-    "description": "FAQ"
+  "product_added_to_favorites": "Таңдаулыларға қосылды",
+  "@product_added_to_favorites": {
+    "description": "Toast message for favorites"
   },
-  "faq_contact_support": "Қолдаумен қалай байланысуға болады?",
-  "@faq_contact_support": {
-    "description": "FAQ"
+  "rating_buyers_short": "Б",
+  "@rating_buyers_short": {
+    "description": "Short for buyer initial"
   },
-  "faq_contact_support_answer": "Бізбен қолданбадағы \"техникалық қолдау\" бөлімі, Электрондық пошта немесе сенім телефоны арқылы байланыса аласыз.",
-  "@faq_contact_support_answer": {
-    "description": "FAQ"
+  "rating_count_format": "Бағалау ({count})",
+  "@rating_count_format": {
+    "description": "Rating count with parentheses"
   },
-  "faq_min_order": "Тапсырыстың ең аз мөлшері бар ма?",
-  "@faq_min_order": {
-    "description": "FAQ"
+  "rating_read_all": "Барлығын оқыңыз",
+  "@rating_read_all": {
+    "description": "Read all reviews button"
   },
-  "faq_min_order_answer": "Тапсырыстың ең аз сомасы - 500 т. Тапсырыс беру кезінде 5000 теңгеден бастап жеткізу тегін.",
-  "@faq_min_order_answer": {
-    "description": "FAQ"
+  "rating_count_label": "Бағалау: {count}",
+  "@rating_count_label": {
+    "description": "Rating count with colon"
+  },
+  "rating_no_reviews": "Әзірге пікірлер жоқ. Өнімді бірінші болып бағалаңыз.",
+  "@rating_no_reviews": {
+    "description": "Empty state for reviews"
+  },
+  "rating_buyer": "Сатып алушы",
+  "@rating_buyer": {
+    "description": "Default reviewer name"
+  },
+  "rating_no_review_text": "Пікір мәтіні жоқ",
+  "@rating_no_review_text": {
+    "description": "Fallback text for empty review"
+  },
+  "qa_supplier_genitive": "жеткізуші",
+  "@qa_supplier_genitive": {
+    "description": "Genitive case of supplier"
+  },
+  "auto_redaktirovatAdres": "Мекенжайды өңдеу",
+  "@auto_redaktirovatAdres": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavitAdres": "Мекенжайды қосу",
+  "@auto_dobavitAdres": {
+    "description": "Auto-extracted"
+  },
+  "auto_adres": "Мекен-жайы",
+  "@auto_adres": {
+    "description": "Auto-extracted"
+  },
+  "auto_ulitsa": "Көше",
+  "@auto_ulitsa": {
+    "description": "Auto-extracted"
+  },
+  "auto_pochtovyyIndeks": "ПОШТА ИНДЕКСІ",
+  "@auto_pochtovyyIndeks": {
+    "description": "Auto-extracted"
+  },
+  "auto_kvartira": "Пәтер",
+  "@auto_kvartira": {
+    "description": "Auto-extracted"
+  },
+  "auto_dom": "Үй",
+  "@auto_dom": {
+    "description": "Auto-extracted"
+  },
+  "auto_rabota": "Жұмыс",
+  "@auto_rabota": {
+    "description": "Auto-extracted"
+  },
+  "auto_drugoe": "Басқа",
+  "@auto_drugoe": {
+    "description": "Auto-extracted"
+  },
+  "auto_sohranit": "Сақтау",
+  "@auto_sohranit": {
+    "description": "Auto-extracted"
+  },
+  "auto_sohranitAdres": "МЕКЕНЖАЙДЫ САҚТАУ",
+  "@auto_sohranitAdres": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteAdres": "Мекенжайды енгізіңіз",
+  "@auto_vvediteAdres": {
+    "description": "Auto-extracted"
+  },
+  "auto_adresSlishkomKorotkiy": "Мекенжай тым қысқа",
+  "@auto_adresSlishkomKorotkiy": {
+    "description": "Auto-extracted"
+  },
+  "auto_ulitsa_1": "Көше",
+  "@auto_ulitsa_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_indeksDolzhenSoderzhat": "Индексте тек сандар болуы керек (3-10)",
+  "@auto_indeksDolzhenSoderzhat": {
+    "description": "Auto-extracted"
+  },
+  "auto_kvartira_1": "Пәтер",
+  "@auto_kvartira_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_nekorrektnyyFormatKvart": "Пәтердің дұрыс емес форматы",
+  "@auto_nekorrektnyyFormatKvart": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteImyaVladeltsaKa": "Карта иесінің атын енгізіңіз",
+  "@auto_vvediteImyaVladeltsaKa": {
+    "description": "Auto-extracted"
+  },
+  "auto_imyaSlishkomKorotkoe": "Аты тым қысқа",
+  "@auto_imyaSlishkomKorotkoe": {
+    "description": "Auto-extracted"
+  },
+  "auto_imyaNeDolzhnoSoderzhat": "Атауында сандар болмауы керек",
+  "@auto_imyaNeDolzhnoSoderzhat": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteNomerKarty": "Карта нөмірін енгізіңіз",
+  "@auto_vvediteNomerKarty": {
+    "description": "Auto-extracted"
+  },
+  "auto_nomerKartyDolzhenByt1": "Карта нөмірі 16 сан болуы керек",
+  "@auto_nomerKartyDolzhenByt1": {
+    "description": "Auto-extracted"
+  },
+  "auto_nevernyyNomerKarty": "Қате карта нөмірі",
+  "@auto_nevernyyNomerKarty": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteSrokDeystviya": "Жарамдылық мерзімін енгізіңіз",
+  "@auto_vvediteSrokDeystviya": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteFormatMmgg": "ММ/жж форматын енгізіңіз",
+  "@auto_vvediteFormatMmgg": {
+    "description": "Auto-extracted"
+  },
+  "auto_mesyatsDolzhenByt0112": "Ай 01-12 болуы керек",
+  "@auto_mesyatsDolzhenByt0112": {
+    "description": "Auto-extracted"
+  },
+  "auto_srokDeystviyaIstyok": "Жарамдылық мерзімі аяқталды",
+  "@auto_srokDeystviyaIstyok": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteCvc": "CVC енгізіңіз",
+  "@auto_vvediteCvc": {
+    "description": "Auto-extracted"
+  },
+  "auto_cvc3Tsifry": "CVC: 3 Сан",
+  "@auto_cvc3Tsifry": {
+    "description": "Auto-extracted"
+  },
+  "auto_voyditeChtobyDobavitKa": "Картаны қосу үшін жүйеге кіріңіз",
+  "@auto_voyditeChtobyDobavitKa": {
+    "description": "Auto-extracted"
+  },
+  "auto_proverteVvedyonnyeDanny": "Енгізілген деректерді тексеріңіз",
+  "@auto_proverteVvedyonnyeDanny": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosSohranitKartu": "Картаны сақтау мүмкін болмады",
+  "@auto_neUdalosSohranitKartu": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavitMetodOplaty": "Төлем әдісін қосыңыз",
+  "@auto_dobavitMetodOplaty": {
+    "description": "Auto-extracted"
+  },
+  "auto_imyaVladeltsaKarty": "КАРТА ИЕСІНІҢ АТЫ",
+  "@auto_imyaVladeltsaKarty": {
+    "description": "Auto-extracted"
+  },
+  "auto_nomerKarty": "КАРТА НӨМІРІ",
+  "@auto_nomerKarty": {
+    "description": "Auto-extracted"
+  },
+  "auto_srokDeystviya": "ЖАРАМДЫЛЫҚ МЕРЗІМІ",
+  "@auto_srokDeystviya": {
+    "description": "Auto-extracted"
+  },
+  "auto_mmgg": "ММ / ЖЖ",
+  "@auto_mmgg": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavitMetodOplaty_1": "ТӨЛЕМ ӘДІСІН ҚОСЫҢЫЗ",
+  "@auto_dobavitMetodOplaty_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteTekushchiyParol": "Ағымдағы құпия сөзді енгізіңіз",
+  "@auto_vvediteTekushchiyParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_minimum6Simvolov": "Кем дегенде 6 таңба",
+  "@auto_minimum6Simvolov": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteNovyyParol": "Жаңа құпия сөзді енгізіңіз",
+  "@auto_vvediteNovyyParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_novyyParolDolzhenOtlic": "Жаңа құпия сөз қазіргіден өзгеше болуы керек",
+  "@auto_novyyParolDolzhenOtlic": {
+    "description": "Auto-extracted"
+  },
+  "auto_povtoriteNovyyParol": "Жаңа құпия сөзді қайталаңыз",
+  "@auto_povtoriteNovyyParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_paroliNeSovpadayut": "Құпия сөздер бірдей емес",
+  "@auto_paroliNeSovpadayut": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosIzmenitParol": "Құпия сөзді өзгерту мүмкін болмады",
+  "@auto_neUdalosIzmenitParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_sessiyaIsteklaVoyditeS": "Сессия аяқталды. Қайта кіріңіз.",
+  "@auto_sessiyaIsteklaVoyditeS": {
+    "description": "Auto-extracted"
+  },
+  "auto_izmenitParol": "Құпия сөзді өзгерту",
+  "@auto_izmenitParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_tekushchiyParol": "Ағымдағы құпия сөз",
+  "@auto_tekushchiyParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_novyyParol": "Жаңа құпия сөз",
+  "@auto_novyyParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteParolEshchyoRaz": "Құпия сөзді қайтадан енгізіңіз",
+  "@auto_vvediteParolEshchyoRaz": {
+    "description": "Auto-extracted"
+  },
+  "auto_parolDolzhenSoderzhatM": "Құпия сөзде кем дегенде 6 таңба болуы керек және қазіргі таңбадан өзгеше болуы керек.",
+  "@auto_parolDolzhenSoderzhatM": {
+    "description": "Auto-extracted"
+  },
+  "auto_sohranitParol": "ҚҰПИЯ СӨЗДІ САҚТАУ",
+  "@auto_sohranitParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_ivanIvanov": "Иван Иванов",
+  "@auto_ivanIvanov": {
+    "description": "Auto-extracted"
+  },
+  "auto_lyublyuSladosti": "Мен тәттілерді жақсы көремін",
+  "@auto_lyublyuSladosti": {
+    "description": "Auto-extracted"
+  },
+  "auto_sdelatSnimok": "Суретке түсіру",
+  "@auto_sdelatSnimok": {
+    "description": "Auto-extracted"
+  },
+  "auto_vybratIzGalerei": "Галереядан таңдаңыз",
+  "@auto_vybratIzGalerei": {
+    "description": "Auto-extracted"
+  },
+  "auto_udalitFoto": "Фотосуретті жою",
+  "@auto_udalitFoto": {
+    "description": "Auto-extracted"
+  },
+  "auto_vyNeAvtorizovany": "Сізге рұқсат жоқ",
+  "@auto_vyNeAvtorizovany": {
+    "description": "Auto-extracted"
+  },
+  "auto_razmerFaylaNeDolzhenP": "Файл өлшемі 5 МБ тан аспауы керек",
+  "@auto_razmerFaylaNeDolzhenP": {
+    "description": "Auto-extracted"
+  },
+  "auto_redProfil": "Ред. Профиль",
+  "@auto_redProfil": {
+    "description": "Auto-extracted"
+  },
+  "auto_fio": "ТАӘ",
+  "@auto_fio": {
+    "description": "Auto-extracted"
+  },
+  "auto_elPochta": "Ал. Пошта",
+  "@auto_elPochta": {
+    "description": "Auto-extracted"
+  },
+  "auto_nomer": "Нөмірі",
+  "@auto_nomer": {
+    "description": "Auto-extracted"
+  },
+  "auto_opisanie": "Сипаттама",
+  "@auto_opisanie": {
+    "description": "Auto-extracted"
+  },
+  "auto_nomerDolzhenBytVForma": "Нөмір +7-XXX-XXX-XXXX форматында болуы керек",
+  "@auto_nomerDolzhenBytVForma": {
+    "description": "Auto-extracted"
+  },
+  "auto_kakSdelatZakaz": "Қалай тапсырыс беруге болады?",
+  "@auto_kakSdelatZakaz": {
+    "description": "Auto-extracted"
+  },
+  "auto_chtobySdelatZakazVyber": "Тапсырыс беру үшін каталогтан элементтерді таңдап, оларды себетке қосыңыз және жеткізу мекенжайы мен төлем әдісін көрсету арқылы тапсырыс беріңіз.",
+  "@auto_chtobySdelatZakazVyber": {
+    "description": "Auto-extracted"
+  },
+  "auto_kakieSposobyOplatyDost": "Қандай төлем әдістері бар?",
+  "@auto_kakieSposobyOplatyDost": {
+    "description": "Auto-extracted"
+  },
+  "auto_myPrinimaemOplatuNalic": "Біз төлемді қолма-қол ақшамен, банктік карталармен (Visa, Mastercard), сондай-ақ PayPal арқылы қабылдаймыз.",
+  "@auto_myPrinimaemOplatuNalic": {
+    "description": "Auto-extracted"
+  },
+  "auto_skolkoVremeniZanimaetD": "Жеткізу қанша уақытты алады?",
+  "@auto_skolkoVremeniZanimaetD": {
+    "description": "Auto-extracted"
+  },
+  "auto_standartnayaDostavkaZan": "Стандартты жеткізу 1-3 жұмыс күнін алады. Жедел жеткізу 24 сағат ішінде қол жетімді.",
+  "@auto_standartnayaDostavkaZan": {
+    "description": "Auto-extracted"
+  },
+  "auto_moguLiYaOtmenitZakaz": "Тапсырыстан бас тарта аламын ба?",
+  "@auto_moguLiYaOtmenitZakaz": {
+    "description": "Auto-extracted"
+  },
+  "auto_vyMozheteOtmenitZakaz": "Тапсырыстан кейін 30 минут ішінде бас тартуға болады. Осыдан кейін тапсырыс жинау үшін қоймаға жіберіледі.",
+  "@auto_vyMozheteOtmenitZakaz": {
+    "description": "Auto-extracted"
+  },
+  "auto_kakIzmenitAdresDostavk": "Жеткізу мекенжайын қалай өзгертуге болады?",
+  "@auto_kakIzmenitAdresDostavk": {
+    "description": "Auto-extracted"
+  },
+  "auto_profil": "Профиль",
+  "@auto_profil": {
+    "description": "Auto-extracted"
+  },
+  "auto_adresa": "Мекен-жайлары",
+  "@auto_adresa": {
+    "description": "Auto-extracted"
+  },
+  "auto_chtoDelatEsliTovarNe": "Егер Өнім сәйкес келмесе не істеу керек?",
+  "@auto_chtoDelatEsliTovarNe": {
+    "description": "Auto-extracted"
+  },
+  "auto_vyMozheteVernutTovarV": "Сіз затты алғаннан кейін 14 күн ішінде қайтара аласыз. Қайтаруды тіркеу үшін біздің қолдау қызметіне хабарласыңыз.",
+  "@auto_vyMozheteVernutTovarV": {
+    "description": "Auto-extracted"
+  },
+  "auto_kakSvyazatsyaSPodderzh": "Қолдаумен қалай байланысуға болады?",
+  "@auto_kakSvyazatsyaSPodderzh": {
+    "description": "Auto-extracted"
+  },
+  "auto_tehpodderzhka": "Техникалық қолдау",
+  "@auto_tehpodderzhka": {
+    "description": "Auto-extracted"
+  },
+  "auto_estLiMinimalnayaSumma": "Тапсырыстың ең аз мөлшері бар ма?",
+  "@auto_estLiMinimalnayaSumma": {
+    "description": "Auto-extracted"
+  },
+  "auto_minimalnayaSummaZakaza": "Тапсырыстың ең аз сомасы - 500 т. Тапсырыс беру кезінде 5000 теңгеден бастап жеткізу тегін.",
+  "@auto_minimalnayaSummaZakaza": {
+    "description": "Auto-extracted"
+  },
+  "auto_voprosyIOtvety": "Сұрақтар мен жауаптар",
+  "@auto_voprosyIOtvety": {
+    "description": "Auto-extracted"
+  },
+  "auto_nazad": "Артқа",
+  "@auto_nazad": {
+    "description": "Auto-extracted"
+  },
+  "auto_izbrannoe": "Таңдаулылар",
+  "@auto_izbrannoe": {
+    "description": "Auto-extracted"
+  },
+  "auto_vkladkaIzbrannyeTovary": "Таңдаулы тауарлар қойындысы",
+  "@auto_vkladkaIzbrannyeTovary": {
+    "description": "Auto-extracted"
+  },
+  "auto_vkladkaIzbrannyeKompani": "Таңдаулы компаниялар қойындысы",
+  "@auto_vkladkaIzbrannyeKompani": {
+    "description": "Auto-extracted"
+  },
+  "auto_pokaNetIzbrannyhTovaro": "Әзірге таңдаулы тауарлар жоқ",
+  "@auto_pokaNetIzbrannyhTovaro": {
+    "description": "Auto-extracted"
+  },
+  "auto_netIzbrannyhKompaniy": "Таңдаулы компаниялар жоқ",
+  "@auto_netIzbrannyhKompaniy": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosZagruzitAdresa": "Мекенжайларды жүктеу мүмкін болмады",
+  "@auto_neUdalosZagruzitAdresa": {
+    "description": "Auto-extracted"
+  },
+  "auto_nuzhnoVoytiVAkkaunt": "Тіркелгіге кіру керек",
+  "@auto_nuzhnoVoytiVAkkaunt": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosSohranitAdres": "Мекенжайды сақтау мүмкін болмады",
+  "@auto_neUdalosSohranitAdres": {
+    "description": "Auto-extracted"
+  },
+  "auto_zakryt": "Жабу",
+  "@auto_zakryt": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosUdalitAdres": "Мекенжайды жою мүмкін болмады",
+  "@auto_neUdalosUdalitAdres": {
+    "description": "Auto-extracted"
+  },
+  "auto_moiAdresa": "Менің мекен-жайларым",
+  "@auto_moiAdresa": {
+    "description": "Auto-extracted"
+  },
+  "auto_adresovPokaNet": "Мекенжайлар әлі жоқ",
+  "@auto_adresovPokaNet": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavteAdresChtobyOfor": "Тезірек төлем жасау үшін мекенжайды қосыңыз.",
+  "@auto_dobavteAdresChtobyOfor": {
+    "description": "Auto-extracted"
+  },
+  "auto_bezAdresa": "Мекен-жайы жоқ",
+  "@auto_bezAdresa": {
+    "description": "Auto-extracted"
+  },
+  "auto_redaktirovat": "Өңдеу",
+  "@auto_redaktirovat": {
+    "description": "Auto-extracted"
+  },
+  "auto_udalit": "Жою",
+  "@auto_udalit": {
+    "description": "Auto-extracted"
+  },
+  "auto_udalitAdres": "Мекенжайды жою керек пе?",
+  "@auto_udalitAdres": {
+    "description": "Auto-extracted"
+  },
+  "auto_otmena": "Бас тарту",
+  "@auto_otmena": {
+    "description": "Auto-extracted"
+  },
+  "auto_kartaDobavlena": "Карта қосылды",
+  "@auto_kartaDobavlena": {
+    "description": "Auto-extracted"
+  },
+  "auto_metodOplaty": "Төлем әдісі",
+  "@auto_metodOplaty": {
+    "description": "Auto-extracted"
+  },
+  "auto_nalichnye": "Қолма-қол ақша",
+  "@auto_nalichnye": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavitNovyy": "Жаңасын қосыңыз",
+  "@auto_dobavitNovyy": {
+    "description": "Auto-extracted"
+  },
+  "auto_netKartVisa": "Visa карталары жоқ",
+  "@auto_netKartVisa": {
+    "description": "Auto-extracted"
+  },
+  "auto_netKartMastercard": "Mastercard жоқ",
+  "@auto_netKartMastercard": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavteKartuVisaChtoby": "Осы төлем әдісін таңдау үшін Visa картасын қосыңыз.",
+  "@auto_dobavteKartuVisaChtoby": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavteKartuMastercard": "Осы төлем әдісін таңдау үшін Mastercard картасын қосыңыз.",
+  "@auto_dobavteKartuMastercard": {
+    "description": "Auto-extracted"
+  },
+  "auto_vashiKartyVisa": "Сіздің Visa карталарыңыз",
+  "@auto_vashiKartyVisa": {
+    "description": "Auto-extracted"
+  },
+  "auto_vashiKartyMastercard": "Сіздің Mastercard карталарыңыз",
+  "@auto_vashiKartyMastercard": {
+    "description": "Auto-extracted"
+  },
+  "auto_vashiKarty": "Сіздің карталарыңыз",
+  "@auto_vashiKarty": {
+    "description": "Auto-extracted"
+  },
+  "auto_oplataNalichnymi": "Қолма-қол ақшамен төлеу",
+  "@auto_oplataNalichnymi": {
+    "description": "Auto-extracted"
+  },
+  "auto_vyVybraliOplatuNalichn": "Сіз алған кезде қолма-қол ақшамен төлеуді таңдадыңыз.",
+  "@auto_vyVybraliOplatuNalichn": {
+    "description": "Auto-extracted"
+  },
+  "auto_podklyucheniePaypalPoka": "PayPal байланысы әлі қол жетімді емес.\\ пкартаны немесе қолма-қол ақшаны таңдаңыз.",
+  "@auto_podklyucheniePaypalPoka": {
+    "description": "Auto-extracted"
+  },
+  "auto_netSposobaOplaty": "Төлем әдісі жоқ",
+  "@auto_netSposobaOplaty": {
+    "description": "Auto-extracted"
+  },
+  "auto_pozhaluystaVyberiteSpos": "Төлем әдісін таңдаңыз",
+  "@auto_pozhaluystaVyberiteSpos": {
+    "description": "Auto-extracted"
+  },
+  "auto_udalitKartu": "Картаны жою",
+  "@auto_udalitKartu": {
+    "description": "Auto-extracted"
+  },
+  "auto_kartaUdalena": "Карта жойылды",
+  "@auto_kartaUdalena": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUkazano": "Көрсетілмеген",
+  "@auto_neUkazano": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteImya": "Атын енгізіңіз",
+  "@auto_vvediteImya": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteEmail": "Электрондық поштаны енгізіңіз",
+  "@auto_vvediteEmail": {
+    "description": "Auto-extracted"
+  },
+  "auto_nekorrektnyyEmail": "Қате электрондық пошта",
+  "@auto_nekorrektnyyEmail": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteNomerTelefona": "Телефон нөмірін енгізіңіз",
+  "@auto_vvediteNomerTelefona": {
+    "description": "Auto-extracted"
+  },
+  "auto_nomerDolzhenBytVForma_1": "Нөмір +7-000-000-0000 форматында болуы керек",
+  "@auto_nomerDolzhenBytVForma_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_imyaSohraneno": "Аты сақталды",
+  "@auto_imyaSohraneno": {
+    "description": "Auto-extracted"
+  },
+  "auto_emailSohranen": "Email сақталды",
+  "@auto_emailSohranen": {
+    "description": "Auto-extracted"
+  },
+  "auto_nomerSohranen": "Нөмір сақталды",
+  "@auto_nomerSohranen": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteNazvanieKompanii": "Компанияның атын енгізіңіз",
+  "@auto_vvediteNazvanieKompanii": {
+    "description": "Auto-extracted"
+  },
+  "auto_nazvanieKompaniiSohrane": "Компанияның атауы сақталды",
+  "@auto_nazvanieKompaniiSohrane": {
+    "description": "Auto-extracted"
+  },
+  "auto_lichnayaInformatsiya": "Жеке ақпарат",
+  "@auto_lichnayaInformatsiya": {
+    "description": "Auto-extracted"
+  },
+  "auto_nazvanieKompanii": "КОМПАНИЯ АТАУЫ",
+  "@auto_nazvanieKompanii": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteNovoeZnachenie": "Жаңа мәнді енгізіңіз",
+  "@auto_vvediteNovoeZnachenie": {
+    "description": "Auto-extracted"
+  },
+  "auto_sohranit_1": "Сақтау",
+  "@auto_sohranit_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_nastroyki": "Параметрлер",
+  "@auto_nastroyki": {
+    "description": "Auto-extracted"
+  },
+  "auto_vyyti": "Шығу",
+  "@auto_vyyti": {
+    "description": "Auto-extracted"
+  },
+  "auto_moiZakazy": "Менің тапсырыстарым",
+  "@auto_moiZakazy": {
+    "description": "Auto-extracted"
+  },
+  "auto_istoriyaZakazov": "Тапсырыс тарихы",
+  "@auto_istoriyaZakazov": {
+    "description": "Auto-extracted"
+  },
+  "auto_sposobOplaty": "Төлем әдісі",
+  "@auto_sposobOplaty": {
+    "description": "Auto-extracted"
+  },
+  "auto_vashiOtzyvy": "Сіздің пікірлеріңіз",
+  "@auto_vashiOtzyvy": {
+    "description": "Auto-extracted"
+  },
+  "auto_bystrayaDostavka": "Жылдам жеткізу",
+  "@auto_bystrayaDostavka": {
+    "description": "Auto-extracted"
+  },
+  "auto_horoshayaTsena": "Жақсы баға",
+  "@auto_horoshayaTsena": {
+    "description": "Auto-extracted"
+  },
+  "auto_kachestvennayaUpakovka": "Сапалы орау",
+  "@auto_kachestvennayaUpakovka": {
+    "description": "Auto-extracted"
+  },
+  "auto_svezhiyTovar": "Жаңа өнім",
+  "@auto_svezhiyTovar": {
+    "description": "Auto-extracted"
+  },
+  "auto_vezhlivyyKurer": "Сыпайы курьер",
+  "@auto_vezhlivyyKurer": {
+    "description": "Auto-extracted"
+  },
+  "auto_voyditeChtobyUvidetOtz": "Пікірлерді көру үшін жүйеге кіріңіз.",
+  "@auto_voyditeChtobyUvidetOtz": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosZagruzitOtzyvy": "Пікірлерді жүктеу мүмкін болмады.",
+  "@auto_neUdalosZagruzitOtzyvy": {
+    "description": "Auto-extracted"
+  },
+  "auto_estPokupkiDlyaOtsenki": "Бағалау үшін сатып алулар бар",
+  "@auto_estPokupkiDlyaOtsenki": {
+    "description": "Auto-extracted"
+  },
+  "auto_vseOtzyvyOPokupkah": "Барлық сатып алу шолулары",
+  "@auto_vseOtzyvyOPokupkah": {
+    "description": "Auto-extracted"
+  },
+  "auto_pokaNetOtzyvov": "Әзірге пікірлер жоқ",
+  "@auto_pokaNetOtzyvov": {
+    "description": "Auto-extracted"
+  },
+  "auto_ozhidayutOtzyvov": "Кері байланыс күтеді",
+  "@auto_ozhidayutOtzyvov": {
+    "description": "Auto-extracted"
+  },
+  "auto_otsenitePokupkiEtoPomo": "Сатып алуды бағалаңыз-бұл басқаларға көмектеседі",
+  "@auto_otsenitePokupkiEtoPomo": {
+    "description": "Auto-extracted"
+  },
+  "auto_otpravlyaem": "Біз жібереміз...",
+  "@auto_otpravlyaem": {
+    "description": "Auto-extracted"
+  },
+  "auto_ostavitOtzyv": "Пікір қалдыру",
+  "@auto_ostavitOtzyv": {
+    "description": "Auto-extracted"
+  },
+  "auto_ostavteOtzyvPoslePriny": "Тапсырысты қабылдағаннан кейін пікір қалдырыңыз - ол осында пайда болады.",
+  "@auto_ostavteOtzyvPoslePriny": {
+    "description": "Auto-extracted"
+  },
+  "auto_tekstOtzyva": "Пікір мәтіні",
+  "@auto_tekstOtzyva": {
+    "description": "Auto-extracted"
+  },
+  "auto_bezTekstaOtzyva": "Пікір мәтіні жоқ",
+  "@auto_bezTekstaOtzyva": {
+    "description": "Auto-extracted"
+  },
+  "auto_sohranyaem": "Сақтау...",
+  "@auto_sohranyaem": {
+    "description": "Auto-extracted"
+  },
+  "auto_otseniteTovar": "Өнімді бағалаңыз",
+  "@auto_otseniteTovar": {
+    "description": "Auto-extracted"
+  },
+  "auto_vashOtzyv": "Сіздің пікіріңіз",
+  "@auto_vashOtzyv": {
+    "description": "Auto-extracted"
+  },
+  "auto_podelitesVpechatleniyami": "Өз әсерлеріңізбен бөлісіңіз",
+  "@auto_podelitesVpechatleniyami": {
+    "description": "Auto-extracted"
+  },
+  "auto_izmenit": "Өзгерту",
+  "@auto_izmenit": {
+    "description": "Auto-extracted"
+  },
+  "auto_voyditeChtobyRedaktirov": "Пікірді өңдеу үшін жүйеге кіріңіз",
+  "@auto_voyditeChtobyRedaktirov": {
+    "description": "Auto-extracted"
+  },
+  "auto_otzyvObnovlen": "Шолу жаңартылды",
+  "@auto_otzyvObnovlen": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosSohranitOtzyv": "Пікірді сақтау мүмкін болмады",
+  "@auto_neUdalosSohranitOtzyv": {
+    "description": "Auto-extracted"
+  },
+  "auto_postavteOtsenku": "Баға қойыңыз",
+  "@auto_postavteOtsenku": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavteDetali": "Мәліметтерді қосыңыз",
+  "@auto_dobavteDetali": {
+    "description": "Auto-extracted"
+  },
+  "auto_otpravitOtzyv": "Пікір жіберу",
+  "@auto_otpravitOtzyv": {
+    "description": "Auto-extracted"
+  },
+  "auto_voyditeChtobyOstavitOt": "Пікір қалдыру үшін жүйеге кіріңіз",
+  "@auto_voyditeChtobyOstavitOt": {
+    "description": "Auto-extracted"
+  },
+  "auto_spasiboZaOtzyv": "Пікіріңіз үшін рахмет!",
+  "@auto_spasiboZaOtzyv": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosOtpravitOtzyv": "Пікір жіберу мүмкін болмады",
+  "@auto_neUdalosOtpravitOtzyv": {
+    "description": "Auto-extracted"
+  },
+  "auto_voyditeChtobyUdalitOtz": "Пікірді жою үшін жүйеге кіріңіз",
+  "@auto_voyditeChtobyUdalitOtz": {
+    "description": "Auto-extracted"
+  },
+  "auto_otzyvUdalen": "Шолу жойылды",
+  "@auto_otzyvUdalen": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosUdalitOtzyv": "Пікірді жою мүмкін болмады",
+  "@auto_neUdalosUdalitOtzyv": {
+    "description": "Auto-extracted"
+  },
+  "auto_udalitOtzyv": "Пікірді жою керек пе?",
+  "@auto_udalitOtzyv": {
+    "description": "Auto-extracted"
+  },
+  "auto_etoDeystvieNelzyaOtmen": "Бұл әрекетті жою мүмкін емес.",
+  "@auto_etoDeystvieNelzyaOtmen": {
+    "description": "Auto-extracted"
+  },
+  "auto_rezervnyeKodyDvuhfaktor": "Екі факторлы аутентификацияның резервтік кодтары\\n",
+  "@auto_rezervnyeKodyDvuhfaktor": {
+    "description": "Auto-extracted"
+  },
+  "auto_sohraniteIhVNadyozhnom": "Оларды қауіпсіз жерде сақтаңыз-әр кодты тек бір рет пайдалануға болады.\\n",
+  "@auto_sohraniteIhVNadyozhnom": {
+    "description": "Auto-extracted"
+  },
+  "auto_kodySkopirovanyVBufer": "Кодтар алмасу буферіне көшіріледі",
+  "@auto_kodySkopirovanyVBufer": {
+    "description": "Auto-extracted"
+  },
+  "auto_faylSKodamiSohranyon": "Кодтары бар Файл сақталды",
+  "@auto_faylSKodamiSohranyon": {
+    "description": "Auto-extracted"
+  },
+  "auto_rezervnyeKody": "Резервтік кодтар",
+  "@auto_rezervnyeKody": {
+    "description": "Auto-extracted"
+  },
+  "auto_rezervnyeKodyDvuhfaktor_1": "Екі факторлы аутентификацияның резервтік кодтары",
+  "@auto_rezervnyeKodyDvuhfaktor_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_sohraniteKodyVBezopasn": "Кодтарды қауіпсіз жерде сақтаңыз-олар бір рет көрсетіледі. Поштаға кіру жоғалған жағдайда әр кодты тек бір рет пайдалануға болады.",
+  "@auto_sohraniteKodyVBezopasn": {
+    "description": "Auto-extracted"
+  },
+  "auto_gotovo": "Дайын",
+  "@auto_gotovo": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosOtpravitKodPo": "Кодты жіберу мүмкін болмады. Қайталап көріңіз.",
+  "@auto_neUdalosOtpravitKodPo": {
+    "description": "Auto-extracted"
+  },
+  "auto_dvuhfaktornayaAutentifik": "Екі факторлы аутентификация өшірілген",
+  "@auto_dvuhfaktornayaAutentifik": {
+    "description": "Auto-extracted"
+  },
+  "auto_nevernyyKod": "Қате код",
+  "@auto_nevernyyKod": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPodklyucheniyaK": "Серверге қосылу қатесі",
+  "@auto_oshibkaPodklyucheniyaK": {
+    "description": "Auto-extracted"
+  },
+  "auto_kodOtpravlenPovtorno": "Код қайта жіберілді",
+  "@auto_kodOtpravlenPovtorno": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosOtpravitKodPo_1": "Кодты қайта жіберу мүмкін болмады",
+  "@auto_neUdalosOtpravitKodPo_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_vyklyuchenie2fa": "2FA өшіру",
+  "@auto_vyklyuchenie2fa": {
+    "description": "Auto-extracted"
+  },
+  "auto_podtverzhdeniePoPochte": "Пошта арқылы растау",
+  "@auto_podtverzhdeniePoPochte": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteKodPodtverzhdeni": "Поштаңызға жіберілген растау кодын енгізіңіз, ",
+  "@auto_vvediteKodPodtverzhdeni": {
+    "description": "Auto-extracted"
+  },
+  "auto_chtobyVyklyuchitDvuhfak": "екі факторлы аутентификацияны өшіру үшін.",
+  "@auto_chtobyVyklyuchitDvuhfak": {
+    "description": "Auto-extracted"
+  },
+  "auto_povtoritOtpravku": "Жіберуді қайталаңыз",
+  "@auto_povtoritOtpravku": {
+    "description": "Auto-extracted"
+  },
+  "auto_srokDeystviyaKodaIstyo": "Кодтың мерзімі аяқталды, қайта жіберіңіз",
+  "@auto_srokDeystviyaKodaIstyo": {
+    "description": "Auto-extracted"
+  },
+  "auto_srokIstyok": "МЕРЗІМІ АЯҚТАЛДЫ",
+  "@auto_srokIstyok": {
+    "description": "Auto-extracted"
+  },
+  "auto_otpravitPovtorno": "Қайта жіберу",
+  "@auto_otpravitPovtorno": {
+    "description": "Auto-extracted"
+  },
+  "auto_podtverdit": "Растау",
+  "@auto_podtverdit": {
+    "description": "Auto-extracted"
+  },
+  "auto_vklyuchenie2fa": "2FA қосу",
+  "@auto_vklyuchenie2fa": {
+    "description": "Auto-extracted"
+  },
+  "auto_chtobyVklyuchitDvuhfakt": "екі факторлы аутентификацияны қосу үшін.",
+  "@auto_chtobyVklyuchitDvuhfakt": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosZagruzitStatus": "Екі факторлы аутентификация күйін жүктеу мүмкін болмады",
+  "@auto_neUdalosZagruzitStatus": {
+    "description": "Auto-extracted"
+  },
+  "auto_regeneratsiyaBackupkodov": "Backup кодтарын қалпына келтіру",
+  "@auto_regeneratsiyaBackupkodov": {
+    "description": "Auto-extracted"
+  },
+  "auto_chtobyZamenitTekushchie": "ағымдағы резервтік кодтарды ауыстыру үшін.",
+  "@auto_chtobyZamenitTekushchie": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosSgenerirovatNo": "Жаңа кодтар жасау мүмкін болмады",
+  "@auto_neUdalosSgenerirovatNo": {
+    "description": "Auto-extracted"
+  },
+  "auto_otzyvDoverennyhUstroyst": "Сенімді құрылғыларды еске түсіру",
+  "@auto_otzyvDoverennyhUstroyst": {
+    "description": "Auto-extracted"
+  },
+  "auto_chtobyOtozvatVseRanee": "бұрын есте сақталған барлық құрылғыларды қайтарып алу үшін.",
+  "@auto_chtobyOtozvatVseRanee": {
+    "description": "Auto-extracted"
+  },
+  "auto_doverennyeUstroystvaOto": "Сенімді құрылғылар алынып тасталды",
+  "@auto_doverennyeUstroystvaOto": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosOtozvatUstroys": "Құрылғыларды қайтарып алу мүмкін болмады",
+  "@auto_neUdalosOtozvatUstroys": {
+    "description": "Auto-extracted"
+  },
+  "auto_dvuhfaktornayaAutentifik_1": "Екі факторлы аутентификация",
+  "@auto_dvuhfaktornayaAutentifik_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_povtorit": "Қайталау",
+  "@auto_povtorit": {
+    "description": "Auto-extracted"
+  },
+  "auto_ostalosMaloRezervnyhKo": "Сақтық көшірме кодтары аз, жаңаларын жасаңыз",
+  "@auto_ostalosMaloRezervnyhKo": {
+    "description": "Auto-extracted"
+  },
+  "auto_vklyuchenaPriVhodePotr": "Қосылған. Кіру кезінде поштадан код қажет болады.",
+  "@auto_vklyuchenaPriVhodePotr": {
+    "description": "Auto-extracted"
+  },
+  "auto_vyklyuchenaZashchititeA": "Өшірулі. Есептік жазбаны қосымша кодпен қорғаңыз.",
+  "@auto_vyklyuchenaZashchititeA": {
+    "description": "Auto-extracted"
+  },
+  "auto_sgenerirovatNovyeBackup": "Жаңа сақтық көшірме кодтарын жасаңыз",
+  "@auto_sgenerirovatNovyeBackup": {
+    "description": "Auto-extracted"
+  },
+  "auto_staryeKodyBudutUdaleny": "Ескі кодтар жойылады",
+  "@auto_staryeKodyBudutUdaleny": {
+    "description": "Auto-extracted"
+  },
+  "auto_otozvatDoverennyeUstroy": "Сенімді құрылғыларды қайтарып алыңыз",
+  "@auto_otozvatDoverennyeUstroy": {
+    "description": "Auto-extracted"
+  },
+  "auto_naVsehUstroystvahPotre": "Барлық құрылғыларда код қайтадан қажет болады",
+  "@auto_naVsehUstroystvahPotre": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosOpredelitPolzo": "Пайдаланушыны анықтау мүмкін болмады",
+  "@auto_neUdalosOpredelitPolzo": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosZagruzitChat": "Чатты жүктеу мүмкін болмады",
+  "@auto_neUdalosZagruzitChat": {
+    "description": "Auto-extracted"
+  },
+  "auto_chatZakrytSozdayteNovo": "Чат жабық. Жаңа үндеу жасаңыз.",
+  "@auto_chatZakrytSozdayteNovo": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteSoobshchenie": "Хабарламаны енгізіңіз",
+  "@auto_vvediteSoobshchenie": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosOtpravitSoobsh": "Хабарлама жіберу мүмкін болмады",
+  "@auto_neUdalosOtpravitSoobsh": {
+    "description": "Auto-extracted"
+  },
+  "auto_chatSTehpodderzhkoy": "Техникалық қолдау чаты",
+  "@auto_chatSTehpodderzhkoy": {
+    "description": "Auto-extracted"
+  },
+  "auto_aktivnogoChataNetSnach": "Белсенді чат жоқ. Алдымен техникалық қолдауға үндеу жіберіңіз.",
+  "@auto_aktivnogoChataNetSnach": {
+    "description": "Auto-extracted"
+  },
+  "auto_chatNeNayden": "Чат табылмады.",
+  "@auto_chatNeNayden": {
+    "description": "Auto-extracted"
+  },
+  "auto_podderzhka": "Қолдау",
+  "@auto_podderzhka": {
+    "description": "Auto-extracted"
+  },
+  "auto_chatZakryt": "Чат жабық",
+  "@auto_chatZakryt": {
+    "description": "Auto-extracted"
+  },
+  "auto_chatOtkrytTehpodderzhka": "Чат ашық. Техникалық қолдау осы терезеде жауап береді.",
+  "@auto_chatOtkrytTehpodderzhka": {
+    "description": "Auto-extracted"
+  },
+  "auto_operatoryOnlaynObychno": "Операторлар желіде. Біз әдетте тез жауап береміз.",
+  "@auto_operatoryOnlaynObychno": {
+    "description": "Auto-extracted"
+  },
+  "auto_seychasOflaynOtvetimV": "Қазір офлайн. Жұмыс уақытында жауап берейік.",
+  "@auto_seychasOflaynOtvetimV": {
+    "description": "Auto-extracted"
+  },
+  "auto_opishiteProblemu": "Мәселені сипаттаңыз",
+  "@auto_opishiteProblemu": {
+    "description": "Auto-extracted"
+  },
+  "auto_problemaSZakazom": "Тапсырыс мәселесі",
+  "@auto_problemaSZakazom": {
+    "description": "Auto-extracted"
+  },
+  "auto_problemaSOplatoy": "Төлем мәселесі",
+  "@auto_problemaSOplatoy": {
+    "description": "Auto-extracted"
+  },
+  "auto_tehnicheskieNepoladki": "Техникалық ақаулар",
+  "@auto_tehnicheskieNepoladki": {
+    "description": "Auto-extracted"
+  },
+  "auto_voprosOTovare": "Өнім туралы сұрақ",
+  "@auto_voprosOTovare": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosZagruzitObrash": "Өтінішті жүктеу мүмкін болмады",
+  "@auto_neUdalosZagruzitObrash": {
+    "description": "Auto-extracted"
+  },
+  "auto_obrashchenieOtpravlenoV": "Өтініш техникалық қолдауға жіберілді",
+  "@auto_obrashchenieOtpravlenoV": {
+    "description": "Auto-extracted"
+  },
+  "auto_soobshchenieOtpravleno": "Хабарлама жіберілді",
+  "@auto_soobshchenieOtpravleno": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosOtpravitObrash": "Өтінішті жіберу мүмкін болмады",
+  "@auto_neUdalosOtpravitObrash": {
+    "description": "Auto-extracted"
+  },
+  "auto_svyazhitesSNami": "Бізге хабарласыңыз",
+  "@auto_svyazhitesSNami": {
+    "description": "Auto-extracted"
+  },
+  "auto_pnvs09002100Utc5": "Дүйсенбі-күн: 09:00 - 21: 00 (UTC+5)",
+  "@auto_pnvs09002100Utc5": {
+    "description": "Auto-extracted"
+  },
+  "auto_prodolzhitObrashchenie": "Өтінішті жалғастыру",
+  "@auto_prodolzhitObrashchenie": {
+    "description": "Auto-extracted"
+  },
+  "auto_otpravitObrashchenie": "Өтініш жіберу",
+  "@auto_otpravitObrashchenie": {
+    "description": "Auto-extracted"
+  },
+  "auto_aktivnyyChatOtkryt": "Белсенді чат ашық",
+  "@auto_aktivnyyChatOtkryt": {
+    "description": "Auto-extracted"
+  },
+  "auto_predydushcheeObrashcheni": "Алдыңғы үндеу жабылды. Егер сұрақ өзекті болса, жаңасын жіберіңіз.",
+  "@auto_predydushcheeObrashcheni": {
+    "description": "Auto-extracted"
+  },
+  "auto_otkrytChatSTehpodderzh": "Техникалық қолдау чатын ашыңыз",
+  "@auto_otkrytChatSTehpodderzh": {
+    "description": "Auto-extracted"
+  },
+  "auto_kategoriyaObrashcheniya": "Өтініш санаты",
+  "@auto_kategoriyaObrashcheniya": {
+    "description": "Auto-extracted"
+  },
+  "auto_vyberiteKategoriyu": "Санатты таңдаңыз",
+  "@auto_vyberiteKategoriyu": {
+    "description": "Auto-extracted"
+  },
+  "auto_temaObrashcheniya": "Өтініш тақырыбы",
+  "@auto_temaObrashcheniya": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteTemu": "Тақырыпты енгізіңіз",
+  "@auto_vvediteTemu": {
+    "description": "Auto-extracted"
+  },
+  "auto_soobshchenie": "Хабар",
+  "@auto_soobshchenie": {
+    "description": "Auto-extracted"
+  },
+  "auto_otpravit": "Жіберу",
+  "@auto_otpravit": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavlen": "жеткізілді",
+  "@auto_dostavlen": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavleno": "жеткізілді",
+  "@auto_dostavleno": {
+    "description": "Auto-extracted"
+  },
+  "auto_vPuti": "жолда",
+  "@auto_vPuti": {
+    "description": "Auto-extracted"
+  },
+  "auto_sobira": "жинаушы",
+  "@auto_sobira": {
+    "description": "Auto-extracted"
+  },
+  "auto_prinyat": "қабылданды",
+  "@auto_prinyat": {
+    "description": "Auto-extracted"
+  },
+  "auto_prinyata": "қабылданды",
+  "@auto_prinyata": {
+    "description": "Auto-extracted"
+  },
+  "auto_prinyato": "қабылданды",
+  "@auto_prinyato": {
+    "description": "Auto-extracted"
+  },
+  "auto_prinyaty": "қабылданды",
+  "@auto_prinyaty": {
+    "description": "Auto-extracted"
+  },
+  "auto_otmen": "бас тарту",
+  "@auto_otmen": {
+    "description": "Auto-extracted"
+  },
+  "auto_min": "мин",
+  "@auto_min": {
+    "description": "Auto-extracted"
+  },
+  "auto_adresDostavki": "Жеткізу мекенжайы",
+  "@auto_adresDostavki": {
+    "description": "Auto-extracted"
+  },
+  "auto_podtverditVybor": "Таңдауды растау",
+  "@auto_podtverditVybor": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavteAdresChtobyProd": "Дизайнды жалғастыру үшін мекенжайды қосыңыз.",
+  "@auto_dobavteAdresChtobyProd": {
+    "description": "Auto-extracted"
+  },
+  "auto_voyditeChtobyOformitZa": "Тапсырыс беру үшін жүйеге кіріңіз",
+  "@auto_voyditeChtobyOformitZa": {
+    "description": "Auto-extracted"
+  },
+  "auto_pozitsiya": "позиция",
+  "@auto_pozitsiya": {
+    "description": "Auto-extracted"
+  },
+  "auto_pozitsii": "позициялар",
+  "@auto_pozitsii": {
+    "description": "Auto-extracted"
+  },
+  "auto_pozitsiy": "позициялар",
+  "@auto_pozitsiy": {
+    "description": "Auto-extracted"
+  },
+  "auto_ochistitKorzinu": "Себетті тазалаңыз",
+  "@auto_ochistitKorzinu": {
+    "description": "Auto-extracted"
+  },
+  "auto_napit": "сусын",
+  "@auto_napit": {
+    "description": "Auto-extracted"
+  },
+  "auto_ovoshch": "көкөніс",
+  "@auto_ovoshch": {
+    "description": "Auto-extracted"
+  },
+  "auto_frukt": "жеміс",
+  "@auto_frukt": {
+    "description": "Auto-extracted"
+  },
+  "auto_hleb": "нан",
+  "@auto_hleb": {
+    "description": "Auto-extracted"
+  },
+  "auto_pekar": "наубайшы",
+  "@auto_pekar": {
+    "description": "Auto-extracted"
+  },
+  "auto_moloch": "сүт",
+  "@auto_moloch": {
+    "description": "Auto-extracted"
+  },
+  "auto_myas": "ет",
+  "@auto_myas": {
+    "description": "Auto-extracted"
+  },
+  "auto_ptits": "құстар",
+  "@auto_ptits": {
+    "description": "Auto-extracted"
+  },
+  "auto_katalog": "Каталог",
+  "@auto_katalog": {
+    "description": "Auto-extracted"
+  },
+  "auto_poiskKategoriy": "Санаттарды іздеу...",
+  "@auto_poiskKategoriy": {
+    "description": "Auto-extracted"
+  },
+  "auto_netKategoriy": "Санаттар жоқ",
+  "@auto_netKategoriy": {
+    "description": "Auto-extracted"
+  },
+  "auto_nichegoNeNaydeno": "Ештеңе табылған жоқ",
+  "@auto_nichegoNeNaydeno": {
+    "description": "Auto-extracted"
+  },
+  "auto_poiskPodkategoriy": "Ішкі санаттарды іздеу...",
+  "@auto_poiskPodkategoriy": {
+    "description": "Auto-extracted"
+  },
+  "auto_vEtoyKategoriiPokaNet": "Бұл санатта әлі тауарлар жоқ",
+  "@auto_vEtoyKategoriiPokaNet": {
+    "description": "Auto-extracted"
+  },
+  "auto_vse": "барлығы",
+  "@auto_vse": {
+    "description": "Auto-extracted"
+  },
+  "auto_barlyy": "барлығы",
+  "@auto_barlyy": {
+    "description": "Auto-extracted"
+  },
+  "auto_skid": "жеңілдік",
+  "@auto_skid": {
+    "description": "Auto-extracted"
+  },
+  "auto_zaDen": "Бір күнде",
+  "@auto_zaDen": {
+    "description": "Auto-extracted"
+  },
+  "auto_nedelya": "Апта",
+  "@auto_nedelya": {
+    "description": "Auto-extracted"
+  },
+  "auto_mesyats": "Ай",
+  "@auto_mesyats": {
+    "description": "Auto-extracted"
+  },
+  "auto_kvartal": "Тоқсан",
+  "@auto_kvartal": {
+    "description": "Auto-extracted"
+  },
+  "auto_filtr": "Сүзгі",
+  "@auto_filtr": {
+    "description": "Auto-extracted"
+  },
+  "auto_eksportirovatVExcel": "Экспорттау .excel",
+  "@auto_eksportirovatVExcel": {
+    "description": "Auto-extracted"
+  },
+  "auto_istoriyaPokaPustaya": "Тарих әлі бос",
+  "@auto_istoriyaPokaPustaya": {
+    "description": "Auto-extracted"
+  },
+  "auto_netTovarov": "Тауарлар жоқ",
+  "@auto_netTovarov": {
+    "description": "Auto-extracted"
+  },
+  "auto_status": "Мәртебесі",
+  "@auto_status": {
+    "description": "Auto-extracted"
+  },
+  "auto_dataZakaza": "Тапсырыс күні",
+  "@auto_dataZakaza": {
+    "description": "Auto-extracted"
+  },
+  "auto_kolichestvoTovarov": "Тауарлар саны",
+  "@auto_kolichestvoTovarov": {
+    "description": "Auto-extracted"
+  },
+  "auto_obshcheeKolvo": "Жалпы саны",
+  "@auto_obshcheeKolvo": {
+    "description": "Auto-extracted"
+  },
+  "auto_polucheno": "Алынды",
+  "@auto_polucheno": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovaryVZakaze": "Тапсырыстағы тауарлар",
+  "@auto_tovaryVZakaze": {
+    "description": "Auto-extracted"
+  },
+  "auto_polucheno_1": "алынды",
+  "@auto_polucheno_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_zaversheno": "аяқталды",
+  "@auto_zaversheno": {
+    "description": "Auto-extracted"
+  },
+  "auto_trebuetsyaAvtorizatsiya": "Авторизация қажет",
+  "@auto_trebuetsyaAvtorizatsiya": {
+    "description": "Auto-extracted"
+  },
+  "auto_faylZagruzhen": "Файл жүктелді",
+  "@auto_faylZagruzhen": {
+    "description": "Auto-extracted"
+  },
+  "auto_netVNalichii": "Қоймада жоқ",
+  "@auto_netVNalichii": {
+    "description": "Auto-extracted"
+  },
+  "auto_oTovare": "Өнім туралы",
+  "@auto_oTovare": {
+    "description": "Auto-extracted"
+  },
+  "auto_podrobnee": "Толығырақ",
+  "@auto_podrobnee": {
+    "description": "Auto-extracted"
+  },
+  "auto_postavshchik": "Жеткізуші",
+  "@auto_postavshchik": {
+    "description": "Auto-extracted"
+  },
+  "auto_udalitIzIzbrannogo": "Таңдаулылардан жою",
+  "@auto_udalitIzIzbrannogo": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavitVIzbrannoe": "Таңдаулыларға қосу",
+  "@auto_dobavitVIzbrannoe": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavlenoVIzbrannoe": "Таңдаулыларға қосылды",
+  "@auto_dobavlenoVIzbrannoe": {
+    "description": "Auto-extracted"
+  },
+  "auto_udalenoIzIzbrannogo": "Таңдаулылардан жойылды",
+  "@auto_udalenoIzIzbrannogo": {
+    "description": "Auto-extracted"
+  },
+  "auto_otzyvovPokaNet": "Пікірлер әлі жоқ",
+  "@auto_otzyvovPokaNet": {
+    "description": "Auto-extracted"
+  },
+  "auto_otsenitTovarMozhnoTolk": "Сіз өнімді сатып алғаннан кейін ғана бағалай аласыз",
+  "@auto_otsenitTovarMozhnoTolk": {
+    "description": "Auto-extracted"
+  },
+  "auto_voprosovPoTovaruEshche": "Тауар бойынша әлі сұрақтар болған жоқ",
+  "@auto_voprosovPoTovaruEshche": {
+    "description": "Auto-extracted"
+  },
+  "auto_budtePervym": "Бірінші бол!",
+  "@auto_budtePervym": {
+    "description": "Auto-extracted"
+  },
+  "auto_zadatVopros": "Сұрақ қою",
+  "@auto_zadatVopros": {
+    "description": "Auto-extracted"
+  },
+  "auto_voprosov": "сұрақтар",
+  "@auto_voprosov": {
+    "description": "Auto-extracted"
+  },
+  "auto_harakteristiki": "Сипаттамалары",
+  "@auto_harakteristiki": {
+    "description": "Auto-extracted"
+  },
+  "auto_opisanie_1": "Сипаттама",
+  "@auto_opisanie_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_netDannyhOTovare": "Өнім туралы деректер жоқ",
+  "@auto_netDannyhOTovare": {
+    "description": "Auto-extracted"
+  },
+  "auto_opisanieNeUkazano": "Сипаттама көрсетілмеген",
+  "@auto_opisanieNeUkazano": {
+    "description": "Auto-extracted"
+  },
+  "auto_pokupatel": "Сатып алушы",
+  "@auto_pokupatel": {
+    "description": "Auto-extracted"
+  },
+  "auto_bezTeksta": "Мәтін жоқ",
+  "@auto_bezTeksta": {
+    "description": "Auto-extracted"
+  },
+  "auto_pereytiKoVsemOtzyvam": "Барлық шолуларға өтіңіз",
+  "@auto_pereytiKoVsemOtzyvam": {
+    "description": "Auto-extracted"
+  },
+  "auto_pereytiKoVsemVoprosam": "Барлық сұрақтарға өтіңіз",
+  "@auto_pereytiKoVsemVoprosam": {
+    "description": "Auto-extracted"
+  },
+  "auto_voprosyOTovare": "Өнім туралы сұрақтар",
+  "@auto_voprosyOTovare": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibka": "Қате",
+  "@auto_oshibka": {
+    "description": "Auto-extracted"
+  },
+  "auto_netVoprosov": "Сұрақтар жоқ",
+  "@auto_netVoprosov": {
+    "description": "Auto-extracted"
+  },
+  "auto_budtePervymKtoZadastV": "Бірінші болып сұрақ қойыңыз!",
+  "@auto_budtePervymKtoZadastV": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovar": "Тауар",
+  "@auto_tovar": {
+    "description": "Auto-extracted"
+  },
+  "auto_vashVopros": "Сіздің сұрағыңыз",
+  "@auto_vashVopros": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosZagruzitOtzyvy_1": "Пікірлерді жүктеу мүмкін болмады",
+  "@auto_neUdalosZagruzitOtzyvy_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_otzyvy": "Пікірлер",
+  "@auto_otzyvy": {
+    "description": "Auto-extracted"
+  },
+  "auto_zdesPoyavyatsyaOtsenki": "Мұнда сатып алушылардың бағалары мен пікірлері пайда болады.",
+  "@auto_zdesPoyavyatsyaOtsenki": {
+    "description": "Auto-extracted"
+  },
+  "auto_svernut": "Орау",
+  "@auto_svernut": {
+    "description": "Auto-extracted"
+  },
+  "auto_otvetProdavtsa": "Сатушының жауабы",
+  "@auto_otvetProdavtsa": {
+    "description": "Auto-extracted"
+  },
+  "auto_vse_1": "Барлығы",
+  "@auto_vse_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_postavshchikNeNayden": "Жеткізуші табылмады",
+  "@auto_postavshchikNeNayden": {
+    "description": "Auto-extracted"
+  },
+  "auto_vremyaOzhidaniya": "Күту уақыты",
+  "@auto_vremyaOzhidaniya": {
+    "description": "Auto-extracted"
+  },
+  "auto_vremyaOzhidaniyaIsteklo": "Күту уақыты аяқталды. Байланысты тексеріп, әрекетті қайталаңыз.",
+  "@auto_vremyaOzhidaniyaIsteklo": {
+    "description": "Auto-extracted"
+  },
+  "auto_netPodklyucheniyaKInte": "Интернет байланысы жоқ",
+  "@auto_netPodklyucheniyaKInte": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosZagruzitDannye": "Деректерді жүктеу мүмкін болмады. Қайталап көріңіз.",
+  "@auto_neUdalosZagruzitDannye": {
+    "description": "Auto-extracted"
+  },
+  "auto_netTovarovOtEtogoPost": "Бұл Жеткізушінің тауарлары жоқ",
+  "@auto_netTovarovOtEtogoPost": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovaryNeNaydeny": "Тауарлар табылған жоқ",
+  "@auto_tovaryNeNaydeny": {
+    "description": "Auto-extracted"
+  },
+  "auto_poisk": "Іздеу...",
+  "@auto_poisk": {
+    "description": "Auto-extracted"
+  },
+  "auto_proizoshlaOshibka": "Қате орын алды",
+  "@auto_proizoshlaOshibka": {
+    "description": "Auto-extracted"
+  },
+  "auto_vernutsya": "Қайту",
+  "@auto_vernutsya": {
+    "description": "Auto-extracted"
+  },
+  "auto_filtry": "Сүзгілер",
+  "@auto_filtry": {
+    "description": "Auto-extracted"
+  },
+  "auto_tsenaZaSht": "Дана бағасы.",
+  "@auto_tsenaZaSht": {
+    "description": "Auto-extracted"
+  },
+  "auto_ot": "бастап",
+  "@auto_ot": {
+    "description": "Auto-extracted"
+  },
+  "auto_do": "дейін",
+  "@auto_do": {
+    "description": "Auto-extracted"
+  },
+  "auto_sortirovka": "Сұрыптау",
+  "@auto_sortirovka": {
+    "description": "Auto-extracted"
+  },
+  "auto_tsena": "Бағасы",
+  "@auto_tsena": {
+    "description": "Auto-extracted"
+  },
+  "auto_reyting": "Рейтинг",
+  "@auto_reyting": {
+    "description": "Auto-extracted"
+  },
+  "auto_poryadok": "Тәртіп",
+  "@auto_poryadok": {
+    "description": "Auto-extracted"
+  },
+  "auto_poVozrastaniyu": "Өсу бойынша",
+  "@auto_poVozrastaniyu": {
+    "description": "Auto-extracted"
+  },
+  "auto_poUbyvaniyu": "Кему бойынша",
+  "@auto_poUbyvaniyu": {
+    "description": "Auto-extracted"
+  },
+  "auto_appmessagedialogPodderzh": "AppMessageDialog максимум 3 әрекетті қолдайды",
+  "@auto_appmessagedialogPodderzh": {
+    "description": "Auto-extracted"
+  },
+  "auto_poiskPoPostavshchikam": "Жеткізушілер бойынша іздеу",
+  "@auto_poiskPoPostavshchikam": {
+    "description": "Auto-extracted"
+  },
+  "auto_ochistit": "Тазалау",
+  "@auto_ochistit": {
+    "description": "Auto-extracted"
+  },
+  "auto_neprochitannoeUvedomleni": "оқылмаған хабарлама",
+  "@auto_neprochitannoeUvedomleni": {
+    "description": "Auto-extracted"
+  },
+  "auto_neprochitannyhUvedomleni": "оқылмаған хабарламалар",
+  "@auto_neprochitannyhUvedomleni": {
+    "description": "Auto-extracted"
+  },
+  "auto_neprochitannyhUvedomleni_1": "оқылмаған хабарламалар",
+  "@auto_neprochitannyhUvedomleni_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_zastreval": "кептеліп қалды",
+  "@auto_zastreval": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavka": "жеткізу",
+  "@auto_dostavka": {
+    "description": "Auto-extracted"
+  },
+  "auto_budni": "жұмыс күндері",
+  "@auto_budni": {
+    "description": "Auto-extracted"
+  },
+  "auto_vyhodnye": "демалыс күндері",
+  "@auto_vyhodnye": {
+    "description": "Auto-extracted"
+  },
+  "auto_ezhednevno": "күнделікті",
+  "@auto_ezhednevno": {
+    "description": "Auto-extracted"
+  },
+  "auto_kazhdyyDen": "күн сайын",
+  "@auto_kazhdyyDen": {
+    "description": "Auto-extracted"
+  },
+  "auto_pn": "Дүйсенбі",
+  "@auto_pn": {
+    "description": "Auto-extracted"
+  },
+  "auto_pn_1": "дүйсенбі",
+  "@auto_pn_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_vt": "сейсенбі",
+  "@auto_vt": {
+    "description": "Auto-extracted"
+  },
+  "auto_sr": "ср",
+  "@auto_sr": {
+    "description": "Auto-extracted"
+  },
+  "auto_cht": "не",
+  "@auto_cht": {
+    "description": "Auto-extracted"
+  },
+  "auto_pt": "ЖМ",
+  "@auto_pt": {
+    "description": "Auto-extracted"
+  },
+  "auto_sb": "сб",
+  "@auto_sb": {
+    "description": "Auto-extracted"
+  },
+  "auto_vs": "күн",
+  "@auto_vs": {
+    "description": "Auto-extracted"
+  },
+  "auto_ponedelnik": "дүйсенбі",
+  "@auto_ponedelnik": {
+    "description": "Auto-extracted"
+  },
+  "auto_vtornik": "сейсенбі",
+  "@auto_vtornik": {
+    "description": "Auto-extracted"
+  },
+  "auto_sreda": "сәрсенбі",
+  "@auto_sreda": {
+    "description": "Auto-extracted"
+  },
+  "auto_chetverg": "бейсенбі",
+  "@auto_chetverg": {
+    "description": "Auto-extracted"
+  },
+  "auto_pyatnitsa": "жұма",
+  "@auto_pyatnitsa": {
+    "description": "Auto-extracted"
+  },
+  "auto_subbota": "сенбі",
+  "@auto_subbota": {
+    "description": "Auto-extracted"
+  },
+  "auto_voskresene": "жексенбі",
+  "@auto_voskresene": {
+    "description": "Auto-extracted"
+  },
+  "auto_sht": "дана",
+  "@auto_sht": {
+    "description": "Auto-extracted"
+  },
+  "auto_izmenitOtvet": "Жауапты өзгерту",
+  "@auto_izmenitOtvet": {
+    "description": "Auto-extracted"
+  },
+  "auto_otvetit": "Жауап беру",
+  "@auto_otvetit": {
+    "description": "Auto-extracted"
+  },
+  "auto_otvetitNaVopros": "Сұраққа жауап беру",
+  "@auto_otvetitNaVopros": {
+    "description": "Auto-extracted"
+  },
+  "auto_vopros": "Сұрақ:",
+  "@auto_vopros": {
+    "description": "Auto-extracted"
+  },
+  "auto_vashOtvet": "Сіздің жауабыңыз",
+  "@auto_vashOtvet": {
+    "description": "Auto-extracted"
+  },
+  "auto_otvetitNaOtzyv": "Пікірге жауап беру",
+  "@auto_otvetitNaOtzyv": {
+    "description": "Auto-extracted"
+  },
+  "auto_otzyv": "Шолу:",
+  "@auto_otzyv": {
+    "description": "Auto-extracted"
+  },
+  "auto_vveditePochtuIParol": "Пошта мен құпия сөзді енгізіңіз",
+  "@auto_vveditePochtuIParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_serverNeVernulChalleng": "Сервер 2FA үшін challenge қайтарған жоқ",
+  "@auto_serverNeVernulChalleng": {
+    "description": "Auto-extracted"
+  },
+  "auto_proverteChtoPochtaIPa": "Пошта мен құпия сөздің толтырылғанын тексеріңіз",
+  "@auto_proverteChtoPochtaIPa": {
+    "description": "Auto-extracted"
+  },
+  "auto_nevernayaPochtaIliParo": "Қате пошта немесе құпия сөз",
+  "@auto_nevernayaPochtaIliParo": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostupZapreshchyon": "Кіруге тыйым салынады",
+  "@auto_dostupZapreshchyon": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosVypolnitVhodP": "Кіру сәтсіз аяқталды. Кейінірек көріңіз.",
+  "@auto_neUdalosVypolnitVhodP": {
+    "description": "Auto-extracted"
+  },
+  "auto_vhodVypolnen": "Кіру аяқталды",
+  "@auto_vhodVypolnen": {
+    "description": "Auto-extracted"
+  },
+  "auto_voyti": "Кіру",
+  "@auto_voyti": {
+    "description": "Auto-extracted"
+  },
+  "auto_zayditeIliZaregistriruy": "Тоқтаңыз немесе тіркеліңіз",
+  "@auto_zayditeIliZaregistriruy": {
+    "description": "Auto-extracted"
+  },
+  "auto_vSvoyAkkaunt": "Өз шотыңызға",
+  "@auto_vSvoyAkkaunt": {
+    "description": "Auto-extracted"
+  },
+  "auto_pochta": "Пошта",
+  "@auto_pochta": {
+    "description": "Auto-extracted"
+  },
+  "auto_parol": "Құпия сөз",
+  "@auto_parol": {
+    "description": "Auto-extracted"
+  },
+  "auto_zapomnitMenya": "Мені Есте сақта",
+  "@auto_zapomnitMenya": {
+    "description": "Auto-extracted"
+  },
+  "auto_zabyliParol": "Құпия сөзді ұмыттыңыз ба?",
+  "@auto_zabyliParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_voyti_1": "Кіру",
+  "@auto_voyti_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_netAkkaunta": "Тіркелгі жоқ па? ",
+  "@auto_netAkkaunta": {
+    "description": "Auto-extracted"
+  },
+  "auto_zaregistriruytes": "Тіркелу",
+  "@auto_zaregistriruytes": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvedite10simvolnyyBacku": "10 таңбалы сақтық көшірме кодын енгізіңіз",
+  "@auto_vvedite10simvolnyyBacku": {
+    "description": "Auto-extracted"
+  },
+  "auto_srokDeystviyaKodaIstyo_1": "Кодтың мерзімі аяқталды, кіруді қайталаңыз",
+  "@auto_srokDeystviyaKodaIstyo_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_podtverzhdenieVhoda": "Кіруді растау",
+  "@auto_podtverzhdenieVhoda": {
+    "description": "Auto-extracted"
+  },
+  "auto_dvuhfaktornayanautentifik": "Екі факторлы \\ аутентификация",
+  "@auto_dvuhfaktornayanautentifik": {
+    "description": "Auto-extracted"
+  },
+  "auto_myOtpraviliKodNaVashu": "Біз сіздің поштаңызға код жібердік",
+  "@auto_myOtpraviliKodNaVashu": {
+    "description": "Auto-extracted"
+  },
+  "auto_backupkod": "BACKUP КОДЫ",
+  "@auto_backupkod": {
+    "description": "Auto-extracted"
+  },
+  "auto_kodIzPochty": "ПОШТА КОДЫ",
+  "@auto_kodIzPochty": {
+    "description": "Auto-extracted"
+  },
+  "auto_otpravitSnova": "Қайта жіберу",
+  "@auto_otpravitSnova": {
+    "description": "Auto-extracted"
+  },
+  "auto_vernutsyaKKoduIzPocht": "Поштадан кодқа оралу",
+  "@auto_vernutsyaKKoduIzPocht": {
+    "description": "Auto-extracted"
+  },
+  "auto_ispolzovatBackupkod": "Backup кодын пайдаланыңыз",
+  "@auto_ispolzovatBackupkod": {
+    "description": "Auto-extracted"
+  },
+  "auto_zapomnitUstroystvoNa30": "Құрылғыны 30 күн есте сақтаңыз",
+  "@auto_zapomnitUstroystvoNa30": {
+    "description": "Auto-extracted"
+  },
+  "auto_imyaDolzhnoBytNeKoroc": "Атау 2 таңбадан қысқа болмауы керек",
+  "@auto_imyaDolzhnoBytNeKoroc": {
+    "description": "Auto-extracted"
+  },
+  "auto_vveditePochtu": "Поштаны енгізіңіз",
+  "@auto_vveditePochtu": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteKorrektnuyuPocht": "Дұрыс поштаны енгізіңіз",
+  "@auto_vvediteKorrektnuyuPocht": {
+    "description": "Auto-extracted"
+  },
+  "auto_nomerDolzhenNachinatsya": "Нөмір +7-ден басталуы керек",
+  "@auto_nomerDolzhenNachinatsya": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteParol": "Құпия сөзді енгізіңіз",
+  "@auto_vvediteParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_parolDolzhenBytNeKoro": "Құпия сөз 6 таңбадан қысқа болмауы керек",
+  "@auto_parolDolzhenBytNeKoro": {
+    "description": "Auto-extracted"
+  },
+  "auto_povtoriteParol": "Құпия сөзді қайталаңыз",
+  "@auto_povtoriteParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_emailUzheZaregistrirova": "Email тіркелген",
+  "@auto_emailUzheZaregistrirova": {
+    "description": "Auto-extracted"
+  },
+  "auto_tronuto": "қол тигізді",
+  "@auto_tronuto": {
+    "description": "Auto-extracted"
+  },
+  "auto_proverteZapolneniePoley": "Өрістерді толтыруды тексеріңіз",
+  "@auto_proverteZapolneniePoley": {
+    "description": "Auto-extracted"
+  },
+  "auto_rol": "Рөлі",
+  "@auto_rol": {
+    "description": "Auto-extracted"
+  },
+  "auto_imya": "Аты",
+  "@auto_imya": {
+    "description": "Auto-extracted"
+  },
+  "auto_nomerTelefona": "ТЕЛЕФОН НӨМІРІ",
+  "@auto_nomerTelefona": {
+    "description": "Auto-extracted"
+  },
+  "auto_naprimerTooSkladMansa": "Мысалы, Манса қоймасы ЖШС",
+  "@auto_naprimerTooSkladMansa": {
+    "description": "Auto-extracted"
+  },
+  "auto_dopolnitelnyeDannyeNeT": "Қосымша деректер қажет емес.",
+  "@auto_dopolnitelnyeDannyeNeT": {
+    "description": "Auto-extracted"
+  },
+  "auto_povtoriteParol_1": "ҚҰПИЯ СӨЗДІ ҚАЙТАЛАҢЫЗ",
+  "@auto_povtoriteParol_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_tronutoe": "қол тигізді",
+  "@auto_tronutoe": {
+    "description": "Auto-extracted"
+  },
+  "auto_dannye": "Деректер",
+  "@auto_dannye": {
+    "description": "Auto-extracted"
+  },
+  "auto_kompaniyaIParol": "Компания және пароль",
+  "@auto_kompaniyaIParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_parol_1": "Құпия сөз",
+  "@auto_parol_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_zaregistrirovatsya": "Тіркелу",
+  "@auto_zaregistrirovatsya": {
+    "description": "Auto-extracted"
+  },
+  "auto_dalee": "Келесі",
+  "@auto_dalee": {
+    "description": "Auto-extracted"
+  },
+  "auto_registratsiyaProshlaUsp": "Тіркеу сәтті өтті",
+  "@auto_registratsiyaProshlaUsp": {
+    "description": "Auto-extracted"
+  },
+  "auto_serverVernulOshibku": "Сервер қатені қайтарды",
+  "@auto_serverVernulOshibku": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosZavershitRegis": "Тіркеуді аяқтау мүмкін болмады",
+  "@auto_neUdalosZavershitRegis": {
+    "description": "Auto-extracted"
+  },
+  "auto_serverVernulOshibkuPop": "Сервер қатені қайтарды. Қайталап көріңіз.",
+  "@auto_serverVernulOshibkuPop": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPodklyucheniya": "Қосылу қатесі",
+  "@auto_oshibkaPodklyucheniya": {
+    "description": "Auto-extracted"
+  },
+  "auto_registratsiya": "Тіркеу",
+  "@auto_registratsiya": {
+    "description": "Auto-extracted"
+  },
+  "auto_zaregistriruytesChtobyN": "Бастау үшін тіркеліңіз",
+  "@auto_zaregistriruytesChtobyN": {
+    "description": "Auto-extracted"
+  },
+  "auto_nazad_1": "Артқа",
+  "@auto_nazad_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaServera": "Сервер қатесі",
+  "@auto_oshibkaServera": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaSeti": "Желі қатесі",
+  "@auto_oshibkaSeti": {
+    "description": "Auto-extracted"
+  },
+  "auto_zabyliParol_1": "Құпия сөзді ұмыттыңыз ба",
+  "@auto_zabyliParol_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_napishiSvoyuPochtu": "Поштаңызды жазыңыз",
+  "@auto_napishiSvoyuPochtu": {
+    "description": "Auto-extracted"
+  },
+  "auto_otpravitKod": "КОДТЫ ЖІБЕРУ",
+  "@auto_otpravitKod": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvedite6znachnyyKod": "6 таңбалы кодты енгізіңіз",
+  "@auto_vvedite6znachnyyKod": {
+    "description": "Auto-extracted"
+  },
+  "auto_vosstanovlenieParolya": "Құпия сөзді қалпына келтіру",
+  "@auto_vosstanovlenieParolya": {
+    "description": "Auto-extracted"
+  },
+  "auto_kod": "КОД",
+  "@auto_kod": {
+    "description": "Auto-extracted"
+  },
+  "auto_prodolzhit": "Жалғастыру",
+  "@auto_prodolzhit": {
+    "description": "Auto-extracted"
+  },
+  "auto_zapolniteVsePolya": "Барлық өрістерді толтырыңыз",
+  "@auto_zapolniteVsePolya": {
+    "description": "Auto-extracted"
+  },
+  "auto_parolDolzhenSoderzhatM_1": "Құпия сөзде кемінде 6 таңба болуы керек",
+  "@auto_parolDolzhenSoderzhatM_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_parolUspeshnoIzmenyon": "Құпия сөз сәтті өзгертілді",
+  "@auto_parolUspeshnoIzmenyon": {
+    "description": "Auto-extracted"
+  },
+  "auto_novyyParol_1": "ЖАҢА ҚҰПИЯ СӨЗ",
+  "@auto_novyyParol_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_podtverditeParol": "ҚҰПИЯ СӨЗДІ РАСТАҢЫЗ",
+  "@auto_podtverditeParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_podtverditeNovyyParol": "Жаңа құпия сөзді растаңыз",
+  "@auto_podtverditeNovyyParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_emailPodtverzhdyonTeper": "Email расталды. Енді кіруге болады.",
+  "@auto_emailPodtverzhdyonTeper": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaSetiPriPodtverz": "Растау кезінде желі қатесі",
+  "@auto_oshibkaSetiPriPodtverz": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaSetiPriPovtorno": "Қайта жіберу кезінде желі қатесі",
+  "@auto_oshibkaSetiPriPovtorno": {
+    "description": "Auto-extracted"
+  },
+  "auto_verifikatsiya": "Тексеру",
+  "@auto_verifikatsiya": {
+    "description": "Auto-extracted"
+  },
+  "auto_slishkomKorotkoe": "Тым қысқа",
+  "@auto_slishkomKorotkoe": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteTelefon": "Телефонды енгізіңіз",
+  "@auto_vvediteTelefon": {
+    "description": "Auto-extracted"
+  },
+  "auto_nuzhno11Tsifr": "11 Сан қажет",
+  "@auto_nuzhno11Tsifr": {
+    "description": "Auto-extracted"
+  },
+  "auto_dolzhenNachinatsyaS7": "7-ден басталуы керек",
+  "@auto_dolzhenNachinatsyaS7": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosSozdatModerato": "Модератор құру мүмкін болмады",
+  "@auto_neUdalosSozdatModerato": {
+    "description": "Auto-extracted"
+  },
+  "auto_imya_1": "Аты",
+  "@auto_imya_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_telefon": "Телефон",
+  "@auto_telefon": {
+    "description": "Auto-extracted"
+  },
+  "auto_pokazat": "Көрсету",
+  "@auto_pokazat": {
+    "description": "Auto-extracted"
+  },
+  "auto_skryt": "Жасыру",
+  "@auto_skryt": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosZagruzitTovary": "Тауарларды жүктеу мүмкін болмады",
+  "@auto_neUdalosZagruzitTovary": {
+    "description": "Auto-extracted"
+  },
+  "auto_odobreno": "Мақұлданды",
+  "@auto_odobreno": {
+    "description": "Auto-extracted"
+  },
+  "auto_otkloneno": "Қабылданбады",
+  "@auto_otkloneno": {
+    "description": "Auto-extracted"
+  },
+  "auto_naModeratsii": "Модерацияда",
+  "@auto_naModeratsii": {
+    "description": "Auto-extracted"
+  },
+  "auto_odobritTovar": "Өнімді мақұлдау",
+  "@auto_odobritTovar": {
+    "description": "Auto-extracted"
+  },
+  "auto_otklonitTovar": "Өнімді қабылдамау",
+  "@auto_otklonitTovar": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovarOdobren": "Тауар мақұлданды",
+  "@auto_tovarOdobren": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovarOtklonen": "Тауар қабылданбады",
+  "@auto_tovarOtklonen": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPriObnovleniiSt": "Күйді жаңарту қатесі",
+  "@auto_oshibkaPriObnovleniiSt": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosOpredelitModer": "Модераторды анықтау мүмкін болмады",
+  "@auto_neUdalosOpredelitModer": {
+    "description": "Auto-extracted"
+  },
+  "auto_udalitTovarZaNarusheni": "Бұзушылық үшін өнімді алып тастаңыз",
+  "@auto_udalitTovarZaNarusheni": {
+    "description": "Auto-extracted"
+  },
+  "auto_prichinaUdaleniyaDlyaP": "Жеткізуші үшін жою себебі",
+  "@auto_prichinaUdaleniyaDlyaP": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovarUdalenPostavshchik": "Өнім жойылды, жеткізушіге хабарланды",
+  "@auto_tovarUdalenPostavshchik": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovarUdalen": "Өнім жойылды",
+  "@auto_tovarUdalen": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosUdalitTovar": "Өнімді жою мүмкін болмады",
+  "@auto_neUdalosUdalitTovar": {
+    "description": "Auto-extracted"
+  },
+  "auto_prichinaOtkloneniya": "Ауытқу себебі",
+  "@auto_prichinaOtkloneniya": {
+    "description": "Auto-extracted"
+  },
+  "auto_kommentariy": "Пікір",
+  "@auto_kommentariy": {
+    "description": "Auto-extracted"
+  },
+  "auto_bezKategorii": "Санат жоқ",
+  "@auto_bezKategorii": {
+    "description": "Auto-extracted"
+  },
+  "auto_naProverke": "Тексеруде",
+  "@auto_naProverke": {
+    "description": "Auto-extracted"
+  },
+  "auto_poiskTovarPostavshchik": "Іздеу: өнім, жеткізуші, санат",
+  "@auto_poiskTovarPostavshchik": {
+    "description": "Auto-extracted"
+  },
+  "auto_netZayavok": "Өтінімдер жоқ",
+  "@auto_netZayavok": {
+    "description": "Auto-extracted"
+  },
+  "auto_poVashemuZaprosuNicheg": "Сіздің сұранысыңыз бойынша ештеңе табылған жоқ",
+  "@auto_poVashemuZaprosuNicheg": {
+    "description": "Auto-extracted"
+  },
+  "auto_netPodhodyashchihTovaro": "Тиісті тауарлар жоқ",
+  "@auto_netPodhodyashchihTovaro": {
+    "description": "Auto-extracted"
+  },
+  "auto_partiya": "Партия",
+  "@auto_partiya": {
+    "description": "Auto-extracted"
+  },
+  "auto_udalitZaNarushenie": "Бұзушылық үшін жою",
+  "@auto_udalitZaNarushenie": {
+    "description": "Auto-extracted"
+  },
+  "auto_otklonit": "Бас тарту",
+  "@auto_otklonit": {
+    "description": "Auto-extracted"
+  },
+  "auto_neAvtorizovan": "рұқсат етілмеген",
+  "@auto_neAvtorizovan": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostup": "қол жеткізу",
+  "@auto_dostup": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosZagruzitModera": "Модераторларды жүктеу мүмкін болмады",
+  "@auto_neUdalosZagruzitModera": {
+    "description": "Auto-extracted"
+  },
+  "auto_moderatorDobavlen": "Модератор қосылды",
+  "@auto_moderatorDobavlen": {
+    "description": "Auto-extracted"
+  },
+  "auto_moderatorUdalyon": "Модератор жойылды",
+  "@auto_moderatorUdalyon": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavitModeratora": "Модератор қосыңыз",
+  "@auto_dobavitModeratora": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavit": "Қосу",
+  "@auto_dobavit": {
+    "description": "Auto-extracted"
+  },
+  "auto_poiskPoImeniIliEmail": "Аты немесе email бойынша іздеу",
+  "@auto_poiskPoImeniIliEmail": {
+    "description": "Auto-extracted"
+  },
+  "auto_moderatoryNeNaydeny": "Модераторлар табылған жоқ",
+  "@auto_moderatoryNeNaydeny": {
+    "description": "Auto-extracted"
+  },
+  "auto_nichegoNeNaydenoPoZap": "Сұраныс бойынша ештеңе табылмады",
+  "@auto_nichegoNeNaydenoPoZap": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostupZapreshchyonVoydi": "Кіруге тыйым салынады. Қайта кіріңіз.",
+  "@auto_dostupZapreshchyonVoydi": {
+    "description": "Auto-extracted"
+  },
+  "auto_bezImeni": "Аты жоқ",
+  "@auto_bezImeni": {
+    "description": "Auto-extracted"
+  },
+  "auto_moderator": "Модератор",
+  "@auto_moderator": {
+    "description": "Auto-extracted"
+  },
+  "auto_elPochta_1": "Ал. пошта",
+  "@auto_elPochta_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosZagruzitChaty": "Техникалық қолдау чаттарын жүктеу мүмкін болмады",
+  "@auto_neUdalosZagruzitChaty": {
+    "description": "Auto-extracted"
+  },
+  "auto_otkryt": "Ашық",
+  "@auto_otkryt": {
+    "description": "Auto-extracted"
+  },
+  "auto_zakryt_1": "Жабық",
+  "@auto_zakryt_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_otkrytye": "Ашық",
+  "@auto_otkrytye": {
+    "description": "Auto-extracted"
+  },
+  "auto_istoriya": "Тарих",
+  "@auto_istoriya": {
+    "description": "Auto-extracted"
+  },
+  "auto_zakrytyhChatovPokaNet": "Жабық чаттар әлі жоқ",
+  "@auto_zakrytyhChatovPokaNet": {
+    "description": "Auto-extracted"
+  },
+  "auto_otkrytyhChatovSeychasN": "Қазір ашық чаттар жоқ",
+  "@auto_otkrytyhChatovSeychasN": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosZagruzitSoobsh": "Хабарламаларды жүктеу мүмкін болмады",
+  "@auto_neUdalosZagruzitSoobsh": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosOpredelitSotru": "Техникалық қолдау қызметкерін анықтау мүмкін болмады",
+  "@auto_neUdalosOpredelitSotru": {
+    "description": "Auto-extracted"
+  },
+  "auto_chatUzheZakryt": "Чат қазірдің өзінде жабық",
+  "@auto_chatUzheZakryt": {
+    "description": "Auto-extracted"
+  },
+  "auto_prichinaZakrytiyaNeobya": "Жабылу себебі (міндетті емес)",
+  "@auto_prichinaZakrytiyaNeobya": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosZakrytChat": "Чатты жабу мүмкін болмады",
+  "@auto_neUdalosZakrytChat": {
+    "description": "Auto-extracted"
+  },
+  "auto_otvetitPolzovatelyu": "Пайдаланушыға жауап беру",
+  "@auto_otvetitPolzovatelyu": {
+    "description": "Auto-extracted"
+  },
+  "auto_chatOtkryt": "Чат ашық",
+  "@auto_chatOtkryt": {
+    "description": "Auto-extracted"
+  },
+  "auto_zakrytChat": "Чатты жабу",
+  "@auto_zakrytChat": {
+    "description": "Auto-extracted"
+  },
+  "auto_deystvieNelzyaOtmenit": "Әрекетті қайтару мүмкін емес.",
+  "@auto_deystvieNelzyaOtmenit": {
+    "description": "Auto-extracted"
+  },
+  "auto_etoUdalitVseBackupkody": "Бұл пайдаланушының барлық сақтық көшірме кодтарын және сенімді құрылғыларын жояды. ",
+  "@auto_etoUdalitVseBackupkody": {
+    "description": "Auto-extracted"
+  },
+  "auto_deystvieDostupnoTolkoM": "Әрекет тек модераторларға қол жетімді",
+  "@auto_deystvieDostupnoTolkoM": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosOtklyuchit2fa": "2FA өшіру мүмкін болмады",
+  "@auto_neUdalosOtklyuchit2fa": {
+    "description": "Auto-extracted"
+  },
+  "auto_otklyuchitDvuhfaktornuyu": "Екі факторлы аутентификацияны өшіріңіз",
+  "@auto_otklyuchitDvuhfaktornuyu": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostav": "жеткізу",
+  "@auto_dostav": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaOperatsii": "Операция қатесі",
+  "@auto_oshibkaOperatsii": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovarSnyatSPublikatsii": "Өнім басылымнан шығарылды.",
+  "@auto_tovarSnyatSPublikatsii": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovarSnyatSPublikatsii_1": "Өнім жарияланымнан алынды",
+  "@auto_tovarSnyatSPublikatsii_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovarUdalyon": "Өнім жойылды",
+  "@auto_tovarUdalyon": {
+    "description": "Auto-extracted"
+  },
+  "auto_minPartiya": "Мин. партия",
+  "@auto_minPartiya": {
+    "description": "Auto-extracted"
+  },
+  "auto_ostatok": "Қалдық",
+  "@auto_ostatok": {
+    "description": "Auto-extracted"
+  },
+  "auto_pokaNetTovarov": "Әзірге тауарлар жоқ",
+  "@auto_pokaNetTovarov": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavtePervyyTovarIOt": "Бірінші элементті қосып, оны модерацияға жіберіңіз.",
+  "@auto_dobavtePervyyTovarIOt": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavitTovar": "Элементті қосыңыз",
+  "@auto_dobavitTovar": {
+    "description": "Auto-extracted"
+  },
+  "auto_ponedelnik_1": "Дүйсенбі",
+  "@auto_ponedelnik_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_vtornik_1": "Сейсенбі",
+  "@auto_vtornik_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_sreda_1": "Сәрсенбі",
+  "@auto_sreda_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_chetverg_1": "Бейсенбі",
+  "@auto_chetverg_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_pyatnitsa_1": "Жұма",
+  "@auto_pyatnitsa_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_subbota_1": "Сенбі",
+  "@auto_subbota_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_voskresene_1": "Жексенбі",
+  "@auto_voskresene_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_vt_1": "Сейсенбі",
+  "@auto_vt_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_sr_1": "Ср",
+  "@auto_sr_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_cht_1": "Не",
+  "@auto_cht_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_pt_1": "ЖМ",
+  "@auto_pt_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_sb_1": "Сб",
+  "@auto_sb_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_vs_1": "Күн",
+  "@auto_vs_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_napitki": "Сусындар",
+  "@auto_napitki": {
+    "description": "Auto-extracted"
+  },
+  "auto_molochnayaProduktsiya": "Сүт өнімдері",
+  "@auto_molochnayaProduktsiya": {
+    "description": "Auto-extracted"
+  },
+  "auto_ovoshchiIFrukty": "Көкөністер мен жемістер",
+  "@auto_ovoshchiIFrukty": {
+    "description": "Auto-extracted"
+  },
+  "auto_myasoIPtitsa": "Ет және құс еті",
+  "@auto_myasoIPtitsa": {
+    "description": "Auto-extracted"
+  },
+  "auto_bakaleya": "Азық-түлік",
+  "@auto_bakaleya": {
+    "description": "Auto-extracted"
+  },
+  "auto_hlebIVypechka": "Нан және кондитерлік өнімдер",
+  "@auto_hlebIVypechka": {
+    "description": "Auto-extracted"
+  },
+  "auto_zamorozka": "Мұздату",
+  "@auto_zamorozka": {
+    "description": "Auto-extracted"
+  },
+  "auto_sneki": "Тағамдар",
+  "@auto_sneki": {
+    "description": "Auto-extracted"
+  },
+  "auto_bytovayaHimiya": "Тұрмыстық химия",
+  "@auto_bytovayaHimiya": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovaryDlyaDoma": "Үйге арналған тауарлар",
+  "@auto_tovaryDlyaDoma": {
+    "description": "Auto-extracted"
+  },
+  "auto_stranaProizvoditelya": "Өндіруші ел",
+  "@auto_stranaProizvoditelya": {
+    "description": "Auto-extracted"
+  },
+  "auto_srokGodnosti": "Жарамдылық мерзімі",
+  "@auto_srokGodnosti": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteNazvanieTovara": "Элемент атауын енгізіңіз",
+  "@auto_vvediteNazvanieTovara": {
+    "description": "Auto-extracted"
+  },
+  "auto_ukazhiteSrokGodnosti": "Жарамдылық мерзімін көрсетіңіз",
+  "@auto_ukazhiteSrokGodnosti": {
+    "description": "Auto-extracted"
+  },
+  "auto_vyberiteKategoriyuIzSp": "Тізімнен санатты таңдаңыз",
+  "@auto_vyberiteKategoriyuIzSp": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteKorrektnuyuTsenu": "Дұрыс бағаны енгізіңіз",
+  "@auto_vvediteKorrektnuyuTsenu": {
+    "description": "Auto-extracted"
+  },
+  "auto_minimalnoeKolichestvoDo": "Минималды сома 0 ден көп болуы керек",
+  "@auto_minimalnoeKolichestvoDo": {
+    "description": "Auto-extracted"
+  },
+  "auto_ukazhiteOstatokNaSklad": "Қоймадағы қалдықты көрсетіңіз",
+  "@auto_ukazhiteOstatokNaSklad": {
+    "description": "Auto-extracted"
+  },
+  "auto_ostatokNeMozhetBytMen": "Қалдық минималды партиядан кем болмауы мүмкін",
+  "@auto_ostatokNeMozhetBytMen": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteVremyaDostavkiV": "Жеткізу уақытын сағ форматында енгізіңіз: ММ",
+  "@auto_vvediteVremyaDostavkiV": {
+    "description": "Auto-extracted"
+  },
+  "auto_ukazhiteGrafikDostavki": "Жеткізу кестесін көрсетіңіз",
+  "@auto_ukazhiteGrafikDostavki": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteMinimalnyySrokD": "Жеткізудің ең аз мерзімін енгізіңіз",
+  "@auto_vvediteMinimalnyySrokD": {
+    "description": "Auto-extracted"
+  },
+  "auto_maksimalnyySrokNeMozhe": "Максималды мерзім минимумнан кем болмауы мүмкін",
+  "@auto_maksimalnyySrokNeMozhe": {
+    "description": "Auto-extracted"
+  },
+  "auto_srokDostavkiSlishkomBo": "Жеткізу мерзімі тым ұзақ",
+  "@auto_srokDostavkiSlishkomBo": {
+    "description": "Auto-extracted"
+  },
+  "auto_vvediteVremyaOtsechkiV": "Кесу уақытын сағ форматында енгізіңіз: ММ",
+  "@auto_vvediteVremyaOtsechkiV": {
+    "description": "Auto-extracted"
+  },
+  "auto_kaloriiDolzhnyBytNeotr": "Калория теріс емес сан болуы керек",
+  "@auto_kaloriiDolzhnyBytNeotr": {
+    "description": "Auto-extracted"
+  },
+  "auto_belkiDolzhnyBytNeotrit": "Ақуыздар теріс емес сан болуы керек",
+  "@auto_belkiDolzhnyBytNeotrit": {
+    "description": "Auto-extracted"
+  },
+  "auto_zhiryDolzhnyBytNeotrit": "Майлар теріс емес сан болуы керек",
+  "@auto_zhiryDolzhnyBytNeotrit": {
+    "description": "Auto-extracted"
+  },
+  "auto_uglevodyDolzhnyBytNeot": "Көмірсулар теріс емес сан болуы керек",
+  "@auto_uglevodyDolzhnyBytNeot": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavteHotyaByOdnuFot": "Кем дегенде бір фотосурет қосыңыз",
+  "@auto_dobavteHotyaByOdnuFot": {
+    "description": "Auto-extracted"
+  },
+  "auto_sohranitIzmeneniya": "Өзгерістерді сақтау керек пе?",
+  "@auto_sohranitIzmeneniya": {
+    "description": "Auto-extracted"
+  },
+  "auto_sozdatTovar": "Өнім жасау керек пе?",
+  "@auto_sozdatTovar": {
+    "description": "Auto-extracted"
+  },
+  "auto_izmeneniyaBudutOtpravle": "Өзгерістер модерацияға жіберіледі. Өнімнің ағымдағы нұсқасы тексерілгенге дейін белсенді болып қалады.",
+  "@auto_izmeneniyaBudutOtpravle": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovarBudetOtpravlenNa": "Тауар модерацияға жіберіледі. Сатып алушылар оны тексеруден кейін көреді.",
+  "@auto_tovarBudetOtpravlenNa": {
+    "description": "Auto-extracted"
+  },
+  "auto_sozdat": "Жасау",
+  "@auto_sozdat": {
+    "description": "Auto-extracted"
+  },
+  "auto_sozdanieTovara": "Тауар жасау",
+  "@auto_sozdanieTovara": {
+    "description": "Auto-extracted"
+  },
+  "auto_redaktirovanieTovara": "Өнімді өңдеу",
+  "@auto_redaktirovanieTovara": {
+    "description": "Auto-extracted"
+  },
+  "auto_osnovnyeDannye": "Негізгі деректер",
+  "@auto_osnovnyeDannye": {
+    "description": "Auto-extracted"
+  },
+  "auto_zapolniteNazvanieOpisan": "Тауардың атын, сипаттамасын, елін және санатын толтырыңыз.",
+  "@auto_zapolniteNazvanieOpisan": {
+    "description": "Auto-extracted"
+  },
+  "auto_nazvanieTovara": "Тауардың атауы",
+  "@auto_nazvanieTovara": {
+    "description": "Auto-extracted"
+  },
+  "auto_naprimerKazahstan": "Мысалы, Қазақстан",
+  "@auto_naprimerKazahstan": {
+    "description": "Auto-extracted"
+  },
+  "auto_naprimer12Mesyatsev": "Мысалы, 12 ай",
+  "@auto_naprimer12Mesyatsev": {
+    "description": "Auto-extracted"
+  },
+  "auto_tsenaIUsloviya": "Бағасы мен шарттары",
+  "@auto_tsenaIUsloviya": {
+    "description": "Auto-extracted"
+  },
+  "auto_minimalnyeKolichestvaI": "Минималды мөлшер және жеткізу.",
+  "@auto_minimalnyeKolichestvaI": {
+    "description": "Auto-extracted"
+  },
+  "auto_tsenaZaEdinitsu": "Бір бірліктің бағасы (₸)",
+  "@auto_tsenaZaEdinitsu": {
+    "description": "Auto-extracted"
+  },
+  "auto_naprimer1450": "Мысалы, 1450",
+  "@auto_naprimer1450": {
+    "description": "Auto-extracted"
+  },
+  "auto_minimalnoeKolichestvo": "Ең аз саны",
+  "@auto_minimalnoeKolichestvo": {
+    "description": "Auto-extracted"
+  },
+  "auto_vsegoKolichestvo": "Барлығы саны",
+  "@auto_vsegoKolichestvo": {
+    "description": "Auto-extracted"
+  },
+  "auto_naprimer120": "Мысалы, 120",
+  "@auto_naprimer120": {
+    "description": "Auto-extracted"
+  },
+  "auto_sostavIHarakteristiki": "Құрамы мен сипаттамалары",
+  "@auto_sostavIHarakteristiki": {
+    "description": "Auto-extracted"
+  },
+  "auto_neobyazatelnyeDannyeZap": "Қосымша деректер: тек қажет нәрсені толтырыңыз.",
+  "@auto_neobyazatelnyeDannyeZap": {
+    "description": "Auto-extracted"
+  },
+  "auto_sostav": "Құрамы",
+  "@auto_sostav": {
+    "description": "Auto-extracted"
+  },
+  "auto_kaloriiKkal100g": "Калория (ккал/100г)",
+  "@auto_kaloriiKkal100g": {
+    "description": "Auto-extracted"
+  },
+  "auto_belkiG100g": "Ақуыздар (г/100г)",
+  "@auto_belkiG100g": {
+    "description": "Auto-extracted"
+  },
+  "auto_zhiryG100g": "Майлар (г/100г)",
+  "@auto_zhiryG100g": {
+    "description": "Auto-extracted"
+  },
+  "auto_uglevodyG100g": "Көмірсулар (г/100г)",
+  "@auto_uglevodyG100g": {
+    "description": "Auto-extracted"
+  },
+  "auto_harakteristikiTovara": "Өнімнің сипаттамалары",
+  "@auto_harakteristikiTovara": {
+    "description": "Auto-extracted"
+  },
+  "auto_nazvanie": "Атауы",
+  "@auto_nazvanie": {
+    "description": "Auto-extracted"
+  },
+  "auto_znachenie": "Мағынасы",
+  "@auto_znachenie": {
+    "description": "Auto-extracted"
+  },
+  "auto_udalitHarakteristiku": "Сипаттаманы жою",
+  "@auto_udalitHarakteristiku": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavitHarakteristiku": "Сипаттама қосу",
+  "@auto_dobavitHarakteristiku": {
+    "description": "Auto-extracted"
+  },
+  "auto_fotografiiTovara": "Тауардың фотосуреттері",
+  "@auto_fotografiiTovara": {
+    "description": "Auto-extracted"
+  },
+  "auto_dobavteNeskolkoFoto": "Бірнеше фотосурет қосыңыз",
+  "@auto_dobavteNeskolkoFoto": {
+    "description": "Auto-extracted"
+  },
+  "auto_ozhidaemayaDataDostavki": "Күтілетін жеткізу күні",
+  "@auto_ozhidaemayaDataDostavki": {
+    "description": "Auto-extracted"
+  },
+  "auto_poGrafiku": "Кесте бойынша",
+  "@auto_poGrafiku": {
+    "description": "Auto-extracted"
+  },
+  "auto_poSroku": "Мерзімі бойынша",
+  "@auto_poSroku": {
+    "description": "Auto-extracted"
+  },
+  "auto_pokupatelUviditOzhidaem": "Сатып алушы күтілетін жеткізу күнін көреді.",
+  "@auto_pokupatelUviditOzhidaem": {
+    "description": "Auto-extracted"
+  },
+  "auto_vyberiteDniNedeli": "Аптаның күндерін таңдаңыз",
+  "@auto_vyberiteDniNedeli": {
+    "description": "Auto-extracted"
+  },
+  "auto_bystryyVybor": "Жылдам таңдау",
+  "@auto_bystryyVybor": {
+    "description": "Auto-extracted"
+  },
+  "auto_vremyaDostavki": "Жеткізу уақыты",
+  "@auto_vremyaDostavki": {
+    "description": "Auto-extracted"
+  },
+  "auto_formatChchmm": "Пішім: сағ: ММ",
+  "@auto_formatChchmm": {
+    "description": "Auto-extracted"
+  },
+  "auto_nekorrektnoeVremya": "Дұрыс емес уақыт",
+  "@auto_nekorrektnoeVremya": {
+    "description": "Auto-extracted"
+  },
+  "auto_minimumDney": "Кем дегенде күндер",
+  "@auto_minimumDney": {
+    "description": "Auto-extracted"
+  },
+  "auto_maksimumDney": "Ең көп күн",
+  "@auto_maksimumDney": {
+    "description": "Auto-extracted"
+  },
+  "auto_srokPriyomaZakazaNaSe": "Тапсырысты қабылдау мерзімі бүгін",
+  "@auto_srokPriyomaZakazaNaSe": {
+    "description": "Auto-extracted"
+  },
+  "auto_kategorii": "Санаттар",
+  "@auto_kategorii": {
+    "description": "Auto-extracted"
+  },
+  "auto_poiskKategorii": "Санатты іздеу",
+  "@auto_poiskKategorii": {
+    "description": "Auto-extracted"
+  },
+  "auto_kategoriiNeNaydeny": "Санаттар табылмады",
+  "@auto_kategoriiNeNaydeny": {
+    "description": "Auto-extracted"
+  },
+  "auto_pokazatMenshe": "Аз көрсету",
+  "@auto_pokazatMenshe": {
+    "description": "Auto-extracted"
+  },
+  "auto_foto": "Фото",
+  "@auto_foto": {
+    "description": "Auto-extracted"
+  },
+  "auto_kompaniya": "Компания",
+  "@auto_kompaniya": {
+    "description": "Auto-extracted"
+  },
+  "auto_vyNeAvtorizovanyPozhal": "Сізге рұқсат жоқ. Кіріңіз.",
+  "@auto_vyNeAvtorizovanyPozhal": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosZagruzitStatis": "Статистиканы жүктеу мүмкін болмады",
+  "@auto_neUdalosZagruzitStatis": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosSformirovatAir": "AI түйіндемесін құру мүмкін болмады",
+  "@auto_neUdalosSformirovatAir": {
+    "description": "Auto-extracted"
+  },
+  "auto_statistika": "Статистика",
+  "@auto_statistika": {
+    "description": "Auto-extracted"
+  },
+  "auto_analitikaProdazh": "Сату талдауы",
+  "@auto_analitikaProdazh": {
+    "description": "Auto-extracted"
+  },
+  "auto_obnovit": "Жаңарту",
+  "@auto_obnovit": {
+    "description": "Auto-extracted"
+  },
+  "auto_vseVremya": "Барлық уақытта",
+  "@auto_vseVremya": {
+    "description": "Auto-extracted"
+  },
+  "auto_vybrat": "Таңдау",
+  "@auto_vybrat": {
+    "description": "Auto-extracted"
+  },
+  "auto_obshchayaVyruchka": "Жалпы кіріс",
+  "@auto_obshchayaVyruchka": {
+    "description": "Auto-extracted"
+  },
+  "auto_vyruchkaZaMesyats": "Бір айдағы кіріс",
+  "@auto_vyruchkaZaMesyats": {
+    "description": "Auto-extracted"
+  },
+  "auto_zaNedelyu": "Бір апта ішінде",
+  "@auto_zaNedelyu": {
+    "description": "Auto-extracted"
+  },
+  "auto_vsegoZakazov": "Барлық тапсырыстар",
+  "@auto_vsegoZakazov": {
+    "description": "Auto-extracted"
+  },
+  "auto_obzor": "Шолу",
+  "@auto_obzor": {
+    "description": "Auto-extracted"
+  },
+  "auto_sredniyChek": "Орташа чек",
+  "@auto_sredniyChek": {
+    "description": "Auto-extracted"
+  },
+  "auto_dinamikaVyruchki": "Табыс динамикасы",
+  "@auto_dinamikaVyruchki": {
+    "description": "Auto-extracted"
+  },
+  "auto_netDannyh": "Деректер жоқ",
+  "@auto_netDannyh": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavleny": "Жеткізілді",
+  "@auto_dostavleny": {
+    "description": "Auto-extracted"
+  },
+  "auto_otpravleny": "Жіберілді",
+  "@auto_otpravleny": {
+    "description": "Auto-extracted"
+  },
+  "auto_podtverzhdeny": "Расталды",
+  "@auto_podtverzhdeny": {
+    "description": "Auto-extracted"
+  },
+  "auto_ozhidayut": "Күтеді",
+  "@auto_ozhidayut": {
+    "description": "Auto-extracted"
+  },
+  "auto_otmeneny": "Жойылды",
+  "@auto_otmeneny": {
+    "description": "Auto-extracted"
+  },
+  "auto_statusyZakazov": "Тапсырыс күйлері",
+  "@auto_statusyZakazov": {
+    "description": "Auto-extracted"
+  },
+  "auto_etotMesyats": "Бұл ай",
+  "@auto_etotMesyats": {
+    "description": "Auto-extracted"
+  },
+  "auto_proshlyyMesyats": "Өткен ай",
+  "@auto_proshlyyMesyats": {
+    "description": "Auto-extracted"
+  },
+  "auto_srDostavka": "Ср. жеткізу",
+  "@auto_srDostavka": {
+    "description": "Auto-extracted"
+  },
+  "auto_pokupateli": "Сатып алушылар",
+  "@auto_pokupateli": {
+    "description": "Auto-extracted"
+  },
+  "auto_vsego": "Барлығы",
+  "@auto_vsego": {
+    "description": "Auto-extracted"
+  },
+  "auto_postoyannye": "Тұрақты",
+  "@auto_postoyannye": {
+    "description": "Auto-extracted"
+  },
+  "auto_novyeMes": "Жаңа / ай.",
+  "@auto_novyeMes": {
+    "description": "Auto-extracted"
+  },
+  "auto_otpravlen": "жіберілді",
+  "@auto_otpravlen": {
+    "description": "Auto-extracted"
+  },
+  "auto_otmenyon": "жойылды",
+  "@auto_otmenyon": {
+    "description": "Auto-extracted"
+  },
+  "auto_ozhidaet": "күтеді",
+  "@auto_ozhidaet": {
+    "description": "Auto-extracted"
+  },
+  "auto_poslednieOtzyvy": "Соңғы пікірлер",
+  "@auto_poslednieOtzyvy": {
+    "description": "Auto-extracted"
+  },
+  "auto_aianaliz": "AI-талдау",
+  "@auto_aianaliz": {
+    "description": "Auto-extracted"
+  },
+  "auto_generiruyuAianaliz": "AI талдауын жасау…",
+  "@auto_generiruyuAianaliz": {
+    "description": "Auto-extracted"
+  },
+  "auto_obshchieHarakteristiki": "Жалпы сипаттамалары",
+  "@auto_obshchieHarakteristiki": {
+    "description": "Auto-extracted"
+  },
+  "auto_kalorii": "Калория",
+  "@auto_kalorii": {
+    "description": "Auto-extracted"
+  },
+  "auto_belki": "Ақуыздар",
+  "@auto_belki": {
+    "description": "Auto-extracted"
+  },
+  "auto_zhiry": "Майлар",
+  "@auto_zhiry": {
+    "description": "Auto-extracted"
+  },
+  "auto_uglevody": "Көмірсулар",
+  "@auto_uglevody": {
+    "description": "Auto-extracted"
+  },
+  "auto_pitanie": "Тамақтану",
+  "@auto_pitanie": {
+    "description": "Auto-extracted"
+  },
+  "auto_zapolniteNazvanieIZnac": "Сипаттаманың атауы мен мәнін толтырыңыз",
+  "@auto_zapolniteNazvanieIZnac": {
+    "description": "Auto-extracted"
+  },
+  "auto_takayaHarakteristikaUzh": "Бұл сипаттама қазірдің өзінде қосылды",
+  "@auto_takayaHarakteristikaUzh": {
+    "description": "Auto-extracted"
+  },
+  "auto_tolkoChto": "жаңа ғана",
+  "@auto_tolkoChto": {
+    "description": "Auto-extracted"
+  },
+  "auto_minutu": "минут",
+  "@auto_minutu": {
+    "description": "Auto-extracted"
+  },
+  "auto_minuty": "минуттар",
+  "@auto_minuty": {
+    "description": "Auto-extracted"
+  },
+  "auto_minut": "минут",
+  "@auto_minut": {
+    "description": "Auto-extracted"
+  },
+  "auto_chas": "сағат",
+  "@auto_chas": {
+    "description": "Auto-extracted"
+  },
+  "auto_chasa": "сағат",
+  "@auto_chasa": {
+    "description": "Auto-extracted"
+  },
+  "auto_chasov": "сағат",
+  "@auto_chasov": {
+    "description": "Auto-extracted"
+  },
+  "auto_den": "күн",
+  "@auto_den": {
+    "description": "Auto-extracted"
+  },
+  "auto_dnya": "күн",
+  "@auto_dnya": {
+    "description": "Auto-extracted"
+  },
+  "auto_dney": "күндер",
+  "@auto_dney": {
+    "description": "Auto-extracted"
+  },
+  "auto_segodnya": "Бүгін",
+  "@auto_segodnya": {
+    "description": "Auto-extracted"
+  },
+  "auto_zavtra": "Ертең",
+  "@auto_zavtra": {
+    "description": "Auto-extracted"
+  },
+  "auto_segodnya_1": "бүгін",
+  "@auto_segodnya_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_zavtra_1": "ертең",
+  "@auto_zavtra_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavka_1": "Жеткізу",
+  "@auto_dostavka_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavkaSegodnya": "Бүгін жеткізу",
+  "@auto_dostavkaSegodnya": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavkaZavtra": "Ертең жеткізу",
+  "@auto_dostavkaZavtra": {
+    "description": "Auto-extracted"
+  },
+  "auto_ezhednevno_1": "Күнделікті",
+  "@auto_ezhednevno_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_budni_1": "Жұмыс күндері",
+  "@auto_budni_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_vyhodnye_1": "Демалыс күндері",
+  "@auto_vyhodnye_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_yanvarya": "қаңтар",
+  "@auto_yanvarya": {
+    "description": "Auto-extracted"
+  },
+  "auto_fevralya": "ақпан",
+  "@auto_fevralya": {
+    "description": "Auto-extracted"
+  },
+  "auto_marta": "Наурыз",
+  "@auto_marta": {
+    "description": "Auto-extracted"
+  },
+  "auto_aprelya": "сәуір",
+  "@auto_aprelya": {
+    "description": "Auto-extracted"
+  },
+  "auto_maya": "мамыр",
+  "@auto_maya": {
+    "description": "Auto-extracted"
+  },
+  "auto_iyunya": "маусым",
+  "@auto_iyunya": {
+    "description": "Auto-extracted"
+  },
+  "auto_iyulya": "шілде",
+  "@auto_iyulya": {
+    "description": "Auto-extracted"
+  },
+  "auto_avgusta": "тамыз",
+  "@auto_avgusta": {
+    "description": "Auto-extracted"
+  },
+  "auto_sentyabrya": "қыркүйек",
+  "@auto_sentyabrya": {
+    "description": "Auto-extracted"
+  },
+  "auto_oktyabrya": "қазан",
+  "@auto_oktyabrya": {
+    "description": "Auto-extracted"
+  },
+  "auto_noyabrya": "қараша",
+  "@auto_noyabrya": {
+    "description": "Auto-extracted"
+  },
+  "auto_dekabrya": "желтоқсан",
+  "@auto_dekabrya": {
+    "description": "Auto-extracted"
+  },
+  "auto_may2026": "мамыр 2026",
+  "@auto_may2026": {
+    "description": "Auto-extracted"
+  },
+  "auto_may": "мамыр",
+  "@auto_may": {
+    "description": "Auto-extracted"
+  },
+  "auto_may2026_1": "Мамыр 2026",
+  "@auto_may2026_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_yanv2026": "қаңтар 2026",
+  "@auto_yanv2026": {
+    "description": "Auto-extracted"
+  },
+  "auto_yanv": "қаңтар.",
+  "@auto_yanv": {
+    "description": "Auto-extracted"
+  },
+  "auto_yanv_1": "қаңтар",
+  "@auto_yanv_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_yanv_2": "Қаңтар",
+  "@auto_yanv_2": {
+    "description": "Auto-extracted"
+  },
+  "auto_yanv_3": "Қаңтар",
+  "@auto_yanv_3": {
+    "description": "Auto-extracted"
+  },
+  "auto_may2026_2": "мамыр 2026",
+  "@auto_may2026_2": {
+    "description": "Auto-extracted"
+  },
+  "auto_may_1": "Мамыр",
+  "@auto_may_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_yanvar": "қаңтар",
+  "@auto_yanvar": {
+    "description": "Auto-extracted"
+  },
+  "auto_fevral": "ақпан",
+  "@auto_fevral": {
+    "description": "Auto-extracted"
+  },
+  "auto_mart": "Наурыз",
+  "@auto_mart": {
+    "description": "Auto-extracted"
+  },
+  "auto_aprel": "сәуір",
+  "@auto_aprel": {
+    "description": "Auto-extracted"
+  },
+  "auto_iyun": "маусым",
+  "@auto_iyun": {
+    "description": "Auto-extracted"
+  },
+  "auto_iyul": "шілде",
+  "@auto_iyul": {
+    "description": "Auto-extracted"
+  },
+  "auto_avgust": "тамыз",
+  "@auto_avgust": {
+    "description": "Auto-extracted"
+  },
+  "auto_sentyabr": "қыркүйек",
+  "@auto_sentyabr": {
+    "description": "Auto-extracted"
+  },
+  "auto_oktyabr": "қазан",
+  "@auto_oktyabr": {
+    "description": "Auto-extracted"
+  },
+  "auto_noyabr": "қараша",
+  "@auto_noyabr": {
+    "description": "Auto-extracted"
+  },
+  "auto_dekabr": "желтоқсан",
+  "@auto_dekabr": {
+    "description": "Auto-extracted"
+  },
+  "auto_fev": "ақпан",
+  "@auto_fev": {
+    "description": "Auto-extracted"
+  },
+  "auto_mar": "мар",
+  "@auto_mar": {
+    "description": "Auto-extracted"
+  },
+  "auto_apr": "сәуір",
+  "@auto_apr": {
+    "description": "Auto-extracted"
+  },
+  "auto_iyun_1": "маусым",
+  "@auto_iyun_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_iyul_1": "шілде",
+  "@auto_iyul_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_avg": "тамыз",
+  "@auto_avg": {
+    "description": "Auto-extracted"
+  },
+  "auto_sen": "сен",
+  "@auto_sen": {
+    "description": "Auto-extracted"
+  },
+  "auto_okt": "Окта",
+  "@auto_okt": {
+    "description": "Auto-extracted"
+  },
+  "auto_noya": "Нұх",
+  "@auto_noya": {
+    "description": "Auto-extracted"
+  },
+  "auto_dek": "дек",
+  "@auto_dek": {
+    "description": "Auto-extracted"
+  },
+  "auto_fev_1": "ақпан.",
+  "@auto_fev_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_mar_1": "мар.",
+  "@auto_mar_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_apr_1": "сәуір.",
+  "@auto_apr_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_may_2": "мамыр.",
+  "@auto_may_2": {
+    "description": "Auto-extracted"
+  },
+  "auto_iyun_2": "маусым.",
+  "@auto_iyun_2": {
+    "description": "Auto-extracted"
+  },
+  "auto_iyul_2": "шілде.",
+  "@auto_iyul_2": {
+    "description": "Auto-extracted"
+  },
+  "auto_avg_1": "тамыз.",
+  "@auto_avg_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_sen_1": "сен.",
+  "@auto_sen_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_okt_1": "қазан.",
+  "@auto_okt_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_noya_1": "Нұх.",
+  "@auto_noya_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_dek_1": "желтоқсан.",
+  "@auto_dek_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_yanv_4": "Қаңтар.",
+  "@auto_yanv_4": {
+    "description": "Auto-extracted"
+  },
+  "auto_otzyv_1": "шолу",
+  "@auto_otzyv_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_otzyva": "кері байланыс",
+  "@auto_otzyva": {
+    "description": "Auto-extracted"
+  },
+  "auto_otzyvov": "Пікірлер",
+  "@auto_otzyvov": {
+    "description": "Auto-extracted"
+  },
+  "auto_yo": "е",
+  "@auto_yo": {
+    "description": "Auto-extracted"
+  },
+  "auto_e": "е",
+  "@auto_e": {
+    "description": "Auto-extracted"
+  },
+  "auto_a": "а",
+  "@auto_a": {
+    "description": "Auto-extracted"
+  },
+  "auto_b": "б",
+  "@auto_b": {
+    "description": "Auto-extracted"
+  },
+  "auto_v": "в",
+  "@auto_v": {
+    "description": "Auto-extracted"
+  },
+  "auto_g": "г",
+  "@auto_g": {
+    "description": "Auto-extracted"
+  },
+  "auto_d": "д",
+  "@auto_d": {
+    "description": "Auto-extracted"
+  },
+  "auto_zh": "ж",
+  "@auto_zh": {
+    "description": "Auto-extracted"
+  },
+  "auto_z": "з",
+  "@auto_z": {
+    "description": "Auto-extracted"
+  },
+  "auto_i": "және",
+  "@auto_i": {
+    "description": "Auto-extracted"
+  },
+  "auto_y": "ж",
+  "@auto_y": {
+    "description": "Auto-extracted"
+  },
+  "auto_k": "к",
+  "@auto_k": {
+    "description": "Auto-extracted"
+  },
+  "auto_l": "л",
+  "@auto_l": {
+    "description": "Auto-extracted"
+  },
+  "auto_m": "м",
+  "@auto_m": {
+    "description": "Auto-extracted"
+  },
+  "auto_n": "н",
+  "@auto_n": {
+    "description": "Auto-extracted"
+  },
+  "auto_o": "туралы",
+  "@auto_o": {
+    "description": "Auto-extracted"
+  },
+  "auto_p": "Б",
+  "@auto_p": {
+    "description": "Auto-extracted"
+  },
+  "auto_r": "р",
+  "@auto_r": {
+    "description": "Auto-extracted"
+  },
+  "auto_s": "с",
+  "@auto_s": {
+    "description": "Auto-extracted"
+  },
+  "auto_t": "т",
+  "@auto_t": {
+    "description": "Auto-extracted"
+  },
+  "auto_u": "у",
+  "@auto_u": {
+    "description": "Auto-extracted"
+  },
+  "auto_f": "ф",
+  "@auto_f": {
+    "description": "Auto-extracted"
+  },
+  "auto_h": "х",
+  "@auto_h": {
+    "description": "Auto-extracted"
+  },
+  "auto_ts": "о",
+  "@auto_ts": {
+    "description": "Auto-extracted"
+  },
+  "auto_ch": "с",
+  "@auto_ch": {
+    "description": "Auto-extracted"
+  },
+  "auto_sh": "ш",
+  "@auto_sh": {
+    "description": "Auto-extracted"
+  },
+  "auto_shch": "Ш",
+  "@auto_shch": {
+    "description": "Auto-extracted"
+  },
+  "auto_y_1": "лар",
+  "@auto_y_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_e_1": "Е",
+  "@auto_e_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_yu": "ю",
+  "@auto_yu": {
+    "description": "Auto-extracted"
+  },
+  "auto_ya": "мен",
+  "@auto_ya": {
+    "description": "Auto-extracted"
+  },
+  "auto_ks": "кс",
+  "@auto_ks": {
+    "description": "Auto-extracted"
+  },
+  "auto_dzh": "дж",
+  "@auto_dzh": {
+    "description": "Auto-extracted"
+  },
+  "auto_optovyeZakupki": "Көтерме сатып алу",
+  "@auto_optovyeZakupki": {
+    "description": "Auto-extracted"
+  },
+  "auto_takzheMozhnoUkazatNov": "Тапсырысты рәсімдеу кезінде жаңа мекенжайды да көрсетуге болады.",
+  "@auto_takzheMozhnoUkazatNov": {
+    "description": "Auto-extracted"
+  },
+  "auto_vPrilozheniiPoElektro": "қосымшада, электрондық пошта немесе сенім телефоны арқылы.",
+  "@auto_vPrilozheniiPoElektro": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaKonfiguratsiiApi": "API конфигурациясы қатесі",
+  "@auto_oshibkaKonfiguratsiiApi": {
+    "description": "Auto-extracted"
+  },
+  "auto_tyAianalitikPostavshchi": "Сіз жеткізушілердің AI талдаушысысыз. Тек орыс тілінде жауап беруді ұмытпаңыз. ",
+  "@auto_tyAianalitikPostavshchi": {
+    "description": "Auto-extracted"
+  },
+  "auto_vseTvoiOtvetyDolzhnyB": "Сіздің барлық жауаптарыңыз 100% орыс тілінде болуы керек. ",
+  "@auto_vseTvoiOtvetyDolzhnyB": {
+    "description": "Auto-extracted"
+  },
+  "auto_nikogdaNeIspolzuyDrugi": "Ешқашан басқа тілдерді ешқандай жағдайда қолданбаңыз.",
+  "@auto_nikogdaNeIspolzuyDrugi": {
+    "description": "Auto-extracted"
+  },
+  "auto_zaprosZanyalSlishkomDo": "Сұрау тым ұзаққа созылды",
+  "@auto_zaprosZanyalSlishkomDo": {
+    "description": "Auto-extracted"
+  },
+  "auto_provertePodklyuchenieK": "Интернет байланысын тексеріңіз",
+  "@auto_provertePodklyuchenieK": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaServeraPoprobuem": "Сервер қатесі. Басқа модельді қолданып көрейік",
+  "@auto_oshibkaServeraPoprobuem": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaAiServisa": "AI қызметі қатесі",
+  "@auto_oshibkaAiServisa": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPriObrabotkeOtv": "Жауапты өңдеу кезінде қате",
+  "@auto_oshibkaPriObrabotkeOtv": {
+    "description": "Auto-extracted"
+  },
+  "auto_airezyumeUspeshnoSgener": "AI түйіндемесі сәтті жасалды",
+  "@auto_airezyumeUspeshnoSgener": {
+    "description": "Auto-extracted"
+  },
+  "auto_sobiraetsya": "Жиналады",
+  "@auto_sobiraetsya": {
+    "description": "Auto-extracted"
+  },
+  "auto_spisokTovarovNeDolzhen": "Тауарлар тізімі бос болмауы керек",
+  "@auto_spisokTovarovNeDolzhen": {
+    "description": "Auto-extracted"
+  },
+  "auto_useridDolzhenBytPolozh": "userId оң болуы керек",
+  "@auto_useridDolzhenBytPolozh": {
+    "description": "Auto-extracted"
+  },
+  "auto_neobhodimoPeredatHotya": "Жаңарту үшін кем дегенде бір өрісті жіберу керек",
+  "@auto_neobhodimoPeredatHotya": {
+    "description": "Auto-extracted"
+  },
+  "auto_tekushchiyINovyyParol": "Ағымдағы және жаңа құпия сөз қажет",
+  "@auto_tekushchiyINovyyParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_podtverzhdenieParolyaNe": "Құпия сөзді растау бірдей емес",
+  "@auto_podtverzhdenieParolyaNe": {
+    "description": "Auto-extracted"
+  },
+  "auto_useridIAddressidDolzhn": "userId және addressId оң болуы керек",
+  "@auto_useridIAddressidDolzhn": {
+    "description": "Auto-extracted"
+  },
+  "auto_orderidNeDolzhenBytPu": "orderId бос болмауы керек",
+  "@auto_orderidNeDolzhenBytPu": {
+    "description": "Auto-extracted"
+  },
+  "auto_productidNeDolzhenByt": "productId бос болмауы керек",
+  "@auto_productidNeDolzhenByt": {
+    "description": "Auto-extracted"
+  },
+  "auto_reviewidNeDolzhenBytP": "reviewId бос болмауы керек",
+  "@auto_reviewidNeDolzhenBytP": {
+    "description": "Auto-extracted"
+  },
+  "auto_statusNeDolzhenBytPus": "күй бос болмауы керек",
+  "@auto_statusNeDolzhenBytPus": {
+    "description": "Auto-extracted"
+  },
+  "auto_moderatoridDolzhenBytP": "moderatorId оң болуы керек",
+  "@auto_moderatoridDolzhenBytP": {
+    "description": "Auto-extracted"
+  },
+  "auto_reasonNeDolzhenBytPus": "reason бос болмауы керек",
+  "@auto_reasonNeDolzhenBytPus": {
+    "description": "Auto-extracted"
+  },
+  "auto_nameNeDolzhenBytPusty": "name бос болмауы керек",
+  "@auto_nameNeDolzhenBytPusty": {
+    "description": "Auto-extracted"
+  },
+  "auto_idDolzhenBytPolozhitel": "id оң болуы керек",
+  "@auto_idDolzhenBytPolozhitel": {
+    "description": "Auto-extracted"
+  },
+  "auto_chatidDolzhenBytPolozh": "chatId оң болуы керек",
+  "@auto_chatidDolzhenBytPolozh": {
+    "description": "Auto-extracted"
+  },
+  "auto_textNeDolzhenBytPusty": "мәтін бос болмауы керек",
+  "@auto_textNeDolzhenBytPusty": {
+    "description": "Auto-extracted"
+  },
+  "auto_polzovatel": "пайдаланушы",
+  "@auto_polzovatel": {
+    "description": "Auto-extracted"
+  },
+  "auto_moderator_1": "модератор",
+  "@auto_moderator_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_nevernyyFormatOtvetaSe": "Сервердің жауап беру форматы дұрыс емес: questions немесе total өрістері жоқ",
+  "@auto_nevernyyFormatOtvetaSe": {
+    "description": "Auto-extracted"
+  },
+  "auto_nevernyyFormatOtvetaSe_1": "Сервердің жауап беру форматы дұрыс емес: questions тізім болуы керек",
+  "@auto_nevernyyFormatOtvetaSe_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_nevernyyFormatOtvetaSe_2": "Қате сервер жауап пішімі: total сан болуы керек",
+  "@auto_nevernyyFormatOtvetaSe_2": {
+    "description": "Auto-extracted"
+  },
+  "auto_voprosNeDolzhenBytPus": "Сұрақ бос болмауы керек",
+  "@auto_voprosNeDolzhenBytPus": {
+    "description": "Auto-extracted"
+  },
+  "auto_voprosDolzhenSoderzhat": "Сұрақ кем дегенде 10 таңбадан тұруы керек",
+  "@auto_voprosDolzhenSoderzhat": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosOtvetit": "Жауап беру мүмкін болмады",
+  "@auto_neUdalosOtvetit": {
+    "description": "Auto-extracted"
+  },
+  "auto_questionidNeDolzhenByt": "questionId бос болмауы керек",
+  "@auto_questionidNeDolzhenByt": {
+    "description": "Auto-extracted"
+  },
+  "auto_supplieruseridDolzhenBy": "supplierUserId оң болуы керек",
+  "@auto_supplieruseridDolzhenBy": {
+    "description": "Auto-extracted"
+  },
+  "auto_answertextNeDolzhenByt": "answerText бос болмауы керек",
+  "@auto_answertextNeDolzhenByt": {
+    "description": "Auto-extracted"
+  },
+  "auto_responsetextNeDolzhenB": "responseText бос болмауы керек",
+  "@auto_responsetextNeDolzhenB": {
+    "description": "Auto-extracted"
+  },
+  "auto_vklyucheny": "енгізілген",
+  "@auto_vklyucheny": {
+    "description": "Auto-extracted"
+  },
+  "auto_otklyucheny": "ажыратылған",
+  "@auto_otklyucheny": {
+    "description": "Auto-extracted"
+  },
+  "auto_oooOptovayaKompaniya": "Көтерме Компания ЖШҚ",
+  "@auto_oooOptovayaKompaniya": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavkaPoRossii": "Ресей бойынша жеткізу",
+  "@auto_dostavkaPoRossii": {
+    "description": "Auto-extracted"
+  },
+  "auto_postavshchikKachestvenny": "10 жылдық тәжірибесі бар сапалы тауарларды көтерме жеткізуші",
+  "@auto_postavshchikKachestvenny": {
+    "description": "Auto-extracted"
+  },
+  "auto_gMoskvaUlPrimernayaD": "Мәскеу қ., Приморная к-сі, 1-үй",
+  "@auto_gMoskvaUlPrimernayaD": {
+    "description": "Auto-extracted"
+  },
+  "auto_oooTorgovyyDom": "Сауда үйі ЖШҚ",
+  "@auto_oooTorgovyyDom": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavkaPoRossiiISng": "Ресей мен ТМД бойынша жеткізу",
+  "@auto_dostavkaPoRossiiISng": {
+    "description": "Auto-extracted"
+  },
+  "auto_nadyozhnyyPartnyor": "Сенімді серіктес",
+  "@auto_nadyozhnyyPartnyor": {
+    "description": "Auto-extracted"
+  },
+  "auto_krupnyyOptovyyPostavshc": "Кең ассортименті бар ірі көтерме жеткізуші",
+  "@auto_krupnyyOptovyyPostavshc": {
+    "description": "Auto-extracted"
+  },
+  "auto_gSanktpeterburgPrNevsk": "Санкт-Петербург қаласы, Невский даңғылы, 50-үй",
+  "@auto_gSanktpeterburgPrNevsk": {
+    "description": "Auto-extracted"
+  },
+  "auto_oooEkspressPostavki": "Экспресс жеткізу ЖШС",
+  "@auto_oooEkspressPostavki": {
+    "description": "Auto-extracted"
+  },
+  "auto_ekspressdostavka24Chasa": "Жедел жеткізу 24 сағат",
+  "@auto_ekspressdostavka24Chasa": {
+    "description": "Auto-extracted"
+  },
+  "auto_spetsializiruemsyaNaBys": "Біз тауарларды тез көтерме жеткізуге маманданамыз",
+  "@auto_spetsializiruemsyaNaBys": {
+    "description": "Auto-extracted"
+  },
+  "auto_gEkaterinburgUlGlavnay": "Екатеринбург қ., Главная к-сі, 100-үй",
+  "@auto_gEkaterinburgUlGlavnay": {
+    "description": "Auto-extracted"
+  },
+  "auto_standartnayaDostavka": "Стандартты жеткізу",
+  "@auto_standartnayaDostavka": {
+    "description": "Auto-extracted"
+  },
+  "auto_nadyozhnyyPostavshchikO": "Көтерме тауарлардың сенімді жеткізушісі",
+  "@auto_nadyozhnyyPostavshchikO": {
+    "description": "Auto-extracted"
+  },
+  "auto_rossiya": "Ресей",
+  "@auto_rossiya": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovar1OtPostavshchika": "Өнім берушіден 1 тауар 123",
+  "@auto_tovar1OtPostavshchika": {
+    "description": "Auto-extracted"
+  },
+  "auto_kategoriya1": "1 санат",
+  "@auto_kategoriya1": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovar2OtPostavshchika": "Өнім берушіден 2 тауар 123",
+  "@auto_tovar2OtPostavshchika": {
+    "description": "Auto-extracted"
+  },
+  "auto_kategoriya2": "2 санат",
+  "@auto_kategoriya2": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovar1OtPostavshchika_1": "Өнім берушіден 1 тауар 456",
+  "@auto_tovar1OtPostavshchika_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovar1OtPostavshchika_2": "Өнім берушіден 1 тауар 789",
+  "@auto_tovar1OtPostavshchika_2": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovar2OtPostavshchika_1": "Өнім берушіден 2 тауар 789",
+  "@auto_tovar2OtPostavshchika_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_supplieridNeDolzhenByt": "supplierId бос болмауы керек",
+  "@auto_supplieridNeDolzhenByt": {
+    "description": "Auto-extracted"
+  },
+  "auto_vremyaOzhidaniyaIsteklo_1": "Күту уақыты аяқталды",
+  "@auto_vremyaOzhidaniyaIsteklo_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_taymaut": "Күту уақыты",
+  "@auto_taymaut": {
+    "description": "Auto-extracted"
+  },
+  "auto_otpravleno": "жіберілді",
+  "@auto_otpravleno": {
+    "description": "Auto-extracted"
+  },
+  "auto_vPuti_1": "Жолда",
+  "@auto_vPuti_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_prinyat_1": "Қабылданды",
+  "@auto_prinyat_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_otmena_1": "бас тарту",
+  "@auto_otmena_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_otmenen": "жойылды",
+  "@auto_otmenen": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavlen_1": "Жеткізілді",
+  "@auto_dostavlen_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_poluchil": "Алды",
+  "@auto_poluchil": {
+    "description": "Auto-extracted"
+  },
+  "auto_neAvtorizovan_1": "Рұқсат етілмеген",
+  "@auto_neAvtorizovan_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_serverVernulNekorrektny": "Сервер қате жауапты қайтарды",
+  "@auto_serverVernulNekorrektny": {
+    "description": "Auto-extracted"
+  },
+  "auto_offsetNeDolzhenBytOtr": "offset теріс болмауы керек",
+  "@auto_offsetNeDolzhenBytOtr": {
+    "description": "Auto-extracted"
+  },
+  "auto_limitDolzhenBytPolozhi": "шектеу оң болуы керек",
+  "@auto_limitDolzhenBytPolozhi": {
+    "description": "Auto-extracted"
+  },
+  "auto_targetuseridDolzhenByt": "targetUserId оң болуы керек",
+  "@auto_targetuseridDolzhenByt": {
+    "description": "Auto-extracted"
+  },
+  "auto_apiproductresolverNeUda": "ApiProductResolver: каталогты жүктеу мүмкін болмады",
+  "@auto_apiproductresolverNeUda": {
+    "description": "Auto-extracted"
+  },
+  "auto_serverVernulPustyeDann": "Сервер пайдаланушының бос деректерін қайтарды",
+  "@auto_serverVernulPustyeDann": {
+    "description": "Auto-extracted"
+  },
+  "auto_nevernyyKodIliIstyokS": "Қате код немесе жарамдылық мерзімі аяқталды",
+  "@auto_nevernyyKodIliIstyokS": {
+    "description": "Auto-extracted"
+  },
+  "auto_deystvieNedostupnoDlya": "Әрекет сіздің рөліңіз үшін қол жетімді емес",
+  "@auto_deystvieNedostupnoDlya": {
+    "description": "Auto-extracted"
+  },
+  "auto_slishkomMnogoPopytokPo": "Тым көп әрекет жасаңыз, кейінірек көріңіз",
+  "@auto_slishkomMnogoPopytokPo": {
+    "description": "Auto-extracted"
+  },
+  "auto_ok": "Жарайды",
+  "@auto_ok": {
+    "description": "Auto-extracted"
+  },
+  "auto_itogo5Tovarov": "Барлығы: 5 тауар",
+  "@auto_itogo5Tovarov": {
+    "description": "Auto-extracted"
+  },
+  "auto_1Tovar": "1 тауар",
+  "@auto_1Tovar": {
+    "description": "Auto-extracted"
+  },
+  "auto_2Tovara": "2 тауар",
+  "@auto_2Tovara": {
+    "description": "Auto-extracted"
+  },
+  "auto_5Tovarov": "5 тауар",
+  "@auto_5Tovarov": {
+    "description": "Auto-extracted"
+  },
+  "auto_ili": " немесе ",
+  "@auto_ili": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovar_1": "тауар",
+  "@auto_tovar_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovara": "тауар",
+  "@auto_tovara": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovarov": "тауарлар",
+  "@auto_tovarov": {
+    "description": "Auto-extracted"
+  },
+  "auto_nm": "өнім",
+  "@auto_nm": {
+    "description": "Auto-extracted"
+  },
+  "auto_zakazSIdOrderidNeNay": "Идентификатормен тапсырыс беру {orderId} табылған жоқ",
+  "@auto_zakazSIdOrderidNeNay": {
+    "description": "Auto-extracted"
+  },
+  "auto_vashZakazOrderidPodtve": "Сіздің тапсырысыңыз #{orderId} расталды",
+  "@auto_vashZakazOrderidPodtve": {
+    "description": "Auto-extracted"
+  },
+  "auto_zakazOrderidDostavlen": "Тапсырыс #{orderId} жеткізілді",
+  "@auto_zakazOrderidDostavlen": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovarSIdProductidNeN": "ID бар өнім {productId} табылған жоқ",
+  "@auto_tovarSIdProductidNeN": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaSetiProvertePod": "Желі қатесі. Қосылымды тексеріп, қайталап көріңіз",
+  "@auto_oshibkaSetiProvertePod": {
+    "description": "Auto-extracted"
+  },
+  "auto_prevyshenoVremyaOzhidan": "Сервердің жауабын күту уақытынан асып кетті",
+  "@auto_prevyshenoVremyaOzhidan": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaValidatsiiDetail": "Тексеру қатесі: {details}",
+  "@auto_oshibkaValidatsiiDetail": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosRazobratSoobsh": "Хабарламаны бөлшектеу мүмкін болмады",
+  "@auto_neUdalosRazobratSoobsh": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosSgenerirovatOt": "Ai жауабын жасау мүмкін болмады: {reason}",
+  "@auto_neUdalosSgenerirovatOt": {
+    "description": "Auto-extracted"
+  },
+  "auto_tazazayaayayoyo": "([,.;:!?) [\\t]*([A-Za-za-Yaa-yaeekkguuiіәһһаң])",
+  "@auto_tazazayaayayoyo": {
+    "description": "Auto-extracted"
+  },
+  "auto_i_1": " және ",
+  "@auto_i_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_zaprosVypolnen": "Сұраныс орындалды",
+  "@auto_zaprosVypolnen": {
+    "description": "Auto-extracted"
+  },
+  "auto_nekorrektnyyOtvetApi": "қате жауап API",
+  "@auto_nekorrektnyyOtvetApi": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPrilozheniya": "Қолданба қатесі",
+  "@auto_oshibkaPrilozheniya": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosRazobratIsklyu": "ерекшелікті талдау мүмкін болмады",
+  "@auto_neUdalosRazobratIsklyu": {
+    "description": "Auto-extracted"
+  },
+  "auto_nekorrektnoeSoobshchenie": "қате қолдау хабары",
+  "@auto_nekorrektnoeSoobshchenie": {
+    "description": "Auto-extracted"
+  },
+  "auto_jsonNeProshyolValidats": "JSON тексеруден өткен жоқ",
+  "@auto_jsonNeProshyolValidats": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosRazobratJson": "JSON-удалось бөлшектеу мүмкін болмады",
+  "@auto_neUdalosRazobratJson": {
+    "description": "Auto-extracted"
+  },
+  "auto_uvedomlenie": "Хабарлама",
+  "@auto_uvedomlenie": {
+    "description": "Auto-extracted"
+  },
+  "auto_nekorrektnoeUvedomlenie": "қате хабарлама",
+  "@auto_nekorrektnoeUvedomlenie": {
+    "description": "Auto-extracted"
+  },
+  "auto_aigeneratsiya": "AI генерациясы",
+  "@auto_aigeneratsiya": {
+    "description": "Auto-extracted"
+  },
+  "auto_nekorrektnyyOtvetAi": "қате жауап AI",
+  "@auto_nekorrektnyyOtvetAi": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaRazboraSoobshche": "Хабарламаны талдау қатесі",
+  "@auto_oshibkaRazboraSoobshche": {
+    "description": "Auto-extracted"
+  },
+  "auto_bezZagolovka": "(тақырып жоқ)",
+  "@auto_bezZagolovka": {
+    "description": "Auto-extracted"
+  },
+  "auto_lyubyeSimvolyVklyuchaya": "&lt;кез келген таңбалар, соның ішінде \\",
+  "@auto_lyubyeSimvolyVklyuchaya": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleIdPustoe": "Id өрісі бос",
+  "@auto_poleIdPustoe": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleIdNeSootvetstvuet": "Id өрісі UUID форматына сәйкес келмейді",
+  "@auto_poleIdNeSootvetstvuet": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleBodyPustoe": "Дене өрісі бос",
+  "@auto_poleBodyPustoe": {
+    "description": "Auto-extracted"
+  },
+  "auto_poluchen": ", алынды ",
+  "@auto_poluchen": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleTimestampNekorrektn": "Timestamp өрісі дұрыс емес немесе ISO 8601 де серияланбаған",
+  "@auto_poleTimestampNekorrektn": {
+    "description": "Auto-extracted"
+  },
+  "auto_neizvestnoeZnachenieTyp": "Белгісіз type мәні",
+  "@auto_neizvestnoeZnachenieTyp": {
+    "description": "Auto-extracted"
+  },
+  "auto_neizvestnoeZnachenieSev": "Severity белгісіз мағынасы",
+  "@auto_neizvestnoeZnachenieSev": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleIdDolzhnoBytNepus": "Id өрісі бос жол болмауы керек",
+  "@auto_poleIdDolzhnoBytNepus": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleTypeDolzhnoBytStr": "Type өрісі жол болуы керек",
+  "@auto_poleTypeDolzhnoBytStr": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleSeverityDolzhnoByt": "Severity өрісі жол болуы керек",
+  "@auto_poleSeverityDolzhnoByt": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleBodyDolzhnoBytStr": "Дене өрісі жол болуы керек",
+  "@auto_poleBodyDolzhnoBytStr": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleTitleDolzhnoBytSt": "Тақырып өрісі жол болуы керек",
+  "@auto_poleTitleDolzhnoBytSt": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleTimestampNeSeriali": "Timestamp өрісі ISO 8601 де серияланбайды",
+  "@auto_poleTimestampNeSeriali": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleTimestampNeParsits": "Timestamp өрісі ISO 8601 сияқты сызылмайды",
+  "@auto_poleTimestampNeParsits": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleTimestampDolzhnoBy": "Timestamp өрісі ISO 8601 немесе DateTime жолы болуы керек",
+  "@auto_poleTimestampDolzhnoBy": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleLanguageDolzhnoByt": "Тіл өрісі жол болуы керек",
+  "@auto_poleLanguageDolzhnoByt": {
+    "description": "Auto-extracted"
+  },
+  "auto_rekomenduetsyaUkazyvat": " metadata көрсету ұсынылады[",
+  "@auto_rekomenduetsyaUkazyvat": {
+    "description": "Auto-extracted"
+  },
+  "auto_propustiliIzzaThrottle": "throttle үшін жіберіп алды",
+  "@auto_propustiliIzzaThrottle": {
+    "description": "Auto-extracted"
+  },
+  "auto_voobshcheNeDoshli": "мүлдем жеткен жоқ",
+  "@auto_voobshcheNeDoshli": {
+    "description": "Auto-extracted"
+  },
+  "auto_notificationserviceUseri": "NotificationService: userId орнатылмаған, инициализация өткізілмеген",
+  "@auto_notificationserviceUseri": {
+    "description": "Auto-extracted"
+  },
+  "auto_notificationserviceOchis": "NotificationService: logout күйін тазарту",
+  "@auto_notificationserviceOchis": {
+    "description": "Auto-extracted"
+  },
+  "auto_optimisticHoldAktivenP": "Optimistic hold белсенді, есептегіштерді қайта жазуды өткізіп жіберіңіз",
+  "@auto_optimisticHoldAktivenP": {
+    "description": "Auto-extracted"
+  },
+  "auto_useridIzmenilsyaVoVrem": "refresh кезінде userId өзгерді, жаңартудан бас тарту",
+  "@auto_useridIzmenilsyaVoVrem": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosObnovitSchyotc": "Барлық әрекеттерден кейін хабарландыру есептегіштерін жаңарту мүмкін болмады, біз кэшті қолданамыз",
+  "@auto_neUdalosObnovitSchyotc": {
+    "description": "Auto-extracted"
+  },
+  "auto_keshUvedomleniyUstarel": "Хабарландыру кэші ескірген, жүктеуді өткізіп жіберіңіз",
+  "@auto_keshUvedomleniyUstarel": {
+    "description": "Auto-extracted"
+  },
+  "auto_polzovatelRazloginilsya": "Пайдаланушы разлогинился, тоқтату polling",
+  "@auto_polzovatelRazloginilsya": {
+    "description": "Auto-extracted"
+  },
+  "auto_optimisticHoldIstyokVo": "Optimistic hold мерзімі аяқталды, polling жаңартыңыз",
+  "@auto_optimisticHoldIstyokVo": {
+    "description": "Auto-extracted"
+  },
+  "auto_pollingPropushchenAktiv": "Polling өткізіп алды: optimistic hold белсенді",
+  "@auto_pollingPropushchenAktiv": {
+    "description": "Auto-extracted"
+  },
+  "auto_retrywithbackoffNeozhida": "_retryWithBackoff: күтпеген циклды аяқтау",
+  "@auto_retrywithbackoffNeozhida": {
+    "description": "Auto-extracted"
+  },
+  "auto_svodkaStatistikiZakeshi": "Статистиканың қысқаша мазмұны",
+  "@auto_svodkaStatistikiZakeshi": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPriKeshirovanii": "Жиынтықты кэштеу қатесі",
+  "@auto_oshibkaPriKeshirovanii": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPriPolucheniiKe": "Жиынтық кэшті алу кезінде қате",
+  "@auto_oshibkaPriPolucheniiKe": {
+    "description": "Auto-extracted"
+  },
+  "auto_aiRezyumeZakeshirovano": "AI түйіндеме кэштелген",
+  "@auto_aiRezyumeZakeshirovano": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPriKeshirovanii_1": "AI түйіндемесін кэштеу қатесі",
+  "@auto_oshibkaPriKeshirovanii_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPriPolucheniiKe_1": "AI түйіндеме кэшін алу кезінде қате",
+  "@auto_oshibkaPriPolucheniiKe_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_keshStatistikiOchishche": "Статистикалық Кэш тазартылды",
+  "@auto_keshStatistikiOchishche": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPriOchistkeKesh": "Кэшті тазалау қатесі",
+  "@auto_oshibkaPriOchistkeKesh": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosVosstanovitPos": "Жеткізушіні қоймадан қалпына келтіру мүмкін болмады",
+  "@auto_neUdalosVosstanovitPos": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaZagruzkiIzbranno": "Таңдаулыларды жадтан жүктеу қатесі",
+  "@auto_oshibkaZagruzkiIzbranno": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaSohraneniyaIzbra": "Таңдаулыларды сақтау қатесі",
+  "@auto_oshibkaSohraneniyaIzbra": {
+    "description": "Auto-extracted"
+  },
+  "auto_purchasetemplateidNevali": "PurchaseTemplate.id невалиден",
+  "@auto_purchasetemplateidNevali": {
+    "description": "Auto-extracted"
+  },
+  "auto_purchasetemplatenameNeva": "PurchaseTemplate.name невалиден",
+  "@auto_purchasetemplatenameNeva": {
+    "description": "Auto-extracted"
+  },
+  "auto_purchasetemplatecreatedat": "PurchaseTemplate.createdAt жарамсыз",
+  "@auto_purchasetemplatecreatedat": {
+    "description": "Auto-extracted"
+  },
+  "auto_purchasetemplateupdatedat": "PurchaseTemplate.updatedAt жарамсыз",
+  "@auto_purchasetemplateupdatedat": {
+    "description": "Auto-extracted"
+  },
+  "auto_purchasetemplateitemsNev": "PurchaseTemplate.items жарамсыз",
+  "@auto_purchasetemplateitemsNev": {
+    "description": "Auto-extracted"
+  },
+  "auto_purchasetemplatecreatedat_1": "PurchaseTemplate.createdAt ISO-8601 емес",
+  "@auto_purchasetemplatecreatedat_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_purchasetemplateupdatedat_1": "PurchaseTemplate.UPDATEDAT ISO-8601 емес",
+  "@auto_purchasetemplateupdatedat_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemNeObekt": "Templateitem нысан емес",
+  "@auto_templateitemNeObekt": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemproductidNev": "TemplateItem.productId жарамсыз",
+  "@auto_templateitemproductidNev": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemsupplieridNe": "TemplateItem.supplierId жарамсыз",
+  "@auto_templateitemsupplieridNe": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemquantityNeva": "TemplateItem.quantity жарамсыз",
+  "@auto_templateitemquantityNeva": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemproductnameN": "TemplateItem.productName жарамсыз",
+  "@auto_templateitemproductnameN": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemproductimageu": "TemplateItem.productImageUrl жарамсыз",
+  "@auto_templateitemproductimageu": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemsuppliername": "TemplateItem.supplierName жарамсыз",
+  "@auto_templateitemsuppliername": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitempriceperunit": "TemplateItem.pricePerUnit жарамсыз",
+  "@auto_templateitempriceperunit": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemminquantityN": "TemplateItem.minQuantity жарамсыз",
+  "@auto_templateitemminquantityN": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemmaxquantityN": "TemplateItem.maxQuantity жарамсыз",
+  "@auto_templateitemmaxquantityN": {
+    "description": "Auto-extracted"
+  },
+  "auto_imyaShablonaOt1Do50": "Үлгі атауы: 1-ден 50 таңбаға дейін",
+  "@auto_imyaShablonaOt1Do50": {
+    "description": "Auto-extracted"
+  },
+  "auto_shablonSTakimImenemUz": "Мұндай атаумен Шаблон қазірдің өзінде бар",
+  "@auto_shablonSTakimImenemUz": {
+    "description": "Auto-extracted"
+  },
+  "auto_shablonNeMozhetBytPus": "Үлгі бос болуы мүмкін емес",
+  "@auto_shablonNeMozhetBytPus": {
+    "description": "Auto-extracted"
+  },
+  "auto_vShabloneMozhetBytNe": "Үлгіде 100-ден көп емес позиция болуы мүмкін.",
+  "@auto_vShabloneMozhetBytNe": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostignutLimitShablonov": "Шаблондар шегіне жетті: 20. Қажет емес үлгіні алып тастаңыз.",
+  "@auto_dostignutLimitShablonov": {
+    "description": "Auto-extracted"
+  },
+  "auto_nikomu": "ешкімге",
+  "@auto_nikomu": {
+    "description": "Auto-extracted"
+  },
+  "auto_loadforcurrentuserRassog": "loadForCurrentUser: авторизацияның сәйкес келмеуі ",
+  "@auto_loadforcurrentuserRassog": {
+    "description": "Auto-extracted"
+  },
+  "auto_loadforcurrentuserNeUda": "loadForCurrentUser: SharedPreferences оқи алмады",
+  "@auto_loadforcurrentuserNeUda": {
+    "description": "Auto-extracted"
+  },
+  "auto_clearcacheNeUdalosOchi": "clearCache: SharedPreferences тазалау мүмкін болмады",
+  "@auto_clearcacheNeUdalosOchi": {
+    "description": "Auto-extracted"
+  },
+  "auto_persistNeUdalosZapisat": "_persist: шаблондарды SharedPreferences-ке жазу мүмкін болмады",
+  "@auto_persistNeUdalosZapisat": {
+    "description": "Auto-extracted"
+  },
+  "auto_napitokCocacolaGazirova": "Coca-Cola газдалған сусын 1.5 л",
+  "@auto_napitokCocacolaGazirova": {
+    "description": "Auto-extracted"
+  },
+  "auto_cocacolaSamyyPopulyarny": "Coca - Cola-әлемдегі ең танымал газдалған сусын. Оның өткір, бірақ жағымды дәмі бар, шөлді жақсы басады, салқындатылған ішу ұсынылады.",
+  "@auto_cocacolaSamyyPopulyarny": {
+    "description": "Auto-extracted"
+  },
+  "auto_gazirovannyeNapitki": "Газдалған сусындар",
+  "@auto_gazirovannyeNapitki": {
+    "description": "Auto-extracted"
+  },
+  "auto_gazirovannayaVodaSahar": "Газдалған су, қант, бояғыш (қант түсі [IV]), қышқылдықты реттегіш (ортофосфор қышқылы), табиғи хош иістер, кофеин.",
+  "@auto_gazirovannayaVodaSahar": {
+    "description": "Auto-extracted"
+  },
+  "auto_kazahstan": "Қазақстан",
+  "@auto_kazahstan": {
+    "description": "Auto-extracted"
+  },
+  "auto_torgovayaMarka": "Сауда белгісі",
+  "@auto_torgovayaMarka": {
+    "description": "Auto-extracted"
+  },
+  "auto_lineyka": "Сызғыш",
+  "@auto_lineyka": {
+    "description": "Auto-extracted"
+  },
+  "auto_klassicheskaya": "Классикалық",
+  "@auto_klassicheskaya": {
+    "description": "Auto-extracted"
+  },
+  "auto_mansa": "Манса",
+  "@auto_mansa": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavkaMezhgorod": "Жеткізу қалааралық",
+  "@auto_dostavkaMezhgorod": {
+    "description": "Auto-extracted"
+  },
+  "auto_chetverg1700": "Бейсенбі 17: 00",
+  "@auto_chetverg1700": {
+    "description": "Auto-extracted"
+  },
+  "auto_vs21Sentyabrya": "21 қыркүйек жексенбі",
+  "@auto_vs21Sentyabrya": {
+    "description": "Auto-extracted"
+  },
+  "auto_sb23Sentyabrya1200": "Сенбі 23 қыркүйек 12: 00",
+  "@auto_sb23Sentyabrya1200": {
+    "description": "Auto-extracted"
+  },
+  "auto_kakoytoKrutoyPostavshch": "Кейбір керемет жеткізуші",
+  "@auto_kakoytoKrutoyPostavshch": {
+    "description": "Auto-extracted"
+  },
+  "auto_sb20Sentyabrya": "Сенбі 20 қыркүйек",
+  "@auto_sb20Sentyabrya": {
+    "description": "Auto-extracted"
+  },
+  "auto_kazahskiyTenge": "Қазақша теңге",
+  "@auto_kazahskiyTenge": {
+    "description": "Auto-extracted"
+  },
+  "auto_rossiyskiyRubl": "Ресей рублі",
+  "@auto_rossiyskiyRubl": {
+    "description": "Auto-extracted"
+  },
+  "auto_russkiy": "Орыс",
+  "@auto_russkiy": {
+    "description": "Auto-extracted"
+  },
+  "auto_aza": "Қазақ",
+  "@auto_aza": {
+    "description": "Auto-extracted"
+  },
+  "auto_azasha": "Қазақша",
+  "@auto_azasha": {
+    "description": "Auto-extracted"
+  },
+  "auto_netDostupnyhPostavshchi": "Жеткізушілер жоқ",
+  "@auto_netDostupnyhPostavshchi": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaZapuska": "Іске қосу қатесі",
+  "@auto_oshibkaZapuska": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaZapuskaPrilozhen": "Қолданбаны іске қосу қатесі",
+  "@auto_oshibkaZapuskaPrilozhen": {
+    "description": "Auto-extracted"
+  },
+  "auto_poprobuytePerezapustitP": "Қолданбаны қайта іске қосып көріңіз",
+  "@auto_poprobuytePerezapustitP": {
+    "description": "Auto-extracted"
+  },
+  "auto_pereezzhal": "көшті",
+  "@auto_pereezzhal": {
+    "description": "Auto-extracted"
   }
 }

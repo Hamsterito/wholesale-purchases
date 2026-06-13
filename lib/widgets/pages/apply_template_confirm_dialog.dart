@@ -1,6 +1,6 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-import '../../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 
 /// Диалог «Заменить корзину товарами из шаблона?». Показывается только

@@ -7,7 +7,7 @@ import '../models/chat.dart';
 import '../models/message.dart';
 import '../models/support_message.dart';
 import '../services/api/api_service.dart';
-import '../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/message/message_localization.dart';
 import '../theme/app_color_palette.dart';

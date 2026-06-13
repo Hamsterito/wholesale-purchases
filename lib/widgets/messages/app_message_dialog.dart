@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/message.dart';
-import '../../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import 'app_message_snackbar.dart' show AppMessageMetrics, severityFillColor;
 
@@ -23,7 +23,7 @@ class AppMessageDialog {
 
     assert(
       actions == null || actions.length <= 3,
-      context.l10n.auto_appmessagedialogPodderzh,
+      context.l10n.getString('auto_appmessagedialogPodderzh'),
     );
 
     final List<Widget> resolvedActions;

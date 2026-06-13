@@ -19,6 +19,7 @@ import 'package:flutter_project/services/store/templates_store.dart';
 import 'package:flutter_project/widgets/navigation/navigation_shell.dart';
 import 'package:flutter_project/widgets/messages/top_message.dart';
 import 'package:flutter_project/theme/app_color_palette.dart';
+import 'services/localization/localization_extension.dart';
 
 // Главная функция приложения Flutter
 void main() {
@@ -220,7 +221,7 @@ class _ErrorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Ошибка запуска',
+      title: context.l10n.getString('auto_oshibkaZapuska'),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
@@ -231,14 +232,14 @@ class _ErrorApp extends StatelessWidget {
               children: [
                 const Icon(Icons.error_outline, size: 64, color: Colors.red),
                 const SizedBox(height: 16),
-                const Text(
-                  'Ошибка запуска приложения',
+                Text(
+                  context.l10n.getString('auto_oshibkaZapuskaPrilozhen'),
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Попробуйте перезапустить приложение',
+                Text(
+                  context.l10n.getString('auto_poprobuytePerezapustitP'),
                   style: TextStyle(fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
@@ -276,7 +277,7 @@ class _MyAppState extends State<MyApp> {
   late final ThemeData _darkTheme = _buildDarkTheme(_primaryColor);
 
   // Слушает корневой Navigator и закрывает активный top-message баннер
-  // при смене маршрута, чтобы баннер не "переезжал" на новый экран.
+  // при смене маршрута, чтобы баннер не context.l10n.getString('auto_pereezzhal') на новый экран.
   final TopMessageNavigatorObserver _topMessageObserver =
       TopMessageNavigatorObserver();
 
@@ -332,7 +333,7 @@ class _MyAppState extends State<MyApp> {
         return AppLocalizationsProvider(
           localizations: localizations,
           child: MaterialApp(
-            title: 'Оптовые закупки',
+            title: context.l10n.getString('auto_optovyeZakupki'),
             debugShowCheckedModeBanner: false,
             locale: Locale(language.code.code),
             localizationsDelegates: const [

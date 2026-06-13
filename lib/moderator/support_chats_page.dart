@@ -8,7 +8,7 @@ import '../theme/app_color_palette.dart';
 import '../models/message.dart';
 import '../models/support_message.dart';
 import '../services/api/api_service.dart';
-import '../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/message/message_localization.dart';
 import '../widgets/chat/chat_thread_view.dart';
@@ -101,7 +101,7 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
       if (!mounted) return;
       if (!silent) {
         setState(() {
-          _error = context.l10n.auto_neUdalosZagruzitChaty;
+          _error = context.l10n.getString('auto_neUdalosZagruzitChaty');
         });
       }
     } finally {
@@ -143,7 +143,7 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
-        isOpen ? context.l10n.auto_otkryt : context.l10n.auto_zakryt_1,
+        isOpen ? context.l10n.getString('auto_otkryt') : context.l10n.getString('auto_zakryt_1'),
         style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w600,
@@ -208,13 +208,13 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
       child: Row(
         children: [
           _buildFilterButton(
-            label: context.l10n.auto_otkrytye,
+            label: context.l10n.getString('auto_otkrytye'),
             selected: !_showHistory,
             onTap: () => setState(() => _showHistory = false),
           ),
           const SizedBox(width: 10),
           _buildFilterButton(
-            label: context.l10n.auto_istoriya,
+            label: context.l10n.getString('auto_istoriya'),
             selected: _showHistory,
             onTap: () => setState(() => _showHistory = true),
           ),
@@ -280,8 +280,8 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
                     child: visibleChats.isEmpty
                         ? ModeratorEmptyState(
                             message: _showHistory
-                                ? context.l10n.auto_zakrytyhChatovPokaNet
-                                : context.l10n.auto_otkrytyhChatovSeychasN,
+                                ? context.l10n.getString('auto_zakrytyhChatovPokaNet')
+                                : context.l10n.getString('auto_otkrytyhChatovSeychasN'),
                           )
                         : ListView.separated(
                             padding: const EdgeInsets.all(16),
@@ -475,7 +475,7 @@ class _ModeratorSupportDialogPageState
     } catch (_) {
       if (!mounted) return;
       if (!silent) {
-        setState(() => _error = context.l10n.auto_neUdalosZagruzitSoobsh);
+        setState(() => _error = context.l10n.getString('auto_neUdalosZagruzitSoobsh'));
       }
     } finally {
       if (mounted && !silent) {
@@ -488,18 +488,18 @@ class _ModeratorSupportDialogPageState
     final moderatorId = AuthStorage.userId ?? 0;
     if (moderatorId <= 0) {
       _showSnack(
-        context.l10n.auto_neUdalosOpredelitSotru,
+        context.l10n.getString('auto_neUdalosOpredelitSotru'),
         severity: MessageSeverity.error,
       );
       return;
     }
     if (_isChatClosed) {
-      _showSnack(context.l10n.auto_chatUzheZakryt, severity: MessageSeverity.warning);
+      _showSnack(context.l10n.getString('auto_chatUzheZakryt'), severity: MessageSeverity.warning);
       return;
     }
     final text = rawText.trim();
     if (text.isEmpty) {
-      _showSnack(context.l10n.auto_vvediteSoobshchenie, severity: MessageSeverity.warning);
+      _showSnack(context.l10n.getString('auto_vvediteSoobshchenie'), severity: MessageSeverity.warning);
       return;
     }
 
@@ -526,7 +526,7 @@ class _ModeratorSupportDialogPageState
       const prefix = 'Exception: ';
       if (msg.startsWith(prefix)) msg = msg.substring(prefix.length);
       _showSnack(
-        msg.trim().isEmpty ? context.l10n.auto_neUdalosOtpravitSoobsh : msg,
+        msg.trim().isEmpty ? context.l10n.getString('auto_neUdalosOtpravitSoobsh') : msg,
         severity: MessageSeverity.error,
       );
     } finally {
@@ -540,13 +540,13 @@ class _ModeratorSupportDialogPageState
     final moderatorId = AuthStorage.userId ?? 0;
     if (moderatorId <= 0) {
       _showSnack(
-        context.l10n.auto_neUdalosOpredelitSotru,
+        context.l10n.getString('auto_neUdalosOpredelitSotru'),
         severity: MessageSeverity.error,
       );
       return;
     }
     if (_isChatClosed) {
-      _showSnack(context.l10n.auto_chatUzheZakryt, severity: MessageSeverity.warning);
+      _showSnack(context.l10n.getString('auto_chatUzheZakryt'), severity: MessageSeverity.warning);
       return;
     }
 
@@ -560,7 +560,7 @@ title: Text(context.l10n.closeChatTitle),
              controller: reasonController,
              maxLines: 3,
              decoration: InputDecoration(
-               hintText: context.l10n.auto_prichinaZakrytiyaNeobya,
+               hintText: context.l10n.getString('auto_prichinaZakrytiyaNeobya'),
              ),
            ),
            actions: [
@@ -588,11 +588,11 @@ title: Text(context.l10n.closeChatTitle),
       );
       if (!mounted) return;
       setState(() => _chat = closed);
-      _showSnack(context.l10n.auto_chatZakryt);
+      _showSnack(context.l10n.getString('auto_chatZakryt'));
       await _loadThread(silent: true);
     } catch (_) {
       if (!mounted) return;
-      _showSnack(context.l10n.auto_neUdalosZakrytChat, severity: MessageSeverity.error);
+      _showSnack(context.l10n.getString('auto_neUdalosZakrytChat'), severity: MessageSeverity.error);
     } finally {
       if (mounted) {
         setState(() => _isClosing = false);
@@ -626,7 +626,7 @@ title: Text(context.l10n.closeChatTitle),
     final moderatorId = AuthStorage.userId ?? 0;
 
     final composerEnabled = _isChatOpen && !_isSending;
-    final composerHint = _isChatClosed ? context.l10n.auto_chatZakryt : context.l10n.auto_otvetitPolzovatelyu;
+    final composerHint = _isChatClosed ? context.l10n.getString('auto_chatZakryt') : context.l10n.getString('auto_otvetitPolzovatelyu');
 
     return Scaffold(
       // resizeToAvoidBottomInset = true по умолчанию - Scaffold поднимает
@@ -672,7 +672,7 @@ title: Text(context.l10n.closeChatTitle),
                 borderRadius: BorderRadius.circular(999),
               ),
               child: Text(
-                _isChatClosed ? context.l10n.auto_chatZakryt : context.l10n.auto_chatOtkryt,
+                _isChatClosed ? context.l10n.getString('auto_chatZakryt') : context.l10n.getString('auto_chatOtkryt'),
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
@@ -695,7 +695,7 @@ title: Text(context.l10n.closeChatTitle),
           else
             IconButton(
               onPressed: _isChatClosed ? null : _closeChat,
-              tooltip: _isChatClosed ? context.l10n.auto_chatUzheZakryt : context.l10n.auto_zakrytChat,
+              tooltip: _isChatClosed ? context.l10n.getString('auto_chatUzheZakryt') : context.l10n.getString('auto_zakrytChat'),
               icon: const Icon(Icons.lock_outline),
             ),
         ],

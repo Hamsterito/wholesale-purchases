@@ -1,11 +1,11 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../services/api/two_factor_api.dart';
 import '../../services/app_logger.dart';
-import '../../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../../services/storage/auth_storage.dart';
 import '../../services/storage/otp_cooldown_store.dart';
 import '../../theme/app_color_palette.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
-import '../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/logout_flow.dart';
 import '../widgets/profile/user_avatar.dart';
@@ -40,7 +40,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
   Widget build(BuildContext context) {
     final palette = AppColorPalette.of(context);
     final l10n = context.l10n;
-    final name = AuthStorage.name ?? context.l10n.auto_postavshchik;
+    final name = AuthStorage.name ?? context.l10n.getString('auto_postavshchik');
     final email = AuthStorage.email ?? '-';
     final supplierName = AuthStorage.supplierName ?? '-';
 
@@ -59,9 +59,9 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
               ),
             ),
           ),
-          _InfoTile(label: context.l10n.auto_imya_1, value: name),
-          _InfoTile(label: context.l10n.auto_elPochta_1, value: email),
-          _InfoTile(label: context.l10n.auto_kompaniya, value: supplierName),
+          _InfoTile(label: context.l10n.getString('auto_imya_1'), value: name),
+          _InfoTile(label: context.l10n.getString('auto_elPochta_1'), value: email),
+          _InfoTile(label: context.l10n.getString('auto_kompaniya'), value: supplierName),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () => performLogout(context),
@@ -69,7 +69,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
               backgroundColor: palette.error,
               foregroundColor: Colors.white,
             ),
-            child: const Text(context.l10n.auto_vyyti),
+            child: Text(context.l10n.getString('auto_vyyti')),
           ),
         ],
       ),

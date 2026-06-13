@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/supplier_product.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
-import '../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/smart_image.dart';
@@ -103,7 +103,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
     } catch (e) {
       if (!mounted) return;
       _showSnack(
-        _extractErrorMessage(e, fallback: context.l10n.auto_oshibkaOperatsii),
+        _extractErrorMessage(e, fallback: context.l10n.getString('auto_oshibkaOperatsii')),
         isError: true,
       );
     }
@@ -114,7 +114,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
   Future<void> _deleteProduct(SupplierProduct product) async {
     final userId = _userId;
     if (userId == null || userId == 0) {
-      _showSnack(context.l10n.auto_trebuetsyaAvtorizatsiya, isError: true);
+      _showSnack(context.l10n.getString('auto_trebuetsyaAvtorizatsiya'), isError: true);
       return;
     }
     if (_deletingIds.contains(product.id)) {
@@ -176,7 +176,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
               moderationStatus: 'rejected',
               moderationComment: hiddenMessage?.isNotEmpty == true
                   ? hiddenMessage
-                  : context.l10n.auto_tovarSnyatSPublikatsii,
+                  : context.l10n.getString('auto_tovarSnyatSPublikatsii'),
               stockQuantity: 0,
             );
           }).toList();
@@ -190,10 +190,10 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
         _showSnack(
           hiddenMessage?.isNotEmpty == true
               ? hiddenMessage!
-              : context.l10n.auto_tovarSnyatSPublikatsii_1,
+              : context.l10n.getString('auto_tovarSnyatSPublikatsii_1'),
         );
       } else {
-        _showSnack(context.l10n.auto_tovarUdalyon);
+        _showSnack(context.l10n.getString('auto_tovarUdalyon'));
       }
     } catch (e) {
       _showSnack(
@@ -424,7 +424,7 @@ Expanded(
                 Expanded(
                   child: _MetricTile(
                     icon: Icons.payments_outlined,
-                    label: context.l10n.auto_tsena,
+                    label: context.l10n.getString('auto_tsena'),
                     value: '${product.pricePerUnit} \u20B8',
                   ),
                 ),
@@ -432,7 +432,7 @@ Expanded(
                 Expanded(
                   child: _MetricTile(
                     icon: Icons.inventory_2_outlined,
-                    label: context.l10n.auto_minPartiya,
+                    label: context.l10n.getString('auto_minPartiya'),
                     value: '${product.minQuantity} шт.',
                   ),
                 ),
@@ -440,7 +440,7 @@ Expanded(
                 Expanded(
                   child: _MetricTile(
                     icon: Icons.all_inbox_outlined,
-                    label: context.l10n.auto_ostatok,
+                    label: context.l10n.getString('auto_ostatok'),
                     value: stockQuantityLabel,
                   ),
                 ),
@@ -584,8 +584,8 @@ Expanded(
                           ),
                         ),
                         const SizedBox(height: 18),
-                        const Text(
-                          context.l10n.auto_pokaNetTovarov,
+                        Text(
+                          context.l10n.getString('auto_pokaNetTovarov'),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20,
@@ -594,7 +594,7 @@ Expanded(
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          context.l10n.auto_dobavtePervyyTovarIOt,
+                          context.l10n.getString('auto_dobavtePervyyTovarIOt'),
                           textAlign: TextAlign.center,
                           style: TextStyle(color: colorScheme.onSurfaceVariant),
                         ),
@@ -630,7 +630,7 @@ Expanded(
         onPressed: _isSubmitting || _deletingIds.isNotEmpty
             ? null
             : () => _openProductWizard(),
-        tooltip: context.l10n.auto_dobavitTovar,
+        tooltip: context.l10n.getString('auto_dobavitTovar'),
         backgroundColor: _isDark
             ? AppColorPalette.of(context).accentMist
             : AppColorPalette.of(context).accent,

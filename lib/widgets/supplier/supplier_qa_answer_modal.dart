@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/question.dart';
 import '../../models/product.dart';
-import '../../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../smart_image.dart';
 
@@ -122,7 +122,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: Text(
-                  context.l10n.auto_otvetitNaVopros,
+                  context.l10n.getString('auto_otvetitNaVopros'),
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -152,7 +152,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              context.l10n.auto_tovar,
+                              context.l10n.getString('auto_tovar'),
                               style: TextStyle(
                                 fontSize: 12,
                                 color: palette.muted,
@@ -185,7 +185,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      context.l10n.auto_vopros,
+                      context.l10n.getString('auto_vopros'),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -221,7 +221,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      context.l10n.auto_vashOtvet,
+                      context.l10n.getString('auto_vashOtvet'),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -345,7 +345,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
                           side: BorderSide(color: palette.line),
                         ),
                         child: Text(
-                          context.l10n.auto_otmena,
+                          context.l10n.getString('auto_otmena'),
                           style: TextStyle(color: palette.ink),
                         ),
                       ),

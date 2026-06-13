@@ -19,7 +19,7 @@ extension LanguageCodeExtension on LanguageCode {
       case LanguageCode.russian:
         return 'Русский';
       case LanguageCode.kazakh:
-        return 'Қазақ';
+        return 'Қазақша';
     }
   }
 

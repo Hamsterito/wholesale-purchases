@@ -5665,5 +5665,857 @@
   "auto_optovyeZakupki": "Оптовые закупки",
   "@auto_optovyeZakupki": {
     "description": "Auto-extracted"
+  },
+  "auto_takzheMozhnoUkazatNov": "Также можно указать новый адрес при оформлении заказа.",
+  "@auto_takzheMozhnoUkazatNov": {
+    "description": "Auto-extracted"
+  },
+  "auto_vPrilozheniiPoElektro": "в приложении, по электронной почте или по телефону горячей линии.",
+  "@auto_vPrilozheniiPoElektro": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaKonfiguratsiiApi": "Ошибка конфигурации API",
+  "@auto_oshibkaKonfiguratsiiApi": {
+    "description": "Auto-extracted"
+  },
+  "auto_tyAianalitikPostavshchi": "Ты AI-аналитик поставщиков. ОБЯЗАТЕЛЬНО отвечай ТОЛЬКО на русском языке. ",
+  "@auto_tyAianalitikPostavshchi": {
+    "description": "Auto-extracted"
+  },
+  "auto_vseTvoiOtvetyDolzhnyB": "Все твои ответы должны быть на 100% на русском. ",
+  "@auto_vseTvoiOtvetyDolzhnyB": {
+    "description": "Auto-extracted"
+  },
+  "auto_nikogdaNeIspolzuyDrugi": "Никогда не используй другие языки ни при каких обстоятельствах.",
+  "@auto_nikogdaNeIspolzuyDrugi": {
+    "description": "Auto-extracted"
+  },
+  "auto_zaprosZanyalSlishkomDo": "Запрос занял слишком долго",
+  "@auto_zaprosZanyalSlishkomDo": {
+    "description": "Auto-extracted"
+  },
+  "auto_provertePodklyuchenieK": "Проверьте подключение к интернету",
+  "@auto_provertePodklyuchenieK": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaServeraPoprobuem": "Ошибка сервера. Попробуем другую модель",
+  "@auto_oshibkaServeraPoprobuem": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaAiServisa": "Ошибка AI сервиса",
+  "@auto_oshibkaAiServisa": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPriObrabotkeOtv": "Ошибка при обработке ответа",
+  "@auto_oshibkaPriObrabotkeOtv": {
+    "description": "Auto-extracted"
+  },
+  "auto_airezyumeUspeshnoSgener": "AI-резюме успешно сгенерировано",
+  "@auto_airezyumeUspeshnoSgener": {
+    "description": "Auto-extracted"
+  },
+  "auto_sobiraetsya": "Собирается",
+  "@auto_sobiraetsya": {
+    "description": "Auto-extracted"
+  },
+  "auto_spisokTovarovNeDolzhen": "Список товаров не должен быть пустым",
+  "@auto_spisokTovarovNeDolzhen": {
+    "description": "Auto-extracted"
+  },
+  "auto_useridDolzhenBytPolozh": "userId должен быть положительным",
+  "@auto_useridDolzhenBytPolozh": {
+    "description": "Auto-extracted"
+  },
+  "auto_neobhodimoPeredatHotya": "Необходимо передать хотя бы одно поле для обновления",
+  "@auto_neobhodimoPeredatHotya": {
+    "description": "Auto-extracted"
+  },
+  "auto_tekushchiyINovyyParol": "Текущий и новый пароль обязательны",
+  "@auto_tekushchiyINovyyParol": {
+    "description": "Auto-extracted"
+  },
+  "auto_podtverzhdenieParolyaNe": "Подтверждение пароля не совпадает",
+  "@auto_podtverzhdenieParolyaNe": {
+    "description": "Auto-extracted"
+  },
+  "auto_useridIAddressidDolzhn": "userId и addressId должны быть положительными",
+  "@auto_useridIAddressidDolzhn": {
+    "description": "Auto-extracted"
+  },
+  "auto_orderidNeDolzhenBytPu": "orderId не должен быть пустым",
+  "@auto_orderidNeDolzhenBytPu": {
+    "description": "Auto-extracted"
+  },
+  "auto_productidNeDolzhenByt": "productId не должен быть пустым",
+  "@auto_productidNeDolzhenByt": {
+    "description": "Auto-extracted"
+  },
+  "auto_reviewidNeDolzhenBytP": "reviewId не должен быть пустым",
+  "@auto_reviewidNeDolzhenBytP": {
+    "description": "Auto-extracted"
+  },
+  "auto_statusNeDolzhenBytPus": "status не должен быть пустым",
+  "@auto_statusNeDolzhenBytPus": {
+    "description": "Auto-extracted"
+  },
+  "auto_moderatoridDolzhenBytP": "moderatorId должен быть положительным",
+  "@auto_moderatoridDolzhenBytP": {
+    "description": "Auto-extracted"
+  },
+  "auto_reasonNeDolzhenBytPus": "reason не должен быть пустым",
+  "@auto_reasonNeDolzhenBytPus": {
+    "description": "Auto-extracted"
+  },
+  "auto_nameNeDolzhenBytPusty": "name не должен быть пустым",
+  "@auto_nameNeDolzhenBytPusty": {
+    "description": "Auto-extracted"
+  },
+  "auto_idDolzhenBytPolozhitel": "id должен быть положительным",
+  "@auto_idDolzhenBytPolozhitel": {
+    "description": "Auto-extracted"
+  },
+  "auto_chatidDolzhenBytPolozh": "chatId должен быть положительным",
+  "@auto_chatidDolzhenBytPolozh": {
+    "description": "Auto-extracted"
+  },
+  "auto_textNeDolzhenBytPusty": "text не должен быть пустым",
+  "@auto_textNeDolzhenBytPusty": {
+    "description": "Auto-extracted"
+  },
+  "auto_polzovatel": "пользователь",
+  "@auto_polzovatel": {
+    "description": "Auto-extracted"
+  },
+  "auto_moderator_1": "модератор",
+  "@auto_moderator_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_nevernyyFormatOtvetaSe": "Неверный формат ответа сервера: отсутствуют поля questions или total",
+  "@auto_nevernyyFormatOtvetaSe": {
+    "description": "Auto-extracted"
+  },
+  "auto_nevernyyFormatOtvetaSe_1": "Неверный формат ответа сервера: questions должен быть списком",
+  "@auto_nevernyyFormatOtvetaSe_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_nevernyyFormatOtvetaSe_2": "Неверный формат ответа сервера: total должен быть числом",
+  "@auto_nevernyyFormatOtvetaSe_2": {
+    "description": "Auto-extracted"
+  },
+  "auto_voprosNeDolzhenBytPus": "Вопрос не должен быть пустым",
+  "@auto_voprosNeDolzhenBytPus": {
+    "description": "Auto-extracted"
+  },
+  "auto_voprosDolzhenSoderzhat": "Вопрос должен содержать минимум 10 символов",
+  "@auto_voprosDolzhenSoderzhat": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosOtvetit": "Не удалось ответить",
+  "@auto_neUdalosOtvetit": {
+    "description": "Auto-extracted"
+  },
+  "auto_questionidNeDolzhenByt": "questionId не должен быть пустым",
+  "@auto_questionidNeDolzhenByt": {
+    "description": "Auto-extracted"
+  },
+  "auto_supplieruseridDolzhenBy": "supplierUserId должен быть положительным",
+  "@auto_supplieruseridDolzhenBy": {
+    "description": "Auto-extracted"
+  },
+  "auto_answertextNeDolzhenByt": "answerText не должен быть пустым",
+  "@auto_answertextNeDolzhenByt": {
+    "description": "Auto-extracted"
+  },
+  "auto_responsetextNeDolzhenB": "responseText не должен быть пустым",
+  "@auto_responsetextNeDolzhenB": {
+    "description": "Auto-extracted"
+  },
+  "auto_vklyucheny": "включены",
+  "@auto_vklyucheny": {
+    "description": "Auto-extracted"
+  },
+  "auto_otklyucheny": "отключены",
+  "@auto_otklyucheny": {
+    "description": "Auto-extracted"
+  },
+  "auto_oooOptovayaKompaniya": "ООО Оптовая Компания",
+  "@auto_oooOptovayaKompaniya": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavkaPoRossii": "Доставка по России",
+  "@auto_dostavkaPoRossii": {
+    "description": "Auto-extracted"
+  },
+  "auto_postavshchikKachestvenny": "Поставщик качественных товаров оптом с 10-летним опытом",
+  "@auto_postavshchikKachestvenny": {
+    "description": "Auto-extracted"
+  },
+  "auto_gMoskvaUlPrimernayaD": "г. Москва, ул. Примерная, д. 1",
+  "@auto_gMoskvaUlPrimernayaD": {
+    "description": "Auto-extracted"
+  },
+  "auto_oooTorgovyyDom": "ООО Торговый Дом",
+  "@auto_oooTorgovyyDom": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavkaPoRossiiISng": "Доставка по России и СНГ",
+  "@auto_dostavkaPoRossiiISng": {
+    "description": "Auto-extracted"
+  },
+  "auto_nadyozhnyyPartnyor": "Надёжный партнёр",
+  "@auto_nadyozhnyyPartnyor": {
+    "description": "Auto-extracted"
+  },
+  "auto_krupnyyOptovyyPostavshc": "Крупный оптовый поставщик с широким ассортиментом",
+  "@auto_krupnyyOptovyyPostavshc": {
+    "description": "Auto-extracted"
+  },
+  "auto_gSanktpeterburgPrNevsk": "г. Санкт-Петербург, пр. Невский, д. 50",
+  "@auto_gSanktpeterburgPrNevsk": {
+    "description": "Auto-extracted"
+  },
+  "auto_oooEkspressPostavki": "ООО Экспресс Поставки",
+  "@auto_oooEkspressPostavki": {
+    "description": "Auto-extracted"
+  },
+  "auto_ekspressdostavka24Chasa": "Экспресс-доставка 24 часа",
+  "@auto_ekspressdostavka24Chasa": {
+    "description": "Auto-extracted"
+  },
+  "auto_spetsializiruemsyaNaBys": "Специализируемся на быстрой доставке товаров оптом",
+  "@auto_spetsializiruemsyaNaBys": {
+    "description": "Auto-extracted"
+  },
+  "auto_gEkaterinburgUlGlavnay": "г. Екатеринбург, ул. Главная, д. 100",
+  "@auto_gEkaterinburgUlGlavnay": {
+    "description": "Auto-extracted"
+  },
+  "auto_standartnayaDostavka": "Стандартная доставка",
+  "@auto_standartnayaDostavka": {
+    "description": "Auto-extracted"
+  },
+  "auto_nadyozhnyyPostavshchikO": "Надёжный поставщик оптовых товаров",
+  "@auto_nadyozhnyyPostavshchikO": {
+    "description": "Auto-extracted"
+  },
+  "auto_rossiya": "Россия",
+  "@auto_rossiya": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovar1OtPostavshchika": "Товар 1 от поставщика 123",
+  "@auto_tovar1OtPostavshchika": {
+    "description": "Auto-extracted"
+  },
+  "auto_kategoriya1": "Категория 1",
+  "@auto_kategoriya1": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovar2OtPostavshchika": "Товар 2 от поставщика 123",
+  "@auto_tovar2OtPostavshchika": {
+    "description": "Auto-extracted"
+  },
+  "auto_kategoriya2": "Категория 2",
+  "@auto_kategoriya2": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovar1OtPostavshchika_1": "Товар 1 от поставщика 456",
+  "@auto_tovar1OtPostavshchika_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovar1OtPostavshchika_2": "Товар 1 от поставщика 789",
+  "@auto_tovar1OtPostavshchika_2": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovar2OtPostavshchika_1": "Товар 2 от поставщика 789",
+  "@auto_tovar2OtPostavshchika_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_supplieridNeDolzhenByt": "supplierId не должен быть пустым",
+  "@auto_supplieridNeDolzhenByt": {
+    "description": "Auto-extracted"
+  },
+  "auto_vremyaOzhidaniyaIsteklo_1": "Время ожидания истекло",
+  "@auto_vremyaOzhidaniyaIsteklo_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_taymaut": "Таймаут",
+  "@auto_taymaut": {
+    "description": "Auto-extracted"
+  },
+  "auto_otpravleno": "отправлено",
+  "@auto_otpravleno": {
+    "description": "Auto-extracted"
+  },
+  "auto_vPuti_1": "В пути",
+  "@auto_vPuti_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_prinyat_1": "Принят",
+  "@auto_prinyat_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_otmena_1": "отмена",
+  "@auto_otmena_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_otmenen": "отменен",
+  "@auto_otmenen": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavlen_1": "Доставлен",
+  "@auto_dostavlen_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_poluchil": "Получил",
+  "@auto_poluchil": {
+    "description": "Auto-extracted"
+  },
+  "auto_neAvtorizovan_1": "Не авторизован",
+  "@auto_neAvtorizovan_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_serverVernulNekorrektny": "Сервер вернул некорректный ответ",
+  "@auto_serverVernulNekorrektny": {
+    "description": "Auto-extracted"
+  },
+  "auto_offsetNeDolzhenBytOtr": "offset не должен быть отрицательным",
+  "@auto_offsetNeDolzhenBytOtr": {
+    "description": "Auto-extracted"
+  },
+  "auto_limitDolzhenBytPolozhi": "limit должен быть положительным",
+  "@auto_limitDolzhenBytPolozhi": {
+    "description": "Auto-extracted"
+  },
+  "auto_targetuseridDolzhenByt": "targetUserId должен быть положительным",
+  "@auto_targetuseridDolzhenByt": {
+    "description": "Auto-extracted"
+  },
+  "auto_apiproductresolverNeUda": "ApiProductResolver: не удалось загрузить каталог",
+  "@auto_apiproductresolverNeUda": {
+    "description": "Auto-extracted"
+  },
+  "auto_serverVernulPustyeDann": "Сервер вернул пустые данные пользователя",
+  "@auto_serverVernulPustyeDann": {
+    "description": "Auto-extracted"
+  },
+  "auto_nevernyyKodIliIstyokS": "Неверный код или истёк срок действия",
+  "@auto_nevernyyKodIliIstyokS": {
+    "description": "Auto-extracted"
+  },
+  "auto_deystvieNedostupnoDlya": "Действие недоступно для вашей роли",
+  "@auto_deystvieNedostupnoDlya": {
+    "description": "Auto-extracted"
+  },
+  "auto_slishkomMnogoPopytokPo": "Слишком много попыток, попробуйте позже",
+  "@auto_slishkomMnogoPopytokPo": {
+    "description": "Auto-extracted"
+  },
+  "auto_ok": "ОК",
+  "@auto_ok": {
+    "description": "Auto-extracted"
+  },
+  "auto_itogo5Tovarov": "Итого: 5 товаров",
+  "@auto_itogo5Tovarov": {
+    "description": "Auto-extracted"
+  },
+  "auto_1Tovar": "1 товар",
+  "@auto_1Tovar": {
+    "description": "Auto-extracted"
+  },
+  "auto_2Tovara": "2 товара",
+  "@auto_2Tovara": {
+    "description": "Auto-extracted"
+  },
+  "auto_5Tovarov": "5 товаров",
+  "@auto_5Tovarov": {
+    "description": "Auto-extracted"
+  },
+  "auto_ili": " или ",
+  "@auto_ili": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovar_1": "товар",
+  "@auto_tovar_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovara": "товара",
+  "@auto_tovara": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovarov": "товаров",
+  "@auto_tovarov": {
+    "description": "Auto-extracted"
+  },
+  "auto_nm": "өнім",
+  "@auto_nm": {
+    "description": "Auto-extracted"
+  },
+  "auto_zakazSIdOrderidNeNay": "Заказ с ID {orderId} не найден",
+  "@auto_zakazSIdOrderidNeNay": {
+    "description": "Auto-extracted"
+  },
+  "auto_vashZakazOrderidPodtve": "Ваш заказ #{orderId} подтверждён",
+  "@auto_vashZakazOrderidPodtve": {
+    "description": "Auto-extracted"
+  },
+  "auto_zakazOrderidDostavlen": "Заказ #{orderId} доставлен",
+  "@auto_zakazOrderidDostavlen": {
+    "description": "Auto-extracted"
+  },
+  "auto_tovarSIdProductidNeN": "Товар с ID {productId} не найден",
+  "@auto_tovarSIdProductidNeN": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaSetiProvertePod": "Ошибка сети. Проверьте подключение и попробуйте снова",
+  "@auto_oshibkaSetiProvertePod": {
+    "description": "Auto-extracted"
+  },
+  "auto_prevyshenoVremyaOzhidan": "Превышено время ожидания ответа сервера",
+  "@auto_prevyshenoVremyaOzhidan": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaValidatsiiDetail": "Ошибка валидации: {details}",
+  "@auto_oshibkaValidatsiiDetail": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosRazobratSoobsh": "Не удалось разобрать сообщение",
+  "@auto_neUdalosRazobratSoobsh": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosSgenerirovatOt": "Не удалось сгенерировать ответ AI: {reason}",
+  "@auto_neUdalosSgenerirovatOt": {
+    "description": "Auto-extracted"
+  },
+  "auto_tazazayaayayoyo": "([,.;:!?])[ \\t]*([A-Za-zА-Яа-яЁёҚқҒғҮүҰұІіӘәҺһҢң])",
+  "@auto_tazazayaayayoyo": {
+    "description": "Auto-extracted"
+  },
+  "auto_i_1": " и ",
+  "@auto_i_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_zaprosVypolnen": "Запрос выполнен",
+  "@auto_zaprosVypolnen": {
+    "description": "Auto-extracted"
+  },
+  "auto_nekorrektnyyOtvetApi": "некорректный ответ API",
+  "@auto_nekorrektnyyOtvetApi": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPrilozheniya": "Ошибка приложения",
+  "@auto_oshibkaPrilozheniya": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosRazobratIsklyu": "не удалось разобрать исключение",
+  "@auto_neUdalosRazobratIsklyu": {
+    "description": "Auto-extracted"
+  },
+  "auto_nekorrektnoeSoobshchenie": "некорректное сообщение поддержки",
+  "@auto_nekorrektnoeSoobshchenie": {
+    "description": "Auto-extracted"
+  },
+  "auto_jsonNeProshyolValidats": "JSON не прошёл валидацию",
+  "@auto_jsonNeProshyolValidats": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosRazobratJson": "не удалось разобрать JSON",
+  "@auto_neUdalosRazobratJson": {
+    "description": "Auto-extracted"
+  },
+  "auto_uvedomlenie": "Уведомление",
+  "@auto_uvedomlenie": {
+    "description": "Auto-extracted"
+  },
+  "auto_nekorrektnoeUvedomlenie": "некорректное уведомление",
+  "@auto_nekorrektnoeUvedomlenie": {
+    "description": "Auto-extracted"
+  },
+  "auto_aigeneratsiya": "AI-генерация",
+  "@auto_aigeneratsiya": {
+    "description": "Auto-extracted"
+  },
+  "auto_nekorrektnyyOtvetAi": "некорректный ответ AI",
+  "@auto_nekorrektnyyOtvetAi": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaRazboraSoobshche": "Ошибка разбора сообщения",
+  "@auto_oshibkaRazboraSoobshche": {
+    "description": "Auto-extracted"
+  },
+  "auto_bezZagolovka": "(без заголовка)",
+  "@auto_bezZagolovka": {
+    "description": "Auto-extracted"
+  },
+  "auto_lyubyeSimvolyVklyuchaya": "<любые символы, включая \\",
+  "@auto_lyubyeSimvolyVklyuchaya": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleIdPustoe": "Поле id пустое",
+  "@auto_poleIdPustoe": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleIdNeSootvetstvuet": "Поле id не соответствует формату UUID",
+  "@auto_poleIdNeSootvetstvuet": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleBodyPustoe": "Поле body пустое",
+  "@auto_poleBodyPustoe": {
+    "description": "Auto-extracted"
+  },
+  "auto_poluchen": ", получен ",
+  "@auto_poluchen": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleTimestampNekorrektn": "Поле timestamp некорректно или не сериализуется в ISO 8601",
+  "@auto_poleTimestampNekorrektn": {
+    "description": "Auto-extracted"
+  },
+  "auto_neizvestnoeZnachenieTyp": "Неизвестное значение type",
+  "@auto_neizvestnoeZnachenieTyp": {
+    "description": "Auto-extracted"
+  },
+  "auto_neizvestnoeZnachenieSev": "Неизвестное значение severity",
+  "@auto_neizvestnoeZnachenieSev": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleIdDolzhnoBytNepus": "Поле id должно быть непустой строкой",
+  "@auto_poleIdDolzhnoBytNepus": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleTypeDolzhnoBytStr": "Поле type должно быть строкой",
+  "@auto_poleTypeDolzhnoBytStr": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleSeverityDolzhnoByt": "Поле severity должно быть строкой",
+  "@auto_poleSeverityDolzhnoByt": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleBodyDolzhnoBytStr": "Поле body должно быть строкой",
+  "@auto_poleBodyDolzhnoBytStr": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleTitleDolzhnoBytSt": "Поле title должно быть строкой",
+  "@auto_poleTitleDolzhnoBytSt": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleTimestampNeSeriali": "Поле timestamp не сериализуется в ISO 8601",
+  "@auto_poleTimestampNeSeriali": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleTimestampNeParsits": "Поле timestamp не парсится как ISO 8601",
+  "@auto_poleTimestampNeParsits": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleTimestampDolzhnoBy": "Поле timestamp должно быть строкой ISO 8601 или DateTime",
+  "@auto_poleTimestampDolzhnoBy": {
+    "description": "Auto-extracted"
+  },
+  "auto_poleLanguageDolzhnoByt": "Поле language должно быть строкой",
+  "@auto_poleLanguageDolzhnoByt": {
+    "description": "Auto-extracted"
+  },
+  "auto_rekomenduetsyaUkazyvat": " рекомендуется указывать metadata[",
+  "@auto_rekomenduetsyaUkazyvat": {
+    "description": "Auto-extracted"
+  },
+  "auto_propustiliIzzaThrottle": "пропустили из-за throttle",
+  "@auto_propustiliIzzaThrottle": {
+    "description": "Auto-extracted"
+  },
+  "auto_voobshcheNeDoshli": "вообще не дошли",
+  "@auto_voobshcheNeDoshli": {
+    "description": "Auto-extracted"
+  },
+  "auto_notificationserviceUseri": "NotificationService: userId не задан, инициализация пропущена",
+  "@auto_notificationserviceUseri": {
+    "description": "Auto-extracted"
+  },
+  "auto_notificationserviceOchis": "NotificationService: очистка состояния при logout",
+  "@auto_notificationserviceOchis": {
+    "description": "Auto-extracted"
+  },
+  "auto_optimisticHoldAktivenP": "Optimistic hold активен, пропускаем перезапись счётчиков",
+  "@auto_optimisticHoldAktivenP": {
+    "description": "Auto-extracted"
+  },
+  "auto_useridIzmenilsyaVoVrem": "userId изменился во время refresh, отменяем обновление",
+  "@auto_useridIzmenilsyaVoVrem": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosObnovitSchyotc": "Не удалось обновить счётчики уведомлений после всех попыток, используем кэш",
+  "@auto_neUdalosObnovitSchyotc": {
+    "description": "Auto-extracted"
+  },
+  "auto_keshUvedomleniyUstarel": "Кэш уведомлений устарел, пропускаем загрузку",
+  "@auto_keshUvedomleniyUstarel": {
+    "description": "Auto-extracted"
+  },
+  "auto_polzovatelRazloginilsya": "Пользователь разлогинился, останавливаем polling",
+  "@auto_polzovatelRazloginilsya": {
+    "description": "Auto-extracted"
+  },
+  "auto_optimisticHoldIstyokVo": "Optimistic hold истёк, возобновляем polling",
+  "@auto_optimisticHoldIstyokVo": {
+    "description": "Auto-extracted"
+  },
+  "auto_pollingPropushchenAktiv": "Polling пропущен: активен optimistic hold",
+  "@auto_pollingPropushchenAktiv": {
+    "description": "Auto-extracted"
+  },
+  "auto_retrywithbackoffNeozhida": "_retryWithBackoff: неожиданное завершение цикла",
+  "@auto_retrywithbackoffNeozhida": {
+    "description": "Auto-extracted"
+  },
+  "auto_svodkaStatistikiZakeshi": "Сводка статистики закэширована",
+  "@auto_svodkaStatistikiZakeshi": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPriKeshirovanii": "Ошибка при кэшировании сводки",
+  "@auto_oshibkaPriKeshirovanii": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPriPolucheniiKe": "Ошибка при получении кэша сводки",
+  "@auto_oshibkaPriPolucheniiKe": {
+    "description": "Auto-extracted"
+  },
+  "auto_aiRezyumeZakeshirovano": "AI резюме закэшировано",
+  "@auto_aiRezyumeZakeshirovano": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPriKeshirovanii_1": "Ошибка при кэшировании AI резюме",
+  "@auto_oshibkaPriKeshirovanii_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPriPolucheniiKe_1": "Ошибка при получении кэша AI резюме",
+  "@auto_oshibkaPriPolucheniiKe_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_keshStatistikiOchishche": "Кэш статистики очищен",
+  "@auto_keshStatistikiOchishche": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaPriOchistkeKesh": "Ошибка при очистке кэша",
+  "@auto_oshibkaPriOchistkeKesh": {
+    "description": "Auto-extracted"
+  },
+  "auto_neUdalosVosstanovitPos": "Не удалось восстановить поставщика из хранилища",
+  "@auto_neUdalosVosstanovitPos": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaZagruzkiIzbranno": "Ошибка загрузки избранного из хранилища",
+  "@auto_oshibkaZagruzkiIzbranno": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaSohraneniyaIzbra": "Ошибка сохранения избранного в хранилище",
+  "@auto_oshibkaSohraneniyaIzbra": {
+    "description": "Auto-extracted"
+  },
+  "auto_purchasetemplateidNevali": "PurchaseTemplate.id невалиден",
+  "@auto_purchasetemplateidNevali": {
+    "description": "Auto-extracted"
+  },
+  "auto_purchasetemplatenameNeva": "PurchaseTemplate.name невалиден",
+  "@auto_purchasetemplatenameNeva": {
+    "description": "Auto-extracted"
+  },
+  "auto_purchasetemplatecreatedat": "PurchaseTemplate.createdAt невалиден",
+  "@auto_purchasetemplatecreatedat": {
+    "description": "Auto-extracted"
+  },
+  "auto_purchasetemplateupdatedat": "PurchaseTemplate.updatedAt невалиден",
+  "@auto_purchasetemplateupdatedat": {
+    "description": "Auto-extracted"
+  },
+  "auto_purchasetemplateitemsNev": "PurchaseTemplate.items невалиден",
+  "@auto_purchasetemplateitemsNev": {
+    "description": "Auto-extracted"
+  },
+  "auto_purchasetemplatecreatedat_1": "PurchaseTemplate.createdAt не ISO-8601",
+  "@auto_purchasetemplatecreatedat_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_purchasetemplateupdatedat_1": "PurchaseTemplate.updatedAt не ISO-8601",
+  "@auto_purchasetemplateupdatedat_1": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemNeObekt": "TemplateItem не объект",
+  "@auto_templateitemNeObekt": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemproductidNev": "TemplateItem.productId невалиден",
+  "@auto_templateitemproductidNev": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemsupplieridNe": "TemplateItem.supplierId невалиден",
+  "@auto_templateitemsupplieridNe": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemquantityNeva": "TemplateItem.quantity невалиден",
+  "@auto_templateitemquantityNeva": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemproductnameN": "TemplateItem.productName невалиден",
+  "@auto_templateitemproductnameN": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemproductimageu": "TemplateItem.productImageUrl невалиден",
+  "@auto_templateitemproductimageu": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemsuppliername": "TemplateItem.supplierName невалиден",
+  "@auto_templateitemsuppliername": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitempriceperunit": "TemplateItem.pricePerUnit невалиден",
+  "@auto_templateitempriceperunit": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemminquantityN": "TemplateItem.minQuantity невалиден",
+  "@auto_templateitemminquantityN": {
+    "description": "Auto-extracted"
+  },
+  "auto_templateitemmaxquantityN": "TemplateItem.maxQuantity невалиден",
+  "@auto_templateitemmaxquantityN": {
+    "description": "Auto-extracted"
+  },
+  "auto_imyaShablonaOt1Do50": "Имя шаблона: от 1 до 50 символов",
+  "@auto_imyaShablonaOt1Do50": {
+    "description": "Auto-extracted"
+  },
+  "auto_shablonSTakimImenemUz": "Шаблон с таким именем уже существует",
+  "@auto_shablonSTakimImenemUz": {
+    "description": "Auto-extracted"
+  },
+  "auto_shablonNeMozhetBytPus": "Шаблон не может быть пустым",
+  "@auto_shablonNeMozhetBytPus": {
+    "description": "Auto-extracted"
+  },
+  "auto_vShabloneMozhetBytNe": "В шаблоне может быть не более 100 позиций.",
+  "@auto_vShabloneMozhetBytNe": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostignutLimitShablonov": "Достигнут лимит шаблонов: 20. Удалите ненужный шаблон.",
+  "@auto_dostignutLimitShablonov": {
+    "description": "Auto-extracted"
+  },
+  "auto_nikomu": "никому",
+  "@auto_nikomu": {
+    "description": "Auto-extracted"
+  },
+  "auto_loadforcurrentuserRassog": "loadForCurrentUser: рассогласование авторизации ",
+  "@auto_loadforcurrentuserRassog": {
+    "description": "Auto-extracted"
+  },
+  "auto_loadforcurrentuserNeUda": "loadForCurrentUser: не удалось прочитать SharedPreferences",
+  "@auto_loadforcurrentuserNeUda": {
+    "description": "Auto-extracted"
+  },
+  "auto_clearcacheNeUdalosOchi": "clearCache: не удалось очистить SharedPreferences",
+  "@auto_clearcacheNeUdalosOchi": {
+    "description": "Auto-extracted"
+  },
+  "auto_persistNeUdalosZapisat": "_persist: не удалось записать шаблоны в SharedPreferences",
+  "@auto_persistNeUdalosZapisat": {
+    "description": "Auto-extracted"
+  },
+  "auto_napitokCocacolaGazirova": "Напиток Coca-Cola газированный 1.5 л",
+  "@auto_napitokCocacolaGazirova": {
+    "description": "Auto-extracted"
+  },
+  "auto_cocacolaSamyyPopulyarny": "Coca-Cola - самый популярный газированный напиток в мире. Имеет резкий, но приятный вкус, хорошо утоляет жажду, рекомендуется пить охлажденным.",
+  "@auto_cocacolaSamyyPopulyarny": {
+    "description": "Auto-extracted"
+  },
+  "auto_gazirovannyeNapitki": "Газированные напитки",
+  "@auto_gazirovannyeNapitki": {
+    "description": "Auto-extracted"
+  },
+  "auto_gazirovannayaVodaSahar": "Газированная вода, сахар, краситель (сахарный колер [IV]), регулятор кислотности (ортофосфорная кислота), натуральные ароматизаторы, кофеин.",
+  "@auto_gazirovannayaVodaSahar": {
+    "description": "Auto-extracted"
+  },
+  "auto_kazahstan": "Казахстан",
+  "@auto_kazahstan": {
+    "description": "Auto-extracted"
+  },
+  "auto_torgovayaMarka": "Торговая марка",
+  "@auto_torgovayaMarka": {
+    "description": "Auto-extracted"
+  },
+  "auto_lineyka": "Линейка",
+  "@auto_lineyka": {
+    "description": "Auto-extracted"
+  },
+  "auto_klassicheskaya": "Классическая",
+  "@auto_klassicheskaya": {
+    "description": "Auto-extracted"
+  },
+  "auto_mansa": "Манса",
+  "@auto_mansa": {
+    "description": "Auto-extracted"
+  },
+  "auto_dostavkaMezhgorod": "Доставка межгород",
+  "@auto_dostavkaMezhgorod": {
+    "description": "Auto-extracted"
+  },
+  "auto_chetverg1700": "Четверг 17:00",
+  "@auto_chetverg1700": {
+    "description": "Auto-extracted"
+  },
+  "auto_vs21Sentyabrya": "Вс 21 сентября",
+  "@auto_vs21Sentyabrya": {
+    "description": "Auto-extracted"
+  },
+  "auto_sb23Sentyabrya1200": "Сб 23 сентября 12:00",
+  "@auto_sb23Sentyabrya1200": {
+    "description": "Auto-extracted"
+  },
+  "auto_kakoytoKrutoyPostavshch": "Какой-то крутой поставщик",
+  "@auto_kakoytoKrutoyPostavshch": {
+    "description": "Auto-extracted"
+  },
+  "auto_sb20Sentyabrya": "Сб 20 сентября",
+  "@auto_sb20Sentyabrya": {
+    "description": "Auto-extracted"
+  },
+  "auto_kazahskiyTenge": "Казахский тенге",
+  "@auto_kazahskiyTenge": {
+    "description": "Auto-extracted"
+  },
+  "auto_rossiyskiyRubl": "Российский рубль",
+  "@auto_rossiyskiyRubl": {
+    "description": "Auto-extracted"
+  },
+  "auto_russkiy": "Русский",
+  "@auto_russkiy": {
+    "description": "Auto-extracted"
+  },
+  "auto_aza": "Қазақ",
+  "@auto_aza": {
+    "description": "Auto-extracted"
+  },
+  "auto_azasha": "Қазақша",
+  "@auto_azasha": {
+    "description": "Auto-extracted"
+  },
+  "auto_netDostupnyhPostavshchi": "Нет доступных поставщиков",
+  "@auto_netDostupnyhPostavshchi": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaZapuska": "Ошибка запуска",
+  "@auto_oshibkaZapuska": {
+    "description": "Auto-extracted"
+  },
+  "auto_oshibkaZapuskaPrilozhen": "Ошибка запуска приложения",
+  "@auto_oshibkaZapuskaPrilozhen": {
+    "description": "Auto-extracted"
+  },
+  "auto_poprobuytePerezapustitP": "Попробуйте перезапустить приложение",
+  "@auto_poprobuytePerezapustitP": {
+    "description": "Auto-extracted"
+  },
+  "auto_pereezzhal": "переезжал",
+  "@auto_pereezzhal": {
+    "description": "Auto-extracted"
   }
 }

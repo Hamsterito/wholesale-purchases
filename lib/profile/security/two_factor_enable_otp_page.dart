@@ -11,7 +11,7 @@ import '../../theme/app_color_palette.dart';
 import '../../widgets/messages/top_message.dart';
 import '../../widgets/navigation/role_internal_nav_bar.dart';
 import 'two_factor_backup_codes_view.dart';
-import '../../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 /// Экран ввода OTP для включения 2FA; после успеха показывает backup-коды.
 class TwoFactorEnableOtpPage extends StatefulWidget {

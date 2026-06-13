@@ -5587,6 +5587,3924 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'По убыванию'**
   String get auto_poUbyvaniyu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'AppMessageDialog поддерживает максимум 3 действия'**
+  String get auto_appmessagedialogPodderzh;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск по поставщикам'**
+  String get auto_poiskPoPostavshchikam;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить'**
+  String get auto_ochistit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'непрочитанное уведомление'**
+  String get auto_neprochitannoeUvedomleni;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'непрочитанных уведомления'**
+  String get auto_neprochitannyhUvedomleni;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'непрочитанных уведомлений'**
+  String get auto_neprochitannyhUvedomleni_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'застревал'**
+  String get auto_zastreval;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'доставка'**
+  String get auto_dostavka;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'будни'**
+  String get auto_budni;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'выходные'**
+  String get auto_vyhodnye;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ежедневно'**
+  String get auto_ezhednevno;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'каждый день'**
+  String get auto_kazhdyyDen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Пн'**
+  String get auto_pn;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'пн'**
+  String get auto_pn_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'вт'**
+  String get auto_vt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ср'**
+  String get auto_sr;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'чт'**
+  String get auto_cht;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'пт'**
+  String get auto_pt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'сб'**
+  String get auto_sb;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'вс'**
+  String get auto_vs;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'понедельник'**
+  String get auto_ponedelnik;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'вторник'**
+  String get auto_vtornik;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'среда'**
+  String get auto_sreda;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'четверг'**
+  String get auto_chetverg;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'пятница'**
+  String get auto_pyatnitsa;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'суббота'**
+  String get auto_subbota;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'воскресенье'**
+  String get auto_voskresene;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'шт'**
+  String get auto_sht;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Изменить ответ'**
+  String get auto_izmenitOtvet;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ответить'**
+  String get auto_otvetit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ответить на вопрос'**
+  String get auto_otvetitNaVopros;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Вопрос:'**
+  String get auto_vopros;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваш ответ'**
+  String get auto_vashOtvet;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ответить на отзыв'**
+  String get auto_otvetitNaOtzyv;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Отзыв:'**
+  String get auto_otzyv;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите почту и пароль'**
+  String get auto_vveditePochtuIParol;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Сервер не вернул challenge для 2FA'**
+  String get auto_serverNeVernulChalleng;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверьте, что почта и пароль заполнены'**
+  String get auto_proverteChtoPochtaIPa;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверная почта или пароль'**
+  String get auto_nevernayaPochtaIliParo;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Доступ запрещён'**
+  String get auto_dostupZapreshchyon;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось выполнить вход. Попробуйте позже.'**
+  String get auto_neUdalosVypolnitVhodP;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Вход выполнен'**
+  String get auto_vhodVypolnen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Войти'**
+  String get auto_voyti;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Зайдите или зарегистрируйтесь'**
+  String get auto_zayditeIliZaregistriruy;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'В свой аккаунт'**
+  String get auto_vSvoyAkkaunt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ПОЧТА'**
+  String get auto_pochta;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ПАРОЛЬ'**
+  String get auto_parol;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Запомнить меня'**
+  String get auto_zapomnitMenya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Забыли пароль?'**
+  String get auto_zabyliParol;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ВОЙТИ'**
+  String get auto_voyti_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет аккаунта? '**
+  String get auto_netAkkaunta;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Зарегистрируйтесь'**
+  String get auto_zaregistriruytes;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите 10-символьный backup-код'**
+  String get auto_vvedite10simvolnyyBacku;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Срок действия кода истёк, повторите вход'**
+  String get auto_srokDeystviyaKodaIstyo_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтверждение входа'**
+  String get auto_podtverzhdenieVhoda;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Двухфакторная\\nаутентификация'**
+  String get auto_dvuhfaktornayanautentifik;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Мы отправили код на вашу почту'**
+  String get auto_myOtpraviliKodNaVashu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'BACKUP-КОД'**
+  String get auto_backupkod;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'КОД ИЗ ПОЧТЫ'**
+  String get auto_kodIzPochty;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить снова'**
+  String get auto_otpravitSnova;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Вернуться к коду из почты'**
+  String get auto_vernutsyaKKoduIzPocht;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Использовать backup-код'**
+  String get auto_ispolzovatBackupkod;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Запомнить устройство на 30 дней'**
+  String get auto_zapomnitUstroystvoNa30;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя должно быть не короче 2 символов'**
+  String get auto_imyaDolzhnoBytNeKoroc;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите почту'**
+  String get auto_vveditePochtu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите корректную почту'**
+  String get auto_vvediteKorrektnuyuPocht;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Номер должен начинаться с +7'**
+  String get auto_nomerDolzhenNachinatsya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите пароль'**
+  String get auto_vvediteParol;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Пароль должен быть не короче 6 символов'**
+  String get auto_parolDolzhenBytNeKoro;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Повторите пароль'**
+  String get auto_povtoriteParol;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Email уже зарегистрирован'**
+  String get auto_emailUzheZaregistrirova;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'тронуто'**
+  String get auto_tronuto;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверьте заполнение полей'**
+  String get auto_proverteZapolneniePoley;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'РОЛЬ'**
+  String get auto_rol;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ИМЯ'**
+  String get auto_imya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'НОМЕР ТЕЛЕФОНА'**
+  String get auto_nomerTelefona;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Например, ТОО Склад Манса'**
+  String get auto_naprimerTooSkladMansa;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Дополнительные данные не требуются.'**
+  String get auto_dopolnitelnyeDannyeNeT;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ПОВТОРИТЕ ПАРОЛЬ'**
+  String get auto_povtoriteParol_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'тронутое'**
+  String get auto_tronutoe;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Данные'**
+  String get auto_dannye;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Компания и пароль'**
+  String get auto_kompaniyaIParol;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Пароль'**
+  String get auto_parol_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ЗАРЕГИСТРИРОВАТЬСЯ'**
+  String get auto_zaregistrirovatsya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ДАЛЕЕ'**
+  String get auto_dalee;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Регистрация прошла успешно'**
+  String get auto_registratsiyaProshlaUsp;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Сервер вернул ошибку'**
+  String get auto_serverVernulOshibku;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось завершить регистрацию'**
+  String get auto_neUdalosZavershitRegis;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Сервер вернул ошибку. Попробуйте снова.'**
+  String get auto_serverVernulOshibkuPop;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка подключения'**
+  String get auto_oshibkaPodklyucheniya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Регистрация'**
+  String get auto_registratsiya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Зарегистрируйтесь чтобы начать'**
+  String get auto_zaregistriruytesChtobyN;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'НАЗАД'**
+  String get auto_nazad_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка сервера'**
+  String get auto_oshibkaServera;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка сети'**
+  String get auto_oshibkaSeti;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Забыли пароль'**
+  String get auto_zabyliParol_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Напиши свою почту'**
+  String get auto_napishiSvoyuPochtu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ОТПРАВИТЬ КОД'**
+  String get auto_otpravitKod;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите 6-значный код'**
+  String get auto_vvedite6znachnyyKod;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Восстановление пароля'**
+  String get auto_vosstanovlenieParolya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'КОД'**
+  String get auto_kod;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ПРОДОЛЖИТЬ'**
+  String get auto_prodolzhit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Заполните все поля'**
+  String get auto_zapolniteVsePolya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Пароль должен содержать минимум 6 символов'**
+  String get auto_parolDolzhenSoderzhatM_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Пароль успешно изменён'**
+  String get auto_parolUspeshnoIzmenyon;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'НОВЫЙ ПАРОЛЬ'**
+  String get auto_novyyParol_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ПОДТВЕРДИТЕ ПАРОЛЬ'**
+  String get auto_podtverditeParol;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтвердите новый пароль'**
+  String get auto_podtverditeNovyyParol;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Email подтверждён. Теперь можно войти.'**
+  String get auto_emailPodtverzhdyonTeper;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка сети при подтверждении'**
+  String get auto_oshibkaSetiPriPodtverz;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка сети при повторной отправке'**
+  String get auto_oshibkaSetiPriPovtorno;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Верификация'**
+  String get auto_verifikatsiya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Слишком короткое'**
+  String get auto_slishkomKorotkoe;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите телефон'**
+  String get auto_vvediteTelefon;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Нужно 11 цифр'**
+  String get auto_nuzhno11Tsifr;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Должен начинаться с 7'**
+  String get auto_dolzhenNachinatsyaS7;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось создать модератора'**
+  String get auto_neUdalosSozdatModerato;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя'**
+  String get auto_imya_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Телефон'**
+  String get auto_telefon;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать'**
+  String get auto_pokazat;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Скрыть'**
+  String get auto_skryt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить товары'**
+  String get auto_neUdalosZagruzitTovary;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Одобрено'**
+  String get auto_odobreno;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Отклонено'**
+  String get auto_otkloneno;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'На модерации'**
+  String get auto_naModeratsii;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Одобрить товар'**
+  String get auto_odobritTovar;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Отклонить товар'**
+  String get auto_otklonitTovar;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар одобрен'**
+  String get auto_tovarOdobren;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар отклонен'**
+  String get auto_tovarOtklonen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка при обновлении статуса'**
+  String get auto_oshibkaPriObnovleniiSt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось определить модератора'**
+  String get auto_neUdalosOpredelitModer;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить товар за нарушение'**
+  String get auto_udalitTovarZaNarusheni;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Причина удаления для поставщика'**
+  String get auto_prichinaUdaleniyaDlyaP;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар удален, поставщик уведомлен'**
+  String get auto_tovarUdalenPostavshchik;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар удален'**
+  String get auto_tovarUdalen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось удалить товар'**
+  String get auto_neUdalosUdalitTovar;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Причина отклонения'**
+  String get auto_prichinaOtkloneniya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Комментарий'**
+  String get auto_kommentariy;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Без категории'**
+  String get auto_bezKategorii;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'На проверке'**
+  String get auto_naProverke;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск: товар, поставщик, категория'**
+  String get auto_poiskTovarPostavshchik;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет заявок'**
+  String get auto_netZayavok;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'По вашему запросу ничего не найдено'**
+  String get auto_poVashemuZaprosuNicheg;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет подходящих товаров'**
+  String get auto_netPodhodyashchihTovaro;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Партия'**
+  String get auto_partiya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить за нарушение'**
+  String get auto_udalitZaNarushenie;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Отклонить'**
+  String get auto_otklonit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'не авторизован'**
+  String get auto_neAvtorizovan;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'доступ'**
+  String get auto_dostup;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить модераторов'**
+  String get auto_neUdalosZagruzitModera;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Модератор добавлен'**
+  String get auto_moderatorDobavlen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Модератор удалён'**
+  String get auto_moderatorUdalyon;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить модератора'**
+  String get auto_dobavitModeratora;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить'**
+  String get auto_dobavit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск по имени или email'**
+  String get auto_poiskPoImeniIliEmail;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Модераторы не найдены'**
+  String get auto_moderatoryNeNaydeny;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ничего не найдено по запросу'**
+  String get auto_nichegoNeNaydenoPoZap;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Доступ запрещён. Войдите снова.'**
+  String get auto_dostupZapreshchyonVoydi;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Без имени'**
+  String get auto_bezImeni;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Модератор'**
+  String get auto_moderator;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Эл. почта'**
+  String get auto_elPochta_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить чаты техподдержки'**
+  String get auto_neUdalosZagruzitChaty;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыт'**
+  String get auto_otkryt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Закрыт'**
+  String get auto_zakryt_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Открытые'**
+  String get auto_otkrytye;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'История'**
+  String get auto_istoriya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Закрытых чатов пока нет'**
+  String get auto_zakrytyhChatovPokaNet;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Открытых чатов сейчас нет'**
+  String get auto_otkrytyhChatovSeychasN;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить сообщения'**
+  String get auto_neUdalosZagruzitSoobsh;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось определить сотрудника техподдержки'**
+  String get auto_neUdalosOpredelitSotru;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Чат уже закрыт'**
+  String get auto_chatUzheZakryt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Причина закрытия (необязательно)'**
+  String get auto_prichinaZakrytiyaNeobya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось закрыть чат'**
+  String get auto_neUdalosZakrytChat;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ответить пользователю'**
+  String get auto_otvetitPolzovatelyu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Чат открыт'**
+  String get auto_chatOtkryt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Закрыть чат'**
+  String get auto_zakrytChat;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Действие нельзя отменить.'**
+  String get auto_deystvieNelzyaOtmenit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Это удалит все backup-коды и доверенные устройства пользователя. '**
+  String get auto_etoUdalitVseBackupkody;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Действие доступно только модераторам'**
+  String get auto_deystvieDostupnoTolkoM;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось отключить 2FA'**
+  String get auto_neUdalosOtklyuchit2fa;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Отключить двухфакторную аутентификацию'**
+  String get auto_otklyuchitDvuhfaktornuyu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'достав'**
+  String get auto_dostav;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка операции'**
+  String get auto_oshibkaOperatsii;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар снят с публикации.'**
+  String get auto_tovarSnyatSPublikatsii;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар снят с публикации'**
+  String get auto_tovarSnyatSPublikatsii_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар удалён'**
+  String get auto_tovarUdalyon;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Мин. партия'**
+  String get auto_minPartiya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Остаток'**
+  String get auto_ostatok;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Пока нет товаров'**
+  String get auto_pokaNetTovarov;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавьте первый товар и отправьте его на модерацию.'**
+  String get auto_dobavtePervyyTovarIOt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить товар'**
+  String get auto_dobavitTovar;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Понедельник'**
+  String get auto_ponedelnik_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Вторник'**
+  String get auto_vtornik_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Среда'**
+  String get auto_sreda_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Четверг'**
+  String get auto_chetverg_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Пятница'**
+  String get auto_pyatnitsa_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Суббота'**
+  String get auto_subbota_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Воскресенье'**
+  String get auto_voskresene_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Вт'**
+  String get auto_vt_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ср'**
+  String get auto_sr_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Чт'**
+  String get auto_cht_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Пт'**
+  String get auto_pt_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Сб'**
+  String get auto_sb_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Вс'**
+  String get auto_vs_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Напитки'**
+  String get auto_napitki;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Молочная продукция'**
+  String get auto_molochnayaProduktsiya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Овощи и фрукты'**
+  String get auto_ovoshchiIFrukty;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Мясо и птица'**
+  String get auto_myasoIPtitsa;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Бакалея'**
+  String get auto_bakaleya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Хлеб и выпечка'**
+  String get auto_hlebIVypechka;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Заморозка'**
+  String get auto_zamorozka;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Снеки'**
+  String get auto_sneki;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Бытовая химия'**
+  String get auto_bytovayaHimiya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары для дома'**
+  String get auto_tovaryDlyaDoma;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Страна производителя'**
+  String get auto_stranaProizvoditelya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Срок годности'**
+  String get auto_srokGodnosti;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите название товара'**
+  String get auto_vvediteNazvanieTovara;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Укажите срок годности'**
+  String get auto_ukazhiteSrokGodnosti;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите категорию из списка'**
+  String get auto_vyberiteKategoriyuIzSp;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите корректную цену'**
+  String get auto_vvediteKorrektnuyuTsenu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимальное количество должно быть больше 0'**
+  String get auto_minimalnoeKolichestvoDo;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Укажите остаток на складе'**
+  String get auto_ukazhiteOstatokNaSklad;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Остаток не может быть меньше минимальной партии'**
+  String get auto_ostatokNeMozhetBytMen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите время доставки в формате ЧЧ:ММ'**
+  String get auto_vvediteVremyaDostavkiV;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Укажите график доставки'**
+  String get auto_ukazhiteGrafikDostavki;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите минимальный срок доставки'**
+  String get auto_vvediteMinimalnyySrokD;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Максимальный срок не может быть меньше минимального'**
+  String get auto_maksimalnyySrokNeMozhe;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Срок доставки слишком большой'**
+  String get auto_srokDostavkiSlishkomBo;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите время отсечки в формате ЧЧ:ММ'**
+  String get auto_vvediteVremyaOtsechkiV;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Калории должны быть неотрицательным числом'**
+  String get auto_kaloriiDolzhnyBytNeotr;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Белки должны быть неотрицательным числом'**
+  String get auto_belkiDolzhnyBytNeotrit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Жиры должны быть неотрицательным числом'**
+  String get auto_zhiryDolzhnyBytNeotrit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Углеводы должны быть неотрицательным числом'**
+  String get auto_uglevodyDolzhnyBytNeot;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавьте хотя бы одну фотографию'**
+  String get auto_dobavteHotyaByOdnuFot;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранить изменения?'**
+  String get auto_sohranitIzmeneniya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Создать товар?'**
+  String get auto_sozdatTovar;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Изменения будут отправлены на модерацию. Текущая версия товара останется активной до проверки.'**
+  String get auto_izmeneniyaBudutOtpravle;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар будет отправлен на модерацию. Покупатели увидят его после проверки.'**
+  String get auto_tovarBudetOtpravlenNa;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Создать'**
+  String get auto_sozdat;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Создание товара'**
+  String get auto_sozdanieTovara;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Редактирование товара'**
+  String get auto_redaktirovanieTovara;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Основные данные'**
+  String get auto_osnovnyeDannye;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Заполните название, описание, страну и категорию товара.'**
+  String get auto_zapolniteNazvanieOpisan;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Название товара'**
+  String get auto_nazvanieTovara;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Например, Казахстан'**
+  String get auto_naprimerKazahstan;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Например, 12 месяцев'**
+  String get auto_naprimer12Mesyatsev;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Цена и условия'**
+  String get auto_tsenaIUsloviya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимальные количества и доставка.'**
+  String get auto_minimalnyeKolichestvaI;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Цена за единицу (₸)'**
+  String get auto_tsenaZaEdinitsu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Например, 1450'**
+  String get auto_naprimer1450;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимальное количество'**
+  String get auto_minimalnoeKolichestvo;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Всего количество'**
+  String get auto_vsegoKolichestvo;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Например, 120'**
+  String get auto_naprimer120;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Состав и характеристики'**
+  String get auto_sostavIHarakteristiki;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Необязательные данные: заполняйте только то, что нужно.'**
+  String get auto_neobyazatelnyeDannyeZap;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Состав'**
+  String get auto_sostav;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Калории (ккал/100г)'**
+  String get auto_kaloriiKkal100g;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Белки (г/100г)'**
+  String get auto_belkiG100g;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Жиры (г/100г)'**
+  String get auto_zhiryG100g;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Углеводы (г/100г)'**
+  String get auto_uglevodyG100g;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Характеристики товара'**
+  String get auto_harakteristikiTovara;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Название'**
+  String get auto_nazvanie;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Значение'**
+  String get auto_znachenie;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить характеристику'**
+  String get auto_udalitHarakteristiku;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить характеристику'**
+  String get auto_dobavitHarakteristiku;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Фотографии товара'**
+  String get auto_fotografiiTovara;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавьте несколько фото'**
+  String get auto_dobavteNeskolkoFoto;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ожидаемая дата доставки'**
+  String get auto_ozhidaemayaDataDostavki;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'По графику'**
+  String get auto_poGrafiku;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'По сроку'**
+  String get auto_poSroku;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Покупатель увидит ожидаемую дату доставки.'**
+  String get auto_pokupatelUviditOzhidaem;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите дни недели'**
+  String get auto_vyberiteDniNedeli;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Быстрый выбор'**
+  String get auto_bystryyVybor;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Время доставки'**
+  String get auto_vremyaDostavki;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Формат: ЧЧ:ММ'**
+  String get auto_formatChchmm;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Некорректное время'**
+  String get auto_nekorrektnoeVremya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимум дней'**
+  String get auto_minimumDney;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Максимум дней'**
+  String get auto_maksimumDney;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Срок приёма заказа на сегодня'**
+  String get auto_srokPriyomaZakazaNaSe;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Категории'**
+  String get auto_kategorii;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск категории'**
+  String get auto_poiskKategorii;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Категории не найдены'**
+  String get auto_kategoriiNeNaydeny;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать меньше'**
+  String get auto_pokazatMenshe;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Фото'**
+  String get auto_foto;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Компания'**
+  String get auto_kompaniya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы не авторизованы. Пожалуйста, войдите.'**
+  String get auto_vyNeAvtorizovanyPozhal;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить статистику'**
+  String get auto_neUdalosZagruzitStatis;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось сформировать AI-резюме'**
+  String get auto_neUdalosSformirovatAir;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Статистика'**
+  String get auto_statistika;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Аналитика продаж'**
+  String get auto_analitikaProdazh;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Обновить'**
+  String get auto_obnovit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Все время'**
+  String get auto_vseVremya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Выбрать'**
+  String get auto_vybrat;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Общая выручка'**
+  String get auto_obshchayaVyruchka;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Выручка за месяц'**
+  String get auto_vyruchkaZaMesyats;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'За неделю'**
+  String get auto_zaNedelyu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Всего заказов'**
+  String get auto_vsegoZakazov;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Обзор'**
+  String get auto_obzor;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Средний чек'**
+  String get auto_sredniyChek;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Динамика выручки'**
+  String get auto_dinamikaVyruchki;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет данных'**
+  String get auto_netDannyh;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставлены'**
+  String get auto_dostavleny;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправлены'**
+  String get auto_otpravleny;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтверждены'**
+  String get auto_podtverzhdeny;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ожидают'**
+  String get auto_ozhidayut;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Отменены'**
+  String get auto_otmeneny;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Статусы заказов'**
+  String get auto_statusyZakazov;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Этот месяц'**
+  String get auto_etotMesyats;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Прошлый месяц'**
+  String get auto_proshlyyMesyats;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ср. доставка'**
+  String get auto_srDostavka;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Покупатели'**
+  String get auto_pokupateli;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Всего'**
+  String get auto_vsego;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Постоянные'**
+  String get auto_postoyannye;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Новые / мес.'**
+  String get auto_novyeMes;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'отправлен'**
+  String get auto_otpravlen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'отменён'**
+  String get auto_otmenyon;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ожидает'**
+  String get auto_ozhidaet;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Последние отзывы'**
+  String get auto_poslednieOtzyvy;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'AI-анализ'**
+  String get auto_aianaliz;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Генерирую AI-анализ…'**
+  String get auto_generiruyuAianaliz;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Общие характеристики'**
+  String get auto_obshchieHarakteristiki;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Калории'**
+  String get auto_kalorii;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Белки'**
+  String get auto_belki;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Жиры'**
+  String get auto_zhiry;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Углеводы'**
+  String get auto_uglevody;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Питание'**
+  String get auto_pitanie;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Заполните название и значение характеристики'**
+  String get auto_zapolniteNazvanieIZnac;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Такая характеристика уже добавлена'**
+  String get auto_takayaHarakteristikaUzh;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'только что'**
+  String get auto_tolkoChto;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'минуту'**
+  String get auto_minutu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'минуты'**
+  String get auto_minuty;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'минут'**
+  String get auto_minut;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'час'**
+  String get auto_chas;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'часа'**
+  String get auto_chasa;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'часов'**
+  String get auto_chasov;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'день'**
+  String get auto_den;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'дня'**
+  String get auto_dnya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'дней'**
+  String get auto_dney;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Сегодня'**
+  String get auto_segodnya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Завтра'**
+  String get auto_zavtra;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'сегодня'**
+  String get auto_segodnya_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'завтра'**
+  String get auto_zavtra_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка'**
+  String get auto_dostavka_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка сегодня'**
+  String get auto_dostavkaSegodnya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка завтра'**
+  String get auto_dostavkaZavtra;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ежедневно'**
+  String get auto_ezhednevno_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Будни'**
+  String get auto_budni_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Выходные'**
+  String get auto_vyhodnye_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'января'**
+  String get auto_yanvarya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'февраля'**
+  String get auto_fevralya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'марта'**
+  String get auto_marta;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'апреля'**
+  String get auto_aprelya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'мая'**
+  String get auto_maya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'июня'**
+  String get auto_iyunya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'июля'**
+  String get auto_iyulya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'августа'**
+  String get auto_avgusta;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'сентября'**
+  String get auto_sentyabrya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'октября'**
+  String get auto_oktyabrya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ноября'**
+  String get auto_noyabrya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'декабря'**
+  String get auto_dekabrya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'май 2026'**
+  String get auto_may2026;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'май'**
+  String get auto_may;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Май 2026'**
+  String get auto_may2026_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'янв 2026'**
+  String get auto_yanv2026;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'янв.'**
+  String get auto_yanv;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'янв'**
+  String get auto_yanv_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Янв'**
+  String get auto_yanv_2;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ЯНВ'**
+  String get auto_yanv_3;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'май  2026'**
+  String get auto_may2026_2;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Май'**
+  String get auto_may_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'январь'**
+  String get auto_yanvar;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'февраль'**
+  String get auto_fevral;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'март'**
+  String get auto_mart;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'апрель'**
+  String get auto_aprel;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'июнь'**
+  String get auto_iyun;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'июль'**
+  String get auto_iyul;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'август'**
+  String get auto_avgust;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'сентябрь'**
+  String get auto_sentyabr;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'октябрь'**
+  String get auto_oktyabr;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ноябрь'**
+  String get auto_noyabr;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'декабрь'**
+  String get auto_dekabr;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'фев'**
+  String get auto_fev;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'мар'**
+  String get auto_mar;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'апр'**
+  String get auto_apr;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'июн'**
+  String get auto_iyun_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'июл'**
+  String get auto_iyul_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'авг'**
+  String get auto_avg;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'сен'**
+  String get auto_sen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'окт'**
+  String get auto_okt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ноя'**
+  String get auto_noya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'дек'**
+  String get auto_dek;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'фев.'**
+  String get auto_fev_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'мар.'**
+  String get auto_mar_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'апр.'**
+  String get auto_apr_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'май.'**
+  String get auto_may_2;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'июн.'**
+  String get auto_iyun_2;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'июл.'**
+  String get auto_iyul_2;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'авг.'**
+  String get auto_avg_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'сен.'**
+  String get auto_sen_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'окт.'**
+  String get auto_okt_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ноя.'**
+  String get auto_noya_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'дек.'**
+  String get auto_dek_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Янв.'**
+  String get auto_yanv_4;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'отзыв'**
+  String get auto_otzyv_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'отзыва'**
+  String get auto_otzyva;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'отзывов'**
+  String get auto_otzyvov;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ё'**
+  String get auto_yo;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'е'**
+  String get auto_e;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'а'**
+  String get auto_a;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'б'**
+  String get auto_b;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'в'**
+  String get auto_v;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'г'**
+  String get auto_g;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'д'**
+  String get auto_d;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ж'**
+  String get auto_zh;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'з'**
+  String get auto_z;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'и'**
+  String get auto_i;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'й'**
+  String get auto_y;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'к'**
+  String get auto_k;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'л'**
+  String get auto_l;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'м'**
+  String get auto_m;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'н'**
+  String get auto_n;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'о'**
+  String get auto_o;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'п'**
+  String get auto_p;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'р'**
+  String get auto_r;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'с'**
+  String get auto_s;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'т'**
+  String get auto_t;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'у'**
+  String get auto_u;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ф'**
+  String get auto_f;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'х'**
+  String get auto_h;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ц'**
+  String get auto_ts;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ч'**
+  String get auto_ch;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ш'**
+  String get auto_sh;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'щ'**
+  String get auto_shch;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ы'**
+  String get auto_y_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'э'**
+  String get auto_e_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ю'**
+  String get auto_yu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'я'**
+  String get auto_ya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'кс'**
+  String get auto_ks;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'дж'**
+  String get auto_dzh;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Оптовые закупки'**
+  String get auto_optovyeZakupki;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Также можно указать новый адрес при оформлении заказа.'**
+  String get auto_takzheMozhnoUkazatNov;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'в приложении, по электронной почте или по телефону горячей линии.'**
+  String get auto_vPrilozheniiPoElektro;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка конфигурации API'**
+  String get auto_oshibkaKonfiguratsiiApi;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ты AI-аналитик поставщиков. ОБЯЗАТЕЛЬНО отвечай ТОЛЬКО на русском языке. '**
+  String get auto_tyAianalitikPostavshchi;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Все твои ответы должны быть на 100% на русском. '**
+  String get auto_vseTvoiOtvetyDolzhnyB;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Никогда не используй другие языки ни при каких обстоятельствах.'**
+  String get auto_nikogdaNeIspolzuyDrugi;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Запрос занял слишком долго'**
+  String get auto_zaprosZanyalSlishkomDo;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверьте подключение к интернету'**
+  String get auto_provertePodklyuchenieK;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка сервера. Попробуем другую модель'**
+  String get auto_oshibkaServeraPoprobuem;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка AI сервиса'**
+  String get auto_oshibkaAiServisa;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка при обработке ответа'**
+  String get auto_oshibkaPriObrabotkeOtv;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'AI-резюме успешно сгенерировано'**
+  String get auto_airezyumeUspeshnoSgener;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Собирается'**
+  String get auto_sobiraetsya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Список товаров не должен быть пустым'**
+  String get auto_spisokTovarovNeDolzhen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'userId должен быть положительным'**
+  String get auto_useridDolzhenBytPolozh;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Необходимо передать хотя бы одно поле для обновления'**
+  String get auto_neobhodimoPeredatHotya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Текущий и новый пароль обязательны'**
+  String get auto_tekushchiyINovyyParol;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтверждение пароля не совпадает'**
+  String get auto_podtverzhdenieParolyaNe;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'userId и addressId должны быть положительными'**
+  String get auto_useridIAddressidDolzhn;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'orderId не должен быть пустым'**
+  String get auto_orderidNeDolzhenBytPu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'productId не должен быть пустым'**
+  String get auto_productidNeDolzhenByt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'reviewId не должен быть пустым'**
+  String get auto_reviewidNeDolzhenBytP;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'status не должен быть пустым'**
+  String get auto_statusNeDolzhenBytPus;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'moderatorId должен быть положительным'**
+  String get auto_moderatoridDolzhenBytP;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'reason не должен быть пустым'**
+  String get auto_reasonNeDolzhenBytPus;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'name не должен быть пустым'**
+  String get auto_nameNeDolzhenBytPusty;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'id должен быть положительным'**
+  String get auto_idDolzhenBytPolozhitel;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'chatId должен быть положительным'**
+  String get auto_chatidDolzhenBytPolozh;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'text не должен быть пустым'**
+  String get auto_textNeDolzhenBytPusty;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'пользователь'**
+  String get auto_polzovatel;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'модератор'**
+  String get auto_moderator_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверный формат ответа сервера: отсутствуют поля questions или total'**
+  String get auto_nevernyyFormatOtvetaSe;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверный формат ответа сервера: questions должен быть списком'**
+  String get auto_nevernyyFormatOtvetaSe_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверный формат ответа сервера: total должен быть числом'**
+  String get auto_nevernyyFormatOtvetaSe_2;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Вопрос не должен быть пустым'**
+  String get auto_voprosNeDolzhenBytPus;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Вопрос должен содержать минимум 10 символов'**
+  String get auto_voprosDolzhenSoderzhat;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось ответить'**
+  String get auto_neUdalosOtvetit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'questionId не должен быть пустым'**
+  String get auto_questionidNeDolzhenByt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'supplierUserId должен быть положительным'**
+  String get auto_supplieruseridDolzhenBy;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'answerText не должен быть пустым'**
+  String get auto_answertextNeDolzhenByt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'responseText не должен быть пустым'**
+  String get auto_responsetextNeDolzhenB;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'включены'**
+  String get auto_vklyucheny;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'отключены'**
+  String get auto_otklyucheny;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ООО Оптовая Компания'**
+  String get auto_oooOptovayaKompaniya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка по России'**
+  String get auto_dostavkaPoRossii;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поставщик качественных товаров оптом с 10-летним опытом'**
+  String get auto_postavshchikKachestvenny;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'г. Москва, ул. Примерная, д. 1'**
+  String get auto_gMoskvaUlPrimernayaD;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ООО Торговый Дом'**
+  String get auto_oooTorgovyyDom;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка по России и СНГ'**
+  String get auto_dostavkaPoRossiiISng;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Надёжный партнёр'**
+  String get auto_nadyozhnyyPartnyor;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Крупный оптовый поставщик с широким ассортиментом'**
+  String get auto_krupnyyOptovyyPostavshc;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'г. Санкт-Петербург, пр. Невский, д. 50'**
+  String get auto_gSanktpeterburgPrNevsk;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ООО Экспресс Поставки'**
+  String get auto_oooEkspressPostavki;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Экспресс-доставка 24 часа'**
+  String get auto_ekspressdostavka24Chasa;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Специализируемся на быстрой доставке товаров оптом'**
+  String get auto_spetsializiruemsyaNaBys;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'г. Екатеринбург, ул. Главная, д. 100'**
+  String get auto_gEkaterinburgUlGlavnay;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Стандартная доставка'**
+  String get auto_standartnayaDostavka;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Надёжный поставщик оптовых товаров'**
+  String get auto_nadyozhnyyPostavshchikO;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Россия'**
+  String get auto_rossiya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар 1 от поставщика 123'**
+  String get auto_tovar1OtPostavshchika;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Категория 1'**
+  String get auto_kategoriya1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар 2 от поставщика 123'**
+  String get auto_tovar2OtPostavshchika;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Категория 2'**
+  String get auto_kategoriya2;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар 1 от поставщика 456'**
+  String get auto_tovar1OtPostavshchika_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар 1 от поставщика 789'**
+  String get auto_tovar1OtPostavshchika_2;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар 2 от поставщика 789'**
+  String get auto_tovar2OtPostavshchika_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'supplierId не должен быть пустым'**
+  String get auto_supplieridNeDolzhenByt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Время ожидания истекло'**
+  String get auto_vremyaOzhidaniyaIsteklo_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Таймаут'**
+  String get auto_taymaut;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'отправлено'**
+  String get auto_otpravleno;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'В пути'**
+  String get auto_vPuti_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Принят'**
+  String get auto_prinyat_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'отмена'**
+  String get auto_otmena_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'отменен'**
+  String get auto_otmenen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставлен'**
+  String get auto_dostavlen_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Получил'**
+  String get auto_poluchil;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не авторизован'**
+  String get auto_neAvtorizovan_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Сервер вернул некорректный ответ'**
+  String get auto_serverVernulNekorrektny;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'offset не должен быть отрицательным'**
+  String get auto_offsetNeDolzhenBytOtr;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'limit должен быть положительным'**
+  String get auto_limitDolzhenBytPolozhi;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'targetUserId должен быть положительным'**
+  String get auto_targetuseridDolzhenByt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ApiProductResolver: не удалось загрузить каталог'**
+  String get auto_apiproductresolverNeUda;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Сервер вернул пустые данные пользователя'**
+  String get auto_serverVernulPustyeDann;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверный код или истёк срок действия'**
+  String get auto_nevernyyKodIliIstyokS;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Действие недоступно для вашей роли'**
+  String get auto_deystvieNedostupnoDlya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Слишком много попыток, попробуйте позже'**
+  String get auto_slishkomMnogoPopytokPo;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'ОК'**
+  String get auto_ok;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Итого: 5 товаров'**
+  String get auto_itogo5Tovarov;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'1 товар'**
+  String get auto_1Tovar;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'2 товара'**
+  String get auto_2Tovara;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'5 товаров'**
+  String get auto_5Tovarov;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **' или '**
+  String get auto_ili;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'товар'**
+  String get auto_tovar_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'товара'**
+  String get auto_tovara;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'товаров'**
+  String get auto_tovarov;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'өнім'**
+  String get auto_nm;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ с ID {orderId} не найден'**
+  String auto_zakazSIdOrderidNeNay(Object orderId);
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваш заказ #{orderId} подтверждён'**
+  String auto_vashZakazOrderidPodtve(Object orderId);
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ #{orderId} доставлен'**
+  String auto_zakazOrderidDostavlen(Object orderId);
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар с ID {productId} не найден'**
+  String auto_tovarSIdProductidNeN(Object productId);
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка сети. Проверьте подключение и попробуйте снова'**
+  String get auto_oshibkaSetiProvertePod;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Превышено время ожидания ответа сервера'**
+  String get auto_prevyshenoVremyaOzhidan;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка валидации: {details}'**
+  String auto_oshibkaValidatsiiDetail(Object details);
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось разобрать сообщение'**
+  String get auto_neUdalosRazobratSoobsh;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось сгенерировать ответ AI: {reason}'**
+  String auto_neUdalosSgenerirovatOt(Object reason);
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'([,.;:!?])[ \\t]*([A-Za-zА-Яа-яЁёҚқҒғҮүҰұІіӘәҺһҢң])'**
+  String get auto_tazazayaayayoyo;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **' и '**
+  String get auto_i_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Запрос выполнен'**
+  String get auto_zaprosVypolnen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'некорректный ответ API'**
+  String get auto_nekorrektnyyOtvetApi;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка приложения'**
+  String get auto_oshibkaPrilozheniya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'не удалось разобрать исключение'**
+  String get auto_neUdalosRazobratIsklyu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'некорректное сообщение поддержки'**
+  String get auto_nekorrektnoeSoobshchenie;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'JSON не прошёл валидацию'**
+  String get auto_jsonNeProshyolValidats;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'не удалось разобрать JSON'**
+  String get auto_neUdalosRazobratJson;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Уведомление'**
+  String get auto_uvedomlenie;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'некорректное уведомление'**
+  String get auto_nekorrektnoeUvedomlenie;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'AI-генерация'**
+  String get auto_aigeneratsiya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'некорректный ответ AI'**
+  String get auto_nekorrektnyyOtvetAi;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка разбора сообщения'**
+  String get auto_oshibkaRazboraSoobshche;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'(без заголовка)'**
+  String get auto_bezZagolovka;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'<любые символы, включая \\'**
+  String get auto_lyubyeSimvolyVklyuchaya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле id пустое'**
+  String get auto_poleIdPustoe;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле id не соответствует формату UUID'**
+  String get auto_poleIdNeSootvetstvuet;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле body пустое'**
+  String get auto_poleBodyPustoe;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **', получен '**
+  String get auto_poluchen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле timestamp некорректно или не сериализуется в ISO 8601'**
+  String get auto_poleTimestampNekorrektn;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Неизвестное значение type'**
+  String get auto_neizvestnoeZnachenieTyp;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Неизвестное значение severity'**
+  String get auto_neizvestnoeZnachenieSev;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле id должно быть непустой строкой'**
+  String get auto_poleIdDolzhnoBytNepus;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле type должно быть строкой'**
+  String get auto_poleTypeDolzhnoBytStr;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле severity должно быть строкой'**
+  String get auto_poleSeverityDolzhnoByt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле body должно быть строкой'**
+  String get auto_poleBodyDolzhnoBytStr;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле title должно быть строкой'**
+  String get auto_poleTitleDolzhnoBytSt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле timestamp не сериализуется в ISO 8601'**
+  String get auto_poleTimestampNeSeriali;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле timestamp не парсится как ISO 8601'**
+  String get auto_poleTimestampNeParsits;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле timestamp должно быть строкой ISO 8601 или DateTime'**
+  String get auto_poleTimestampDolzhnoBy;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле language должно быть строкой'**
+  String get auto_poleLanguageDolzhnoByt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **' рекомендуется указывать metadata['**
+  String get auto_rekomenduetsyaUkazyvat;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'пропустили из-за throttle'**
+  String get auto_propustiliIzzaThrottle;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'вообще не дошли'**
+  String get auto_voobshcheNeDoshli;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'NotificationService: userId не задан, инициализация пропущена'**
+  String get auto_notificationserviceUseri;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'NotificationService: очистка состояния при logout'**
+  String get auto_notificationserviceOchis;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Optimistic hold активен, пропускаем перезапись счётчиков'**
+  String get auto_optimisticHoldAktivenP;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'userId изменился во время refresh, отменяем обновление'**
+  String get auto_useridIzmenilsyaVoVrem;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось обновить счётчики уведомлений после всех попыток, используем кэш'**
+  String get auto_neUdalosObnovitSchyotc;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Кэш уведомлений устарел, пропускаем загрузку'**
+  String get auto_keshUvedomleniyUstarel;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Пользователь разлогинился, останавливаем polling'**
+  String get auto_polzovatelRazloginilsya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Optimistic hold истёк, возобновляем polling'**
+  String get auto_optimisticHoldIstyokVo;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Polling пропущен: активен optimistic hold'**
+  String get auto_pollingPropushchenAktiv;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'_retryWithBackoff: неожиданное завершение цикла'**
+  String get auto_retrywithbackoffNeozhida;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Сводка статистики закэширована'**
+  String get auto_svodkaStatistikiZakeshi;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка при кэшировании сводки'**
+  String get auto_oshibkaPriKeshirovanii;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка при получении кэша сводки'**
+  String get auto_oshibkaPriPolucheniiKe;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'AI резюме закэшировано'**
+  String get auto_aiRezyumeZakeshirovano;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка при кэшировании AI резюме'**
+  String get auto_oshibkaPriKeshirovanii_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка при получении кэша AI резюме'**
+  String get auto_oshibkaPriPolucheniiKe_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Кэш статистики очищен'**
+  String get auto_keshStatistikiOchishche;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка при очистке кэша'**
+  String get auto_oshibkaPriOchistkeKesh;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось восстановить поставщика из хранилища'**
+  String get auto_neUdalosVosstanovitPos;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка загрузки избранного из хранилища'**
+  String get auto_oshibkaZagruzkiIzbranno;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка сохранения избранного в хранилище'**
+  String get auto_oshibkaSohraneniyaIzbra;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'PurchaseTemplate.id невалиден'**
+  String get auto_purchasetemplateidNevali;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'PurchaseTemplate.name невалиден'**
+  String get auto_purchasetemplatenameNeva;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'PurchaseTemplate.createdAt невалиден'**
+  String get auto_purchasetemplatecreatedat;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'PurchaseTemplate.updatedAt невалиден'**
+  String get auto_purchasetemplateupdatedat;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'PurchaseTemplate.items невалиден'**
+  String get auto_purchasetemplateitemsNev;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'PurchaseTemplate.createdAt не ISO-8601'**
+  String get auto_purchasetemplatecreatedat_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'PurchaseTemplate.updatedAt не ISO-8601'**
+  String get auto_purchasetemplateupdatedat_1;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'TemplateItem не объект'**
+  String get auto_templateitemNeObekt;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'TemplateItem.productId невалиден'**
+  String get auto_templateitemproductidNev;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'TemplateItem.supplierId невалиден'**
+  String get auto_templateitemsupplieridNe;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'TemplateItem.quantity невалиден'**
+  String get auto_templateitemquantityNeva;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'TemplateItem.productName невалиден'**
+  String get auto_templateitemproductnameN;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'TemplateItem.productImageUrl невалиден'**
+  String get auto_templateitemproductimageu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'TemplateItem.supplierName невалиден'**
+  String get auto_templateitemsuppliername;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'TemplateItem.pricePerUnit невалиден'**
+  String get auto_templateitempriceperunit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'TemplateItem.minQuantity невалиден'**
+  String get auto_templateitemminquantityN;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'TemplateItem.maxQuantity невалиден'**
+  String get auto_templateitemmaxquantityN;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя шаблона: от 1 до 50 символов'**
+  String get auto_imyaShablonaOt1Do50;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Шаблон с таким именем уже существует'**
+  String get auto_shablonSTakimImenemUz;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Шаблон не может быть пустым'**
+  String get auto_shablonNeMozhetBytPus;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'В шаблоне может быть не более 100 позиций.'**
+  String get auto_vShabloneMozhetBytNe;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Достигнут лимит шаблонов: 20. Удалите ненужный шаблон.'**
+  String get auto_dostignutLimitShablonov;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'никому'**
+  String get auto_nikomu;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'loadForCurrentUser: рассогласование авторизации '**
+  String get auto_loadforcurrentuserRassog;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'loadForCurrentUser: не удалось прочитать SharedPreferences'**
+  String get auto_loadforcurrentuserNeUda;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'clearCache: не удалось очистить SharedPreferences'**
+  String get auto_clearcacheNeUdalosOchi;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'_persist: не удалось записать шаблоны в SharedPreferences'**
+  String get auto_persistNeUdalosZapisat;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Напиток Coca-Cola газированный 1.5 л'**
+  String get auto_napitokCocacolaGazirova;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Coca-Cola - самый популярный газированный напиток в мире. Имеет резкий, но приятный вкус, хорошо утоляет жажду, рекомендуется пить охлажденным.'**
+  String get auto_cocacolaSamyyPopulyarny;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Газированные напитки'**
+  String get auto_gazirovannyeNapitki;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Газированная вода, сахар, краситель (сахарный колер [IV]), регулятор кислотности (ортофосфорная кислота), натуральные ароматизаторы, кофеин.'**
+  String get auto_gazirovannayaVodaSahar;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Казахстан'**
+  String get auto_kazahstan;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Торговая марка'**
+  String get auto_torgovayaMarka;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Линейка'**
+  String get auto_lineyka;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Классическая'**
+  String get auto_klassicheskaya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Манса'**
+  String get auto_mansa;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка межгород'**
+  String get auto_dostavkaMezhgorod;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Четверг 17:00'**
+  String get auto_chetverg1700;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Вс 21 сентября'**
+  String get auto_vs21Sentyabrya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Сб 23 сентября 12:00'**
+  String get auto_sb23Sentyabrya1200;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Какой-то крутой поставщик'**
+  String get auto_kakoytoKrutoyPostavshch;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Сб 20 сентября'**
+  String get auto_sb20Sentyabrya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Казахский тенге'**
+  String get auto_kazahskiyTenge;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Российский рубль'**
+  String get auto_rossiyskiyRubl;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Русский'**
+  String get auto_russkiy;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Қазақ'**
+  String get auto_aza;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Қазақша'**
+  String get auto_azasha;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет доступных поставщиков'**
+  String get auto_netDostupnyhPostavshchi;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка запуска'**
+  String get auto_oshibkaZapuska;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка запуска приложения'**
+  String get auto_oshibkaZapuskaPrilozhen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Попробуйте перезапустить приложение'**
+  String get auto_poprobuytePerezapustitP;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'переезжал'**
+  String get auto_pereezzhal;
 }
 
 class _AppLocalizationsDelegate

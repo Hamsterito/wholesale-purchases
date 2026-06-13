@@ -10,7 +10,7 @@ import '../../services/storage/otp_cooldown_store.dart';
 import '../../theme/app_color_palette.dart';
 import '../../widgets/messages/top_message.dart';
 import '../../widgets/navigation/role_internal_nav_bar.dart';
-import '../../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 /// Экран ввода OTP для выключения 2FA; после успеха показывает top-сообщение.
 class TwoFactorDisableOtpPage extends StatefulWidget {

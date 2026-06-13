@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../../utils/characteristic_sections.dart';
 import '../smooth_sheet.dart';
@@ -149,9 +150,9 @@ class _AboutProductSheetState extends State<AboutProductSheet>
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
               ),
-              tabs: const [
-                Tab(text: 'Характеристики'),
-                Tab(text: 'Описание'),
+              tabs: [
+                Tab(text: context.l10n.getString('auto_harakteristiki')),
+                Tab(text: context.l10n.getString('auto_opisanie_1')),
               ],
             ),
           const SizedBox(height: 12),

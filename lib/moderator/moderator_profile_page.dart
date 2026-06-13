@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
-import '../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../utils/logout_flow.dart';
 import '../widgets/profile/user_avatar.dart';
 
@@ -38,7 +38,7 @@ class _ModeratorProfilePageState extends State<ModeratorProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final name = AuthStorage.name ?? context.l10n.auto_moderator;
+    final name = AuthStorage.name ?? context.l10n.getString('auto_moderator');
     final email = AuthStorage.email ?? '-';
 
     return Scaffold(
@@ -56,8 +56,8 @@ class _ModeratorProfilePageState extends State<ModeratorProfilePage> {
               ),
             ),
           ),
-          _InfoTile(label: context.l10n.auto_imya_1, value: name),
-          _InfoTile(label: context.l10n.auto_elPochta_1, value: email),
+          _InfoTile(label: context.l10n.getString('auto_imya_1'), value: name),
+          _InfoTile(label: context.l10n.getString('auto_elPochta_1'), value: email),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () => performLogout(context),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../services/store/templates_store.dart';
-import '../../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../smart_image.dart';
 import '../smooth_sheet.dart';

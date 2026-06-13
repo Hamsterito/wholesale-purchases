@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/question.dart';
-import '../../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../expandable_text_block.dart';
 import '../profile/user_avatar.dart';
@@ -21,7 +21,7 @@ class QuestionCard extends StatelessWidget {
     final name = question.userName;
     final relativeTime = DateFormatter.formatDate(question.createdAt);
     final questionText = question.questionText.trim().isEmpty
-        ? context.l10n.auto_bezTeksta
+        ? context.l10n.getString('auto_bezTeksta')
         : question.questionText.trim();
 
     return Container(
@@ -106,7 +106,7 @@ ExpandableTextBlock(
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        context.l10n.auto_otvetProdavtsa,
+                        context.l10n.getString('auto_otvetProdavtsa'),
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 12,

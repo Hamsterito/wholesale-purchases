@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/product.dart';
 import '../services/api/api_service.dart';
-import '../services/localization/localization_extension.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../services/store/favorites_store.dart';
 import '../services/store/supplier_stats_store.dart';
 import '../theme/app_color_palette.dart';
