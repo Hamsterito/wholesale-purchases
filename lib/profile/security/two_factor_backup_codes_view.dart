@@ -1,4 +1,4 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +26,9 @@ class TwoFactorBackupCodesView extends StatelessWidget {
 
   String get _joinedCodes => codes.join('\n');
 
-  String get _fileContent =>
-      'Резервные коды двухфакторной аутентификации\n'
-      'Сохраните их в надёжном месте - каждый код можно использовать только один раз.\n'
+  String _fileContent(BuildContext context) =>
+      '${context.l10n.getString('auto_rezervnyeKodyDvuhfaktor')}\n'
+      '${context.l10n.getString('auto_sohraniteIhVNadyozhnom')}\n'
       '\n'
       '$_joinedCodes\n';
 
@@ -37,7 +37,7 @@ class TwoFactorBackupCodesView extends StatelessWidget {
     if (!context.mounted) return;
     showTopMessage(
       context,
-      'Коды скопированы в буфер обмена',
+      context.l10n.getString('auto_kodySkopirovanyVBufer'),
       backgroundColor: context.colorPalette.success,
     );
   }
@@ -46,7 +46,7 @@ class TwoFactorBackupCodesView extends StatelessWidget {
     final palette = context.colorPalette;
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     final fileName = 'backup_codes_$timestamp';
-    final bytes = Uint8List.fromList(utf8.encode(_fileContent));
+    final bytes = Uint8List.fromList(utf8.encode(_fileContent(context)));
     try {
       await FileSaver.instance.saveFile(
         name: fileName,
@@ -57,7 +57,7 @@ class TwoFactorBackupCodesView extends StatelessWidget {
       if (!context.mounted) return;
       showTopMessage(
         context,
-        'Файл с кодами сохранён',
+        context.l10n.getString('auto_faylSKodamiSohranyon'),
         backgroundColor: palette.success,
       );
     } catch (e) {
@@ -82,7 +82,7 @@ class TwoFactorBackupCodesView extends StatelessWidget {
         backgroundColor: palette.card,
         elevation: 0,
         title: Text(
-          'Резервные коды',
+          context.l10n.getString('auto_rezervnyeKody'),
           style: TextStyle(
             color: cs.onSurface,
             fontSize: 18,
@@ -98,7 +98,7 @@ class TwoFactorBackupCodesView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Резервные коды двухфакторной аутентификации',
+                context.l10n.getString('auto_rezervnyeKodyDvuhfaktor_1'),
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -108,7 +108,7 @@ class TwoFactorBackupCodesView extends StatelessWidget {
               const SizedBox(height: 12),
               _WarningBanner(
                 message:
-                    'Сохраните коды в безопасном месте — они показываются один раз. Каждый код можно использовать только однократно для входа, если потерян доступ к почте.',
+                    context.l10n.getString('auto_sohraniteKodyVBezopasn'),
               ),
               const SizedBox(height: 20),
               _CodesGrid(codes: codes),
@@ -162,9 +162,9 @@ class TwoFactorBackupCodesView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text(
-                      'Готово',
-                      style: TextStyle(
+                    child: Text(
+                      context.l10n.getString('auto_gotovo'),
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),

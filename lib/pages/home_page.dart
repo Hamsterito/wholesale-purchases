@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
       if (!mounted) return;
 
       final tabs = <String>[context.l10n.homeAllTab];
-      final seenMain = <String>{'все', 'all', 'барлығы'};
+      final seenMain = <String>{context.l10n.getString('auto_vse'), 'all', context.l10n.getString('auto_barlyy')};
       final aliasesByMain = <String, Set<String>>{};
 
       for (final row in tree) {
@@ -646,7 +646,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
     for (final entry in product.characteristics.entries) {
       final key = entry.key.toLowerCase();
       final value = entry.value.toLowerCase();
-      if (!key.contains('скид')) continue;
+      if (!key.contains(context.l10n.getString('auto_skid'))) continue;
       final digits = RegExp(r'\d+').firstMatch(value)?.group(0);
       if (digits != null) {
         final parsed = int.tryParse(digits) ?? 0;

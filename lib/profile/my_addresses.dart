@@ -78,7 +78,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
     } catch (_) {
       if (!mounted) return;
       setState(() => _isLoading = false);
-      _showSnack('Не удалось загрузить адреса');
+      _showSnack(context.l10n.getString('auto_neUdalosZagruzitAdresa'));
     }
   }
 
@@ -97,7 +97,8 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
 
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
-      _showSnack('Нужно войти в аккаунт');
+      if (!mounted) return;
+      _showSnack(context.l10n.getString('auto_nuzhnoVoytiVAkkaunt'));
       return;
     }
 
@@ -131,14 +132,14 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
     } catch (_) {
       if (!mounted) return;
       setState(() => _isSaving = false);
-      _showSnack('Не удалось сохранить адрес');
+      _showSnack(context.l10n.getString('auto_neUdalosSohranitAdres'));
     }
   }
 
   Future<void> _confirmDelete(UserAddress address) async {
     final approved = await showGeneralDialog<bool>(
       context: context,
-      barrierLabel: 'Закрыть',
+      barrierLabel: context.l10n.getString('auto_zakryt'),
       barrierDismissible: true,
       barrierColor: Colors.black.withValues(alpha: 0.55),
       transitionDuration: const Duration(milliseconds: 180),
@@ -172,7 +173,8 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
 
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
-      _showSnack('Нужно войти в аккаунт');
+      if (!mounted) return;
+      _showSnack(context.l10n.getString('auto_nuzhnoVoytiVAkkaunt'));
       return;
     }
 
@@ -195,7 +197,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
       await AuthStorage.saveSelectedAddressId(_selectedAddressId);
     } catch (_) {
       if (!mounted) return;
-      _showSnack('Не удалось удалить адрес');
+      _showSnack(context.l10n.getString('auto_neUdalosUdalitAdres'));
     }
   }
 
@@ -250,7 +252,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Мои адреса',
+          context.l10n.getString('auto_moiAdresa'),
           style: TextStyle(
             color: _colorScheme.onSurface,
             fontSize: 18,
@@ -264,7 +266,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
               Icons.add_circle_outline,
               color: context.colorPalette.accent,
             ),
-            tooltip: 'Добавить адрес',
+            tooltip: context.l10n.getString('auto_dobavitAdres'),
           ),
           const SizedBox(width: 6),
         ],
@@ -329,7 +331,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
             ),
             const SizedBox(height: 12),
             Text(
-              'Адресов пока нет',
+              context.l10n.getString('auto_adresovPokaNet'),
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -338,7 +340,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
             ),
             const SizedBox(height: 6),
             Text(
-              'Добавьте адрес, чтобы оформить заказ быстрее.',
+              context.l10n.getString('auto_dobavteAdresChtobyOfor'),
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 12, color: _mutedText),
             ),
@@ -429,7 +431,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      address.isEmpty ? 'Без адреса' : address,
+                      address.isEmpty ? context.l10n.getString('auto_bezAdresa') : address,
                       style: TextStyle(
                         fontSize: 13,
                         color: _mutedText,
@@ -451,7 +453,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
                     ),
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
-                    tooltip: 'Редактировать',
+                    tooltip: context.l10n.getString('auto_redaktirovat'),
                   ),
                   const SizedBox(width: 12),
                   IconButton(
@@ -463,7 +465,7 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
                     ),
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
-                    tooltip: 'Удалить',
+                    tooltip: context.l10n.getString('auto_udalit'),
                   ),
                 ],
               ),
@@ -526,7 +528,7 @@ class _DeleteAddressDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Удалить адрес?',
+                context.l10n.getString('auto_udalitAdres'),
                 style: TextStyle(
                   color: titleColor,
                   fontSize: 16,
@@ -543,7 +545,7 @@ class _DeleteAddressDialog extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _DeleteDialogActionButton(
-                      label: 'Отмена',
+                      label: context.l10n.getString('auto_otmena'),
                       background: neutralBg,
                       foreground: neutralText,
                       borderColor: outlineColor,
@@ -553,7 +555,7 @@ class _DeleteAddressDialog extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: _DeleteDialogActionButton(
-                      label: 'Удалить',
+                      label: context.l10n.getString('auto_udalit'),
                       background: danger,
                       foreground: dangerText,
                       borderColor: danger,

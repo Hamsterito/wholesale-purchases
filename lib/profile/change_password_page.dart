@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../models/message.dart';
@@ -45,10 +45,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   String? _validateCurrent(String? value) {
     final trimmed = value?.trim() ?? '';
     if (trimmed.isEmpty) {
-      return 'Введите текущий пароль';
+      return context.l10n.getString('auto_vvediteTekushchiyParol');
     }
     if (trimmed.length < 6) {
-      return 'Минимум 6 символов';
+      return context.l10n.getString('auto_minimum6Simvolov');
     }
     return null;
   }
@@ -56,13 +56,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   String? _validateNew(String? value) {
     final trimmed = value?.trim() ?? '';
     if (trimmed.isEmpty) {
-      return 'Введите новый пароль';
+      return context.l10n.getString('auto_vvediteNovyyParol');
     }
     if (trimmed.length < 6) {
-      return 'Минимум 6 символов';
+      return context.l10n.getString('auto_minimum6Simvolov');
     }
     if (trimmed == _currentPasswordController.text.trim()) {
-      return 'Новый пароль должен отличаться от текущего';
+      return context.l10n.getString('auto_novyyParolDolzhenOtlic');
     }
     return null;
   }
@@ -70,10 +70,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   String? _validateConfirm(String? value) {
     final trimmed = value?.trim() ?? '';
     if (trimmed.isEmpty) {
-      return 'Повторите новый пароль';
+      return context.l10n.getString('auto_povtoriteNovyyParol');
     }
     if (trimmed != _newPasswordController.text.trim()) {
-      return 'Пароли не совпадают';
+      return context.l10n.getString('auto_paroliNeSovpadayut');
     }
     return null;
   }
@@ -81,19 +81,19 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   String _normalizeErrorMessage(Object error) {
     final raw = error.toString().trim();
     if (raw.isEmpty) {
-      return 'Не удалось изменить пароль';
+      return context.l10n.getString('auto_neUdalosIzmenitParol');
     }
 
     const exceptionPrefix = 'Exception:';
     if (raw.startsWith(exceptionPrefix)) {
       final details = raw.substring(exceptionPrefix.length).trim();
-      return details.isEmpty ? 'Не удалось изменить пароль' : details;
+      return details.isEmpty ? context.l10n.getString('auto_neUdalosIzmenitParol') : details;
     }
 
     const argumentPrefix = 'Invalid argument(s):';
     if (raw.startsWith(argumentPrefix)) {
       final details = raw.substring(argumentPrefix.length).trim();
-      return details.isEmpty ? 'Проверьте введённые данные' : details;
+      return details.isEmpty ? context.l10n.getString('auto_proverteVvedyonnyeDanny') : details;
     }
 
     return raw;
@@ -113,7 +113,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           type: MessageType.notification,
           severity: MessageSeverity.warning,
           title: '',
-          body: 'Проверьте введённые данные',
+          body: context.l10n.getString('auto_proverteVvedyonnyeDanny'),
           timestamp: DateTime.now(),
           language: MessageLocalizationManager.getCurrentLanguage(),
         ),
@@ -130,7 +130,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           type: MessageType.notification,
           severity: MessageSeverity.error,
           title: '',
-          body: 'Сессия истекла. Войдите снова.',
+          body: context.l10n.getString('auto_sessiyaIsteklaVoyditeS'),
           timestamp: DateTime.now(),
           language: MessageLocalizationManager.getCurrentLanguage(),
         ),
@@ -220,7 +220,7 @@ await showDialog<void>(
           },
         ),
         title: Text(
-          'Изменить пароль',
+          context.l10n.getString('auto_izmenitParol'),
           style: TextStyle(
             color: _colorScheme.onSurface,
             fontSize: 18,
@@ -239,7 +239,7 @@ await showDialog<void>(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Текущий пароль',
+                  context.l10n.getString('auto_tekushchiyParol'),
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -256,7 +256,7 @@ await showDialog<void>(
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: _inputFill,
-                    hintText: 'Введите текущий пароль',
+                    hintText: context.l10n.getString('auto_vvediteTekushchiyParol'),
                     hintStyle: TextStyle(color: _mutedText),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -278,7 +278,7 @@ await showDialog<void>(
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Новый пароль',
+                  context.l10n.getString('auto_novyyParol'),
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -295,7 +295,7 @@ await showDialog<void>(
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: _inputFill,
-                    hintText: 'Минимум 6 символов',
+                    hintText: context.l10n.getString('auto_minimum6Simvolov'),
                     hintStyle: TextStyle(color: _mutedText),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -317,7 +317,7 @@ await showDialog<void>(
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Повторите новый пароль',
+                  context.l10n.getString('auto_povtoriteNovyyParol'),
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -334,7 +334,7 @@ await showDialog<void>(
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: _inputFill,
-                    hintText: 'Введите пароль ещё раз',
+                    hintText: context.l10n.getString('auto_vvediteParolEshchyoRaz'),
                     hintStyle: TextStyle(color: _mutedText),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -356,7 +356,7 @@ await showDialog<void>(
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Пароль должен содержать минимум 6 символов и отличаться от текущего.',
+                  context.l10n.getString('auto_parolDolzhenSoderzhatM'),
                   style: TextStyle(fontSize: 12, color: _mutedText),
                 ),
                 const SizedBox(height: 24),
@@ -384,8 +384,7 @@ await showDialog<void>(
                               ),
                             ),
                           )
-                        : const Text(
-                            'СОХРАНИТЬ ПАРОЛЬ',
+                        : Text(context.l10n.getString('auto_sohranitParol'),
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,

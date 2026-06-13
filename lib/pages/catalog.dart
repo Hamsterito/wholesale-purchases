@@ -1,9 +1,10 @@
-import 'dart:async';
+﻿import 'dart:async';
 
 import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../services/api/api_service.dart';
 import 'category_products_page.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 // RegExp вызываются на каждом keystroke в поиске и при парсинге keywords
 // при загрузке категорий - выносим в top-level final, чтобы не пересоздавать.
@@ -223,19 +224,19 @@ class _CatalogPageState extends State<CatalogPage> {
 
   Color _tintForCategoryName(String name) {
     final normalized = name.toLowerCase();
-    if (normalized.contains('напит')) {
+    if (normalized.contains(context.l10n.getString('auto_napit'))) {
       return Colors.blue[100]!;
     }
-    if (normalized.contains('овощ') || normalized.contains('фрукт')) {
+    if (normalized.contains(context.l10n.getString('auto_ovoshch')) || normalized.contains(context.l10n.getString('auto_frukt'))) {
       return Colors.green[300]!;
     }
-    if (normalized.contains('хлеб') || normalized.contains('пекар')) {
+    if (normalized.contains(context.l10n.getString('auto_hleb')) || normalized.contains(context.l10n.getString('auto_pekar'))) {
       return Colors.orange[200]!;
     }
-    if (normalized.contains('молоч')) {
+    if (normalized.contains(context.l10n.getString('auto_moloch'))) {
       return Colors.yellow[100]!;
     }
-    if (normalized.contains('мяс') || normalized.contains('птиц')) {
+    if (normalized.contains(context.l10n.getString('auto_myas')) || normalized.contains(context.l10n.getString('auto_ptits'))) {
       return Colors.pink[100]!;
     }
     return Colors.blue[100]!;
@@ -331,7 +332,7 @@ class _CatalogPageState extends State<CatalogPage> {
         children: [
           Expanded(
             child: Text(
-              'Каталог',
+              context.l10n.getString('auto_katalog'),
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -354,7 +355,7 @@ class _CatalogPageState extends State<CatalogPage> {
         textInputAction: TextInputAction.search,
         onChanged: _onSearchChanged,
         decoration: InputDecoration(
-          hintText: 'Поиск категорий...',
+          hintText: context.l10n.getString('auto_poiskKategoriy'),
           hintStyle: TextStyle(color: _mutedText),
           prefixIcon: Icon(Icons.search, color: _mutedText),
           suffixIcon: _searchQuery.isEmpty
@@ -390,7 +391,7 @@ class _CatalogPageState extends State<CatalogPage> {
     if (_mainCategories.isEmpty) {
       return Center(
         child: Text(
-          'Нет категорий',
+          context.l10n.getString('auto_netKategoriy'),
           style: TextStyle(color: _mutedText, fontSize: 16),
           textAlign: TextAlign.center,
         ),
@@ -401,7 +402,7 @@ class _CatalogPageState extends State<CatalogPage> {
     if (visible.isEmpty) {
       return Center(
         child: Text(
-          'Ничего не найдено',
+          context.l10n.getString('auto_nichegoNeNaydeno'),
           style: TextStyle(color: _mutedText, fontSize: 16),
         ),
       );
@@ -610,7 +611,7 @@ class _SubcategoriesPageState extends State<_SubcategoriesPage> {
                 });
               },
               decoration: InputDecoration(
-                hintText: 'Поиск подкатегорий...',
+                hintText: context.l10n.getString('auto_poiskPodkategoriy'),
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _searchQuery.isEmpty
                     ? null
@@ -637,7 +638,7 @@ class _SubcategoriesPageState extends State<_SubcategoriesPage> {
             child: subcategories.isEmpty
                 ? Center(
                     child: Text(
-                      'Ничего не найдено',
+                      context.l10n.getString('auto_nichegoNeNaydeno'),
                       style: TextStyle(
                         color: _colorScheme.onSurfaceVariant,
                         fontSize: 16,

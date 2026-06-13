@@ -100,7 +100,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
 
   // Фильтры
   int _selectedTabIndex = 0;
-  List<String> _tabs = ['Все'];
+  List<String> _tabs = [];
   bool _filtersInitialized = false;
   double _priceMinBound = 0;
   double _priceMaxBound = 0;
@@ -146,6 +146,14 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
     };
     FavoritesStore.instance.addListener(_favoritesListener);
     _loadData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_tabs.isEmpty) {
+      _tabs = [context.l10n.getString('auto_vse_1')];
+    }
   }
 
   @override
@@ -196,7 +204,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
   }
 
   void _buildCategoryTabs(List<Product> products) {
-    final tabs = <String>['Все'];
+    final tabs = <String>[context.l10n.getString('auto_vse_1')];
     final seen = <String>{};
     for (final product in products) {
       for (final cat in product.categories) {
@@ -211,16 +219,16 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
 
   String _resolveErrorMessage(Object error) {
     final message = error.toString();
-    if (message.contains('Поставщик не найден')) return 'Поставщик не найден';
-    if (message.contains('Время ожидания')) {
-      return 'Время ожидания истекло. Проверьте соединение и повторите попытку.';
+    if (message.contains(context.l10n.getString('auto_postavshchikNeNayden'))) return context.l10n.getString('auto_postavshchikNeNayden');
+    if (message.contains(context.l10n.getString('auto_vremyaOzhidaniya'))) {
+      return context.l10n.getString('auto_vremyaOzhidaniyaIsteklo');
     }
     if (message.contains('SocketException') ||
         message.contains('NetworkException') ||
         message.contains('Failed host lookup')) {
-      return 'Нет подключения к интернету';
+      return context.l10n.getString('auto_netPodklyucheniyaKInte');
     }
-    return 'Не удалось загрузить данные. Попробуйте ещё раз.';
+    return context.l10n.getString('auto_neUdalosZagruzitDannye');
   }
 
   Future<void> _onRefresh() async {
@@ -235,7 +243,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
     setState(() => _isFavorite = added);
     showTopMessage(
       context,
-      added ? 'Добавлено в избранное' : 'Удалено из избранного',
+      added ? context.l10n.getString('auto_dobavlenoVIzbrannoe') : context.l10n.getString('auto_udalenoIzIzbrannogo'),
       backgroundColor: added ? palette.accent : palette.error,
     );
   }
@@ -271,8 +279,8 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
       return Center(
         child: Text(
           _allProducts.isEmpty
-              ? 'Нет товаров от этого поставщика'
-              : 'Товары не найдены',
+              ? context.l10n.getString('auto_netTovarovOtEtogoPost')
+              : context.l10n.getString('auto_tovaryNeNaydeny'),
           style: TextStyle(color: _mutedText, fontSize: 16),
         ),
       );
@@ -292,7 +300,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
           IconButton(
             icon: Icon(Icons.arrow_back, color: _colorScheme.onSurface),
             onPressed: () => Navigator.pop(context),
-            tooltip: 'Назад',
+            tooltip: context.l10n.getString('auto_nazad'),
           ),
           // Название компании в центре + общий рейтинг рядом со звездой.
           Expanded(
@@ -331,8 +339,8 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
           // Сердечко
           Semantics(
             label: _isFavorite
-                ? 'Удалить из избранного'
-                : 'Добавить в избранное',
+                ? context.l10n.getString('auto_udalitIzIzbrannogo')
+                : context.l10n.getString('auto_dobavitVIzbrannoe'),
             button: true,
             child: IconButton(
               icon: Icon(
@@ -341,8 +349,8 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
               ),
               onPressed: _toggleFavorite,
               tooltip: _isFavorite
-                  ? 'Удалить из избранного'
-                  : 'Добавить в избранное',
+                  ? context.l10n.getString('auto_udalitIzIzbrannogo')
+                  : context.l10n.getString('auto_dobavitVIzbrannoe'),
             ),
           ),
         ],
@@ -360,7 +368,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
         textInputAction: TextInputAction.search,
         onChanged: _onSearchChanged,
         decoration: InputDecoration(
-          hintText: 'Поиск...',
+          hintText: context.l10n.getString('auto_poisk'),
           hintStyle: TextStyle(color: _mutedText),
           prefixIcon: Icon(Icons.search, color: _mutedText),
           suffixIcon: _searchQuery.isEmpty
@@ -502,7 +510,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
             Icon(Icons.error_outline, size: 64, color: palette.error),
             const SizedBox(height: 16),
             Text(
-              _errorMessage ?? 'Произошла ошибка',
+              _errorMessage ?? context.l10n.getString('auto_proizoshlaOshibka'),
               style: TextStyle(
                 fontSize: 16,
                 color: palette.ink,
@@ -524,8 +532,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: const Text(
-                'Повторить',
+              child: Text(context.l10n.getString('auto_povtorit'),
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
               ),
             ),
@@ -533,7 +540,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: Text(
-                'Вернуться',
+                context.l10n.getString('auto_vernutsya'),
                 style: TextStyle(color: palette.muted, fontSize: 14),
               ),
             ),
@@ -795,8 +802,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      const Text(
-                        'Фильтры',
+                      Text(context.l10n.getString('auto_filtry'),
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
@@ -819,12 +825,12 @@ TextButton(
                        ),
                     ],
                   ),
-                  _buildFilterSectionTitle('Цена за шт.'),
+                  _buildFilterSectionTitle(context.l10n.getString('auto_tsenaZaSht')),
                   const SizedBox(height: 8),
                   Row(
                     children: [
                       _buildInputPill(
-                        label: 'от',
+                        label: context.l10n.getString('auto_ot'),
                         controller: fromController,
                         onChanged: (value) {
                           final parsed = value.isEmpty
@@ -844,7 +850,7 @@ TextButton(
                       ),
                       const SizedBox(width: 12),
                       _buildInputPill(
-                        label: 'до',
+                        label: context.l10n.getString('auto_do'),
                         controller: toController,
                         hintText: '∞',
                         onChanged: (value) {
@@ -900,20 +906,20 @@ TextButton(
                     ),
                   ),
                   const SizedBox(height: 12),
-                  _buildFilterSectionTitle('Сортировка'),
+                  _buildFilterSectionTitle(context.l10n.getString('auto_sortirovka')),
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
                     children: [
                       _buildSortChip(
-                        label: 'Цена',
+                        label: context.l10n.getString('auto_tsena'),
                         selected: sortField == _SortField.price,
                         onTap: () =>
                             setSheetState(() => sortField = _SortField.price),
                       ),
                       _buildSortChip(
-                        label: 'Рейтинг',
+                        label: context.l10n.getString('auto_reyting'),
                         selected: sortField == _SortField.rating,
                         onTap: () =>
                             setSheetState(() => sortField = _SortField.rating),
@@ -921,7 +927,7 @@ TextButton(
                     ],
                   ),
                   const SizedBox(height: 12),
-                  _buildFilterSectionTitle('Порядок'),
+                  _buildFilterSectionTitle(context.l10n.getString('auto_poryadok')),
                   const SizedBox(height: 6),
                   Container(
                     decoration: BoxDecoration(
@@ -932,7 +938,7 @@ TextButton(
                     child: Column(
                       children: [
                         _buildSortOrderOption(
-                          label: 'По возрастанию',
+                          label: context.l10n.getString('auto_poVozrastaniyu'),
                           icon: Icons.arrow_upward,
                           selected: sortAscending,
                           onTap: () =>
@@ -940,7 +946,7 @@ TextButton(
                         ),
                         Divider(height: 1, color: _borderColor),
                         _buildSortOrderOption(
-                          label: 'По убыванию',
+                          label: context.l10n.getString('auto_poUbyvaniyu'),
                           icon: Icons.arrow_downward,
                           selected: !sortAscending,
                           onTap: () =>
@@ -950,11 +956,11 @@ TextButton(
                     ),
                   ),
                   const SizedBox(height: 12),
-                  _buildFilterSectionTitle('Рейтинг'),
+                  _buildFilterSectionTitle(context.l10n.getString('auto_reyting')),
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      _buildValuePill('от', minRating.toStringAsFixed(1)),
+                      _buildValuePill(context.l10n.getString('auto_ot'), minRating.toStringAsFixed(1)),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Slider(

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
@@ -13,6 +13,7 @@ import '../services/localization/app_localizations.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/smart_image.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 class MyOrdersPage extends StatefulWidget {
   const MyOrdersPage({super.key});
@@ -265,38 +266,38 @@ title: Text(
 
   bool _isDeliveredStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized == 'доставлен' ||
-        normalized == 'доставлено' ||
+    return normalized == context.l10n.getString('auto_dostavlen') ||
+        normalized == context.l10n.getString('auto_dostavleno') ||
         normalized == 'delivered';
   }
 
   bool _isInTransitStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized.contains('в пути') ||
+    return normalized.contains(context.l10n.getString('auto_vPuti')) ||
         normalized == 'in transit' ||
         normalized == 'on the way';
   }
 
   bool _isProcessingStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized.contains('собира') ||
+    return normalized.contains(context.l10n.getString('auto_sobira')) ||
         normalized == 'processing' ||
         normalized == 'assembling';
   }
 
   bool _isAcceptedStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized == 'принят' ||
-        normalized == 'принята' ||
-        normalized == 'принято' ||
-        normalized == 'приняты' ||
+    return normalized == context.l10n.getString('auto_prinyat') ||
+        normalized == context.l10n.getString('auto_prinyata') ||
+        normalized == context.l10n.getString('auto_prinyato') ||
+        normalized == context.l10n.getString('auto_prinyaty') ||
         normalized == 'accepted' ||
         normalized == 'received';
   }
 
   bool _isCancelledStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized.contains('отмен') ||
+    return normalized.contains(context.l10n.getString('auto_otmen')) ||
         normalized == 'cancelled' ||
         normalized == 'canceled';
   }
@@ -877,7 +878,7 @@ Widget _buildOrderCard(Order order) {
     final hours = remaining.inHours;
     final minutes = remaining.inMinutes % 60;
     final timeLabel = hours > 0
-        ? '$hours ч ${(minutes).toString().padLeft(2, '0')} мин'
+        ? '$hours ч ${(minutes).toString().padLeft(2, '0')} ${context.l10n.getString('auto_min')}'
         : '${remaining.inMinutes} мин';
 
     return Row(

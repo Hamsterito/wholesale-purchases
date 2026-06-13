@@ -103,7 +103,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
     } catch (e) {
       if (!mounted) return;
       _showSnack(
-        _extractErrorMessage(e, fallback: 'Ошибка операции'),
+        _extractErrorMessage(e, fallback: context.l10n.auto_oshibkaOperatsii),
         isError: true,
       );
     }
@@ -114,7 +114,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
   Future<void> _deleteProduct(SupplierProduct product) async {
     final userId = _userId;
     if (userId == null || userId == 0) {
-      _showSnack('Требуется авторизация', isError: true);
+      _showSnack(context.l10n.auto_trebuetsyaAvtorizatsiya, isError: true);
       return;
     }
     if (_deletingIds.contains(product.id)) {
@@ -176,7 +176,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
               moderationStatus: 'rejected',
               moderationComment: hiddenMessage?.isNotEmpty == true
                   ? hiddenMessage
-                  : 'Товар снят с публикации.',
+                  : context.l10n.auto_tovarSnyatSPublikatsii,
               stockQuantity: 0,
             );
           }).toList();
@@ -190,10 +190,10 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
         _showSnack(
           hiddenMessage?.isNotEmpty == true
               ? hiddenMessage!
-              : 'Товар снят с публикации',
+              : context.l10n.auto_tovarSnyatSPublikatsii_1,
         );
       } else {
-        _showSnack('Товар удалён');
+        _showSnack(context.l10n.auto_tovarUdalyon);
       }
     } catch (e) {
       _showSnack(
@@ -424,7 +424,7 @@ Expanded(
                 Expanded(
                   child: _MetricTile(
                     icon: Icons.payments_outlined,
-                    label: 'Цена',
+                    label: context.l10n.auto_tsena,
                     value: '${product.pricePerUnit} \u20B8',
                   ),
                 ),
@@ -432,7 +432,7 @@ Expanded(
                 Expanded(
                   child: _MetricTile(
                     icon: Icons.inventory_2_outlined,
-                    label: 'Мин. партия',
+                    label: context.l10n.auto_minPartiya,
                     value: '${product.minQuantity} шт.',
                   ),
                 ),
@@ -440,7 +440,7 @@ Expanded(
                 Expanded(
                   child: _MetricTile(
                     icon: Icons.all_inbox_outlined,
-                    label: 'Остаток',
+                    label: context.l10n.auto_ostatok,
                     value: stockQuantityLabel,
                   ),
                 ),
@@ -585,7 +585,7 @@ Expanded(
                         ),
                         const SizedBox(height: 18),
                         const Text(
-                          'Пока нет товаров',
+                          context.l10n.auto_pokaNetTovarov,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20,
@@ -594,7 +594,7 @@ Expanded(
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Добавьте первый товар и отправьте его на модерацию.',
+                          context.l10n.auto_dobavtePervyyTovarIOt,
                           textAlign: TextAlign.center,
                           style: TextStyle(color: colorScheme.onSurfaceVariant),
                         ),
@@ -630,7 +630,7 @@ Expanded(
         onPressed: _isSubmitting || _deletingIds.isNotEmpty
             ? null
             : () => _openProductWizard(),
-        tooltip: 'Добавить товар',
+        tooltip: context.l10n.auto_dobavitTovar,
         backgroundColor: _isDark
             ? AppColorPalette.of(context).accentMist
             : AppColorPalette.of(context).accent,

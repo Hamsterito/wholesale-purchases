@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../models/question.dart';
 import '../services/api/api_service.dart';
 import '../services/localization/localization_extension.dart';
@@ -224,7 +224,7 @@ floatingActionButton: FloatingActionButton.extended(
           IconButton(
             onPressed: () => Navigator.pop(context),
             icon: Icon(Icons.arrow_back, color: palette.ink),
-            tooltip: 'Назад',
+            tooltip: context.l10n.getString('auto_nazad'),
             style: IconButton.styleFrom(
               minimumSize: const Size(32, 32),
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -237,7 +237,7 @@ floatingActionButton: FloatingActionButton.extended(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Вопросы о товаре',
+                  context.l10n.getString('auto_voprosyOTovare'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
@@ -270,7 +270,7 @@ floatingActionButton: FloatingActionButton.extended(
               Icon(Icons.error_outline, size: 48, color: palette.muted),
               const SizedBox(height: 16),
               Text(
-                'Ошибка',
+                context.l10n.getString('auto_oshibka'),
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -303,7 +303,7 @@ ElevatedButton(
               Icon(Icons.help_outline, size: 48, color: palette.muted),
               const SizedBox(height: 16),
               Text(
-                'Нет вопросов',
+                context.l10n.getString('auto_netVoprosov'),
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -312,7 +312,7 @@ ElevatedButton(
               ),
               const SizedBox(height: 8),
               Text(
-                'Будьте первым, кто задаст вопрос!',
+                context.l10n.getString('auto_budtePervymKtoZadastV'),
                 style: TextStyle(fontSize: 14, color: palette.muted),
               ),
               const SizedBox(height: 24),
@@ -417,7 +417,7 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
     if (userId == null || userId <= 0) {
       if (mounted) {
         setState(() {
-          _submissionError = 'Вы не авторизованы';
+          _submissionError = context.l10n.getString('auto_vyNeAvtorizovany');
         });
       }
       return;
@@ -482,7 +482,7 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: Text(
-                  'Задать вопрос',
+                  context.l10n.getString('auto_zadatVopros'),
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -512,7 +512,7 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Товар',
+                              context.l10n.getString('auto_tovar'),
                               style: TextStyle(
                                 fontSize: 12,
                                 color: palette.muted,
@@ -545,7 +545,7 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Ваш вопрос',
+                      context.l10n.getString('auto_vashVopros'),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,

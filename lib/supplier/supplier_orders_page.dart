@@ -133,14 +133,14 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
 
   bool _isAssemblingStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized.contains('собира') ||
+    return normalized.contains(context.l10n.auto_sobira) ||
         normalized == 'assembling' ||
         normalized == 'processing';
   }
 
   bool _isInTransitStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized.contains('в пути') ||
+    return normalized.contains(context.l10n.auto_vPuti) ||
         normalized == 'in transit' ||
         normalized == 'in_transit' ||
         normalized == 'on the way';
@@ -148,22 +148,22 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
 
   bool _isDeliveredStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized.contains('достав') || normalized == 'delivered';
+    return normalized.contains(context.l10n.auto_dostav) || normalized == 'delivered';
   }
 
   bool _isAcceptedStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized == 'принят' ||
-        normalized == 'принята' ||
-        normalized == 'принято' ||
-        normalized == 'приняты' ||
+    return normalized == context.l10n.auto_prinyat ||
+        normalized == context.l10n.auto_prinyata ||
+        normalized == context.l10n.auto_prinyato ||
+        normalized == context.l10n.auto_prinyaty ||
         normalized == 'accepted' ||
         normalized == 'received';
   }
 
   bool _isCancelledStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized.contains('отмен') ||
+    return normalized.contains(context.l10n.auto_otmen) ||
         normalized == 'cancelled' ||
         normalized == 'canceled';
   }
@@ -1089,7 +1089,7 @@ _buildHistoryDetailRow(
             const SizedBox(height: 10),
             _buildHistoryDetailRow(
               icon: Icons.location_on_outlined,
-              label: 'Адрес доставки',
+              label: context.l10n.auto_adresDostavki,
               value: order.deliveryAddress.trim(),
               multilineValue: true,
             ),

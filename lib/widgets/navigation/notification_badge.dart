@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../theme/app_color_palette.dart';
 import '../../utils/ru_plural.dart';
 import 'nav_helpers.dart';
+import '../services/localization/localization_extension.dart';
 
 /// Виджет значка уведомлений - отображает счётчик в виде круглого бейджа.
 class NotificationBadge extends StatefulWidget {
@@ -119,7 +120,7 @@ class _NotificationBadgeState extends State<NotificationBadge>
     // Семантическая метка для screen readers с правильным склонением
     final semanticText =
         widget.semanticLabel ??
-        '$_displayCount ${pluralizeRu(_displayCount, 'непрочитанное уведомление', 'непрочитанных уведомления', 'непрочитанных уведомлений')}';
+        '$_displayCount ${pluralizeRu(_displayCount, context.l10n.auto_neprochitannoeUvedomleni, context.l10n.auto_neprochitannyhUvedomleni, context.l10n.auto_neprochitannyhUvedomleni_1)}';
 
     // Минимальный размер - 20px согласно требованиям
     final badgeSize = widget.size < 20 ? 20.0 : widget.size;

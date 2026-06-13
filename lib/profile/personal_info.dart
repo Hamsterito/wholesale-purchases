@@ -12,6 +12,7 @@ import '../services/message/message_localization.dart';
 import '../models/message.dart';
 import '../models/user_profile.dart';
 import '../widgets/profile/user_avatar.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 // Лимит размера аватарки совпадает с серверным - чтобы не гонять сетевой
 // запрос ради 413.
@@ -151,7 +152,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
 
   String _displayValue(String value) {
     final trimmed = value.trim();
-    return trimmed.isEmpty ? 'Не указано' : trimmed;
+    return trimmed.isEmpty ? context.l10n.getString('auto_neUkazano') : trimmed;
   }
 
   String _displayPhone(String value) {
@@ -190,10 +191,10 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
   String? _validateName(String value) {
     final name = value.trim();
     if (name.isEmpty) {
-      return 'Введите имя';
+      return context.l10n.getString('auto_vvediteImya');
     }
     if (name.length < 2) {
-      return 'Имя слишком короткое';
+      return context.l10n.getString('auto_imyaSlishkomKorotkoe');
     }
     return null;
   }
@@ -201,20 +202,20 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
   String? _validateEmail(String value) {
     final email = value.trim();
     if (email.isEmpty) {
-      return 'Введите email';
+      return context.l10n.getString('auto_vvediteEmail');
     }
     if (!_emailRegex.hasMatch(email)) {
-      return 'Некорректный email';
+      return context.l10n.getString('auto_nekorrektnyyEmail');
     }
     return null;
   }
 
   String? _validatePhoneDigits(String digits) {
     if (digits.isEmpty) {
-      return 'Введите номер телефона';
+      return context.l10n.getString('auto_vvediteNomerTelefona');
     }
     if (digits.length != 11 || !digits.startsWith('7')) {
-      return 'Номер должен быть в формате +7-000-000-0000';
+      return context.l10n.getString('auto_nomerDolzhenBytVForma_1');
     }
     return null;
   }
@@ -303,7 +304,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
       _showSnack(validationError, severity: MessageSeverity.warning);
       return;
     }
-    await _saveProfile(name: name, successMessage: 'Имя сохранено');
+    await _saveProfile(name: name, successMessage: context.l10n.getString('auto_imyaSohraneno'));
   }
 
   Future<void> _saveEmail() async {
@@ -313,7 +314,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
       _showSnack(validationError, severity: MessageSeverity.warning);
       return;
     }
-    await _saveProfile(email: email, successMessage: 'Email сохранен');
+    await _saveProfile(email: email, successMessage: context.l10n.getString('auto_emailSohranen'));
   }
 
   Future<void> _savePhone() async {
@@ -323,7 +324,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
       _showSnack(validationError, severity: MessageSeverity.warning);
       return;
     }
-    await _saveProfile(phone: digits, successMessage: 'Номер сохранен');
+    await _saveProfile(phone: digits, successMessage: context.l10n.getString('auto_nomerSohranen'));
   }
 
   Future<void> _saveCompanyName() async {
@@ -334,7 +335,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
     final companyName = _companyController.text.trim();
     if (companyName.isEmpty) {
       _showSnack(
-        'Введите название компании',
+        context.l10n.getString('auto_vvediteNazvanieKompanii'),
         severity: MessageSeverity.warning,
       );
       return;
@@ -342,7 +343,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
 
     await _saveProfile(
       supplierName: companyName,
-      successMessage: 'Название компании сохранено',
+      successMessage: context.l10n.getString('auto_nazvanieKompaniiSohrane'),
     );
   }
 
@@ -392,7 +393,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
               ListTile(
                 leading: Icon(Icons.photo_camera, color: palette.accent),
                 title: Text(
-                  'Сделать снимок',
+                  context.l10n.getString('auto_sdelatSnimok'),
                   style: TextStyle(color: palette.ink),
                 ),
                 onTap: () {
@@ -403,7 +404,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
               ListTile(
                 leading: Icon(Icons.photo_library, color: palette.accent),
                 title: Text(
-                  'Выбрать из галереи',
+                  context.l10n.getString('auto_vybratIzGalerei'),
                   style: TextStyle(color: palette.ink),
                 ),
                 onTap: () {
@@ -415,7 +416,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                 ListTile(
                   leading: Icon(Icons.delete_outline, color: palette.error),
                   title: Text(
-                    'Удалить фото',
+                    context.l10n.getString('auto_udalitFoto'),
                     style: TextStyle(color: palette.error),
                   ),
                   onTap: () {
@@ -453,16 +454,17 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
   Future<void> _uploadFile(XFile picked) async {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
-      _showSnack('Вы не авторизованы', severity: MessageSeverity.error);
+      _showSnack(context.l10n.getString('auto_vyNeAvtorizovany'), severity: MessageSeverity.error);
       return;
     }
 
     // Читаем байты напрямую из XFile - File(picked.path) не работает на Web,
     // там path это blob URL и dart:io File падает с _Namespace.
     final bytes = await picked.readAsBytes();
+    if (!mounted) return;
     if (bytes.length > _avatarMaxSizeBytes) {
       _showSnack(
-        'Размер файла не должен превышать 5 МБ',
+        context.l10n.getString('auto_razmerFaylaNeDolzhenP'),
         severity: MessageSeverity.warning,
       );
       return;
@@ -492,7 +494,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
   Future<void> _handleDeleteAvatar() async {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
-      _showSnack('Вы не авторизованы', severity: MessageSeverity.error);
+      _showSnack(context.l10n.getString('auto_vyNeAvtorizovany'), severity: MessageSeverity.error);
       return;
     }
 
@@ -526,7 +528,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
           },
         ),
         title: Text(
-          'Личная информация',
+          context.l10n.getString('auto_lichnayaInformatsiya'),
           style: TextStyle(
             color: _colorScheme.onSurface,
             fontSize: 18,
@@ -642,7 +644,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                   _buildEditableTile(
                     index: 0,
                     icon: Icons.person_outline,
-                    title: 'ФИО',
+                    title: context.l10n.getString('auto_fio'),
                     value: _displayValue(_name),
                     controller: _nameController,
                     onSave: _saveName,
@@ -652,7 +654,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                   _buildEditableTile(
                     index: 1,
                     icon: Icons.email_outlined,
-                    title: 'ЭЛ. ПОЧТА',
+                    title: context.l10n.getString('auto_elPochta'),
                     value: _displayValue(_email),
                     controller: _emailController,
                     keyboardType: TextInputType.text,
@@ -663,7 +665,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                   _buildEditableTile(
                     index: 2,
                     icon: Icons.phone_outlined,
-                    title: 'НОМЕР',
+                    title: context.l10n.getString('auto_nomer'),
                     value: _displayPhone(_phone),
                     controller: _phoneController,
                     keyboardType: TextInputType.phone,
@@ -680,7 +682,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                     _buildEditableTile(
                       index: 3,
                       icon: Icons.business_outlined,
-                      title: 'НАЗВАНИЕ КОМПАНИИ',
+                      title: context.l10n.getString('auto_nazvanieKompanii'),
                       value: _displayValue(_companyName),
                       controller: _companyController,
                       onSave: _saveCompanyName,
@@ -783,7 +785,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                               ? (_) => onSave()
                               : null,
                           decoration: InputDecoration(
-                            hintText: 'Введите новое значение',
+                            hintText: context.l10n.getString('auto_vvediteNovoeZnachenie'),
                             filled: true,
                             fillColor: _inputFill,
                             border: OutlineInputBorder(
@@ -813,7 +815,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                                   ),
                                 ),
                                 child: Text(
-                                  'Отмена',
+                                  context.l10n.getString('auto_otmena'),
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -837,7 +839,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
                                   elevation: 0,
                                 ),
                                 child: Text(
-                                  'Сохранить',
+                                  context.l10n.getString('auto_sohranit_1'),
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,

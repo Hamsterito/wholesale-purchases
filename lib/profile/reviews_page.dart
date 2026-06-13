@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
@@ -13,6 +13,7 @@ import '../services/storage/auth_storage.dart';
 import '../models/message.dart';
 import '../models/review_entry.dart';
 import '../utils/date_formatter.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 class ReviewsPage extends StatefulWidget {
   const ReviewsPage({super.key});
@@ -23,12 +24,12 @@ class ReviewsPage extends StatefulWidget {
 
 class _ReviewsPageState extends State<ReviewsPage> {
   static const String _fallbackImage = 'assets/cart_home/CocaCola.png';
-  static const List<String> _quickTags = [
-    'Быстрая доставка',
-    'Хорошая цена',
-    'Качественная упаковка',
-    'Свежий товар',
-    'Вежливый курьер',
+  List<String> get _quickTags => [
+    context.l10n.getString('auto_bystrayaDostavka'),
+    context.l10n.getString('auto_horoshayaTsena'),
+    context.l10n.getString('auto_kachestvennayaUpakovka'),
+    context.l10n.getString('auto_svezhiyTovar'),
+    context.l10n.getString('auto_vezhlivyyKurer'),
   ];
 
   final TextEditingController _editController = TextEditingController();
@@ -54,7 +55,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
       if (!mounted) return;
       setState(() {
         _isLoading = false;
-        _errorMessage = 'Войдите, чтобы увидеть отзывы.';
+        _errorMessage = context.l10n.getString('auto_voyditeChtobyUvidetOtz');
         _reviews = [];
         _pending = [];
       });
@@ -82,7 +83,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
       if (!mounted) return;
       setState(() {
         _isLoading = false;
-        _errorMessage = 'Не удалось загрузить отзывы.';
+        _errorMessage = context.l10n.getString('auto_neUdalosZagruzitOtzyvy');
       });
     }
   }
@@ -154,7 +155,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
             child: IconButton(
               onPressed: () => Navigator.pop(context),
               icon: Icon(Icons.arrow_back, color: context.colorPalette.ink),
-              tooltip: 'Назад',
+              tooltip: context.l10n.getString('auto_nazad'),
               style: IconButton.styleFrom(
                 minimumSize: const Size(32, 32),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -179,8 +180,8 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 SizedBox(height: 4),
                 Text(
                   _pending.isNotEmpty
-                      ? 'Есть покупки для оценки'
-                      : 'Все отзывы о покупках',
+                      ? context.l10n.getString('auto_estPokupkiDlyaOtsenki')
+                      : context.l10n.getString('auto_vseOtzyvyOPokupkah'),
                   style: TextStyle(
                     fontSize: 12,
                     color: context.colorPalette.muted,
@@ -245,9 +246,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
           ],
         ),
         child: _buildSectionTitle(
-          title: 'Ваши отзывы',
+          title: context.l10n.getString('auto_vashiOtzyvy'),
           subtitle: _reviews.isEmpty
-              ? 'Пока нет отзывов'
+              ? context.l10n.getString('auto_pokaNetOtzyvov')
               : 'Всего: ${_reviews.length}',
         ),
       ),
@@ -358,8 +359,8 @@ class _ReviewsPageState extends State<ReviewsPage> {
             ],
           ),
           child: _buildSectionTitle(
-            title: 'Ожидают отзывов',
-            subtitle: 'Оцените покупки - это помогает другим',
+            title: context.l10n.getString('auto_ozhidayutOtzyvov'),
+            subtitle: context.l10n.getString('auto_otsenitePokupkiEtoPomo'),
           ),
         ),
         SizedBox(height: 12),
@@ -454,7 +455,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
           Opacity(
             opacity: isSubmitting ? 0.6 : 1,
             child: _ActionButton(
-              label: isSubmitting ? 'Отправляем...' : 'Оставить отзыв',
+              label: isSubmitting ? context.l10n.getString('auto_otpravlyaem') : context.l10n.getString('auto_ostavitOtzyv'),
               background: context.colorPalette.accent,
               foreground: Colors.white,
               borderColor: context.colorPalette.accent,
@@ -536,7 +537,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
           ),
           SizedBox(height: 12),
           Text(
-            'Пока нет отзывов',
+            context.l10n.getString('auto_pokaNetOtzyvov'),
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -545,7 +546,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
           ),
           SizedBox(height: 6),
           Text(
-            'Оставьте отзыв после принятия заказа - он появится здесь.',
+            context.l10n.getString('auto_ostavteOtzyvPoslePriny'),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 12,
@@ -673,7 +674,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 height: 1.4,
               ),
               decoration: InputDecoration(
-                hintText: 'Текст отзыва',
+                hintText: context.l10n.getString('auto_tekstOtzyva'),
                 hintStyle: TextStyle(color: context.colorPalette.muted),
                 filled: true,
                 fillColor: context.colorPalette.accentMist,
@@ -705,7 +706,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 border: Border.all(color: context.colorPalette.line),
               ),
               child: ExpandableTextBlock(
-                reviewText.isEmpty ? 'Без текста отзыва' : reviewText,
+                reviewText.isEmpty ? context.l10n.getString('auto_bezTekstaOtzyva') : reviewText,
                 key: ValueKey('profile-review-${review.id}'),
                 textStyle: TextStyle(
                   fontSize: 15,
@@ -720,7 +721,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
             children: [
               Expanded(
                 child: _ActionButton(
-                  label: isEditing ? 'Отмена' : 'Редактировать',
+                  label: isEditing ? context.l10n.getString('auto_otmena') : context.l10n.getString('auto_redaktirovat'),
                   background: context.colorPalette.accentMist,
                   foreground: context.colorPalette.accentDark,
                   borderColor: isEditing
@@ -734,8 +735,8 @@ class _ReviewsPageState extends State<ReviewsPage> {
               Expanded(
                 child: _ActionButton(
                   label: isEditing
-                      ? (_isUpdatingReview ? 'Сохраняем...' : 'Сохранить')
-                      : 'Удалить',
+                      ? (_isUpdatingReview ? context.l10n.getString('auto_sohranyaem') : context.l10n.getString('auto_sohranit_1'))
+                      : context.l10n.getString('auto_udalit'),
                   background: isEditing
                       ? context.colorPalette.accent
                       : context.colorPalette.error.withValues(alpha: 0.12),
@@ -896,7 +897,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'Оцените товар',
+                      context.l10n.getString('auto_otseniteTovar'),
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -915,7 +916,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'Ваш отзыв',
+                      context.l10n.getString('auto_vashOtzyv'),
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
@@ -933,7 +934,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         height: 1.4,
                       ),
                       decoration: InputDecoration(
-                        hintText: 'Поделитесь впечатлениями',
+                        hintText: context.l10n.getString('auto_podelitesVpechatleniyami'),
                         hintStyle: TextStyle(color: context.colorPalette.muted),
                         filled: true,
                         fillColor: context.colorPalette.accentMist,
@@ -981,7 +982,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                                 elevation: 0,
                               ),
                               child: Text(
-                                'Отмена',
+                                context.l10n.getString('auto_otmena'),
                                 style: TextStyle(fontWeight: FontWeight.w600),
                               ),
                             ),
@@ -1010,7 +1011,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                                 elevation: 0,
                               ),
                               child: Text(
-                                'Изменить',
+                                context.l10n.getString('auto_izmenit'),
                                 style: TextStyle(fontWeight: FontWeight.w600),
                               ),
                             ),
@@ -1038,7 +1039,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
       _showSnack(
-        'Войдите, чтобы редактировать отзыв',
+        context.l10n.getString('auto_voyditeChtobyRedaktirov'),
         severity: MessageSeverity.error,
       );
       return;
@@ -1064,13 +1065,13 @@ class _ReviewsPageState extends State<ReviewsPage> {
         _reviews[index] = updated;
         _isUpdatingReview = false;
       });
-      _showSnack('Отзыв обновлен');
+      _showSnack(context.l10n.getString('auto_otzyvObnovlen'));
     } catch (_) {
       if (!mounted) return;
       setState(() {
         _isUpdatingReview = false;
       });
-      _showSnack('Не удалось сохранить отзыв', severity: MessageSeverity.error);
+      _showSnack(context.l10n.getString('auto_neUdalosSohranitOtzyv'), severity: MessageSeverity.error);
     }
   }
 
@@ -1088,14 +1089,14 @@ class _ReviewsPageState extends State<ReviewsPage> {
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
       _showSnack(
-        'Войдите, чтобы редактировать отзыв',
+        context.l10n.getString('auto_voyditeChtobyRedaktirov'),
         severity: MessageSeverity.error,
       );
       return;
     }
     final text = _editController.text.trim();
     if (_editingRating < 1) {
-      _showSnack('Поставьте оценку', severity: MessageSeverity.warning);
+      _showSnack(context.l10n.getString('auto_postavteOtsenku'), severity: MessageSeverity.warning);
       return;
     }
 
@@ -1119,13 +1120,13 @@ class _ReviewsPageState extends State<ReviewsPage> {
         _editController.clear();
         _isUpdatingReview = false;
       });
-      _showSnack('Отзыв обновлен');
+      _showSnack(context.l10n.getString('auto_otzyvObnovlen'));
     } catch (_) {
       if (!mounted) return;
       setState(() {
         _isUpdatingReview = false;
       });
-      _showSnack('Не удалось сохранить отзыв', severity: MessageSeverity.error);
+      _showSnack(context.l10n.getString('auto_neUdalosSohranitOtzyv'), severity: MessageSeverity.error);
     }
   }
 
@@ -1201,7 +1202,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'Оцените товар',
+                      context.l10n.getString('auto_otseniteTovar'),
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -1220,7 +1221,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      'Добавьте детали',
+                      context.l10n.getString('auto_dobavteDetali'),
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
@@ -1273,7 +1274,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         height: 1.4,
                       ),
                       decoration: InputDecoration(
-                        hintText: 'Поделитесь впечатлениями',
+                        hintText: context.l10n.getString('auto_podelitesVpechatleniyami'),
                         hintStyle: TextStyle(color: context.colorPalette.muted),
                         filled: true,
                         fillColor: context.colorPalette.accentMist,
@@ -1322,7 +1323,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                           elevation: 0,
                         ),
                         child: Text(
-                          'Отправить отзыв',
+                          context.l10n.getString('auto_otpravitOtzyv'),
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -1347,7 +1348,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
       _showSnack(
-        'Войдите, чтобы оставить отзыв',
+        context.l10n.getString('auto_voyditeChtobyOstavitOt'),
         severity: MessageSeverity.error,
       );
       return;
@@ -1379,13 +1380,13 @@ class _ReviewsPageState extends State<ReviewsPage> {
         _reviews.insert(0, created);
         _submittingPending.remove(item.orderItemId);
       });
-      _showSnack('Спасибо за отзыв!');
+      _showSnack(context.l10n.getString('auto_spasiboZaOtzyv'));
     } catch (_) {
       if (!mounted) return;
       setState(() {
         _submittingPending.remove(item.orderItemId);
       });
-      _showSnack('Не удалось отправить отзыв', severity: MessageSeverity.error);
+      _showSnack(context.l10n.getString('auto_neUdalosOtpravitOtzyv'), severity: MessageSeverity.error);
     }
   }
 
@@ -1398,7 +1399,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   Future<void> _confirmDelete(int index) async {
     final approved = await showGeneralDialog<bool>(
       context: context,
-      barrierLabel: 'Закрыть',
+      barrierLabel: context.l10n.getString('auto_zakryt'),
       barrierDismissible: true,
       barrierColor: Colors.black.withValues(alpha: 0.55),
       transitionDuration: Duration(milliseconds: 180),
@@ -1434,7 +1435,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
       _showSnack(
-        'Войдите, чтобы удалить отзыв',
+        context.l10n.getString('auto_voyditeChtobyUdalitOtz'),
         severity: MessageSeverity.error,
       );
       return;
@@ -1456,9 +1457,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
           _editingIndex = _editingIndex! - 1;
         }
       });
-      _showSnack('Отзыв удален');
+      _showSnack(context.l10n.getString('auto_otzyvUdalen'));
     } catch (_) {
-      _showSnack('Не удалось удалить отзыв', severity: MessageSeverity.error);
+      _showSnack(context.l10n.getString('auto_neUdalosUdalitOtzyv'), severity: MessageSeverity.error);
     }
   }
 
@@ -1693,7 +1694,7 @@ class _DeleteReviewDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Удалить отзыв?',
+                context.l10n.getString('auto_udalitOtzyv'),
                 style: TextStyle(
                   color: context.colorPalette.ink,
                   fontSize: 16,
@@ -1702,7 +1703,7 @@ class _DeleteReviewDialog extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                'Это действие нельзя отменить.',
+                context.l10n.getString('auto_etoDeystvieNelzyaOtmen'),
                 style: TextStyle(
                   color: context.colorPalette.muted,
                   fontSize: 13,
@@ -1714,7 +1715,7 @@ class _DeleteReviewDialog extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _DialogActionButton(
-                      label: 'Отмена',
+                      label: context.l10n.getString('auto_otmena'),
                       background: context.colorPalette.accentMist,
                       foreground: context.colorPalette.accentDark,
                       borderColor: context.colorPalette.line,
@@ -1724,7 +1725,7 @@ class _DeleteReviewDialog extends StatelessWidget {
                   SizedBox(width: 12),
                   Expanded(
                     child: _DialogActionButton(
-                      label: 'Удалить',
+                      label: context.l10n.getString('auto_udalit'),
                       background: context.colorPalette.error,
                       foreground: Colors.white,
                       borderColor: context.colorPalette.error,

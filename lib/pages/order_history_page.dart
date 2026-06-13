@@ -24,10 +24,10 @@ class OrderHistoryPage extends StatefulWidget {
 
 class _OrderHistoryPageState extends State<OrderHistoryPage>
     with AutoRefreshMixin<OrderHistoryPage> {
-  static const _periodDay = 'За день';
-  static const _periodWeek = 'Неделя';
-  static const _periodMonth = 'Месяц';
-  static const _periodQuarter = 'Квартал';
+  static const _periodDay = '__day__';
+  static const _periodWeek = '__week__';
+  static const _periodMonth = '__month__';
+  static const _periodQuarter = '__quarter__';
   static const _periodCustom = '__custom__';
 
   String _selectedPeriod = _periodDay;
@@ -144,7 +144,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'История заказов',
+          context.l10n.getString('auto_istoriyaZakazov'),
           style: TextStyle(
             color: _colorScheme.onSurface,
             fontSize: 18,
@@ -171,7 +171,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Фильтр',
+            context.l10n.getString('auto_filtr'),
             style: TextStyle(
               fontSize: 14,
               color: _colorScheme.onSurface,
@@ -223,7 +223,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
                 elevation: 0,
               ),
               child: Text(
-                'Экспортировать в .excel',
+                context.l10n.getString('auto_eksportirovatVExcel'),
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -258,12 +258,22 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     );
   }
 
+  String _getPeriodLabel(String period) {
+    switch (period) {
+      case _periodDay: return context.l10n.getString('auto_zaDen');
+      case _periodWeek: return context.l10n.getString('auto_nedelya');
+      case _periodMonth: return context.l10n.getString('auto_mesyats');
+      case _periodQuarter: return context.l10n.getString('auto_kvartal');
+      default: return period;
+    }
+  }
+
   Widget _buildPeriodTab(String text) {
     final isSelected = _selectedPeriod == text;
     return GestureDetector(
       onTap: () => _applyPeriodSelection(text),
       child: Text(
-        text,
+        _getPeriodLabel(text),
         style: TextStyle(
           fontSize: 14,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
@@ -350,7 +360,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
               children: [
                 Center(
                   child: Text(
-                    'История пока пустая',
+                    context.l10n.getString('auto_istoriyaPokaPustaya'),
                     style: TextStyle(color: _mutedText, fontSize: 15),
                   ),
                 ),
@@ -537,7 +547,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         ? order.items.length
         : order.receivedItemsCount;
     final receivedSummary = order.items.isEmpty
-        ? 'Нет товаров'
+        ? context.l10n.getString('auto_netTovarov')
         : '$effectiveReceived/${order.items.length} шт.';
 
     final children = <Widget>[
@@ -545,32 +555,32 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         icon: _isCancelledStatus(order.status)
             ? Icons.cancel_outlined
             : Icons.verified_rounded,
-        label: 'Статус',
+        label: context.l10n.getString('auto_status'),
         value: order.status,
         valueColor: statusColor,
       ),
       const SizedBox(height: 10),
       _buildOrderDetailRow(
         icon: Icons.calendar_month_rounded,
-        label: 'Дата заказа',
+        label: context.l10n.getString('auto_dataZakaza'),
         value: _formatShortDate(order.date),
       ),
       const SizedBox(height: 10),
       _buildOrderDetailRow(
         icon: Icons.list_alt_rounded,
-        label: 'Количество товаров',
+        label: context.l10n.getString('auto_kolichestvoTovarov'),
         value: '${order.items.length}',
       ),
       const SizedBox(height: 10),
       _buildOrderDetailRow(
         icon: Icons.widgets_outlined,
-        label: 'Общее кол-во',
+        label: context.l10n.getString('auto_obshcheeKolvo'),
         value: '${order.totalUnits} ед.',
       ),
       const SizedBox(height: 10),
       _buildOrderDetailRow(
         icon: Icons.task_alt_rounded,
-        label: 'Получено',
+        label: context.l10n.getString('auto_polucheno'),
         value: receivedSummary,
       ),
     ];
@@ -582,7 +592,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         const SizedBox(height: 10),
         _buildOrderDetailRow(
           icon: Icons.location_on_outlined,
-          label: 'Адрес доставки',
+          label: context.l10n.getString('auto_adresDostavki'),
           value: order.deliveryAddress.trim(),
           multilineValue: true,
         ),
@@ -661,7 +671,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Товары в заказе',
+            context.l10n.getString('auto_tovaryVZakaze'),
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w700,
@@ -793,20 +803,20 @@ if (order.items.isEmpty)
 
   bool _isAcceptedStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized == 'доставлен' ||
-        normalized == 'получено' ||
-        normalized == 'принято' ||
-        normalized == 'принят' ||
-        normalized == 'завершено' ||
+    return normalized == context.l10n.getString('auto_dostavlen') ||
+        normalized == context.l10n.getString('auto_polucheno_1') ||
+        normalized == context.l10n.getString('auto_prinyato') ||
+        normalized == context.l10n.getString('auto_prinyat') ||
+        normalized == context.l10n.getString('auto_zaversheno') ||
         normalized == 'accepted' ||
         normalized == 'received';
   }
 
   bool _isCancelledStatus(String status) {
     final normalized = _normalizeStatus(status);
-    // Корень 'отмен' покрывает и существительное «отмена», и причастия
+    // Корень context.l10n.getString('auto_otmen') покрывает и существительное «отмена», и причастия
     // «отменён»/«отменен»/«отменено»/«отменена» - без зависимости от буквы ё/е.
-    return normalized.contains('отмен') ||
+    return normalized.contains(context.l10n.getString('auto_otmen')) ||
         normalized == 'cancelled' ||
         normalized == 'canceled';
   }
@@ -825,7 +835,7 @@ if (order.items.isEmpty)
           type: MessageType.notification,
           severity: MessageSeverity.error,
           title: '',
-          body: 'Требуется авторизация',
+          body: context.l10n.getString('auto_trebuetsyaAvtorizatsiya'),
           timestamp: DateTime.now(),
           language: MessageLocalizationManager.getCurrentLanguage(),
         ),
@@ -871,7 +881,7 @@ if (order.items.isEmpty)
           type: MessageType.notification,
           severity: MessageSeverity.info,
           title: '',
-          body: 'Файл загружен',
+          body: context.l10n.getString('auto_faylZagruzhen'),
           timestamp: DateTime.now(),
           language: MessageLocalizationManager.getCurrentLanguage(),
         ),
@@ -902,8 +912,8 @@ if (order.items.isEmpty)
       return palette.statusCancelled;
     }
     final normalized = _normalizeStatus(status);
-    if (normalized == 'доставлен' ||
-        normalized == 'доставлено' ||
+    if (normalized == context.l10n.getString('auto_dostavlen') ||
+        normalized == context.l10n.getString('auto_dostavleno') ||
         normalized == 'delivered') {
       return palette.statusDelivered;
     }

@@ -73,22 +73,22 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   TimeOfDay _deliveryTime = const TimeOfDay(hour: 14, minute: 0);
 
   static const Map<int, String> _weekdaysFull = <int, String>{
-    DateTime.monday: 'Понедельник',
-    DateTime.tuesday: 'Вторник',
-    DateTime.wednesday: 'Среда',
-    DateTime.thursday: 'Четверг',
-    DateTime.friday: 'Пятница',
-    DateTime.saturday: 'Суббота',
-    DateTime.sunday: 'Воскресенье',
+    DateTime.monday: context.l10n.auto_ponedelnik_1,
+    DateTime.tuesday: context.l10n.auto_vtornik_1,
+    DateTime.wednesday: context.l10n.auto_sreda_1,
+    DateTime.thursday: context.l10n.auto_chetverg_1,
+    DateTime.friday: context.l10n.auto_pyatnitsa_1,
+    DateTime.saturday: context.l10n.auto_subbota_1,
+    DateTime.sunday: context.l10n.auto_voskresene_1,
   };
   static const Map<int, String> _weekdaysShort = <int, String>{
-    DateTime.monday: 'Пн',
-    DateTime.tuesday: 'Вт',
-    DateTime.wednesday: 'Ср',
-    DateTime.thursday: 'Чт',
-    DateTime.friday: 'Пт',
-    DateTime.saturday: 'Сб',
-    DateTime.sunday: 'Вс',
+    DateTime.monday: context.l10n.auto_pn,
+    DateTime.tuesday: context.l10n.auto_vt_1,
+    DateTime.wednesday: context.l10n.auto_sr_1,
+    DateTime.thursday: context.l10n.auto_cht_1,
+    DateTime.friday: context.l10n.auto_pt_1,
+    DateTime.saturday: context.l10n.auto_sb_1,
+    DateTime.sunday: context.l10n.auto_vs_1,
   };
   static const List<int> _weekdayOrder = <int>[
     DateTime.monday,
@@ -116,16 +116,16 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   static const int _initialCategoryVisibleLimit = 14;
 
   static const List<String> _fallbackPresetCategories = [
-    'Напитки',
-    'Молочная продукция',
-    'Овощи и фрукты',
-    'Мясо и птица',
-    'Бакалея',
-    'Хлеб и выпечка',
-    'Заморозка',
-    'Снеки',
-    'Бытовая химия',
-    'Товары для дома',
+    context.l10n.auto_napitki,
+    context.l10n.auto_molochnayaProduktsiya,
+    context.l10n.auto_ovoshchiIFrukty,
+    context.l10n.auto_myasoIPtitsa,
+    context.l10n.auto_bakaleya,
+    context.l10n.auto_hlebIVypechka,
+    context.l10n.auto_zamorozka,
+    context.l10n.auto_sneki,
+    context.l10n.auto_bytovayaHimiya,
+    context.l10n.auto_tovaryDlyaDoma,
   ];
   final List<String> _presetCategories = List<String>.from(
     _fallbackPresetCategories,
@@ -183,10 +183,10 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       text: product?.nutritionalInfo.carbohydrates.toStringAsFixed(1) ?? '',
     );
     _countryController = TextEditingController(
-      text: product?.characteristics['Страна производителя'] ?? '',
+      text: product?.characteristics[context.l10n.auto_stranaProizvoditelya] ?? '',
     );
     _shelfLifeController = TextEditingController(
-      text: product?.characteristics['Срок годности'] ?? '',
+      text: product?.characteristics[context.l10n.auto_srokGodnosti] ?? '',
     );
     final now = DateTime.now();
     final eta = now.add(const Duration(days: 1));
@@ -353,15 +353,15 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     setState(() => _error = null);
     if (_step == 0) {
       if (_nameController.text.trim().isEmpty) {
-        _error = 'Введите название товара';
+        _error = context.l10n.auto_vvediteNazvanieTovara;
         return false;
       }
       if (_shelfLifeController.text.trim().isEmpty) {
-        _error = 'Укажите срок годности';
+        _error = context.l10n.auto_ukazhiteSrokGodnosti;
         return false;
       }
       if (_selectedCategories.isEmpty) {
-        _error = 'Выберите категорию из списка';
+        _error = context.l10n.auto_vyberiteKategoriyuIzSp;
         return false;
       }
       return true;
@@ -371,7 +371,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       final minQuantity = int.tryParse(_minController.text.trim()) ?? 1;
       final stockQuantity = int.tryParse(_stockController.text.trim()) ?? -1;
       if (price == null || price <= 0) {
-        _error = 'Введите корректную цену';
+        _error = context.l10n.auto_vvediteKorrektnuyuTsenu;
         return false;
       }
       if (price > _maxIntegerFieldValue) {
@@ -379,7 +379,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         return false;
       }
       if (minQuantity <= 0) {
-        _error = 'Минимальное количество должно быть больше 0';
+        _error = context.l10n.auto_minimalnoeKolichestvoDo;
         return false;
       }
       if (minQuantity > _maxIntegerFieldValue) {
@@ -388,7 +388,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         return false;
       }
       if (stockQuantity < 0) {
-        _error = 'Укажите остаток на складе';
+        _error = context.l10n.auto_ukazhiteOstatokNaSklad;
         return false;
       }
       if (stockQuantity > _maxIntegerFieldValue) {
@@ -396,17 +396,17 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         return false;
       }
       if (stockQuantity > 0 && stockQuantity < minQuantity) {
-        _error = 'Остаток не может быть меньше минимальной партии';
+        _error = context.l10n.auto_ostatokNeMozhetBytMen;
         return false;
       }
       if (_deliveryMode == _DeliveryMode.weekly) {
         if (!_applyDeliveryTimeFromInput(markInvalid: true)) {
-          _error = 'Введите время доставки в формате ЧЧ:ММ';
+          _error = context.l10n.auto_vvediteVremyaDostavkiV;
           return false;
         }
         if (_deliveryDateController.text.trim().isEmpty ||
             _deliveryBadgeController.text.trim().isEmpty) {
-          _error = 'Укажите график доставки';
+          _error = context.l10n.auto_ukazhiteGrafikDostavki;
           return false;
         }
       } else {
@@ -415,15 +415,15 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         final minLead = int.tryParse(minLeadText);
         final maxLead = int.tryParse(maxLeadText);
         if (minLead == null || minLead < 0) {
-          _error = 'Введите минимальный срок доставки';
+          _error = context.l10n.auto_vvediteMinimalnyySrokD;
           return false;
         }
         if (maxLead == null || maxLead < minLead) {
-          _error = 'Максимальный срок не может быть меньше минимального';
+          _error = context.l10n.auto_maksimalnyySrokNeMozhe;
           return false;
         }
         if (maxLead > 365) {
-          _error = 'Срок доставки слишком большой';
+          _error = context.l10n.auto_srokDostavkiSlishkomBo;
           return false;
         }
         final cutoffRaw = _cutoffController.text.trim();
@@ -431,7 +431,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           setState(() {
             _cutoffInputInvalid = true;
           });
-          _error = 'Введите время отсечки в формате ЧЧ:ММ';
+          _error = context.l10n.auto_vvediteVremyaOtsechkiV;
           return false;
         }
         _cutoffInputInvalid = false;
@@ -453,7 +453,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       if (caloriesText.isNotEmpty) {
         calories = double.tryParse(caloriesText.replaceAll(',', '.'));
         if (calories == null || calories < 0) {
-          _error = 'Калории должны быть неотрицательным числом';
+          _error = context.l10n.auto_kaloriiDolzhnyBytNeotr;
           return false;
         }
         if (_exceedsNumeric10Scale2(calories)) {
@@ -465,7 +465,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       if (proteinText.isNotEmpty) {
         protein = double.tryParse(proteinText.replaceAll(',', '.'));
         if (protein == null || protein < 0) {
-          _error = 'Белки должны быть неотрицательным числом';
+          _error = context.l10n.auto_belkiDolzhnyBytNeotrit;
           return false;
         }
         if (_exceedsNumeric10Scale2(protein)) {
@@ -477,7 +477,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       if (fatText.isNotEmpty) {
         fat = double.tryParse(fatText.replaceAll(',', '.'));
         if (fat == null || fat < 0) {
-          _error = 'Жиры должны быть неотрицательным числом';
+          _error = context.l10n.auto_zhiryDolzhnyBytNeotrit;
           return false;
         }
         if (_exceedsNumeric10Scale2(fat)) {
@@ -489,7 +489,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       if (carbsText.isNotEmpty) {
         carbs = double.tryParse(carbsText.replaceAll(',', '.'));
         if (carbs == null || carbs < 0) {
-          _error = 'Углеводы должны быть неотрицательным числом';
+          _error = context.l10n.auto_uglevodyDolzhnyBytNeot;
           return false;
         }
         if (_exceedsNumeric10Scale2(carbs)) {
@@ -504,8 +504,8 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       final country = _countryController.text.trim();
       final shelfLife = _shelfLifeController.text.trim();
       final starter = <String, String>{
-        if (country.isNotEmpty) 'Страна производителя': country,
-        if (shelfLife.isNotEmpty) 'Срок годности': shelfLife,
+        if (country.isNotEmpty) context.l10n.auto_stranaProizvoditelya: country,
+        if (shelfLife.isNotEmpty) context.l10n.auto_srokGodnosti: shelfLife,
       };
       final drafts = _customCharacteristics
           .map((d) => (name: d.name, value: d.value))
@@ -520,7 +520,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     if (_step == 3) {
       final hasValidImage = _images.any(_isDisplayableImagePath);
       if (!hasValidImage) {
-        _error = 'Добавьте хотя бы одну фотографию';
+        _error = context.l10n.auto_dobavteHotyaByOdnuFot;
         return false;
       }
       return true;
@@ -589,8 +589,8 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     final country = _countryController.text.trim();
     final shelfLife = _shelfLifeController.text.trim();
     final starter = <String, String>{
-      if (country.isNotEmpty) 'Страна производителя': country,
-      if (shelfLife.isNotEmpty) 'Срок годности': shelfLife,
+      if (country.isNotEmpty) context.l10n.auto_stranaProizvoditelya: country,
+      if (shelfLife.isNotEmpty) context.l10n.auto_srokGodnosti: shelfLife,
     };
     final drafts = _customCharacteristics
         .map((d) => (name: d.name, value: d.value))
@@ -667,11 +667,11 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   // Текст подтверждения зависит от режима - пользователь должен видеть, что правки уйдут на модерацию.
   Future<bool?> _confirmSave() {
     final isEdit = widget.product != null;
-    final title = isEdit ? 'Сохранить изменения?' : 'Создать товар?';
+    final title = isEdit ? context.l10n.auto_sohranitIzmeneniya : context.l10n.auto_sozdatTovar;
     final message = isEdit
-        ? 'Изменения будут отправлены на модерацию. Текущая версия товара останется активной до проверки.'
-        : 'Товар будет отправлен на модерацию. Покупатели увидят его после проверки.';
-    final confirmLabel = isEdit ? context.l10n.save : 'Создать';
+        ? context.l10n.auto_izmeneniyaBudutOtpravle
+        : context.l10n.auto_tovarBudetOtpravlenNa;
+    final confirmLabel = isEdit ? context.l10n.save : context.l10n.auto_sozdat;
      return showDialog<bool>(
        context: context,
        builder: (dialogContext) {
@@ -701,7 +701,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       extendBody: true,
       appBar: AppBar(
         title: Text(
-          widget.product == null ? 'Создание товара' : 'Редактирование товара',
+          widget.product == null ? context.l10n.auto_sozdanieTovara : context.l10n.auto_redaktirovanieTovara,
         ),
       ),
       body: Column(
@@ -776,21 +776,21 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
 
   Widget _buildInfoStep() {
     return _StepCard(
-      title: 'Основные данные',
-      subtitle: 'Заполните название, описание, страну и категорию товара.',
+      title: context.l10n.auto_osnovnyeDannye,
+      subtitle: context.l10n.auto_zapolniteNazvanieOpisan,
       child: Column(
         children: [
-          _buildField('Название товара', _nameController),
-          _buildField('Описание', _descriptionController, maxLines: 3),
+          _buildField(context.l10n.auto_nazvanieTovara, _nameController),
+          _buildField(context.l10n.auto_opisanie_1, _descriptionController, maxLines: 3),
           _buildField(
-            'Страна производителя',
+            context.l10n.auto_stranaProizvoditelya,
             _countryController,
-            hintText: 'Например, Казахстан',
+            hintText: context.l10n.auto_naprimerKazahstan,
           ),
           _buildField(
-            'Срок годности',
+            context.l10n.auto_srokGodnosti,
             _shelfLifeController,
-            hintText: 'Например, 12 месяцев',
+            hintText: context.l10n.auto_naprimer12Mesyatsev,
           ),
           _buildCategoryPicker(),
         ],
@@ -800,29 +800,29 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
 
   Widget _buildPriceStep() {
     return _StepCard(
-      title: 'Цена и условия',
-      subtitle: 'Минимальные количества и доставка.',
+      title: context.l10n.auto_tsenaIUsloviya,
+      subtitle: context.l10n.auto_minimalnyeKolichestvaI,
       child: Column(
         children: [
           _buildField(
-            'Цена за единицу (₸)',
+            context.l10n.auto_tsenaZaEdinitsu,
             _priceController,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            hintText: 'Например, 1450',
+            hintText: context.l10n.auto_naprimer1450,
           ),
           _buildField(
-            'Минимальное количество',
+            context.l10n.auto_minimalnoeKolichestvo,
             _minController,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           ),
           _buildField(
-            'Всего количество',
+            context.l10n.auto_vsegoKolichestvo,
             _stockController,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            hintText: 'Например, 120',
+            hintText: context.l10n.auto_naprimer120,
           ),
           _buildDeliverySchedulePicker(),
         ],
@@ -832,13 +832,13 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
 
   Widget _buildDetailsStep() {
     return _StepCard(
-      title: 'Состав и характеристики',
-      subtitle: 'Необязательные данные: заполняйте только то, что нужно.',
+      title: context.l10n.auto_sostavIHarakteristiki,
+      subtitle: context.l10n.auto_neobyazatelnyeDannyeZap,
       child: Column(
         children: [
-          _buildField('Состав', _ingredientsController, maxLines: 3),
+          _buildField(context.l10n.auto_sostav, _ingredientsController, maxLines: 3),
           _buildField(
-            'Калории (ккал/100г)',
+            context.l10n.auto_kaloriiKkal100g,
             _caloriesController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
@@ -846,7 +846,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             ],
           ),
           _buildField(
-            'Белки (г/100г)',
+            context.l10n.auto_belkiG100g,
             _proteinController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
@@ -854,7 +854,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             ],
           ),
           _buildField(
-            'Жиры (г/100г)',
+            context.l10n.auto_zhiryG100g,
             _fatController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
@@ -862,7 +862,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             ],
           ),
           _buildField(
-            'Углеводы (г/100г)',
+            context.l10n.auto_uglevodyG100g,
             _carbsController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
@@ -882,7 +882,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Характеристики товара',
+          context.l10n.auto_harakteristikiTovara,
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 12),
@@ -904,7 +904,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Название',
+                          context.l10n.auto_nazvanie,
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -929,7 +929,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                         ),
                         const SizedBox(height: 10),
                         const Text(
-                          'Значение',
+                          context.l10n.auto_znachenie,
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -959,7 +959,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                     top: -10,
                     right: -4,
                     child: IconButton(
-                      tooltip: 'Удалить характеристику',
+                      tooltip: context.l10n.auto_udalitHarakteristiku,
                       icon: Icon(Icons.close, color: palette.muted, size: 20),
                       visualDensity: VisualDensity.compact,
                       padding: EdgeInsets.zero,
@@ -989,7 +989,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             },
             icon: Icon(Icons.add, color: palette.accent),
             label: Text(
-              'Добавить характеристику',
+              context.l10n.auto_dobavitHarakteristiku,
               style: TextStyle(color: palette.accent),
             ),
           ),
@@ -1000,8 +1000,8 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
 
   Widget _buildPhotosStep() {
     return _StepCard(
-      title: 'Фотографии товара',
-      subtitle: 'Добавьте несколько фото',
+      title: context.l10n.auto_fotografiiTovara,
+      subtitle: context.l10n.auto_dobavteNeskolkoFoto,
       child: LayoutBuilder(
         builder: (context, constraints) {
           const spacing = 12.0;
@@ -1114,7 +1114,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           children: [
             Icon(Icons.add_a_photo_outlined),
             SizedBox(height: 6),
-            Text('Добавить', style: TextStyle(fontSize: 12)),
+            Text(context.l10n.auto_dobavit, style: TextStyle(fontSize: 12)),
           ],
         ),
       ),
@@ -1179,7 +1179,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Ожидаемая дата доставки',
+            context.l10n.auto_ozhidaemayaDataDostavki,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),
@@ -1198,7 +1198,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
               ButtonSegment(
                 value: _DeliveryMode.weekly,
                 label: Text(
-                  'По графику',
+                  context.l10n.auto_poGrafiku,
                   maxLines: 1,
                   softWrap: false,
                   overflow: TextOverflow.fade,
@@ -1207,7 +1207,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
               ButtonSegment(
                 value: _DeliveryMode.leadTime,
                 label: Text(
-                  'По сроку',
+                  context.l10n.auto_poSroku,
                   maxLines: 1,
                   softWrap: false,
                   overflow: TextOverflow.fade,
@@ -1256,7 +1256,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           ),
           const SizedBox(height: 6),
           Text(
-            'Покупатель увидит ожидаемую дату доставки.',
+            context.l10n.auto_pokupatelUviditOzhidaem,
             style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant),
           ),
         ],
@@ -1292,7 +1292,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Выберите дни недели',
+            context.l10n.auto_vyberiteDniNedeli,
             style: TextStyle(
               color: colorScheme.onSurfaceVariant,
               fontWeight: FontWeight.w600,
@@ -1308,7 +1308,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           ),
           const SizedBox(height: 10),
           Text(
-            'Быстрый выбор',
+            context.l10n.auto_bystryyVybor,
             style: TextStyle(
               color: colorScheme.onSurfaceVariant,
               fontWeight: FontWeight.w600,
@@ -1353,7 +1353,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Время доставки',
+            context.l10n.auto_vremyaDostavki,
             style: TextStyle(
               color: colorScheme.onSurfaceVariant,
               fontWeight: FontWeight.w600,
@@ -1369,9 +1369,9 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             onSubmitted: (_) => _onDeliveryTimeInputComplete(),
             decoration: InputDecoration(
               hintText: '14:00',
-              helperText: 'Формат: ЧЧ:ММ',
+              helperText: context.l10n.auto_formatChchmm,
               errorText: _deliveryTimeInputInvalid
-                  ? 'Некорректное время'
+                  ? context.l10n.auto_nekorrektnoeVremya
                   : null,
               prefixIcon: const Icon(Icons.schedule_outlined),
               filled: true,
@@ -1406,7 +1406,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Минимум дней',
+                      context.l10n.auto_minimumDney,
                       style: TextStyle(
                         color: colorScheme.onSurfaceVariant,
                         fontWeight: FontWeight.w600,
@@ -1440,7 +1440,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Максимум дней',
+                      context.l10n.auto_maksimumDney,
                       style: TextStyle(
                         color: colorScheme.onSurfaceVariant,
                         fontWeight: FontWeight.w600,
@@ -1472,7 +1472,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Срок приёма заказа на сегодня',
+            context.l10n.auto_srokPriyomaZakazaNaSe,
             style: TextStyle(
               color: colorScheme.onSurfaceVariant,
               fontWeight: FontWeight.w600,
@@ -1511,7 +1511,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   Widget _buildDeliveryWeekdayChip(int weekday) {
     final colorScheme = Theme.of(context).colorScheme;
     final selected = _deliveryWeekdays.contains(weekday);
-    final label = _weekdaysShort[weekday] ?? _weekdaysFull[weekday] ?? 'Пн';
+    final label = _weekdaysShort[weekday] ?? _weekdaysFull[weekday] ?? context.l10n.auto_pn;
 
     return FilterChip(
       label: Text(label),
@@ -1655,7 +1655,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Категории',
+            context.l10n.auto_kategorii,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),
@@ -1677,12 +1677,12 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
               );
             },
             decoration: InputDecoration(
-              hintText: 'Поиск категории',
+              hintText: context.l10n.auto_poiskKategorii,
               prefixIcon: const Icon(Icons.search),
               suffixIcon: _categorySearchController.text.trim().isEmpty
                   ? null
                   : IconButton(
-                      tooltip: 'Очистить',
+                      tooltip: context.l10n.auto_ochistit,
                       onPressed: () {
                         setState(() {
                           _categorySearchController.clear();
@@ -1696,7 +1696,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           const SizedBox(height: 10),
           if (visibleCategories.isEmpty)
             Text(
-              'Категории не найдены',
+              context.l10n.auto_kategoriiNeNaydeny,
               style: TextStyle(color: colorScheme.onSurfaceVariant),
             )
           else
@@ -1739,7 +1739,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
               },
               child: Text(
                 _showAllPresetCategories
-                    ? 'Показать меньше'
+                    ? context.l10n.auto_pokazatMenshe
                     : 'Показать все (${filteredCategories.length})',
               ),
             ),
@@ -1983,7 +1983,7 @@ class _StepHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final labels = const ['Данные', 'Цена', 'Состав', 'Фото'];
+    final labels = const [context.l10n.auto_dannye, context.l10n.auto_tsena, context.l10n.auto_sostav, context.l10n.auto_foto];
 
     return Container(
       width: double.infinity,

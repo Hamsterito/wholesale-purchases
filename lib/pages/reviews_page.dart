@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../models/product.dart';
 import '../models/review_entry.dart';
@@ -9,6 +9,7 @@ import '../widgets/expandable_text_block.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/profile/user_avatar.dart';
 import '../utils/date_formatter.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 class ReviewsPage extends StatefulWidget {
   const ReviewsPage({
@@ -60,7 +61,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
         return;
       }
       setState(() {
-        _error = 'Не удалось загрузить отзывы';
+        _error = context.l10n.getString('auto_neUdalosZagruzitOtzyvy_1');
       });
     } finally {
       if (mounted) {
@@ -97,7 +98,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   String _reviewerName(ReviewEntry review) {
     final normalized = review.reviewerName.trim();
     if (normalized.isEmpty) {
-      return 'Покупатель';
+      return context.l10n.getString('auto_pokupatel');
     }
     return normalized;
   }
@@ -169,7 +170,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
             IconButton(
               onPressed: () => Navigator.pop(context),
               icon: Icon(Icons.arrow_back, color: palette.ink),
-              tooltip: 'Назад',
+              tooltip: context.l10n.getString('auto_nazad'),
               style: IconButton.styleFrom(
                 minimumSize: const Size(32, 32),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -182,7 +183,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Отзывы',
+                    context.l10n.getString('auto_otzyvy'),
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
@@ -447,7 +448,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
           Icon(Icons.rate_review_outlined, size: 28, color: palette.muted),
           const SizedBox(height: 10),
           Text(
-            'Пока нет отзывов',
+            context.l10n.getString('auto_pokaNetOtzyvov'),
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
@@ -456,7 +457,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
           ),
           const SizedBox(height: 4),
           Text(
-            'Здесь появятся оценки и мнения покупателей.',
+            context.l10n.getString('auto_zdesPoyavyatsyaOtsenki'),
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 12, color: palette.muted, height: 1.35),
           ),
@@ -469,7 +470,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
     final palette = context.colorPalette;
     final name = _reviewerName(review);
     final text = review.reviewText.trim().isEmpty
-        ? 'Без текста'
+        ? context.l10n.getString('auto_bezTeksta')
         : review.reviewText.trim();
     final dateStr = _formatDate(review.createdAt);
 
@@ -535,8 +536,8 @@ class _ReviewsPageState extends State<ReviewsPage> {
             textStyle: TextStyle(fontSize: 14, color: palette.ink, height: 1.4),
             actionColor: palette.accent,
             collapsedMaxLines: 3,
-            moreLabel: 'Подробнее',
-            lessLabel: 'Свернуть',
+            moreLabel: context.l10n.getString('auto_podrobnee'),
+            lessLabel: context.l10n.getString('auto_svernut'),
           ),
           // Ответ поставщика (если есть)
           if (review.response != null) ...[
@@ -560,7 +561,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        'Ответ продавца',
+                        context.l10n.getString('auto_otvetProdavtsa'),
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
@@ -587,8 +588,8 @@ class _ReviewsPageState extends State<ReviewsPage> {
                     ),
                     actionColor: palette.accent,
                     collapsedMaxLines: 3,
-                    moreLabel: 'Подробнее',
-                    lessLabel: 'Свернуть',
+                    moreLabel: context.l10n.getString('auto_podrobnee'),
+                    lessLabel: context.l10n.getString('auto_svernut'),
                   ),
                   const SizedBox(height: 6),
                   Text(

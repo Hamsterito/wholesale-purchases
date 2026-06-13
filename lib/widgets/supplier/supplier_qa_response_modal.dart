@@ -137,7 +137,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: Text(
-                  'Ответить на отзыв',
+                  context.l10n.auto_otvetitNaOtzyv,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -167,7 +167,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Товар',
+                              context.l10n.auto_tovar,
                               style: TextStyle(
                                 fontSize: 12,
                                 color: palette.muted,
@@ -200,7 +200,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Отзыв:',
+                      context.l10n.auto_otzyv,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -257,7 +257,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Ваш ответ',
+                      context.l10n.auto_vashOtvet,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,

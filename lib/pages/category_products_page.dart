@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../models/product.dart';
 import '../services/api/api_service.dart';
 import '../widgets/product/product_card.dart';
 import '../utils/auto_refresh.dart';
 import 'product_detail_page.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 class CategoryProductsPage extends StatefulWidget {
   const CategoryProductsPage({
@@ -142,7 +143,7 @@ class _CategoryProductsPageState extends State<CategoryProductsPage>
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.colorPalette.accent,
               ),
-              child: const Text('Повторить'),
+              child: Text(context.l10n.getString('auto_povtorit')),
             ),
           ],
         ),
@@ -152,7 +153,7 @@ class _CategoryProductsPageState extends State<CategoryProductsPage>
     if (_products.isEmpty) {
       return Center(
         child: Text(
-          'В этой категории пока нет товаров',
+          context.l10n.getString('auto_vEtoyKategoriiPokaNet'),
           style: TextStyle(color: _mutedText, fontSize: 16),
         ),
       );

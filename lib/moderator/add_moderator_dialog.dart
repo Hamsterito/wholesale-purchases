@@ -41,30 +41,30 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
 
   String? _validateName(String? value) {
     final name = value?.trim() ?? '';
-    if (name.isEmpty) return 'Введите имя';
-    if (name.length < 2) return 'Слишком короткое';
+    if (name.isEmpty) return context.l10n.auto_vvediteImya;
+    if (name.length < 2) return context.l10n.auto_slishkomKorotkoe;
     return null;
   }
 
   String? _validateEmail(String? value) {
     final email = value?.trim() ?? '';
-    if (email.isEmpty) return 'Введите email';
-    if (!_emailRegex.hasMatch(email)) return 'Некорректный email';
+    if (email.isEmpty) return context.l10n.auto_vvediteEmail;
+    if (!_emailRegex.hasMatch(email)) return context.l10n.auto_nekorrektnyyEmail;
     return null;
   }
 
   String? _validatePhone(String? value) {
     final digits = (value ?? '').replaceAll(RegExp(r'\D'), '');
-    if (digits.isEmpty) return 'Введите телефон';
-    if (digits.length != 11) return 'Нужно 11 цифр';
-    if (!digits.startsWith('7')) return 'Должен начинаться с 7';
+    if (digits.isEmpty) return context.l10n.auto_vvediteTelefon;
+    if (digits.length != 11) return context.l10n.auto_nuzhno11Tsifr;
+    if (!digits.startsWith('7')) return context.l10n.auto_dolzhenNachinatsyaS7;
     return null;
   }
 
   String? _validatePassword(String? value) {
     final pwd = value ?? '';
-    if (pwd.isEmpty) return 'Введите пароль';
-    if (pwd.length < 6) return 'Минимум 6 символов';
+    if (pwd.isEmpty) return context.l10n.auto_vvediteParol;
+    if (pwd.length < 6) return context.l10n.auto_minimum6Simvolov;
     return null;
   }
 
@@ -112,7 +112,7 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
     if (msg.startsWith(exceptionPrefix)) {
       msg = msg.substring(exceptionPrefix.length);
     }
-    return msg.trim().isEmpty ? 'Не удалось создать модератора' : msg;
+    return msg.trim().isEmpty ? context.l10n.auto_neUdalosSozdatModerato : msg;
   }
 
   @override
@@ -178,7 +178,7 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
                   textCapitalization: TextCapitalization.words,
                   textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(
-                    labelText: 'Имя',
+                    labelText: context.l10n.auto_imya_1,
                     border: OutlineInputBorder(),
                   ),
                   validator: _validateName,
@@ -207,7 +207,7 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
                     const PhoneNumberInputFormatter(),
                   ],
                   decoration: const InputDecoration(
-                    labelText: 'Телефон',
+                    labelText: context.l10n.auto_telefon,
                     hintText: '7 (XXX) XXX-XX-XX',
                     border: OutlineInputBorder(),
                   ),
@@ -220,10 +220,10 @@ class _AddModeratorDialogState extends State<AddModeratorDialog> {
                   obscureText: _obscurePassword,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
-                    labelText: 'Пароль',
+                    labelText: context.l10n.auto_parol_1,
                     border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
-                      tooltip: _obscurePassword ? 'Показать' : 'Скрыть',
+                      tooltip: _obscurePassword ? context.l10n.auto_pokazat : context.l10n.auto_skryt,
                       icon: Icon(
                         _obscurePassword
                             ? Icons.visibility_outlined

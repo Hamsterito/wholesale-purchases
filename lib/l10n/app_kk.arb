@@ -3,27 +3,27 @@
   "@@context": "Wholesale Purchases App",
   "common_ok": "Жарайды",
   "@common_ok": {
-    "description": "Диалогтардағы растау батырмасы"
+    "description": "Диалогтардағы растау түймесі"
   },
-  "common_cancel": "Болдырмау",
+  "common_cancel": "Бас тарту",
   "@common_cancel": {
-    "description": "Әрекетті болдырмау батырмасы"
+    "description": "Әрекетті болдырмау түймесі"
   },
   "common_save": "Сақтау",
   "@common_save": {
-    "description": "Өзгерістерді сақтау батырмасы"
+    "description": "Өзгерістерді сақтау түймесі"
   },
   "common_delete": "Жою",
   "@common_delete": {
-    "description": "Жою батырмасы"
+    "description": "Жою түймесі"
   },
   "common_edit": "Өңдеу",
   "@common_edit": {
-    "description": "Өңдеу батырмасы"
+    "description": "Өңдеу түймесі"
   },
-  "common_loading": "Жүктелуде...",
+  "common_loading": "Жүктеу...",
   "@common_loading": {
-    "description": "Деректер жүктелу туралы хабарлама"
+    "description": "Деректерді жүктеу туралы хабарлама"
   },
   "common_error": "Қате",
   "@common_error": {
@@ -31,59 +31,59 @@
   },
   "common_success": "Сәтті",
   "@common_success": {
-    "description": "Сәтті орындалу туралы хабарлама"
+    "description": "Сәтті орындалғаны туралы хабарлама"
   },
   "common_no_data": "Деректер жоқ",
   "@common_no_data": {
     "description": "Деректердің жоқтығы туралы хабарлама"
   },
-  "common_try_again": "Қайта көріңіз",
+  "common_try_again": "Қайталап көріңіз",
   "@common_try_again": {
-    "description": "Қайта әрекет ету батырмасы"
+    "description": "Қайта әрекет ету түймесі"
   },
   "common_retry": "Қайталау",
   "@common_retry": {
-    "description": "Әрекетті қайталау батырмасы"
+    "description": "Әрекетті қайталау түймесі"
   },
   "common_send": "Жіберу",
   "@common_send": {
-    "description": "Деректерді жіберу батырмасы"
+    "description": "Деректерді жіберу түймесі"
   },
   "common_back": "Артқа",
   "@common_back": {
-    "description": "Алдыңғы экранға қайту батырмасы"
+    "description": "Алдыңғы экранға оралу түймесі"
   },
-  "common_next": "Әрі қарай",
+  "common_next": "Келесі",
   "@common_next": {
-    "description": "Келесі қадамға өту батырмасы"
+    "description": "Келесі қадамға өту түймесі"
   },
   "common_close": "Жабу",
   "@common_close": {
-    "description": "Диалогты немесе экранды жабу батырмасы"
+    "description": "Диалогты немесе экранды жабу түймесі"
   },
   "common_add": "Қосу",
   "@common_add": {
-    "description": "Элементті қосу батырмасы"
+    "description": "Элемент қосу түймесі"
   },
   "common_search": "Іздеу...",
   "@common_search": {
-    "description": "Іздеу өрісінің толтырғышы"
+    "description": "Іздеу өрісін толтырғыш"
   },
   "common_confirm": "Растау",
   "@common_confirm": {
-    "description": "Әрекетті растау батырмасы"
+    "description": "Әрекетті растау түймесі"
   },
-  "common_unit_short": "дана",
+  "common_unit_short": "дана.",
   "@common_unit_short": {
-    "description": "Өлшем бірлігінің қысқартылуы (дана)"
+    "description": "Өлшем бірлігін қысқарту (дана)"
   },
-  "auth_login_title": "Аккаунтқа кіру",
+  "auth_login_title": "Тіркелгіге кіру",
   "@auth_login_title": {
     "description": "Кіру бетінің тақырыбы"
   },
-  "auth_register_title": "Тіркелу",
+  "auth_register_title": "Тіркеу",
   "@auth_register_title": {
-    "description": "Тіркелу бетінің тақырыбы"
+    "description": "Тіркеу парағының тақырыбы"
   },
   "auth_forgot_password": "Құпия сөзді ұмыттыңыз ба?",
   "@auth_forgot_password": {
@@ -99,23 +99,23 @@
   },
   "auth_password_label": "Құпия сөз",
   "@auth_password_label": {
-    "description": "Құпия сөз енгізу өрісінің белгісі"
+    "description": "Құпия сөзді енгізу өрісінің белгісі"
   },
   "auth_name_label": "Аты",
   "@auth_name_label": {
-    "description": "Аты енгізу өрісінің белгісі"
+    "description": "Аты енгізу өрісінің символы"
   },
   "auth_name_hint": "Атыңызды енгізіңіз",
   "@auth_name_hint": {
-    "description": "Аты енгізу өрісінің кеңесі"
+    "description": "Атауды енгізу өрісінің кеңесі"
   },
-  "auth_supplier_name_hint": "Мысалы, ЖШС Манса Қоймасы",
+  "auth_supplier_name_hint": "Мысалы, \"Манса қойма\" ЖШС",
   "@auth_supplier_name_hint": {
-    "description": "Жеткізуші компаниясының атауын енгізу өрісінің кеңесі"
+    "description": "Жеткізуші компанияның атауын енгізу өрісінің кеңесі"
   },
   "auth_password_hint": "Жаңа құпия сөзді енгізіңіз",
   "@auth_password_hint": {
-    "description": "Жаңа құпия сөз енгізу өрісінің кеңесі"
+    "description": "Жаңа құпия сөзді енгізу бойынша кеңес"
   },
   "auth_password_confirm_hint": "Жаңа құпия сөзді растаңыз",
   "@auth_password_confirm_hint": {
@@ -123,19 +123,19 @@
   },
   "auth_current_password_hint": "Ағымдағы құпия сөзді енгізіңіз",
   "@auth_current_password_hint": {
-    "description": "Ағымдағы құпия сөз енгізу өрісінің кеңесі"
+    "description": "Ағымдағы пароль енгізу өрісі бойынша кеңес"
   },
-  "auth_password_repeat_hint": "Құпия сөзді тағы бір рет енгізіңіз",
+  "auth_password_repeat_hint": "Құпия сөзді қайтадан енгізіңіз",
   "@auth_password_repeat_hint": {
-    "description": "Құпия сөзді қайта енгізу кеңесі"
+    "description": "Құпия сөзді қайта енгізу бойынша кеңес"
   },
   "auth_password_min_length": "Кемінде 6 таңба",
   "@auth_password_min_length": {
-    "description": "Құпия сөздің ең аз ұзындығы туралы кеңес"
+    "description": "Құпия сөздің минималды ұзындығы туралы кеңес"
   },
   "auth_logout": "Шығу",
   "@auth_logout": {
-    "description": "Аккаунттан шығу батырмасы"
+    "description": "Есептік жазбадан шығу түймесі"
   },
   "catalog_title": "Каталог",
   "@catalog_title": {
@@ -147,13 +147,13 @@
   },
   "catalog_search_categories": "Санаттарды іздеу...",
   "@catalog_search_categories": {
-    "description": "Санаттарды іздеу кеңесі"
+    "description": "Санаттарды іздеу бойынша кеңес"
   },
-  "catalog_search_subcategories": "Санат тармақтарын іздеу...",
+  "catalog_search_subcategories": "Ішкі санаттарды іздеу...",
   "@catalog_search_subcategories": {
-    "description": "Санат тармақтарын іздеу кеңесі"
+    "description": "Санаттарды іздеу бойынша кеңес"
   },
-  "catalog_no_products": "Өнімдер табылмады",
+  "catalog_no_products": "Тауарлар табылған жоқ",
   "@catalog_no_products": {
     "description": "Өнімдердің жоқтығы туралы хабарлама"
   },
@@ -167,15 +167,15 @@
   },
   "cart_clear_title": "Себетті тазалау керек пе?",
   "@cart_clear_title": {
-    "description": "Себетті тазалау диалогының тақырыбы"
+    "description": "Себетті тазарту диалогының тақырыбы"
   },
-  "cart_clear_message": "Барлық өнімдер себеттен жойылады.",
+  "cart_clear_message": "Барлық өнімдер Себеттен шығарылады.",
   "@cart_clear_message": {
-    "description": "Себетті тазалау диалогындағы хабарлама"
+    "description": "Себетті тазарту диалогындағы хабарлама"
   },
   "cart_clear_button": "Тазалау",
   "@cart_clear_button": {
-    "description": "Себетті тазалау батырмасы"
+    "description": "Себетті тазалау түймесі"
   },
   "cart_payment_confirm_title": "Төлемді растау",
   "@cart_payment_confirm_title": {
@@ -183,15 +183,15 @@
   },
   "cart_payment_button": "Төлеу",
   "@cart_payment_button": {
-    "description": "Тапсырысты төлеу батырмасы"
+    "description": "Тапсырысты төлеу түймесі"
   },
   "order_title": "Тапсырыстар",
   "@order_title": {
-    "description": "Тапсырыстар бетінің тақырыбы"
+    "description": "Тапсырыс парағының тақырыбы"
   },
-  "order_history": "Тапсырыстар тарихы",
+  "order_history": "Тапсырыс тарихы",
   "@order_history": {
-    "description": "Тапсырыстар тарихының тақырыбы"
+    "description": "Тапсырыс тарихы тақырыбы"
   },
   "order_no_orders": "Тапсырыстар жоқ",
   "@order_no_orders": {
@@ -199,7 +199,7 @@
   },
   "product_details": "Өнім туралы мәліметтер",
   "@product_details": {
-    "description": "Өнім туралы мәліметтер бетінің тақырыбы"
+    "description": "Өнім туралы мәліметтер парағының тақырыбы"
   },
   "product_reviews": "Пікірлер",
   "@product_reviews": {
@@ -211,13 +211,13 @@
   },
   "product_answer_button": "Жауап беру",
   "@product_answer_button": {
-    "description": "Сұраққа жауап беру батырмасы"
+    "description": "Сұраққа жауап беру түймесі"
   },
-  "product_review_hint": "Пікір мәтіні",
+  "product_review_hint": "Түсініктеме мәтіні",
   "@product_review_hint": {
     "description": "Пікір енгізу өрісінің кеңесі"
   },
-  "product_review_share": "Әсеріңізбен бөлісіңіз",
+  "product_review_share": "Өз әсерлеріңізбен бөлісіңіз",
   "@product_review_share": {
     "description": "Пікір өрісінің кеңесі"
   },
@@ -225,9 +225,9 @@
   "@profile_title": {
     "description": "Профиль бетінің тақырыбы"
   },
-  "profile_settings": "Баптаулар",
+  "profile_settings": "Параметрлер",
   "@profile_settings": {
-    "description": "Профиль баптауларының тақырыбы"
+    "description": "Профиль параметрлері тақырыбы"
   },
   "profile_personal_info": "Жеке ақпарат",
   "@profile_personal_info": {
@@ -235,7 +235,7 @@
   },
   "profile_change_password": "Құпия сөзді өзгерту",
   "@profile_change_password": {
-    "description": "Құпия сөзді өзгерту бетінің тақырыбы"
+    "description": "Парольді өзгерту бетінің тақырыбы"
   },
   "profile_payment_cards": "Төлем карталары",
   "@profile_payment_cards": {
@@ -251,23 +251,23 @@
   },
   "supplier_products": "Өнімдер",
   "@supplier_products": {
-    "description": "Жеткізуші өнімдері бетінің тақырыбы"
+    "description": "Өнім жеткізушісінің бет тақырыбы"
   },
   "supplier_orders": "Тапсырыстар",
   "@supplier_orders": {
-    "description": "Жеткізуші тапсырыстары бетінің тақырыбы"
+    "description": "Жеткізушілердің Тапсырыс парағының тақырыбы"
   },
   "supplier_profile": "Жеткізуші профилі",
   "@supplier_profile": {
-    "description": "Жеткізуші профилінің тақырыбы"
+    "description": "Провайдер профилінің тақырыбы"
   },
-  "supplier_add_product": "Өнім қосу",
+  "supplier_add_product": "Өнімді қосу",
   "@supplier_add_product": {
-    "description": "Өнім қосу батырмасы"
+    "description": "Өнімді қосу түймесі"
   },
   "supplier_edit_product": "Өңдеу",
   "@supplier_edit_product": {
-    "description": "Өнімді өңдеу батырмасы"
+    "description": "Өнімді өңдеу түймесі"
   },
   "supplier_search_suppliers": "Жеткізушілер бойынша іздеу",
   "@supplier_search_suppliers": {
@@ -275,27 +275,27 @@
   },
   "supplier_country_hint": "Мысалы, Қазақстан",
   "@supplier_country_hint": {
-    "description": "Өндіруші елінің өрісінің кеңесі"
+    "description": "Өндіруші елдің өрісі туралы кеңес"
   },
   "supplier_shelf_life_hint": "Мысалы, 12 ай",
   "@supplier_shelf_life_hint": {
-    "description": "Жарамдылық мерзімі өрісінің кеңесі"
+    "description": "Жарамдылық мерзімі бойынша кеңес"
   },
   "supplier_weight_hint": "Мысалы, 1450",
   "@supplier_weight_hint": {
-    "description": "Өнім салмағы өрісінің кеңесі"
+    "description": "Өнімнің салмағы бойынша кеңес"
   },
   "supplier_calories_hint": "Мысалы, 120",
   "@supplier_calories_hint": {
-    "description": "Калориялық өрісінің кеңесі"
+    "description": "Калория кеңесі"
   },
   "supplier_category_search": "Санатты іздеу",
   "@supplier_category_search": {
-    "description": "Санатты іздеу кеңесі"
+    "description": "Санаттарды іздеу бойынша кеңес"
   },
   "supplier_add_photo": "Қосу",
   "@supplier_add_photo": {
-    "description": "Фото қосу батырмасы"
+    "description": "Фотосурет Қосу Түймесі"
   },
   "supplier_schedule_weekdays": "Жұмыс күндері",
   "@supplier_schedule_weekdays": {
@@ -309,37 +309,37 @@
   "@supplier_schedule_daily": {
     "description": "Күнделікті кесте белгісі"
   },
-  "moderator_title": "Модератор профилі",
+  "moderator_title": "Модерация",
   "@moderator_title": {
     "description": "Модератор профилінің тақырыбы"
   },
   "moderator_search_hint": "Іздеу: өнім, жеткізуші, санат",
   "@moderator_search_hint": {
-    "description": "Модерациядағы іздеу кеңесі"
+    "description": "Модерация бойынша іздеу кеңесі"
   },
   "moderator_search_users": "Аты немесе email бойынша іздеу",
   "@moderator_search_users": {
-    "description": "Пайдаланушыларды іздеу кеңесі"
+    "description": "Пайдаланушыларды іздеу бойынша кеңес"
   },
   "moderator_delete_reason": "Жеткізуші үшін жою себебі",
   "@moderator_delete_reason": {
-    "description": "Өнімді жою себебі өрісінің кеңесі"
+    "description": "Өнімді жою себебі"
   },
-  "moderator_close_reason": "Жабу себебі (міндетті емес)",
+  "moderator_close_reason": "Жабылу себебі (міндетті емес)",
   "@moderator_close_reason": {
-    "description": "Чатты жабу себебі өрісінің кеңесі"
+    "description": "Чаттың жабылу себебі"
   },
   "moderator_support_chats": "Қолдау чаттары",
   "@moderator_support_chats": {
-    "description": "Қолдау чаттары бетінің тақырыбы"
+    "description": "Қолдау чат бетінің тақырыбы"
   },
   "support_category_hint": "Санатты таңдаңыз",
   "@support_category_hint": {
-    "description": "Өтініш санатын таңдау кеңесі"
+    "description": "Өтінім санатын таңдау жөніндегі кеңес"
   },
   "support_subject_hint": "Тақырыпты енгізіңіз",
   "@support_subject_hint": {
-    "description": "Өтініш тақырыбы өрісінің кеңесі"
+    "description": "Өтініш тақырыбы бойынша кеңес беру"
   },
   "template_save_title": "Үлгі ретінде сақтау",
   "@template_save_title": {
@@ -347,141 +347,111 @@
   },
   "template_overwrite": "Қайта жазу",
   "@template_overwrite": {
-    "description": "Бар үлгіні қайта жазу батырмасы"
+    "description": "Бар үлгіні қайта жазу түймесі"
   },
   "template_save_another": "Басқа атпен сақтау",
   "@template_save_another": {
-    "description": "Басқа атпен сақтау батырмасы"
+    "description": "Басқа атпен сақтау түймесі"
   },
-  "template_rename_title": "Үлгіні қайта атау",
+  "template_rename_title": "Үлгінің атын өзгерту",
   "@template_rename_title": {
-    "description": "Үлгіні қайта атау диалогының тақырыбы"
+    "description": "Шаблонның атын өзгерту диалогының тақырыбы"
   },
   "template_name_label": "Үлгі атауы",
   "@template_name_label": {
-    "description": "Үлгі атауы енгізу өрісінің меткасы"
+    "description": "Модель атауы енгізу өрісінің белгісі"
   },
-  "template_name_error": "Үлгі атауы: 1-ден 50-ге дейінгі символ",
+  "template_name_error": "Үлгі атауы: 1-ден 50 таңбаға дейін",
   "@template_name_error": {
-    "description": "Үлгі атауы қатесі"
+    "description": "Модель атауы қатесі"
   },
-  "template_duplicate_exists": "Аталысы бірінші қайталанды",
+  "template_duplicate_exists": "Атауы қазірдің өзінде алынған",
   "@template_duplicate_exists": {
-    "description": "Үлгі атауы қайталамасы"
+    "description": "Модель атауы телнұсқа"
   },
   "template_apply_confirm": "Ауыстыру",
   "@template_apply_confirm": {
-    "description": "Үлгіні қолдануды растау батырмасы"
+    "description": "Үлгіні пайдалануды растау түймесі"
   },
-  "payment_card_expiry_hint": "АА/ЖЖ",
+  "payment_card_expiry_hint": "ММ / ЖЖ",
   "@payment_card_expiry_hint": {
     "description": "Картаның жарамдылық мерзімі өрісінің кеңесі"
   },
-  "validation_required": "Бұл өріс міндетті",
+  "validation_required": "Бұл өріс міндетті болып табылады",
   "@validation_required": {
     "description": "Міндетті өріс туралы хабарлама"
   },
-  "validation_email_invalid": "Email форматы дұрыс емес",
+  "validation_email_invalid": "Қате email пішімі",
   "@validation_email_invalid": {
-    "description": "Email форматының дұрыс еместігі туралы хабарлама"
+    "description": "Email форматының дұрыс остігі туралы хабарлама"
   },
   "validation_password_short": "Құпия сөз тым қысқа",
   "@validation_password_short": {
-    "description": "Тым қысқа құпия сөз туралы хабарлама"
+    "description": "Құпия сөз туралы хабарлама тым қысқа"
   },
   "validation_passwords_mismatch": "Құпия сөздер сәйкес келмейді",
   "@validation_passwords_mismatch": {
-    "description": "Құпия сөздердің сәйкес келмеуі туралы хабарлама"
+    "description": "Парольдердің сәйкес остігі туралы хабарлама"
   },
-  "error_network": "Желінің қатесі. Байланысын тексеріңіз және қайта көріңіз",
+  "error_network": "Желі қатесі. Байланысты тексеріп, қайталап көріңіз",
   "@error_network": {
-    "description": "Желі қатесі туралы хабарлама"
+    "description": "Желі қатесі туралы хабар"
   },
-  "error_timeout": "Серверге жауап беру уақыты ұзақты",
+  "error_timeout": "Сервердің жауап беру уақыты ұзағырақ",
   "@error_timeout": {
-    "description": "Таймаут қатесі туралы хабарлама"
+    "description": "Күту уақыты туралы қате туралы хабар"
   },
   "error_unknown": "Белгісіз қате орын алды",
   "@error_unknown": {
-    "description": "Белгісіз қате туралы хабарлама"
+    "description": "Белгісіз қате туралы хабар"
   },
-  "error_auth_required": "Авторизация қажет",
+  "error_auth_required": "Авторизация Қажет",
   "@error_auth_required": {
     "description": "Авторизация қажеттілігі туралы хабарлама"
   },
-  "error_not_found": "Табылмады",
+  "error_not_found": "Табылған жоқ",
   "@error_not_found": {
     "description": "Сұралған ресурстың жоқтығы туралы хабарлама"
   },
-  "message_order_not_found": "ID {orderId} бар тапсырыс табылмады",
+  "message_order_not_found": "ID {orderId} қолданыстағы Тапсырыс табылмады",
   "@message_order_not_found": {
-    "description": "Табылмаған тапсырыс туралы хабарлама үлгісі",
-    "placeholders": {
-      "orderId": {
-        "type": "String"
-      }
-    }
+    "description": "Табылмаған тапсырыс туралы хабарлама үлгісі"
   },
-  "message_order_confirmed": "Сіздің #{orderId} тапсырысы растайтылды",
+  "message_order_confirmed": "Сіздің #{orderId} Тапсырыс расталды",
   "@message_order_confirmed": {
-    "description": "Тапсырысты растау туралы хабарлама үлгісі",
-    "placeholders": {
-      "orderId": {
-        "type": "String"
-      }
-    }
+    "description": "Тапсырысты растау туралы хабарлама үлгісі"
   },
-  "message_order_delivered": "#{orderId} тапсырысы жеткізілді",
+  "message_order_delivered": "#{orderId} Тапсырыс жеткізілді",
   "@message_order_delivered": {
-    "description": "Тапсырысты жеткізу туралы хабарлама үлгісі",
-    "placeholders": {
-      "orderId": {
-        "type": "String"
-      }
-    }
+    "description": "Тапсырысты жеткізу туралы хабарлама үлгісі"
   },
-  "message_product_not_found": "ID {productId} бар өнім табылмады",
+  "message_product_not_found": "ID {productId} қолданыстағы өнім табылмады",
   "@message_product_not_found": {
-    "description": "Табылмаған өнім туралы хабарлама үлгісі",
-    "placeholders": {
-      "productId": {
-        "type": "String"
-      }
-    }
+    "description": "Алынбаған өнім туралы хабарлама үлгісі"
   },
-  "message_network_error": "Желінің қатесі. Байланысын тексеріңіз және қайта көріңіз",
+  "message_network_error": "Желі қатесі. Байланысты тексеріп, қайталап көріңіз",
   "@message_network_error": {
     "description": "Желі қатесі туралы хабарлама үлгісі"
   },
-  "message_timeout_error": "Серверге жауап беру уақыты ұзақты",
+  "message_timeout_error": "Сервердің жауап беру уақыты ұзағырақ",
   "@message_timeout_error": {
-    "description": "Таймаут қатесі туралы хабарлама үлгісі"
+    "description": "Күту уақыты туралы қате туралы хабарлама үлгісі"
   },
   "message_validation_error": "Растау қатесі: {details}",
   "@message_validation_error": {
-    "description": "Растау қатесі туралы хабарлама үлгісі",
-    "placeholders": {
-      "details": {
-        "type": "String"
-      }
-    }
+    "description": "Растау қатесі туралы хабарлама үлгісі"
   },
-  "message_auth_required": "Авторизация қажет",
+  "message_auth_required": "Авторизация Қажет",
   "@message_auth_required": {
     "description": "Авторизация қажеттілігі туралы хабарлама үлгісі"
   },
-  "message_parse_error": "Хабарламаны талдау мүмкін болмады",
+  "message_parse_error": "Хабарламаны талдау мүмкін емес",
   "@message_parse_error": {
     "description": "Талдау қатесі туралы хабарлама үлгісі"
   },
-  "message_ai_generation_failed": "AI жауабын құрастыру мүмкін болмады: {reason}",
+  "message_ai_generation_failed": "Ai жауабын құру мүмкін емес: {reason}",
   "@message_ai_generation_failed": {
-    "description": "AI генерациясының қатесі туралы хабарлама үлгісі",
-    "placeholders": {
-      "reason": {
-        "type": "String"
-      }
-    }
+    "description": "Ai генерациялау қатесі туралы хабарлама үлгісі"
   },
   "format_date_pattern": "DD.MM.YYYY HH:mm",
   "@format_date_pattern": {
@@ -489,37 +459,37 @@
   },
   "format_number_thousands_separator": "\\u202F",
   "@format_number_thousands_separator": {
-    "description": "Мыңдықтар бөлгіші (тар үзілмейтін бос орын)"
+    "description": "Мың бөлгіш (тар үзілмейтін бос орын)"
   },
   "format_number_decimal_separator": ",",
   "@format_number_decimal_separator": {
-    "description": "Бөлшек бөлігінің бөлгіші"
+    "description": "Бөлшек бөлгіш"
   },
   "common_more": "Тағы",
   "@common_more": {
-    "description": "Мәтінді ашыратын батырма"
+    "description": "Мәтінді ашу түймесі"
   },
   "common_less": "Жасыру",
   "@common_less": {
-    "description": "Мәтінді жасыратын батырма"
+    "description": "Мәтінді жасыру түймесі"
   },
-  "auth_session_expired": "Сеанс аяқтаған. Қайтадан кіріңіз",
+  "auth_session_expired": "Сеанс аяқталды. Қайта кіріңіз",
   "@auth_session_expired": {
-    "description": "Сеанс аяқтауы туралы хабарлама"
+    "description": "Сессияның аяқталуы туралы хабарлама"
   },
-  "product_similar": "Ұйымдық өнімдер",
+  "product_similar": "Ұйымдастыру өнімдері",
   "@product_similar": {
-    "description": "Ұйымдық өнімдер секциясының тақырыбы"
+    "description": "Ұйымдастыру өнімдері секциясының тақырыбы"
   },
   "supplier_error_load_products": "Өнімдерді жүктеу мүмкін болмады",
   "@supplier_error_load_products": {
-    "description": "Өнімдерді жүктеу қатесі"
+    "description": "Өнімді жүктеу қатесі"
   },
   "supplier_error_load_orders": "Тапсырыстарды жүктеу мүмкін болмады",
   "@supplier_error_load_orders": {
     "description": "Тапсырыстарды жүктеу қатесі"
   },
-  "supplier_login_required": "Аккаунтқа кіру қажет",
+  "supplier_login_required": "Тіркелгіге кіру керек",
   "@supplier_login_required": {
     "description": "Кіру қажеттілігі туралы хабарлама"
   },
@@ -527,9 +497,9 @@
   "@supplier_product_sent_moderation": {
     "description": "Өнімді модерацияға жіберу туралы хабарлама"
   },
-  "supplier_changes_sent_moderation": "Өзгерістер модерацияға жіберілді",
+  "supplier_changes_sent_moderation": "Өзгерістер модерацияға бағытталған",
   "@supplier_changes_sent_moderation": {
-    "description": "Өзгерістерді модерацияға жіберу туралы хабарлама"
+    "description": "Модерацияға өзгерістер енгізу туралы хабарлама"
   },
   "supplier_delete_product": "Өнімді жою керек пе?",
   "@supplier_delete_product": {
@@ -537,39 +507,39 @@
   },
   "supplier_product": "Өнім",
   "@supplier_product": {
-    "description": "Өнім субъектінің атауы"
+    "description": "Өнім субъектісінің атауы"
   },
-  "supplier_removed_from_publication": "Өнім публикациядан алынды",
+  "supplier_removed_from_publication": "Өнім журналистикадан алынған",
   "@supplier_removed_from_publication": {
-    "description": "Өнімді публикациядан алу туралы хабарлама"
+    "description": "Өнімді журналистикадан шығару туралы хабарлама"
   },
   "supplier_product_deleted": "Өнім жойылды",
   "@supplier_product_deleted": {
-    "description": "Өнім жойылғаны туралы хабарлама"
+    "description": "Өнімді жою туралы хабарлама"
   },
   "supplier_error_delete_product": "Өнімді жою мүмкін болмады",
   "@supplier_error_delete_product": {
-    "description": "Өнім жою қатесі туралы хабарлама"
+    "description": "Өнімді жою қатесі туралы хабарлама"
   },
-  "supplier_apprved": "Бекітілді",
+  "supplier_apprved": "Бекітілген",
   "@supplier_apprved": {
-    "description": "Бекітілген өнім статусы"
+    "description": "Бекітілген өнім мәртебесі"
   },
-  "supplier_rejected": "Кірістірілмеді",
+  "supplier_rejected": "Енгізілмеген",
   "@supplier_rejected": {
-    "description": "Кірістірілмеген өнім статусы"
+    "description": "Кірістірусіз өнім күйі"
   },
   "supplier_pending": "Модерацияда",
   "@supplier_pending": {
-    "description": "Модерациядегі өнім статусы"
+    "description": "Өнімнің модерациядағы мәртебесі"
   },
   "supplier_no_title": "Атауы жоқ",
   "@supplier_no_title": {
-    "description": "Атауы жоқ өнім үшін мәтін"
+    "description": "Атауы жоқ өнімге арналған мәтін"
   },
-  "supplier_no_description": "Сипаттамасы жоқ",
+  "supplier_no_description": "Сипаттама жоқ",
   "@supplier_no_description": {
-    "description": "Сипаттамасы жоқ өнім үшін мәтін"
+    "description": "Сипаттамасыз өнімге арналған мәтін"
   },
   "supplier_orders_empty_no_orders": "Тапсырыстар жоқ",
   "@supplier_orders_empty_no_orders": {
@@ -579,57 +549,57 @@
   "@supplier_orders_empty_active": {
     "description": "Белсенді тапсырыстардың жоқтығы туралы хабарлама"
   },
-  "supplier_orders_empty_history": "Тарихта тапсырыстар жоқ",
+  "supplier_orders_empty_history": "Тарихта ешқандай тапсырыс жоқ",
   "@supplier_orders_empty_history": {
-    "description": "Тарихтағы тапсырыстардың жоқтығы туралы хабарлама"
+    "description": "Тарихта тапсырыстардың жоқтығы туралы хабарлама"
   },
-  "supplier_orders_empty_period": "Таңдалған периодқа тапсырыстар жоқ",
+  "supplier_orders_empty_period": "Таңдалған кезеңге тапсырыс жоқ",
   "@supplier_orders_empty_period": {
-    "description": "Периодқа тапсырыстардың жоқтығы туралы хабарлама"
+    "description": "Кезеңге тапсырыстардың жоқтығы туралы хабарлама"
   },
-  "supplier_status_change_step": "Таңдалған статуста өту мүмкін емес",
+  "supplier_status_change_step": "Таңдалған күйде өту мүмкін емес",
   "@supplier_status_change_step": {
-    "description": "Статус өзгерту қатесі туралы хабарлама"
+    "description": "Күйді өзгерту қатесі туралы хабар"
   },
-  "supplier_status_updated": "Тапсырыс статусы жаңартылды",
+  "supplier_status_updated": "Тапсырыс күйі жаңартылды",
   "@supplier_status_updated": {
-    "description": "Статус жаңарту туралы хабарлама"
+    "description": "Күйді жаңарту туралы хабарлама"
   },
-  "supplier_status_update_failed": "Статусты жаңарту мүмкін болмады",
+  "supplier_status_update_failed": "Күйді жаңарту мүмкін болмады",
   "@supplier_status_update_failed": {
-    "description": "Статус жаңарту қатесі туралы хабарлама"
+    "description": "Күйді жаңарту қатесі туралы хабар"
   },
-  "supplier_status_confirm_change": "Статус өзгертуді растау",
+  "supplier_status_confirm_change": "Мәртебенің өзгеруін растау",
   "@supplier_status_confirm_change": {
-    "description": "Статус өзгерту диалогының тақырыбы"
+    "description": "Мәртебені өзгерту диалогының тақырыбы"
   },
   "supplier_order_prefix": "Тапсырыс",
   "@supplier_order_prefix": {
-    "description": "Тапсырыс номері үшін префикс"
+    "description": "Тапсырыс нөмірі үшін Префикс"
   },
-  "supplier_from": "иске",
+  "supplier_from": "туралы",
   "@supplier_from": {
-    "description": "Статустың предлогі (иске)"
+    "description": "Мәртебе предлогы (соте)"
   },
-  "supplier_to": "мен",
+  "supplier_to": "в",
   "@supplier_to": {
-    "description": "Статустың предлогі (мен)"
+    "description": "Күй предлогы (мен)"
   },
-  "supplier_period_day": "Күн ішінде",
+  "supplier_period_day": "Күн",
   "@supplier_period_day": {
-    "description": "Күн периоды подписі"
+    "description": "Күн кезеңінің қолтаңбасы"
   },
   "supplier_period_week": "Апта",
   "@supplier_period_week": {
-    "description": "Апта периоды подписі"
+    "description": "Апта кезеңінің қолтаңбасы"
   },
   "supplier_period_month": "Ай",
   "@supplier_period_month": {
-    "description": "Ай периоды подписі"
+    "description": "Ай кезеңіне қол қою"
   },
   "supplier_period_quarter": "Тоқсан",
   "@supplier_period_quarter": {
-    "description": "Тоқсан периоды подписі"
+    "description": "Тоқсан кезеңге қол қою"
   },
   "supplier_active_orders_tab": "Белсенді",
   "@supplier_active_orders_tab": {
@@ -637,198 +607,183 @@
   },
   "supplier_history_orders_tab": "Тарих",
   "@supplier_history_orders_tab": {
-    "description": "Тапсырыстар тарихы қойындысының атауы"
+    "description": "Тапсырыс тарихы қойындысының атауы"
   },
   "supplier_filter_label": "Күндер бойынша сүзгі",
   "@supplier_filter_label": {
-    "description": "Күндер бойынша сүзгі подписі"
+    "description": "Күндер бойынша сүзгіге қол қою"
   },
-  "supplier_export_excel": "Excel файлына экспорт",
+  "supplier_export_excel": "Excel файлына экспорттау",
   "@supplier_export_excel": {
-    "description": "Excel файлына экспорт батырмасы"
+    "description": "Excel файлына экспорттау түймесі"
   },
-  "supplier_products_in_order": "Тапсырыстағы өнімдер",
+  "supplier_products_in_order": "Тапсырыс бойынша жасалған өнімдер",
   "@supplier_products_in_order": {
-    "description": "Тапсырыстағы өнімдер секциясының тақырыбы"
+    "description": "Тапсырыс бойынша өнім секциясының тақырыбы"
   },
-  "supplier_top_products": "Топ өнімдер",
+  "supplier_top_products": "Танымал тауарлар",
   "@supplier_top_products": {
-    "description": "Топ өнімдер секциясының тақырыбы"
+    "description": "Топтың өнім секциясының тақырыбы"
   },
   "supplier_recent_orders": "Соңғы тапсырыстар",
   "@supplier_recent_orders": {
-    "description": "Соңғы тапсырыстар секциясының тақырыбы"
+    "description": "Соңғы тапсырыстар бөлімінің тақырыбы"
   },
-  "supplier_unanswered_questions": "{count} сұраққа жауап жоқ",
+  "supplier_unanswered_questions": "Жауапсыз сұрақтар: {count}",
   "@supplier_unanswered_questions": {
-    "description": "Жауап жоқ сұрақтарды есептеу",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Жауапсыз сұрақтарды есептеу"
   },
   "template_add_to_cart": "Себетке қосу",
   "@template_add_to_cart": {
-    "description": "Себетке қосу батырмасінің мәтіні"
+    "description": "Себетке қосу батырмасының мәтіні"
   },
-  "review_quick_fast_delivery": "Жылаулы жеткізу",
+  "review_quick_fast_delivery": "Жылдам жеткізу",
   "@review_quick_fast_delivery": {
     "description": "Жылдам жеткізу тегі"
   },
   "review_quick_good_price": "Жақсы баға",
   "@review_quick_good_price": {
-    "description": "Жақсы баға тегі"
+    "description": "Жақсы баға белгісі"
   },
-  "review_quick_quality_packaging": "Сапалы өптеу",
+  "review_quick_quality_packaging": "Сапалы орау",
   "@review_quick_quality_packaging": {
-    "description": "Сапалы өптеу тегі"
+    "description": "Сапалы орау тегі"
   },
-  "review_quick_fresh_product": "Сүңбе өнім",
+  "review_quick_fresh_product": "Жаңа өнім",
   "@review_quick_fresh_product": {
-    "description": "Сүңбе өнім тегі"
+    "description": "Өнім тегі Жаңа"
   },
-  "review_quick_polite_courier": "Ахсан етістік курьер",
+  "review_quick_polite_courier": "Сыпайы курьер",
   "@review_quick_polite_courier": {
     "description": "Ахсан етістік курьер тегі"
   },
-  "review_no_text": "Мәтіндік емес",
+  "review_no_text": "Мәтін жоқ",
   "@review_no_text": {
-    "description": "Бос өрістің әдепкі мәтіні"
+    "description": "Әдепкі бос өріс мәтіні"
   },
   "wizard_optional": "міндетті емес",
   "@wizard_optional": {
-    "description": "өрістің міндеттілігі туралы подпись"
+    "description": "өрістің міндеттемесіне жазылу"
   },
-  "wizard_orders_cutoff_time": "Тапсырыс алу аяқтайтын уақыт",
+  "wizard_orders_cutoff_time": "Тапсырыстарды қабылдау аяқталатын уақыт",
   "@wizard_orders_cutoff_time": {
-    "description": "Тапсырыстарды жабу уақытының кеңесі"
+    "description": "Тапсырыстарды жабу уақыты туралы кеңес"
   },
-  "wizard_invalid_time": "Уақыт пішімі дұрыс емес",
+  "wizard_invalid_time": "Дұрыс емес уақыт форматы",
   "@wizard_invalid_time": {
-    "description": "Уақыт пішімі қатесі туралы хабарлама"
+    "description": "Уақыт форматындағы қате туралы хабар"
   },
   "wizard_select_category": "Каталогтан санатты таңдаңыз",
   "@wizard_select_category": {
     "description": "Санатты таңдау кеңесі"
   },
-  "settings_enabled": "Қос",
+  "settings_enabled": "Қосылған",
   "@settings_enabled": {
-    "description": "Қосылған жалҡындың подпись"
+    "description": "Жал қосылды жазылым"
   },
-  "settings_disabled": "Өшіру",
+  "settings_disabled": "Өшірулі",
   "@settings_disabled": {
-    "description": "Өшірілген жалҡындың подпись"
+    "description": "Өшірілген Мане жазылым"
   },
-  "price": "Баға",
+  "price": "Бағасы",
   "@price": {
     "description": "Баға өрісінің атауы"
   },
-  "checkout": "Қалау",
+  "checkout": "Тапсырысты рәсімдеу",
   "@checkout": {
     "description": "Қалау бетінің атауы"
   },
-  "supplier_status_assembling": "Дайындау жүріседі",
+  "supplier_status_assembling": "Дайындық жүріп жатыр",
   "@supplier_status_assembling": {
-    "description": "Тапсырыс дайындау кезіндегі статус"
+    "description": "Тапсырысты дайындау кезіндегі мәртебе"
   },
-  "supplier_status_in_transit": "Жолдамада",
+  "supplier_status_in_transit": "Жолда",
   "@supplier_status_in_transit": {
-    "description": "Тапсырыс жолдамадағы статус"
+    "description": "Тапсырыстағы мәртебе"
   },
   "supplier_status_delivered": "Жеткізілді",
   "@supplier_status_delivered": {
-    "description": "Тапсырыс жеткізілген статус"
+    "description": "Тапсырыс жеткізілді мәртебесі"
   },
   "supplier_status_accepted": "Алынды",
   "@supplier_status_accepted": {
-    "description": "Тапсырыс алынған статус"
+    "description": "Тапсырыс мәртебесін алды"
   },
-  "supplier_status_cancelled": "Болдырмаұ",
+  "supplier_status_cancelled": "Жойылды",
   "@supplier_status_cancelled": {
-    "description": "Тапсырыс болдырмаланған статус"
+    "description": "Тапсырыс жойылды мәртебесі"
   },
-  "supplier_order_progress": "Тапсырыс прогресі",
+  "supplier_order_progress": "Тапсырыстың барысы",
   "@supplier_order_progress": {
-    "description": "Тапсырыс прогресінің тақырыбы"
+    "description": "Тапсырыс барысы тақырыбы"
   },
-  "supplier_current_status": "Ағымдағы статус: {status}",
+  "supplier_current_status": "Ағымдағы мәртебе: {status}",
   "@supplier_current_status": {
-    "description": "Ағымдағы статус туралы подпись",
-    "placeholders": {
-      "status": {
-        "type": "String"
-      }
-    }
+    "description": "Ағымдағы жазылым күйі"
   },
-  "supplier_order_confirmed_by_buyer": "Тапсырыс хариқтармен расталды",
+  "supplier_order_confirmed_by_buyer": "Тапсырысты сатып алушы растайды",
   "@supplier_order_confirmed_by_buyer": {
     "description": "Тапсырыс расталған хабарлама"
   },
-  "supplier_waiting_buyer_confirmation": "Хариқтың растауын күтіңіз",
+  "supplier_waiting_buyer_confirmation": "Сатып алушының растауын күтеді",
   "@supplier_waiting_buyer_confirmation": {
-    "description": "Растауды күту хабарламасы"
+    "description": "Растауды күту туралы хабарлама"
   },
-  "units_count_short": "дана",
+  "units_count_short": "дана.",
   "@units_count_short": {
-    "description": "Санат үзіндісінің қысқартылуы"
+    "description": "Санат фрагментін қысқарту"
   },
   "items_count_short": "поз.",
   "@items_count_short": {
-    "description": "Позиция санынң қысқартылуы"
+    "description": "Позициялар санын азайту"
   },
   "supplier_export_success": "Файл жүктелді",
   "@supplier_export_success": {
-    "description": "Экспорт сәтті хабарламасы"
+    "description": "Сәтті экспорт туралы хабарлама"
   },
   "supplier_order_items_empty": "Тапсырыста тауарлар жоқ",
   "@supplier_order_items_empty": {
-    "description": "Тапсырыста тауарлар жоғі туралы хабарлама"
+    "description": "Тапсырыста тауарлардың жоқтығы туралы хабарлама"
   },
-  "supplier_export_error": "Экспорт қатесі: {error}",
+  "supplier_export_error": "Экспорттау қатесі: {error}",
   "@supplier_export_error": {
-    "description": "Экспорт қатесі туралы хабарлама",
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
+    "description": "Экспорттау қатесі туралы хабарлама"
   },
   "answered_label": "Жауап берілді",
   "@answered_label": {
-    "description": "Жауап берілген статус подпись"
+    "description": "Жауап күйінің белгісі берілген"
   },
   "supplier_order_total_label": "Барлығы",
   "@supplier_order_total_label": {
-    "description": "Тапсырыс сummасы подпись"
+    "description": "Тапсырыстың жалпы сомасына қол қою"
   },
   "supplier_delivery_address_label": "Жеткізу мекенжайы",
   "@supplier_delivery_address_label": {
-    "description": "Жеткізу мекенжайы подпись"
+    "description": "Жеткізу мекенжайының қолы"
   },
-  "supplier_address_not_specified": "Көрсетілмеген",
-  "@supplier_address_not_specified": {
-    "description": "Мекенжай көрсетілмеген кезде"
-  },
-  "supplier_order_status_label": "Тапсырыс статусы",
+  "supplier_order_status_label": "Тапсырыс күйі",
   "@supplier_order_status_label": {
-    "description": "Тапсырыс статусы подпись"
+    "description": "Тапсырыс мәртебесінің қолы"
   },
   "supplier_goods_positions_label": "Тауар позициялары",
   "@supplier_goods_positions_label": {
-    "description": "Тауар позициялары подпись"
+    "description": "Тауар позицияларының қолы"
   },
-  "supplier_units_count_label": "Бірлік саны",
+  "supplier_units_count_label": "Бірліктер саны",
   "@supplier_units_count_label": {
-    "description": "Бірлік саны подпись"
+    "description": "Бірліктер санының қолы"
   },
-  "supplier_confirmed_label": "Растайтылды",
+  "supplier_confirmed_label": "Расталды",
   "@supplier_confirmed_label": {
-    "description": "Растайтылған статус подпись"
+    "description": "Расталған мәртебенің қолы"
   },
-  "qa_title": "Q&A",
+  "supplier_address_not_specified": "Көрсетілмеген",
+  "@supplier_address_not_specified": {
+    "description": "Мекен жайы көрсетілмеген кезде"
+  },
+  "qa_title": "Сұрақтар мен жауаптар",
   "@qa_title": {
-    "description": "Сұрақтар мен жауаптар бетінің тақырыбы"
+    "description": "Сұрақ-жауап парағының тақырыбы"
   },
   "qa_questions_tab": "Сұрақтар",
   "@qa_questions_tab": {
@@ -838,13 +793,13 @@
   "@qa_reviews_tab": {
     "description": "Пікірлер қойындысының атауы"
   },
-  "qa_questions_without_answers": "Жауап беріліп қойған сұрақтар",
+  "qa_questions_without_answers": "Жауаптар берілген сұрақтар",
   "@qa_questions_without_answers": {
-    "description": "Жауап беріліп қойған сұрақтар секциясының тақырыбы"
+    "description": "Жауаптары бар сұрақтар секциясының тақырыбы"
   },
-  "qa_answered_questions": "Жауап берілген сұрақтар",
+  "qa_answered_questions": "Жауаптары бар сұрақтар",
   "@qa_answered_questions": {
-    "description": "Жауап берілген сұрақтар подпись"
+    "description": "Сұрақтарға жауаптар жазылыңыз"
   },
   "qa_no_questions": "Сұрақтар жоқ",
   "@qa_no_questions": {
@@ -852,72 +807,67 @@
   },
   "qa_no_reviews": "Пікірлер жоқ",
   "@qa_no_reviews": {
-    "description": "Пікірлердің жоқтығы туралы хабарлама"
+    "description": "Түсініктемелердің жоқтығы туралы хабарлама"
   },
-  "qa_no_text": "Мәтіндік емес",
+  "qa_no_text": "Мәтін жоқ",
   "@qa_no_text": {
-    "description": "Бос өрістің әдепкі мәтіні"
+    "description": "Әдепкі бос өріс мәтіні"
   },
-  "qa_seller_answer": "Жеткізуші жауабы",
+  "qa_seller_answer": "Жеткізушінің жауабы",
   "@qa_seller_answer": {
-    "description": "Жеткізуші жауабы подпись"
+    "description": "Жеткізуші жауап жазылу"
   },
   "qa_without_answer": "Жауап жоқ",
   "@qa_without_answer": {
-    "description": "Жауап жоқ сұрақ меткасы"
+    "description": "Жауапсыз сұрақ белгісі"
   },
   "qa_answer_sent_success": "Жауап сәтті жіберілді",
   "@qa_answer_sent_success": {
-    "description": "Жауап жіберу сәті туралы хабарлама"
+    "description": "Жауап жіберілген уақыт туралы хабарлама"
   },
   "qa_answer_updated_success": "Жауап сәтті жаңартылды",
   "@qa_answer_updated_success": {
-    "description": "Жауап жаңарту сәті туралы хабарлама"
+    "description": "Жауап жаңарту уақыты туралы хабарлама"
   },
-  "qa_not_authorized": "Сіз авторизацияльді емессіз",
+  "qa_not_authorized": "Сізге рұқсат жоқ",
   "@qa_not_authorized": {
-    "description": "Авторизацияльді емес пайдаланушы туралы хабарлама"
+    "description": "Рұқсат етілмеген пайдаланушы туралы хабарлама"
   },
   "qa_refresh": "Жаңарту",
   "@qa_refresh": {
-    "description": "Жаңарту батырмасы подпись"
+    "description": "Жаңарту түймесі жазылым"
   },
   "qa_retry": "Қайталау",
   "@qa_retry": {
-    "description": "Қайталау батырмасы подпись"
+    "description": "Кейінге қалдыру түймесі жазылым"
   },
   "qa_expand": "Толығырақ",
   "@qa_expand": {
-    "description": "Мәтінді ашыратын батырма подпись"
+    "description": "Мәтінді ашу түймесі жазылу"
   },
   "qa_collapse": "Жасыру",
   "@qa_collapse": {
-    "description": "Мәтінді жасыратын батырма подпись"
+    "description": "Мәтінді жасыру түймесі жазылым"
   },
   "qa_respond": "Жауап беру",
   "@qa_respond": {
-    "description": "Жауап беру батырмасы подпись"
+    "description": "Жауап түймесі жазылу"
   },
-  "qa_customers_no_questions": "Тауарчылар әлі сұрақ қойған жоқ",
+  "qa_customers_no_questions": "Жолдастар әлі сұрақтар қойған жоқ",
   "@qa_customers_no_questions": {
-    "description": "Тауарчылар сұрақ қойған жоқ туралы хабарлама"
+    "description": "Сауда белгілері сұрақ қоймағаны туралы хабарлама"
   },
-  "qa_customers_no_reviews": "Тауарчылар әлі пікір қалдырған жоқ",
+  "qa_customers_no_reviews": "Жолдастар әлі пікір қалдырған жоқ",
   "@qa_customers_no_reviews": {
-    "description": "Тауарчылар пікір қалдырған жоқ туралы хабарлама"
+    "description": "Өнім кері байланыс қалдырмағаны туралы хабарлама"
   },
-  "qa_no_answer": "Жауабы жоқ",
+  "qa_no_answer": "Жауап жоқ",
   "@qa_no_answer": {
-    "description": "Жауабы жоқ кезде"
+    "description": "Жауап болмаған кезде"
   },
   "qa_error_with_details": "Қате: {details}",
   "@qa_error_with_details": {
-    "description": "Деталілері бар қате туралы хабарлама",
-    "placeholders": {
-      "details": {
-        "type": "String"
-      }
-    }
+    "description": "Егжей-тегжейлі қате туралы хабар"
   },
   "qa_answer_updated": "Жауап жаңартылды",
   "@qa_answer_updated": {
@@ -925,113 +875,103 @@
   },
   "supplier_label": "Жеткізуші",
   "@supplier_label": {
-    "description": "Жеткізушідің алдындағы меткасы"
+    "description": "Жеткізушінің алдындағы белгі"
   },
   "unknown_error": "Белгісіз қате",
   "@unknown_error": {
-    "description": "Белгісіз қате туралы хабарлама"
+    "description": "Белгісіз қате туралы хабар"
   },
   "profile_reviews_title": "Сіздің пікірлеріңіз",
   "@profile_reviews_title": {
     "description": "Пікірлер бетінің тақырыбы"
   },
-  "profile_reviews_empty": "әзірше пікірлер жоқ",
+  "profile_reviews_empty": "әзірге түсініктеме жоқ",
   "@profile_reviews_empty": {
-    "description": "Пікірлердің жоқтығы туралы хабарлама"
+    "description": "Түсініктемелердің жоқтығы туралы хабарлама"
   },
-  "profile_reviews_pending_title": "Пікірді күтіңіз",
+  "profile_reviews_pending_title": "Түсініктемелерді күтіңіз",
   "@profile_reviews_pending_title": {
-    "description": "Күтіліп жатқан пікірлер секциясының тақырыбы"
+    "description": "Күтілетін Пікірлер бөлімінің тақырыбы"
   },
-  "profile_reviews_pending_subtitle": "Сатып алуларға оценка беріңіз - бұл басқаларға көмектеседі",
+  "profile_reviews_pending_subtitle": "Сатып алуды бағалаңыз-бұл басқаларға көмектеседі",
   "@profile_reviews_pending_subtitle": {
-    "description": "Күтіліп жатқан пікірлер секциясының подзаголовкасы"
+    "description": "Күтілетін шолулар бөлімінің субтитрі"
   },
   "profile_reviews_leave_review": "Пікір қалдыру",
   "@profile_reviews_leave_review": {
-    "description": "Пікір қалдыру батырмасы"
+    "description": "Пікір қалдыру түймесі"
   },
   "profile_reviews_total_count": "{count} барлығы",
   "@profile_reviews_total_count": {
-    "description": "Пікірлерді есептеу",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Пікірлерді есептеу"
   },
   "profile_reviews_section_title": "Сіздің пікірлеріңіз",
   "@profile_reviews_section_title": {
-    "description": "Пікірлер секциясының тақырыбы"
+    "description": "Пікірлер бөлімінің тақырыбы"
   },
-  "profile_reviews_section_subtitle_empty": "Барлық сатып алулар бойынша пікірлер",
+  "profile_reviews_section_subtitle_empty": "Барлық сатып алулар туралы пікірлер",
   "@profile_reviews_section_subtitle_empty": {
-    "description": "Пікірлер секциясының бос подзаголовқы"
+    "description": "Бос субтитрлер бөліміне түсініктемелер"
   },
   "profile_reviews_section_subtitle_total": "Барлығы: {count}",
   "@profile_reviews_section_subtitle_total": {
-    "description": "Подзаголовқындағы пікірлер есептемесі",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Субтитрдегі пікірлерді есептеу"
   },
-  "profile_reviews_rate_product": "Тауарға оценка беріңіз",
+  "profile_reviews_rate_product": "Өнімге баға беріңіз",
   "@profile_reviews_rate_product": {
-    "description": "Тауарды оцендау подпись"
+    "description": "Тауардың бағасына жазылыңыз"
   },
-  "profile_reviews_add_details": "Тӯрлі жазбаларды қосыңыз",
+  "profile_reviews_add_details": "Мәліметтерді қосыңыз",
   "@profile_reviews_add_details": {
-    "description": "Тӯрлі жазбаларды қосу подпись"
+    "description": "Т қосужазбаларды қосу жазылым"
   },
   "profile_reviews_edit_button": "Өңдеу",
   "@profile_reviews_edit_button": {
-    "description": "Өңдеу батырмасы"
+    "description": "Өңдеу түймесі"
   },
   "profile_reviews_delete_button": "Жою",
   "@profile_reviews_delete_button": {
-    "description": "Жою батырмасы"
+    "description": "Жою түймесі"
   },
-  "profile_reviews_sending": "Жіберілуде...",
+  "profile_reviews_sending": "Жіберу...",
   "@profile_reviews_sending": {
-    "description": "Жіберу жәсіндігі"
+    "description": "Сәлемдеме"
   },
   "profile_reviews_save_button": "Сақтау",
   "@profile_reviews_save_button": {
-    "description": "Сақтау батырмасы"
+    "description": "Сақтау түймесі"
   },
-  "profile_reviews_saved_success": "Пікір жаңартылды",
+  "profile_reviews_saved_success": "Түсініктеме жаңартылды",
   "@profile_reviews_saved_success": {
-    "description": "Сәтті сақтау хабарламасы"
+    "description": "Сәтті сақтау туралы хабарлама"
   },
   "profile_reviews_save_error": "Пікірді сақтау мүмкін болмады",
   "@profile_reviews_save_error": {
     "description": "Сақтау қатесі туралы хабарлама"
   },
-  "profile_reviews_login_required": "Пікірді өңдеу үшін кіріңіз",
+  "profile_reviews_login_required": "Пікірді өңдеу үшін жүйеге кіріңіз",
   "@profile_reviews_login_required": {
     "description": "Авторизация қажеттілігі туралы хабарлама"
   },
-  "profile_reviews_rating_required": "Тауарға оценка беріңіз",
+  "profile_reviews_rating_required": "Өнімге баға беріңіз",
   "@profile_reviews_rating_required": {
-    "description": "Оценка қажеттілігі туралы хабарлама"
+    "description": "Бағалау қажеттілігі туралы хабарлама"
   },
-  "profile_reviews_submit_success": "Пікір үшін рахмет!",
+  "profile_reviews_submit_success": "Түсініктеме үшін рахмет!",
   "@profile_reviews_submit_success": {
-    "description": "Сәтті жіберу хабарламасы"
+    "description": "Хабарламаны сәтті жіберу"
   },
-  "profile_reviews_submit_error": "Пікірді жіберу мүмкін болмады",
+  "profile_reviews_submit_error": "Түсініктеме жіберу мүмкін болмады",
   "@profile_reviews_submit_error": {
     "description": "Жіберу қатесі туралы хабарлама"
   },
   "profile_reviews_delete_confirm": "Пікірді жою керек пе?",
   "@profile_reviews_delete_confirm": {
-    "description": "Жою растауы"
+    "description": "Жоюды растау"
   },
-  "profile_reviews_delete_success": "Пікір жойылды",
+  "profile_reviews_delete_success": "Түсініктеме жойылды",
   "@profile_reviews_delete_success": {
-    "description": "Сәтті жою хабарламасы"
+    "description": "Сәтті жою туралы хабарлама"
   },
   "profile_reviews_delete_error": "Пікірді жою мүмкін болмады",
   "@profile_reviews_delete_error": {
@@ -1039,148 +979,143 @@
   },
   "profile_reviews_close_dialog": "Жабу",
   "@profile_reviews_close_dialog": {
-    "description": "Диалогты жабу батырмасы"
+    "description": "Диалогты жабу түймесі"
   },
-  "profile_reviews_cancel_button": "Болдырмау",
+  "profile_reviews_cancel_button": "Бас тарту",
   "@profile_reviews_cancel_button": {
-    "description": "Болдырмау батырмасы"
+    "description": "Бас тарту түймесі"
   },
-  "profile_reviews_change_button": "Ауыстыру",
+  "profile_reviews_change_button": "Өзгерту",
   "@profile_reviews_change_button": {
-    "description": "Ауыстыру батырмасы"
+    "description": "Ауыстыру түймесі"
   },
   "profile_reviews_order_label": "Тапсырыс {orderId}",
   "@profile_reviews_order_label": {
-    "description": "Тапсырыс меткасы",
-    "placeholders": {
-      "orderId": {
-        "type": "String"
-      }
-    }
+    "description": "Тапсырыс белгісі"
   },
-  "profile_review_hint": "Пікір мәтіні",
+  "profile_review_hint": "Түсініктеме мәтіні",
   "@profile_review_hint": {
     "description": "Пікір енгізу өрісінің кеңесі"
   },
-  "review_sending": "Жіберілуде...",
+  "review_sending": "Жіберіледі...",
   "@review_sending": {
-    "description": "Жіберу жәсіндігі"
+    "description": "Жіберу"
   },
   "review_your_text": "Сіздің пікіріңіз",
   "@review_your_text": {
-    "description": "Пікір өрісінің тақырыбы"
+    "description": "Пікірлер өрісінің тақырыбы"
   },
-  "review_rate_product": "Тауарға оценка беріңіз",
+  "review_rate_product": "Өнімге баға беріңіз",
   "@review_rate_product": {
-    "description": "Тауарды оцендау подпись"
+    "description": "Тауарды бағалау"
   },
-  "review_add_details": "Тӯрлі жазбаларды қосыңыз",
+  "review_add_details": "Мәліметтерді қосыңыз",
   "@review_add_details": {
-    "description": "Тӯрлі жазбаларды қосу подпись"
-  },
-  "review_share_feedback": "Әсеріңізбен бөлісіңіз",
-  "@review_share_feedback": {
-    "description": "Пікір өрісінің кеңесі"
+    "description": "Мәліметтерді қосыңыз"
   },
   "review_save_button": "Сақтау",
   "@review_save_button": {
-    "description": "Сақтау батырмасы"
+    "description": "Сақтау түймесі"
   },
-  "review_edit_button": "Өңдеу",
-  "@review_edit_button": {
-    "description": "Өңдеу батырмасы"
-  },
-  "review_delete_button": "Жою",
-  "@review_delete_button": {
-    "description": "Жою батырмасы"
-  },
-  "review_cancel_button": "Болдырмау",
-  "@review_cancel_button": {
-    "description": "Болдырмау батырмасы"
-  },
-  "review_change_button": "Ауыстыру",
-  "@review_change_button": {
-    "description": "Ауыстыру батырмасы"
-  },
-  "review_leave_button": "Пікір қалдыру",
-  "@review_leave_button": {
-    "description": "Пікір қалдыру батырмасы"
-  },
-  "review_submit_button": "Пікір жіберу",
-  "@review_submit_button": {
-    "description": "Пікір жіберу батырмасы"
-  },
-  "review_delete_confirm": "Пікірді жою керек пе?",
-  "@review_delete_confirm": {
-    "description": "Жою растауы"
-  },
-  "review_close_dialog": "Жабу",
-  "@review_close_dialog": {
-    "description": "Диалогты жабу батырмасы"
-  },
-  "review_sending_text": "Жіберілуде...",
+  "review_sending_text": "Жіберіледі...",
   "@review_sending_text": {
-    "description": "Жіберу жәсіндігі"
+    "description": "Жіберу"
   },
   "review_save_draft": "Сақтау",
   "@review_save_draft": {
-    "description": "Сақтау батырмасы"
+    "description": "Сақтау түймесі"
+  },
+  "review_cancel_draft": "Бас тарту",
+  "@review_cancel_draft": {
+    "description": "Бас тарту түймесі"
+  },
+  "review_change_draft": "Өзгерту",
+  "@review_change_draft": {
+    "description": "Өзгерту түймесі"
+  },
+  "review_share_feedback": "Өз әсерлеріңізбен бөлісіңіз",
+  "@review_share_feedback": {
+    "description": "Пікір өрісінің кеңесі"
+  },
+  "review_edit_button": "Өңдеу",
+  "@review_edit_button": {
+    "description": "Өңдеу түймесі"
+  },
+  "review_delete_button": "Жою",
+  "@review_delete_button": {
+    "description": "Жою түймесі"
+  },
+  "review_cancel_button": "Бас тарту",
+  "@review_cancel_button": {
+    "description": "Бас тарту түймесі"
+  },
+  "review_change_button": "Өзгерту",
+  "@review_change_button": {
+    "description": "Ауыстыру түймесі"
+  },
+  "review_leave_button": "Пікір қалдыру",
+  "@review_leave_button": {
+    "description": "Пікір қалдыру түймесі"
+  },
+  "review_submit_button": "Пікір жіберу",
+  "@review_submit_button": {
+    "description": "Пікір жіберу түймесі"
+  },
+  "review_delete_confirm": "Пікірді жою керек пе?",
+  "@review_delete_confirm": {
+    "description": "Жоюды растау"
+  },
+  "review_close_dialog": "Жабу",
+  "@review_close_dialog": {
+    "description": "Диалогты жабу түймесі"
   },
   "review_edit_draft": "Өңдеу",
   "@review_edit_draft": {
-    "description": "Өңдеу батырмасы"
+    "description": "Өңдеу түймесі"
   },
   "review_delete_draft": "Жою",
   "@review_delete_draft": {
-    "description": "Жою батырмасы"
-  },
-  "review_cancel_draft": "Болдырмау",
-  "@review_cancel_draft": {
-    "description": "Болдырмау батырмасы"
-  },
-  "review_change_draft": "Ауыстыру",
-  "@review_change_draft": {
-    "description": "Ауыстыру батырмасы"
+    "description": "Жою түймесі"
   },
   "review_leave_draft": "Пікір қалдыру",
   "@review_leave_draft": {
-    "description": "Пікір қалдыру батырмасы"
+    "description": "Пікір қалдыру түймесі"
   },
   "review_submit_draft": "Пікір жіберу",
   "@review_submit_draft": {
-    "description": "Пікір жіберу батырмасы"
+    "description": "Пікір жіберу түймесі"
   },
-  "review_thank_you": "Пікір үшін рахмет!",
+  "review_thank_you": "Түсініктеме үшін рахмет!",
   "@review_thank_you": {
-    "description": "Пікір үшін рахмет хабарламасы"
+    "description": "Хабарлама түсініктеме үшін рахмет"
   },
-  "review_no_questions_empty": "әзірше пікірлер жоқ",
+  "review_no_questions_empty": "әзірге түсініктеме жоқ",
   "@review_no_questions_empty": {
-    "description": "Пікірлердің жоқтығы туралы хабарлама"
+    "description": "Түсініктемелердің жоқтығы туралы хабарлама"
   },
   "confirm_delete": "Жою",
   "@confirm_delete": {
-    "description": "Жою растау батырмасы"
+    "description": "Жою растау түймесі"
   },
-  "confirm_cancel": "Болдырмау",
+  "confirm_cancel": "Бас тарту",
   "@confirm_cancel": {
-    "description": "Болдырмау растау батырмасы"
+    "description": "Бас тартуды растау түймесі"
   },
-  "cannot_be_undone": "Бұл әрекет орындалғаннан кейін қайталау мүмкін емес.",
+  "cannot_be_undone": "Бұл әрекетті жою мүмкін емес",
   "@cannot_be_undone": {
-    "description": "Неәберетпеу әрекет туралы ескерту"
+    "description": "Әрекетті болдырмау мүмкін предупреждстігі туралы ескерту"
   },
   "settings_appearance": "Сыртқы түрі",
   "@settings_appearance": {
-    "description": "Сыртқы түр параметрлері бөлімі"
+    "description": "Көрініс параметрлері бөлімі"
   },
   "settings_dark_mode": "Қараңғы тақырып",
   "@settings_dark_mode": {
-    "description": "Қараңғы тақырып атауы"
+    "description": "Қараңғы тақырыптың атауы"
   },
   "settings_use_dark_theme": "Қараңғы тақырыпты пайдалану",
   "@settings_use_dark_theme": {
-    "description": "Қараңғы тақырып ауыстырғышының сипаттамасы"
+    "description": "Қараңғы тақырып қосқышының сипаттамасы"
   },
   "settings_language_region": "Тіл және аймақ",
   "@settings_language_region": {
@@ -1192,16 +1127,11 @@
   },
   "settings_currency": "Валюта",
   "@settings_currency": {
-    "description": "Валюта таңдау белгісі"
+    "description": "Валютаны таңдау белгісі"
   },
   "settings_currency_name": "{code}",
   "@settings_currency_name": {
-    "description": "Код бойынша валюта атауы",
-    "placeholders": {
-      "code": {
-        "type": "String"
-      }
-    }
+    "description": "Коды бойынша валютаның атауы"
   },
   "settings_security": "Қауіпсіздік",
   "@settings_security": {
@@ -1209,23 +1139,23 @@
   },
   "settings_change_password": "Құпия сөзді өзгерту",
   "@settings_change_password": {
-    "description": "Құпия сөзді өзгерту батырмасы"
+    "description": "Құпия сөзді өзгерту түймесі"
   },
   "settings_two_factor_auth": "Екі факторлы аутентификация",
   "@settings_two_factor_auth": {
     "description": "Екі факторлы аутентификация параметрі"
   },
-  "settings_about": "Қолданба туралы",
+  "settings_about": "Қосымша туралы",
   "@settings_about": {
-    "description": "Қолданба туралы ақпарат бөлімі"
+    "description": "Қосымша туралы ақпарат бөлімі"
   },
   "settings_app_version": "Қолданба нұсқасы",
   "@settings_app_version": {
-    "description": "Қолданба нұсқасының белгісі"
+    "description": "Қолданба нұсқасының белгішесі"
   },
   "nav_home": "Басты бет",
   "@nav_home": {
-    "description": "Навигация: басты бет"
+    "description": "Шарлау: басты бет"
   },
   "nav_statistics": "Статистика",
   "@nav_statistics": {
@@ -1243,67 +1173,57 @@
   "@nav_moderators": {
     "description": "Навигация: модераторлар тізімі"
   },
-  "supplier_delete_product_confirm": "Бұл өнімді жойғыңыз келетініне сенімдісіз бе?",
+  "supplier_delete_product_confirm": "Сіз бұл өнімді жойғыңыз келетініне сенімдісіз бе?",
   "@supplier_delete_product_confirm": {
     "description": "Өнімді жоюды растау"
   },
   "supplier_profile_title": "Жеткізуші профилі",
   "@supplier_profile_title": {
-    "description": "Жеткізуші профилінің тақырыбы"
+    "description": "Провайдер профилінің тақырыбы"
   },
   "template_replace_cart": "Себетті ауыстыру",
   "@template_replace_cart": {
     "description": "Себетті ауыстыру диалогының тақырыбы"
   },
-  "template_replace_cart_confirm": "Ағымдағы себет үлгіден өнімдермен ауыстырылады. Жалғастыру керек пе?",
+  "template_replace_cart_confirm": "Ағымдағы себет үлгідегі өнімдермен ауыстырылады. Жалғастыру?",
   "@template_replace_cart_confirm": {
-    "description": "Себетті үлгімен ауыстыруды растау"
+    "description": "Себетті үлгіге ауыстыруды растау"
   },
   "zakazi_my_orders": "Менің тапсырыстарым",
   "@zakazi_my_orders": {
-    "description": "Менің тапсырыстарым бетінің тақырыбы"
+    "description": "Бет тақырыбы Менің тапсырыстарым"
   },
   "zakazi_no_orders": "Тапсырыстар жоқ",
   "@zakazi_no_orders": {
     "description": "Тапсырыстардың жоқтығы туралы хабарлама"
   },
-  "zakazi_history_button": "Тапсырыстар тарихы",
+  "zakazi_history_button": "Тапсырыс тарихы",
   "@zakazi_history_button": {
-    "description": "Тапсырыстар тарихы батырмасы"
+    "description": "Тапсырыс тарихы түймесі"
   },
-  "zakazi_history_button_count": "Тапсырыстар тарихы ({count})",
+  "zakazi_history_button_count": "Тапсырыс тарихы ({count})",
   "@zakazi_history_button_count": {
-    "description": "Тапсырыстар тарихы батырмасы санмен",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Сандардағы Тапсырыс тарихы түймесі"
   },
   "zakazi_order_label": "Тапсырыс {orderId}",
   "@zakazi_order_label": {
-    "description": "Тапсырыс меткасы",
-    "placeholders": {
-      "orderId": {
-        "type": "String"
-      }
-    }
+    "description": "Тапсырыс белгісі"
   },
-  "zakazi_total_amount_label": "Жалпы сома:",
+  "zakazi_total_amount_label": "Жалпы сомасы:",
   "@zakazi_total_amount_label": {
-    "description": "Жалпы сома подпись"
+    "description": "Жалпы сома жазылу"
   },
   "zakazi_today": "Бүгін",
   "@zakazi_today": {
-    "description": "Бүгін датасы"
+    "description": "Күні бүгін"
   },
   "zakazi_yesterday": "Кеше",
   "@zakazi_yesterday": {
-    "description": "Кеше датасы"
+    "description": "Күні кеше"
   },
   "zakazi_tomorrow": "Ертең",
   "@zakazi_tomorrow": {
-    "description": "Ертең датасы"
+    "description": "Күні ертең"
   },
   "zakazi_month_january": "қаңтар",
   "@zakazi_month_january": {
@@ -1313,174 +1233,161 @@
   "@zakazi_month_february": {
     "description": "Ақпан айы"
   },
-  "zakazi_month_march": "нарсиз",
+  "zakazi_month_march": "Наурыз",
   "@zakazi_month_march": {
-    "description": "Нарсиз айы"
+    "description": "Наурыз айы"
   },
   "zakazi_month_april": "сәуір",
   "@zakazi_month_april": {
     "description": "Сәуір айы"
   },
-  "zakazi_month_may": "қаңтар",
+  "zakazi_month_may": "мамыр",
   "@zakazi_month_may": {
-    "description": "Қаңтар айы (май)"
+    "description": "Мамыр айы"
   },
   "zakazi_month_june": "маусым",
   "@zakazi_month_june": {
     "description": "Маусым айы"
   },
-  "zakazi_month_july": "тоңқар айы",
+  "zakazi_month_july": "шілде",
   "@zakazi_month_july": {
-    "description": "Тоңқар айы"
+    "description": "Шілде айы"
   },
-  "zakazi_month_august": "қырқайма",
+  "zakazi_month_august": "тамыз",
   "@zakazi_month_august": {
-    "description": "Қырқайма айы"
+    "description": "Тамыз айы"
   },
-  "zakazi_month_september": "қырқайма ақпан",
+  "zakazi_month_september": "қыркүйек",
   "@zakazi_month_september": {
-    "description": "Қырқайма ақпан айы"
+    "description": "Қыркүйек айы"
   },
-  "zakazi_month_october": "қырқайма нарсиз",
+  "zakazi_month_october": "қазан",
   "@zakazi_month_october": {
-    "description": "Қырқайма нарсиз айы"
+    "description": "Қазан айы"
   },
-  "zakazi_month_november": "қырқайма сәуір",
+  "zakazi_month_november": "қараша",
   "@zakazi_month_november": {
-    "description": "Қырқайма сәуір айы"
+    "description": "Қараша айы"
   },
-  "zakazi_month_december": "қырқайма маусым",
+  "zakazi_month_december": "желтоқсан",
   "@zakazi_month_december": {
-    "description": "Қырқайма маусым айы"
+    "description": "Желтоқсан айы"
   },
-  "zakazi_quantity_short": "дана",
+  "zakazi_quantity_short": "дана.",
   "@zakazi_quantity_short": {
-    "description": "Санаттың қысқартылуы"
+    "description": "Санатты қысқарту"
   },
   "zakazi_accepted_label": "Алынды",
   "@zakazi_accepted_label": {
-    "description": "Алынған статус подпись"
+    "description": "Алынған мәртебеге қол қою"
   },
-  "zakazi_after_delivery": "Жеткізімен",
+  "zakazi_after_delivery": "Жеткізу арқылы",
   "@zakazi_after_delivery": {
-    "description": "Жеткізімен подпись"
+    "description": "Жеткізумен қол қою"
   },
-  "zakazi_can_accept_after_delivery": "Жеткізімден кейін алуға болады",
+  "zakazi_can_accept_after_delivery": "Жеткізуден кейін алуға болады",
   "@zakazi_can_accept_after_delivery": {
-    "description": "Жеткізімден кейін алуға болады туралы хабарлама"
+    "description": "Жеткізуден кейін не алуға болатындығы туралы хабарлама"
   },
-  "zakazi_cancel_available": "Жою {time} қалды",
+  "zakazi_cancel_available": "Бас тарту әлі де қол жетімді {time}",
   "@zakazi_cancel_available": {
-    "description": "Жою мүмкіндігі қалды",
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
+    "description": "Бас тартудың қалған уақыты"
   },
-  "zakazi_cancel_only_first_hour": "Жою тек бірінші сағат ішінде ғана мүмкін",
+  "zakazi_cancel_only_first_hour": "Жою тек бірінші сағат ішінде мүмкін болады",
   "@zakazi_cancel_only_first_hour": {
-    "description": "Жою тек бірінші сағат ішінде"
+    "description": "Тек бірінші сағат ішінде жойыңыз"
   },
   "zakazi_select_all": "Барлығын таңдау",
   "@zakazi_select_all": {
-    "description": "Барлығын таңдау батырмасы"
+    "description": "Барлығын таңдау түймесі"
   },
-  "zakazi_deselect_all": "Барлығын алғындау",
+  "zakazi_deselect_all": "Таңдауды алып тастаңыз",
   "@zakazi_deselect_all": {
-    "description": "Барлығын алғындау батырмасы"
+    "description": "Таңдауды алып тастау түймесі"
   },
-  "zakazi_accepting": "Алынуды",
+  "zakazi_accepting": "Алу",
   "@zakazi_accepting": {
-    "description": "Алынуды процесі"
+    "description": "Тапсырысты алу процесі"
   },
   "zakazi_accept_button": "Алу",
   "@zakazi_accept_button": {
-    "description": "Алу батырмасы"
+    "description": "Алу түймесі"
   },
-  "zakazi_mark_items_before_confirm": "Тапсырысты растау алдында барлық тауарларды белгілеңіз.",
+  "zakazi_mark_items_before_confirm": "Тапсырысты растамас бұрын барлық заттарды белгілеңіз.",
   "@zakazi_mark_items_before_confirm": {
-    "description": "Тапсырысты растау алдында тауарларды белгілеу"
+    "description": "Тапсырысты растау алдында тауарларды таңбалау"
   },
-  "zakazi_confirm_acceptance": "Алууды растау",
+  "zakazi_confirm_acceptance": "Қабылдауды растау",
   "@zakazi_confirm_acceptance": {
-    "description": "Алууды растау диалогының тақырыбы"
+    "description": "Қабылдауды растау диалогының тақырыбы"
   },
-  "zakazi_order_amount": "Тапсырыс {orderId} {amount} ₸ сомасында",
+  "zakazi_order_amount": "Тапсырыс {orderId} {amount}  сомасы ",
   "@zakazi_order_amount": {
-    "description": "Тапсырыс сомасы",
-    "placeholders": {
-      "orderId": {
-        "type": "String"
-      },
-      "amount": {
-        "type": "String"
-      }
-    }
+    "description": "Тапсырыс сомасы"
   },
-  "zakazi_cancel_order_title": "Тапсырысты жою керек пе?",
+  "zakazi_cancel_order_title": "Тапсырыстан бас тарту керек пе?",
   "@zakazi_cancel_order_title": {
     "description": "Тапсырысты жою диалогының тақырыбы"
   },
-  "zakazi_cancel_order_message": "Тапсырыс жойылады, а тауарлар қоймаға қайтарылады.",
+  "zakazi_cancel_order_message": "Тапсырыс жойылып, тауарлар қоймаға қайтарылады.",
   "@zakazi_cancel_order_message": {
-    "description": "Тапсырысты жою хабарламасы"
+    "description": "Тапсырыстың күшін жою туралы хабарлама"
   },
   "zakazi_no": "Жоқ",
   "@zakazi_no": {
-    "description": "Жоқ жауабы"
+    "description": "Жоқ жауап"
   },
-  "zakazi_cancel_button": "Жою",
+  "zakazi_cancel_button": "Бас тарту",
   "@zakazi_cancel_button": {
-    "description": "Жою батырмасы"
+    "description": "Тапсырыстан бас тарту түймесі"
   },
-  "zakazi_cancelling": "Жою",
+  "zakazi_cancelling": "Бас тарту",
   "@zakazi_cancelling": {
-    "description": "Жою процесі"
+    "description": "Тапсырысты жою процесі"
   },
   "zakazi_order_accepted": "Тапсырыс алынды.",
   "@zakazi_order_accepted": {
-    "description": "Тапсырыс алынғаны туралы хабарлама"
+    "description": "Тапсырысты алу туралы хабарлама"
   },
-  "zakazi_accept_failed": "Тапсырысты алу мүмкін болмады. Қайталаңыз.",
+  "zakazi_accept_failed": "Тапсырыс алу мүмкін болмады. Қайталау.",
   "@zakazi_accept_failed": {
-    "description": "Тапсырысты алу сәтсіз ақ"
+    "description": "Тапсырысты алу қатесі"
   },
-  "zakazi_session_expired": "Сеанс аяқтаған. Қайтадан кіріңіз.",
-  "@zakazi_session_expired": {
-    "description": "Сеанс аяқтауы туралы хабарлама"
-  },
-  "zakazi_cancel_failed": "Тапсырысты жою мүмкін болмады. Қайталаңыз.",
+  "zakazi_cancel_failed": "Тапсырысты жою мүмкін болмады. Қайталау.",
   "@zakazi_cancel_failed": {
-    "description": "Тапсырыс жою сәтсіз ақ"
+    "description": "Тапсырыстан бас тарту қатесі"
   },
   "zakazi_order_cancelled": "Тапсырыс жойылды.",
   "@zakazi_order_cancelled": {
-    "description": "Тапсырыс жою туралы хабарлама"
+    "description": "Тапсырыстың күшін жою туралы хабарлама"
   },
   "cart_item_removed": "Өнім жойылды",
   "@cart_item_removed": {
-    "description": "Себеттен өнімді жою туралы хабарлама"
+    "description": "Тауарды Себеттен алып тастау туралы хабарлама"
   },
-  "cart_undo_remove": "Болдырмау",
+  "cart_undo_remove": "Бас тарту",
   "@cart_undo_remove": {
-    "description": "Өнімді жоюды болдырмау батырмасы"
+    "description": "Элементті жоюды болдырмау түймесі"
   },
-  "cart_confirm_row_amount": "Сома",
+  "zakazi_session_expired": "Сеанс аяқталды. Қайта кіріңіз.",
+  "@zakazi_session_expired": {
+    "description": "Сессияның аяқталуы туралы хабарлама"
+  },
+  "cart_confirm_row_amount": "Сомасы",
   "@cart_confirm_row_amount": {
     "description": "Төлем диалогындағы сома белгісі"
   },
-  "cart_confirm_row_units": "Дана",
+  "cart_confirm_row_units": "Дана.",
   "@cart_confirm_row_units": {
-    "description": "Төлем диалогындағы саны белгісі"
+    "description": "Төлем диалогындағы санның белгісі"
   },
   "cart_confirm_row_payment": "Төлем",
   "@cart_confirm_row_payment": {
-    "description": "Төлем диалогындағы төлем әдісі белгісі"
+    "description": "Төлем диалогындағы төлем әдісінің белгісі"
   },
-  "cart_payment_method_cash": "Алу кезінде қолма-қол",
+  "cart_payment_method_cash": "Алу кезінде қолма-қол ақша",
   "@cart_payment_method_cash": {
-    "description": "Қолма-қол төлеу әдісі"
+    "description": "Қолма-қол ақшамен төлеу әдісі"
   },
   "cart_payment_method_card": "Карта",
   "@cart_payment_method_card": {
@@ -1492,83 +1399,67 @@
   },
   "cart_payment_confirm_choice": "Таңдауды растау",
   "@cart_payment_confirm_choice": {
-    "description": "Төлем әдісін растау батырмасы"
+    "description": "Төлем әдісін растау түймесі"
   },
-  "cart_payment_banner_cash": "Алу кезінде қолма-қол төлеу",
+  "cart_payment_banner_cash": "Алған кезде қолма-қол ақшамен төлеу",
   "@cart_payment_banner_cash": {
-    "description": "Қолма-қол төлеу баннері"
+    "description": "Қолма-қол ақша баннері"
   },
   "cart_payment_banner_card_none": "Картамен төлеу. Келесі қадамда картаны қосыңыз.",
   "@cart_payment_banner_card_none": {
-    "description": "Таңдалған картасыз картамен төлеу баннері"
+    "description": "Таңдалған картасыз картамен төлем баннері"
   },
   "cart_payment_banner_card": "Картамен төлеу {brand} {number}",
   "@cart_payment_banner_card": {
-    "description": "Нақты картамен төлеу баннері",
-    "placeholders": {
-      "brand": {
-        "type": "String"
-      },
-      "number": {
-        "type": "String"
-      }
-    }
+    "description": "Нақты картамен төлем баннері"
   },
-  "cart_checkout_login_required": "Төлемді таңдау үшін кіріңіз",
+  "cart_checkout_login_required": "Төлемді таңдау үшін жүйеге кіріңіз",
   "@cart_checkout_login_required": {
     "description": "Төлемді таңдау үшін авторизация талабы"
   },
-  "cart_checkout_address_login_required": "Мекенжайды таңдау үшін кіріңіз",
+  "cart_checkout_address_login_required": "Мекенжайды таңдау үшін жүйеге кіріңіз",
   "@cart_checkout_address_login_required": {
     "description": "Мекенжайды таңдау үшін авторизация талабы"
   },
-  "cart_checkout_order_login_required": "Тапсырысты рәсімдеу үшін кіріңіз",
+  "cart_checkout_order_login_required": "Тапсырыс беру үшін жүйеге кіріңіз",
   "@cart_checkout_order_login_required": {
     "description": "Тапсырысты рәсімдеу үшін авторизация талабы"
   },
   "cart_checkout_address_load_error": "Мекенжайларды жүктеу мүмкін болмады",
   "@cart_checkout_address_load_error": {
-    "description": "Мекенжайларды жүктеу қатесі"
+    "description": "Мекенжайды жүктеу қатесі"
   },
   "cart_address_picker_title": "Жеткізу мекенжайы",
   "@cart_address_picker_title": {
-    "description": "Мекенжай таңдау тақырыбы"
+    "description": "Мекенжайды таңдау тақырыбы"
   },
-  "cart_address_empty_title": "Мекенжайлар әзірше жоқ",
+  "cart_address_empty_title": "Мекенжайлар әлі жоқ",
   "@cart_address_empty_title": {
-    "description": "Бос мекенжайлар тізімі тақырыбы"
+    "description": "Бос мекенжайлар тізімінің тақырыбы"
   },
-  "cart_address_empty_subtitle": "Рәсімдеуді жалғастыру үшін мекенжай қосыңыз.",
+  "cart_address_empty_subtitle": "Дизайнды жалғастыру үшін мекенжайды қосыңыз.",
   "@cart_address_empty_subtitle": {
-    "description": "Мекенжай жоқ кездегі кеңес"
+    "description": "Мекен-жайы болмаған кезде Кеңес"
   },
-  "cart_address_none": "Мекенжайсыз",
+  "cart_address_none": "Мекен-жайы жоқ",
   "@cart_address_none": {
-    "description": "Мекенжайдың жоқтығы белгісі"
+    "description": "Мекенжайдың жоқтығының белгісі"
   },
   "cart_checkout_save_address_error": "Мекенжайды сақтау мүмкін болмады",
   "@cart_checkout_save_address_error": {
     "description": "Мекенжайды сақтау қатесі"
   },
-  "cart_checkout_supplier_success": "Жеткізуші бойынша тапсырыс рәсімделді",
+  "cart_checkout_supplier_success": "Тапсырыс жеткізуші бойынша ресімделген",
   "@cart_checkout_supplier_success": {
-    "description": "Бір жеткізуші бойынша тапсырысты сәтті рәсімдеу"
+    "description": "Бір жеткізушіге сәтті тапсырыс беру"
   },
   "cart_checkout_all_success": "Барлық тапсырыстар сәтті рәсімделді",
   "@cart_checkout_all_success": {
     "description": "Барлық тапсырыстарды сәтті рәсімдеу"
   },
-  "cart_checkout_partial_success": "Рәсімделді: {success}, қатемен: {fail}",
+  "cart_checkout_partial_success": "Безендірілген: {success}, қатемен: {fail}",
   "@cart_checkout_partial_success": {
-    "description": "Тапсырыстарды рәсімдеудің ішінара сәттілігі",
-    "placeholders": {
-      "success": {
-        "type": "int"
-      },
-      "fail": {
-        "type": "int"
-      }
-    }
+    "description": "Тапсырыстарды рәсімдеудің ішінара табыстылығы"
   },
   "cart_checkout_all_failed": "Тапсырыстарды рәсімдеу мүмкін болмады",
   "@cart_checkout_all_failed": {
@@ -1576,110 +1467,79 @@
   },
   "cart_template_save": "Үлгі ретінде сақтау",
   "@cart_template_save": {
-    "description": "Себетті үлгі ретінде сақтау батырмасы"
+    "description": "Себетті шаблон ретінде сақтау түймесі"
   },
   "cart_template_title": "Үлгілер",
   "@cart_template_title": {
-    "description": "Үлгілер тізімінің тақырыбы"
+    "description": "Шаблондар тізімінің тақырыбы"
   },
-  "cart_template_login_required": "Үлгілерді пайдалану үшін кіріңіз",
+  "cart_template_login_required": "Үлгілерді пайдалану үшін мына сайтқа кіріңіз",
   "@cart_template_login_required": {
     "description": "Үлгілерді пайдалану үшін авторизация талабы"
   },
   "cart_template_apply_error": "Үлгіні қолдану мүмкін болмады",
   "@cart_template_apply_error": {
-    "description": "Үлгіні қолдану қатесі"
+    "description": "Үлгіні пайдалану қатесі"
   },
-  "cart_template_apply_none": "Үлгі қолданылмады: бір де бір өнім қолжетімді емес",
+  "cart_template_apply_none": "Үлгі пайдаланылмаған: ешқандай өнім қол жетімді емес",
   "@cart_template_apply_none": {
-    "description": "Үлгідегі ешбір өнім каталогта табылмағанда"
+    "description": "Үлгідегі бірде бір өнім каталогта табылмаған кезде"
   },
-  "cart_template_apply_success": "Себет «{name}» үлгісімен ауыстырылды: {added} өнім қосылды",
+  "cart_template_apply_success": "Себет \"{name}\"үлгімен ауыстырылды: {added} өнім қосылды",
   "@cart_template_apply_success": {
-    "description": "Үлгіні сәтті қолдану",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      },
-      "added": {
-        "type": "int"
-      }
-    }
+    "description": "Үлгіні сәтті пайдалану"
   },
   "cart_template_apply_skipped": ", {skipped} өткізілді",
   "@cart_template_apply_skipped": {
-    "description": "Үлгіні қолдану сәттілігінің бөлігі (өткізілгендер)",
-    "placeholders": {
-      "skipped": {
-        "type": "int"
-      }
-    }
+    "description": "Үлгіні қолданудың сәтті бөлігі (өткізіп алған)"
   },
   "cart_template_apply_adjusted": ", {adjusted} түзетілді",
   "@cart_template_apply_adjusted": {
-    "description": "Үлгіні қолдану сәттілігінің бөлігі (түзетілгендер)",
-    "placeholders": {
-      "adjusted": {
-        "type": "int"
-      }
-    }
+    "description": "Үлгіні қолданудың сәтті бөлігі (түзетілген)"
   },
   "cart_template_skipped_title": "{count} {plural} өткізілді",
   "@cart_template_skipped_title": {
-    "description": "Өткізілген өнімдер тізімінің тақырыбы",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      },
-      "plural": {
-        "type": "String"
-      }
-    }
+    "description": "Сатылған өнімдер тізімінің тақырыбы"
   },
   "cart_checkout_error_network": "Сервермен байланыс жоқ",
   "@cart_checkout_error_network": {
-    "description": "Рәсімдеу кезіндегі желі қатесі"
+    "description": "Төлем кезінде желі қатесі"
   },
   "cart_checkout_error_data": "Тапсырыс деректері дұрыс емес",
   "@cart_checkout_error_data": {
-    "description": "Тапсырыс деректерінің валидация қатесі"
+    "description": "Тапсырыс деректерін тексеру қатесі"
   },
-  "cart_checkout_error_generic": "Тапсырысты рәсімдеу мүмкін болмады",
+  "cart_checkout_error_generic": "Тапсырыс беру мүмкін болмады",
   "@cart_checkout_error_generic": {
-    "description": "Тапсырысты рәсімдеудің жалпы қатесі"
+    "description": "Төлем кезінде жиі кездесетін қателік"
   },
-  "cart_template_skip_product_missing": "Тауар қолжетімсіз",
+  "cart_template_skip_product_missing": "Өнім қол жетімді емес",
   "@cart_template_skip_product_missing": {
-    "description": "Тауардың қолжетімсіздігі туралы себеп"
+    "description": "Тауардың қол жетімсіздігінің себебі"
   },
-  "cart_template_skip_supplier_missing": "Жеткізуші бұл тауарды ұсынбайды",
+  "cart_template_skip_supplier_missing": "Жеткізуші бұл затты ұсынбайды",
   "@cart_template_skip_supplier_missing": {
-    "description": "Жеткізушінің тауарды ұсынбауы туралы себеп"
+    "description": "Өнім берушінің тауарды ұсынбау себебі"
   },
-  "cart_template_rename_success": "Үлгі қайта аталды",
+  "cart_template_rename_success": "Модель атауы өзгертілді",
   "@cart_template_rename_success": {
-    "description": "Үлгіні сәтті қайта атау"
+    "description": "Үлгінің атын сәтті өзгерту"
   },
   "cart_template_delete_title": "Үлгіні жою {name}?",
   "@cart_template_delete_title": {
-    "description": "Үлгіні жою диалогының тақырыбы",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
+    "description": "Үлгіні жою диалогының тақырыбы"
   },
   "cart_template_delete_success": "Үлгі жойылды",
   "@cart_template_delete_success": {
     "description": "Үлгіні сәтті жою"
   },
-  "cart_template_limit_items": "Үлгіде 100 позициядан көп болмауы тиіс.",
+  "cart_template_limit_items": "Үлгіде 100-ден аспайтын позиция болуы керек.",
   "@cart_template_limit_items": {
-    "description": "Үлгідегі позициялар лимиті туралы ескерту"
+    "description": "Типтік позиция шегі туралы ескерту"
   },
-  "cart_template_limit_templates": "Үлгілер лимитіне жетті: 20. Керексіз үлгіні жойыңыз.",
+  "cart_template_limit_templates": "Үлгілердің шегіне жетті: 20. қажет емес үлгіні алып тастаңыз.",
   "@cart_template_limit_templates": {
-    "description": "Үлгілер санының лимиті туралы ескерту"
+    "description": "Үлгілер санының шегі туралы ескерту"
   },
   "cart_template_save_success": "Үлгі сақталды",
   "@cart_template_save_success": {
@@ -1687,7 +1547,7 @@
   },
   "cart_checkout_all_orders": "Барлық тапсырыстарды рәсімдеу",
   "@cart_checkout_all_orders": {
-    "description": "Барлық тапсырыстарды рәсімдеу батырмасы"
+    "description": "Барлық тапсырыстарды рәсімдеуге арналған түйме"
   },
   "cart_checkout_all_orders_title": "Барлық тапсырыстар",
   "@cart_checkout_all_orders_title": {
@@ -1695,113 +1555,59 @@
   },
   "cart_total_amount_title": "Тапсырыстың жалпы сомасы",
   "@cart_total_amount_title": {
-    "description": "Тапсырыс жалпы сомасының тақырыбы"
+    "description": "Жалпы тапсырыс тақырыбы"
   },
-  "cart_total_summary": "Дана: {units} Позиция: {positions}",
+  "cart_total_summary": "Дана.: {units} Позиция: {positions}",
   "@cart_total_summary": {
-    "description": "Тауарлар мен позициялар санының жиынтығы",
-    "placeholders": {
-      "units": {
-        "type": "int"
-      },
-      "positions": {
-        "type": "int"
-      }
-    }
+    "description": "Тауарлар мен позициялар санының сомасы"
   },
-  "cart_summary_more_items": "себетте тағы +{count}",
+  "cart_summary_more_items": "тағы +себетте{count}",
   "@cart_summary_more_items": {
-    "description": "Себеттегі қосымша тауарлар туралы хабарлама",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Себеттегі қосымша заттар туралы хабарлама"
   },
-  "cart_supplier_total_title": "Жеткізуші бойынша жиынтық",
+  "cart_supplier_total_title": "Жеткізуші бойынша жинақ",
   "@cart_supplier_total_title": {
-    "description": "Жеткізуші бойынша жиынтық сома тақырыбы"
+    "description": "Жеткізуші бойынша қорытынды сома тақырып"
   },
   "cart_checkout_order": "Тапсырысты рәсімдеу",
   "@cart_checkout_order": {
-    "description": "Жеткізуші бойынша тапсырысты рәсімдеу батырмасы"
+    "description": "Жеткізушіге тапсырыс беру түймесі"
   },
-  "cart_supplier_info": "Дана: {units} · Позиция: {positions}",
+  "cart_supplier_info": "Дана.: {units} * Позиция: {positions}",
   "@cart_supplier_info": {
-    "description": "Жеткізушінің тауарлары мен позициялары саны туралы ақпарат",
-    "placeholders": {
-      "units": {
-        "type": "int"
-      },
-      "positions": {
-        "type": "int"
-      }
-    }
+    "description": "Тауарлардың саны және жеткізушінің позициялары туралы ақпарат"
   },
   "cart_delivery_date": "Жеткізу күні: {date}",
   "@cart_delivery_date": {
-    "description": "Тауардың жеткізу күні белгісі",
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
+    "description": "Тауарды жеткізу күнінің белгісі"
   },
-  "cart_min_quantity": "Минимум: {count} дана",
+  "cart_min_quantity": "Минимум: {count} дана.",
   "@cart_min_quantity": {
-    "description": "Тапсырыс берілген тауардың ең аз саны",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Тапсырыс берілген тауардың ең аз саны"
   },
-  "cart_quantity_suffix": "{count} дана",
+  "cart_quantity_suffix": "{count} дана.",
   "@cart_quantity_suffix": {
-    "description": "Тауар санының суффиксі",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Тауар санының жұрнағы"
   },
-  "cart_pay_all_details": "· {units} дана",
+  "cart_pay_all_details": "· {units} дана.",
   "@cart_pay_all_details": {
-    "description": "Барлық тапсырысты рәсімдеу батырмасындағы саны",
-    "placeholders": {
-      "units": {
-        "type": "int"
-      }
-    }
+    "description": "Барлық тапсырысты рәсімдеу батырмасындағы саны"
   },
-  "cart_summary_item": "{name} - {quantity} дана",
+  "cart_summary_item": "{name} - {quantity} дана.",
   "@cart_summary_item": {
-    "description": "Себет жиынтығындағы тауар жолы",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      },
-      "quantity": {
-        "type": "int"
-      }
-    }
+    "description": "Себеттер жиынтығындағы тауар жолы"
   },
-  "cart_template_default_name": "{date} күнігі шаблон",
+  "cart_template_default_name": "{date} күн үлгісі",
   "@cart_template_default_name": {
-    "description": "Әдепкі шаблон атауы",
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
+    "description": "Әдепкі шаблон атауы"
   },
   "common_more_details": "Толығырақ",
   "@common_more_details": {
-    "description": "Детальдарды көру батырмасы"
+    "description": "Мәліметтерді қарау түймесі"
   },
-  "common_undo": "Болдырмау",
+  "common_undo": "Бас тарту",
   "@common_undo": {
-    "description": "Әрекетті болдырмау батырмасы"
+    "description": "Әрекетті болдырмау түймесі"
   },
   "cart_clear_cart_link": "Себетті тазалау",
   "@cart_clear_cart_link": {
@@ -1811,51 +1617,41 @@
   "@home_all_tab": {
     "description": "Барлық өнімдер қойындысының атауы"
   },
-  "home_loading_error": "Өнімдерді жүктеу қатесі: {error}",
+  "home_loading_error": "Өнімді жүктеу қатесі: {error}",
   "@home_loading_error": {
-    "description": "Өнімдерді жүктеу қатесі атты мән",
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
+    "description": "Өнімді жүктеу қатесі туралы хабарлама"
   },
   "home_retry_button": "Қайталау",
   "@home_retry_button": {
-    "description": "Қайталау батырмасы"
+    "description": "Қайталау түймесі"
   },
-  "chat_empty_title": "Сәбебіпіз хабарламалар жоқ",
+  "chat_empty_title": "Хабарламалар жоқ",
   "@chat_empty_title": {
-    "description": "Чат бос состояния заголовкы"
+    "description": "Бос чат тақырыбы"
   },
-  "chat_empty_hint": "Алдыңғы хабарламаны жазыңыз{postfix}",
-  "@chat_empty_hint": {
-    "description": "Бос чаттағы кеңес",
-    "placeholders": {
-      "postfix": {
-        "type": "String"
-      }
-    }
-  },
-  "chat_retry_send": "Жіберуді қайталау",
+  "chat_retry_send": "Жіберуді қайталаңыз",
   "@chat_retry_send": {
-    "description": "Жіберу қайталау батырмасының tooltip"
-  },
-  "chat_today": "Бүгін",
-  "@chat_today": {
-    "description": "Чаттағы бүгіннің подписі"
+    "description": "Жіберуді кейінге қалдыру түймесі"
   },
   "chat_yesterday": "Кеше",
   "@chat_yesterday": {
-    "description": "Чаттағы кешекіңіздің подписі"
+    "description": "Қолтаңба кеше чатта"
   },
   "chat_buyer_default": "Алушы",
   "@chat_buyer_default": {
-    "description": "Алушının аты по умолчан"
+    "description": "Әдепкі алушының аты"
   },
-  "chat_no_review_text": "Пікір мәтіні жоқ",
+  "chat_no_review_text": "Түсініктеме мәтіні жоқ",
   "@chat_no_review_text": {
-    "description": "Пікір мәтіні по умолчан"
+    "description": "Әдепкі түсініктеме мәтіні"
+  },
+  "chat_empty_hint": "Алдыңғы хабарламаны жазыңыз{postfix}",
+  "@chat_empty_hint": {
+    "description": "Бос чаттағы кеңес"
+  },
+  "chat_today": "Бүгін",
+  "@chat_today": {
+    "description": "Чаттағы бүгінгі күннің қолтаңбасы"
   },
   "home_no_products": "Өнімдер табылмады",
   "@home_no_products": {
@@ -1863,7 +1659,7 @@
   },
   "home_title": "Басты бет",
   "@home_title": {
-    "description": "Басты бет парақтаңың тақырыбы"
+    "description": "Сіздің басты бетіңіздің тақырыбы"
   },
   "home_search_hint": "Іздеу...",
   "@home_search_hint": {
@@ -1871,17 +1667,17 @@
   },
   "filters_sheet_title": "Сүзгілер",
   "@filters_sheet_title": {
-    "description": "Сүзгілер жасылушасының тақырыбы"
+    "description": "Жасыл сүзгі тақырыбы"
   },
   "filters_reset_button": "Қалпына келтіру",
   "@filters_reset_button": {
-    "description": "Сүзгілерді қалпына келтіру батырмасы"
+    "description": "Сүзгілерді қалпына келтіру түймесі"
   },
-  "filter_price_title": "Дана бағасы",
+  "filter_price_title": "Бір бөліктің бағасы",
   "@filter_price_title": {
-    "description": "Баға фильтрінің секциясы"
+    "description": "Баға сүзгісі бөлімі"
   },
-  "filter_price_from": "бері",
+  "filter_price_from": "с",
   "@filter_price_from": {
     "description": "Баға минимумы"
   },
@@ -1891,9 +1687,9 @@
   },
   "filter_sort_title": "Сұрыптау",
   "@filter_sort_title": {
-    "description": "Сұрыптау секциясы"
+    "description": "Сұрыптау бөлімі"
   },
-  "filter_sort_price": "Баға",
+  "filter_sort_price": "Бағасы",
   "@filter_sort_price": {
     "description": "Баға бойынша сұрыптау"
   },
@@ -1903,169 +1699,159 @@
   },
   "filter_order_title": "Реттілік",
   "@filter_order_title": {
-    "description": "Сұрыптау реттілігі секциясы"
+    "description": "Сұрыптау реттілігі бөлімі"
   },
-  "filter_order_asc": "Артқа сұралған",
+  "filter_order_asc": "Берілген",
   "@filter_order_asc": {
-    "description": "Кішіректен үлкелікке дейін"
+    "description": "Кішіден үлкенге дейін"
   },
-  "filter_order_desc": "Кішіргеннен үлкілікке дейін",
+  "filter_order_desc": "Үлкеннен кішіге дейін",
   "@filter_order_desc": {
-    "description": "Үлкірен кішірге"
+    "description": "Үлкеннен кішіге дейін"
   },
   "filter_rating_title": "Рейтинг",
   "@filter_rating_title": {
-    "description": "Рейтинг фильтрі секциясы"
+    "description": "Рейтинг сүзгісі бөлімі"
   },
-  "filter_rating_from": "бері",
+  "filter_rating_from": "с",
   "@filter_rating_from": {
-    "description": "Рейтинг минимумы"
+    "description": "Рейтинг минимум"
   },
   "filter_show_button": "Көрсету {count}",
   "@filter_show_button": {
-    "description": "Фильтрленген өнімдерді көрсету батырмасы",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Сүзілген өнімдерді көрсету түймесі"
   },
   "filter_discounted": "Жеңілдікпен тауарлар",
   "@filter_discounted": {
-    "description": "Жеңілдікпен тауарлар сүзгісі"
+    "description": "Жеңілдікпен тауар сүзгісі"
   },
-  "date_range_picker_title": "Күн ауқымын таңдаңыз",
+  "date_range_picker_title": "Күндер ауқымын таңдаңыз",
   "@date_range_picker_title": {
-    "description": "Күн ауқымын таңдау диалогының тақырыбы"
+    "description": "Күндер ауқымын таңдау диалогының тақырыбы"
   },
   "date_range_picker_clear": "Тазалау",
   "@date_range_picker_clear": {
-    "description": "Таңдалған ауқамды тазалау батырмасы"
+    "description": "Таңдалған диапазонды тазарту түймесі"
   },
   "date_range_picker_today": "Бүгін",
   "@date_range_picker_today": {
-    "description": "Бүгін үшін жылдам сүзгі"
+    "description": "Бүгін жылдам сүзгі"
   },
   "date_range_picker_week": "Апта",
   "@date_range_picker_week": {
-    "description": "Апта үшін жылдам сүзгі"
+    "description": "Бір аптаға жылдам сүзгі"
   },
   "date_range_picker_month": "Ай",
   "@date_range_picker_month": {
-    "description": "Ай үшін жылдам сүзгі"
+    "description": "Бір айға жылдам сүзгі"
   },
   "date_range_picker_quarter": "Тоқсан",
   "@date_range_picker_quarter": {
-    "description": "Тоқсан үшін жылдам сүзгі"
+    "description": "Тоқсанға арналған жылдам сүзгі"
   },
-  "select_date_range": "Күн ауқымын таңдаңыз",
+  "select_date_range": "Күндер ауқымын таңдаңыз",
   "@select_date_range": {
-    "description": "Дата ауқымы таңдалмағанда"
+    "description": "Күндер ауқымы таңдалмаған кезде"
   },
   "month_january": "қаңтар",
   "@month_january": {
-    "description": "Іл жанвары қалыптауы"
+    "description": "Қаңтар айы"
   },
   "month_february": "ақпан",
   "@month_february": {
-    "description": "Іл ақпары қалыптауы"
+    "description": "Ақпан айы"
   },
-  "month_march": "нарсиз",
+  "month_march": "Наурыз",
   "@month_march": {
-    "description": "Іл нарсизы қалыптауы"
+    "description": "Наурыз айы"
   },
   "month_april": "сәуір",
   "@month_april": {
-    "description": "Іл сәуірі қалыптауы"
+    "description": "Сәуір айы"
   },
-  "month_may": "маусым",
+  "month_may": "мамыр",
   "@month_may": {
-    "description": "Іл маусымы қалыптауы"
+    "description": "Мамыр айы"
   },
   "month_june": "маусым",
   "@month_june": {
-    "description": "Іл маусымы (жүней) қалыптауы"
+    "description": "Маусым айы"
   },
-  "month_july": "тоңқар айы",
+  "month_july": "шілде",
   "@month_july": {
-    "description": "Іл тоңқары қалыптауы"
+    "description": "Шілде айы"
   },
-  "month_august": "қырқайма",
+  "month_august": "тамыз",
   "@month_august": {
-    "description": "Іл қырқаймасы қалыптауы"
+    "description": "Тамыз айы"
   },
-  "month_september": "қырқайма ақпан",
+  "month_september": "қыркүйек",
   "@month_september": {
-    "description": "Іл қырқайма ақпаны қалыптауы"
+    "description": "Қыркүйек айы"
   },
-  "month_october": "қырқайма нарсиз",
+  "month_october": "қазан",
   "@month_october": {
-    "description": "Іл қырқайма нарсизі қалыптауы"
+    "description": "Қазан айы"
   },
-  "month_november": "қырқайма сәуір",
+  "month_november": "қараша",
   "@month_november": {
-    "description": "Іл қырқайма сәуірі қалыптауы"
+    "description": "Қараша айы"
   },
-  "month_december": "қырқайма маусым",
+  "month_december": "желтоқсан",
   "@month_december": {
-    "description": "Іл қырқайма маусымы қалыптауы"
+    "description": "Желтоқсан айы"
   },
-  "templates_sheet_title": "Сатып алу шаблондары",
+  "templates_sheet_title": "Сатып алу үлгілері",
   "@templates_sheet_title": {
-    "description": "Сатып алу шаблондары листінің тақырыбы"
+    "description": "Сатып алу үлгілерінің тізімі тақырыбы"
   },
-  "templates_sheet_no_templates": "Сақталған шаблондар жоқ",
+  "templates_sheet_no_templates": "Сақталған үлгілер жоқ",
   "@templates_sheet_no_templates": {
     "description": "Шаблондардың жоқтығы туралы хабарлама"
   },
-  "templates_sheet_collapse": "Жиі қісіндіру",
+  "templates_sheet_collapse": "Орау",
   "@templates_sheet_collapse": {
-    "description": "Шаблонды жиі қісіндіру tooltip"
+    "description": "Үлгілерді кішірейту"
   },
-  "templates_sheet_expand": "Ашу",
+  "templates_sheet_expand": "Орналастыру",
   "@templates_sheet_expand": {
-    "description": "Шаблонды ашу tooltip"
+    "description": "Үлгілерді кеңейту"
   },
   "templates_sheet_actions": "Әрекеттер",
   "@templates_sheet_actions": {
-    "description": "Шаблон әрекеттер меню tooltip"
+    "description": "Үлгі әрекеттері мәзірі"
   },
-  "templates_sheet_rename": "Қайта атау",
+  "templates_sheet_rename": "Атын өзгерту",
   "@templates_sheet_rename": {
-    "description": "Меню әрекеті атты өзгерту"
+    "description": "Мәзірдің атын өзгерту әрекеті"
   },
   "templates_sheet_delete": "Жою",
   "@templates_sheet_delete": {
-    "description": "Меню әрекеті жою"
+    "description": "Мәзірдегі жою әрекеті"
   },
   "templates_sheet_add_to_cart": "Себетке қосу",
   "@templates_sheet_add_to_cart": {
-    "description": "Шаблонды себетке қосу батырмасы"
+    "description": "Үлгіні Себетке қосу түймесі"
   },
   "templates_sheet_position_short": "поз.",
   "@templates_sheet_position_short": {
-    "description": "Позиция үзіндісі"
+    "description": "Позицияны қысқарту"
   },
-  "templates_sheet_unit_short": "дана",
+  "templates_sheet_unit_short": "дана.",
   "@templates_sheet_unit_short": {
-    "description": "Бірлік үзіндісі"
+    "description": "Бірлікті қысқарту"
   },
-  "templates_sheet_hide": "Жиі қісіндіру",
+  "templates_sheet_hide": "Жасыру",
   "@templates_sheet_hide": {
-    "description": "Шаблондарды жиі қісіндіру tooltip"
+    "description": "Үлгілерді жасыру"
   },
-  "product_card_quantity": "{count} дана",
+  "product_card_quantity": "{count} дана.",
   "@product_card_quantity": {
-    "description": "Тауар саны",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Тауарлар саны"
   },
-  "product_card_added_to_favorites": "Таңдалды",
+  "product_card_added_to_favorites": "Таңдалған",
   "@product_card_added_to_favorites": {
-    "description": "Таңдалғаны туралы хабарлама"
+    "description": "Сайлау туралы хабарлама"
   },
   "product_card_removed_from_favorites": "Жою",
   "@product_card_removed_from_favorites": {
@@ -2073,19 +1859,19 @@
   },
   "product_card_add_to_cart": "Себетке қосу",
   "@product_card_add_to_cart": {
-    "description": "Себетке қосу хабарламасы"
+    "description": "Себетке хабарлама қосу"
   },
-  "product_card_out_of_stock": "Складта жоқ",
+  "product_card_out_of_stock": "Қоймада жоқ",
   "@product_card_out_of_stock": {
-    "description": "Складта жоқ туралы хабарлама"
+    "description": "Қоймада жоқ екендігі туралы хабарлама"
   },
   "product_card_quantity_title": "Саны",
   "@product_card_quantity_title": {
-    "description": "Саны диалогының тақырыбы"
+    "description": "Диалог тақырыбы саны"
   },
   "product_card_min_quantity": "Минимум",
   "@product_card_min_quantity": {
-    "description": "Минимум саны"
+    "description": "Ең аз саны"
   },
   "product_card_everyday": "Күн сайын",
   "@product_card_everyday": {
@@ -2093,27 +1879,27 @@
   },
   "product_card_weekdays": "Жұмыс күндері",
   "@product_card_weekdays": {
-    "description": "Жұмыс күндері жеткізуі"
+    "description": "Жұмыс күндері жеткізу"
   },
   "product_card_weekend": "Демалыс күндері",
   "@product_card_weekend": {
-    "description": "Демалыс күндері жеткізуі"
+    "description": "Демалыс күндері жеткізу"
   },
-  "supplier_selected": "Таңдалды",
+  "supplier_selected": "Таңдалған",
   "@supplier_selected": {
-    "description": "Таңдалған жеткізуші белгісі"
+    "description": "Таңдалған жеткізуші таңбасы"
   },
   "supplier_select": "Таңдау",
   "@supplier_select": {
-    "description": "Жеткізуші таңдау батырмасы"
+    "description": "Жеткізушіні таңдау түймесі"
   },
-  "supplier_unit_short": "дана",
+  "supplier_unit_short": "дана.",
   "@supplier_unit_short": {
-    "description": "Өлшем бірлігінің қысқартылуы"
+    "description": "Өлшем бірлігін қысқарту"
   },
   "supplier_delivery_default": "Жеткізу",
   "@supplier_delivery_default": {
-    "description": "Жеткізу тексті по умолчан"
+    "description": "Жеткізу әдепкі мәтін"
   },
   "weekday_monday": "Дүйсенбі",
   "@weekday_monday": {
@@ -2127,61 +1913,61 @@
   "@weekday_wednesday": {
     "description": "Сәрсенбі аты"
   },
-  "weekday_thursday": "Бетсенбі",
+  "weekday_thursday": "Бейсенбі",
   "@weekday_thursday": {
-    "description": "Бетсенбі аты"
+    "description": "Бет атауы"
   },
-  "weekday_friday": "Жүма",
+  "weekday_friday": "Жұма",
   "@weekday_friday": {
-    "description": "Жүма аты"
+    "description": "Жұма Аты"
   },
   "weekday_saturday": "Сенбі",
   "@weekday_saturday": {
-    "description": "Сенбі аты"
+    "description": "Сенбі атауы"
   },
   "weekday_sunday": "Жексенбі",
   "@weekday_sunday": {
     "description": "Жексенбі аты"
   },
-  "weekday_mon_short": "Дс",
+  "weekday_mon_short": "Дүйсенбі",
   "@weekday_mon_short": {
-    "description": "Дүйсенбі қысқартылған"
+    "description": "Қысқартылған дүйсенбі"
   },
-  "weekday_tue_short": "Сс",
+  "weekday_tue_short": "Сейсенбі",
   "@weekday_tue_short": {
-    "description": "Сейсенбі қысқартылған"
+    "description": "Қысқартылған сейсенбі"
   },
   "weekday_wed_short": "Ср",
   "@weekday_wed_short": {
-    "description": "Сәрсенбі қысқартылған"
+    "description": "Қысқартылған орта"
   },
-  "weekday_thu_short": "Бс",
+  "weekday_thu_short": "Не",
   "@weekday_thu_short": {
-    "description": "Бетсенбі қысқартылған"
+    "description": "Қысқартылған бейсенбі"
   },
-  "weekday_fri_short": "Жм",
+  "weekday_fri_short": "ЖМ",
   "@weekday_fri_short": {
-    "description": "Жүма қысқартылған"
+    "description": "Қысқартылған жұма"
   },
   "weekday_sat_short": "Сб",
   "@weekday_sat_short": {
-    "description": "Сенбі қысқартылған"
+    "description": "Қысқартылған сенбі"
   },
-  "weekday_sun_short": "Жс",
+  "weekday_sun_short": "Күн",
   "@weekday_sun_short": {
-    "description": "Жексенбі қысқартылған"
+    "description": "Жексенбі қысқартылды"
   },
-  "change_password_success_title": "Пароль өзгертілді",
+  "change_password_success_title": "Құпия сөз өзгертілді",
   "@change_password_success_title": {
-    "description": "Пароль өзгерту сәтті ақ хабарламасының тақырыбы"
+    "description": "Құпия сөзді өзгерту туралы сәтті ақ хабарламаның тақырыбы"
   },
-  "change_password_success_message": "Пароліңіз сәтті жаңартылды.",
+  "change_password_success_message": "Құпия сөзіңіз сәтті жаңартылды.",
   "@change_password_success_message": {
-    "description": "Пароль өзгерту сәтті ақ хабарламасы"
+    "description": "Құпия сөзді өзгерту туралы сәтті ақ хабарлама"
   },
-  "change_password_done_button": "Готово",
+  "change_password_done_button": "Дайын",
   "@change_password_done_button": {
-    "description": "Растау батырмасы"
+    "description": "Растау түймесі"
   },
   "order_history_empty": "Тауарлар тізімі бос",
   "@order_history_empty": {
@@ -2189,27 +1975,27 @@
   },
   "favorites_tab_products": "Тауарлар",
   "@favorites_tab_products": {
-    "description": "Таңдалған ішіндегі тауарлар қойындысы"
+    "description": "Таңдалған тауарлар қойындысы"
   },
   "favorites_tab_companies": "Компаниялар",
   "@favorites_tab_companies": {
-    "description": "Таңдалған ішіндегі компаниялар қойындысы"
+    "description": "Компанияда таңдалған қойынды"
   },
-  "support_chat_title": "Техподдержка чаты",
+  "support_chat_title": "Техникалық қолдау чаты",
   "@support_chat_title": {
-    "description": "Техподдержка чаты тақырыбы"
+    "description": "Техникалық қолдау чатының тақырыбы"
   },
   "supplier_reset_button": "Қалпына келтіру",
   "@supplier_reset_button": {
-    "description": "Қалпына келтіру батырмасы"
+    "description": "Қалпына келтіру түймесі"
   },
   "supplier_products_edit": "Өңдеу",
   "@supplier_products_edit": {
-    "description": "Тауарды өңдеу батырмасы"
+    "description": "Элементті өңдеу түймесі"
   },
-  "supplier_products_add": "Тауар қосу",
+  "supplier_products_add": "Элементті қосыңыз",
   "@supplier_products_add": {
-    "description": "Тауар қосу батырмасы"
+    "description": "Элементті қосу түймесі"
   },
   "payment_card_delete_title": "Картаны жою керек пе?",
   "@payment_card_delete_title": {
@@ -2217,23 +2003,23 @@
   },
   "payment_card_delete_button": "Жою",
   "@payment_card_delete_button": {
-    "description": "Картаны жою батырмасы"
+    "description": "Картаны жою түймесі"
   },
-  "address_add_button": "Мекенжай қосу",
+  "address_add_button": "Мекенжайды қосу",
   "@address_add_button": {
-    "description": "Мекенжай қосу батырмасы"
+    "description": "Мекенжайды қосу түймесі"
   },
   "moderation_approve_button": "Бекіту",
   "@moderation_approve_button": {
-    "description": "Бекіту батырмасы"
+    "description": "Бекіту түймесі"
   },
-  "two_factor_disable_title": "2FA-ді өшіру керек пе?",
+  "two_factor_disable_title": "2FA өшіру керек пе?",
   "@two_factor_disable_title": {
-    "description": "2FA өшіру диалогының тақырыбы"
+    "description": "2FA өшіру диалогы тақырыбы"
   },
   "two_factor_disable_button": "Өшіру",
   "@two_factor_disable_button": {
-    "description": "2FA өшіру батырмасы"
+    "description": "2FA өшіру түймесі"
   },
   "moderator_management_title": "Модераторларды басқару",
   "@moderator_management_title": {
@@ -2245,38 +2031,33 @@
   },
   "moderator_add_button": "Қосу",
   "@moderator_add_button": {
-    "description": "Модератор қосу батырмасы"
+    "description": "Модератор қосу түймесі"
   },
   "moderator_login_button": "Кіру",
   "@moderator_login_button": {
-    "description": "Кіру батырмасы"
+    "description": "Кіру түймесі"
   },
   "two_factor_copy_all": "Барлығын көшіру",
   "@two_factor_copy_all": {
-    "description": "Барлық кодтарды көшіру батырмасы"
+    "description": "Барлық кодтарды көшіру түймесі"
   },
   "two_factor_save_file": "Файлға сақтау",
   "@two_factor_save_file": {
-    "description": "Кодтарды файлға сақтау батырмасы"
+    "description": "Кодтарды файлға сақтау түймесі"
   },
-  "add_moderator_title": "Модератор қосу",
+  "add_moderator_title": "Модератор қосыңыз",
   "@add_moderator_title": {
-    "description": "Модератор қосу диалогының тақырыбы"
+    "description": "Модераторды қосу диалогының тақырыбы"
   },
   "supplier_profile_reset": "Қалпына келтіру",
   "@supplier_profile_reset": {
-    "description": "Фильтерді қалпына келтіру батырмасы"
+    "description": "Сүзгілерді қалпына келтіру түймесі"
   },
   "supplier_profile_preview_show": "Көрсету {count}",
   "@supplier_profile_preview_show": {
-    "description": "Превью көрсету батырмасы",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Алдын ала қарау көрсету батырмасы"
   },
-  "create_chat_title": "Чат құру керек пе?",
+  "create_chat_title": "Чат Құру Керек Пе?",
   "@create_chat_title": {
     "description": "Чат құру диалогының тақырыбы"
   },
@@ -2290,27 +2071,27 @@
   },
   "question_ask_button": "Сұрақ қою",
   "@question_ask_button": {
-    "description": "Сұрақ қою батырмасы"
+    "description": "Сұрақ қою түймесі"
   },
   "no_button": "Жоқ",
   "@no_button": {
     "description": "Жоқ батырмасы"
   },
-  "cancel_order_title": "Тапсырысты жою керек пе?",
+  "cancel_order_title": "Тапсырыстан бас тарту керек пе?",
   "@cancel_order_title": {
     "description": "Тапсырысты жою диалогының тақырыбы"
   },
-  "cancel_order_message": "Тапсырыс жойылады, а тауарлар қоймаға қайтарылады.",
+  "cancel_order_message": "Тапсырыс жойылып, тауарлар қоймаға қайтарылады.",
   "@cancel_order_message": {
-    "description": "Тапсырыс жою хабарламасы"
+    "description": "Тапсырыстың күшін жою туралы хабарлама"
   },
-  "cancel_order_button": "Жою",
+  "cancel_order_button": "Бас тарту",
   "@cancel_order_button": {
-    "description": "Тапсырысты жою батырмасы"
+    "description": "Тапсырыстан бас тарту түймесі"
   },
   "accept_order_button": "Алу",
   "@accept_order_button": {
-    "description": "Тапсырысты алу батырмасы"
+    "description": "Тапсырысты алу түймесі"
   },
   "suppliers_not_found": "Жеткізушілер табылмады",
   "@suppliers_not_found": {
@@ -2318,11 +2099,11 @@
   },
   "close_chat_button": "Жабу",
   "@close_chat_button": {
-    "description": "Чатты жабу батырмасы"
+    "description": "Чатты жабу түймесі"
   },
   "create_chat_confirm": "Жаңарту",
   "@create_chat_confirm": {
-    "description": "Чат жаңарту батырмасы"
+    "description": "Чатты жаңарту түймесі"
   },
   "moderator_title_profile": "Модератор профилі",
   "@moderator_title_profile": {
@@ -2332,33 +2113,89 @@
   "@suppliers_load_failed": {
     "description": "Жеткізушілерді жүктеу қатесі туралы хабарлама"
   },
-  "session_expired_login_again": "Сеанс аяқтаған, қайтадан кіріңіз",
+  "session_expired_login_again": "Сеанс аяқталды, қайтадан кіріңіз",
   "@session_expired_login_again": {
-    "description": "Қайтадан кіру қажеттілігі туралы хабарлама"
+    "description": "Қайта кіру қажеттілігі туралы хабарлама"
   },
   "chat_open_failed": "Жеткізушімен чат ашу мүмкін болмады",
   "@chat_open_failed": {
-    "description": "Чат ашу қатесі туралы хабарлама"
+    "description": "Чатты ашу қатесі туралы хабар"
   },
-  "chat_create_failed": "Жеткізушімен чат жасау мүмкін болмады",
+  "chat_create_failed": "Жеткізушімен сөйлесу мүмкін болмады",
   "@chat_create_failed": {
-    "description": "Чат жасау қатесі туралы хабарлама"
+    "description": "Чат қатесі туралы хабар"
   },
-  "search_no_results": "Сұранымға сәответтіз берілген жоқ",
+  "search_no_results": "Сұрау төрттіксіз берілген жоқ",
   "@search_no_results": {
-    "description": "Іздеу нәтижелері жоқ туралы хабарлама"
+    "description": "Іздеу нәтижелерінің жоқтығы туралы хабарлама"
   },
-  "search_no_results_for": "Сұранымдарға «{query}» сәответтіз берілген жоқ",
+  "search_no_results_for": "Сұрауларға \"{query}\"саответсіз берілмейді",
   "@search_no_results_for": {
-    "description": "Сұраным үшін іздеу нәтижелері жоқ",
-    "placeholders": {
-      "query": {
-        "type": "String"
-      }
-    }
+    "description": "Сұрау үшін іздеу нәтижелері жоқ"
   },
-  "suppliers_catalog_access_denied": "Жеткізуші каталогы тек модераторлар мен негізгі әкімшілерге қолжетімді.",
-  "@suppliers_catalog_access_denied": {
-    "description": "Жеткізуші каталогына қолжетімділік шектеуі туралы хабарлама"
+  "suppliers_catalog_access_denied": "Жеткізушілер каталогы тек модераторлар мен негізгі әкімшілерге қол жетімді.",
+  "faq_how_to_order": "Қалай тапсырыс беруге болады?",
+  "@faq_how_to_order": {
+    "description": "FAQ"
+  },
+  "faq_how_to_order_answer": "Тапсырыс беру үшін каталогтан элементтерді таңдап, оларды себетке қосыңыз және жеткізу мекенжайы мен төлем әдісін көрсету арқылы тапсырыс беріңіз.",
+  "@faq_how_to_order_answer": {
+    "description": "FAQ"
+  },
+  "faq_payment_methods": "Қандай төлем әдістері бар?",
+  "@faq_payment_methods": {
+    "description": "FAQ"
+  },
+  "faq_payment_methods_answer": "Біз төлемді қолма-қол ақшамен, банктік карталармен (Visa, Mastercard), сондай-ақ PayPal арқылы қабылдаймыз.",
+  "@faq_payment_methods_answer": {
+    "description": "FAQ"
+  },
+  "faq_delivery_time": "Жеткізу қанша уақытты алады?",
+  "@faq_delivery_time": {
+    "description": "FAQ"
+  },
+  "faq_delivery_time_answer": "Стандартты жеткізу 1-3 жұмыс күнін алады. Жедел жеткізу 24 сағат ішінде қол жетімді.",
+  "@faq_delivery_time_answer": {
+    "description": "FAQ"
+  },
+  "faq_cancel_order": "Тапсырыстан бас тарта аламын ба?",
+  "@faq_cancel_order": {
+    "description": "FAQ"
+  },
+  "faq_cancel_order_answer": "Тапсырыстан кейін 30 минут ішінде бас тартуға болады. Осыдан кейін тапсырыс жинау үшін қоймаға жіберіледі.",
+  "@faq_cancel_order_answer": {
+    "description": "FAQ"
+  },
+  "faq_change_address": "Жеткізу мекенжайын қалай өзгертуге болады?",
+  "@faq_change_address": {
+    "description": "FAQ"
+  },
+  "faq_change_address_answer": "Жеткізу мекенжайын Профиль → мекенжайлар бөлімінен өзгертуге болады. Тапсырысты рәсімдеу кезінде жаңа мекенжайды да көрсетуге болады.",
+  "@faq_change_address_answer": {
+    "description": "FAQ"
+  },
+  "faq_return_item": "Егер Өнім сәйкес келмесе не істеу керек?",
+  "@faq_return_item": {
+    "description": "FAQ"
+  },
+  "faq_return_item_answer": "Сіз затты алғаннан кейін 14 күн ішінде қайтара аласыз. Қайтаруды тіркеу үшін біздің қолдау қызметіне хабарласыңыз.",
+  "@faq_return_item_answer": {
+    "description": "FAQ"
+  },
+  "faq_contact_support": "Қолдаумен қалай байланысуға болады?",
+  "@faq_contact_support": {
+    "description": "FAQ"
+  },
+  "faq_contact_support_answer": "Бізбен қолданбадағы \"техникалық қолдау\" бөлімі, Электрондық пошта немесе сенім телефоны арқылы байланыса аласыз.",
+  "@faq_contact_support_answer": {
+    "description": "FAQ"
+  },
+  "faq_min_order": "Тапсырыстың ең аз мөлшері бар ма?",
+  "@faq_min_order": {
+    "description": "FAQ"
+  },
+  "faq_min_order_answer": "Тапсырыстың ең аз сомасы - 500 т. Тапсырыс беру кезінде 5000 теңгеден бастап жеткізу тегін.",
+  "@faq_min_order_answer": {
+    "description": "FAQ"
   }
 }

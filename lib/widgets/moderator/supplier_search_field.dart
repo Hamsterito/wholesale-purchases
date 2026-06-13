@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/app_color_palette.dart';
+import '../services/localization/localization_extension.dart';
 
 /// Поле поиска для каталога поставщиков. Дебаунс - на стороне страницы.
 class SupplierSearchField extends StatefulWidget {
@@ -83,12 +84,12 @@ class _SupplierSearchFieldState extends State<SupplierSearchField> {
           cursorColor: palette.primary,
           decoration: InputDecoration(
             isDense: true,
-            hintText: 'Поиск по поставщикам',
+            hintText: context.l10n.auto_poiskPoPostavshchikam,
             hintStyle: TextStyle(color: cs.onSurfaceVariant),
             prefixIcon: Icon(Icons.search, color: cs.onSurfaceVariant),
             suffixIcon: hasText
                 ? IconButton(
-                    tooltip: 'Очистить',
+                    tooltip: context.l10n.auto_ochistit,
                     icon: Icon(Icons.close, color: cs.onSurfaceVariant),
                     onPressed: _handleClear,
                   )

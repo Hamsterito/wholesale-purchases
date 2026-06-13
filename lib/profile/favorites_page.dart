@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../pages/product_detail_page.dart';
 import '../pages/supplier_profile_page.dart';
@@ -47,10 +47,10 @@ class _FavoritesPageState extends State<FavoritesPage>
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: theme.colorScheme.onSurface),
           onPressed: () => Navigator.pop(context),
-          tooltip: 'Назад',
+          tooltip: context.l10n.getString('auto_nazad'),
         ),
         title: Text(
-          'Избранное',
+          context.l10n.getString('auto_izbrannoe'),
           style: TextStyle(
             color: theme.colorScheme.onSurface,
             fontSize: 18,
@@ -74,13 +74,13 @@ class _FavoritesPageState extends State<FavoritesPage>
           tabs: [
             Tab(
               child: Semantics(
-                label: 'Вкладка избранные товары',
+                label: context.l10n.getString('auto_vkladkaIzbrannyeTovary'),
                 child: Text(context.l10n.favoritesTabProducts),
               ),
             ),
             Tab(
               child: Semantics(
-                label: 'Вкладка избранные компании',
+                label: context.l10n.getString('auto_vkladkaIzbrannyeKompani'),
                 child: Text(context.l10n.favoritesTabCompanies),
               ),
             ),
@@ -119,7 +119,7 @@ class _ProductsTab extends StatelessWidget {
     if (items.isEmpty) {
       return _EmptyState(
         icon: Icons.favorite_border,
-        message: 'Пока нет избранных товаров',
+        message: context.l10n.getString('auto_pokaNetIzbrannyhTovaro'),
         palette: palette,
       );
     }
@@ -177,7 +177,7 @@ class _SuppliersTab extends StatelessWidget {
     if (suppliers.isEmpty) {
       return _EmptyState(
         icon: Icons.business_outlined,
-        message: 'Нет избранных компаний',
+        message: context.l10n.getString('auto_netIzbrannyhKompaniy'),
         palette: palette,
       );
     }

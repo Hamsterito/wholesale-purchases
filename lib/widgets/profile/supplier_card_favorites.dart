@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/product.dart';
 import '../../theme/app_color_palette.dart';
 import '../product/supplier_profile_header.dart';
+import '../services/localization/localization_extension.dart';
 
 /// Компактная карточка поставщика для списка избранных компаний.
 /// Показывает логотип, название, рейтинг и кнопку удаления из избранного.
@@ -80,12 +81,12 @@ class _RemoveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: 'Удалить из избранного',
+      label: context.l10n.auto_udalitIzIzbrannogo,
       button: true,
       child: IconButton(
         onPressed: onRemove,
         icon: Icon(Icons.close, size: 20, color: palette.muted),
-        tooltip: 'Удалить из избранного',
+        tooltip: context.l10n.auto_udalitIzIzbrannogo,
         style: IconButton.styleFrom(
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           padding: const EdgeInsets.all(4),

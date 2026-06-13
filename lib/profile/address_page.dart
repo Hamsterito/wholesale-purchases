@@ -1,7 +1,8 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import 'package:flutter/services.dart';
 import '../models/user_address.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 class AddressPage extends StatefulWidget {
   const AddressPage({super.key, this.initial});
@@ -72,7 +73,7 @@ class _AddressPageState extends State<AddressPage> {
   Widget build(BuildContext context) {
     final primaryColor = context.colorPalette.accent;
     final isEditing = widget.initial != null;
-    final titleText = isEditing ? 'Редактировать адрес' : 'Добавить адрес';
+    final titleText = isEditing ? context.l10n.getString('auto_redaktirovatAdres') : context.l10n.getString('auto_dobavitAdres');
 
     return Scaffold(
       backgroundColor: _pageBg,
@@ -98,7 +99,7 @@ class _AddressPageState extends State<AddressPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildTextField(
-              label: 'АДРЕС',
+              label: context.l10n.getString('auto_adres'),
               controller: _addressController,
               prefixIcon: Icons.location_on_outlined,
               errorText: _addressError,
@@ -112,7 +113,7 @@ class _AddressPageState extends State<AddressPage> {
               children: [
                 Expanded(
                   child: _buildTextField(
-                    label: 'УЛИЦА',
+                    label: context.l10n.getString('auto_ulitsa'),
                     controller: _streetController,
                     errorText: _streetError,
                     onChanged: _onStreetChanged,
@@ -124,7 +125,7 @@ class _AddressPageState extends State<AddressPage> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: _buildTextField(
-                    label: 'ПОЧТОВЫЙ ИНДЕКС',
+                    label: context.l10n.getString('auto_pochtovyyIndeks'),
                     controller: _zipController,
                     keyboardType: TextInputType.number,
                     errorText: _zipError,
@@ -139,7 +140,7 @@ class _AddressPageState extends State<AddressPage> {
             ),
             const SizedBox(height: 16),
             _buildTextField(
-              label: 'КВАРТИРА',
+              label: context.l10n.getString('auto_kvartira'),
               controller: _apartmentController,
               errorText: _apartmentError,
               onChanged: _onApartmentChanged,
@@ -150,11 +151,11 @@ class _AddressPageState extends State<AddressPage> {
             const SizedBox(height: 24),
             Row(
               children: [
-                _buildTypeButton(value: 'home', label: 'Дом'),
+                _buildTypeButton(value: 'home', label: context.l10n.getString('auto_dom')),
                 const SizedBox(width: 12),
-                _buildTypeButton(value: 'work', label: 'Работа'),
+                _buildTypeButton(value: 'work', label: context.l10n.getString('auto_rabota')),
                 const SizedBox(width: 12),
-                _buildTypeButton(value: 'other', label: 'Другое'),
+                _buildTypeButton(value: 'other', label: context.l10n.getString('auto_drugoe')),
               ],
             ),
             const SizedBox(height: 32),
@@ -172,7 +173,7 @@ class _AddressPageState extends State<AddressPage> {
                   elevation: 0,
                 ),
                 child: Text(
-                  isEditing ? 'СОХРАНИТЬ' : 'СОХРАНИТЬ АДРЕС',
+                  isEditing ? context.l10n.getString('auto_sohranit') : context.l10n.getString('auto_sohranitAdres'),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -332,10 +333,10 @@ class _AddressPageState extends State<AddressPage> {
   String? _validateAddress(String value) {
     final addressLine = _normalizeText(value);
     if (addressLine.isEmpty) {
-      return 'Введите адрес';
+      return context.l10n.getString('auto_vvediteAdres');
     }
     if (addressLine.length < 5) {
-      return 'Адрес слишком короткий';
+      return context.l10n.getString('auto_adresSlishkomKorotkiy');
     }
     return null;
   }
@@ -343,7 +344,7 @@ class _AddressPageState extends State<AddressPage> {
   String? _validateStreet(String value) {
     final street = _normalizeOptionalText(value);
     if (street != null && street.length > _streetMaxLength) {
-      return 'Поле "Улица" не должно превышать $_streetMaxLength символов';
+      return 'Поле ${context.l10n.getString('auto_ulitsa_1')} не должно превышать $_streetMaxLength символов';
     }
     return null;
   }
@@ -354,7 +355,7 @@ class _AddressPageState extends State<AddressPage> {
       return 'Индекс не должен превышать $_zipMaxLength символов';
     }
     if (zip.isNotEmpty && !_zipPattern.hasMatch(zip)) {
-      return 'Индекс должен содержать только цифры (3-10)';
+      return context.l10n.getString('auto_indeksDolzhenSoderzhat');
     }
     return null;
   }
@@ -362,10 +363,10 @@ class _AddressPageState extends State<AddressPage> {
   String? _validateApartment(String value) {
     final apartment = value.trim();
     if (apartment.length > _apartmentMaxLength) {
-      return 'Поле "Квартира" не должно превышать $_apartmentMaxLength символов';
+      return 'Поле ${context.l10n.getString('auto_kvartira_1')} не должно превышать $_apartmentMaxLength символов';
     }
     if (apartment.isNotEmpty && !_apartmentPattern.hasMatch(apartment)) {
-      return 'Некорректный формат квартиры';
+      return context.l10n.getString('auto_nekorrektnyyFormatKvart');
     }
     return null;
   }

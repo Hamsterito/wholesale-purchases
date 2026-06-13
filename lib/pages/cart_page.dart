@@ -23,6 +23,7 @@ import '../widgets/smooth_sheet.dart';
 import '../widgets/pages/templates_sheet.dart';
 import '../widgets/messages/top_message.dart';
 import '../services/localization/app_localizations.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 const double _buttonRadius = 18;
 
@@ -861,7 +862,7 @@ class _CartPageState extends State<CartPage> {
                       children: [
                         Expanded(
                           child: Text(
-                            'Адрес доставки',
+                            context.l10n.getString('auto_adresDostavki'),
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -933,8 +934,7 @@ class _CartPageState extends State<CartPage> {
                           ),
                           elevation: 0,
                         ),
-                        child: const Text(
-                          'Подтвердить выбор',
+                        child: Text(context.l10n.getString('auto_podtverditVybor'),
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -997,7 +997,7 @@ class _CartPageState extends State<CartPage> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Адресов пока нет',
+            context.l10n.getString('auto_adresovPokaNet'),
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
@@ -1006,7 +1006,7 @@ class _CartPageState extends State<CartPage> {
           ),
           const SizedBox(height: 6),
           Text(
-            'Добавьте адрес, чтобы продолжить оформление.',
+            context.l10n.getString('auto_dobavteAdresChtobyProd'),
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant),
           ),
@@ -1021,7 +1021,7 @@ class _CartPageState extends State<CartPage> {
     required VoidCallback onTap,
   }) {
     final displayAddress = address.displayAddress.isEmpty
-        ? 'Без адреса'
+        ? context.l10n.getString('auto_bezAdresa')
         : address.displayAddress;
     final borderColor = isSelected
         ? context.colorPalette.accent
@@ -1112,7 +1112,8 @@ class _CartPageState extends State<CartPage> {
     try {
       return await ApiService.createUserAddress(userId: userId, draft: draft);
     } catch (_) {
-      _showCheckoutSnackBar('Не удалось сохранить адрес', isError: true);
+      if (!mounted) return null;
+      _showCheckoutSnackBar(context.l10n.getString('auto_neUdalosSohranitAdres'), isError: true);
       return null;
     }
   }
@@ -1136,7 +1137,8 @@ class _CartPageState extends State<CartPage> {
     }
     final userId = AuthStorage.userId;
     if (userId == null || userId == 0) {
-      _showCheckoutSnackBar('Войдите, чтобы оформить заказ', isError: true);
+      if (!mounted) return;
+      _showCheckoutSnackBar(context.l10n.getString('auto_voyditeChtobyOformitZa'), isError: true);
       return;
     }
     final paymentChoice = await _resolveCheckoutPaymentChoice();
@@ -1563,11 +1565,11 @@ try {
     // Простое склонение без подключения utils/ru_plural - кейс единичный.
     final mod10 = n % 10;
     final mod100 = n % 100;
-    if (mod10 == 1 && mod100 != 11) return 'позиция';
+    if (mod10 == 1 && mod100 != 11) return context.l10n.getString('auto_pozitsiya');
     if ((mod10 >= 2 && mod10 <= 4) && (mod100 < 12 || mod100 > 14)) {
-      return 'позиции';
+      return context.l10n.getString('auto_pozitsii');
     }
-    return 'позиций';
+    return context.l10n.getString('auto_pozitsiy');
   }
 
   String _skipReasonText(SkipReason reason) {
@@ -2528,7 +2530,7 @@ class _ClearCartLinkState extends State<_ClearCartLink> {
         : palette.error.withValues(alpha: 0.9);
     return Semantics(
       button: true,
-      label: 'Очистить корзину',
+      label: context.l10n.getString('auto_ochistitKorzinu'),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         onEnter: (_) => setState(() => _hovered = true),
@@ -2548,7 +2550,7 @@ class _ClearCartLinkState extends State<_ClearCartLink> {
                 Icon(Icons.delete_outline, size: 18, color: color),
                 const SizedBox(width: 6),
                 Text(
-                  'Очистить корзину',
+                  context.l10n.getString('auto_ochistitKorzinu'),
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,

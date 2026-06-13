@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../theme/app_color_palette.dart';
 import '../services/storage/payment_card_storage.dart';
 import '../services/storage/auth_storage.dart';
 import '../widgets/messages/top_message.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 // Один общий RegExp для удаления нецифровых символов - используется
 // в валидации и при сохранении карты. Объявляем top-level final, чтобы
@@ -85,13 +86,13 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
   String? _validateCardHolder(String? value) {
     final trimmed = value?.trim() ?? '';
     if (trimmed.isEmpty) {
-      return 'Введите имя владельца карты';
+      return context.l10n.getString('auto_vvediteImyaVladeltsaKa');
     }
     if (trimmed.length < 2) {
-      return 'Имя слишком короткое';
+      return context.l10n.getString('auto_imyaSlishkomKorotkoe');
     }
     if (RegExp(r'\d').hasMatch(trimmed)) {
-      return 'Имя не должно содержать цифры';
+      return context.l10n.getString('auto_imyaNeDolzhnoSoderzhat');
     }
     return null;
   }
@@ -99,13 +100,13 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
   String? _validateCardNumber(String? value) {
     final digits = (value ?? '').replaceAll(_nonDigitRegExp, '');
     if (digits.isEmpty) {
-      return 'Введите номер карты';
+      return context.l10n.getString('auto_vvediteNomerKarty');
     }
     if (digits.length != 16) {
-      return 'Номер карты должен быть 16 цифр';
+      return context.l10n.getString('auto_nomerKartyDolzhenByt1');
     }
     if (!_passesLuhn(digits)) {
-      return 'Неверный номер карты';
+      return context.l10n.getString('auto_nevernyyNomerKarty');
     }
     return null;
   }
@@ -130,21 +131,21 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
   String? _validateExpireDate(String? value) {
     final digits = (value ?? '').replaceAll(_nonDigitRegExp, '');
     if (digits.isEmpty) {
-      return 'Введите срок действия';
+      return context.l10n.getString('auto_vvediteSrokDeystviya');
     }
     if (digits.length != 4) {
-      return 'Введите формат ММ/ГГ';
+      return context.l10n.getString('auto_vvediteFormatMmgg');
     }
     final month = int.tryParse(digits.substring(0, 2)) ?? 0;
     final year = int.tryParse(digits.substring(2, 4)) ?? -1;
     if (month < 1 || month > 12) {
-      return 'Месяц должен быть 01-12';
+      return context.l10n.getString('auto_mesyatsDolzhenByt0112');
     }
     final now = DateTime.now();
     final fullYear = 2000 + year;
     final lastValidMonth = DateTime(fullYear, month + 1, 0);
     if (lastValidMonth.isBefore(DateTime(now.year, now.month, 1))) {
-      return 'Срок действия истёк';
+      return context.l10n.getString('auto_srokDeystviyaIstyok');
     }
     return null;
   }
@@ -152,10 +153,10 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
   String? _validateCvc(String? value) {
     final digits = (value ?? '').replaceAll(_nonDigitRegExp, '');
     if (digits.isEmpty) {
-      return 'Введите CVC';
+      return context.l10n.getString('auto_vvediteCvc');
     }
     if (digits.length != 3) {
-      return 'CVC: 3 цифры';
+      return context.l10n.getString('auto_cvc3Tsifry');
     }
     return null;
   }
@@ -169,7 +170,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
     if (userId == null || userId <= 0) {
       showTopMessage(
         context,
-        'Войдите, чтобы добавить карту',
+        context.l10n.getString('auto_voyditeChtobyDobavitKa'),
         backgroundColor: palette.error,
       );
       return;
@@ -178,7 +179,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
     if (!isValid) {
       showTopMessage(
         context,
-        'Проверьте введённые данные',
+        context.l10n.getString('auto_proverteVvedyonnyeDanny'),
         backgroundColor: palette.warning,
       );
       return;
@@ -212,7 +213,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
       });
       showTopMessage(
         context,
-        'Не удалось сохранить карту',
+        context.l10n.getString('auto_neUdalosSohranitKartu'),
         backgroundColor: context.colorPalette.error,
       );
       return;
@@ -247,7 +248,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
           },
         ),
         title: Text(
-          'Добавить метод оплаты',
+          context.l10n.getString('auto_dobavitMetodOplaty'),
           style: TextStyle(
             color: _colorScheme.onSurface,
             fontSize: 18,
@@ -265,7 +266,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
             children: [
               // Владелец карты
               Text(
-                'ИМЯ ВЛАДЕЛЬЦА КАРТЫ',
+                context.l10n.getString('auto_imyaVladeltsaKarty'),
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
@@ -296,7 +297,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
 
               // Номер карты
               Text(
-                'НОМЕР КАРТЫ',
+                context.l10n.getString('auto_nomerKarty'),
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
@@ -336,7 +337,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'СРОК ДЕЙСТВИЯ',
+                          context.l10n.getString('auto_srokDeystviya'),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -355,7 +356,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: _inputFill,
-                            hintText: 'ММ/ГГ',
+                            hintText: context.l10n.getString('auto_mmgg'),
                             hintStyle: TextStyle(color: _mutedText),
                             errorStyle: shortErrorStyle,
                             errorMaxLines: 2,
@@ -432,7 +433,7 @@ class _AddPaymentCardPageState extends State<AddPaymentCardPage> {
                     elevation: 0,
                   ),
                   child: Text(
-                    'ДОБАВИТЬ МЕТОД ОПЛАТЫ',
+                    context.l10n.getString('auto_dobavitMetodOplaty_1'),
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                 ),

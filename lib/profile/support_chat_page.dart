@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
@@ -14,6 +14,7 @@ import '../services/message/message_store.dart';
 import '../services/message/message_localization.dart';
 import '../widgets/chat/chat_thread_view.dart';
 import '../widgets/chat/adapters.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 class UserSupportChatPage extends StatefulWidget {
   const UserSupportChatPage({super.key, this.chatId});
@@ -50,7 +51,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
       if (!silent && mounted) {
         setState(() {
           _isLoading = false;
-          _error = 'Не удалось определить пользователя';
+          _error = context.l10n.getString('auto_neUdalosOpredelitPolzo');
         });
       }
       return;
@@ -82,7 +83,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
       if (!mounted) return;
       if (!silent) {
         setState(() {
-          _error = 'Не удалось загрузить чат';
+          _error = context.l10n.getString('auto_neUdalosZagruzitChat');
         });
       }
     } finally {
@@ -146,7 +147,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
     final userId = AuthStorage.userId ?? 0;
     if (userId <= 0) {
       _showSnack(
-        'Не удалось определить пользователя',
+        context.l10n.getString('auto_neUdalosOpredelitPolzo'),
         severity: MessageSeverity.error,
       );
       return;
@@ -154,7 +155,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
 
     if (!_isChatOpen) {
       _showSnack(
-        'Чат закрыт. Создайте новое обращение.',
+        context.l10n.getString('auto_chatZakrytSozdayteNovo'),
         severity: MessageSeverity.warning,
       );
       return;
@@ -162,7 +163,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
 
     final text = rawText.trim();
     if (text.isEmpty) {
-      _showSnack('Введите сообщение', severity: MessageSeverity.warning);
+      _showSnack(context.l10n.getString('auto_vvediteSoobshchenie'), severity: MessageSeverity.warning);
       return;
     }
 
@@ -188,7 +189,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
     } catch (_) {
       if (!mounted) return;
       _showSnack(
-        'Не удалось отправить сообщение',
+        context.l10n.getString('auto_neUdalosOtpravitSoobsh'),
         severity: MessageSeverity.error,
       );
     } finally {
@@ -235,7 +236,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Чат с техподдержкой')),
+      appBar: AppBar(title: Text(context.l10n.getString('auto_chatSTehpodderzhkoy'))),
       body: _buildBody(context),
     );
   }
@@ -256,7 +257,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
               const SizedBox(height: 12),
               ElevatedButton(
                 onPressed: _loadThread,
-                child: const Text('Повторить'),
+                child: Text(context.l10n.getString('auto_povtorit')),
               ),
             ],
           ),
@@ -269,8 +270,8 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
           padding: const EdgeInsets.all(24),
           child: Text(
             widget.chatId == null
-                ? 'Активного чата нет. Сначала отправьте обращение в техподдержку.'
-                : 'Чат не найден.',
+                ? context.l10n.getString('auto_aktivnogoChataNetSnach')
+                : context.l10n.getString('auto_chatNeNayden'),
             textAlign: TextAlign.center,
           ),
         ),
@@ -287,14 +288,14 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
           child: ChatThreadView(
             messages: chatBubblesFromSupportMessages(_messages),
             currentUserId: userId,
-            counterpartName: 'Поддержка',
+            counterpartName: context.l10n.getString('auto_podderzhka'),
             onSend: _sendMessageText,
             onRetrySend: (bubble) => _sendMessageText(bubble.body),
             onLoadMore: () {},
             isInitialLoading: false,
             isLoadingMore: false,
             isComposerEnabled: composerEnabled,
-            composerHint: _isChatOpen ? 'Введите сообщение' : 'Чат закрыт',
+            composerHint: _isChatOpen ? context.l10n.getString('auto_vvediteSoobshchenie') : context.l10n.getString('auto_chatZakryt'),
           ),
         ),
       ],
@@ -313,7 +314,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
       child: Text(
         closed
             ? 'Чат закрыт${reason.isEmpty ? '' : '. Причина: $reason'}'
-            : 'Чат открыт. Техподдержка ответит в этом окне.',
+            : context.l10n.getString('auto_chatOtkrytTehpodderzhka'),
         style: TextStyle(
           color: closed
               ? context.colorPalette.error

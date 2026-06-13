@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -76,7 +76,7 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
       );
       if (!mounted) return;
       setState(() {
-        _loadError = 'Не удалось загрузить статус двухфакторной аутентификации';
+        _loadError = context.l10n.getString('auto_neUdalosZagruzitStatus');
         _isLoading = false;
       });
     }
@@ -142,7 +142,7 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
         setState(() => _isPerformingAction = false);
         showTopMessage(
           context,
-          'Не удалось отправить код. Попробуйте ещё раз.',
+          context.l10n.getString('auto_neUdalosOtpravitKodPo'),
           backgroundColor: context.colorPalette.error,
         );
         return;
@@ -151,10 +151,9 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
 
     if (!mounted) return;
     final code = await _showOtpInputDialog(
-      title: 'Регенерация backup-кодов',
+      title: context.l10n.getString('auto_regeneratsiyaBackupkodov'),
       description:
-          'Введите код подтверждения, отправленный на вашу почту, '
-          'чтобы заменить текущие резервные коды.',
+          '${context.l10n.getString('auto_vvediteKodPodtverzhdeni')} ${context.l10n.getString('auto_chtobyZamenitTekushchie')}',
       initialTtlSeconds: initialTtl,
     );
     if (!mounted) {
@@ -202,7 +201,7 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
       setState(() => _isPerformingAction = false);
       showTopMessage(
         context,
-        'Не удалось сгенерировать новые коды',
+        context.l10n.getString('auto_neUdalosSgenerirovatNo'),
         backgroundColor: context.colorPalette.error,
       );
     }
@@ -241,7 +240,7 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
         setState(() => _isPerformingAction = false);
         showTopMessage(
           context,
-          'Не удалось отправить код. Попробуйте ещё раз.',
+          context.l10n.getString('auto_neUdalosOtpravitKodPo'),
           backgroundColor: context.colorPalette.error,
         );
         return;
@@ -250,10 +249,9 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
 
     if (!mounted) return;
     final code = await _showOtpInputDialog(
-      title: 'Отзыв доверенных устройств',
+      title: context.l10n.getString('auto_otzyvDoverennyhUstroyst'),
       description:
-          'Введите код подтверждения, отправленный на вашу почту, '
-          'чтобы отозвать все ранее запомненные устройства.',
+          '${context.l10n.getString('auto_vvediteKodPodtverzhdeni')} ${context.l10n.getString('auto_chtobyOtozvatVseRanee')}',
       initialTtlSeconds: initialTtl,
     );
     if (!mounted) {
@@ -272,7 +270,7 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
       if (!mounted) return;
       showTopMessage(
         context,
-        'Доверенные устройства отозваны',
+        context.l10n.getString('auto_doverennyeUstroystvaOto'),
         backgroundColor: context.colorPalette.success,
       );
     } on TwoFactorException catch (e) {
@@ -294,7 +292,7 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
       setState(() => _isPerformingAction = false);
       showTopMessage(
         context,
-        'Не удалось отозвать устройства',
+        context.l10n.getString('auto_neUdalosOtozvatUstroys'),
         backgroundColor: context.colorPalette.error,
       );
     }
@@ -331,7 +329,7 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
         backgroundColor: palette.card,
         elevation: 0,
         title: Text(
-          'Двухфакторная аутентификация',
+          context.l10n.getString('auto_dvuhfaktornayaAutentifik_1'),
           style: TextStyle(
             color: cs.onSurface,
             fontSize: 18,
@@ -402,7 +400,7 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             child: Text(
-              'Повторить',
+              context.l10n.getString('auto_povtorit'),
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -431,7 +429,7 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Осталось мало резервных кодов, сгенерируйте новые',
+              context.l10n.getString('auto_ostalosMaloRezervnyhKo'),
               style: TextStyle(fontSize: 13, height: 1.35, color: palette.ink),
             ),
           ),
@@ -452,7 +450,7 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
       ),
       child: SwitchListTile(
         title: Text(
-          'Двухфакторная аутентификация',
+          context.l10n.getString('auto_dvuhfaktornayaAutentifik_1'),
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
@@ -463,8 +461,8 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
           padding: const EdgeInsets.only(top: 4),
           child: Text(
             status.enabled
-                ? 'Включена. При входе потребуется код из почты.'
-                : 'Выключена. Защитите аккаунт дополнительным кодом.',
+                ? context.l10n.getString('auto_vklyuchenaPriVhodePotr')
+                : context.l10n.getString('auto_vyklyuchenaZashchititeA'),
             style: TextStyle(
               fontSize: 13,
               height: 1.35,
@@ -489,8 +487,8 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
         children: [
           _buildActionTile(
             icon: Icons.refresh,
-            title: 'Сгенерировать новые backup-коды',
-            subtitle: 'Старые коды будут удалены',
+            title: context.l10n.getString('auto_sgenerirovatNovyeBackup'),
+            subtitle: context.l10n.getString('auto_staryeKodyBudutUdaleny'),
             onTap: _isPerformingAction ? null : _regenerateBackupCodes,
             palette: palette,
             cs: cs,
@@ -498,8 +496,8 @@ class _TwoFactorSettingsPageState extends State<TwoFactorSettingsPage> {
           Divider(height: 1, indent: 16, endIndent: 16, color: palette.line),
           _buildActionTile(
             icon: Icons.devices_other,
-            title: 'Отозвать доверенные устройства',
-            subtitle: 'На всех устройствах потребуется код заново',
+            title: context.l10n.getString('auto_otozvatDoverennyeUstroy'),
+            subtitle: context.l10n.getString('auto_naVsehUstroystvahPotre'),
             onTap: _isPerformingAction ? null : _revokeTrustedDevices,
             palette: palette,
             cs: cs,
@@ -667,7 +665,7 @@ class _OtpInputDialogState extends State<_OtpInputDialog> {
               const SizedBox(height: 12),
               Text(
                 _ttlExpired
-                    ? 'СРОК ИСТЁК'
+                    ? context.l10n.getString('auto_srokIstyok')
                     : 'КОД ДЕЙСТВИТЕЛЕН $_ttlSecondsLeft СЕК',
                 style: TextStyle(
                   fontSize: 12,
@@ -753,8 +751,7 @@ class _OtpInputDialogState extends State<_OtpInputDialog> {
               borderRadius: BorderRadius.circular(8),
             ),
           ),
-          child: const Text(
-            'Подтвердить',
+          child: Text(context.l10n.getString('auto_podtverdit'),
             style: TextStyle(fontWeight: FontWeight.w600),
           ),
         ),

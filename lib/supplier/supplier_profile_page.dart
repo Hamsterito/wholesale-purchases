@@ -40,7 +40,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
   Widget build(BuildContext context) {
     final palette = AppColorPalette.of(context);
     final l10n = context.l10n;
-    final name = AuthStorage.name ?? 'Поставщик';
+    final name = AuthStorage.name ?? context.l10n.auto_postavshchik;
     final email = AuthStorage.email ?? '-';
     final supplierName = AuthStorage.supplierName ?? '-';
 
@@ -59,9 +59,9 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
               ),
             ),
           ),
-          _InfoTile(label: 'Имя', value: name),
-          _InfoTile(label: 'Эл. почта', value: email),
-          _InfoTile(label: 'Компания', value: supplierName),
+          _InfoTile(label: context.l10n.auto_imya_1, value: name),
+          _InfoTile(label: context.l10n.auto_elPochta_1, value: email),
+          _InfoTile(label: context.l10n.auto_kompaniya, value: supplierName),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () => performLogout(context),
@@ -69,7 +69,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
               backgroundColor: palette.error,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Выйти'),
+            child: const Text(context.l10n.auto_vyyti),
           ),
         ],
       ),

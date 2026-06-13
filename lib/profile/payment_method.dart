@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
@@ -181,7 +181,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
         type: MessageType.notification,
         severity: MessageSeverity.info,
         title: '',
-        body: 'Карта добавлена',
+        body: context.l10n.getString('auto_kartaDobavlena'),
         timestamp: DateTime.now(),
         language: MessageLocalizationManager.getCurrentLanguage(),
       ),
@@ -204,7 +204,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
           },
         ),
         title: Text(
-          'Метод оплаты',
+          context.l10n.getString('auto_metodOplaty'),
           style: TextStyle(
             color: _colorScheme.onSurface,
             fontSize: 18,
@@ -222,7 +222,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
               children: [
                 _buildPaymentOption(
                   iconPath: 'assets/icons/cash.svg',
-                  label: 'Наличные',
+                  label: context.l10n.getString('auto_nalichnye'),
                   value: 'Cash',
                 ),
                 _buildPaymentOption(
@@ -249,12 +249,12 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
 
             const SizedBox(height: 16),
 
-            // Кнопка "Добавить новый"
+            // Кнопка context.l10n.getString('auto_dobavitNovyy')
             TextButton.icon(
               onPressed: _openAddCard,
               icon: Icon(Icons.add, size: 18),
               label: Text(
-                'Добавить новый',
+                context.l10n.getString('auto_dobavitNovyy'),
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
               ),
               style: TextButton.styleFrom(foregroundColor: primaryColor),
@@ -280,14 +280,14 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
     if (visibleCards.isEmpty) {
       return _buildEmptyState(
         title: _selectedTopMethod == 'Visa'
-            ? 'Нет карт Visa'
+            ? context.l10n.getString('auto_netKartVisa')
             : _selectedTopMethod == 'Mastercard'
-            ? 'Нет карт Mastercard'
+            ? context.l10n.getString('auto_netKartMastercard')
             : null,
         subtitle: _selectedTopMethod == 'Visa'
-            ? 'Добавьте карту Visa, чтобы выбрать этот способ оплаты.'
+            ? context.l10n.getString('auto_dobavteKartuVisaChtoby')
             : _selectedTopMethod == 'Mastercard'
-            ? 'Добавьте карту Mastercard, чтобы выбрать этот способ оплаты.'
+            ? context.l10n.getString('auto_dobavteKartuMastercard')
             : null,
       );
     }
@@ -323,12 +323,12 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
 
   String _cardsTitle() {
     if (_selectedTopMethod == 'Visa') {
-      return 'Ваши карты Visa';
+      return context.l10n.getString('auto_vashiKartyVisa');
     }
     if (_selectedTopMethod == 'Mastercard') {
-      return 'Ваши карты Mastercard';
+      return context.l10n.getString('auto_vashiKartyMastercard');
     }
-    return 'Ваши карты';
+    return context.l10n.getString('auto_vashiKarty');
   }
 
   Widget _buildCashState() {
@@ -337,7 +337,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Оплата наличными',
+            context.l10n.getString('auto_oplataNalichnymi'),
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -346,7 +346,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Вы выбрали оплату наличными при получении.',
+            context.l10n.getString('auto_vyVybraliOplatuNalichn'),
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14, color: _mutedText),
           ),
@@ -370,7 +370,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Подключение PayPal пока недоступно.\nВыберите карту или наличные.',
+            context.l10n.getString('auto_podklyucheniePaypalPoka'),
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14, color: _mutedText),
           ),
@@ -385,7 +385,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            title ?? 'Нет способа оплаты',
+            title ?? context.l10n.getString('auto_netSposobaOplaty'),
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -394,7 +394,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            subtitle ?? 'Пожалуйста, выберите способ\nоплаты',
+            subtitle ?? context.l10n.getString('auto_pozhaluystaVyberiteSpos'),
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14, color: _mutedText),
           ),
@@ -482,7 +482,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                     ),
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
-                    tooltip: 'Удалить карту',
+                    tooltip: context.l10n.getString('auto_udalitKartu'),
                   ),
                 ],
               ),
@@ -535,7 +535,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
         type: MessageType.notification,
         severity: MessageSeverity.info,
         title: '',
-        body: 'Карта удалена',
+        body: context.l10n.getString('auto_kartaUdalena'),
         timestamp: DateTime.now(),
         language: MessageLocalizationManager.getCurrentLanguage(),
       ),

@@ -21,7 +21,7 @@ class QuestionCard extends StatelessWidget {
     final name = question.userName;
     final relativeTime = DateFormatter.formatDate(question.createdAt);
     final questionText = question.questionText.trim().isEmpty
-        ? 'Без текста'
+        ? context.l10n.auto_bezTeksta
         : question.questionText.trim();
 
     return Container(
@@ -106,7 +106,7 @@ ExpandableTextBlock(
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        'Ответ продавца',
+                        context.l10n.auto_otvetProdavtsa,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 12,

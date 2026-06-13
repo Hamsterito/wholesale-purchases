@@ -10,6 +10,7 @@ import '../../services/storage/otp_cooldown_store.dart';
 import '../../theme/app_color_palette.dart';
 import '../../widgets/messages/top_message.dart';
 import '../../widgets/navigation/role_internal_nav_bar.dart';
+import '../../services/localization/localization_extension.dart';
 
 /// Экран ввода OTP для выключения 2FA; после успеха показывает top-сообщение.
 class TwoFactorDisableOtpPage extends StatefulWidget {
@@ -119,7 +120,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
       );
       if (!mounted) return;
       setState(
-        () => _initialError = 'Не удалось отправить код. Попробуйте ещё раз.',
+        () => _initialError = context.l10n.getString('auto_neUdalosOtpravitKodPo'),
       );
     } finally {
       if (mounted) setState(() => _isRequestingOtp = false);
@@ -198,7 +199,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
       // persistAcrossNavigation - баннер должен быть виден после возврата.
       showTopMessage(
         context,
-        'Двухфакторная аутентификация отключена',
+        context.l10n.getString('auto_dvuhfaktornayaAutentifik'),
         backgroundColor: context.colorPalette.success,
         duration: const Duration(seconds: 3),
         persistAcrossNavigation: true,
@@ -209,7 +210,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
       if (!mounted) return;
       setState(() {
         _isSubmitting = false;
-        _inlineError = 'Неверный код';
+        _inlineError = context.l10n.getString('auto_nevernyyKod');
       });
     } on TwoFactorRateLimitException catch (e) {
       if (!mounted) return;
@@ -233,7 +234,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
       if (!mounted) return;
       setState(() {
         _isSubmitting = false;
-        _inlineError = 'Ошибка подключения к серверу';
+        _inlineError = context.l10n.getString('auto_oshibkaPodklyucheniyaK');
       });
     }
   }
@@ -255,7 +256,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
       _startResendCooldown();
       showTopMessage(
         context,
-        'Код отправлен повторно',
+        context.l10n.getString('auto_kodOtpravlenPovtorno'),
         backgroundColor: context.colorPalette.success,
         duration: const Duration(seconds: 2),
       );
@@ -275,7 +276,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
         stackTrace: st,
       );
       if (!mounted) return;
-      setState(() => _inlineError = 'Не удалось отправить код повторно');
+      setState(() => _inlineError = context.l10n.getString('auto_neUdalosOtpravitKodPo_1'));
     } finally {
       if (mounted) setState(() => _isResending = false);
     }
@@ -292,7 +293,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
         backgroundColor: palette.card,
         elevation: 0,
         title: Text(
-          'Выключение 2FA',
+          context.l10n.getString('auto_vyklyuchenie2fa'),
           style: TextStyle(
             color: cs.onSurface,
             fontSize: 18,
@@ -308,7 +309,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Подтверждение по почте',
+                context.l10n.getString('auto_podtverzhdeniePoPochte'),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
@@ -317,8 +318,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Введите код подтверждения, отправленный на вашу почту, '
-                'чтобы выключить двухфакторную аутентификацию.',
+                '${context.l10n.getString('auto_vvediteKodPodtverzhdeni')} ${context.l10n.getString('auto_chtobyVyklyuchitDvuhfak')}',
                 style: TextStyle(fontSize: 14, height: 1.4, color: _mutedText),
               ),
               const SizedBox(height: 24),
@@ -387,8 +387,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
                       strokeWidth: 2.4,
                     ),
                   )
-                : const Text(
-                    'Повторить отправку',
+                : Text(context.l10n.getString('auto_povtoritOtpravku'),
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
           ),
@@ -407,7 +406,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
         if (_ttlExpired) ...[
           const SizedBox(height: 12),
           Text(
-            'Срок действия кода истёк, отправьте повторно',
+            context.l10n.getString('auto_srokDeystviyaKodaIstyo'),
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
@@ -439,7 +438,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
         Flexible(
           child: Text(
             _ttlExpired
-                ? 'СРОК ИСТЁК'
+                ? context.l10n.getString('auto_srokIstyok')
                 : 'КОД ДЕЙСТВИТЕЛЕН $_ttlSecondsLeft СЕК',
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -469,7 +468,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
       child: Text(
-        'Отправить повторно',
+        context.l10n.getString('auto_otpravitPovtorno'),
         style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
@@ -562,8 +561,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
                   strokeWidth: 2.4,
                 ),
               )
-            : const Text(
-                'Подтвердить',
+            : Text(context.l10n.getString('auto_podtverdit'),
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,

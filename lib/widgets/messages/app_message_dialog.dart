@@ -23,7 +23,7 @@ class AppMessageDialog {
 
     assert(
       actions == null || actions.length <= 3,
-      'AppMessageDialog поддерживает максимум 3 действия',
+      context.l10n.auto_appmessagedialogPodderzh,
     );
 
     final List<Widget> resolvedActions;

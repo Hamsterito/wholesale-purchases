@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:share_plus/share_plus.dart';
@@ -27,6 +27,7 @@ import 'questions_page.dart';
 import 'supplier_profile_page.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import '../utils/date_formatter.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Product product;
@@ -397,7 +398,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     if (!supplier.isAvailable) {
       showTopMessage(
         context,
-        'Нет в наличии',
+        context.l10n.getString('auto_netVNalichii'),
         backgroundColor: _palette.error,
         showAtBottom: true,
         bottomOffset: _bottomMessageOffset,
@@ -811,7 +812,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'О товаре',
+                              context.l10n.getString('auto_oTovare'),
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
@@ -833,7 +834,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                             ],
                             const SizedBox(height: 8),
                             Text(
-                              'Подробнее',
+                              context.l10n.getString('auto_podrobnee'),
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
@@ -914,7 +915,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                         Row(
                           children: [
                             Text(
-                              'Поставщик',
+                              context.l10n.getString('auto_postavshchik'),
                               style: TextStyle(
                                 fontSize: 13,
                                 color: palette.muted,
@@ -943,8 +944,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   const SizedBox(width: 8),
                   IconButton(
                     tooltip: _isSupplierFavorite
-                        ? 'Удалить из избранного'
-                        : 'Добавить в избранное',
+                        ? context.l10n.getString('auto_udalitIzIzbrannogo')
+                        : context.l10n.getString('auto_dobavitVIzbrannoe'),
                     onPressed: () => _toggleSupplierFavorite(supplier),
                     icon: Icon(
                       _isSupplierFavorite
@@ -1019,7 +1020,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     });
     showTopMessage(
       context,
-      added ? 'Добавлено в избранное' : 'Удалено из избранного',
+      added ? context.l10n.getString('auto_dobavlenoVIzbrannoe') : context.l10n.getString('auto_udalenoIzIzbrannogo'),
       backgroundColor: added ? _palette.accent : _palette.error,
     );
   }
@@ -1031,7 +1032,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
         margin: const EdgeInsets.only(top: 8),
         padding: const EdgeInsets.all(16),
         child: Text(
-          'Нет в наличии',
+          context.l10n.getString('auto_netVNalichii'),
           style: TextStyle(
             color: _palette.error,
             fontSize: 15,
@@ -1081,7 +1082,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                 child: Text(
                   isAvailable
                       ? 'В наличии: ${supplier.stockQuantity} шт.'
-                      : 'Нет в наличии',
+                      : context.l10n.getString('auto_netVNalichii'),
                   style: TextStyle(
                     color: isAvailable ? _palette.accent : _palette.error,
                     fontSize: 12,
@@ -1363,8 +1364,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     if (preview.isEmpty) {
       return _buildEmptyState(
         icon: Icons.star_outline,
-        title: 'Отзывов пока нет',
-        subtitle: 'Оценить товар можно только после ее покупки',
+        title: context.l10n.getString('auto_otzyvovPokaNet'),
+        subtitle: context.l10n.getString('auto_otsenitTovarMozhnoTolk'),
       );
     }
 
@@ -1395,10 +1396,10 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     if (preview.isEmpty) {
       return _buildEmptyState(
         icon: Icons.help_outline,
-        title: 'Вопросов по товару еще не было',
-        subtitle: 'Будьте первым!',
+        title: context.l10n.getString('auto_voprosovPoTovaruEshche'),
+        subtitle: context.l10n.getString('auto_budtePervym'),
         showButton: true,
-        buttonText: 'Задать вопрос',
+        buttonText: context.l10n.getString('auto_zadatVopros'),
         onButtonPressed: _openAllQuestions,
       );
     }
@@ -1441,7 +1442,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             icon: Icons.mode_comment_outlined,
             iconColor: palette.accent,
             value: '$_resolvedQuestionCount',
-            label: 'вопросов',
+            label: context.l10n.getString('auto_voprosov'),
           ),
         ],
       ),
@@ -1687,7 +1688,7 @@ class _AboutProductSheetState extends State<_AboutProductSheet>
             children: [
               Expanded(
                 child: Text(
-                  'О товаре',
+                  context.l10n.getString('auto_oTovare'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
@@ -1698,7 +1699,7 @@ class _AboutProductSheetState extends State<_AboutProductSheet>
               IconButton(
                 onPressed: () => Navigator.of(context).pop(),
                 icon: Icon(Icons.close, color: palette.ink),
-                tooltip: 'Закрыть',
+                tooltip: context.l10n.getString('auto_zakryt'),
               ),
             ],
           ),
@@ -1716,9 +1717,9 @@ class _AboutProductSheetState extends State<_AboutProductSheet>
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
               ),
-              tabs: const [
-                Tab(text: 'Характеристики'),
-                Tab(text: 'Описание'),
+              tabs: [
+                Tab(text: context.l10n.getString('auto_harakteristiki')),
+                Tab(text: context.l10n.getString('auto_opisanie_1')),
               ],
             ),
           const SizedBox(height: 12),
@@ -1729,7 +1730,7 @@ class _AboutProductSheetState extends State<_AboutProductSheet>
                   ? Padding(
                       padding: const EdgeInsets.symmetric(vertical: 24),
                       child: Text(
-                        'Нет данных о товаре',
+                        context.l10n.getString('auto_netDannyhOTovare'),
                         style: TextStyle(fontSize: 14, color: palette.muted),
                       ),
                     )
@@ -1753,7 +1754,7 @@ class _AboutProductSheetState extends State<_AboutProductSheet>
                           key: _descriptionKey,
                           padding: const EdgeInsets.only(bottom: 8),
                           child: Text(
-                            'Описание',
+                            context.l10n.getString('auto_opisanie_1'),
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -1811,7 +1812,7 @@ class _DescriptionTab extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: isPlaceholder
           ? Text(
-              'Описание не указано',
+              context.l10n.getString('auto_opisanieNeUkazano'),
               style: TextStyle(fontSize: 14, color: palette.muted),
             )
           : Text(
@@ -1905,7 +1906,7 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
   String _reviewerName(ReviewEntry review) {
     final normalized = review.reviewerName.trim();
     if (normalized.isEmpty) {
-      return 'Покупатель';
+      return context.l10n.getString('auto_pokupatel');
     }
     return normalized;
   }
@@ -1919,7 +1920,7 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
     final palette = context.colorPalette;
     final name = _reviewerName(widget.review);
     final text = widget.review.reviewText.trim().isEmpty
-        ? 'Без текста'
+        ? context.l10n.getString('auto_bezTeksta')
         : widget.review.reviewText.trim();
     final dateStr = _formatDate(widget.review.createdAt);
 
@@ -1991,7 +1992,7 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 3.0),
                 child: Text(
-                  'Подробнее',
+                  context.l10n.getString('auto_podrobnee'),
                   style: TextStyle(
                     color: palette.accent,
                     fontWeight: FontWeight.w600,
@@ -2006,7 +2007,7 @@ class _ReviewPreviewCardState extends State<ReviewPreviewCard> {
               child: GestureDetector(
                 onTap: widget.onOpenAll,
                 child: Text(
-                  'Перейти ко всем отзывам',
+                  context.l10n.getString('auto_pereytiKoVsemOtzyvam'),
                   style: TextStyle(
                     color: palette.accent,
                     fontWeight: FontWeight.w600,
@@ -2117,7 +2118,7 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 0.0),
                 child: Text(
-                  'Подробнее',
+                  context.l10n.getString('auto_podrobnee'),
                   style: TextStyle(
                     color: palette.accent,
                     fontWeight: FontWeight.w600,
@@ -2132,7 +2133,7 @@ class _QuestionPreviewCardState extends State<QuestionPreviewCard> {
               child: GestureDetector(
                 onTap: widget.onOpenAll,
                 child: Text(
-                  'Перейти ко всем вопросам',
+                  context.l10n.getString('auto_pereytiKoVsemVoprosam'),
                   style: TextStyle(
                     color: palette.accent,
                     fontWeight: FontWeight.w600,

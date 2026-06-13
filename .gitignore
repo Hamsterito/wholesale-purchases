@@ -53,3 +53,5 @@ app.*.map.json
 # Загруженные файлы (аватарки и пр.) - храним только на сервере, не в git
 backend/uploads/
 kilo.json
+.mcp-plugins/
+.spec-workflow/

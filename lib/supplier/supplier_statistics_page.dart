@@ -99,7 +99,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     final userId = _userId;
     if (userId == null || userId == 0) {
       setState(() {
-        _error = 'Вы не авторизованы. Пожалуйста, войдите.';
+        _error = context.l10n.auto_vyNeAvtorizovanyPozhal;
         _isLoading = false;
       });
       return;
@@ -239,7 +239,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        _error = 'Не удалось загрузить статистику';
+        _error = context.l10n.auto_neUdalosZagruzitStatis;
         _isLoading = false;
       });
     } finally {
@@ -297,7 +297,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
         // Если userMessage null (например, при ошибке лимита), не показываем ошибку
         errorMessage = e.userMessage;
       } else {
-        errorMessage = 'Не удалось сформировать AI-резюме';
+        errorMessage = context.l10n.auto_neUdalosSformirovatAir;
       }
 
       setState(() {
@@ -359,7 +359,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Статистика',
+            context.l10n.auto_statistika,
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 20,
@@ -367,7 +367,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             ),
           ),
           Text(
-            'Аналитика продаж',
+            context.l10n.auto_analitikaProdazh,
             style: TextStyle(
               fontSize: 12,
               color: palette.ink.withValues(alpha: 0.45),
@@ -380,7 +380,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
         IconButton(
           icon: Icon(Icons.refresh_rounded, color: palette.primary),
           onPressed: _handleRefresh,
-          tooltip: 'Обновить',
+          tooltip: context.l10n.auto_obnovit,
         ),
         const SizedBox(width: 4),
       ],
@@ -465,7 +465,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             FilledButton.icon(
               onPressed: _loadAllStatistics,
               icon: const Icon(Icons.refresh_rounded, size: 18),
-              label: const Text('Повторить'),
+              label: const Text(context.l10n.auto_povtorit),
             ),
           ],
         ),
@@ -504,7 +504,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             child: Text(
               hasRange
                   ? '${_fmtDate(_selectedDateRange!.start)} — ${_fmtDate(_selectedDateRange!.end)}'
-                  : 'Все время',
+                  : context.l10n.auto_vseVremya,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: hasRange ? FontWeight.w500 : FontWeight.normal,
@@ -514,7 +514,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
               ),
             ),
           ),
-          _chipButton('Выбрать', onTap: _showDateRangePicker),
+          _chipButton(context.l10n.auto_vybrat, onTap: _showDateRangePicker),
           // Приводим к тернарному spread для устранения предупреждения стиля
           ...(hasRange
               ? [
@@ -602,28 +602,28 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     // Цвета подобраны под брендовую палитру приложения
     final metrics = [
       _MetricData(
-        'Общая выручка',
+        context.l10n.auto_obshchayaVyruchka,
         _fmtCurrency(s.totalRevenue),
         Icons.payments_rounded,
         palette.primary,
         isDark ? palette.accentMist : palette.accentSoft,
       ),
       _MetricData(
-        'Выручка за месяц',
+        context.l10n.auto_vyruchkaZaMesyats,
         _fmtCurrency(s.monthlyRevenue),
         Icons.trending_up_rounded,
         palette.tertiary,
         isDark ? palette.accentMist : Color(0xFFD1F4E8),
       ),
       _MetricData(
-        'За неделю',
+        context.l10n.auto_zaNedelyu,
         _fmtCurrency(s.weeklyRevenue),
         Icons.bar_chart_rounded,
         palette.warning,
         isDark ? palette.accentMist : Color(0xFFFDF8E8),
       ),
       _MetricData(
-        'Всего заказов',
+        context.l10n.auto_vsegoZakazov,
         s.totalOrders.toString(),
         Icons.shopping_bag_rounded,
         palette.secondary,
@@ -634,7 +634,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionTitle('Обзор', Icons.analytics_rounded),
+        _sectionTitle(context.l10n.auto_obzor, Icons.analytics_rounded),
         const SizedBox(height: 12),
         GridView.builder(
           shrinkWrap: true,
@@ -653,7 +653,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             ? [
                 const SizedBox(height: 10),
                 _buildWideMetricStrip(
-                  'Средний чек',
+                  context.l10n.auto_sredniyChek,
                   _fmtCurrency(s.averageOrderValue),
                   Icons.receipt_long_rounded,
                   palette.error,
@@ -766,18 +766,18 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     // Проверяем, пуста ли история выручки
     if (_revenueHistory.isEmpty) {
       return _buildEmptyStateCard(
-        title: 'Динамика выручки',
+        title: context.l10n.auto_dinamikaVyruchki,
         icon: Icons.show_chart_rounded,
-        message: 'Нет данных',
+        message: context.l10n.auto_netDannyh,
       );
     }
 
     // Если данные графика не обработаны, показываем пустое состояние
     if (_chartData == null || _chartData!.spots.isEmpty) {
       return _buildEmptyStateCard(
-        title: 'Динамика выручки',
+        title: context.l10n.auto_dinamikaVyruchki,
         icon: Icons.show_chart_rounded,
-        message: 'Нет данных',
+        message: context.l10n.auto_netDannyh,
       );
     }
 
@@ -785,7 +785,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     final chartData = _chartData!;
 
     return _card(
-      title: 'Динамика выручки',
+      title: context.l10n.auto_dinamikaVyruchki,
       icon: Icons.show_chart_rounded,
       child: SizedBox(
         height: 190,
@@ -921,15 +921,15 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
 
     // Цвета статусов соответствуют смысловой нагрузке и палитре
     final statuses = [
-      _StatusData('Доставлены', o.deliveredCount, palette.statusDelivered),
-      _StatusData('Отправлены', o.shippedCount, palette.statusShipped),
-      _StatusData('Подтверждены', o.confirmedCount, palette.secondary),
-      _StatusData('Ожидают', o.pendingCount, palette.statusPending),
-      _StatusData('Отменены', o.cancelledCount, palette.statusCancelled),
+      _StatusData(context.l10n.auto_dostavleny, o.deliveredCount, palette.statusDelivered),
+      _StatusData(context.l10n.auto_otpravleny, o.shippedCount, palette.statusShipped),
+      _StatusData(context.l10n.auto_podtverzhdeny, o.confirmedCount, palette.secondary),
+      _StatusData(context.l10n.auto_ozhidayut, o.pendingCount, palette.statusPending),
+      _StatusData(context.l10n.auto_otmeneny, o.cancelledCount, palette.statusCancelled),
     ];
 
     return _card(
-      title: 'Статусы заказов',
+      title: context.l10n.auto_statusyZakazov,
       icon: Icons.donut_large_rounded,
       child: Column(
         children: [
@@ -1017,11 +1017,11 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _miniStat('Этот месяц', o.thisMonthCount.toString()),
+                _miniStat(context.l10n.auto_etotMesyats, o.thisMonthCount.toString()),
                 _vertDivider(),
-                _miniStat('Прошлый месяц', o.lastMonthCount.toString()),
+                _miniStat(context.l10n.auto_proshlyyMesyats, o.lastMonthCount.toString()),
                 _vertDivider(),
-                _miniStat('Ср. доставка', '${o.averageFulfillmentDays} дн.'),
+                _miniStat(context.l10n.auto_srDostavka, '${o.averageFulfillmentDays} дн.'),
               ],
             ),
           ),
@@ -1208,13 +1208,13 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _cardHeader('Покупатели', Icons.people_alt_rounded, palette.primary),
+          _cardHeader(context.l10n.auto_pokupateli, Icons.people_alt_rounded, palette.primary),
           const SizedBox(height: 14),
-          _row2('Всего', b.totalBuyers.toString()),
+          _row2(context.l10n.auto_vsego, b.totalBuyers.toString()),
           const SizedBox(height: 7),
-          _row2('Постоянные', '${b.repeatBuyers}'),
+          _row2(context.l10n.auto_postoyannye, '${b.repeatBuyers}'),
           const SizedBox(height: 7),
-          _row2('Новые / мес.', b.newBuyersThisMonth.toString()),
+          _row2(context.l10n.auto_novyeMes, b.newBuyersThisMonth.toString()),
           const SizedBox(height: 14),
           ClipRRect(
             borderRadius: BorderRadius.circular(6),
@@ -1246,7 +1246,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _cardHeader('Рейтинг', Icons.star_rounded, palette.star),
+          _cardHeader(context.l10n.auto_reyting, Icons.star_rounded, palette.star),
           const SizedBox(height: 14),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -1426,19 +1426,19 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     Color color;
     switch (status.toLowerCase()) {
       case 'delivered':
-      case 'доставлен':
+      case context.l10n.auto_dostavlen:
         color = palette.statusDelivered;
         break;
       case 'shipped':
-      case 'отправлен':
+      case context.l10n.auto_otpravlen:
         color = palette.statusShipped;
         break;
       case 'cancelled':
-      case 'отменён':
+      case context.l10n.auto_otmenyon:
         color = palette.statusCancelled;
         break;
       case 'pending':
-      case 'ожидает':
+      case context.l10n.auto_ozhidaet:
         color = palette.statusPending;
         break;
       default:
@@ -1470,7 +1470,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
     final palette = AppColorPalette.of(context);
 
     return _card(
-      title: 'Последние отзывы',
+      title: context.l10n.auto_poslednieOtzyvy,
       icon: Icons.reviews_rounded,
       child: Column(
         children: _ratingStats!.recentReviews.take(3).map((review) {
@@ -1578,7 +1578,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      'AI-анализ',
+                      context.l10n.auto_aianaliz,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -1609,7 +1609,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      'Генерирую AI-анализ…',
+                      context.l10n.auto_generiruyuAianaliz,
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
@@ -1648,7 +1648,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             OutlinedButton.icon(
               onPressed: _loadAiSummary,
               icon: const Icon(Icons.refresh_rounded, size: 14),
-              label: const Text('Повторить', style: TextStyle(fontSize: 12)),
+              label: const Text(context.l10n.auto_povtorit, style: TextStyle(fontSize: 12)),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 14,

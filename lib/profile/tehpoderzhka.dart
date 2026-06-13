@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
@@ -13,6 +13,7 @@ import '../services/message/message_localization.dart';
 import 'support_chat_page.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/animated_select_field.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 class SupportPage extends StatefulWidget {
   const SupportPage({super.key});
@@ -52,18 +53,18 @@ class _SupportPageState extends State<SupportPage> {
   }
 
   String get _supportAvailabilityText => _isSupportOnlineNow
-      ? 'Операторы онлайн. Обычно отвечаем быстро.'
-      : 'Сейчас офлайн. Ответим в рабочее время.';
+      ? context.l10n.getString('auto_operatoryOnlaynObychno')
+      : context.l10n.getString('auto_seychasOflaynOtvetimV');
 
   String get _messageHintText =>
-      _hasOpenChat ? 'Введите сообщение' : 'Опишите проблему';
+      _hasOpenChat ? context.l10n.getString('auto_vvediteSoobshchenie') : context.l10n.getString('auto_opishiteProblemu');
 
-  final List<String> _categories = const [
-    'Проблема с заказом',
-    'Проблема с оплатой',
-    'Технические неполадки',
-    'Вопрос о товаре',
-    'Другое',
+  List<String> get _categories => [
+    context.l10n.getString('auto_problemaSZakazom'),
+    context.l10n.getString('auto_problemaSOplatoy'),
+    context.l10n.getString('auto_tehnicheskieNepoladki'),
+    context.l10n.getString('auto_voprosOTovare'),
+    context.l10n.getString('auto_drugoe'),
   ];
 
   @override
@@ -77,7 +78,7 @@ class _SupportPageState extends State<SupportPage> {
     if (userId <= 0) {
       if (!silent && mounted) {
         setState(() {
-          _threadError = 'Не удалось определить пользователя';
+          _threadError = context.l10n.getString('auto_neUdalosOpredelitPolzo');
           _isLoadingThread = false;
         });
       }
@@ -118,7 +119,7 @@ class _SupportPageState extends State<SupportPage> {
       if (!mounted) return;
       if (!silent) {
         setState(() {
-          _threadError = 'Не удалось загрузить обращение';
+          _threadError = context.l10n.getString('auto_neUdalosZagruzitObrash');
         });
       }
     } finally {
@@ -176,13 +177,13 @@ class _SupportPageState extends State<SupportPage> {
   Future<void> _submit() async {
     final userId = AuthStorage.userId ?? 0;
     if (userId <= 0) {
-      _showSnack('Не удалось определить пользователя', isError: true);
+      _showSnack(context.l10n.getString('auto_neUdalosOpredelitPolzo'), isError: true);
       return;
     }
 
     final message = _messageController.text.trim();
     if (message.isEmpty) {
-      _showSnack('Введите сообщение', isError: true);
+      _showSnack(context.l10n.getString('auto_vvediteSoobshchenie'), isError: true);
       return;
     }
 
@@ -213,8 +214,8 @@ class _SupportPageState extends State<SupportPage> {
       _messageController.clear();
       _showSnack(
         isNewChat
-            ? 'Обращение отправлено в техподдержку'
-            : 'Сообщение отправлено',
+            ? context.l10n.getString('auto_obrashchenieOtpravlenoV')
+            : context.l10n.getString('auto_soobshchenieOtpravleno'),
       );
       // На новом обращении явно подтягиваем тред: до прихода SSE-кадра
       // _chat ещё null и кнопка «Открыть чат» не покажется.
@@ -224,7 +225,7 @@ class _SupportPageState extends State<SupportPage> {
       }
     } catch (_) {
       if (!mounted) return;
-      _showSnack('Не удалось отправить обращение', isError: true);
+      _showSnack(context.l10n.getString('auto_neUdalosOtpravitObrash'), isError: true);
     } finally {
       if (mounted) {
         setState(() => _isSending = false);
@@ -285,7 +286,7 @@ class _SupportPageState extends State<SupportPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Техподдержка',
+          context.l10n.getString('auto_tehpodderzhka'),
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
           ),
@@ -323,11 +324,11 @@ class _SupportPageState extends State<SupportPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    children: const [
+                    children: [
                       Icon(Icons.message, color: Colors.white, size: 28),
                       SizedBox(width: 12),
                       Text(
-                        'Свяжитесь с нами',
+                        context.l10n.getString('auto_svyazhitesSNami'),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -348,7 +349,7 @@ class _SupportPageState extends State<SupportPage> {
                   const SizedBox(height: 12),
                   _buildContactItem(
                     Icons.access_time,
-                    'Пн-Вс: 09:00 - 21:00 (UTC+5)',
+                    context.l10n.getString('auto_pnvs09002100Utc5'),
                   ),
                 ],
               ),
@@ -376,8 +377,8 @@ class _SupportPageState extends State<SupportPage> {
                       Expanded(
                         child: Text(
                           _hasOpenChat
-                              ? 'Продолжить обращение'
-                              : 'Отправить обращение',
+                              ? context.l10n.getString('auto_prodolzhitObrashchenie')
+                              : context.l10n.getString('auto_otpravitObrashchenie'),
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -421,7 +422,7 @@ class _SupportPageState extends State<SupportPage> {
                           ),
                         ),
                         child: Text(
-                          'Активный чат открыт',
+                          context.l10n.getString('auto_aktivnyyChatOtkryt'),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -432,7 +433,7 @@ class _SupportPageState extends State<SupportPage> {
                     if (_isChatClosed) ...[
                       const SizedBox(height: 8),
                       Text(
-                        'Предыдущее обращение закрыто. Если вопрос актуален, отправьте новое.',
+                        context.l10n.getString('auto_predydushcheeObrashcheni'),
                         style: TextStyle(color: textMuted),
                       ),
                     ],
@@ -454,8 +455,7 @@ class _SupportPageState extends State<SupportPage> {
                         child: ElevatedButton.icon(
                           onPressed: _openChatPage,
                           icon: const Icon(Icons.chat_bubble_outline, size: 20),
-                          label: const Text(
-                            'Открыть чат с техподдержкой',
+                          label: Text(context.l10n.getString('auto_otkrytChatSTehpodderzh'),
                             style: TextStyle(fontWeight: FontWeight.w700),
                           ),
                           style: ElevatedButton.styleFrom(
@@ -476,7 +476,7 @@ class _SupportPageState extends State<SupportPage> {
                   ],
                   const SizedBox(height: 16),
                   Text(
-                    'Категория обращения',
+                    context.l10n.getString('auto_kategoriyaObrashcheniya'),
                     style: TextStyle(
                       fontSize: 16,
                       color: textMuted,
@@ -486,7 +486,7 @@ class _SupportPageState extends State<SupportPage> {
                   const SizedBox(height: 8),
                   AnimatedSelectField<String>(
                     value: _selectedCategory,
-                    hintText: 'Выберите категорию',
+                    hintText: context.l10n.getString('auto_vyberiteKategoriyu'),
                     decoration: baseFieldDecoration,
                     textStyle: TextStyle(
                       fontSize: 16,
@@ -506,7 +506,7 @@ class _SupportPageState extends State<SupportPage> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Тема обращения',
+                    context.l10n.getString('auto_temaObrashcheniya'),
                     style: TextStyle(
                       fontSize: 16,
                       color: textMuted,
@@ -518,12 +518,12 @@ class _SupportPageState extends State<SupportPage> {
                     controller: _subjectController,
                     keyboardType: TextInputType.text,
                     decoration: baseFieldDecoration.copyWith(
-                      hintText: 'Введите тему',
+                      hintText: context.l10n.getString('auto_vvediteTemu'),
                     ),
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Сообщение',
+                    context.l10n.getString('auto_soobshchenie'),
                     style: TextStyle(
                       fontSize: 16,
                       color: textMuted,
@@ -566,8 +566,8 @@ class _SupportPageState extends State<SupportPage> {
                                 color: Colors.white,
                               ),
                             )
-                          : const Text(
-                              'Отправить',
+                          : Text(
+                              context.l10n.getString('auto_otpravit'),
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,

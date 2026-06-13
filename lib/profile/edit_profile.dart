@@ -12,6 +12,7 @@ import '../theme/app_color_palette.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/phone_input_formatter.dart';
 import '../widgets/profile/user_avatar.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 class EditProfilePage extends StatefulWidget {
   final String title;
@@ -76,12 +77,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
   void initState() {
     super.initState();
     _avatarUrl = AuthStorage.avatarUrl;
-    _nameController = TextEditingController(text: 'Иван Иванов');
+    _nameController = TextEditingController(text: context.l10n.getString('auto_ivanIvanov'));
     _emailController = TextEditingController(text: 'ivanov@mail.ru');
     _phoneController = TextEditingController(
       text: PhoneNumberInputFormatter.formatDigits('77777777777'),
     );
-    _descriptionController = TextEditingController(text: 'Люблю сладости');
+    _descriptionController = TextEditingController(text: context.l10n.getString('auto_lyublyuSladosti'));
   }
 
   @override
@@ -117,7 +118,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ListTile(
                 leading: Icon(Icons.photo_camera, color: palette.accent),
                 title: Text(
-                  'Сделать снимок',
+                  context.l10n.getString('auto_sdelatSnimok'),
                   style: TextStyle(color: palette.ink),
                 ),
                 onTap: () {
@@ -128,7 +129,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ListTile(
                 leading: Icon(Icons.photo_library, color: palette.accent),
                 title: Text(
-                  'Выбрать из галереи',
+                  context.l10n.getString('auto_vybratIzGalerei'),
                   style: TextStyle(color: palette.ink),
                 ),
                 onTap: () {
@@ -140,7 +141,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ListTile(
                   leading: Icon(Icons.delete_outline, color: palette.error),
                   title: Text(
-                    'Удалить фото',
+                    context.l10n.getString('auto_udalitFoto'),
                     style: TextStyle(color: palette.error),
                   ),
                   onTap: () {
@@ -178,15 +179,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Future<void> _uploadFile(XFile picked) async {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
-      _showError('Вы не авторизованы');
+      _showError(context.l10n.getString('auto_vyNeAvtorizovany'));
       return;
     }
 
     // Читаем байты напрямую из XFile - File(picked.path) не работает на Web,
     // там path это blob URL и dart:io File падает с _Namespace.
     final bytes = await picked.readAsBytes();
+    if (!mounted) return;
     if (bytes.length > _avatarMaxSizeBytes) {
-      _showError('Размер файла не должен превышать 5 МБ');
+      _showError(context.l10n.getString('auto_razmerFaylaNeDolzhenP'));
       return;
     }
 
@@ -214,7 +216,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Future<void> _handleDeleteAvatar() async {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
-      _showError('Вы не авторизованы');
+      _showError(context.l10n.getString('auto_vyNeAvtorizovany'));
       return;
     }
 
@@ -293,7 +295,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           },
         ),
         title: Text(
-          'Ред. Профиль',
+          context.l10n.getString('auto_redProfil'),
           style: TextStyle(
             color: _colorScheme.onSurface,
             fontSize: 18,
@@ -365,12 +367,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
             const SizedBox(height: 32),
 
-            _buildTextField(label: 'ФИО', controller: _nameController),
+            _buildTextField(label: context.l10n.getString('auto_fio'), controller: _nameController),
 
             const SizedBox(height: 16),
 
             _buildTextField(
-              label: 'ЭЛ. ПОЧТА',
+              label: context.l10n.getString('auto_elPochta'),
               controller: _emailController,
               keyboardType: TextInputType.text,
             ),
@@ -378,7 +380,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             const SizedBox(height: 16),
 
             _buildTextField(
-              label: 'НОМЕР',
+              label: context.l10n.getString('auto_nomer'),
               controller: _phoneController,
               keyboardType: TextInputType.phone,
               inputFormatters: [
@@ -391,7 +393,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             const SizedBox(height: 16),
 
             _buildTextField(
-              label: 'ОПИСАНИЕ',
+              label: context.l10n.getString('auto_opisanie'),
               controller: _descriptionController,
               maxLines: 4,
             ),
@@ -406,7 +408,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     : () {
                         if (!_isValidPhone(_phoneController.text)) {
                           _showWarning(
-                            'Номер должен быть в формате +7-XXX-XXX-XXXX',
+                            context.l10n.getString('auto_nomerDolzhenBytVForma'),
                           );
                           return;
                         }
@@ -421,8 +423,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   elevation: 0,
                 ),
-                child: const Text(
-                  'СОХРАНИТЬ',
+                child: Text(context.l10n.getString('auto_sohranit'),
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ),

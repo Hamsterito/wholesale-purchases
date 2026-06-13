@@ -84,8 +84,8 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
       final isAuthError =
           raw.contains('401') ||
           raw.contains('403') ||
-          raw.toLowerCase().contains('не авторизован') ||
-          raw.toLowerCase().contains('доступ');
+          raw.toLowerCase().contains(context.l10n.auto_neAvtorizovan) ||
+          raw.toLowerCase().contains(context.l10n.auto_dostup);
       setState(() {
         _isLoading = false;
         _error = _humanize(e);
@@ -98,7 +98,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
     var msg = error.toString();
     const prefix = 'Exception: ';
     if (msg.startsWith(prefix)) msg = msg.substring(prefix.length);
-    return msg.trim().isEmpty ? 'Не удалось загрузить модераторов' : msg;
+    return msg.trim().isEmpty ? context.l10n.auto_neUdalosZagruzitModera : msg;
   }
 
   // Локальные мутации списка без повторной загрузки с сервера
@@ -133,7 +133,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
     final created = await showAddModeratorDialog(context);
     if (created == null || !mounted) return;
     _appendLocal(created);
-    _showTop('Модератор добавлен');
+    _showTop(context.l10n.auto_moderatorDobavlen);
   }
 
   Future<void> _confirmAndDelete(Moderator m) async {
@@ -174,7 +174,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
       await ApiService.deleteModerator(id: m.id);
       if (!mounted) return;
       _removeLocal(m.id);
-      _showTop('Модератор удалён');
+      _showTop(context.l10n.auto_moderatorUdalyon);
     } catch (e) {
       if (!mounted) return;
       _showTop(_humanize(e), isError: true);
@@ -203,7 +203,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
         title: Text(context.l10n.moderatorManagementTitle),
         actions: [
           IconButton(
-            tooltip: 'Добавить модератора',
+            tooltip: context.l10n.auto_dobavitModeratora,
             icon: const Icon(Icons.person_add_alt_1_outlined),
             onPressed: _isLoading || _accessDenied ? null : _openAddDialog,
           ),
@@ -226,7 +226,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
               elevation: 2,
               icon: const Icon(Icons.add),
               label: const Text(
-                'Добавить',
+                context.l10n.auto_dobavit,
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
@@ -251,7 +251,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
               isDense: true,
-              hintText: 'Поиск по имени или email',
+              hintText: context.l10n.auto_poiskPoImeniIliEmail,
               hintStyle: TextStyle(
                 color: cs.onSurfaceVariant.withValues(alpha: 0.88),
               ),
@@ -266,7 +266,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
               suffixIcon: _searchQuery.isEmpty
                   ? null
                   : IconButton(
-                      tooltip: 'Очистить',
+                      tooltip: context.l10n.auto_ochistit,
                       icon: const Icon(Icons.close_rounded),
                       onPressed: _searchController.clear,
                     ),
@@ -293,8 +293,8 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
     if (filtered.isEmpty) {
       return ModeratorEmptyState(
         message: _searchQuery.isEmpty
-            ? 'Модераторы не найдены'
-            : 'Ничего не найдено по запросу',
+            ? context.l10n.auto_moderatoryNeNaydeny
+            : context.l10n.auto_nichegoNeNaydenoPoZap,
       );
     }
     return RefreshIndicator(
@@ -328,7 +328,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
             Icon(Icons.error_outline, size: 48, color: palette.error),
             const SizedBox(height: 12),
             Text(
-              _error ?? 'Ошибка',
+              _error ?? context.l10n.auto_oshibka,
               style: TextStyle(color: cs.onSurface),
               textAlign: TextAlign.center,
             ),
@@ -354,7 +354,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
             Icon(Icons.lock_outline, size: 48, color: palette.error),
             const SizedBox(height: 12),
             Text(
-              'Доступ запрещён. Войдите снова.',
+              context.l10n.auto_dostupZapreshchyonVoydi,
               style: theme.textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
@@ -440,7 +440,7 @@ class _ModeratorRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      moderator.name.isEmpty ? 'Без имени' : moderator.name,
+                      moderator.name.isEmpty ? context.l10n.auto_bezImeni : moderator.name,
                       style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w700,
                         color: cs.onSurface,

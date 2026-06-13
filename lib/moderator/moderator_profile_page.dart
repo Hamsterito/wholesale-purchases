@@ -38,7 +38,7 @@ class _ModeratorProfilePageState extends State<ModeratorProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final name = AuthStorage.name ?? 'Модератор';
+    final name = AuthStorage.name ?? context.l10n.auto_moderator;
     final email = AuthStorage.email ?? '-';
 
     return Scaffold(
@@ -56,8 +56,8 @@ class _ModeratorProfilePageState extends State<ModeratorProfilePage> {
               ),
             ),
           ),
-          _InfoTile(label: 'Имя', value: name),
-          _InfoTile(label: 'Эл. почта', value: email),
+          _InfoTile(label: context.l10n.auto_imya_1, value: name),
+          _InfoTile(label: context.l10n.auto_elPochta_1, value: email),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () => performLogout(context),

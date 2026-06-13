@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 class FAQsPage extends StatefulWidget {
   const FAQsPage({super.key});
@@ -24,46 +25,46 @@ class _FAQsPageState extends State<FAQsPage> {
       ? Colors.black.withValues(alpha: 0.35)
       : Colors.black.withValues(alpha: 0.05);
 
-  final List<Map<String, String>> _faqs = [
+  List<Map<String, String>> get _faqs => [
     {
-      'question': 'Как сделать заказ?',
+      'question': context.l10n.getString('auto_kakSdelatZakaz'),
       'answer':
-          'Чтобы сделать заказ, выберите товары из каталога, добавьте их в корзину и оформите заказ, указав адрес доставки и способ оплаты.',
+          context.l10n.getString('auto_chtobySdelatZakazVyber'),
     },
     {
-      'question': 'Какие способы оплаты доступны?',
+      'question': context.l10n.getString('auto_kakieSposobyOplatyDost'),
       'answer':
-          'Мы принимаем оплату наличными, банковскими картами (Visa, Mastercard), а также через PayPal.',
+          context.l10n.getString('auto_myPrinimaemOplatuNalic'),
     },
     {
-      'question': 'Сколько времени занимает доставка?',
+      'question': context.l10n.getString('auto_skolkoVremeniZanimaetD'),
       'answer':
-          'Стандартная доставка занимает 1-3 рабочих дня. Экспресс-доставка доступна в течение 24 часов.',
+          context.l10n.getString('auto_standartnayaDostavkaZan'),
     },
     {
-      'question': 'Могу ли я отменить заказ?',
+      'question': context.l10n.getString('auto_moguLiYaOtmenitZakaz'),
       'answer':
-          'Вы можете отменить заказ в течение 30 минут после оформления. После этого заказ уже будет передан на склад для сборки.',
+          context.l10n.getString('auto_vyMozheteOtmenitZakaz'),
     },
     {
-      'question': 'Как изменить адрес доставки?',
+      'question': context.l10n.getString('auto_kakIzmenitAdresDostavk'),
       'answer':
-          'Вы можете изменить адрес доставки в разделе "Профиль" -> "Адреса". Также можно указать новый адрес при оформлении заказа.',
+          'Вы можете изменить адрес доставки в разделе ${context.l10n.getString('auto_profil')} -> ${context.l10n.getString('auto_adresa')}. Также можно указать новый адрес при оформлении заказа.',
     },
     {
-      'question': 'Что делать если товар не подошел?',
+      'question': context.l10n.getString('auto_chtoDelatEsliTovarNe'),
       'answer':
-          'Вы можете вернуть товар в течение 14 дней с момента получения. Свяжитесь с нашей службой поддержки для оформления возврата.',
+          context.l10n.getString('auto_vyMozheteVernutTovarV'),
     },
     {
-      'question': 'Как связаться с поддержкой?',
+      'question': context.l10n.getString('auto_kakSvyazatsyaSPodderzh'),
       'answer':
-          'Вы можете связаться с нами через раздел "Техподдержка" в приложении, по электронной почте или по телефону горячей линии.',
+          'Вы можете связаться с нами через раздел ${context.l10n.getString('auto_tehpodderzhka')} в приложении, по электронной почте или по телефону горячей линии.',
     },
     {
-      'question': 'Есть ли минимальная сумма заказа?',
+      'question': context.l10n.getString('auto_estLiMinimalnayaSumma'),
       'answer':
-          'Минимальная сумма заказа составляет 500 ₸. При заказе от 5000 ₸ доставка бесплатная.',
+          context.l10n.getString('auto_minimalnayaSummaZakaza'),
     },
   ];
 
@@ -81,7 +82,7 @@ class _FAQsPageState extends State<FAQsPage> {
           },
         ),
         title: Text(
-          'Вопросы и ответы',
+          context.l10n.getString('auto_voprosyIOtvety'),
           style: _theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
           ),

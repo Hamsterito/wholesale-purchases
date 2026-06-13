@@ -122,7 +122,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: Text(
-                  'Ответить на вопрос',
+                  context.l10n.auto_otvetitNaVopros,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -152,7 +152,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Товар',
+                              context.l10n.auto_tovar,
                               style: TextStyle(
                                 fontSize: 12,
                                 color: palette.muted,
@@ -185,7 +185,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Вопрос:',
+                      context.l10n.auto_vopros,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -221,7 +221,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Ваш ответ',
+                      context.l10n.auto_vashOtvet,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -345,7 +345,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
                           side: BorderSide(color: palette.line),
                         ),
                         child: Text(
-                          'Отмена',
+                          context.l10n.auto_otmena,
                           style: TextStyle(color: palette.ink),
                         ),
                       ),
