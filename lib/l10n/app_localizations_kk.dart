@@ -1900,16 +1900,16 @@ class AppLocalizationsKk extends AppLocalizations {
   String get create_chat_button => 'Чат құру';
 
   @override
-  String get moderation_approve_product => 'Тауарды мақұлдау';
+  String get moderation_approve_product => 'Өнімді мақұлдау';
 
   @override
-  String get moderation_reject_product => 'Тауарды қабылдамау';
+  String get moderation_reject_product => 'Өнімді қабылдамау';
 
   @override
-  String get moderation_reject_hint => 'Қабылдамау себебі';
+  String get moderation_reject_hint => 'Ауытқу себебі';
 
   @override
-  String get moderation_comment_hint => 'Түсініктеме';
+  String get moderation_comment_hint => 'Пікір';
 
   @override
   String get moderation_product_approved => 'Тауар мақұлданды';
@@ -1921,829 +1921,815 @@ class AppLocalizationsKk extends AppLocalizations {
   String get moderation_update_error => 'Жаңарту қатесі';
 
   @override
-  String get auto_vvedite_pochtu_i_parol => 'Введите почту и пароль';
+  String get auto_vvedite_pochtu_i_parol => 'Пошта мен құпия сөзді енгізіңіз';
 
   @override
   String get auto_server_ne_vernul_challenge_dlya_2fa =>
-      'Сервер не вернул challenge для 2FA';
+      'Сервер 2FA үшін challenge қайтарған жоқ';
 
   @override
   String get auto_proverte_chto_pochta_i_parol_zapoln =>
-      'Проверьте, что почта и пароль заполнены';
+      'Пошта мен құпия сөздің толтырылғанын тексеріңіз';
 
   @override
-  String get auto_nevernaya_pochta_ili_parol => 'Неверная почта или пароль';
+  String get auto_nevernaya_pochta_ili_parol => 'Қате пошта немесе құпия сөз';
 
   @override
-  String get auto_dostup_zapreshchen => 'Доступ запрещён';
+  String get auto_dostup_zapreshchen => 'Кіруге тыйым салынады';
 
   @override
   String get auto_ne_udalos_vypolnit_vkhod_poprobuyte =>
-      'Не удалось выполнить вход. Попробуйте позже.';
+      'Кіру сәтсіз аяқталды. Кейінірек көріңіз.';
 
   @override
   String get auto_oshibka_podklyucheniya_k_serveru_e =>
-      'Ошибка подключения к серверу: \$e';
+      'Серверге қосылу қатесі: \$e';
 
   @override
-  String get auto_vkhod_vypolnen => 'Вход выполнен';
+  String get auto_vkhod_vypolnen => 'Кіру аяқталды';
 
   @override
-  String get auto_dobro_pozhalovat_name => 'Добро пожаловать, \$name!';
+  String get auto_dobro_pozhalovat_name => '\$Name қош келдіңіз!';
 
   @override
-  String get auto_zaydite_ili_zaregistriruytes =>
-      'Зайдите или зарегистрируйтесь';
+  String get auto_zaydite_ili_zaregistriruytes => 'Тоқтаңыз немесе тіркеліңіз';
 
   @override
-  String get auto_v_svoy_akkaunt => 'В свой аккаунт';
+  String get auto_v_svoy_akkaunt => 'Өз шотыңызға';
 
   @override
-  String get auto_zapomnit_menya => 'Запомнить меня';
+  String get auto_zapomnit_menya => 'Мені есте сақтаңыз';
 
   @override
-  String get auto_zabyli_parol => 'Забыли пароль?';
+  String get auto_zabyli_parol => 'Құпия сөзді ұмыттыңыз ба?';
 
   @override
-  String get auto_net_akkaunta => 'Нет аккаунта? ';
+  String get auto_net_akkaunta => 'Тіркелгі жоқ па? ';
 
   @override
   String get auto_vvedite_10_simvolnyy_backup_kod =>
-      'Введите 10-символьный backup-код';
+      '10 таңбалы сақтық көшірме кодын енгізіңіз';
 
   @override
   String get auto_vvedite_emailotplength_znachnyy_kod =>
-      'Введите \$_emailOtpLength-значный код';
+      '\$_emailotplength-таңбалы кодты енгізіңіз';
 
   @override
-  String get auto_nevernyy_kod => 'Неверный код';
+  String get auto_nevernyy_kod => 'Қате код';
 
   @override
-  String get auto_oshibka_podklyucheniya_k_serveru =>
-      'Ошибка подключения к серверу';
+  String get auto_oshibka_podklyucheniya_k_serveru => 'Серверге қосылу қатесі';
 
   @override
   String get auto_srok_deystviya_koda_istek_povtorite =>
-      'Срок действия кода истёк, повторите вход';
+      'Кодтың мерзімі аяқталды, кіруді қайталаңыз';
 
   @override
-  String get auto_kod_otpravlen_povtorno => 'Код отправлен повторно';
+  String get auto_kod_otpravlen_povtorno => 'Код қайта жіберілді';
 
   @override
   String get auto_ne_udalos_otpravit_kod_povtorno =>
-      'Не удалось отправить код повторно';
+      'Кодты қайта жіберу мүмкін болмады';
 
   @override
-  String get auto_podtverzhdenie_vkhoda => 'Подтверждение входа';
+  String get auto_podtverzhdenie_vkhoda => 'Кіруді растау';
 
   @override
   String get auto_dvukhfaktornaya_nautentifikatsiya =>
-      'Двухфакторная\\nаутентификация';
+      'Екі факторлы \\ аутентификация';
 
   @override
   String get auto_my_otpravili_kod_na_vashu_pochtu =>
-      'Мы отправили код на вашу почту';
+      'Біз сіздің поштаңызға код жібердік';
 
   @override
-  String get auto_backup_kod => 'BACKUP-КОД';
+  String get auto_backup_kod => 'BACKUP КОДЫ';
 
   @override
-  String get auto_kod_iz_pochty => 'КОД ИЗ ПОЧТЫ';
+  String get auto_kod_iz_pochty => 'ПОШТА КОДЫ';
 
   @override
-  String get auto_otpravit_snova => 'Отправить снова';
+  String get auto_otpravit_snova => 'Қайта жіберу';
 
   @override
-  String get auto_vernutsya_k_kodu_iz_pochty => 'Вернуться к коду из почты';
+  String get auto_vernutsya_k_kodu_iz_pochty => 'Поштадан кодқа оралу';
 
   @override
-  String get auto_ispolzovat_backup_kod => 'Использовать backup-код';
+  String get auto_ispolzovat_backup_kod => 'Backup кодын пайдаланыңыз';
 
   @override
   String get auto_zapomnit_ustroystvo_na_30_dney =>
-      'Запомнить устройство на 30 дней';
+      'Құрылғыны 30 күн есте сақтаңыз';
 
   @override
-  String get auto_vvedite_imya => 'Введите имя';
+  String get auto_vvedite_imya => 'Атын енгізіңіз';
 
   @override
   String get auto_imya_dolzhno_byt_ne_koroche_2_simvo =>
-      'Имя должно быть не короче 2 символов';
+      'Атау 2 таңбадан қысқа болмауы керек';
 
   @override
-  String get auto_vvedite_pochtu => 'Введите почту';
+  String get auto_vvedite_pochtu => 'Поштаны енгізіңіз';
 
   @override
-  String get auto_vvedite_korrektnuyu_pochtu => 'Введите корректную почту';
+  String get auto_vvedite_korrektnuyu_pochtu => 'Дұрыс поштаны енгізіңіз';
 
   @override
-  String get auto_vvedite_nomer_telefona => 'Введите номер телефона';
+  String get auto_vvedite_nomer_telefona => 'Телефон нөмірін енгізіңіз';
 
   @override
   String get auto_nomer_dolzhen_byt_v_formate_7_000_0 =>
-      'Номер должен быть в формате +7-000-000-0000';
+      'Нөмір +7-000-000-0000 форматында болуы керек';
 
   @override
   String get auto_nomer_dolzhen_nachinatsya_s_7 =>
-      'Номер должен начинаться с +7';
+      'Нөмір +7-ден басталуы керек';
 
   @override
-  String get auto_vvedite_nazvanie_kompanii => 'Введите название компании';
+  String get auto_vvedite_nazvanie_kompanii => 'Компанияның атын енгізіңіз';
 
   @override
-  String get auto_vvedite_parol => 'Введите пароль';
+  String get auto_vvedite_parol => 'Құпия сөзді енгізіңіз';
 
   @override
   String get auto_parol_dolzhen_byt_ne_koroche_6_simv =>
-      'Пароль должен быть не короче 6 символов';
+      'Құпия сөз 6 таңбадан қысқа болмауы керек';
 
   @override
-  String get auto_povtorite_parol => 'Повторите пароль';
+  String get auto_povtorite_parol => 'Құпия сөзді қайталаңыз';
 
   @override
-  String get auto_paroli_ne_sovpadayut => 'Пароли не совпадают';
+  String get auto_paroli_ne_sovpadayut => 'Құпия сөздер бірдей емес';
 
   @override
-  String get auto_email_uzhe_zaregistrirovan => 'Email уже зарегистрирован';
+  String get auto_email_uzhe_zaregistrirovan => 'Email тіркелген';
 
   @override
-  String get auto_proverte_zapolnenie_poley => 'Проверьте заполнение полей';
+  String get auto_proverte_zapolnenie_poley => 'Өрістерді толтыруды тексеріңіз';
 
   @override
-  String get auto_nomer_telefona => 'НОМЕР ТЕЛЕФОНА';
+  String get auto_nomer_telefona => 'ТЕЛЕФОН НӨМІРІ';
 
   @override
-  String get auto_nazvanie_kompanii => 'НАЗВАНИЕ КОМПАНИИ';
+  String get auto_nazvanie_kompanii => 'КОМПАНИЯ АТАУЫ';
 
   @override
-  String get auto_naprimer_too_sklad_mansa => 'Например, ТОО Склад Манса';
+  String get auto_naprimer_too_sklad_mansa => 'Мысалы, Манса қоймасы ЖШС';
 
   @override
   String get auto_dopolnitelnye_dannye_ne_trebuyutsya =>
-      'Дополнительные данные не требуются.';
+      'Қосымша деректер қажет емес.';
 
   @override
-  String get auto_povtorite_parol_1 => 'ПОВТОРИТЕ ПАРОЛЬ';
+  String get auto_povtorite_parol_1 => 'ҚҰПИЯ СӨЗДІ ҚАЙТАЛАҢЫЗ';
 
   @override
-  String get auto_kompaniya_i_parol => 'Компания и пароль';
+  String get auto_kompaniya_i_parol => 'Компания және пароль';
 
   @override
   String auto_shag_visiblestep_1_iz_2(String step) {
-    return 'Қадам $step / 2';
+    return 'Қадам $step 2-ден';
   }
 
   @override
-  String get auto_registratsiya_proshla_uspeshno =>
-      'Регистрация прошла успешно';
+  String get auto_registratsiya_proshla_uspeshno => 'Тіркеу сәтті өтті';
 
   @override
-  String get auto_server_vernul_oshibku => 'Сервер вернул ошибку';
+  String get auto_server_vernul_oshibku => 'Сервер қатені қайтарды';
 
   @override
   String get auto_ne_udalos_zavershit_registratsiyu =>
-      'Не удалось завершить регистрацию';
+      'Тіркеуді аяқтау мүмкін болмады';
 
   @override
   String get auto_server_vernul_oshibku_poprobuyte_sn =>
-      'Сервер вернул ошибку. Попробуйте снова.';
+      'Сервер қатені қайтарды. Қайталап көріңіз.';
 
   @override
-  String get auto_oshibka_podklyucheniya => 'Ошибка подключения';
+  String get auto_oshibka_podklyucheniya => 'Қосылу қатесі';
 
   @override
-  String get auto_zaregistriruytes_chtoby_nachat =>
-      'Зарегистрируйтесь чтобы начать';
+  String get auto_zaregistriruytes_chtoby_nachat => 'Бастау үшін тіркеліңіз';
 
   @override
-  String get auto_vvedite_email => 'Введите email';
+  String get auto_vvedite_email => 'Электрондық поштаны енгізіңіз';
 
   @override
-  String get auto_oshibka_servera => 'Ошибка сервера';
+  String get auto_oshibka_servera => 'Сервер қатесі';
 
   @override
-  String get auto_oshibka_seti => 'Ошибка сети';
+  String get auto_oshibka_seti => 'Желі қатесі';
 
   @override
-  String get auto_zabyli_parol_1 => 'Забыли пароль';
+  String get auto_zabyli_parol_1 => 'Құпия сөзді ұмыттыңыз ба';
 
   @override
-  String get auto_napishi_svoyu_pochtu => 'Напиши свою почту';
+  String get auto_napishi_svoyu_pochtu => 'Поштаңызды жазыңыз';
 
   @override
-  String get auto_el_pochta => 'ЭЛ. ПОЧТА';
+  String get auto_el_pochta => 'Ал. Пошта';
 
   @override
-  String get auto_otpravit_kod => 'ОТПРАВИТЬ КОД';
+  String get auto_otpravit_kod => 'КОДТЫ ЖІБЕРУ';
 
   @override
-  String get auto_vvedite_6znachnyy_kod => 'Введите 6-значный код';
+  String get auto_vvedite_6znachnyy_kod => '6 таңбалы кодты енгізіңіз';
 
   @override
-  String get auto_vosstanovlenie_parolya => 'Восстановление пароля';
+  String get auto_vosstanovlenie_parolya => 'Құпия сөзді қалпына келтіру';
 
   @override
-  String get auto_zapolnite_vse_polya => 'Заполните все поля';
+  String get auto_zapolnite_vse_polya => 'Барлық өрістерді толтырыңыз';
 
   @override
   String get auto_parol_dolzhen_soderzhat_minimum_6_s =>
-      'Пароль должен содержать минимум 6 символов';
+      'Құпия сөзде кемінде 6 таңба болуы керек';
 
   @override
-  String get auto_parol_uspeshno_izmenn => 'Пароль успешно изменён';
+  String get auto_parol_uspeshno_izmenn => 'Құпия сөз сәтті өзгертілді';
 
   @override
-  String get auto_novyy_parol => 'Новый пароль';
+  String get auto_novyy_parol => 'Жаңа құпия сөз';
 
   @override
-  String get auto_vvedite_novyy_parol => 'Введите новый пароль';
+  String get auto_vvedite_novyy_parol => 'Жаңа құпия сөзді енгізіңіз';
 
   @override
-  String get auto_novyy_parol_1 => 'НОВЫЙ ПАРОЛЬ';
+  String get auto_novyy_parol_1 => 'ЖАҢА ҚҰПИЯ СӨЗ';
 
   @override
-  String get auto_podtverdite_parol => 'ПОДТВЕРДИТЕ ПАРОЛЬ';
+  String get auto_podtverdite_parol => 'ҚҰПИЯ СӨЗДІ РАСТАҢЫЗ';
 
   @override
-  String get auto_podtverdite_novyy_parol => 'Подтвердите новый пароль';
+  String get auto_podtverdite_novyy_parol => 'Жаңа құпия сөзді растаңыз';
 
   @override
-  String get auto_sohranit_parol => 'СОХРАНИТЬ ПАРОЛЬ';
+  String get auto_sohranit_parol => 'ҚҰПИЯ СӨЗДІ САҚТАУ';
 
   @override
   String get auto_email_podtverzhdn_teper_mozhno_voyt =>
-      'Email подтверждён. Теперь можно войти.';
+      'Email расталды. Енді кіруге болады.';
 
   @override
   String get auto_oshibka_seti_pri_podtverzhdenii =>
-      'Ошибка сети при подтверждении';
+      'Растау кезінде желі қатесі';
 
   @override
   String get auto_oshibka_seti_pri_povtornoy_otpravke =>
-      'Ошибка сети при повторной отправке';
+      'Қайта жіберу кезінде желі қатесі';
 
   @override
-  String get auto_oshibka_konfiguratsii_api => 'Ошибка конфигурации API';
+  String get auto_oshibka_konfiguratsii_api => 'API конфигурациясы қатесі';
 
   @override
   String get auto_ne_udalos_sformirovat_airezyume =>
-      'Не удалось сформировать AI-резюме';
+      'AI түйіндемесін құру мүмкін болмады';
 
   @override
   String get auto_ty_aianalitik_postavschikov_obyazat =>
-      'Ты AI-аналитик поставщиков. ОБЯЗАТЕЛЬНО отвечай ТОЛЬКО на русском языке. ';
+      'Сіз жеткізушілердің AI талдаушысысыз. Тек орыс тілінде жауап беруді ұмытпаңыз. ';
 
   @override
   String get auto_vse_tvoi_otvety_dolzhny_byt_na_100 =>
-      'Все твои ответы должны быть на 100% на русском. ';
+      'Сіздің барлық жауаптарыңыз 100% орыс тілінде болуы керек. ';
 
   @override
   String get auto_nikogda_ne_ispolzuy_drugie_yazyki_n =>
-      'Никогда не используй другие языки ни при каких обстоятельствах.';
+      'Ешқашан басқа тілдерді ешқандай жағдайда қолданбаңыз.';
 
   @override
-  String get auto_zapros_zanyal_slishkom_dolgo => 'Запрос занял слишком долго';
+  String get auto_zapros_zanyal_slishkom_dolgo => 'Сұрау тым ұзаққа созылды';
 
   @override
   String get auto_proverte_podklyuchenie_k_internetu =>
-      'Проверьте подключение к интернету';
+      'Интернет байланысын тексеріңіз';
 
   @override
   String get auto_oshibka_servera_poprobuem_druguyu_m =>
-      'Ошибка сервера. Попробуем другую модель';
+      'Сервер қатесі. Басқа модельді қолданып көрейік';
 
   @override
-  String get auto_oshibka_ai_servisa => 'Ошибка AI сервиса';
+  String get auto_oshibka_ai_servisa => 'AI қызметі қатесі';
 
   @override
-  String get auto_oshibka_pri_obrabotke_otveta => 'Ошибка при обработке ответа';
+  String get auto_oshibka_pri_obrabotke_otveta => 'Жауапты өңдеу кезінде қате';
 
   @override
   String get auto_airezyume_uspeshno_sgenerirovano =>
-      'AI-резюме успешно сгенерировано';
+      'AI түйіндемесі сәтті жасалды';
 
   @override
-  String get auto_sobiraetsya => 'Собирается';
+  String get auto_sobiraetsya => 'Жиналады';
 
   @override
   String get auto_spisok_tovarov_ne_dolzhen_byt_pusty =>
-      'Список товаров не должен быть пустым';
+      'Тауарлар тізімі бос болмауы керек';
 
   @override
-  String get auto_userid_dolzhen_byt_polozhitelnym =>
-      'userId должен быть положительным';
+  String get auto_userid_dolzhen_byt_polozhitelnym => 'userId оң болуы керек';
 
   @override
   String get auto_neobhodimo_peredat_hotya_by_odno_po =>
-      'Необходимо передать хотя бы одно поле для обновления';
+      'Жаңарту үшін кем дегенде бір өрісті жіберу керек';
 
   @override
   String get auto_tekuschiy_i_novyy_parol_obyazatelny =>
-      'Текущий и новый пароль обязательны';
+      'Ағымдағы және жаңа құпия сөз қажет';
 
   @override
   String get auto_novyy_parol_dolzhen_otlichatsya_ot =>
-      'Новый пароль должен отличаться от текущего';
+      'Жаңа құпия сөз қазіргіден өзгеше болуы керек';
 
   @override
   String get auto_podtverzhdenie_parolya_ne_sovpadaet =>
-      'Подтверждение пароля не совпадает';
+      'Құпия сөзді растау бірдей емес';
 
   @override
   String get auto_userid_i_addressid_dolzhny_byt_polo =>
-      'userId и addressId должны быть положительными';
+      'userId және addressId оң болуы керек';
 
   @override
-  String get auto_orderid_ne_dolzhen_byt_pustym =>
-      'orderId не должен быть пустым';
+  String get auto_orderid_ne_dolzhen_byt_pustym => 'orderId бос болмауы керек';
 
   @override
   String get auto_productid_ne_dolzhen_byt_pustym =>
-      'productId не должен быть пустым';
+      'productId бос болмауы керек';
 
   @override
   String get auto_reviewid_ne_dolzhen_byt_pustym =>
-      'reviewId не должен быть пустым';
+      'reviewId бос болмауы керек';
 
   @override
-  String get auto_status_ne_dolzhen_byt_pustym =>
-      'status не должен быть пустым';
+  String get auto_status_ne_dolzhen_byt_pustym => 'күй бос болмауы керек';
 
   @override
   String get auto_moderatorid_dolzhen_byt_polozhiteln =>
-      'moderatorId должен быть положительным';
+      'moderatorId оң болуы керек';
 
   @override
-  String get auto_reason_ne_dolzhen_byt_pustym =>
-      'reason не должен быть пустым';
+  String get auto_reason_ne_dolzhen_byt_pustym => 'reason бос болмауы керек';
 
   @override
-  String get auto_name_ne_dolzhen_byt_pustym => 'name не должен быть пустым';
+  String get auto_name_ne_dolzhen_byt_pustym => 'name бос болмауы керек';
 
   @override
-  String get auto_id_dolzhen_byt_polozhitelnym =>
-      'id должен быть положительным';
+  String get auto_id_dolzhen_byt_polozhitelnym => 'id оң болуы керек';
 
   @override
-  String get auto_chatid_dolzhen_byt_polozhitelnym =>
-      'chatId должен быть положительным';
+  String get auto_chatid_dolzhen_byt_polozhitelnym => 'chatId оң болуы керек';
 
   @override
-  String get auto_text_ne_dolzhen_byt_pustym => 'text не должен быть пустым';
+  String get auto_text_ne_dolzhen_byt_pustym => 'мәтін бос болмауы керек';
 
   @override
-  String get auto_polzovatel => 'пользователь';
+  String get auto_polzovatel => 'пайдаланушы';
 
   @override
   String get auto_moderator => 'модератор';
 
   @override
   String get auto_nevernyy_format_otveta_servera_otsu =>
-      'Неверный формат ответа сервера: отсутствуют поля questions или total';
+      'Сервердің жауап беру форматы дұрыс емес: questions немесе total өрістері жоқ';
 
   @override
   String get auto_nevernyy_format_otveta_servera_ques =>
-      'Неверный формат ответа сервера: questions должен быть списком';
+      'Сервердің жауап беру форматы дұрыс емес: questions тізім болуы керек';
 
   @override
   String get auto_nevernyy_format_otveta_servera_tota =>
-      'Неверный формат ответа сервера: total должен быть числом';
+      'Қате сервер жауап пішімі: total сан болуы керек';
 
   @override
-  String get auto_vopros_ne_dolzhen_byt_pustym =>
-      'Вопрос не должен быть пустым';
+  String get auto_vopros_ne_dolzhen_byt_pustym => 'Сұрақ бос болмауы керек';
 
   @override
   String get auto_vopros_dolzhen_soderzhat_minimum_10 =>
-      'Вопрос должен содержать минимум 10 символов';
+      'Сұрақ кем дегенде 10 таңбадан тұруы керек';
 
   @override
-  String get auto_ne_udalos_otvetit => 'Не удалось ответить';
+  String get auto_ne_udalos_otvetit => 'Жауап беру мүмкін болмады';
 
   @override
   String get auto_questionid_ne_dolzhen_byt_pustym =>
-      'questionId не должен быть пустым';
+      'questionId бос болмауы керек';
 
   @override
   String get auto_supplieruserid_dolzhen_byt_polozhit =>
-      'supplierUserId должен быть положительным';
+      'supplierUserId оң болуы керек';
 
   @override
   String get auto_answertext_ne_dolzhen_byt_pustym =>
-      'answerText не должен быть пустым';
+      'answerText бос болмауы керек';
 
   @override
   String get auto_responsetext_ne_dolzhen_byt_pustym =>
-      'responseText не должен быть пустым';
+      'responseText бос болмауы керек';
 
   @override
-  String get auto_ooo_optovaya_kompaniya => 'ООО Оптовая Компания';
+  String get auto_ooo_optovaya_kompaniya => 'Көтерме Компания ЖШҚ';
 
   @override
-  String get auto_dostavka_po_rossii => 'Доставка по России';
+  String get auto_dostavka_po_rossii => 'Ресей бойынша жеткізу';
 
   @override
-  String get auto_bystraya_dostavka => 'Быстрая доставка';
+  String get auto_bystraya_dostavka => 'Жылдам жеткізу';
 
   @override
   String get auto_postavschik_kachestvennyh_tovarov_o =>
-      'Поставщик качественных товаров оптом с 10-летним опытом';
+      '10 жылдық тәжірибесі бар сапалы тауарларды көтерме жеткізуші';
 
   @override
   String get auto_g_moskva_ul_primernaya_d_1 =>
-      'г. Москва, ул. Примерная, д. 1';
+      'Мәскеу қ., Приморная к-сі, 1-үй';
 
   @override
-  String get auto_ooo_torgovyy_dom => 'ООО Торговый Дом';
+  String get auto_ooo_torgovyy_dom => 'Сауда үйі ЖШҚ';
 
   @override
-  String get auto_dostavka_po_rossii_i_sng => 'Доставка по России и СНГ';
+  String get auto_dostavka_po_rossii_i_sng => 'Ресей мен ТМД бойынша жеткізу';
 
   @override
-  String get auto_nadzhnyy_partnr => 'Надёжный партнёр';
+  String get auto_nadzhnyy_partnr => 'Сенімді серіктес';
 
   @override
   String get auto_krupnyy_optovyy_postavschik_s_shiro =>
-      'Крупный оптовый поставщик с широким ассортиментом';
+      'Кең ассортименті бар ірі көтерме жеткізуші';
 
   @override
   String get auto_g_sanktpeterburg_pr_nevskiy_d_50 =>
-      'г. Санкт-Петербург, пр. Невский, д. 50';
+      'Санкт-Петербург қаласы, Невский даңғылы, 50-үй';
 
   @override
-  String get auto_ooo_ekspress_postavki => 'ООО Экспресс Поставки';
+  String get auto_ooo_ekspress_postavki => 'Экспресс жеткізу ЖШС';
 
   @override
-  String get auto_ekspressdostavka_24_chasa => 'Экспресс-доставка 24 часа';
+  String get auto_ekspressdostavka_24_chasa => 'Жедел жеткізу 24 сағат';
 
   @override
   String get auto_spetsializiruemsya_na_bystroy_dosta =>
-      'Специализируемся на быстрой доставке товаров оптом';
+      'Біз тауарларды тез көтерме жеткізуге маманданамыз';
 
   @override
   String get auto_g_ekaterinburg_ul_glavnaya_d_100 =>
-      'г. Екатеринбург, ул. Главная, д. 100';
+      'Екатеринбург қ., Главная к-сі, 100-үй';
 
   @override
-  String get auto_standartnaya_dostavka => 'Стандартная доставка';
+  String get auto_standartnaya_dostavka => 'Стандартты жеткізу';
 
   @override
   String get auto_nadzhnyy_postavschik_optovyh_tovaro =>
-      'Надёжный поставщик оптовых товаров';
+      'Көтерме тауарлардың сенімді жеткізушісі';
 
   @override
-  String get auto_rossiya => 'Россия';
+  String get auto_rossiya => 'Ресей';
 
   @override
-  String get auto_tovar_1_ot_postavschika_123 => 'Товар 1 от поставщика 123';
+  String get auto_tovar_1_ot_postavschika_123 => 'Өнім берушіден 1 тауар 123';
 
   @override
-  String get auto_kategoriya_1 => 'Категория 1';
+  String get auto_kategoriya_1 => '1 санат';
 
   @override
-  String get auto_tovar_2_ot_postavschika_123 => 'Товар 2 от поставщика 123';
+  String get auto_tovar_2_ot_postavschika_123 => 'Өнім берушіден 2 тауар 123';
 
   @override
-  String get auto_kategoriya_2 => 'Категория 2';
+  String get auto_kategoriya_2 => '2 санат';
 
   @override
-  String get auto_tovar_1_ot_postavschika_456 => 'Товар 1 от поставщика 456';
+  String get auto_tovar_1_ot_postavschika_456 => 'Өнім берушіден 1 тауар 456';
 
   @override
-  String get auto_tovar_1_ot_postavschika_789 => 'Товар 1 от поставщика 789';
+  String get auto_tovar_1_ot_postavschika_789 => 'Өнім берушіден 1 тауар 789';
 
   @override
-  String get auto_tovar_2_ot_postavschika_789 => 'Товар 2 от поставщика 789';
+  String get auto_tovar_2_ot_postavschika_789 => 'Өнім берушіден 2 тауар 789';
 
   @override
   String get auto_supplierid_ne_dolzhen_byt_pustym =>
-      'supplierId не должен быть пустым';
+      'supplierId бос болмауы керек';
 
   @override
-  String get auto_vremya_ozhidaniya_isteklo => 'Время ожидания истекло';
+  String get auto_vremya_ozhidaniya_isteklo => 'Күту уақыты аяқталды';
 
   @override
-  String get auto_postavschik_ne_nayden => 'Поставщик не найден';
+  String get auto_postavschik_ne_nayden => 'Жеткізуші табылмады';
 
   @override
-  String get auto_taymaut => 'Таймаут';
+  String get auto_taymaut => 'Күту уақыты';
 
   @override
-  String get auto_v_puti => 'в пути';
+  String get auto_v_puti => 'жолда';
 
   @override
-  String get auto_otpravlen => 'отправлен';
+  String get auto_otpravlen => 'жіберілді';
 
   @override
-  String get auto_otpravleno => 'отправлено';
+  String get auto_otpravleno => 'жіберілді';
 
   @override
-  String get auto_v_puti_1 => 'В пути';
+  String get auto_v_puti_1 => 'Жолда';
 
   @override
-  String get auto_prinyat => 'Принят';
+  String get auto_prinyat => 'Қабылданды';
 
   @override
-  String get auto_dostavlen => 'доставлен';
+  String get auto_dostavlen => 'жеткізілді';
 
   @override
-  String get auto_polucheno => 'получено';
+  String get auto_polucheno => 'алынды';
 
   @override
-  String get auto_prinyat_1 => 'принят';
+  String get auto_prinyat_1 => 'қабылданды';
 
   @override
-  String get auto_prinyata => 'принята';
+  String get auto_prinyata => 'қабылданды';
 
   @override
-  String get auto_prinyato => 'принято';
+  String get auto_prinyato => 'қабылданды';
 
   @override
-  String get auto_prinyaty => 'приняты';
+  String get auto_prinyaty => 'қабылданды';
 
   @override
-  String get auto_zaversheno => 'завершено';
+  String get auto_zaversheno => 'аяқталды';
 
   @override
-  String get auto_otmena => 'отмена';
+  String get auto_otmena => 'бас тарту';
 
   @override
-  String get auto_otmenn => 'отменён';
+  String get auto_otmenn => 'жойылды';
 
   @override
-  String get auto_otmenen => 'отменен';
+  String get auto_otmenen => 'жойылды';
 
   @override
-  String get auto_dostavlen_1 => 'Доставлен';
+  String get auto_dostavlen_1 => 'Жеткізілді';
 
   @override
-  String get auto_poluchil => 'Получил';
+  String get auto_poluchil => 'Алды';
 
   @override
-  String get auto_ne_avtorizovan => 'Не авторизован';
+  String get auto_ne_avtorizovan => 'Рұқсат етілмеген';
 
   @override
   String get auto_server_vernul_nekorrektnyy_otvet =>
-      'Сервер вернул некорректный ответ';
+      'Сервер қате жауапты қайтарды';
 
   @override
   String get auto_offset_ne_dolzhen_byt_otritsatelnym =>
-      'offset не должен быть отрицательным';
+      'offset теріс болмауы керек';
 
   @override
-  String get auto_limit_dolzhen_byt_polozhitelnym =>
-      'limit должен быть положительным';
+  String get auto_limit_dolzhen_byt_polozhitelnym => 'шектеу оң болуы керек';
 
   @override
   String get auto_targetuserid_dolzhen_byt_polozhitel =>
-      'targetUserId должен быть положительным';
+      'targetUserId оң болуы керек';
 
   @override
   String get auto_apiproductresolver_ne_udalos_zagruz =>
-      'ApiProductResolver: не удалось загрузить каталог';
+      'ApiProductResolver: каталогты жүктеу мүмкін болмады';
 
   @override
   String get auto_server_vernul_pustye_dannye_polzova =>
-      'Сервер вернул пустые данные пользователя';
+      'Сервер пайдаланушының бос деректерін қайтарды';
 
   @override
   String get auto_nevernyy_kod_ili_istk_srok_deystviy =>
-      'Неверный код или истёк срок действия';
+      'Қате код немесе жарамдылық мерзімі аяқталды';
 
   @override
-  String get auto_trebuetsya_avtorizatsiya => 'Требуется авторизация';
+  String get auto_trebuetsya_avtorizatsiya => 'Авторизация қажет';
 
   @override
   String get auto_deystvie_nedostupno_dlya_vashey_rol =>
-      'Действие недоступно для вашей роли';
+      'Әрекет сіздің рөліңіз үшін қол жетімді емес';
 
   @override
   String get auto_srok_deystviya_koda_istk_povtorite =>
-      'Срок действия кода истёк, повторите вход';
+      'Кодтың мерзімі аяқталды, кіруді қайталаңыз';
 
   @override
   String get auto_slishkom_mnogo_popytok_poprobuyte_p =>
-      'Слишком много попыток, попробуйте позже';
+      'Тым көп әрекет жасаңыз, кейінірек көріңіз';
 
   @override
-  String get auto_tovar => 'товар';
+  String get auto_tovar => 'тауар';
 
   @override
-  String get auto_tovara => 'товара';
+  String get auto_tovara => 'тауар';
 
   @override
-  String get auto_tovarov => 'товаров';
+  String get auto_tovarov => 'тауарлар';
 
   @override
   String get auto_nm => 'өнім';
 
   @override
   String get auto_oshibka_seti_proverte_podklyuchenie =>
-      'Ошибка сети. Проверьте подключение и попробуйте снова';
+      'Желі қатесі. Қосылымды тексеріп, қайталап көріңіз';
 
   @override
   String get auto_prevysheno_vremya_ozhidaniya_otveta =>
-      'Превышено время ожидания ответа сервера';
+      'Сервердің жауабын күту уақытынан асып кетті';
 
   @override
   String get auto_ne_udalos_razobrat_soobschenie =>
-      'Не удалось разобрать сообщение';
+      'Хабарламаны бөлшектеу мүмкін болмады';
 
   @override
-  String get auto_zapros_vypolnen => 'Запрос выполнен';
+  String get auto_zapros_vypolnen => 'Сұраныс орындалды';
 
   @override
-  String get auto_nekorrektnyy_otvet_api => 'некорректный ответ API';
+  String get auto_nekorrektnyy_otvet_api => 'қате жауап API';
 
   @override
-  String get auto_oshibka_prilozheniya => 'Ошибка приложения';
+  String get auto_oshibka_prilozheniya => 'Қолданба қатесі';
 
   @override
   String get auto_ne_udalos_razobrat_isklyuchenie =>
-      'не удалось разобрать исключение';
+      'ерекшелікті талдау мүмкін болмады';
 
   @override
-  String get auto_nekorrektnoe_soobschenie_podderzhki =>
-      'некорректное сообщение поддержки';
+  String get auto_nekorrektnoe_soobschenie_podderzhki => 'қате қолдау хабары';
 
   @override
-  String get auto_json_ne_proshl_validatsiyu => 'JSON не прошёл валидацию';
+  String get auto_json_ne_proshl_validatsiyu => 'JSON тексеруден өткен жоқ';
 
   @override
-  String get auto_ne_udalos_razobrat_json => 'не удалось разобрать JSON';
+  String get auto_ne_udalos_razobrat_json =>
+      'JSON-удалось бөлшектеу мүмкін болмады';
 
   @override
-  String get auto_uvedomlenie => 'Уведомление';
+  String get auto_uvedomlenie => 'Хабарлама';
 
   @override
-  String get auto_nekorrektnoe_uvedomlenie => 'некорректное уведомление';
+  String get auto_nekorrektnoe_uvedomlenie => 'қате хабарлама';
 
   @override
-  String get auto_aigeneratsiya => 'AI-генерация';
+  String get auto_aigeneratsiya => 'AI генерациясы';
 
   @override
-  String get auto_nekorrektnyy_otvet_ai => 'некорректный ответ AI';
+  String get auto_nekorrektnyy_otvet_ai => 'қате жауап AI';
 
   @override
-  String get auto_oshibka_razbora_soobscheniya => 'Ошибка разбора сообщения';
+  String get auto_oshibka_razbora_soobscheniya => 'Хабарламаны талдау қатесі';
 
   @override
-  String get auto_bez_zagolovka => '(без заголовка)';
+  String get auto_bez_zagolovka => '(тақырып жоқ)';
 
   @override
-  String get auto_lyubye_simvoly_vklyuchaya => '<любые символы, включая \">';
+  String get auto_lyubye_simvoly_vklyuchaya =>
+      '&lt;кез келген таңбалар, соның ішінде \"&gt;';
 
   @override
-  String get auto_pole_id_pustoe => 'Поле id пустое';
+  String get auto_pole_id_pustoe => 'Id өрісі бос';
 
   @override
   String get auto_pole_id_ne_sootvetstvuet_formatu_uu =>
-      'Поле id не соответствует формату UUID';
+      'Id өрісі UUID форматына сәйкес келмейді';
 
   @override
-  String get auto_pole_body_pustoe => 'Поле body пустое';
+  String get auto_pole_body_pustoe => 'Дене өрісі бос';
 
   @override
   String get auto_pole_timestamp_nekorrektno_ili_ne_s =>
-      'Поле timestamp некорректно или не сериализуется в ISO 8601';
+      'Timestamp өрісі дұрыс емес немесе ISO 8601 де серияланбаған';
 
   @override
-  String get auto_neizvestnoe_znachenie_type => 'Неизвестное значение type';
+  String get auto_neizvestnoe_znachenie_type => 'Белгісіз type мәні';
 
   @override
   String get auto_neizvestnoe_znachenie_severity =>
-      'Неизвестное значение severity';
+      'Severity белгісіз мағынасы';
 
   @override
   String get auto_pole_id_dolzhno_byt_nepustoy_stroko =>
-      'Поле id должно быть непустой строкой';
+      'Id өрісі бос жол болмауы керек';
 
   @override
-  String get auto_pole_type_dolzhno_byt_strokoy =>
-      'Поле type должно быть строкой';
+  String get auto_pole_type_dolzhno_byt_strokoy => 'Type өрісі жол болуы керек';
 
   @override
   String get auto_pole_severity_dolzhno_byt_strokoy =>
-      'Поле severity должно быть строкой';
+      'Severity өрісі жол болуы керек';
 
   @override
-  String get auto_pole_body_dolzhno_byt_strokoy =>
-      'Поле body должно быть строкой';
+  String get auto_pole_body_dolzhno_byt_strokoy => 'Дене өрісі жол болуы керек';
 
   @override
   String get auto_pole_title_dolzhno_byt_strokoy =>
-      'Поле title должно быть строкой';
+      'Тақырып өрісі жол болуы керек';
 
   @override
   String get auto_pole_timestamp_ne_serializuetsya_v =>
-      'Поле timestamp не сериализуется в ISO 8601';
+      'Timestamp өрісі ISO 8601 де серияланбайды';
 
   @override
   String get auto_pole_timestamp_ne_parsitsya_kak_iso =>
-      'Поле timestamp не парсится как ISO 8601';
+      'Timestamp өрісі ISO 8601 сияқты сызылмайды';
 
   @override
   String get auto_pole_timestamp_dolzhno_byt_strokoy =>
-      'Поле timestamp должно быть строкой ISO 8601 или DateTime';
+      'Timestamp өрісі ISO 8601 немесе DateTime жолы болуы керек';
 
   @override
   String get auto_pole_language_dolzhno_byt_strokoy =>
-      'Поле language должно быть строкой';
+      'Тіл өрісі жол болуы керек';
 
   @override
   String get auto_dlya_tipa_error_rekomenduetsya_ukaz =>
-      'Для типа \"error\" рекомендуется указывать поле code';
+      '\"Қате\" Түрі үшін код өрісін көрсету ұсынылады';
 
   @override
   String get auto_dlya_tipa_aigenerated_rekomenduetsy =>
-      'Для типа \"ai_generated\" рекомендуется указывать metadata[\"model\"]';
+      '\"Ai_generated\" түрі үшін metadata[\"model\"]көрсету ұсынылады';
 
   @override
-  String get auto_propustili_izza_throttle => 'пропустили из-за throttle';
+  String get auto_propustili_izza_throttle => 'throttle үшін жіберіп алды';
 
   @override
-  String get auto_voobsche_ne_doshli => 'вообще не дошли';
+  String get auto_voobsche_ne_doshli => 'мүлдем жеткен жоқ';
 
   @override
   String get auto_notificationservice_userid_ne_zadan =>
-      'NotificationService: userId не задан, инициализация пропущена';
+      'NotificationService: userId орнатылмаған, инициализация өткізілмеген';
 
   @override
   String get auto_notificationservice_ochistka_sostoy =>
-      'NotificationService: очистка состояния при logout';
+      'NotificationService: logout күйін тазарту';
 
   @override
   String get auto_optimistic_hold_aktiven_propuskaem =>
-      'Optimistic hold активен, пропускаем перезапись счётчиков';
+      'Optimistic hold белсенді, есептегіштерді қайта жазуды өткізіп жіберіңіз';
 
   @override
   String get auto_userid_izmenilsya_vo_vremya_refresh =>
-      'userId изменился во время refresh, отменяем обновление';
+      'refresh кезінде userId өзгерді, жаңартудан бас тарту';
 
   @override
   String get auto_ne_udalos_obnovit_schtchiki_uvedoml =>
-      'Не удалось обновить счётчики уведомлений после всех попыток, используем кэш';
+      'Барлық әрекеттерден кейін хабарландыру есептегіштерін жаңарту мүмкін болмады, біз кэшті қолданамыз';
 
   @override
   String get auto_kesh_uvedomleniy_ustarel_propuskaem =>
-      'Кэш уведомлений устарел, пропускаем загрузку';
+      'Хабарландыру кэші ескірген, жүктеуді өткізіп жіберіңіз';
 
   @override
   String get auto_polzovatel_razloginilsya_ostanavliv =>
-      'Пользователь разлогинился, останавливаем polling';
+      'Пайдаланушы разлогинился, тоқтату polling';
 
   @override
   String get auto_optimistic_hold_istk_vozobnovlyaem =>
-      'Optimistic hold истёк, возобновляем polling';
+      'Optimistic hold мерзімі аяқталды, polling жаңартыңыз';
 
   @override
   String get auto_polling_propuschen_aktiven_optimist =>
-      'Polling пропущен: активен optimistic hold';
+      'Polling өткізіп алды: optimistic hold белсенді';
 
   @override
   String get auto_retrywithbackoff_neozhidannoe_zaver =>
-      '_retryWithBackoff: неожиданное завершение цикла';
+      '_retryWithBackoff: күтпеген циклды аяқтау';
 
   @override
   String get auto_svodka_statistiki_zakeshirovana =>
-      'Сводка статистики закэширована';
+      'Статистиканың қысқаша мазмұны';
 
   @override
-  String get auto_oshibka_pri_keshirovanii_svodki =>
-      'Ошибка при кэшировании сводки';
+  String get auto_oshibka_pri_keshirovanii_svodki => 'Жиынтықты кэштеу қатесі';
 
   @override
   String get auto_oshibka_pri_poluchenii_kesha_svodki =>
-      'Ошибка при получении кэша сводки';
+      'Жиынтық кэшті алу кезінде қате';
 
   @override
-  String get auto_ai_rezyume_zakeshirovano => 'AI резюме закэшировано';
+  String get auto_ai_rezyume_zakeshirovano => 'AI түйіндеме кэштелген';
 
   @override
   String get auto_oshibka_pri_keshirovanii_ai_rezyume =>
-      'Ошибка при кэшировании AI резюме';
+      'AI түйіндемесін кэштеу қатесі';
 
   @override
   String get auto_oshibka_pri_poluchenii_kesha_ai_rez =>
-      'Ошибка при получении кэша AI резюме';
+      'AI түйіндеме кэшін алу кезінде қате';
 
   @override
-  String get auto_kesh_statistiki_ochischen => 'Кэш статистики очищен';
+  String get auto_kesh_statistiki_ochischen => 'Статистикалық Кэш тазартылды';
 
   @override
-  String get auto_oshibka_pri_ochistke_kesha => 'Ошибка при очистке кэша';
+  String get auto_oshibka_pri_ochistke_kesha => 'Кэшті тазалау қатесі';
 
   @override
   String get auto_ne_udalos_vosstanovit_postavschika =>
-      'Не удалось восстановить поставщика из хранилища';
+      'Жеткізушіні қоймадан қалпына келтіру мүмкін болмады';
 
   @override
   String get auto_oshibka_zagruzki_izbrannogo_iz_hran =>
-      'Ошибка загрузки избранного из хранилища';
+      'Таңдаулыларды жадтан жүктеу қатесі';
 
   @override
   String get auto_oshibka_sohraneniya_izbrannogo_v_hr =>
-      'Ошибка сохранения избранного в хранилище';
+      'Таңдаулыларды сақтау қатесі';
 
   @override
   String get auto_purchasetemplateid_nevaliden =>
@@ -2755,98 +2741,1201 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get auto_purchasetemplatecreatedat_nevaliden =>
-      'PurchaseTemplate.createdAt невалиден';
+      'PurchaseTemplate.createdAt жарамсыз';
 
   @override
   String get auto_purchasetemplateupdatedat_nevaliden =>
-      'PurchaseTemplate.updatedAt невалиден';
+      'PurchaseTemplate.updatedAt жарамсыз';
 
   @override
   String get auto_purchasetemplateitems_nevaliden =>
-      'PurchaseTemplate.items невалиден';
+      'PurchaseTemplate.items жарамсыз';
 
   @override
   String get auto_purchasetemplatecreatedat_ne_iso860 =>
-      'PurchaseTemplate.createdAt не ISO-8601';
+      'PurchaseTemplate.createdAt ISO-8601 емес';
 
   @override
   String get auto_purchasetemplateupdatedat_ne_iso860 =>
-      'PurchaseTemplate.updatedAt не ISO-8601';
+      'PurchaseTemplate.UPDATEDAT ISO-8601 емес';
 
   @override
-  String get auto_templateitem_ne_obekt => 'TemplateItem не объект';
+  String get auto_templateitem_ne_obekt => 'Templateitem нысан емес';
 
   @override
   String get auto_templateitemproductid_nevaliden =>
-      'TemplateItem.productId невалиден';
+      'TemplateItem.productId жарамсыз';
 
   @override
   String get auto_templateitemsupplierid_nevaliden =>
-      'TemplateItem.supplierId невалиден';
+      'TemplateItem.supplierId жарамсыз';
 
   @override
   String get auto_templateitemquantity_nevaliden =>
-      'TemplateItem.quantity невалиден';
+      'TemplateItem.quantity жарамсыз';
 
   @override
   String get auto_templateitemproductname_nevaliden =>
-      'TemplateItem.productName невалиден';
+      'TemplateItem.productName жарамсыз';
 
   @override
   String get auto_templateitemproductimageurl_nevalid =>
-      'TemplateItem.productImageUrl невалиден';
+      'TemplateItem.productImageUrl жарамсыз';
 
   @override
   String get auto_templateitemsuppliername_nevaliden =>
-      'TemplateItem.supplierName невалиден';
+      'TemplateItem.supplierName жарамсыз';
 
   @override
   String get auto_templateitempriceperunit_nevaliden =>
-      'TemplateItem.pricePerUnit невалиден';
+      'TemplateItem.pricePerUnit жарамсыз';
 
   @override
   String get auto_templateitemminquantity_nevaliden =>
-      'TemplateItem.minQuantity невалиден';
+      'TemplateItem.minQuantity жарамсыз';
 
   @override
   String get auto_templateitemmaxquantity_nevaliden =>
-      'TemplateItem.maxQuantity невалиден';
+      'TemplateItem.maxQuantity жарамсыз';
 
   @override
   String get auto_imya_shablona_ot_1_do_50_simvolov =>
-      'Имя шаблона: от 1 до 50 символов';
+      'Үлгі атауы: 1-ден 50 таңбаға дейін';
 
   @override
   String get auto_shablon_s_takim_imenem_uzhe_susches =>
-      'Шаблон с таким именем уже существует';
+      'Мұндай атаумен Шаблон қазірдің өзінде бар';
 
   @override
-  String get auto_shablon_ne_mozhet_byt_pustym => 'Шаблон не может быть пустым';
+  String get auto_shablon_ne_mozhet_byt_pustym => 'Үлгі бос болуы мүмкін емес';
 
   @override
   String get auto_v_shablone_mozhet_byt_ne_bolee_100 =>
-      'В шаблоне может быть не более 100 позиций.';
+      'Үлгіде 100-ден көп емес позиция болуы мүмкін.';
 
   @override
   String get auto_dostignut_limit_shablonov_20_udalit =>
-      'Достигнут лимит шаблонов: 20. Удалите ненужный шаблон.';
+      'Шаблондар шегіне жетті: 20. Қажет емес үлгіні алып тастаңыз.';
 
   @override
-  String get auto_nikomu => 'никому';
+  String get auto_nikomu => 'ешкімге';
 
   @override
   String get auto_loadforcurrentuser_rassoglasovanie =>
-      'loadForCurrentUser: рассогласование авторизации ';
+      'loadForCurrentUser: авторизацияның сәйкес келмеуі ';
 
   @override
   String get auto_loadforcurrentuser_ne_udalos_prochi =>
-      'loadForCurrentUser: не удалось прочитать SharedPreferences';
+      'loadForCurrentUser: SharedPreferences оқи алмады';
 
   @override
   String get auto_clearcache_ne_udalos_ochistit_share =>
-      'clearCache: не удалось очистить SharedPreferences';
+      'clearCache: SharedPreferences тазалау мүмкін болмады';
 
   @override
   String get auto_persist_ne_udalos_zapisat_shablony =>
-      '_persist: не удалось записать шаблоны в SharedPreferences';
+      '_persist: шаблондарды SharedPreferences-ке жазу мүмкін болмады';
+
+  @override
+  String get util_general_characteristics => 'Жалпы сипаттамалары';
+
+  @override
+  String get util_calories => 'Калория';
+
+  @override
+  String get util_protein => 'Ақуыздар';
+
+  @override
+  String get util_fat => 'Майлар';
+
+  @override
+  String get util_carbohydrates => 'Көмірсулар';
+
+  @override
+  String get util_kcal => 'ккал';
+
+  @override
+  String get util_grams_per_100g => 'г/100 г';
+
+  @override
+  String get util_nutrition => 'Тамақтану';
+
+  @override
+  String get util_composition => 'Құрамы';
+
+  @override
+  String get util_just_now => 'жаңа ғана';
+
+  @override
+  String get util_ago => 'артқа';
+
+  @override
+  String get util_minute_one => 'минут';
+
+  @override
+  String get util_minute_few => 'минуттар';
+
+  @override
+  String get util_minute_many => 'минут';
+
+  @override
+  String get util_hour_one => 'сағат';
+
+  @override
+  String get util_hour_few => 'сағат';
+
+  @override
+  String get util_hour_many => 'сағат';
+
+  @override
+  String get util_day_one => 'күн';
+
+  @override
+  String get util_day_few => 'күн';
+
+  @override
+  String get util_day_many => 'күндер';
+
+  @override
+  String get util_delivery => 'Жеткізу';
+
+  @override
+  String get util_today => 'Бүгін';
+
+  @override
+  String get util_tomorrow => 'Ертең';
+
+  @override
+  String get util_today_lower => 'бүгін';
+
+  @override
+  String get util_tomorrow_lower => 'ертең';
+
+  @override
+  String get util_delivery_today => 'Бүгін жеткізу';
+
+  @override
+  String get util_delivery_tomorrow => 'Ертең жеткізу';
+
+  @override
+  String get util_daily => 'Күнделікті';
+
+  @override
+  String get util_weekdays => 'Жұмыс күндері';
+
+  @override
+  String get util_weekends => 'Демалыс күндері';
+
+  @override
+  String util_delivery_at(String time) {
+    return 'Тасымалдау $time';
+  }
+
+  @override
+  String util_orders_before(String time) {
+    return 'Дейін тапсырыстар $time бүгін кетіңіз';
+  }
+
+  @override
+  String util_delivery_date(String date) {
+    return 'Жеткізу $date';
+  }
+
+  @override
+  String util_delivery_range(String range) {
+    return 'Жеткізу $range';
+  }
+
+  @override
+  String get util_weekday_mon => 'Дүйсенбі';
+
+  @override
+  String get util_weekday_tue => 'Сейсенбі';
+
+  @override
+  String get util_weekday_wed => 'Ср';
+
+  @override
+  String get util_weekday_thu => 'Не';
+
+  @override
+  String get util_weekday_fri => 'ЖМ';
+
+  @override
+  String get util_weekday_sat => 'Сб';
+
+  @override
+  String get util_weekday_sun => 'Күн';
+
+  @override
+  String get util_weekday_monday => 'Дүйсенбі';
+
+  @override
+  String get util_weekday_tuesday => 'Сейсенбі';
+
+  @override
+  String get util_weekday_wednesday => 'Сәрсенбі';
+
+  @override
+  String get util_weekday_thursday => 'Бейсенбі';
+
+  @override
+  String get util_weekday_friday => 'Жұма';
+
+  @override
+  String get util_weekday_saturday => 'Сенбі';
+
+  @override
+  String get util_weekday_sunday => 'Жексенбі';
+
+  @override
+  String get util_weekday_keyword_weekdays => 'жұмыс күндері';
+
+  @override
+  String get util_weekday_keyword_weekends => 'демалыс күндері';
+
+  @override
+  String get util_weekday_keyword_daily => 'күнделікті';
+
+  @override
+  String get util_weekday_keyword_every_day => 'күн сайын';
+
+  @override
+  String get util_month_gen_1 => 'қаңтар';
+
+  @override
+  String get util_month_gen_2 => 'ақпан';
+
+  @override
+  String get util_month_gen_3 => 'Наурыз';
+
+  @override
+  String get util_month_gen_4 => 'сәуір';
+
+  @override
+  String get util_month_gen_5 => 'мамыр';
+
+  @override
+  String get util_month_gen_6 => 'маусым';
+
+  @override
+  String get util_month_gen_7 => 'шілде';
+
+  @override
+  String get util_month_gen_8 => 'тамыз';
+
+  @override
+  String get util_month_gen_9 => 'қыркүйек';
+
+  @override
+  String get util_month_gen_10 => 'қазан';
+
+  @override
+  String get util_month_gen_11 => 'қараша';
+
+  @override
+  String get util_month_gen_12 => 'желтоқсан';
+
+  @override
+  String get util_month_display_1 => 'қаңтар';
+
+  @override
+  String get util_month_display_2 => 'ақпан';
+
+  @override
+  String get util_month_display_3 => 'Наурыз';
+
+  @override
+  String get util_month_display_4 => 'сәуір';
+
+  @override
+  String get util_month_display_5 => 'мамыр';
+
+  @override
+  String get util_month_display_6 => 'маусым';
+
+  @override
+  String get util_month_display_7 => 'шілде';
+
+  @override
+  String get util_month_display_8 => 'тамыз';
+
+  @override
+  String get util_month_display_9 => 'қыркүйек';
+
+  @override
+  String get util_month_display_10 => 'қазан';
+
+  @override
+  String get util_month_display_11 => 'қараша';
+
+  @override
+  String get util_month_display_12 => 'желтоқсан';
+
+  @override
+  String get auto_ne_udalos_zagruzit_tovary =>
+      'Тауарларды жүктеу мүмкін болмады';
+
+  @override
+  String get auto_odobreno => 'Мақұлданды';
+
+  @override
+  String get auto_otkloneno => 'Қабылданбады';
+
+  @override
+  String get auto_na_moderatsii => 'Модерацияда';
+
+  @override
+  String get auto_odobrit_tovar => 'Өнімді мақұлдау';
+
+  @override
+  String get auto_otklonit_tovar => 'Өнімді қабылдамау';
+
+  @override
+  String get auto_tovar_odobren => 'Тауар мақұлданды';
+
+  @override
+  String get auto_tovar_otklonen => 'Тауар қабылданбады';
+
+  @override
+  String get auto_oshibka_pri_obnovlenii_statusa => 'Күйді жаңарту қатесі';
+
+  @override
+  String get auto_ne_udalos_opredelit_moderatora =>
+      'Модераторды анықтау мүмкін болмады';
+
+  @override
+  String get auto_udalit_tovar_za_narushenie =>
+      'Бұзушылық үшін өнімді алып тастаңыз';
+
+  @override
+  String get auto_prichina_udaleniya_dlya_postavschik =>
+      'Жеткізуші үшін жою себебі';
+
+  @override
+  String get auto_udalit => 'Жою';
+
+  @override
+  String get auto_tovar_udalen_postavschik_uvedomlen =>
+      'Өнім жойылды, жеткізушіге хабарланды';
+
+  @override
+  String get auto_tovar_udalen => 'Өнім жойылды';
+
+  @override
+  String get auto_ne_udalos_udalit_tovar => 'Өнімді жою мүмкін болмады';
+
+  @override
+  String get auto_otpravit => 'Жіберу';
+
+  @override
+  String get auto_prichina_otkloneniya => 'Ауытқу себебі';
+
+  @override
+  String get auto_kommentariy => 'Пікір';
+
+  @override
+  String get auto_bez_kategorii => 'Санат жоқ';
+
+  @override
+  String get auto_na_proverke => 'Тексеруде';
+
+  @override
+  String get auto_vse => 'Барлығы';
+
+  @override
+  String get auto_poisk_tovar_postavschik_kategoriya =>
+      'Іздеу: өнім, жеткізуші, санат';
+
+  @override
+  String get auto_ochistit => 'Тазалау';
+
+  @override
+  String get auto_net_zayavok => 'Өтінімдер жоқ';
+
+  @override
+  String get auto_po_vashemu_zaprosu_nichego_ne_nayde =>
+      'Сіздің сұранысыңыз бойынша ештеңе табылған жоқ';
+
+  @override
+  String get auto_net_podhodyaschih_tovarov => 'Тиісті тауарлар жоқ';
+
+  @override
+  String get auto_tsena => 'Бағасы';
+
+  @override
+  String get auto_partiya => 'Партия';
+
+  @override
+  String get auto_udalit_za_narushenie => 'Бұзушылық үшін жою';
+
+  @override
+  String get auto_otklonit => 'Бас тарту';
+
+  @override
+  String get auto_o_tovare => 'Өнім туралы';
+
+  @override
+  String get auto_podrobnee => 'Толығырақ';
+
+  @override
+  String get auto_deystvie_nelzya_otmenit => 'Әрекетті қайтару мүмкін емес.';
+
+  @override
+  String get auto_eto_udalit_vse_backupkody_i_doveren =>
+      'Бұл пайдаланушының барлық сақтық көшірме кодтарын және сенімді құрылғыларын жояды. ';
+
+  @override
+  String get auto_dvuhfaktornaya_autentifikatsiya_otk =>
+      'Екі факторлы аутентификация өшірілген';
+
+  @override
+  String get auto_deystvie_dostupno_tolko_moderatoram =>
+      'Әрекет тек модераторларға қол жетімді';
+
+  @override
+  String get auto_ne_udalos_otklyuchit_2fa => '2FA өшіру мүмкін болмады';
+
+  @override
+  String get auto_otklyuchit_dvuhfaktornuyu_autentifi =>
+      'Екі факторлы аутентификацияны өшіріңіз';
+
+  @override
+  String get auto_napitok_cocacola_gazirovannyy_15_l =>
+      'Coca-Cola газдалған сусын 1.5 л';
+
+  @override
+  String get auto_cocacola_samyy_populyarnyy_gazirova =>
+      'Coca - Cola-әлемдегі ең танымал газдалған сусын. Оның өткір, бірақ жағымды дәмі бар, шөлді жақсы басады, салқындатылған ішу ұсынылады.';
+
+  @override
+  String get auto_napitki => 'Сусындар';
+
+  @override
+  String get auto_gazirovannye_napitki => 'Газдалған сусындар';
+
+  @override
+  String get auto_gazirovannaya_voda_sahar_krasitel_s =>
+      'Газдалған су, қант, бояғыш (қант түсі [IV]), қышқылдықты реттегіш (ортофосфор қышқылы), табиғи хош иістер, кофеин.';
+
+  @override
+  String get auto_strana_proizvoditelya => 'Өндіруші ел';
+
+  @override
+  String get auto_kazahstan => 'Қазақстан';
+
+  @override
+  String get auto_torgovaya_marka => 'Сауда белгісі';
+
+  @override
+  String get auto_lineyka => 'Сызғыш';
+
+  @override
+  String get auto_klassicheskaya => 'Классикалық';
+
+  @override
+  String get auto_sklad_mansa => '\"Манса\" Қоймасы';
+
+  @override
+  String get auto_zavtra => 'ертең';
+
+  @override
+  String get auto_dostavka_mezhgorod => 'Жеткізу қалааралық';
+
+  @override
+  String get auto_chetverg_1700 => 'Бейсенбі 17: 00';
+
+  @override
+  String get auto_vs_21_sentyabrya => '21 қыркүйек жексенбі';
+
+  @override
+  String get auto_sb_23_sentyabrya_1200 => 'Сенбі 23 қыркүйек 12: 00';
+
+  @override
+  String get auto_kakoyto_krutoy_postavschik => 'Кейбір керемет жеткізуші';
+
+  @override
+  String get auto_sb_20_sentyabrya => 'Сенбі 20 қыркүйек';
+
+  @override
+  String get currency_auto_1 => 'Қазақша теңге';
+
+  @override
+  String get currency_auto_2 => 'Ресей рублі';
+
+  @override
+  String get language_auto_3 => 'Орыс';
+
+  @override
+  String get language_auto_4 => 'Қазақша';
+
+  @override
+  String get language_auto_5 => 'Орыс';
+
+  @override
+  String get language_auto_6 => 'Қазақша';
+
+  @override
+  String get language_auto_7 => 'Орыс';
+
+  @override
+  String get language_auto_8 => 'Қазақша';
+
+  @override
+  String get product_auto_9 => 'Жеткізушілер жоқ';
+
+  @override
+  String get user_address_auto_10 => 'Үй';
+
+  @override
+  String get user_address_auto_11 => 'Жұмыс';
+
+  @override
+  String get user_address_auto_12 => 'Басқа';
+
+  @override
+  String get user_address_auto_13 => 'Басқа';
+
+  @override
+  String get moderation_page_auto_14 =>
+      'Rjrґr°r \" RES \' sњ R * R° RSR°Cђsѓs€Rµrsrer';
+
+  @override
+  String get moderation_page_auto_15 => 'Rћs \' Rєr \"Рѕрѕрес\' СЊ';
+
+  @override
+  String get moderation_page_auto_16 => 'Рћ С \' Рѕрир°СЂР.';
+
+  @override
+  String get moderation_page_auto_17 => 'Рџрѕрґсђrsr±Рѕрµр';
+
+  @override
+  String get moderation_page_auto_18 => ' В· ';
+
+  @override
+  String get ai_service_auto_19 => 'API конфигурациясы қатесі';
+
+  @override
+  String get ai_service_auto_20 => 'AI түйіндемесін құру мүмкін болмады';
+
+  @override
+  String get ai_service_auto_21 =>
+      'Сіз жеткізушілердің AI талдаушысысыз. Тек орыс тілінде жауап беруді ұмытпаңыз. ';
+
+  @override
+  String get ai_service_auto_22 =>
+      'Сіздің барлық жауаптарыңыз 100% орыс тілінде болуы керек. ';
+
+  @override
+  String get ai_service_auto_23 =>
+      'Ешқашан басқа тілдерді ешқандай жағдайда қолданбаңыз.';
+
+  @override
+  String get ai_service_auto_24 => 'Сұрау тым ұзаққа созылды';
+
+  @override
+  String get ai_service_auto_25 => 'Интернет байланысын тексеріңіз';
+
+  @override
+  String get ai_service_auto_26 => 'AI түйіндемесін құру мүмкін болмады';
+
+  @override
+  String get ai_service_auto_27 => 'AI түйіндемесін құру мүмкін болмады';
+
+  @override
+  String get ai_service_auto_28 => 'API конфигурациясы қатесі';
+
+  @override
+  String get ai_service_auto_29 =>
+      'Сервер қатесі. Басқа модельді қолданып көрейік';
+
+  @override
+  String get ai_service_auto_30 => 'AI қызметі қатесі';
+
+  @override
+  String get ai_service_auto_31 => 'Жауапты өңдеу кезінде қате';
+
+  @override
+  String get ai_service_auto_32 => 'Жауапты өңдеу кезінде қате';
+
+  @override
+  String get ai_service_auto_33 => 'Жауапты өңдеу кезінде қате';
+
+  @override
+  String get ai_service_auto_34 => 'Жауапты өңдеу кезінде қате';
+
+  @override
+  String get ai_service_auto_35 => 'AI түйіндемесі сәтті жасалды';
+
+  @override
+  String get ai_service_auto_36 => 'Жауапты өңдеу кезінде қате';
+
+  @override
+  String message_localization_auto_37(Object orderId) {
+    return 'Идентификатормен тапсырыс беру $orderId табылған жоқ';
+  }
+
+  @override
+  String message_localization_auto_38(Object orderId) {
+    return 'Сіздің тапсырысыңыз #$orderId расталды';
+  }
+
+  @override
+  String message_localization_auto_39(Object orderId) {
+    return 'Тапсырыс #$orderId жеткізілді';
+  }
+
+  @override
+  String message_localization_auto_40(Object productId) {
+    return 'ID бар өнім $productId табылған жоқ';
+  }
+
+  @override
+  String message_localization_auto_41(Object details) {
+    return 'Тексеру қатесі: $details';
+  }
+
+  @override
+  String message_localization_auto_42(Object reason) {
+    return 'Ai жауабын жасау мүмкін болмады: $reason';
+  }
+
+  @override
+  String get custom_characteristic_validation_auto_43 =>
+      'Сипаттаманың атауы мен мәнін толтырыңыз';
+
+  @override
+  String get custom_characteristic_validation_auto_44 =>
+      'Бұл сипаттама қазірдің өзінде қосылды';
+
+  @override
+  String get month_year_parser_auto_45 => 'қаңтар';
+
+  @override
+  String get month_year_parser_auto_46 => 'ақпан';
+
+  @override
+  String get month_year_parser_auto_47 => 'Наурыз';
+
+  @override
+  String get month_year_parser_auto_48 => 'сәуір';
+
+  @override
+  String get month_year_parser_auto_49 => 'мамыр';
+
+  @override
+  String get month_year_parser_auto_50 => 'маусым';
+
+  @override
+  String get month_year_parser_auto_51 => 'шілде';
+
+  @override
+  String get month_year_parser_auto_52 => 'тамыз';
+
+  @override
+  String get month_year_parser_auto_53 => 'қыркүйек';
+
+  @override
+  String get month_year_parser_auto_54 => 'қазан';
+
+  @override
+  String get month_year_parser_auto_55 => 'қараша';
+
+  @override
+  String get month_year_parser_auto_56 => 'желтоқсан';
+
+  @override
+  String get month_year_parser_auto_57 => 'қаңтар';
+
+  @override
+  String get month_year_parser_auto_58 => 'ақпан';
+
+  @override
+  String get month_year_parser_auto_59 => 'мар';
+
+  @override
+  String get month_year_parser_auto_60 => 'сәуір';
+
+  @override
+  String get month_year_parser_auto_61 => 'маусым';
+
+  @override
+  String get month_year_parser_auto_62 => 'шілде';
+
+  @override
+  String get month_year_parser_auto_63 => 'тамыз';
+
+  @override
+  String get month_year_parser_auto_64 => 'сен';
+
+  @override
+  String get month_year_parser_auto_65 => 'Окта';
+
+  @override
+  String get month_year_parser_auto_66 => 'Нұх';
+
+  @override
+  String get month_year_parser_auto_67 => 'дек';
+
+  @override
+  String get month_year_parser_auto_68 => 'қаңтар.';
+
+  @override
+  String get month_year_parser_auto_69 => 'ақпан.';
+
+  @override
+  String get month_year_parser_auto_70 => 'мар.';
+
+  @override
+  String get month_year_parser_auto_71 => 'сәуір.';
+
+  @override
+  String get month_year_parser_auto_72 => 'мамыр.';
+
+  @override
+  String get month_year_parser_auto_73 => 'маусым.';
+
+  @override
+  String get month_year_parser_auto_74 => 'шілде.';
+
+  @override
+  String get month_year_parser_auto_75 => 'тамыз.';
+
+  @override
+  String get month_year_parser_auto_76 => 'сен.';
+
+  @override
+  String get month_year_parser_auto_77 => 'қазан.';
+
+  @override
+  String get month_year_parser_auto_78 => 'Нұх.';
+
+  @override
+  String get month_year_parser_auto_79 => 'желтоқсан.';
+
+  @override
+  String get search_normalizer_auto_80 => 'е';
+
+  @override
+  String get search_normalizer_auto_81 => 'е';
+
+  @override
+  String get search_normalizer_auto_82 => 'а';
+
+  @override
+  String get search_normalizer_auto_83 => 'б';
+
+  @override
+  String get search_normalizer_auto_84 => 'в';
+
+  @override
+  String get search_normalizer_auto_85 => 'г';
+
+  @override
+  String get search_normalizer_auto_86 => 'д';
+
+  @override
+  String get search_normalizer_auto_87 => 'е';
+
+  @override
+  String get search_normalizer_auto_88 => 'е';
+
+  @override
+  String get search_normalizer_auto_89 => 'ж';
+
+  @override
+  String get search_normalizer_auto_90 => 'з';
+
+  @override
+  String get search_normalizer_auto_91 => 'және';
+
+  @override
+  String get search_normalizer_auto_92 => 'ж';
+
+  @override
+  String get search_normalizer_auto_93 => 'к';
+
+  @override
+  String get search_normalizer_auto_94 => 'л';
+
+  @override
+  String get search_normalizer_auto_95 => 'м';
+
+  @override
+  String get search_normalizer_auto_96 => 'н';
+
+  @override
+  String get search_normalizer_auto_97 => 'туралы';
+
+  @override
+  String get search_normalizer_auto_98 => 'Б';
+
+  @override
+  String get search_normalizer_auto_99 => 'р';
+
+  @override
+  String get search_normalizer_auto_100 => 'с';
+
+  @override
+  String get search_normalizer_auto_101 => 'т';
+
+  @override
+  String get search_normalizer_auto_102 => 'у';
+
+  @override
+  String get search_normalizer_auto_103 => 'ф';
+
+  @override
+  String get search_normalizer_auto_104 => 'х';
+
+  @override
+  String get search_normalizer_auto_105 => 'о';
+
+  @override
+  String get search_normalizer_auto_106 => 'с';
+
+  @override
+  String get search_normalizer_auto_107 => 'ш';
+
+  @override
+  String get search_normalizer_auto_108 => 'Ш';
+
+  @override
+  String get search_normalizer_auto_109 => 'Коммерсант';
+
+  @override
+  String get search_normalizer_auto_110 => 'лар';
+
+  @override
+  String get search_normalizer_auto_111 => 'Б';
+
+  @override
+  String get search_normalizer_auto_112 => 'Е';
+
+  @override
+  String get search_normalizer_auto_113 => 'ю';
+
+  @override
+  String get search_normalizer_auto_114 => 'мен';
+
+  @override
+  String get search_normalizer_auto_115 => 'Ш';
+
+  @override
+  String get search_normalizer_auto_116 => 'Ш';
+
+  @override
+  String get search_normalizer_auto_117 => 'ж';
+
+  @override
+  String get search_normalizer_auto_118 => 'х';
+
+  @override
+  String get search_normalizer_auto_119 => 'о';
+
+  @override
+  String get search_normalizer_auto_120 => 'с';
+
+  @override
+  String get search_normalizer_auto_121 => 'ш';
+
+  @override
+  String get search_normalizer_auto_122 => 'ю';
+
+  @override
+  String get search_normalizer_auto_123 => 'мен';
+
+  @override
+  String get search_normalizer_auto_124 => 'е';
+
+  @override
+  String get search_normalizer_auto_125 => 'е';
+
+  @override
+  String get search_normalizer_auto_126 => 'ю';
+
+  @override
+  String get search_normalizer_auto_127 => 'мен';
+
+  @override
+  String get search_normalizer_auto_128 => 'а';
+
+  @override
+  String get search_normalizer_auto_129 => 'б';
+
+  @override
+  String get search_normalizer_auto_130 => 'в';
+
+  @override
+  String get search_normalizer_auto_131 => 'г';
+
+  @override
+  String get search_normalizer_auto_132 => 'д';
+
+  @override
+  String get search_normalizer_auto_133 => 'е';
+
+  @override
+  String get search_normalizer_auto_134 => 'з';
+
+  @override
+  String get search_normalizer_auto_135 => 'және';
+
+  @override
+  String get search_normalizer_auto_136 => 'ж';
+
+  @override
+  String get search_normalizer_auto_137 => 'к';
+
+  @override
+  String get search_normalizer_auto_138 => 'л';
+
+  @override
+  String get search_normalizer_auto_139 => 'м';
+
+  @override
+  String get search_normalizer_auto_140 => 'н';
+
+  @override
+  String get search_normalizer_auto_141 => 'туралы';
+
+  @override
+  String get search_normalizer_auto_142 => 'Б';
+
+  @override
+  String get search_normalizer_auto_143 => 'р';
+
+  @override
+  String get search_normalizer_auto_144 => 'с';
+
+  @override
+  String get search_normalizer_auto_145 => 'т';
+
+  @override
+  String get search_normalizer_auto_146 => 'у';
+
+  @override
+  String get search_normalizer_auto_147 => 'ф';
+
+  @override
+  String get search_normalizer_auto_148 => 'х';
+
+  @override
+  String get search_normalizer_auto_149 => 'к';
+
+  @override
+  String get search_normalizer_auto_150 => 'к';
+
+  @override
+  String get search_normalizer_auto_151 => 'в';
+
+  @override
+  String get search_normalizer_auto_152 => 'кс';
+
+  @override
+  String get search_normalizer_auto_153 => 'дж';
+
+  @override
+  String get search_normalizer_auto_154 => 'е';
+
+  @override
+  String get search_normalizer_auto_155 => 'ж';
+
+  @override
+  String get search_normalizer_auto_156 => 'о';
+
+  @override
+  String get search_normalizer_auto_157 => 'у';
+
+  @override
+  String get search_normalizer_auto_158 => 'к';
+
+  @override
+  String get search_normalizer_auto_159 => 'е';
+
+  @override
+  String get search_normalizer_auto_160 => 'н';
+
+  @override
+  String get search_normalizer_auto_161 => 'г';
+
+  @override
+  String get search_normalizer_auto_162 => 'ш';
+
+  @override
+  String get search_normalizer_auto_163 => 'Ш';
+
+  @override
+  String get search_normalizer_auto_164 => 'з';
+
+  @override
+  String get search_normalizer_auto_165 => 'х';
+
+  @override
+  String get search_normalizer_auto_166 => 'Коммерсант';
+
+  @override
+  String get search_normalizer_auto_167 => 'ф';
+
+  @override
+  String get search_normalizer_auto_168 => 'лар';
+
+  @override
+  String get search_normalizer_auto_169 => 'в';
+
+  @override
+  String get search_normalizer_auto_170 => 'а';
+
+  @override
+  String get search_normalizer_auto_171 => 'Б';
+
+  @override
+  String get search_normalizer_auto_172 => 'р';
+
+  @override
+  String get search_normalizer_auto_173 => 'туралы';
+
+  @override
+  String get search_normalizer_auto_174 => 'л';
+
+  @override
+  String get search_normalizer_auto_175 => 'д';
+
+  @override
+  String get search_normalizer_auto_176 => 'ж';
+
+  @override
+  String get search_normalizer_auto_177 => 'Е';
+
+  @override
+  String get search_normalizer_auto_178 => 'мен';
+
+  @override
+  String get search_normalizer_auto_179 => 'с';
+
+  @override
+  String get search_normalizer_auto_180 => 'с';
+
+  @override
+  String get search_normalizer_auto_181 => 'м';
+
+  @override
+  String get search_normalizer_auto_182 => 'және';
+
+  @override
+  String get search_normalizer_auto_183 => 'т';
+
+  @override
+  String get search_normalizer_auto_184 => 'Б';
+
+  @override
+  String get search_normalizer_auto_185 => 'б';
+
+  @override
+  String get search_normalizer_auto_186 => 'ю';
+
+  @override
+  String get search_normalizer_auto_187 => 'ж';
+
+  @override
+  String get search_normalizer_auto_188 => 'о';
+
+  @override
+  String get search_normalizer_auto_189 => 'у';
+
+  @override
+  String get search_normalizer_auto_190 => 'к';
+
+  @override
+  String get search_normalizer_auto_191 => 'е';
+
+  @override
+  String get search_normalizer_auto_192 => 'н';
+
+  @override
+  String get search_normalizer_auto_193 => 'г';
+
+  @override
+  String get search_normalizer_auto_194 => 'ш';
+
+  @override
+  String get search_normalizer_auto_195 => 'Ш';
+
+  @override
+  String get search_normalizer_auto_196 => 'з';
+
+  @override
+  String get search_normalizer_auto_197 => 'х';
+
+  @override
+  String get search_normalizer_auto_198 => 'Коммерсант';
+
+  @override
+  String get search_normalizer_auto_199 => 'ф';
+
+  @override
+  String get search_normalizer_auto_200 => 'лар';
+
+  @override
+  String get search_normalizer_auto_201 => 'в';
+
+  @override
+  String get search_normalizer_auto_202 => 'а';
+
+  @override
+  String get search_normalizer_auto_203 => 'Б';
+
+  @override
+  String get search_normalizer_auto_204 => 'р';
+
+  @override
+  String get search_normalizer_auto_205 => 'туралы';
+
+  @override
+  String get search_normalizer_auto_206 => 'л';
+
+  @override
+  String get search_normalizer_auto_207 => 'д';
+
+  @override
+  String get search_normalizer_auto_208 => 'ж';
+
+  @override
+  String get search_normalizer_auto_209 => 'Е';
+
+  @override
+  String get search_normalizer_auto_210 => 'мен';
+
+  @override
+  String get search_normalizer_auto_211 => 'с';
+
+  @override
+  String get search_normalizer_auto_212 => 'с';
+
+  @override
+  String get search_normalizer_auto_213 => 'м';
+
+  @override
+  String get search_normalizer_auto_214 => 'және';
+
+  @override
+  String get search_normalizer_auto_215 => 'т';
+
+  @override
+  String get search_normalizer_auto_216 => 'Б';
+
+  @override
+  String get search_normalizer_auto_217 => 'б';
+
+  @override
+  String get search_normalizer_auto_218 => 'ю';
+
+  @override
+  String get search_normalizer_auto_219 => 'е';
+
+  @override
+  String get wizard_init_auto_220 => 'Өндіруші ел';
+
+  @override
+  String get wizard_init_auto_221 => 'Жарамдылық мерзімі';
 }

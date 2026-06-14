@@ -1,3 +1,4 @@
+import 'package:flutter_project/services/localization/app_localizations.dart';
 /// Поддерживаемые языки в приложении
 enum LanguageCode {
   russian, // ru
@@ -17,18 +18,18 @@ extension LanguageCodeExtension on LanguageCode {
   String get displayName {
     switch (this) {
       case LanguageCode.russian:
-        return 'Русский';
+        return AppLocalizations.current.getString('language_auto_3');
       case LanguageCode.kazakh:
-        return 'Қазақша';
+        return AppLocalizations.current.getString('language_auto_4');
     }
   }
 
   String get displayNameInLanguage {
     switch (this) {
       case LanguageCode.russian:
-        return 'Русский';
+        return AppLocalizations.current.getString('language_auto_5');
       case LanguageCode.kazakh:
-        return 'Қазақша';
+        return AppLocalizations.current.getString('language_auto_6');
     }
   }
 }
@@ -49,12 +50,12 @@ class Language {
   static final List<Language> supported = [
     Language(
       code: LanguageCode.russian,
-      nativeName: 'Русский',
+      nativeName: AppLocalizations.current.getString('language_auto_7'),
       englishName: 'Russian',
     ),
     Language(
       code: LanguageCode.kazakh,
-      nativeName: 'Қазақша',
+      nativeName: AppLocalizations.current.getString('language_auto_8'),
       englishName: 'Kazakh',
     ),
   ];

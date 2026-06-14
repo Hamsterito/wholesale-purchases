@@ -5257,6 +5257,2130 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'_persist: не удалось записать шаблоны в SharedPreferences'**
   String get auto_persist_ne_udalos_zapisat_shablony;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Общие характеристики'**
+  String get util_general_characteristics;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Калории'**
+  String get util_calories;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Белки'**
+  String get util_protein;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Жиры'**
+  String get util_fat;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Углеводы'**
+  String get util_carbohydrates;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'ккал'**
+  String get util_kcal;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'г/100 г'**
+  String get util_grams_per_100g;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Питание'**
+  String get util_nutrition;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Состав'**
+  String get util_composition;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'только что'**
+  String get util_just_now;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'назад'**
+  String get util_ago;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'минуту'**
+  String get util_minute_one;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'минуты'**
+  String get util_minute_few;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'минут'**
+  String get util_minute_many;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'час'**
+  String get util_hour_one;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'часа'**
+  String get util_hour_few;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'часов'**
+  String get util_hour_many;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'день'**
+  String get util_day_one;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'дня'**
+  String get util_day_few;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'дней'**
+  String get util_day_many;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка'**
+  String get util_delivery;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Сегодня'**
+  String get util_today;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Завтра'**
+  String get util_tomorrow;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'сегодня'**
+  String get util_today_lower;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'завтра'**
+  String get util_tomorrow_lower;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка сегодня'**
+  String get util_delivery_today;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка завтра'**
+  String get util_delivery_tomorrow;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Ежедневно'**
+  String get util_daily;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Будни'**
+  String get util_weekdays;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Выходные'**
+  String get util_weekends;
+
+  /// Текст развоза с временем
+  ///
+  /// In ru, this message translates to:
+  /// **'Развоз в {time}'**
+  String util_delivery_at(String time);
+
+  /// Заказы до времени отсечки
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказы до {time} уезжают сегодня'**
+  String util_orders_before(String time);
+
+  /// Доставка с датой
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка {date}'**
+  String util_delivery_date(String date);
+
+  /// Доставка с диапазоном дат
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка {range}'**
+  String util_delivery_range(String range);
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Пн'**
+  String get util_weekday_mon;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Вт'**
+  String get util_weekday_tue;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Ср'**
+  String get util_weekday_wed;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Чт'**
+  String get util_weekday_thu;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Пт'**
+  String get util_weekday_fri;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Сб'**
+  String get util_weekday_sat;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Вс'**
+  String get util_weekday_sun;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Понедельник'**
+  String get util_weekday_monday;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Вторник'**
+  String get util_weekday_tuesday;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Среда'**
+  String get util_weekday_wednesday;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Четверг'**
+  String get util_weekday_thursday;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Пятница'**
+  String get util_weekday_friday;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Суббота'**
+  String get util_weekday_saturday;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'Воскресенье'**
+  String get util_weekday_sunday;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'будни'**
+  String get util_weekday_keyword_weekdays;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'выходные'**
+  String get util_weekday_keyword_weekends;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'ежедневно'**
+  String get util_weekday_keyword_daily;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'каждый день'**
+  String get util_weekday_keyword_every_day;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'января'**
+  String get util_month_gen_1;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'февраля'**
+  String get util_month_gen_2;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'марта'**
+  String get util_month_gen_3;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'апреля'**
+  String get util_month_gen_4;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'мая'**
+  String get util_month_gen_5;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'июня'**
+  String get util_month_gen_6;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'июля'**
+  String get util_month_gen_7;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'августа'**
+  String get util_month_gen_8;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'сентября'**
+  String get util_month_gen_9;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'октября'**
+  String get util_month_gen_10;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'ноября'**
+  String get util_month_gen_11;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'декабря'**
+  String get util_month_gen_12;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'января'**
+  String get util_month_display_1;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'февраля'**
+  String get util_month_display_2;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'марта'**
+  String get util_month_display_3;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'апреля'**
+  String get util_month_display_4;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'мая'**
+  String get util_month_display_5;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'июня'**
+  String get util_month_display_6;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'июля'**
+  String get util_month_display_7;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'августа'**
+  String get util_month_display_8;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'сентября'**
+  String get util_month_display_9;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'октября'**
+  String get util_month_display_10;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'ноября'**
+  String get util_month_display_11;
+
+  /// Авто-утилиты
+  ///
+  /// In ru, this message translates to:
+  /// **'декабря'**
+  String get util_month_display_12;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить товары'**
+  String get auto_ne_udalos_zagruzit_tovary;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Одобрено'**
+  String get auto_odobreno;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Отклонено'**
+  String get auto_otkloneno;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'На модерации'**
+  String get auto_na_moderatsii;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Одобрить товар'**
+  String get auto_odobrit_tovar;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Отклонить товар'**
+  String get auto_otklonit_tovar;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар одобрен'**
+  String get auto_tovar_odobren;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар отклонен'**
+  String get auto_tovar_otklonen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка при обновлении статуса'**
+  String get auto_oshibka_pri_obnovlenii_statusa;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось определить модератора'**
+  String get auto_ne_udalos_opredelit_moderatora;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить товар за нарушение'**
+  String get auto_udalit_tovar_za_narushenie;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Причина удаления для поставщика'**
+  String get auto_prichina_udaleniya_dlya_postavschik;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить'**
+  String get auto_udalit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар удален, поставщик уведомлен'**
+  String get auto_tovar_udalen_postavschik_uvedomlen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар удален'**
+  String get auto_tovar_udalen;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось удалить товар'**
+  String get auto_ne_udalos_udalit_tovar;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить'**
+  String get auto_otpravit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Причина отклонения'**
+  String get auto_prichina_otkloneniya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Комментарий'**
+  String get auto_kommentariy;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Без категории'**
+  String get auto_bez_kategorii;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'На проверке'**
+  String get auto_na_proverke;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Все'**
+  String get auto_vse;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск: товар, поставщик, категория'**
+  String get auto_poisk_tovar_postavschik_kategoriya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить'**
+  String get auto_ochistit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет заявок'**
+  String get auto_net_zayavok;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'По вашему запросу ничего не найдено'**
+  String get auto_po_vashemu_zaprosu_nichego_ne_nayde;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет подходящих товаров'**
+  String get auto_net_podhodyaschih_tovarov;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Цена'**
+  String get auto_tsena;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Партия'**
+  String get auto_partiya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить за нарушение'**
+  String get auto_udalit_za_narushenie;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Отклонить'**
+  String get auto_otklonit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'О товаре'**
+  String get auto_o_tovare;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Подробнее'**
+  String get auto_podrobnee;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Действие нельзя отменить.'**
+  String get auto_deystvie_nelzya_otmenit;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Это удалит все backup-коды и доверенные устройства пользователя. '**
+  String get auto_eto_udalit_vse_backupkody_i_doveren;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Двухфакторная аутентификация отключена'**
+  String get auto_dvuhfaktornaya_autentifikatsiya_otk;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Действие доступно только модераторам'**
+  String get auto_deystvie_dostupno_tolko_moderatoram;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось отключить 2FA'**
+  String get auto_ne_udalos_otklyuchit_2fa;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Отключить двухфакторную аутентификацию'**
+  String get auto_otklyuchit_dvuhfaktornuyu_autentifi;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Напиток Coca-Cola газированный 1.5 л'**
+  String get auto_napitok_cocacola_gazirovannyy_15_l;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Coca-Cola - самый популярный газированный напиток в мире. Имеет резкий, но приятный вкус, хорошо утоляет жажду, рекомендуется пить охлажденным.'**
+  String get auto_cocacola_samyy_populyarnyy_gazirova;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Напитки'**
+  String get auto_napitki;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Газированные напитки'**
+  String get auto_gazirovannye_napitki;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Газированная вода, сахар, краситель (сахарный колер [IV]), регулятор кислотности (ортофосфорная кислота), натуральные ароматизаторы, кофеин.'**
+  String get auto_gazirovannaya_voda_sahar_krasitel_s;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Страна производителя'**
+  String get auto_strana_proizvoditelya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Казахстан'**
+  String get auto_kazahstan;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Торговая марка'**
+  String get auto_torgovaya_marka;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Линейка'**
+  String get auto_lineyka;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Классическая'**
+  String get auto_klassicheskaya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Склад \"Манса\"'**
+  String get auto_sklad_mansa;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'завтра'**
+  String get auto_zavtra;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка межгород'**
+  String get auto_dostavka_mezhgorod;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Четверг 17:00'**
+  String get auto_chetverg_1700;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Вс 21 сентября'**
+  String get auto_vs_21_sentyabrya;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Сб 23 сентября 12:00'**
+  String get auto_sb_23_sentyabrya_1200;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Какой-то крутой поставщик'**
+  String get auto_kakoyto_krutoy_postavschik;
+
+  /// Auto-extracted
+  ///
+  /// In ru, this message translates to:
+  /// **'Сб 20 сентября'**
+  String get auto_sb_20_sentyabrya;
+
+  /// Auto-extracted from lib\models\currency.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Казахский тенге'**
+  String get currency_auto_1;
+
+  /// Auto-extracted from lib\models\currency.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Российский рубль'**
+  String get currency_auto_2;
+
+  /// Auto-extracted from lib\models\language.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Русский'**
+  String get language_auto_3;
+
+  /// Auto-extracted from lib\models\language.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Қазақша'**
+  String get language_auto_4;
+
+  /// Auto-extracted from lib\models\language.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Русский'**
+  String get language_auto_5;
+
+  /// Auto-extracted from lib\models\language.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Қазақша'**
+  String get language_auto_6;
+
+  /// Auto-extracted from lib\models\language.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Русский'**
+  String get language_auto_7;
+
+  /// Auto-extracted from lib\models\language.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Қазақша'**
+  String get language_auto_8;
+
+  /// Auto-extracted from lib\models\product.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет доступных поставщиков'**
+  String get product_auto_9;
+
+  /// Auto-extracted from lib\models\user_address.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Дом'**
+  String get user_address_auto_10;
+
+  /// Auto-extracted from lib\models\user_address.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Работа'**
+  String get user_address_auto_11;
+
+  /// Auto-extracted from lib\models\user_address.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Другое'**
+  String get user_address_auto_12;
+
+  /// Auto-extracted from lib\models\user_address.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Другое'**
+  String get user_address_auto_13;
+
+  /// Auto-extracted from lib\moderator\moderation_page.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'РЈРґР°Р»РёС‚СЊ Р·Р° РЅР°СЂСѓС€РµРЅРёРµ'**
+  String get moderation_page_auto_14;
+
+  /// Auto-extracted from lib\moderator\moderation_page.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'РћС‚РєР»РѕРЅРёС‚СЊ'**
+  String get moderation_page_auto_15;
+
+  /// Auto-extracted from lib\moderator\moderation_page.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Рћ С‚РѕРІР°СЂРµ'**
+  String get moderation_page_auto_16;
+
+  /// Auto-extracted from lib\moderator\moderation_page.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'РџРѕРґСЂРѕР±РЅРµРµ'**
+  String get moderation_page_auto_17;
+
+  /// Auto-extracted from lib\moderator\moderation_page.dart
+  ///
+  /// In ru, this message translates to:
+  /// **' В· '**
+  String get moderation_page_auto_18;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка конфигурации API'**
+  String get ai_service_auto_19;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось сформировать AI-резюме'**
+  String get ai_service_auto_20;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Ты AI-аналитик поставщиков. ОБЯЗАТЕЛЬНО отвечай ТОЛЬКО на русском языке. '**
+  String get ai_service_auto_21;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Все твои ответы должны быть на 100% на русском. '**
+  String get ai_service_auto_22;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Никогда не используй другие языки ни при каких обстоятельствах.'**
+  String get ai_service_auto_23;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Запрос занял слишком долго'**
+  String get ai_service_auto_24;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверьте подключение к интернету'**
+  String get ai_service_auto_25;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось сформировать AI-резюме'**
+  String get ai_service_auto_26;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось сформировать AI-резюме'**
+  String get ai_service_auto_27;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка конфигурации API'**
+  String get ai_service_auto_28;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка сервера. Попробуем другую модель'**
+  String get ai_service_auto_29;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка AI сервиса'**
+  String get ai_service_auto_30;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка при обработке ответа'**
+  String get ai_service_auto_31;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка при обработке ответа'**
+  String get ai_service_auto_32;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка при обработке ответа'**
+  String get ai_service_auto_33;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка при обработке ответа'**
+  String get ai_service_auto_34;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'AI-резюме успешно сгенерировано'**
+  String get ai_service_auto_35;
+
+  /// Auto-extracted from lib\services\api\ai_service.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка при обработке ответа'**
+  String get ai_service_auto_36;
+
+  /// Auto-extracted from lib\services\message\message_localization.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ с ID {orderId} не найден'**
+  String message_localization_auto_37(Object orderId);
+
+  /// Auto-extracted from lib\services\message\message_localization.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваш заказ #{orderId} подтверждён'**
+  String message_localization_auto_38(Object orderId);
+
+  /// Auto-extracted from lib\services\message\message_localization.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ #{orderId} доставлен'**
+  String message_localization_auto_39(Object orderId);
+
+  /// Auto-extracted from lib\services\message\message_localization.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар с ID {productId} не найден'**
+  String message_localization_auto_40(Object productId);
+
+  /// Auto-extracted from lib\services\message\message_localization.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка валидации: {details}'**
+  String message_localization_auto_41(Object details);
+
+  /// Auto-extracted from lib\services\message\message_localization.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось сгенерировать ответ AI: {reason}'**
+  String message_localization_auto_42(Object reason);
+
+  /// Auto-extracted from lib\utils\custom_characteristic_validation.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Заполните название и значение характеристики'**
+  String get custom_characteristic_validation_auto_43;
+
+  /// Auto-extracted from lib\utils\custom_characteristic_validation.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Такая характеристика уже добавлена'**
+  String get custom_characteristic_validation_auto_44;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'январь'**
+  String get month_year_parser_auto_45;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'февраль'**
+  String get month_year_parser_auto_46;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'март'**
+  String get month_year_parser_auto_47;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'апрель'**
+  String get month_year_parser_auto_48;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'май'**
+  String get month_year_parser_auto_49;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'июнь'**
+  String get month_year_parser_auto_50;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'июль'**
+  String get month_year_parser_auto_51;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'август'**
+  String get month_year_parser_auto_52;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'сентябрь'**
+  String get month_year_parser_auto_53;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'октябрь'**
+  String get month_year_parser_auto_54;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ноябрь'**
+  String get month_year_parser_auto_55;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'декабрь'**
+  String get month_year_parser_auto_56;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'янв'**
+  String get month_year_parser_auto_57;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'фев'**
+  String get month_year_parser_auto_58;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'мар'**
+  String get month_year_parser_auto_59;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'апр'**
+  String get month_year_parser_auto_60;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'июн'**
+  String get month_year_parser_auto_61;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'июл'**
+  String get month_year_parser_auto_62;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'авг'**
+  String get month_year_parser_auto_63;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'сен'**
+  String get month_year_parser_auto_64;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'окт'**
+  String get month_year_parser_auto_65;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ноя'**
+  String get month_year_parser_auto_66;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'дек'**
+  String get month_year_parser_auto_67;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'янв.'**
+  String get month_year_parser_auto_68;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'фев.'**
+  String get month_year_parser_auto_69;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'мар.'**
+  String get month_year_parser_auto_70;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'апр.'**
+  String get month_year_parser_auto_71;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'май.'**
+  String get month_year_parser_auto_72;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'июн.'**
+  String get month_year_parser_auto_73;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'июл.'**
+  String get month_year_parser_auto_74;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'авг.'**
+  String get month_year_parser_auto_75;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'сен.'**
+  String get month_year_parser_auto_76;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'окт.'**
+  String get month_year_parser_auto_77;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ноя.'**
+  String get month_year_parser_auto_78;
+
+  /// Auto-extracted from lib\utils\month_year_parser.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'дек.'**
+  String get month_year_parser_auto_79;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ё'**
+  String get search_normalizer_auto_80;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'е'**
+  String get search_normalizer_auto_81;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'а'**
+  String get search_normalizer_auto_82;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'б'**
+  String get search_normalizer_auto_83;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'в'**
+  String get search_normalizer_auto_84;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'г'**
+  String get search_normalizer_auto_85;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'д'**
+  String get search_normalizer_auto_86;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'е'**
+  String get search_normalizer_auto_87;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ё'**
+  String get search_normalizer_auto_88;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ж'**
+  String get search_normalizer_auto_89;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'з'**
+  String get search_normalizer_auto_90;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'и'**
+  String get search_normalizer_auto_91;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'й'**
+  String get search_normalizer_auto_92;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'к'**
+  String get search_normalizer_auto_93;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'л'**
+  String get search_normalizer_auto_94;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'м'**
+  String get search_normalizer_auto_95;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'н'**
+  String get search_normalizer_auto_96;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'о'**
+  String get search_normalizer_auto_97;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'п'**
+  String get search_normalizer_auto_98;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'р'**
+  String get search_normalizer_auto_99;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'с'**
+  String get search_normalizer_auto_100;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'т'**
+  String get search_normalizer_auto_101;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'у'**
+  String get search_normalizer_auto_102;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ф'**
+  String get search_normalizer_auto_103;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'х'**
+  String get search_normalizer_auto_104;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ц'**
+  String get search_normalizer_auto_105;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ч'**
+  String get search_normalizer_auto_106;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ш'**
+  String get search_normalizer_auto_107;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'щ'**
+  String get search_normalizer_auto_108;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ъ'**
+  String get search_normalizer_auto_109;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ы'**
+  String get search_normalizer_auto_110;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ь'**
+  String get search_normalizer_auto_111;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'э'**
+  String get search_normalizer_auto_112;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ю'**
+  String get search_normalizer_auto_113;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'я'**
+  String get search_normalizer_auto_114;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'щ'**
+  String get search_normalizer_auto_115;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'щ'**
+  String get search_normalizer_auto_116;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ж'**
+  String get search_normalizer_auto_117;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'х'**
+  String get search_normalizer_auto_118;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ц'**
+  String get search_normalizer_auto_119;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ч'**
+  String get search_normalizer_auto_120;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ш'**
+  String get search_normalizer_auto_121;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ю'**
+  String get search_normalizer_auto_122;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'я'**
+  String get search_normalizer_auto_123;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'е'**
+  String get search_normalizer_auto_124;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ё'**
+  String get search_normalizer_auto_125;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ю'**
+  String get search_normalizer_auto_126;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'я'**
+  String get search_normalizer_auto_127;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'а'**
+  String get search_normalizer_auto_128;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'б'**
+  String get search_normalizer_auto_129;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'в'**
+  String get search_normalizer_auto_130;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'г'**
+  String get search_normalizer_auto_131;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'д'**
+  String get search_normalizer_auto_132;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'е'**
+  String get search_normalizer_auto_133;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'з'**
+  String get search_normalizer_auto_134;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'и'**
+  String get search_normalizer_auto_135;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'й'**
+  String get search_normalizer_auto_136;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'к'**
+  String get search_normalizer_auto_137;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'л'**
+  String get search_normalizer_auto_138;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'м'**
+  String get search_normalizer_auto_139;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'н'**
+  String get search_normalizer_auto_140;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'о'**
+  String get search_normalizer_auto_141;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'п'**
+  String get search_normalizer_auto_142;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'р'**
+  String get search_normalizer_auto_143;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'с'**
+  String get search_normalizer_auto_144;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'т'**
+  String get search_normalizer_auto_145;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'у'**
+  String get search_normalizer_auto_146;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ф'**
+  String get search_normalizer_auto_147;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'х'**
+  String get search_normalizer_auto_148;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'к'**
+  String get search_normalizer_auto_149;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'к'**
+  String get search_normalizer_auto_150;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'в'**
+  String get search_normalizer_auto_151;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'кс'**
+  String get search_normalizer_auto_152;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'дж'**
+  String get search_normalizer_auto_153;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ё'**
+  String get search_normalizer_auto_154;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'й'**
+  String get search_normalizer_auto_155;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ц'**
+  String get search_normalizer_auto_156;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'у'**
+  String get search_normalizer_auto_157;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'к'**
+  String get search_normalizer_auto_158;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'е'**
+  String get search_normalizer_auto_159;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'н'**
+  String get search_normalizer_auto_160;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'г'**
+  String get search_normalizer_auto_161;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ш'**
+  String get search_normalizer_auto_162;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'щ'**
+  String get search_normalizer_auto_163;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'з'**
+  String get search_normalizer_auto_164;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'х'**
+  String get search_normalizer_auto_165;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ъ'**
+  String get search_normalizer_auto_166;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ф'**
+  String get search_normalizer_auto_167;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ы'**
+  String get search_normalizer_auto_168;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'в'**
+  String get search_normalizer_auto_169;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'а'**
+  String get search_normalizer_auto_170;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'п'**
+  String get search_normalizer_auto_171;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'р'**
+  String get search_normalizer_auto_172;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'о'**
+  String get search_normalizer_auto_173;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'л'**
+  String get search_normalizer_auto_174;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'д'**
+  String get search_normalizer_auto_175;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ж'**
+  String get search_normalizer_auto_176;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'э'**
+  String get search_normalizer_auto_177;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'я'**
+  String get search_normalizer_auto_178;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ч'**
+  String get search_normalizer_auto_179;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'с'**
+  String get search_normalizer_auto_180;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'м'**
+  String get search_normalizer_auto_181;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'и'**
+  String get search_normalizer_auto_182;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'т'**
+  String get search_normalizer_auto_183;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ь'**
+  String get search_normalizer_auto_184;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'б'**
+  String get search_normalizer_auto_185;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ю'**
+  String get search_normalizer_auto_186;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'й'**
+  String get search_normalizer_auto_187;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ц'**
+  String get search_normalizer_auto_188;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'у'**
+  String get search_normalizer_auto_189;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'к'**
+  String get search_normalizer_auto_190;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'е'**
+  String get search_normalizer_auto_191;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'н'**
+  String get search_normalizer_auto_192;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'г'**
+  String get search_normalizer_auto_193;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ш'**
+  String get search_normalizer_auto_194;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'щ'**
+  String get search_normalizer_auto_195;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'з'**
+  String get search_normalizer_auto_196;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'х'**
+  String get search_normalizer_auto_197;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ъ'**
+  String get search_normalizer_auto_198;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ф'**
+  String get search_normalizer_auto_199;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ы'**
+  String get search_normalizer_auto_200;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'в'**
+  String get search_normalizer_auto_201;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'а'**
+  String get search_normalizer_auto_202;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'п'**
+  String get search_normalizer_auto_203;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'р'**
+  String get search_normalizer_auto_204;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'о'**
+  String get search_normalizer_auto_205;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'л'**
+  String get search_normalizer_auto_206;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'д'**
+  String get search_normalizer_auto_207;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ж'**
+  String get search_normalizer_auto_208;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'э'**
+  String get search_normalizer_auto_209;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'я'**
+  String get search_normalizer_auto_210;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ч'**
+  String get search_normalizer_auto_211;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'с'**
+  String get search_normalizer_auto_212;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'м'**
+  String get search_normalizer_auto_213;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'и'**
+  String get search_normalizer_auto_214;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'т'**
+  String get search_normalizer_auto_215;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ь'**
+  String get search_normalizer_auto_216;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'б'**
+  String get search_normalizer_auto_217;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ю'**
+  String get search_normalizer_auto_218;
+
+  /// Auto-extracted from lib\utils\search_normalizer.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'ё'**
+  String get search_normalizer_auto_219;
+
+  /// Auto-extracted from lib\utils\wizard_init.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Страна производителя'**
+  String get wizard_init_auto_220;
+
+  /// Auto-extracted from lib\utils\wizard_init.dart
+  ///
+  /// In ru, this message translates to:
+  /// **'Срок годности'**
+  String get wizard_init_auto_221;
 }
 
 class _AppLocalizationsDelegate

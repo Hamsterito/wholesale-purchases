@@ -2846,4 +2846,1105 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get auto_persist_ne_udalos_zapisat_shablony =>
       '_persist: не удалось записать шаблоны в SharedPreferences';
+
+  @override
+  String get util_general_characteristics => 'Общие характеристики';
+
+  @override
+  String get util_calories => 'Калории';
+
+  @override
+  String get util_protein => 'Белки';
+
+  @override
+  String get util_fat => 'Жиры';
+
+  @override
+  String get util_carbohydrates => 'Углеводы';
+
+  @override
+  String get util_kcal => 'ккал';
+
+  @override
+  String get util_grams_per_100g => 'г/100 г';
+
+  @override
+  String get util_nutrition => 'Питание';
+
+  @override
+  String get util_composition => 'Состав';
+
+  @override
+  String get util_just_now => 'только что';
+
+  @override
+  String get util_ago => 'назад';
+
+  @override
+  String get util_minute_one => 'минуту';
+
+  @override
+  String get util_minute_few => 'минуты';
+
+  @override
+  String get util_minute_many => 'минут';
+
+  @override
+  String get util_hour_one => 'час';
+
+  @override
+  String get util_hour_few => 'часа';
+
+  @override
+  String get util_hour_many => 'часов';
+
+  @override
+  String get util_day_one => 'день';
+
+  @override
+  String get util_day_few => 'дня';
+
+  @override
+  String get util_day_many => 'дней';
+
+  @override
+  String get util_delivery => 'Доставка';
+
+  @override
+  String get util_today => 'Сегодня';
+
+  @override
+  String get util_tomorrow => 'Завтра';
+
+  @override
+  String get util_today_lower => 'сегодня';
+
+  @override
+  String get util_tomorrow_lower => 'завтра';
+
+  @override
+  String get util_delivery_today => 'Доставка сегодня';
+
+  @override
+  String get util_delivery_tomorrow => 'Доставка завтра';
+
+  @override
+  String get util_daily => 'Ежедневно';
+
+  @override
+  String get util_weekdays => 'Будни';
+
+  @override
+  String get util_weekends => 'Выходные';
+
+  @override
+  String util_delivery_at(String time) {
+    return 'Развоз в $time';
+  }
+
+  @override
+  String util_orders_before(String time) {
+    return 'Заказы до $time уезжают сегодня';
+  }
+
+  @override
+  String util_delivery_date(String date) {
+    return 'Доставка $date';
+  }
+
+  @override
+  String util_delivery_range(String range) {
+    return 'Доставка $range';
+  }
+
+  @override
+  String get util_weekday_mon => 'Пн';
+
+  @override
+  String get util_weekday_tue => 'Вт';
+
+  @override
+  String get util_weekday_wed => 'Ср';
+
+  @override
+  String get util_weekday_thu => 'Чт';
+
+  @override
+  String get util_weekday_fri => 'Пт';
+
+  @override
+  String get util_weekday_sat => 'Сб';
+
+  @override
+  String get util_weekday_sun => 'Вс';
+
+  @override
+  String get util_weekday_monday => 'Понедельник';
+
+  @override
+  String get util_weekday_tuesday => 'Вторник';
+
+  @override
+  String get util_weekday_wednesday => 'Среда';
+
+  @override
+  String get util_weekday_thursday => 'Четверг';
+
+  @override
+  String get util_weekday_friday => 'Пятница';
+
+  @override
+  String get util_weekday_saturday => 'Суббота';
+
+  @override
+  String get util_weekday_sunday => 'Воскресенье';
+
+  @override
+  String get util_weekday_keyword_weekdays => 'будни';
+
+  @override
+  String get util_weekday_keyword_weekends => 'выходные';
+
+  @override
+  String get util_weekday_keyword_daily => 'ежедневно';
+
+  @override
+  String get util_weekday_keyword_every_day => 'каждый день';
+
+  @override
+  String get util_month_gen_1 => 'января';
+
+  @override
+  String get util_month_gen_2 => 'февраля';
+
+  @override
+  String get util_month_gen_3 => 'марта';
+
+  @override
+  String get util_month_gen_4 => 'апреля';
+
+  @override
+  String get util_month_gen_5 => 'мая';
+
+  @override
+  String get util_month_gen_6 => 'июня';
+
+  @override
+  String get util_month_gen_7 => 'июля';
+
+  @override
+  String get util_month_gen_8 => 'августа';
+
+  @override
+  String get util_month_gen_9 => 'сентября';
+
+  @override
+  String get util_month_gen_10 => 'октября';
+
+  @override
+  String get util_month_gen_11 => 'ноября';
+
+  @override
+  String get util_month_gen_12 => 'декабря';
+
+  @override
+  String get util_month_display_1 => 'января';
+
+  @override
+  String get util_month_display_2 => 'февраля';
+
+  @override
+  String get util_month_display_3 => 'марта';
+
+  @override
+  String get util_month_display_4 => 'апреля';
+
+  @override
+  String get util_month_display_5 => 'мая';
+
+  @override
+  String get util_month_display_6 => 'июня';
+
+  @override
+  String get util_month_display_7 => 'июля';
+
+  @override
+  String get util_month_display_8 => 'августа';
+
+  @override
+  String get util_month_display_9 => 'сентября';
+
+  @override
+  String get util_month_display_10 => 'октября';
+
+  @override
+  String get util_month_display_11 => 'ноября';
+
+  @override
+  String get util_month_display_12 => 'декабря';
+
+  @override
+  String get auto_ne_udalos_zagruzit_tovary => 'Не удалось загрузить товары';
+
+  @override
+  String get auto_odobreno => 'Одобрено';
+
+  @override
+  String get auto_otkloneno => 'Отклонено';
+
+  @override
+  String get auto_na_moderatsii => 'На модерации';
+
+  @override
+  String get auto_odobrit_tovar => 'Одобрить товар';
+
+  @override
+  String get auto_otklonit_tovar => 'Отклонить товар';
+
+  @override
+  String get auto_tovar_odobren => 'Товар одобрен';
+
+  @override
+  String get auto_tovar_otklonen => 'Товар отклонен';
+
+  @override
+  String get auto_oshibka_pri_obnovlenii_statusa =>
+      'Ошибка при обновлении статуса';
+
+  @override
+  String get auto_ne_udalos_opredelit_moderatora =>
+      'Не удалось определить модератора';
+
+  @override
+  String get auto_udalit_tovar_za_narushenie => 'Удалить товар за нарушение';
+
+  @override
+  String get auto_prichina_udaleniya_dlya_postavschik =>
+      'Причина удаления для поставщика';
+
+  @override
+  String get auto_udalit => 'Удалить';
+
+  @override
+  String get auto_tovar_udalen_postavschik_uvedomlen =>
+      'Товар удален, поставщик уведомлен';
+
+  @override
+  String get auto_tovar_udalen => 'Товар удален';
+
+  @override
+  String get auto_ne_udalos_udalit_tovar => 'Не удалось удалить товар';
+
+  @override
+  String get auto_otpravit => 'Отправить';
+
+  @override
+  String get auto_prichina_otkloneniya => 'Причина отклонения';
+
+  @override
+  String get auto_kommentariy => 'Комментарий';
+
+  @override
+  String get auto_bez_kategorii => 'Без категории';
+
+  @override
+  String get auto_na_proverke => 'На проверке';
+
+  @override
+  String get auto_vse => 'Все';
+
+  @override
+  String get auto_poisk_tovar_postavschik_kategoriya =>
+      'Поиск: товар, поставщик, категория';
+
+  @override
+  String get auto_ochistit => 'Очистить';
+
+  @override
+  String get auto_net_zayavok => 'Нет заявок';
+
+  @override
+  String get auto_po_vashemu_zaprosu_nichego_ne_nayde =>
+      'По вашему запросу ничего не найдено';
+
+  @override
+  String get auto_net_podhodyaschih_tovarov => 'Нет подходящих товаров';
+
+  @override
+  String get auto_tsena => 'Цена';
+
+  @override
+  String get auto_partiya => 'Партия';
+
+  @override
+  String get auto_udalit_za_narushenie => 'Удалить за нарушение';
+
+  @override
+  String get auto_otklonit => 'Отклонить';
+
+  @override
+  String get auto_o_tovare => 'О товаре';
+
+  @override
+  String get auto_podrobnee => 'Подробнее';
+
+  @override
+  String get auto_deystvie_nelzya_otmenit => 'Действие нельзя отменить.';
+
+  @override
+  String get auto_eto_udalit_vse_backupkody_i_doveren =>
+      'Это удалит все backup-коды и доверенные устройства пользователя. ';
+
+  @override
+  String get auto_dvuhfaktornaya_autentifikatsiya_otk =>
+      'Двухфакторная аутентификация отключена';
+
+  @override
+  String get auto_deystvie_dostupno_tolko_moderatoram =>
+      'Действие доступно только модераторам';
+
+  @override
+  String get auto_ne_udalos_otklyuchit_2fa => 'Не удалось отключить 2FA';
+
+  @override
+  String get auto_otklyuchit_dvuhfaktornuyu_autentifi =>
+      'Отключить двухфакторную аутентификацию';
+
+  @override
+  String get auto_napitok_cocacola_gazirovannyy_15_l =>
+      'Напиток Coca-Cola газированный 1.5 л';
+
+  @override
+  String get auto_cocacola_samyy_populyarnyy_gazirova =>
+      'Coca-Cola - самый популярный газированный напиток в мире. Имеет резкий, но приятный вкус, хорошо утоляет жажду, рекомендуется пить охлажденным.';
+
+  @override
+  String get auto_napitki => 'Напитки';
+
+  @override
+  String get auto_gazirovannye_napitki => 'Газированные напитки';
+
+  @override
+  String get auto_gazirovannaya_voda_sahar_krasitel_s =>
+      'Газированная вода, сахар, краситель (сахарный колер [IV]), регулятор кислотности (ортофосфорная кислота), натуральные ароматизаторы, кофеин.';
+
+  @override
+  String get auto_strana_proizvoditelya => 'Страна производителя';
+
+  @override
+  String get auto_kazahstan => 'Казахстан';
+
+  @override
+  String get auto_torgovaya_marka => 'Торговая марка';
+
+  @override
+  String get auto_lineyka => 'Линейка';
+
+  @override
+  String get auto_klassicheskaya => 'Классическая';
+
+  @override
+  String get auto_sklad_mansa => 'Склад \"Манса\"';
+
+  @override
+  String get auto_zavtra => 'завтра';
+
+  @override
+  String get auto_dostavka_mezhgorod => 'Доставка межгород';
+
+  @override
+  String get auto_chetverg_1700 => 'Четверг 17:00';
+
+  @override
+  String get auto_vs_21_sentyabrya => 'Вс 21 сентября';
+
+  @override
+  String get auto_sb_23_sentyabrya_1200 => 'Сб 23 сентября 12:00';
+
+  @override
+  String get auto_kakoyto_krutoy_postavschik => 'Какой-то крутой поставщик';
+
+  @override
+  String get auto_sb_20_sentyabrya => 'Сб 20 сентября';
+
+  @override
+  String get currency_auto_1 => 'Казахский тенге';
+
+  @override
+  String get currency_auto_2 => 'Российский рубль';
+
+  @override
+  String get language_auto_3 => 'Русский';
+
+  @override
+  String get language_auto_4 => 'Қазақша';
+
+  @override
+  String get language_auto_5 => 'Русский';
+
+  @override
+  String get language_auto_6 => 'Қазақша';
+
+  @override
+  String get language_auto_7 => 'Русский';
+
+  @override
+  String get language_auto_8 => 'Қазақша';
+
+  @override
+  String get product_auto_9 => 'Нет доступных поставщиков';
+
+  @override
+  String get user_address_auto_10 => 'Дом';
+
+  @override
+  String get user_address_auto_11 => 'Работа';
+
+  @override
+  String get user_address_auto_12 => 'Другое';
+
+  @override
+  String get user_address_auto_13 => 'Другое';
+
+  @override
+  String get moderation_page_auto_14 =>
+      'РЈРґР°Р»РёС‚СЊ Р·Р° РЅР°СЂСѓС€РµРЅРёРµ';
+
+  @override
+  String get moderation_page_auto_15 => 'РћС‚РєР»РѕРЅРёС‚СЊ';
+
+  @override
+  String get moderation_page_auto_16 => 'Рћ С‚РѕРІР°СЂРµ';
+
+  @override
+  String get moderation_page_auto_17 => 'РџРѕРґСЂРѕР±РЅРµРµ';
+
+  @override
+  String get moderation_page_auto_18 => ' В· ';
+
+  @override
+  String get ai_service_auto_19 => 'Ошибка конфигурации API';
+
+  @override
+  String get ai_service_auto_20 => 'Не удалось сформировать AI-резюме';
+
+  @override
+  String get ai_service_auto_21 =>
+      'Ты AI-аналитик поставщиков. ОБЯЗАТЕЛЬНО отвечай ТОЛЬКО на русском языке. ';
+
+  @override
+  String get ai_service_auto_22 =>
+      'Все твои ответы должны быть на 100% на русском. ';
+
+  @override
+  String get ai_service_auto_23 =>
+      'Никогда не используй другие языки ни при каких обстоятельствах.';
+
+  @override
+  String get ai_service_auto_24 => 'Запрос занял слишком долго';
+
+  @override
+  String get ai_service_auto_25 => 'Проверьте подключение к интернету';
+
+  @override
+  String get ai_service_auto_26 => 'Не удалось сформировать AI-резюме';
+
+  @override
+  String get ai_service_auto_27 => 'Не удалось сформировать AI-резюме';
+
+  @override
+  String get ai_service_auto_28 => 'Ошибка конфигурации API';
+
+  @override
+  String get ai_service_auto_29 => 'Ошибка сервера. Попробуем другую модель';
+
+  @override
+  String get ai_service_auto_30 => 'Ошибка AI сервиса';
+
+  @override
+  String get ai_service_auto_31 => 'Ошибка при обработке ответа';
+
+  @override
+  String get ai_service_auto_32 => 'Ошибка при обработке ответа';
+
+  @override
+  String get ai_service_auto_33 => 'Ошибка при обработке ответа';
+
+  @override
+  String get ai_service_auto_34 => 'Ошибка при обработке ответа';
+
+  @override
+  String get ai_service_auto_35 => 'AI-резюме успешно сгенерировано';
+
+  @override
+  String get ai_service_auto_36 => 'Ошибка при обработке ответа';
+
+  @override
+  String message_localization_auto_37(Object orderId) {
+    return 'Заказ с ID $orderId не найден';
+  }
+
+  @override
+  String message_localization_auto_38(Object orderId) {
+    return 'Ваш заказ #$orderId подтверждён';
+  }
+
+  @override
+  String message_localization_auto_39(Object orderId) {
+    return 'Заказ #$orderId доставлен';
+  }
+
+  @override
+  String message_localization_auto_40(Object productId) {
+    return 'Товар с ID $productId не найден';
+  }
+
+  @override
+  String message_localization_auto_41(Object details) {
+    return 'Ошибка валидации: $details';
+  }
+
+  @override
+  String message_localization_auto_42(Object reason) {
+    return 'Не удалось сгенерировать ответ AI: $reason';
+  }
+
+  @override
+  String get custom_characteristic_validation_auto_43 =>
+      'Заполните название и значение характеристики';
+
+  @override
+  String get custom_characteristic_validation_auto_44 =>
+      'Такая характеристика уже добавлена';
+
+  @override
+  String get month_year_parser_auto_45 => 'январь';
+
+  @override
+  String get month_year_parser_auto_46 => 'февраль';
+
+  @override
+  String get month_year_parser_auto_47 => 'март';
+
+  @override
+  String get month_year_parser_auto_48 => 'апрель';
+
+  @override
+  String get month_year_parser_auto_49 => 'май';
+
+  @override
+  String get month_year_parser_auto_50 => 'июнь';
+
+  @override
+  String get month_year_parser_auto_51 => 'июль';
+
+  @override
+  String get month_year_parser_auto_52 => 'август';
+
+  @override
+  String get month_year_parser_auto_53 => 'сентябрь';
+
+  @override
+  String get month_year_parser_auto_54 => 'октябрь';
+
+  @override
+  String get month_year_parser_auto_55 => 'ноябрь';
+
+  @override
+  String get month_year_parser_auto_56 => 'декабрь';
+
+  @override
+  String get month_year_parser_auto_57 => 'янв';
+
+  @override
+  String get month_year_parser_auto_58 => 'фев';
+
+  @override
+  String get month_year_parser_auto_59 => 'мар';
+
+  @override
+  String get month_year_parser_auto_60 => 'апр';
+
+  @override
+  String get month_year_parser_auto_61 => 'июн';
+
+  @override
+  String get month_year_parser_auto_62 => 'июл';
+
+  @override
+  String get month_year_parser_auto_63 => 'авг';
+
+  @override
+  String get month_year_parser_auto_64 => 'сен';
+
+  @override
+  String get month_year_parser_auto_65 => 'окт';
+
+  @override
+  String get month_year_parser_auto_66 => 'ноя';
+
+  @override
+  String get month_year_parser_auto_67 => 'дек';
+
+  @override
+  String get month_year_parser_auto_68 => 'янв.';
+
+  @override
+  String get month_year_parser_auto_69 => 'фев.';
+
+  @override
+  String get month_year_parser_auto_70 => 'мар.';
+
+  @override
+  String get month_year_parser_auto_71 => 'апр.';
+
+  @override
+  String get month_year_parser_auto_72 => 'май.';
+
+  @override
+  String get month_year_parser_auto_73 => 'июн.';
+
+  @override
+  String get month_year_parser_auto_74 => 'июл.';
+
+  @override
+  String get month_year_parser_auto_75 => 'авг.';
+
+  @override
+  String get month_year_parser_auto_76 => 'сен.';
+
+  @override
+  String get month_year_parser_auto_77 => 'окт.';
+
+  @override
+  String get month_year_parser_auto_78 => 'ноя.';
+
+  @override
+  String get month_year_parser_auto_79 => 'дек.';
+
+  @override
+  String get search_normalizer_auto_80 => 'ё';
+
+  @override
+  String get search_normalizer_auto_81 => 'е';
+
+  @override
+  String get search_normalizer_auto_82 => 'а';
+
+  @override
+  String get search_normalizer_auto_83 => 'б';
+
+  @override
+  String get search_normalizer_auto_84 => 'в';
+
+  @override
+  String get search_normalizer_auto_85 => 'г';
+
+  @override
+  String get search_normalizer_auto_86 => 'д';
+
+  @override
+  String get search_normalizer_auto_87 => 'е';
+
+  @override
+  String get search_normalizer_auto_88 => 'ё';
+
+  @override
+  String get search_normalizer_auto_89 => 'ж';
+
+  @override
+  String get search_normalizer_auto_90 => 'з';
+
+  @override
+  String get search_normalizer_auto_91 => 'и';
+
+  @override
+  String get search_normalizer_auto_92 => 'й';
+
+  @override
+  String get search_normalizer_auto_93 => 'к';
+
+  @override
+  String get search_normalizer_auto_94 => 'л';
+
+  @override
+  String get search_normalizer_auto_95 => 'м';
+
+  @override
+  String get search_normalizer_auto_96 => 'н';
+
+  @override
+  String get search_normalizer_auto_97 => 'о';
+
+  @override
+  String get search_normalizer_auto_98 => 'п';
+
+  @override
+  String get search_normalizer_auto_99 => 'р';
+
+  @override
+  String get search_normalizer_auto_100 => 'с';
+
+  @override
+  String get search_normalizer_auto_101 => 'т';
+
+  @override
+  String get search_normalizer_auto_102 => 'у';
+
+  @override
+  String get search_normalizer_auto_103 => 'ф';
+
+  @override
+  String get search_normalizer_auto_104 => 'х';
+
+  @override
+  String get search_normalizer_auto_105 => 'ц';
+
+  @override
+  String get search_normalizer_auto_106 => 'ч';
+
+  @override
+  String get search_normalizer_auto_107 => 'ш';
+
+  @override
+  String get search_normalizer_auto_108 => 'щ';
+
+  @override
+  String get search_normalizer_auto_109 => 'ъ';
+
+  @override
+  String get search_normalizer_auto_110 => 'ы';
+
+  @override
+  String get search_normalizer_auto_111 => 'ь';
+
+  @override
+  String get search_normalizer_auto_112 => 'э';
+
+  @override
+  String get search_normalizer_auto_113 => 'ю';
+
+  @override
+  String get search_normalizer_auto_114 => 'я';
+
+  @override
+  String get search_normalizer_auto_115 => 'щ';
+
+  @override
+  String get search_normalizer_auto_116 => 'щ';
+
+  @override
+  String get search_normalizer_auto_117 => 'ж';
+
+  @override
+  String get search_normalizer_auto_118 => 'х';
+
+  @override
+  String get search_normalizer_auto_119 => 'ц';
+
+  @override
+  String get search_normalizer_auto_120 => 'ч';
+
+  @override
+  String get search_normalizer_auto_121 => 'ш';
+
+  @override
+  String get search_normalizer_auto_122 => 'ю';
+
+  @override
+  String get search_normalizer_auto_123 => 'я';
+
+  @override
+  String get search_normalizer_auto_124 => 'е';
+
+  @override
+  String get search_normalizer_auto_125 => 'ё';
+
+  @override
+  String get search_normalizer_auto_126 => 'ю';
+
+  @override
+  String get search_normalizer_auto_127 => 'я';
+
+  @override
+  String get search_normalizer_auto_128 => 'а';
+
+  @override
+  String get search_normalizer_auto_129 => 'б';
+
+  @override
+  String get search_normalizer_auto_130 => 'в';
+
+  @override
+  String get search_normalizer_auto_131 => 'г';
+
+  @override
+  String get search_normalizer_auto_132 => 'д';
+
+  @override
+  String get search_normalizer_auto_133 => 'е';
+
+  @override
+  String get search_normalizer_auto_134 => 'з';
+
+  @override
+  String get search_normalizer_auto_135 => 'и';
+
+  @override
+  String get search_normalizer_auto_136 => 'й';
+
+  @override
+  String get search_normalizer_auto_137 => 'к';
+
+  @override
+  String get search_normalizer_auto_138 => 'л';
+
+  @override
+  String get search_normalizer_auto_139 => 'м';
+
+  @override
+  String get search_normalizer_auto_140 => 'н';
+
+  @override
+  String get search_normalizer_auto_141 => 'о';
+
+  @override
+  String get search_normalizer_auto_142 => 'п';
+
+  @override
+  String get search_normalizer_auto_143 => 'р';
+
+  @override
+  String get search_normalizer_auto_144 => 'с';
+
+  @override
+  String get search_normalizer_auto_145 => 'т';
+
+  @override
+  String get search_normalizer_auto_146 => 'у';
+
+  @override
+  String get search_normalizer_auto_147 => 'ф';
+
+  @override
+  String get search_normalizer_auto_148 => 'х';
+
+  @override
+  String get search_normalizer_auto_149 => 'к';
+
+  @override
+  String get search_normalizer_auto_150 => 'к';
+
+  @override
+  String get search_normalizer_auto_151 => 'в';
+
+  @override
+  String get search_normalizer_auto_152 => 'кс';
+
+  @override
+  String get search_normalizer_auto_153 => 'дж';
+
+  @override
+  String get search_normalizer_auto_154 => 'ё';
+
+  @override
+  String get search_normalizer_auto_155 => 'й';
+
+  @override
+  String get search_normalizer_auto_156 => 'ц';
+
+  @override
+  String get search_normalizer_auto_157 => 'у';
+
+  @override
+  String get search_normalizer_auto_158 => 'к';
+
+  @override
+  String get search_normalizer_auto_159 => 'е';
+
+  @override
+  String get search_normalizer_auto_160 => 'н';
+
+  @override
+  String get search_normalizer_auto_161 => 'г';
+
+  @override
+  String get search_normalizer_auto_162 => 'ш';
+
+  @override
+  String get search_normalizer_auto_163 => 'щ';
+
+  @override
+  String get search_normalizer_auto_164 => 'з';
+
+  @override
+  String get search_normalizer_auto_165 => 'х';
+
+  @override
+  String get search_normalizer_auto_166 => 'ъ';
+
+  @override
+  String get search_normalizer_auto_167 => 'ф';
+
+  @override
+  String get search_normalizer_auto_168 => 'ы';
+
+  @override
+  String get search_normalizer_auto_169 => 'в';
+
+  @override
+  String get search_normalizer_auto_170 => 'а';
+
+  @override
+  String get search_normalizer_auto_171 => 'п';
+
+  @override
+  String get search_normalizer_auto_172 => 'р';
+
+  @override
+  String get search_normalizer_auto_173 => 'о';
+
+  @override
+  String get search_normalizer_auto_174 => 'л';
+
+  @override
+  String get search_normalizer_auto_175 => 'д';
+
+  @override
+  String get search_normalizer_auto_176 => 'ж';
+
+  @override
+  String get search_normalizer_auto_177 => 'э';
+
+  @override
+  String get search_normalizer_auto_178 => 'я';
+
+  @override
+  String get search_normalizer_auto_179 => 'ч';
+
+  @override
+  String get search_normalizer_auto_180 => 'с';
+
+  @override
+  String get search_normalizer_auto_181 => 'м';
+
+  @override
+  String get search_normalizer_auto_182 => 'и';
+
+  @override
+  String get search_normalizer_auto_183 => 'т';
+
+  @override
+  String get search_normalizer_auto_184 => 'ь';
+
+  @override
+  String get search_normalizer_auto_185 => 'б';
+
+  @override
+  String get search_normalizer_auto_186 => 'ю';
+
+  @override
+  String get search_normalizer_auto_187 => 'й';
+
+  @override
+  String get search_normalizer_auto_188 => 'ц';
+
+  @override
+  String get search_normalizer_auto_189 => 'у';
+
+  @override
+  String get search_normalizer_auto_190 => 'к';
+
+  @override
+  String get search_normalizer_auto_191 => 'е';
+
+  @override
+  String get search_normalizer_auto_192 => 'н';
+
+  @override
+  String get search_normalizer_auto_193 => 'г';
+
+  @override
+  String get search_normalizer_auto_194 => 'ш';
+
+  @override
+  String get search_normalizer_auto_195 => 'щ';
+
+  @override
+  String get search_normalizer_auto_196 => 'з';
+
+  @override
+  String get search_normalizer_auto_197 => 'х';
+
+  @override
+  String get search_normalizer_auto_198 => 'ъ';
+
+  @override
+  String get search_normalizer_auto_199 => 'ф';
+
+  @override
+  String get search_normalizer_auto_200 => 'ы';
+
+  @override
+  String get search_normalizer_auto_201 => 'в';
+
+  @override
+  String get search_normalizer_auto_202 => 'а';
+
+  @override
+  String get search_normalizer_auto_203 => 'п';
+
+  @override
+  String get search_normalizer_auto_204 => 'р';
+
+  @override
+  String get search_normalizer_auto_205 => 'о';
+
+  @override
+  String get search_normalizer_auto_206 => 'л';
+
+  @override
+  String get search_normalizer_auto_207 => 'д';
+
+  @override
+  String get search_normalizer_auto_208 => 'ж';
+
+  @override
+  String get search_normalizer_auto_209 => 'э';
+
+  @override
+  String get search_normalizer_auto_210 => 'я';
+
+  @override
+  String get search_normalizer_auto_211 => 'ч';
+
+  @override
+  String get search_normalizer_auto_212 => 'с';
+
+  @override
+  String get search_normalizer_auto_213 => 'м';
+
+  @override
+  String get search_normalizer_auto_214 => 'и';
+
+  @override
+  String get search_normalizer_auto_215 => 'т';
+
+  @override
+  String get search_normalizer_auto_216 => 'ь';
+
+  @override
+  String get search_normalizer_auto_217 => 'б';
+
+  @override
+  String get search_normalizer_auto_218 => 'ю';
+
+  @override
+  String get search_normalizer_auto_219 => 'ё';
+
+  @override
+  String get wizard_init_auto_220 => 'Страна производителя';
+
+  @override
+  String get wizard_init_auto_221 => 'Срок годности';
 }

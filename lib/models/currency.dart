@@ -1,3 +1,4 @@
+import 'package:flutter_project/services/localization/app_localizations.dart';
 /// Поддерживаемые валюты в приложении
 enum CurrencyCode {
   kzt, // Казахский тенге
@@ -50,13 +51,13 @@ class Currency {
   static final List<Currency> supported = [
     Currency(
       code: CurrencyCode.kzt,
-      name: 'Казахский тенге',
+      name: AppLocalizations.current.getString('currency_auto_1'),
       symbol: '₸',
       symbolBeforeValue: false,
     ),
     Currency(
       code: CurrencyCode.rub,
-      name: 'Российский рубль',
+      name: AppLocalizations.current.getString('currency_auto_2'),
       symbol: '₽',
       symbolBeforeValue: false,
     ),

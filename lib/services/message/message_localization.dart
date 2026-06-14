@@ -30,16 +30,16 @@ class MessageLocalizationManager {
   // (старт до init, тесты) или нужного ключа в ARB нет. Так getTemplate
   // остаётся синхронным и никогда не отдаёт пустоту для известных кодов.
   static final Map<String, String> _fallbackTemplates = <String, String>{
-    'ORDER_NOT_FOUND': 'Заказ с ID {orderId} не найден',
-    'ORDER_CONFIRMED': 'Ваш заказ #{orderId} подтверждён',
-    'ORDER_DELIVERED': 'Заказ #{orderId} доставлен',
-    'PRODUCT_NOT_FOUND': 'Товар с ID {productId} не найден',
+    'ORDER_NOT_FOUND': AppLocalizations.current.getString('message_localization_auto_37'),
+    'ORDER_CONFIRMED': AppLocalizations.current.getString('message_localization_auto_38'),
+    'ORDER_DELIVERED': AppLocalizations.current.getString('message_localization_auto_39'),
+    'PRODUCT_NOT_FOUND': AppLocalizations.current.getString('message_localization_auto_40'),
     'NETWORK_ERROR': AppLocalizations.current.getString('auto_oshibka_seti_proverte_podklyuchenie'),
     'TIMEOUT_ERROR': AppLocalizations.current.getString('auto_prevysheno_vremya_ozhidaniya_otveta'),
-    'VALIDATION_ERROR': 'Ошибка валидации: {details}',
+    'VALIDATION_ERROR': AppLocalizations.current.getString('message_localization_auto_41'),
     'AUTH_REQUIRED': AppLocalizations.current.getString('auto_trebuetsya_avtorizatsiya'),
     'PARSE_ERROR': AppLocalizations.current.getString('auto_ne_udalos_razobrat_soobschenie'),
-    'AI_GENERATION_FAILED': 'Не удалось сгенерировать ответ AI: {reason}',
+    'AI_GENERATION_FAILED': AppLocalizations.current.getString('message_localization_auto_42'),
   };
 
   /// Возвращает текущий язык из AppSettings.

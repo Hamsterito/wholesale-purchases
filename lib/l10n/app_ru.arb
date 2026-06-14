@@ -4242,5 +4242,889 @@
   "auto_sb_20_sentyabrya": "Сб 20 сентября",
   "@auto_sb_20_sentyabrya": {
     "description": "Auto-extracted"
+  },
+  "currency_auto_1": "Казахский тенге",
+  "@currency_auto_1": {
+    "description": "Auto-extracted from lib\\models\\currency.dart"
+  },
+  "currency_auto_2": "Российский рубль",
+  "@currency_auto_2": {
+    "description": "Auto-extracted from lib\\models\\currency.dart"
+  },
+  "language_auto_3": "Русский",
+  "@language_auto_3": {
+    "description": "Auto-extracted from lib\\models\\language.dart"
+  },
+  "language_auto_4": "Қазақша",
+  "@language_auto_4": {
+    "description": "Auto-extracted from lib\\models\\language.dart"
+  },
+  "language_auto_5": "Русский",
+  "@language_auto_5": {
+    "description": "Auto-extracted from lib\\models\\language.dart"
+  },
+  "language_auto_6": "Қазақша",
+  "@language_auto_6": {
+    "description": "Auto-extracted from lib\\models\\language.dart"
+  },
+  "language_auto_7": "Русский",
+  "@language_auto_7": {
+    "description": "Auto-extracted from lib\\models\\language.dart"
+  },
+  "language_auto_8": "Қазақша",
+  "@language_auto_8": {
+    "description": "Auto-extracted from lib\\models\\language.dart"
+  },
+  "product_auto_9": "Нет доступных поставщиков",
+  "@product_auto_9": {
+    "description": "Auto-extracted from lib\\models\\product.dart"
+  },
+  "user_address_auto_10": "Дом",
+  "@user_address_auto_10": {
+    "description": "Auto-extracted from lib\\models\\user_address.dart"
+  },
+  "user_address_auto_11": "Работа",
+  "@user_address_auto_11": {
+    "description": "Auto-extracted from lib\\models\\user_address.dart"
+  },
+  "user_address_auto_12": "Другое",
+  "@user_address_auto_12": {
+    "description": "Auto-extracted from lib\\models\\user_address.dart"
+  },
+  "user_address_auto_13": "Другое",
+  "@user_address_auto_13": {
+    "description": "Auto-extracted from lib\\models\\user_address.dart"
+  },
+  "moderation_page_auto_14": "РЈРґР°Р»РёС‚СЊ Р·Р° РЅР°СЂСѓС€РµРЅРёРµ",
+  "@moderation_page_auto_14": {
+    "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
+  },
+  "moderation_page_auto_15": "РћС‚РєР»РѕРЅРёС‚СЊ",
+  "@moderation_page_auto_15": {
+    "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
+  },
+  "moderation_page_auto_16": "Рћ С‚РѕРІР°СЂРµ",
+  "@moderation_page_auto_16": {
+    "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
+  },
+  "moderation_page_auto_17": "РџРѕРґСЂРѕР±РЅРµРµ",
+  "@moderation_page_auto_17": {
+    "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
+  },
+  "moderation_page_auto_18": " В· ",
+  "@moderation_page_auto_18": {
+    "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
+  },
+  "ai_service_auto_19": "Ошибка конфигурации API",
+  "@ai_service_auto_19": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_20": "Не удалось сформировать AI-резюме",
+  "@ai_service_auto_20": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_21": "Ты AI-аналитик поставщиков. ОБЯЗАТЕЛЬНО отвечай ТОЛЬКО на русском языке. ",
+  "@ai_service_auto_21": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_22": "Все твои ответы должны быть на 100% на русском. ",
+  "@ai_service_auto_22": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_23": "Никогда не используй другие языки ни при каких обстоятельствах.",
+  "@ai_service_auto_23": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_24": "Запрос занял слишком долго",
+  "@ai_service_auto_24": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_25": "Проверьте подключение к интернету",
+  "@ai_service_auto_25": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_26": "Не удалось сформировать AI-резюме",
+  "@ai_service_auto_26": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_27": "Не удалось сформировать AI-резюме",
+  "@ai_service_auto_27": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_28": "Ошибка конфигурации API",
+  "@ai_service_auto_28": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_29": "Ошибка сервера. Попробуем другую модель",
+  "@ai_service_auto_29": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_30": "Ошибка AI сервиса",
+  "@ai_service_auto_30": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_31": "Ошибка при обработке ответа",
+  "@ai_service_auto_31": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_32": "Ошибка при обработке ответа",
+  "@ai_service_auto_32": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_33": "Ошибка при обработке ответа",
+  "@ai_service_auto_33": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_34": "Ошибка при обработке ответа",
+  "@ai_service_auto_34": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_35": "AI-резюме успешно сгенерировано",
+  "@ai_service_auto_35": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_36": "Ошибка при обработке ответа",
+  "@ai_service_auto_36": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "message_localization_auto_37": "Заказ с ID {orderId} не найден",
+  "@message_localization_auto_37": {
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+  },
+  "message_localization_auto_38": "Ваш заказ #{orderId} подтверждён",
+  "@message_localization_auto_38": {
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+  },
+  "message_localization_auto_39": "Заказ #{orderId} доставлен",
+  "@message_localization_auto_39": {
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+  },
+  "message_localization_auto_40": "Товар с ID {productId} не найден",
+  "@message_localization_auto_40": {
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+  },
+  "message_localization_auto_41": "Ошибка валидации: {details}",
+  "@message_localization_auto_41": {
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+  },
+  "message_localization_auto_42": "Не удалось сгенерировать ответ AI: {reason}",
+  "@message_localization_auto_42": {
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+  },
+  "custom_characteristic_validation_auto_43": "Заполните название и значение характеристики",
+  "@custom_characteristic_validation_auto_43": {
+    "description": "Auto-extracted from lib\\utils\\custom_characteristic_validation.dart"
+  },
+  "custom_characteristic_validation_auto_44": "Такая характеристика уже добавлена",
+  "@custom_characteristic_validation_auto_44": {
+    "description": "Auto-extracted from lib\\utils\\custom_characteristic_validation.dart"
+  },
+  "month_year_parser_auto_45": "январь",
+  "@month_year_parser_auto_45": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_46": "февраль",
+  "@month_year_parser_auto_46": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_47": "март",
+  "@month_year_parser_auto_47": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_48": "апрель",
+  "@month_year_parser_auto_48": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_49": "май",
+  "@month_year_parser_auto_49": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_50": "июнь",
+  "@month_year_parser_auto_50": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_51": "июль",
+  "@month_year_parser_auto_51": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_52": "август",
+  "@month_year_parser_auto_52": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_53": "сентябрь",
+  "@month_year_parser_auto_53": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_54": "октябрь",
+  "@month_year_parser_auto_54": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_55": "ноябрь",
+  "@month_year_parser_auto_55": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_56": "декабрь",
+  "@month_year_parser_auto_56": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_57": "янв",
+  "@month_year_parser_auto_57": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_58": "фев",
+  "@month_year_parser_auto_58": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_59": "мар",
+  "@month_year_parser_auto_59": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_60": "апр",
+  "@month_year_parser_auto_60": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_61": "июн",
+  "@month_year_parser_auto_61": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_62": "июл",
+  "@month_year_parser_auto_62": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_63": "авг",
+  "@month_year_parser_auto_63": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_64": "сен",
+  "@month_year_parser_auto_64": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_65": "окт",
+  "@month_year_parser_auto_65": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_66": "ноя",
+  "@month_year_parser_auto_66": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_67": "дек",
+  "@month_year_parser_auto_67": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_68": "янв.",
+  "@month_year_parser_auto_68": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_69": "фев.",
+  "@month_year_parser_auto_69": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_70": "мар.",
+  "@month_year_parser_auto_70": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_71": "апр.",
+  "@month_year_parser_auto_71": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_72": "май.",
+  "@month_year_parser_auto_72": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_73": "июн.",
+  "@month_year_parser_auto_73": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_74": "июл.",
+  "@month_year_parser_auto_74": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_75": "авг.",
+  "@month_year_parser_auto_75": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_76": "сен.",
+  "@month_year_parser_auto_76": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_77": "окт.",
+  "@month_year_parser_auto_77": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_78": "ноя.",
+  "@month_year_parser_auto_78": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_79": "дек.",
+  "@month_year_parser_auto_79": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "search_normalizer_auto_80": "ё",
+  "@search_normalizer_auto_80": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_81": "е",
+  "@search_normalizer_auto_81": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_82": "а",
+  "@search_normalizer_auto_82": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_83": "б",
+  "@search_normalizer_auto_83": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_84": "в",
+  "@search_normalizer_auto_84": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_85": "г",
+  "@search_normalizer_auto_85": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_86": "д",
+  "@search_normalizer_auto_86": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_87": "е",
+  "@search_normalizer_auto_87": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_88": "ё",
+  "@search_normalizer_auto_88": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_89": "ж",
+  "@search_normalizer_auto_89": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_90": "з",
+  "@search_normalizer_auto_90": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_91": "и",
+  "@search_normalizer_auto_91": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_92": "й",
+  "@search_normalizer_auto_92": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_93": "к",
+  "@search_normalizer_auto_93": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_94": "л",
+  "@search_normalizer_auto_94": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_95": "м",
+  "@search_normalizer_auto_95": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_96": "н",
+  "@search_normalizer_auto_96": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_97": "о",
+  "@search_normalizer_auto_97": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_98": "п",
+  "@search_normalizer_auto_98": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_99": "р",
+  "@search_normalizer_auto_99": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_100": "с",
+  "@search_normalizer_auto_100": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_101": "т",
+  "@search_normalizer_auto_101": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_102": "у",
+  "@search_normalizer_auto_102": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_103": "ф",
+  "@search_normalizer_auto_103": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_104": "х",
+  "@search_normalizer_auto_104": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_105": "ц",
+  "@search_normalizer_auto_105": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_106": "ч",
+  "@search_normalizer_auto_106": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_107": "ш",
+  "@search_normalizer_auto_107": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_108": "щ",
+  "@search_normalizer_auto_108": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_109": "ъ",
+  "@search_normalizer_auto_109": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_110": "ы",
+  "@search_normalizer_auto_110": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_111": "ь",
+  "@search_normalizer_auto_111": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_112": "э",
+  "@search_normalizer_auto_112": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_113": "ю",
+  "@search_normalizer_auto_113": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_114": "я",
+  "@search_normalizer_auto_114": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_115": "щ",
+  "@search_normalizer_auto_115": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_116": "щ",
+  "@search_normalizer_auto_116": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_117": "ж",
+  "@search_normalizer_auto_117": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_118": "х",
+  "@search_normalizer_auto_118": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_119": "ц",
+  "@search_normalizer_auto_119": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_120": "ч",
+  "@search_normalizer_auto_120": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_121": "ш",
+  "@search_normalizer_auto_121": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_122": "ю",
+  "@search_normalizer_auto_122": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_123": "я",
+  "@search_normalizer_auto_123": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_124": "е",
+  "@search_normalizer_auto_124": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_125": "ё",
+  "@search_normalizer_auto_125": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_126": "ю",
+  "@search_normalizer_auto_126": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_127": "я",
+  "@search_normalizer_auto_127": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_128": "а",
+  "@search_normalizer_auto_128": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_129": "б",
+  "@search_normalizer_auto_129": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_130": "в",
+  "@search_normalizer_auto_130": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_131": "г",
+  "@search_normalizer_auto_131": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_132": "д",
+  "@search_normalizer_auto_132": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_133": "е",
+  "@search_normalizer_auto_133": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_134": "з",
+  "@search_normalizer_auto_134": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_135": "и",
+  "@search_normalizer_auto_135": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_136": "й",
+  "@search_normalizer_auto_136": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_137": "к",
+  "@search_normalizer_auto_137": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_138": "л",
+  "@search_normalizer_auto_138": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_139": "м",
+  "@search_normalizer_auto_139": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_140": "н",
+  "@search_normalizer_auto_140": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_141": "о",
+  "@search_normalizer_auto_141": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_142": "п",
+  "@search_normalizer_auto_142": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_143": "р",
+  "@search_normalizer_auto_143": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_144": "с",
+  "@search_normalizer_auto_144": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_145": "т",
+  "@search_normalizer_auto_145": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_146": "у",
+  "@search_normalizer_auto_146": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_147": "ф",
+  "@search_normalizer_auto_147": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_148": "х",
+  "@search_normalizer_auto_148": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_149": "к",
+  "@search_normalizer_auto_149": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_150": "к",
+  "@search_normalizer_auto_150": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_151": "в",
+  "@search_normalizer_auto_151": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_152": "кс",
+  "@search_normalizer_auto_152": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_153": "дж",
+  "@search_normalizer_auto_153": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_154": "ё",
+  "@search_normalizer_auto_154": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_155": "й",
+  "@search_normalizer_auto_155": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_156": "ц",
+  "@search_normalizer_auto_156": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_157": "у",
+  "@search_normalizer_auto_157": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_158": "к",
+  "@search_normalizer_auto_158": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_159": "е",
+  "@search_normalizer_auto_159": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_160": "н",
+  "@search_normalizer_auto_160": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_161": "г",
+  "@search_normalizer_auto_161": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_162": "ш",
+  "@search_normalizer_auto_162": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_163": "щ",
+  "@search_normalizer_auto_163": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_164": "з",
+  "@search_normalizer_auto_164": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_165": "х",
+  "@search_normalizer_auto_165": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_166": "ъ",
+  "@search_normalizer_auto_166": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_167": "ф",
+  "@search_normalizer_auto_167": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_168": "ы",
+  "@search_normalizer_auto_168": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_169": "в",
+  "@search_normalizer_auto_169": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_170": "а",
+  "@search_normalizer_auto_170": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_171": "п",
+  "@search_normalizer_auto_171": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_172": "р",
+  "@search_normalizer_auto_172": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_173": "о",
+  "@search_normalizer_auto_173": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_174": "л",
+  "@search_normalizer_auto_174": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_175": "д",
+  "@search_normalizer_auto_175": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_176": "ж",
+  "@search_normalizer_auto_176": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_177": "э",
+  "@search_normalizer_auto_177": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_178": "я",
+  "@search_normalizer_auto_178": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_179": "ч",
+  "@search_normalizer_auto_179": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_180": "с",
+  "@search_normalizer_auto_180": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_181": "м",
+  "@search_normalizer_auto_181": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_182": "и",
+  "@search_normalizer_auto_182": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_183": "т",
+  "@search_normalizer_auto_183": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_184": "ь",
+  "@search_normalizer_auto_184": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_185": "б",
+  "@search_normalizer_auto_185": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_186": "ю",
+  "@search_normalizer_auto_186": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_187": "й",
+  "@search_normalizer_auto_187": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_188": "ц",
+  "@search_normalizer_auto_188": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_189": "у",
+  "@search_normalizer_auto_189": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_190": "к",
+  "@search_normalizer_auto_190": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_191": "е",
+  "@search_normalizer_auto_191": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_192": "н",
+  "@search_normalizer_auto_192": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_193": "г",
+  "@search_normalizer_auto_193": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_194": "ш",
+  "@search_normalizer_auto_194": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_195": "щ",
+  "@search_normalizer_auto_195": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_196": "з",
+  "@search_normalizer_auto_196": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_197": "х",
+  "@search_normalizer_auto_197": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_198": "ъ",
+  "@search_normalizer_auto_198": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_199": "ф",
+  "@search_normalizer_auto_199": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_200": "ы",
+  "@search_normalizer_auto_200": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_201": "в",
+  "@search_normalizer_auto_201": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_202": "а",
+  "@search_normalizer_auto_202": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_203": "п",
+  "@search_normalizer_auto_203": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_204": "р",
+  "@search_normalizer_auto_204": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_205": "о",
+  "@search_normalizer_auto_205": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_206": "л",
+  "@search_normalizer_auto_206": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_207": "д",
+  "@search_normalizer_auto_207": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_208": "ж",
+  "@search_normalizer_auto_208": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_209": "э",
+  "@search_normalizer_auto_209": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_210": "я",
+  "@search_normalizer_auto_210": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_211": "ч",
+  "@search_normalizer_auto_211": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_212": "с",
+  "@search_normalizer_auto_212": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_213": "м",
+  "@search_normalizer_auto_213": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_214": "и",
+  "@search_normalizer_auto_214": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_215": "т",
+  "@search_normalizer_auto_215": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_216": "ь",
+  "@search_normalizer_auto_216": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_217": "б",
+  "@search_normalizer_auto_217": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_218": "ю",
+  "@search_normalizer_auto_218": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_219": "ё",
+  "@search_normalizer_auto_219": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "wizard_init_auto_220": "Страна производителя",
+  "@wizard_init_auto_220": {
+    "description": "Auto-extracted from lib\\utils\\wizard_init.dart"
+  },
+  "wizard_init_auto_221": "Срок годности",
+  "@wizard_init_auto_221": {
+    "description": "Auto-extracted from lib\\utils\\wizard_init.dart"
   }
 }

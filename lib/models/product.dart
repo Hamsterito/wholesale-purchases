@@ -1,4 +1,5 @@
-﻿import '../utils/text_normalizer.dart';
+import 'package:flutter_project/services/localization/app_localizations.dart';
+import '../utils/text_normalizer.dart';
 
 class Product {
   final String id;
@@ -37,7 +38,7 @@ class Product {
 
   Supplier get bestSupplier {
     if (suppliers.isEmpty) {
-      throw Exception('Нет доступных поставщиков');
+      throw Exception(AppLocalizations.current.getString('product_auto_9'));
     }
     return suppliers.reduce((a, b) => a.pricePerUnit < b.pricePerUnit ? a : b);
   }

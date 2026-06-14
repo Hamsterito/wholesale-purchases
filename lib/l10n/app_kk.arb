@@ -2354,19 +2354,19 @@
   "@create_chat_button": {
     "description": "Auto-added missing key"
   },
-  "moderation_approve_product": "Тауарды мақұлдау",
+  "moderation_approve_product": "Өнімді мақұлдау",
   "@moderation_approve_product": {
     "description": "Auto-added missing key"
   },
-  "moderation_reject_product": "Тауарды қабылдамау",
+  "moderation_reject_product": "Өнімді қабылдамау",
   "@moderation_reject_product": {
     "description": "Auto-added missing key"
   },
-  "moderation_reject_hint": "Қабылдамау себебі",
+  "moderation_reject_hint": "Ауытқу себебі",
   "@moderation_reject_hint": {
     "description": "Auto-added missing key"
   },
-  "moderation_comment_hint": "Түсініктеме",
+  "moderation_comment_hint": "Пікір",
   "@moderation_comment_hint": {
     "description": "Auto-added missing key"
   },
@@ -2382,440 +2382,435 @@
   "@moderation_update_error": {
     "description": "Auto-added missing key"
   },
-  "auto_vvedite_pochtu_i_parol": "Введите почту и пароль",
+  "auto_vvedite_pochtu_i_parol": "Пошта мен құпия сөзді енгізіңіз",
   "@auto_vvedite_pochtu_i_parol": {
     "description": "Auto-extracted"
   },
-  "auto_server_ne_vernul_challenge_dlya_2fa": "Сервер не вернул challenge для 2FA",
+  "auto_server_ne_vernul_challenge_dlya_2fa": "Сервер 2FA үшін challenge қайтарған жоқ",
   "@auto_server_ne_vernul_challenge_dlya_2fa": {
     "description": "Auto-extracted"
   },
-  "auto_proverte_chto_pochta_i_parol_zapoln": "Проверьте, что почта и пароль заполнены",
+  "auto_proverte_chto_pochta_i_parol_zapoln": "Пошта мен құпия сөздің толтырылғанын тексеріңіз",
   "@auto_proverte_chto_pochta_i_parol_zapoln": {
     "description": "Auto-extracted"
   },
-  "auto_nevernaya_pochta_ili_parol": "Неверная почта или пароль",
+  "auto_nevernaya_pochta_ili_parol": "Қате пошта немесе құпия сөз",
   "@auto_nevernaya_pochta_ili_parol": {
     "description": "Auto-extracted"
   },
-  "auto_dostup_zapreshchen": "Доступ запрещён",
+  "auto_dostup_zapreshchen": "Кіруге тыйым салынады",
   "@auto_dostup_zapreshchen": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_vypolnit_vkhod_poprobuyte": "Не удалось выполнить вход. Попробуйте позже.",
+  "auto_ne_udalos_vypolnit_vkhod_poprobuyte": "Кіру сәтсіз аяқталды. Кейінірек көріңіз.",
   "@auto_ne_udalos_vypolnit_vkhod_poprobuyte": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_podklyucheniya_k_serveru_e": "Ошибка подключения к серверу: $e",
+  "auto_oshibka_podklyucheniya_k_serveru_e": "Серверге қосылу қатесі: $e",
   "@auto_oshibka_podklyucheniya_k_serveru_e": {
     "description": "Auto-extracted"
   },
-  "auto_vkhod_vypolnen": "Вход выполнен",
+  "auto_vkhod_vypolnen": "Кіру аяқталды",
   "@auto_vkhod_vypolnen": {
     "description": "Auto-extracted"
   },
-  "auto_dobro_pozhalovat_name": "Добро пожаловать, $name!",
+  "auto_dobro_pozhalovat_name": "$Name қош келдіңіз!",
   "@auto_dobro_pozhalovat_name": {
     "description": "Auto-extracted"
   },
-  "auto_zaydite_ili_zaregistriruytes": "Зайдите или зарегистрируйтесь",
+  "auto_zaydite_ili_zaregistriruytes": "Тоқтаңыз немесе тіркеліңіз",
   "@auto_zaydite_ili_zaregistriruytes": {
     "description": "Auto-extracted"
   },
-  "auto_v_svoy_akkaunt": "В свой аккаунт",
+  "auto_v_svoy_akkaunt": "Өз шотыңызға",
   "@auto_v_svoy_akkaunt": {
     "description": "Auto-extracted"
   },
-  "auto_zapomnit_menya": "Запомнить меня",
+  "auto_zapomnit_menya": "Мені есте сақтаңыз",
   "@auto_zapomnit_menya": {
     "description": "Auto-extracted"
   },
-  "auto_zabyli_parol": "Забыли пароль?",
+  "auto_zabyli_parol": "Құпия сөзді ұмыттыңыз ба?",
   "@auto_zabyli_parol": {
     "description": "Auto-extracted"
   },
-  "auto_net_akkaunta": "Нет аккаунта? ",
+  "auto_net_akkaunta": "Тіркелгі жоқ па? ",
   "@auto_net_akkaunta": {
     "description": "Auto-extracted"
   },
-  "auto_vvedite_10_simvolnyy_backup_kod": "Введите 10-символьный backup-код",
+  "auto_vvedite_10_simvolnyy_backup_kod": "10 таңбалы сақтық көшірме кодын енгізіңіз",
   "@auto_vvedite_10_simvolnyy_backup_kod": {
     "description": "Auto-extracted"
   },
-  "auto_vvedite_emailotplength_znachnyy_kod": "Введите $_emailOtpLength-значный код",
+  "auto_vvedite_emailotplength_znachnyy_kod": "$_emailotplength-таңбалы кодты енгізіңіз",
   "@auto_vvedite_emailotplength_znachnyy_kod": {
     "description": "Auto-extracted"
   },
-  "auto_nevernyy_kod": "Неверный код",
+  "auto_nevernyy_kod": "Қате код",
   "@auto_nevernyy_kod": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_podklyucheniya_k_serveru": "Ошибка подключения к серверу",
+  "auto_oshibka_podklyucheniya_k_serveru": "Серверге қосылу қатесі",
   "@auto_oshibka_podklyucheniya_k_serveru": {
     "description": "Auto-extracted"
   },
-  "auto_srok_deystviya_koda_istek_povtorite": "Срок действия кода истёк, повторите вход",
+  "auto_srok_deystviya_koda_istek_povtorite": "Кодтың мерзімі аяқталды, кіруді қайталаңыз",
   "@auto_srok_deystviya_koda_istek_povtorite": {
     "description": "Auto-extracted"
   },
-  "auto_kod_otpravlen_povtorno": "Код отправлен повторно",
+  "auto_kod_otpravlen_povtorno": "Код қайта жіберілді",
   "@auto_kod_otpravlen_povtorno": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_otpravit_kod_povtorno": "Не удалось отправить код повторно",
+  "auto_ne_udalos_otpravit_kod_povtorno": "Кодты қайта жіберу мүмкін болмады",
   "@auto_ne_udalos_otpravit_kod_povtorno": {
     "description": "Auto-extracted"
   },
-  "auto_podtverzhdenie_vkhoda": "Подтверждение входа",
+  "auto_podtverzhdenie_vkhoda": "Кіруді растау",
   "@auto_podtverzhdenie_vkhoda": {
     "description": "Auto-extracted"
   },
-  "auto_dvukhfaktornaya_nautentifikatsiya": "Двухфакторная\\nаутентификация",
+  "auto_dvukhfaktornaya_nautentifikatsiya": "Екі факторлы \\ аутентификация",
   "@auto_dvukhfaktornaya_nautentifikatsiya": {
     "description": "Auto-extracted"
   },
-  "auto_my_otpravili_kod_na_vashu_pochtu": "Мы отправили код на вашу почту",
+  "auto_my_otpravili_kod_na_vashu_pochtu": "Біз сіздің поштаңызға код жібердік",
   "@auto_my_otpravili_kod_na_vashu_pochtu": {
     "description": "Auto-extracted"
   },
-  "auto_backup_kod": "BACKUP-КОД",
+  "auto_backup_kod": "BACKUP КОДЫ",
   "@auto_backup_kod": {
     "description": "Auto-extracted"
   },
-  "auto_kod_iz_pochty": "КОД ИЗ ПОЧТЫ",
+  "auto_kod_iz_pochty": "ПОШТА КОДЫ",
   "@auto_kod_iz_pochty": {
     "description": "Auto-extracted"
   },
-  "auto_otpravit_snova": "Отправить снова",
+  "auto_otpravit_snova": "Қайта жіберу",
   "@auto_otpravit_snova": {
     "description": "Auto-extracted"
   },
-  "auto_vernutsya_k_kodu_iz_pochty": "Вернуться к коду из почты",
+  "auto_vernutsya_k_kodu_iz_pochty": "Поштадан кодқа оралу",
   "@auto_vernutsya_k_kodu_iz_pochty": {
     "description": "Auto-extracted"
   },
-  "auto_ispolzovat_backup_kod": "Использовать backup-код",
+  "auto_ispolzovat_backup_kod": "Backup кодын пайдаланыңыз",
   "@auto_ispolzovat_backup_kod": {
     "description": "Auto-extracted"
   },
-  "auto_zapomnit_ustroystvo_na_30_dney": "Запомнить устройство на 30 дней",
+  "auto_zapomnit_ustroystvo_na_30_dney": "Құрылғыны 30 күн есте сақтаңыз",
   "@auto_zapomnit_ustroystvo_na_30_dney": {
     "description": "Auto-extracted"
   },
-  "auto_vvedite_imya": "Введите имя",
+  "auto_vvedite_imya": "Атын енгізіңіз",
   "@auto_vvedite_imya": {
     "description": "Auto-extracted"
   },
-  "auto_imya_dolzhno_byt_ne_koroche_2_simvo": "Имя должно быть не короче 2 символов",
+  "auto_imya_dolzhno_byt_ne_koroche_2_simvo": "Атау 2 таңбадан қысқа болмауы керек",
   "@auto_imya_dolzhno_byt_ne_koroche_2_simvo": {
     "description": "Auto-extracted"
   },
-  "auto_vvedite_pochtu": "Введите почту",
+  "auto_vvedite_pochtu": "Поштаны енгізіңіз",
   "@auto_vvedite_pochtu": {
     "description": "Auto-extracted"
   },
-  "auto_vvedite_korrektnuyu_pochtu": "Введите корректную почту",
+  "auto_vvedite_korrektnuyu_pochtu": "Дұрыс поштаны енгізіңіз",
   "@auto_vvedite_korrektnuyu_pochtu": {
     "description": "Auto-extracted"
   },
-  "auto_vvedite_nomer_telefona": "Введите номер телефона",
+  "auto_vvedite_nomer_telefona": "Телефон нөмірін енгізіңіз",
   "@auto_vvedite_nomer_telefona": {
     "description": "Auto-extracted"
   },
-  "auto_nomer_dolzhen_byt_v_formate_7_000_0": "Номер должен быть в формате +7-000-000-0000",
+  "auto_nomer_dolzhen_byt_v_formate_7_000_0": "Нөмір +7-000-000-0000 форматында болуы керек",
   "@auto_nomer_dolzhen_byt_v_formate_7_000_0": {
     "description": "Auto-extracted"
   },
-  "auto_nomer_dolzhen_nachinatsya_s_7": "Номер должен начинаться с +7",
+  "auto_nomer_dolzhen_nachinatsya_s_7": "Нөмір +7-ден басталуы керек",
   "@auto_nomer_dolzhen_nachinatsya_s_7": {
     "description": "Auto-extracted"
   },
-  "auto_vvedite_nazvanie_kompanii": "Введите название компании",
+  "auto_vvedite_nazvanie_kompanii": "Компанияның атын енгізіңіз",
   "@auto_vvedite_nazvanie_kompanii": {
     "description": "Auto-extracted"
   },
-  "auto_vvedite_parol": "Введите пароль",
+  "auto_vvedite_parol": "Құпия сөзді енгізіңіз",
   "@auto_vvedite_parol": {
     "description": "Auto-extracted"
   },
-  "auto_parol_dolzhen_byt_ne_koroche_6_simv": "Пароль должен быть не короче 6 символов",
+  "auto_parol_dolzhen_byt_ne_koroche_6_simv": "Құпия сөз 6 таңбадан қысқа болмауы керек",
   "@auto_parol_dolzhen_byt_ne_koroche_6_simv": {
     "description": "Auto-extracted"
   },
-  "auto_povtorite_parol": "Повторите пароль",
+  "auto_povtorite_parol": "Құпия сөзді қайталаңыз",
   "@auto_povtorite_parol": {
     "description": "Auto-extracted"
   },
-  "auto_paroli_ne_sovpadayut": "Пароли не совпадают",
+  "auto_paroli_ne_sovpadayut": "Құпия сөздер бірдей емес",
   "@auto_paroli_ne_sovpadayut": {
     "description": "Auto-extracted"
   },
-  "auto_email_uzhe_zaregistrirovan": "Email уже зарегистрирован",
+  "auto_email_uzhe_zaregistrirovan": "Email тіркелген",
   "@auto_email_uzhe_zaregistrirovan": {
     "description": "Auto-extracted"
   },
-  "auto_proverte_zapolnenie_poley": "Проверьте заполнение полей",
+  "auto_proverte_zapolnenie_poley": "Өрістерді толтыруды тексеріңіз",
   "@auto_proverte_zapolnenie_poley": {
     "description": "Auto-extracted"
   },
-  "auto_nomer_telefona": "НОМЕР ТЕЛЕФОНА",
+  "auto_nomer_telefona": "ТЕЛЕФОН НӨМІРІ",
   "@auto_nomer_telefona": {
     "description": "Auto-extracted"
   },
-  "auto_nazvanie_kompanii": "НАЗВАНИЕ КОМПАНИИ",
+  "auto_nazvanie_kompanii": "КОМПАНИЯ АТАУЫ",
   "@auto_nazvanie_kompanii": {
     "description": "Auto-extracted"
   },
-  "auto_naprimer_too_sklad_mansa": "Например, ТОО Склад Манса",
+  "auto_naprimer_too_sklad_mansa": "Мысалы, Манса қоймасы ЖШС",
   "@auto_naprimer_too_sklad_mansa": {
     "description": "Auto-extracted"
   },
-  "auto_dopolnitelnye_dannye_ne_trebuyutsya": "Дополнительные данные не требуются.",
+  "auto_dopolnitelnye_dannye_ne_trebuyutsya": "Қосымша деректер қажет емес.",
   "@auto_dopolnitelnye_dannye_ne_trebuyutsya": {
     "description": "Auto-extracted"
   },
-  "auto_povtorite_parol_1": "ПОВТОРИТЕ ПАРОЛЬ",
+  "auto_povtorite_parol_1": "ҚҰПИЯ СӨЗДІ ҚАЙТАЛАҢЫЗ",
   "@auto_povtorite_parol_1": {
     "description": "Auto-extracted"
   },
-  "auto_kompaniya_i_parol": "Компания и пароль",
+  "auto_kompaniya_i_parol": "Компания және пароль",
   "@auto_kompaniya_i_parol": {
     "description": "Auto-extracted"
   },
-  "auto_shag_visiblestep_1_iz_2": "Қадам {step} / 2",
+  "auto_shag_visiblestep_1_iz_2": "Қадам {step} 2-ден",
   "@auto_shag_visiblestep_1_iz_2": {
-    "description": "Auto-extracted",
-    "placeholders": {
-      "step": {
-        "type": "String"
-      }
-    }
+    "description": "Auto-extracted"
   },
-  "auto_registratsiya_proshla_uspeshno": "Регистрация прошла успешно",
+  "auto_registratsiya_proshla_uspeshno": "Тіркеу сәтті өтті",
   "@auto_registratsiya_proshla_uspeshno": {
     "description": "Auto-extracted"
   },
-  "auto_server_vernul_oshibku": "Сервер вернул ошибку",
+  "auto_server_vernul_oshibku": "Сервер қатені қайтарды",
   "@auto_server_vernul_oshibku": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_zavershit_registratsiyu": "Не удалось завершить регистрацию",
+  "auto_ne_udalos_zavershit_registratsiyu": "Тіркеуді аяқтау мүмкін болмады",
   "@auto_ne_udalos_zavershit_registratsiyu": {
     "description": "Auto-extracted"
   },
-  "auto_server_vernul_oshibku_poprobuyte_sn": "Сервер вернул ошибку. Попробуйте снова.",
+  "auto_server_vernul_oshibku_poprobuyte_sn": "Сервер қатені қайтарды. Қайталап көріңіз.",
   "@auto_server_vernul_oshibku_poprobuyte_sn": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_podklyucheniya": "Ошибка подключения",
+  "auto_oshibka_podklyucheniya": "Қосылу қатесі",
   "@auto_oshibka_podklyucheniya": {
     "description": "Auto-extracted"
   },
-  "auto_zaregistriruytes_chtoby_nachat": "Зарегистрируйтесь чтобы начать",
+  "auto_zaregistriruytes_chtoby_nachat": "Бастау үшін тіркеліңіз",
   "@auto_zaregistriruytes_chtoby_nachat": {
     "description": "Auto-extracted"
   },
-  "auto_vvedite_email": "Введите email",
+  "auto_vvedite_email": "Электрондық поштаны енгізіңіз",
   "@auto_vvedite_email": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_servera": "Ошибка сервера",
+  "auto_oshibka_servera": "Сервер қатесі",
   "@auto_oshibka_servera": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_seti": "Ошибка сети",
+  "auto_oshibka_seti": "Желі қатесі",
   "@auto_oshibka_seti": {
     "description": "Auto-extracted"
   },
-  "auto_zabyli_parol_1": "Забыли пароль",
+  "auto_zabyli_parol_1": "Құпия сөзді ұмыттыңыз ба",
   "@auto_zabyli_parol_1": {
     "description": "Auto-extracted"
   },
-  "auto_napishi_svoyu_pochtu": "Напиши свою почту",
+  "auto_napishi_svoyu_pochtu": "Поштаңызды жазыңыз",
   "@auto_napishi_svoyu_pochtu": {
     "description": "Auto-extracted"
   },
-  "auto_el_pochta": "ЭЛ. ПОЧТА",
+  "auto_el_pochta": "Ал. Пошта",
   "@auto_el_pochta": {
     "description": "Auto-extracted"
   },
-  "auto_otpravit_kod": "ОТПРАВИТЬ КОД",
+  "auto_otpravit_kod": "КОДТЫ ЖІБЕРУ",
   "@auto_otpravit_kod": {
     "description": "Auto-extracted"
   },
-  "auto_vvedite_6znachnyy_kod": "Введите 6-значный код",
+  "auto_vvedite_6znachnyy_kod": "6 таңбалы кодты енгізіңіз",
   "@auto_vvedite_6znachnyy_kod": {
     "description": "Auto-extracted"
   },
-  "auto_vosstanovlenie_parolya": "Восстановление пароля",
+  "auto_vosstanovlenie_parolya": "Құпия сөзді қалпына келтіру",
   "@auto_vosstanovlenie_parolya": {
     "description": "Auto-extracted"
   },
-  "auto_zapolnite_vse_polya": "Заполните все поля",
+  "auto_zapolnite_vse_polya": "Барлық өрістерді толтырыңыз",
   "@auto_zapolnite_vse_polya": {
     "description": "Auto-extracted"
   },
-  "auto_parol_dolzhen_soderzhat_minimum_6_s": "Пароль должен содержать минимум 6 символов",
+  "auto_parol_dolzhen_soderzhat_minimum_6_s": "Құпия сөзде кемінде 6 таңба болуы керек",
   "@auto_parol_dolzhen_soderzhat_minimum_6_s": {
     "description": "Auto-extracted"
   },
-  "auto_parol_uspeshno_izmenn": "Пароль успешно изменён",
+  "auto_parol_uspeshno_izmenn": "Құпия сөз сәтті өзгертілді",
   "@auto_parol_uspeshno_izmenn": {
     "description": "Auto-extracted"
   },
-  "auto_novyy_parol": "Новый пароль",
+  "auto_novyy_parol": "Жаңа құпия сөз",
   "@auto_novyy_parol": {
     "description": "Auto-extracted"
   },
-  "auto_vvedite_novyy_parol": "Введите новый пароль",
+  "auto_vvedite_novyy_parol": "Жаңа құпия сөзді енгізіңіз",
   "@auto_vvedite_novyy_parol": {
     "description": "Auto-extracted"
   },
-  "auto_novyy_parol_1": "НОВЫЙ ПАРОЛЬ",
+  "auto_novyy_parol_1": "ЖАҢА ҚҰПИЯ СӨЗ",
   "@auto_novyy_parol_1": {
     "description": "Auto-extracted"
   },
-  "auto_podtverdite_parol": "ПОДТВЕРДИТЕ ПАРОЛЬ",
+  "auto_podtverdite_parol": "ҚҰПИЯ СӨЗДІ РАСТАҢЫЗ",
   "@auto_podtverdite_parol": {
     "description": "Auto-extracted"
   },
-  "auto_podtverdite_novyy_parol": "Подтвердите новый пароль",
+  "auto_podtverdite_novyy_parol": "Жаңа құпия сөзді растаңыз",
   "@auto_podtverdite_novyy_parol": {
     "description": "Auto-extracted"
   },
-  "auto_sohranit_parol": "СОХРАНИТЬ ПАРОЛЬ",
+  "auto_sohranit_parol": "ҚҰПИЯ СӨЗДІ САҚТАУ",
   "@auto_sohranit_parol": {
     "description": "Auto-extracted"
   },
-  "auto_email_podtverzhdn_teper_mozhno_voyt": "Email подтверждён. Теперь можно войти.",
+  "auto_email_podtverzhdn_teper_mozhno_voyt": "Email расталды. Енді кіруге болады.",
   "@auto_email_podtverzhdn_teper_mozhno_voyt": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_seti_pri_podtverzhdenii": "Ошибка сети при подтверждении",
+  "auto_oshibka_seti_pri_podtverzhdenii": "Растау кезінде желі қатесі",
   "@auto_oshibka_seti_pri_podtverzhdenii": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_seti_pri_povtornoy_otpravke": "Ошибка сети при повторной отправке",
+  "auto_oshibka_seti_pri_povtornoy_otpravke": "Қайта жіберу кезінде желі қатесі",
   "@auto_oshibka_seti_pri_povtornoy_otpravke": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_konfiguratsii_api": "Ошибка конфигурации API",
+  "auto_oshibka_konfiguratsii_api": "API конфигурациясы қатесі",
   "@auto_oshibka_konfiguratsii_api": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_sformirovat_airezyume": "Не удалось сформировать AI-резюме",
+  "auto_ne_udalos_sformirovat_airezyume": "AI түйіндемесін құру мүмкін болмады",
   "@auto_ne_udalos_sformirovat_airezyume": {
     "description": "Auto-extracted"
   },
-  "auto_ty_aianalitik_postavschikov_obyazat": "Ты AI-аналитик поставщиков. ОБЯЗАТЕЛЬНО отвечай ТОЛЬКО на русском языке. ",
+  "auto_ty_aianalitik_postavschikov_obyazat": "Сіз жеткізушілердің AI талдаушысысыз. Тек орыс тілінде жауап беруді ұмытпаңыз. ",
   "@auto_ty_aianalitik_postavschikov_obyazat": {
     "description": "Auto-extracted"
   },
-  "auto_vse_tvoi_otvety_dolzhny_byt_na_100": "Все твои ответы должны быть на 100% на русском. ",
+  "auto_vse_tvoi_otvety_dolzhny_byt_na_100": "Сіздің барлық жауаптарыңыз 100% орыс тілінде болуы керек. ",
   "@auto_vse_tvoi_otvety_dolzhny_byt_na_100": {
     "description": "Auto-extracted"
   },
-  "auto_nikogda_ne_ispolzuy_drugie_yazyki_n": "Никогда не используй другие языки ни при каких обстоятельствах.",
+  "auto_nikogda_ne_ispolzuy_drugie_yazyki_n": "Ешқашан басқа тілдерді ешқандай жағдайда қолданбаңыз.",
   "@auto_nikogda_ne_ispolzuy_drugie_yazyki_n": {
     "description": "Auto-extracted"
   },
-  "auto_zapros_zanyal_slishkom_dolgo": "Запрос занял слишком долго",
+  "auto_zapros_zanyal_slishkom_dolgo": "Сұрау тым ұзаққа созылды",
   "@auto_zapros_zanyal_slishkom_dolgo": {
     "description": "Auto-extracted"
   },
-  "auto_proverte_podklyuchenie_k_internetu": "Проверьте подключение к интернету",
+  "auto_proverte_podklyuchenie_k_internetu": "Интернет байланысын тексеріңіз",
   "@auto_proverte_podklyuchenie_k_internetu": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_servera_poprobuem_druguyu_m": "Ошибка сервера. Попробуем другую модель",
+  "auto_oshibka_servera_poprobuem_druguyu_m": "Сервер қатесі. Басқа модельді қолданып көрейік",
   "@auto_oshibka_servera_poprobuem_druguyu_m": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_ai_servisa": "Ошибка AI сервиса",
+  "auto_oshibka_ai_servisa": "AI қызметі қатесі",
   "@auto_oshibka_ai_servisa": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_pri_obrabotke_otveta": "Ошибка при обработке ответа",
+  "auto_oshibka_pri_obrabotke_otveta": "Жауапты өңдеу кезінде қате",
   "@auto_oshibka_pri_obrabotke_otveta": {
     "description": "Auto-extracted"
   },
-  "auto_airezyume_uspeshno_sgenerirovano": "AI-резюме успешно сгенерировано",
+  "auto_airezyume_uspeshno_sgenerirovano": "AI түйіндемесі сәтті жасалды",
   "@auto_airezyume_uspeshno_sgenerirovano": {
     "description": "Auto-extracted"
   },
-  "auto_sobiraetsya": "Собирается",
+  "auto_sobiraetsya": "Жиналады",
   "@auto_sobiraetsya": {
     "description": "Auto-extracted"
   },
-  "auto_spisok_tovarov_ne_dolzhen_byt_pusty": "Список товаров не должен быть пустым",
+  "auto_spisok_tovarov_ne_dolzhen_byt_pusty": "Тауарлар тізімі бос болмауы керек",
   "@auto_spisok_tovarov_ne_dolzhen_byt_pusty": {
     "description": "Auto-extracted"
   },
-  "auto_userid_dolzhen_byt_polozhitelnym": "userId должен быть положительным",
+  "auto_userid_dolzhen_byt_polozhitelnym": "userId оң болуы керек",
   "@auto_userid_dolzhen_byt_polozhitelnym": {
     "description": "Auto-extracted"
   },
-  "auto_neobhodimo_peredat_hotya_by_odno_po": "Необходимо передать хотя бы одно поле для обновления",
+  "auto_neobhodimo_peredat_hotya_by_odno_po": "Жаңарту үшін кем дегенде бір өрісті жіберу керек",
   "@auto_neobhodimo_peredat_hotya_by_odno_po": {
     "description": "Auto-extracted"
   },
-  "auto_tekuschiy_i_novyy_parol_obyazatelny": "Текущий и новый пароль обязательны",
+  "auto_tekuschiy_i_novyy_parol_obyazatelny": "Ағымдағы және жаңа құпия сөз қажет",
   "@auto_tekuschiy_i_novyy_parol_obyazatelny": {
     "description": "Auto-extracted"
   },
-  "auto_novyy_parol_dolzhen_otlichatsya_ot": "Новый пароль должен отличаться от текущего",
+  "auto_novyy_parol_dolzhen_otlichatsya_ot": "Жаңа құпия сөз қазіргіден өзгеше болуы керек",
   "@auto_novyy_parol_dolzhen_otlichatsya_ot": {
     "description": "Auto-extracted"
   },
-  "auto_podtverzhdenie_parolya_ne_sovpadaet": "Подтверждение пароля не совпадает",
+  "auto_podtverzhdenie_parolya_ne_sovpadaet": "Құпия сөзді растау бірдей емес",
   "@auto_podtverzhdenie_parolya_ne_sovpadaet": {
     "description": "Auto-extracted"
   },
-  "auto_userid_i_addressid_dolzhny_byt_polo": "userId и addressId должны быть положительными",
+  "auto_userid_i_addressid_dolzhny_byt_polo": "userId және addressId оң болуы керек",
   "@auto_userid_i_addressid_dolzhny_byt_polo": {
     "description": "Auto-extracted"
   },
-  "auto_orderid_ne_dolzhen_byt_pustym": "orderId не должен быть пустым",
+  "auto_orderid_ne_dolzhen_byt_pustym": "orderId бос болмауы керек",
   "@auto_orderid_ne_dolzhen_byt_pustym": {
     "description": "Auto-extracted"
   },
-  "auto_productid_ne_dolzhen_byt_pustym": "productId не должен быть пустым",
+  "auto_productid_ne_dolzhen_byt_pustym": "productId бос болмауы керек",
   "@auto_productid_ne_dolzhen_byt_pustym": {
     "description": "Auto-extracted"
   },
-  "auto_reviewid_ne_dolzhen_byt_pustym": "reviewId не должен быть пустым",
+  "auto_reviewid_ne_dolzhen_byt_pustym": "reviewId бос болмауы керек",
   "@auto_reviewid_ne_dolzhen_byt_pustym": {
     "description": "Auto-extracted"
   },
-  "auto_status_ne_dolzhen_byt_pustym": "status не должен быть пустым",
+  "auto_status_ne_dolzhen_byt_pustym": "күй бос болмауы керек",
   "@auto_status_ne_dolzhen_byt_pustym": {
     "description": "Auto-extracted"
   },
-  "auto_moderatorid_dolzhen_byt_polozhiteln": "moderatorId должен быть положительным",
+  "auto_moderatorid_dolzhen_byt_polozhiteln": "moderatorId оң болуы керек",
   "@auto_moderatorid_dolzhen_byt_polozhiteln": {
     "description": "Auto-extracted"
   },
-  "auto_reason_ne_dolzhen_byt_pustym": "reason не должен быть пустым",
+  "auto_reason_ne_dolzhen_byt_pustym": "reason бос болмауы керек",
   "@auto_reason_ne_dolzhen_byt_pustym": {
     "description": "Auto-extracted"
   },
-  "auto_name_ne_dolzhen_byt_pustym": "name не должен быть пустым",
+  "auto_name_ne_dolzhen_byt_pustym": "name бос болмауы керек",
   "@auto_name_ne_dolzhen_byt_pustym": {
     "description": "Auto-extracted"
   },
-  "auto_id_dolzhen_byt_polozhitelnym": "id должен быть положительным",
+  "auto_id_dolzhen_byt_polozhitelnym": "id оң болуы керек",
   "@auto_id_dolzhen_byt_polozhitelnym": {
     "description": "Auto-extracted"
   },
-  "auto_chatid_dolzhen_byt_polozhitelnym": "chatId должен быть положительным",
+  "auto_chatid_dolzhen_byt_polozhitelnym": "chatId оң болуы керек",
   "@auto_chatid_dolzhen_byt_polozhitelnym": {
     "description": "Auto-extracted"
   },
-  "auto_text_ne_dolzhen_byt_pustym": "text не должен быть пустым",
+  "auto_text_ne_dolzhen_byt_pustym": "мәтін бос болмауы керек",
   "@auto_text_ne_dolzhen_byt_pustym": {
     "description": "Auto-extracted"
   },
-  "auto_polzovatel": "пользователь",
+  "auto_polzovatel": "пайдаланушы",
   "@auto_polzovatel": {
     "description": "Auto-extracted"
   },
@@ -2823,283 +2818,283 @@
   "@auto_moderator": {
     "description": "Auto-extracted"
   },
-  "auto_nevernyy_format_otveta_servera_otsu": "Неверный формат ответа сервера: отсутствуют поля questions или total",
+  "auto_nevernyy_format_otveta_servera_otsu": "Сервердің жауап беру форматы дұрыс емес: questions немесе total өрістері жоқ",
   "@auto_nevernyy_format_otveta_servera_otsu": {
     "description": "Auto-extracted"
   },
-  "auto_nevernyy_format_otveta_servera_ques": "Неверный формат ответа сервера: questions должен быть списком",
+  "auto_nevernyy_format_otveta_servera_ques": "Сервердің жауап беру форматы дұрыс емес: questions тізім болуы керек",
   "@auto_nevernyy_format_otveta_servera_ques": {
     "description": "Auto-extracted"
   },
-  "auto_nevernyy_format_otveta_servera_tota": "Неверный формат ответа сервера: total должен быть числом",
+  "auto_nevernyy_format_otveta_servera_tota": "Қате сервер жауап пішімі: total сан болуы керек",
   "@auto_nevernyy_format_otveta_servera_tota": {
     "description": "Auto-extracted"
   },
-  "auto_vopros_ne_dolzhen_byt_pustym": "Вопрос не должен быть пустым",
+  "auto_vopros_ne_dolzhen_byt_pustym": "Сұрақ бос болмауы керек",
   "@auto_vopros_ne_dolzhen_byt_pustym": {
     "description": "Auto-extracted"
   },
-  "auto_vopros_dolzhen_soderzhat_minimum_10": "Вопрос должен содержать минимум 10 символов",
+  "auto_vopros_dolzhen_soderzhat_minimum_10": "Сұрақ кем дегенде 10 таңбадан тұруы керек",
   "@auto_vopros_dolzhen_soderzhat_minimum_10": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_otvetit": "Не удалось ответить",
+  "auto_ne_udalos_otvetit": "Жауап беру мүмкін болмады",
   "@auto_ne_udalos_otvetit": {
     "description": "Auto-extracted"
   },
-  "auto_questionid_ne_dolzhen_byt_pustym": "questionId не должен быть пустым",
+  "auto_questionid_ne_dolzhen_byt_pustym": "questionId бос болмауы керек",
   "@auto_questionid_ne_dolzhen_byt_pustym": {
     "description": "Auto-extracted"
   },
-  "auto_supplieruserid_dolzhen_byt_polozhit": "supplierUserId должен быть положительным",
+  "auto_supplieruserid_dolzhen_byt_polozhit": "supplierUserId оң болуы керек",
   "@auto_supplieruserid_dolzhen_byt_polozhit": {
     "description": "Auto-extracted"
   },
-  "auto_answertext_ne_dolzhen_byt_pustym": "answerText не должен быть пустым",
+  "auto_answertext_ne_dolzhen_byt_pustym": "answerText бос болмауы керек",
   "@auto_answertext_ne_dolzhen_byt_pustym": {
     "description": "Auto-extracted"
   },
-  "auto_responsetext_ne_dolzhen_byt_pustym": "responseText не должен быть пустым",
+  "auto_responsetext_ne_dolzhen_byt_pustym": "responseText бос болмауы керек",
   "@auto_responsetext_ne_dolzhen_byt_pustym": {
     "description": "Auto-extracted"
   },
-  "auto_ooo_optovaya_kompaniya": "ООО Оптовая Компания",
+  "auto_ooo_optovaya_kompaniya": "Көтерме Компания ЖШҚ",
   "@auto_ooo_optovaya_kompaniya": {
     "description": "Auto-extracted"
   },
-  "auto_dostavka_po_rossii": "Доставка по России",
+  "auto_dostavka_po_rossii": "Ресей бойынша жеткізу",
   "@auto_dostavka_po_rossii": {
     "description": "Auto-extracted"
   },
-  "auto_bystraya_dostavka": "Быстрая доставка",
+  "auto_bystraya_dostavka": "Жылдам жеткізу",
   "@auto_bystraya_dostavka": {
     "description": "Auto-extracted"
   },
-  "auto_postavschik_kachestvennyh_tovarov_o": "Поставщик качественных товаров оптом с 10-летним опытом",
+  "auto_postavschik_kachestvennyh_tovarov_o": "10 жылдық тәжірибесі бар сапалы тауарларды көтерме жеткізуші",
   "@auto_postavschik_kachestvennyh_tovarov_o": {
     "description": "Auto-extracted"
   },
-  "auto_g_moskva_ul_primernaya_d_1": "г. Москва, ул. Примерная, д. 1",
+  "auto_g_moskva_ul_primernaya_d_1": "Мәскеу қ., Приморная к-сі, 1-үй",
   "@auto_g_moskva_ul_primernaya_d_1": {
     "description": "Auto-extracted"
   },
-  "auto_ooo_torgovyy_dom": "ООО Торговый Дом",
+  "auto_ooo_torgovyy_dom": "Сауда үйі ЖШҚ",
   "@auto_ooo_torgovyy_dom": {
     "description": "Auto-extracted"
   },
-  "auto_dostavka_po_rossii_i_sng": "Доставка по России и СНГ",
+  "auto_dostavka_po_rossii_i_sng": "Ресей мен ТМД бойынша жеткізу",
   "@auto_dostavka_po_rossii_i_sng": {
     "description": "Auto-extracted"
   },
-  "auto_nadzhnyy_partnr": "Надёжный партнёр",
+  "auto_nadzhnyy_partnr": "Сенімді серіктес",
   "@auto_nadzhnyy_partnr": {
     "description": "Auto-extracted"
   },
-  "auto_krupnyy_optovyy_postavschik_s_shiro": "Крупный оптовый поставщик с широким ассортиментом",
+  "auto_krupnyy_optovyy_postavschik_s_shiro": "Кең ассортименті бар ірі көтерме жеткізуші",
   "@auto_krupnyy_optovyy_postavschik_s_shiro": {
     "description": "Auto-extracted"
   },
-  "auto_g_sanktpeterburg_pr_nevskiy_d_50": "г. Санкт-Петербург, пр. Невский, д. 50",
+  "auto_g_sanktpeterburg_pr_nevskiy_d_50": "Санкт-Петербург қаласы, Невский даңғылы, 50-үй",
   "@auto_g_sanktpeterburg_pr_nevskiy_d_50": {
     "description": "Auto-extracted"
   },
-  "auto_ooo_ekspress_postavki": "ООО Экспресс Поставки",
+  "auto_ooo_ekspress_postavki": "Экспресс жеткізу ЖШС",
   "@auto_ooo_ekspress_postavki": {
     "description": "Auto-extracted"
   },
-  "auto_ekspressdostavka_24_chasa": "Экспресс-доставка 24 часа",
+  "auto_ekspressdostavka_24_chasa": "Жедел жеткізу 24 сағат",
   "@auto_ekspressdostavka_24_chasa": {
     "description": "Auto-extracted"
   },
-  "auto_spetsializiruemsya_na_bystroy_dosta": "Специализируемся на быстрой доставке товаров оптом",
+  "auto_spetsializiruemsya_na_bystroy_dosta": "Біз тауарларды тез көтерме жеткізуге маманданамыз",
   "@auto_spetsializiruemsya_na_bystroy_dosta": {
     "description": "Auto-extracted"
   },
-  "auto_g_ekaterinburg_ul_glavnaya_d_100": "г. Екатеринбург, ул. Главная, д. 100",
+  "auto_g_ekaterinburg_ul_glavnaya_d_100": "Екатеринбург қ., Главная к-сі, 100-үй",
   "@auto_g_ekaterinburg_ul_glavnaya_d_100": {
     "description": "Auto-extracted"
   },
-  "auto_standartnaya_dostavka": "Стандартная доставка",
+  "auto_standartnaya_dostavka": "Стандартты жеткізу",
   "@auto_standartnaya_dostavka": {
     "description": "Auto-extracted"
   },
-  "auto_nadzhnyy_postavschik_optovyh_tovaro": "Надёжный поставщик оптовых товаров",
+  "auto_nadzhnyy_postavschik_optovyh_tovaro": "Көтерме тауарлардың сенімді жеткізушісі",
   "@auto_nadzhnyy_postavschik_optovyh_tovaro": {
     "description": "Auto-extracted"
   },
-  "auto_rossiya": "Россия",
+  "auto_rossiya": "Ресей",
   "@auto_rossiya": {
     "description": "Auto-extracted"
   },
-  "auto_tovar_1_ot_postavschika_123": "Товар 1 от поставщика 123",
+  "auto_tovar_1_ot_postavschika_123": "Өнім берушіден 1 тауар 123",
   "@auto_tovar_1_ot_postavschika_123": {
     "description": "Auto-extracted"
   },
-  "auto_kategoriya_1": "Категория 1",
+  "auto_kategoriya_1": "1 санат",
   "@auto_kategoriya_1": {
     "description": "Auto-extracted"
   },
-  "auto_tovar_2_ot_postavschika_123": "Товар 2 от поставщика 123",
+  "auto_tovar_2_ot_postavschika_123": "Өнім берушіден 2 тауар 123",
   "@auto_tovar_2_ot_postavschika_123": {
     "description": "Auto-extracted"
   },
-  "auto_kategoriya_2": "Категория 2",
+  "auto_kategoriya_2": "2 санат",
   "@auto_kategoriya_2": {
     "description": "Auto-extracted"
   },
-  "auto_tovar_1_ot_postavschika_456": "Товар 1 от поставщика 456",
+  "auto_tovar_1_ot_postavschika_456": "Өнім берушіден 1 тауар 456",
   "@auto_tovar_1_ot_postavschika_456": {
     "description": "Auto-extracted"
   },
-  "auto_tovar_1_ot_postavschika_789": "Товар 1 от поставщика 789",
+  "auto_tovar_1_ot_postavschika_789": "Өнім берушіден 1 тауар 789",
   "@auto_tovar_1_ot_postavschika_789": {
     "description": "Auto-extracted"
   },
-  "auto_tovar_2_ot_postavschika_789": "Товар 2 от поставщика 789",
+  "auto_tovar_2_ot_postavschika_789": "Өнім берушіден 2 тауар 789",
   "@auto_tovar_2_ot_postavschika_789": {
     "description": "Auto-extracted"
   },
-  "auto_supplierid_ne_dolzhen_byt_pustym": "supplierId не должен быть пустым",
+  "auto_supplierid_ne_dolzhen_byt_pustym": "supplierId бос болмауы керек",
   "@auto_supplierid_ne_dolzhen_byt_pustym": {
     "description": "Auto-extracted"
   },
-  "auto_vremya_ozhidaniya_isteklo": "Время ожидания истекло",
+  "auto_vremya_ozhidaniya_isteklo": "Күту уақыты аяқталды",
   "@auto_vremya_ozhidaniya_isteklo": {
     "description": "Auto-extracted"
   },
-  "auto_postavschik_ne_nayden": "Поставщик не найден",
+  "auto_postavschik_ne_nayden": "Жеткізуші табылмады",
   "@auto_postavschik_ne_nayden": {
     "description": "Auto-extracted"
   },
-  "auto_taymaut": "Таймаут",
+  "auto_taymaut": "Күту уақыты",
   "@auto_taymaut": {
     "description": "Auto-extracted"
   },
-  "auto_v_puti": "в пути",
+  "auto_v_puti": "жолда",
   "@auto_v_puti": {
     "description": "Auto-extracted"
   },
-  "auto_otpravlen": "отправлен",
+  "auto_otpravlen": "жіберілді",
   "@auto_otpravlen": {
     "description": "Auto-extracted"
   },
-  "auto_otpravleno": "отправлено",
+  "auto_otpravleno": "жіберілді",
   "@auto_otpravleno": {
     "description": "Auto-extracted"
   },
-  "auto_v_puti_1": "В пути",
+  "auto_v_puti_1": "Жолда",
   "@auto_v_puti_1": {
     "description": "Auto-extracted"
   },
-  "auto_prinyat": "Принят",
+  "auto_prinyat": "Қабылданды",
   "@auto_prinyat": {
     "description": "Auto-extracted"
   },
-  "auto_dostavlen": "доставлен",
+  "auto_dostavlen": "жеткізілді",
   "@auto_dostavlen": {
     "description": "Auto-extracted"
   },
-  "auto_polucheno": "получено",
+  "auto_polucheno": "алынды",
   "@auto_polucheno": {
     "description": "Auto-extracted"
   },
-  "auto_prinyat_1": "принят",
+  "auto_prinyat_1": "қабылданды",
   "@auto_prinyat_1": {
     "description": "Auto-extracted"
   },
-  "auto_prinyata": "принята",
+  "auto_prinyata": "қабылданды",
   "@auto_prinyata": {
     "description": "Auto-extracted"
   },
-  "auto_prinyato": "принято",
+  "auto_prinyato": "қабылданды",
   "@auto_prinyato": {
     "description": "Auto-extracted"
   },
-  "auto_prinyaty": "приняты",
+  "auto_prinyaty": "қабылданды",
   "@auto_prinyaty": {
     "description": "Auto-extracted"
   },
-  "auto_zaversheno": "завершено",
+  "auto_zaversheno": "аяқталды",
   "@auto_zaversheno": {
     "description": "Auto-extracted"
   },
-  "auto_otmena": "отмена",
+  "auto_otmena": "бас тарту",
   "@auto_otmena": {
     "description": "Auto-extracted"
   },
-  "auto_otmenn": "отменён",
+  "auto_otmenn": "жойылды",
   "@auto_otmenn": {
     "description": "Auto-extracted"
   },
-  "auto_otmenen": "отменен",
+  "auto_otmenen": "жойылды",
   "@auto_otmenen": {
     "description": "Auto-extracted"
   },
-  "auto_dostavlen_1": "Доставлен",
+  "auto_dostavlen_1": "Жеткізілді",
   "@auto_dostavlen_1": {
     "description": "Auto-extracted"
   },
-  "auto_poluchil": "Получил",
+  "auto_poluchil": "Алды",
   "@auto_poluchil": {
     "description": "Auto-extracted"
   },
-  "auto_ne_avtorizovan": "Не авторизован",
+  "auto_ne_avtorizovan": "Рұқсат етілмеген",
   "@auto_ne_avtorizovan": {
     "description": "Auto-extracted"
   },
-  "auto_server_vernul_nekorrektnyy_otvet": "Сервер вернул некорректный ответ",
+  "auto_server_vernul_nekorrektnyy_otvet": "Сервер қате жауапты қайтарды",
   "@auto_server_vernul_nekorrektnyy_otvet": {
     "description": "Auto-extracted"
   },
-  "auto_offset_ne_dolzhen_byt_otritsatelnym": "offset не должен быть отрицательным",
+  "auto_offset_ne_dolzhen_byt_otritsatelnym": "offset теріс болмауы керек",
   "@auto_offset_ne_dolzhen_byt_otritsatelnym": {
     "description": "Auto-extracted"
   },
-  "auto_limit_dolzhen_byt_polozhitelnym": "limit должен быть положительным",
+  "auto_limit_dolzhen_byt_polozhitelnym": "шектеу оң болуы керек",
   "@auto_limit_dolzhen_byt_polozhitelnym": {
     "description": "Auto-extracted"
   },
-  "auto_targetuserid_dolzhen_byt_polozhitel": "targetUserId должен быть положительным",
+  "auto_targetuserid_dolzhen_byt_polozhitel": "targetUserId оң болуы керек",
   "@auto_targetuserid_dolzhen_byt_polozhitel": {
     "description": "Auto-extracted"
   },
-  "auto_apiproductresolver_ne_udalos_zagruz": "ApiProductResolver: не удалось загрузить каталог",
+  "auto_apiproductresolver_ne_udalos_zagruz": "ApiProductResolver: каталогты жүктеу мүмкін болмады",
   "@auto_apiproductresolver_ne_udalos_zagruz": {
     "description": "Auto-extracted"
   },
-  "auto_server_vernul_pustye_dannye_polzova": "Сервер вернул пустые данные пользователя",
+  "auto_server_vernul_pustye_dannye_polzova": "Сервер пайдаланушының бос деректерін қайтарды",
   "@auto_server_vernul_pustye_dannye_polzova": {
     "description": "Auto-extracted"
   },
-  "auto_nevernyy_kod_ili_istk_srok_deystviy": "Неверный код или истёк срок действия",
+  "auto_nevernyy_kod_ili_istk_srok_deystviy": "Қате код немесе жарамдылық мерзімі аяқталды",
   "@auto_nevernyy_kod_ili_istk_srok_deystviy": {
     "description": "Auto-extracted"
   },
-  "auto_trebuetsya_avtorizatsiya": "Требуется авторизация",
+  "auto_trebuetsya_avtorizatsiya": "Авторизация қажет",
   "@auto_trebuetsya_avtorizatsiya": {
     "description": "Auto-extracted"
   },
-  "auto_deystvie_nedostupno_dlya_vashey_rol": "Действие недоступно для вашей роли",
+  "auto_deystvie_nedostupno_dlya_vashey_rol": "Әрекет сіздің рөліңіз үшін қол жетімді емес",
   "@auto_deystvie_nedostupno_dlya_vashey_rol": {
     "description": "Auto-extracted"
   },
-  "auto_srok_deystviya_koda_istk_povtorite": "Срок действия кода истёк, повторите вход",
+  "auto_srok_deystviya_koda_istk_povtorite": "Кодтың мерзімі аяқталды, кіруді қайталаңыз",
   "@auto_srok_deystviya_koda_istk_povtorite": {
     "description": "Auto-extracted"
   },
-  "auto_slishkom_mnogo_popytok_poprobuyte_p": "Слишком много попыток, попробуйте позже",
+  "auto_slishkom_mnogo_popytok_poprobuyte_p": "Тым көп әрекет жасаңыз, кейінірек көріңіз",
   "@auto_slishkom_mnogo_popytok_poprobuyte_p": {
     "description": "Auto-extracted"
   },
-  "auto_tovar": "товар",
+  "auto_tovar": "тауар",
   "@auto_tovar": {
     "description": "Auto-extracted"
   },
-  "auto_tovara": "товара",
+  "auto_tovara": "тауар",
   "@auto_tovara": {
     "description": "Auto-extracted"
   },
-  "auto_tovarov": "товаров",
+  "auto_tovarov": "тауарлар",
   "@auto_tovarov": {
     "description": "Auto-extracted"
   },
@@ -3107,231 +3102,231 @@
   "@auto_nm": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_seti_proverte_podklyuchenie": "Ошибка сети. Проверьте подключение и попробуйте снова",
+  "auto_oshibka_seti_proverte_podklyuchenie": "Желі қатесі. Қосылымды тексеріп, қайталап көріңіз",
   "@auto_oshibka_seti_proverte_podklyuchenie": {
     "description": "Auto-extracted"
   },
-  "auto_prevysheno_vremya_ozhidaniya_otveta": "Превышено время ожидания ответа сервера",
+  "auto_prevysheno_vremya_ozhidaniya_otveta": "Сервердің жауабын күту уақытынан асып кетті",
   "@auto_prevysheno_vremya_ozhidaniya_otveta": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_razobrat_soobschenie": "Не удалось разобрать сообщение",
+  "auto_ne_udalos_razobrat_soobschenie": "Хабарламаны бөлшектеу мүмкін болмады",
   "@auto_ne_udalos_razobrat_soobschenie": {
     "description": "Auto-extracted"
   },
-  "auto_zapros_vypolnen": "Запрос выполнен",
+  "auto_zapros_vypolnen": "Сұраныс орындалды",
   "@auto_zapros_vypolnen": {
     "description": "Auto-extracted"
   },
-  "auto_nekorrektnyy_otvet_api": "некорректный ответ API",
+  "auto_nekorrektnyy_otvet_api": "қате жауап API",
   "@auto_nekorrektnyy_otvet_api": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_prilozheniya": "Ошибка приложения",
+  "auto_oshibka_prilozheniya": "Қолданба қатесі",
   "@auto_oshibka_prilozheniya": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_razobrat_isklyuchenie": "не удалось разобрать исключение",
+  "auto_ne_udalos_razobrat_isklyuchenie": "ерекшелікті талдау мүмкін болмады",
   "@auto_ne_udalos_razobrat_isklyuchenie": {
     "description": "Auto-extracted"
   },
-  "auto_nekorrektnoe_soobschenie_podderzhki": "некорректное сообщение поддержки",
+  "auto_nekorrektnoe_soobschenie_podderzhki": "қате қолдау хабары",
   "@auto_nekorrektnoe_soobschenie_podderzhki": {
     "description": "Auto-extracted"
   },
-  "auto_json_ne_proshl_validatsiyu": "JSON не прошёл валидацию",
+  "auto_json_ne_proshl_validatsiyu": "JSON тексеруден өткен жоқ",
   "@auto_json_ne_proshl_validatsiyu": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_razobrat_json": "не удалось разобрать JSON",
+  "auto_ne_udalos_razobrat_json": "JSON-удалось бөлшектеу мүмкін болмады",
   "@auto_ne_udalos_razobrat_json": {
     "description": "Auto-extracted"
   },
-  "auto_uvedomlenie": "Уведомление",
+  "auto_uvedomlenie": "Хабарлама",
   "@auto_uvedomlenie": {
     "description": "Auto-extracted"
   },
-  "auto_nekorrektnoe_uvedomlenie": "некорректное уведомление",
+  "auto_nekorrektnoe_uvedomlenie": "қате хабарлама",
   "@auto_nekorrektnoe_uvedomlenie": {
     "description": "Auto-extracted"
   },
-  "auto_aigeneratsiya": "AI-генерация",
+  "auto_aigeneratsiya": "AI генерациясы",
   "@auto_aigeneratsiya": {
     "description": "Auto-extracted"
   },
-  "auto_nekorrektnyy_otvet_ai": "некорректный ответ AI",
+  "auto_nekorrektnyy_otvet_ai": "қате жауап AI",
   "@auto_nekorrektnyy_otvet_ai": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_razbora_soobscheniya": "Ошибка разбора сообщения",
+  "auto_oshibka_razbora_soobscheniya": "Хабарламаны талдау қатесі",
   "@auto_oshibka_razbora_soobscheniya": {
     "description": "Auto-extracted"
   },
-  "auto_bez_zagolovka": "(без заголовка)",
+  "auto_bez_zagolovka": "(тақырып жоқ)",
   "@auto_bez_zagolovka": {
     "description": "Auto-extracted"
   },
-  "auto_lyubye_simvoly_vklyuchaya": "<любые символы, включая \">",
+  "auto_lyubye_simvoly_vklyuchaya": "&lt;кез келген таңбалар, соның ішінде \"&gt;",
   "@auto_lyubye_simvoly_vklyuchaya": {
     "description": "Auto-extracted"
   },
-  "auto_pole_id_pustoe": "Поле id пустое",
+  "auto_pole_id_pustoe": "Id өрісі бос",
   "@auto_pole_id_pustoe": {
     "description": "Auto-extracted"
   },
-  "auto_pole_id_ne_sootvetstvuet_formatu_uu": "Поле id не соответствует формату UUID",
+  "auto_pole_id_ne_sootvetstvuet_formatu_uu": "Id өрісі UUID форматына сәйкес келмейді",
   "@auto_pole_id_ne_sootvetstvuet_formatu_uu": {
     "description": "Auto-extracted"
   },
-  "auto_pole_body_pustoe": "Поле body пустое",
+  "auto_pole_body_pustoe": "Дене өрісі бос",
   "@auto_pole_body_pustoe": {
     "description": "Auto-extracted"
   },
-  "auto_pole_timestamp_nekorrektno_ili_ne_s": "Поле timestamp некорректно или не сериализуется в ISO 8601",
+  "auto_pole_timestamp_nekorrektno_ili_ne_s": "Timestamp өрісі дұрыс емес немесе ISO 8601 де серияланбаған",
   "@auto_pole_timestamp_nekorrektno_ili_ne_s": {
     "description": "Auto-extracted"
   },
-  "auto_neizvestnoe_znachenie_type": "Неизвестное значение type",
+  "auto_neizvestnoe_znachenie_type": "Белгісіз type мәні",
   "@auto_neizvestnoe_znachenie_type": {
     "description": "Auto-extracted"
   },
-  "auto_neizvestnoe_znachenie_severity": "Неизвестное значение severity",
+  "auto_neizvestnoe_znachenie_severity": "Severity белгісіз мағынасы",
   "@auto_neizvestnoe_znachenie_severity": {
     "description": "Auto-extracted"
   },
-  "auto_pole_id_dolzhno_byt_nepustoy_stroko": "Поле id должно быть непустой строкой",
+  "auto_pole_id_dolzhno_byt_nepustoy_stroko": "Id өрісі бос жол болмауы керек",
   "@auto_pole_id_dolzhno_byt_nepustoy_stroko": {
     "description": "Auto-extracted"
   },
-  "auto_pole_type_dolzhno_byt_strokoy": "Поле type должно быть строкой",
+  "auto_pole_type_dolzhno_byt_strokoy": "Type өрісі жол болуы керек",
   "@auto_pole_type_dolzhno_byt_strokoy": {
     "description": "Auto-extracted"
   },
-  "auto_pole_severity_dolzhno_byt_strokoy": "Поле severity должно быть строкой",
+  "auto_pole_severity_dolzhno_byt_strokoy": "Severity өрісі жол болуы керек",
   "@auto_pole_severity_dolzhno_byt_strokoy": {
     "description": "Auto-extracted"
   },
-  "auto_pole_body_dolzhno_byt_strokoy": "Поле body должно быть строкой",
+  "auto_pole_body_dolzhno_byt_strokoy": "Дене өрісі жол болуы керек",
   "@auto_pole_body_dolzhno_byt_strokoy": {
     "description": "Auto-extracted"
   },
-  "auto_pole_title_dolzhno_byt_strokoy": "Поле title должно быть строкой",
+  "auto_pole_title_dolzhno_byt_strokoy": "Тақырып өрісі жол болуы керек",
   "@auto_pole_title_dolzhno_byt_strokoy": {
     "description": "Auto-extracted"
   },
-  "auto_pole_timestamp_ne_serializuetsya_v": "Поле timestamp не сериализуется в ISO 8601",
+  "auto_pole_timestamp_ne_serializuetsya_v": "Timestamp өрісі ISO 8601 де серияланбайды",
   "@auto_pole_timestamp_ne_serializuetsya_v": {
     "description": "Auto-extracted"
   },
-  "auto_pole_timestamp_ne_parsitsya_kak_iso": "Поле timestamp не парсится как ISO 8601",
+  "auto_pole_timestamp_ne_parsitsya_kak_iso": "Timestamp өрісі ISO 8601 сияқты сызылмайды",
   "@auto_pole_timestamp_ne_parsitsya_kak_iso": {
     "description": "Auto-extracted"
   },
-  "auto_pole_timestamp_dolzhno_byt_strokoy": "Поле timestamp должно быть строкой ISO 8601 или DateTime",
+  "auto_pole_timestamp_dolzhno_byt_strokoy": "Timestamp өрісі ISO 8601 немесе DateTime жолы болуы керек",
   "@auto_pole_timestamp_dolzhno_byt_strokoy": {
     "description": "Auto-extracted"
   },
-  "auto_pole_language_dolzhno_byt_strokoy": "Поле language должно быть строкой",
+  "auto_pole_language_dolzhno_byt_strokoy": "Тіл өрісі жол болуы керек",
   "@auto_pole_language_dolzhno_byt_strokoy": {
     "description": "Auto-extracted"
   },
-  "auto_dlya_tipa_error_rekomenduetsya_ukaz": "Для типа \"error\" рекомендуется указывать поле code",
+  "auto_dlya_tipa_error_rekomenduetsya_ukaz": "\"Қате\" Түрі үшін код өрісін көрсету ұсынылады",
   "@auto_dlya_tipa_error_rekomenduetsya_ukaz": {
     "description": "Auto-extracted"
   },
-  "auto_dlya_tipa_aigenerated_rekomenduetsy": "Для типа \"ai_generated\" рекомендуется указывать metadata[\"model\"]",
+  "auto_dlya_tipa_aigenerated_rekomenduetsy": "\"Ai_generated\" түрі үшін metadata[\"model\"]көрсету ұсынылады",
   "@auto_dlya_tipa_aigenerated_rekomenduetsy": {
     "description": "Auto-extracted"
   },
-  "auto_propustili_izza_throttle": "пропустили из-за throttle",
+  "auto_propustili_izza_throttle": "throttle үшін жіберіп алды",
   "@auto_propustili_izza_throttle": {
     "description": "Auto-extracted"
   },
-  "auto_voobsche_ne_doshli": "вообще не дошли",
+  "auto_voobsche_ne_doshli": "мүлдем жеткен жоқ",
   "@auto_voobsche_ne_doshli": {
     "description": "Auto-extracted"
   },
-  "auto_notificationservice_userid_ne_zadan": "NotificationService: userId не задан, инициализация пропущена",
+  "auto_notificationservice_userid_ne_zadan": "NotificationService: userId орнатылмаған, инициализация өткізілмеген",
   "@auto_notificationservice_userid_ne_zadan": {
     "description": "Auto-extracted"
   },
-  "auto_notificationservice_ochistka_sostoy": "NotificationService: очистка состояния при logout",
+  "auto_notificationservice_ochistka_sostoy": "NotificationService: logout күйін тазарту",
   "@auto_notificationservice_ochistka_sostoy": {
     "description": "Auto-extracted"
   },
-  "auto_optimistic_hold_aktiven_propuskaem": "Optimistic hold активен, пропускаем перезапись счётчиков",
+  "auto_optimistic_hold_aktiven_propuskaem": "Optimistic hold белсенді, есептегіштерді қайта жазуды өткізіп жіберіңіз",
   "@auto_optimistic_hold_aktiven_propuskaem": {
     "description": "Auto-extracted"
   },
-  "auto_userid_izmenilsya_vo_vremya_refresh": "userId изменился во время refresh, отменяем обновление",
+  "auto_userid_izmenilsya_vo_vremya_refresh": "refresh кезінде userId өзгерді, жаңартудан бас тарту",
   "@auto_userid_izmenilsya_vo_vremya_refresh": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_obnovit_schtchiki_uvedoml": "Не удалось обновить счётчики уведомлений после всех попыток, используем кэш",
+  "auto_ne_udalos_obnovit_schtchiki_uvedoml": "Барлық әрекеттерден кейін хабарландыру есептегіштерін жаңарту мүмкін болмады, біз кэшті қолданамыз",
   "@auto_ne_udalos_obnovit_schtchiki_uvedoml": {
     "description": "Auto-extracted"
   },
-  "auto_kesh_uvedomleniy_ustarel_propuskaem": "Кэш уведомлений устарел, пропускаем загрузку",
+  "auto_kesh_uvedomleniy_ustarel_propuskaem": "Хабарландыру кэші ескірген, жүктеуді өткізіп жіберіңіз",
   "@auto_kesh_uvedomleniy_ustarel_propuskaem": {
     "description": "Auto-extracted"
   },
-  "auto_polzovatel_razloginilsya_ostanavliv": "Пользователь разлогинился, останавливаем polling",
+  "auto_polzovatel_razloginilsya_ostanavliv": "Пайдаланушы разлогинился, тоқтату polling",
   "@auto_polzovatel_razloginilsya_ostanavliv": {
     "description": "Auto-extracted"
   },
-  "auto_optimistic_hold_istk_vozobnovlyaem": "Optimistic hold истёк, возобновляем polling",
+  "auto_optimistic_hold_istk_vozobnovlyaem": "Optimistic hold мерзімі аяқталды, polling жаңартыңыз",
   "@auto_optimistic_hold_istk_vozobnovlyaem": {
     "description": "Auto-extracted"
   },
-  "auto_polling_propuschen_aktiven_optimist": "Polling пропущен: активен optimistic hold",
+  "auto_polling_propuschen_aktiven_optimist": "Polling өткізіп алды: optimistic hold белсенді",
   "@auto_polling_propuschen_aktiven_optimist": {
     "description": "Auto-extracted"
   },
-  "auto_retrywithbackoff_neozhidannoe_zaver": "_retryWithBackoff: неожиданное завершение цикла",
+  "auto_retrywithbackoff_neozhidannoe_zaver": "_retryWithBackoff: күтпеген циклды аяқтау",
   "@auto_retrywithbackoff_neozhidannoe_zaver": {
     "description": "Auto-extracted"
   },
-  "auto_svodka_statistiki_zakeshirovana": "Сводка статистики закэширована",
+  "auto_svodka_statistiki_zakeshirovana": "Статистиканың қысқаша мазмұны",
   "@auto_svodka_statistiki_zakeshirovana": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_pri_keshirovanii_svodki": "Ошибка при кэшировании сводки",
+  "auto_oshibka_pri_keshirovanii_svodki": "Жиынтықты кэштеу қатесі",
   "@auto_oshibka_pri_keshirovanii_svodki": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_pri_poluchenii_kesha_svodki": "Ошибка при получении кэша сводки",
+  "auto_oshibka_pri_poluchenii_kesha_svodki": "Жиынтық кэшті алу кезінде қате",
   "@auto_oshibka_pri_poluchenii_kesha_svodki": {
     "description": "Auto-extracted"
   },
-  "auto_ai_rezyume_zakeshirovano": "AI резюме закэшировано",
+  "auto_ai_rezyume_zakeshirovano": "AI түйіндеме кэштелген",
   "@auto_ai_rezyume_zakeshirovano": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_pri_keshirovanii_ai_rezyume": "Ошибка при кэшировании AI резюме",
+  "auto_oshibka_pri_keshirovanii_ai_rezyume": "AI түйіндемесін кэштеу қатесі",
   "@auto_oshibka_pri_keshirovanii_ai_rezyume": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_pri_poluchenii_kesha_ai_rez": "Ошибка при получении кэша AI резюме",
+  "auto_oshibka_pri_poluchenii_kesha_ai_rez": "AI түйіндеме кэшін алу кезінде қате",
   "@auto_oshibka_pri_poluchenii_kesha_ai_rez": {
     "description": "Auto-extracted"
   },
-  "auto_kesh_statistiki_ochischen": "Кэш статистики очищен",
+  "auto_kesh_statistiki_ochischen": "Статистикалық Кэш тазартылды",
   "@auto_kesh_statistiki_ochischen": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_pri_ochistke_kesha": "Ошибка при очистке кэша",
+  "auto_oshibka_pri_ochistke_kesha": "Кэшті тазалау қатесі",
   "@auto_oshibka_pri_ochistke_kesha": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_vosstanovit_postavschika": "Не удалось восстановить поставщика из хранилища",
+  "auto_ne_udalos_vosstanovit_postavschika": "Жеткізушіні қоймадан қалпына келтіру мүмкін болмады",
   "@auto_ne_udalos_vosstanovit_postavschika": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_zagruzki_izbrannogo_iz_hran": "Ошибка загрузки избранного из хранилища",
+  "auto_oshibka_zagruzki_izbrannogo_iz_hran": "Таңдаулыларды жадтан жүктеу қатесі",
   "@auto_oshibka_zagruzki_izbrannogo_iz_hran": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_sohraneniya_izbrannogo_v_hr": "Ошибка сохранения избранного в хранилище",
+  "auto_oshibka_sohraneniya_izbrannogo_v_hr": "Таңдаулыларды сақтау қатесі",
   "@auto_oshibka_sohraneniya_izbrannogo_v_hr": {
     "description": "Auto-extracted"
   },
@@ -3343,539 +3338,519 @@
   "@auto_purchasetemplatename_nevaliden": {
     "description": "Auto-extracted"
   },
-  "auto_purchasetemplatecreatedat_nevaliden": "PurchaseTemplate.createdAt невалиден",
+  "auto_purchasetemplatecreatedat_nevaliden": "PurchaseTemplate.createdAt жарамсыз",
   "@auto_purchasetemplatecreatedat_nevaliden": {
     "description": "Auto-extracted"
   },
-  "auto_purchasetemplateupdatedat_nevaliden": "PurchaseTemplate.updatedAt невалиден",
+  "auto_purchasetemplateupdatedat_nevaliden": "PurchaseTemplate.updatedAt жарамсыз",
   "@auto_purchasetemplateupdatedat_nevaliden": {
     "description": "Auto-extracted"
   },
-  "auto_purchasetemplateitems_nevaliden": "PurchaseTemplate.items невалиден",
+  "auto_purchasetemplateitems_nevaliden": "PurchaseTemplate.items жарамсыз",
   "@auto_purchasetemplateitems_nevaliden": {
     "description": "Auto-extracted"
   },
-  "auto_purchasetemplatecreatedat_ne_iso860": "PurchaseTemplate.createdAt не ISO-8601",
+  "auto_purchasetemplatecreatedat_ne_iso860": "PurchaseTemplate.createdAt ISO-8601 емес",
   "@auto_purchasetemplatecreatedat_ne_iso860": {
     "description": "Auto-extracted"
   },
-  "auto_purchasetemplateupdatedat_ne_iso860": "PurchaseTemplate.updatedAt не ISO-8601",
+  "auto_purchasetemplateupdatedat_ne_iso860": "PurchaseTemplate.UPDATEDAT ISO-8601 емес",
   "@auto_purchasetemplateupdatedat_ne_iso860": {
     "description": "Auto-extracted"
   },
-  "auto_templateitem_ne_obekt": "TemplateItem не объект",
+  "auto_templateitem_ne_obekt": "Templateitem нысан емес",
   "@auto_templateitem_ne_obekt": {
     "description": "Auto-extracted"
   },
-  "auto_templateitemproductid_nevaliden": "TemplateItem.productId невалиден",
+  "auto_templateitemproductid_nevaliden": "TemplateItem.productId жарамсыз",
   "@auto_templateitemproductid_nevaliden": {
     "description": "Auto-extracted"
   },
-  "auto_templateitemsupplierid_nevaliden": "TemplateItem.supplierId невалиден",
+  "auto_templateitemsupplierid_nevaliden": "TemplateItem.supplierId жарамсыз",
   "@auto_templateitemsupplierid_nevaliden": {
     "description": "Auto-extracted"
   },
-  "auto_templateitemquantity_nevaliden": "TemplateItem.quantity невалиден",
+  "auto_templateitemquantity_nevaliden": "TemplateItem.quantity жарамсыз",
   "@auto_templateitemquantity_nevaliden": {
     "description": "Auto-extracted"
   },
-  "auto_templateitemproductname_nevaliden": "TemplateItem.productName невалиден",
+  "auto_templateitemproductname_nevaliden": "TemplateItem.productName жарамсыз",
   "@auto_templateitemproductname_nevaliden": {
     "description": "Auto-extracted"
   },
-  "auto_templateitemproductimageurl_nevalid": "TemplateItem.productImageUrl невалиден",
+  "auto_templateitemproductimageurl_nevalid": "TemplateItem.productImageUrl жарамсыз",
   "@auto_templateitemproductimageurl_nevalid": {
     "description": "Auto-extracted"
   },
-  "auto_templateitemsuppliername_nevaliden": "TemplateItem.supplierName невалиден",
+  "auto_templateitemsuppliername_nevaliden": "TemplateItem.supplierName жарамсыз",
   "@auto_templateitemsuppliername_nevaliden": {
     "description": "Auto-extracted"
   },
-  "auto_templateitempriceperunit_nevaliden": "TemplateItem.pricePerUnit невалиден",
+  "auto_templateitempriceperunit_nevaliden": "TemplateItem.pricePerUnit жарамсыз",
   "@auto_templateitempriceperunit_nevaliden": {
     "description": "Auto-extracted"
   },
-  "auto_templateitemminquantity_nevaliden": "TemplateItem.minQuantity невалиден",
+  "auto_templateitemminquantity_nevaliden": "TemplateItem.minQuantity жарамсыз",
   "@auto_templateitemminquantity_nevaliden": {
     "description": "Auto-extracted"
   },
-  "auto_templateitemmaxquantity_nevaliden": "TemplateItem.maxQuantity невалиден",
+  "auto_templateitemmaxquantity_nevaliden": "TemplateItem.maxQuantity жарамсыз",
   "@auto_templateitemmaxquantity_nevaliden": {
     "description": "Auto-extracted"
   },
-  "auto_imya_shablona_ot_1_do_50_simvolov": "Имя шаблона: от 1 до 50 символов",
+  "auto_imya_shablona_ot_1_do_50_simvolov": "Үлгі атауы: 1-ден 50 таңбаға дейін",
   "@auto_imya_shablona_ot_1_do_50_simvolov": {
     "description": "Auto-extracted"
   },
-  "auto_shablon_s_takim_imenem_uzhe_susches": "Шаблон с таким именем уже существует",
+  "auto_shablon_s_takim_imenem_uzhe_susches": "Мұндай атаумен Шаблон қазірдің өзінде бар",
   "@auto_shablon_s_takim_imenem_uzhe_susches": {
     "description": "Auto-extracted"
   },
-  "auto_shablon_ne_mozhet_byt_pustym": "Шаблон не может быть пустым",
+  "auto_shablon_ne_mozhet_byt_pustym": "Үлгі бос болуы мүмкін емес",
   "@auto_shablon_ne_mozhet_byt_pustym": {
     "description": "Auto-extracted"
   },
-  "auto_v_shablone_mozhet_byt_ne_bolee_100": "В шаблоне может быть не более 100 позиций.",
+  "auto_v_shablone_mozhet_byt_ne_bolee_100": "Үлгіде 100-ден көп емес позиция болуы мүмкін.",
   "@auto_v_shablone_mozhet_byt_ne_bolee_100": {
     "description": "Auto-extracted"
   },
-  "auto_dostignut_limit_shablonov_20_udalit": "Достигнут лимит шаблонов: 20. Удалите ненужный шаблон.",
+  "auto_dostignut_limit_shablonov_20_udalit": "Шаблондар шегіне жетті: 20. Қажет емес үлгіні алып тастаңыз.",
   "@auto_dostignut_limit_shablonov_20_udalit": {
     "description": "Auto-extracted"
   },
-  "auto_nikomu": "никому",
+  "auto_nikomu": "ешкімге",
   "@auto_nikomu": {
     "description": "Auto-extracted"
   },
-  "auto_loadforcurrentuser_rassoglasovanie": "loadForCurrentUser: рассогласование авторизации ",
+  "auto_loadforcurrentuser_rassoglasovanie": "loadForCurrentUser: авторизацияның сәйкес келмеуі ",
   "@auto_loadforcurrentuser_rassoglasovanie": {
     "description": "Auto-extracted"
   },
-  "auto_loadforcurrentuser_ne_udalos_prochi": "loadForCurrentUser: не удалось прочитать SharedPreferences",
+  "auto_loadforcurrentuser_ne_udalos_prochi": "loadForCurrentUser: SharedPreferences оқи алмады",
   "@auto_loadforcurrentuser_ne_udalos_prochi": {
     "description": "Auto-extracted"
   },
-  "auto_clearcache_ne_udalos_ochistit_share": "clearCache: не удалось очистить SharedPreferences",
+  "auto_clearcache_ne_udalos_ochistit_share": "clearCache: SharedPreferences тазалау мүмкін болмады",
   "@auto_clearcache_ne_udalos_ochistit_share": {
     "description": "Auto-extracted"
   },
-  "auto_persist_ne_udalos_zapisat_shablony": "_persist: не удалось записать шаблоны в SharedPreferences",
+  "auto_persist_ne_udalos_zapisat_shablony": "_persist: шаблондарды SharedPreferences-ке жазу мүмкін болмады",
   "@auto_persist_ne_udalos_zapisat_shablony": {
     "description": "Auto-extracted"
   },
-  "util_general_characteristics": "Общие характеристики",
+  "util_general_characteristics": "Жалпы сипаттамалары",
   "@util_general_characteristics": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_calories": "Калории",
+  "util_calories": "Калория",
   "@util_calories": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_protein": "Белки",
+  "util_protein": "Ақуыздар",
   "@util_protein": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_fat": "Жиры",
+  "util_fat": "Майлар",
   "@util_fat": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_carbohydrates": "Углеводы",
+  "util_carbohydrates": "Көмірсулар",
   "@util_carbohydrates": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
   "util_kcal": "ккал",
   "@util_kcal": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
   "util_grams_per_100g": "г/100 г",
   "@util_grams_per_100g": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_nutrition": "Питание",
+  "util_nutrition": "Тамақтану",
   "@util_nutrition": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_composition": "Состав",
+  "util_composition": "Құрамы",
   "@util_composition": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_just_now": "только что",
+  "util_just_now": "жаңа ғана",
   "@util_just_now": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_ago": "назад",
+  "util_ago": "артқа",
   "@util_ago": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_minute_one": "минуту",
+  "util_minute_one": "минут",
   "@util_minute_one": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_minute_few": "минуты",
+  "util_minute_few": "минуттар",
   "@util_minute_few": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
   "util_minute_many": "минут",
   "@util_minute_many": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_hour_one": "час",
+  "util_hour_one": "сағат",
   "@util_hour_one": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_hour_few": "часа",
+  "util_hour_few": "сағат",
   "@util_hour_few": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_hour_many": "часов",
+  "util_hour_many": "сағат",
   "@util_hour_many": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_day_one": "день",
+  "util_day_one": "күн",
   "@util_day_one": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_day_few": "дня",
+  "util_day_few": "күн",
   "@util_day_few": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_day_many": "дней",
+  "util_day_many": "күндер",
   "@util_day_many": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_delivery": "Доставка",
+  "util_delivery": "Жеткізу",
   "@util_delivery": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_today": "Сегодня",
+  "util_today": "Бүгін",
   "@util_today": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_tomorrow": "Завтра",
+  "util_tomorrow": "Ертең",
   "@util_tomorrow": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_today_lower": "сегодня",
+  "util_today_lower": "бүгін",
   "@util_today_lower": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_tomorrow_lower": "завтра",
+  "util_tomorrow_lower": "ертең",
   "@util_tomorrow_lower": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_delivery_today": "Доставка сегодня",
+  "util_delivery_today": "Бүгін жеткізу",
   "@util_delivery_today": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_delivery_tomorrow": "Доставка завтра",
+  "util_delivery_tomorrow": "Ертең жеткізу",
   "@util_delivery_tomorrow": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_daily": "Ежедневно",
+  "util_daily": "Күнделікті",
   "@util_daily": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekdays": "Будни",
+  "util_weekdays": "Жұмыс күндері",
   "@util_weekdays": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekends": "Выходные",
+  "util_weekends": "Демалыс күндері",
   "@util_weekends": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_delivery_at": "Развоз в {time}",
+  "util_delivery_at": "Тасымалдау {time}",
   "@util_delivery_at": {
-    "description": "Текст развоза с временем",
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
+    "description": "Уақытпен тасымалдау мәтіні"
   },
-  "util_orders_before": "Заказы до {time} уезжают сегодня",
+  "util_orders_before": "Дейін тапсырыстар {time} бүгін кетіңіз",
   "@util_orders_before": {
-    "description": "Заказы до времени отсечки",
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
+    "description": "Үзіліс уақытына дейін тапсырыстар"
   },
-  "util_delivery_date": "Доставка {date}",
+  "util_delivery_date": "Жеткізу {date}",
   "@util_delivery_date": {
-    "description": "Доставка с датой",
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
+    "description": "Күні бар жеткізу"
   },
-  "util_delivery_range": "Доставка {range}",
+  "util_delivery_range": "Жеткізу {range}",
   "@util_delivery_range": {
-    "description": "Доставка с диапазоном дат",
-    "placeholders": {
-      "range": {
-        "type": "String"
-      }
-    }
+    "description": "Күндер ауқымымен жеткізу"
   },
-  "util_weekday_mon": "Пн",
+  "util_weekday_mon": "Дүйсенбі",
   "@util_weekday_mon": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_tue": "Вт",
+  "util_weekday_tue": "Сейсенбі",
   "@util_weekday_tue": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
   "util_weekday_wed": "Ср",
   "@util_weekday_wed": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_thu": "Чт",
+  "util_weekday_thu": "Не",
   "@util_weekday_thu": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_fri": "Пт",
+  "util_weekday_fri": "ЖМ",
   "@util_weekday_fri": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
   "util_weekday_sat": "Сб",
   "@util_weekday_sat": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_sun": "Вс",
+  "util_weekday_sun": "Күн",
   "@util_weekday_sun": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_monday": "Понедельник",
+  "util_weekday_monday": "Дүйсенбі",
   "@util_weekday_monday": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_tuesday": "Вторник",
+  "util_weekday_tuesday": "Сейсенбі",
   "@util_weekday_tuesday": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_wednesday": "Среда",
+  "util_weekday_wednesday": "Сәрсенбі",
   "@util_weekday_wednesday": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_thursday": "Четверг",
+  "util_weekday_thursday": "Бейсенбі",
   "@util_weekday_thursday": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_friday": "Пятница",
+  "util_weekday_friday": "Жұма",
   "@util_weekday_friday": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_saturday": "Суббота",
+  "util_weekday_saturday": "Сенбі",
   "@util_weekday_saturday": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_sunday": "Воскресенье",
+  "util_weekday_sunday": "Жексенбі",
   "@util_weekday_sunday": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_keyword_weekdays": "будни",
+  "util_weekday_keyword_weekdays": "жұмыс күндері",
   "@util_weekday_keyword_weekdays": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_keyword_weekends": "выходные",
+  "util_weekday_keyword_weekends": "демалыс күндері",
   "@util_weekday_keyword_weekends": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_keyword_daily": "ежедневно",
+  "util_weekday_keyword_daily": "күнделікті",
   "@util_weekday_keyword_daily": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_weekday_keyword_every_day": "каждый день",
+  "util_weekday_keyword_every_day": "күн сайын",
   "@util_weekday_keyword_every_day": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_gen_1": "января",
+  "util_month_gen_1": "қаңтар",
   "@util_month_gen_1": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_gen_2": "февраля",
+  "util_month_gen_2": "ақпан",
   "@util_month_gen_2": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_gen_3": "марта",
+  "util_month_gen_3": "Наурыз",
   "@util_month_gen_3": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_gen_4": "апреля",
+  "util_month_gen_4": "сәуір",
   "@util_month_gen_4": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_gen_5": "мая",
+  "util_month_gen_5": "мамыр",
   "@util_month_gen_5": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_gen_6": "июня",
+  "util_month_gen_6": "маусым",
   "@util_month_gen_6": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_gen_7": "июля",
+  "util_month_gen_7": "шілде",
   "@util_month_gen_7": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_gen_8": "августа",
+  "util_month_gen_8": "тамыз",
   "@util_month_gen_8": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_gen_9": "сентября",
+  "util_month_gen_9": "қыркүйек",
   "@util_month_gen_9": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_gen_10": "октября",
+  "util_month_gen_10": "қазан",
   "@util_month_gen_10": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_gen_11": "ноября",
+  "util_month_gen_11": "қараша",
   "@util_month_gen_11": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_gen_12": "декабря",
+  "util_month_gen_12": "желтоқсан",
   "@util_month_gen_12": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_display_1": "января",
+  "util_month_display_1": "қаңтар",
   "@util_month_display_1": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_display_2": "февраля",
+  "util_month_display_2": "ақпан",
   "@util_month_display_2": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_display_3": "марта",
+  "util_month_display_3": "Наурыз",
   "@util_month_display_3": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_display_4": "апреля",
+  "util_month_display_4": "сәуір",
   "@util_month_display_4": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_display_5": "мая",
+  "util_month_display_5": "мамыр",
   "@util_month_display_5": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_display_6": "июня",
+  "util_month_display_6": "маусым",
   "@util_month_display_6": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_display_7": "июля",
+  "util_month_display_7": "шілде",
   "@util_month_display_7": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_display_8": "августа",
+  "util_month_display_8": "тамыз",
   "@util_month_display_8": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_display_9": "сентября",
+  "util_month_display_9": "қыркүйек",
   "@util_month_display_9": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_display_10": "октября",
+  "util_month_display_10": "қазан",
   "@util_month_display_10": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_display_11": "ноября",
+  "util_month_display_11": "қараша",
   "@util_month_display_11": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "util_month_display_12": "декабря",
+  "util_month_display_12": "желтоқсан",
   "@util_month_display_12": {
-    "description": "Авто-утилиты"
+    "description": "Авто-утилиталар"
   },
-  "auto_ne_udalos_zagruzit_tovary": "Не удалось загрузить товары",
+  "auto_ne_udalos_zagruzit_tovary": "Тауарларды жүктеу мүмкін болмады",
   "@auto_ne_udalos_zagruzit_tovary": {
     "description": "Auto-extracted"
   },
-  "auto_odobreno": "Одобрено",
+  "auto_odobreno": "Мақұлданды",
   "@auto_odobreno": {
     "description": "Auto-extracted"
   },
-  "auto_otkloneno": "Отклонено",
+  "auto_otkloneno": "Қабылданбады",
   "@auto_otkloneno": {
     "description": "Auto-extracted"
   },
-  "auto_na_moderatsii": "На модерации",
+  "auto_na_moderatsii": "Модерацияда",
   "@auto_na_moderatsii": {
     "description": "Auto-extracted"
   },
-  "auto_odobrit_tovar": "Одобрить товар",
+  "auto_odobrit_tovar": "Өнімді мақұлдау",
   "@auto_odobrit_tovar": {
     "description": "Auto-extracted"
   },
-  "auto_otklonit_tovar": "Отклонить товар",
+  "auto_otklonit_tovar": "Өнімді қабылдамау",
   "@auto_otklonit_tovar": {
     "description": "Auto-extracted"
   },
-  "auto_tovar_odobren": "Товар одобрен",
+  "auto_tovar_odobren": "Тауар мақұлданды",
   "@auto_tovar_odobren": {
     "description": "Auto-extracted"
   },
-  "auto_tovar_otklonen": "Товар отклонен",
+  "auto_tovar_otklonen": "Тауар қабылданбады",
   "@auto_tovar_otklonen": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_pri_obnovlenii_statusa": "Ошибка при обновлении статуса",
+  "auto_oshibka_pri_obnovlenii_statusa": "Күйді жаңарту қатесі",
   "@auto_oshibka_pri_obnovlenii_statusa": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_opredelit_moderatora": "Не удалось определить модератора",
+  "auto_ne_udalos_opredelit_moderatora": "Модераторды анықтау мүмкін болмады",
   "@auto_ne_udalos_opredelit_moderatora": {
     "description": "Auto-extracted"
   },
-  "auto_udalit_tovar_za_narushenie": "Удалить товар за нарушение",
+  "auto_udalit_tovar_za_narushenie": "Бұзушылық үшін өнімді алып тастаңыз",
   "@auto_udalit_tovar_za_narushenie": {
     "description": "Auto-extracted"
   },
-  "auto_prichina_udaleniya_dlya_postavschik": "Причина удаления для поставщика",
+  "auto_prichina_udaleniya_dlya_postavschik": "Жеткізуші үшін жою себебі",
   "@auto_prichina_udaleniya_dlya_postavschik": {
     "description": "Auto-extracted"
   },
-  "auto_udalit": "Удалить",
+  "auto_udalit": "Жою",
   "@auto_udalit": {
     "description": "Auto-extracted"
   },
-  "auto_tovar_udalen_postavschik_uvedomlen": "Товар удален, поставщик уведомлен",
+  "auto_tovar_udalen_postavschik_uvedomlen": "Өнім жойылды, жеткізушіге хабарланды",
   "@auto_tovar_udalen_postavschik_uvedomlen": {
     "description": "Auto-extracted"
   },
-  "auto_tovar_udalen": "Товар удален",
+  "auto_tovar_udalen": "Өнім жойылды",
   "@auto_tovar_udalen": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_udalit_tovar": "Не удалось удалить товар",
+  "auto_ne_udalos_udalit_tovar": "Өнімді жою мүмкін болмады",
   "@auto_ne_udalos_udalit_tovar": {
     "description": "Auto-extracted"
   },
-  "auto_otpravit": "Отправить",
+  "auto_otpravit": "Жіберу",
   "@auto_otpravit": {
     "description": "Auto-extracted"
   },
-  "auto_prichina_otkloneniya": "Причина отклонения",
+  "auto_prichina_otkloneniya": "Ауытқу себебі",
   "@auto_prichina_otkloneniya": {
     "description": "Auto-extracted"
   },
-  "auto_kommentariy": "Комментарий",
+  "auto_kommentariy": "Пікір",
   "@auto_kommentariy": {
     "description": "Auto-extracted"
   },
-  "auto_bez_kategorii": "Без категории",
+  "auto_bez_kategorii": "Санат жоқ",
   "@auto_bez_kategorii": {
     "description": "Auto-extracted"
   },
-  "auto_na_proverke": "На проверке",
+  "auto_na_proverke": "Тексеруде",
   "@auto_na_proverke": {
     "description": "Auto-extracted"
   },
-  "auto_vse": "Все",
+  "auto_vse": "Барлығы",
   "@auto_vse": {
     "description": "Auto-extracted"
   },
-  "auto_poisk_tovar_postavschik_kategoriya": "Поиск: товар, поставщик, категория",
+  "auto_poisk_tovar_postavschik_kategoriya": "Іздеу: өнім, жеткізуші, санат",
   "@auto_poisk_tovar_postavschik_kategoriya": {
     "description": "Auto-extracted"
   },
-  "auto_ochistit": "Очистить",
+  "auto_ochistit": "Тазалау",
   "@auto_ochistit": {
     "description": "Auto-extracted"
   },
-  "auto_net_zayavok": "Нет заявок",
+  "auto_net_zayavok": "Өтінімдер жоқ",
   "@auto_net_zayavok": {
     "description": "Auto-extracted"
   },
-  "auto_po_vashemu_zaprosu_nichego_ne_nayde": "По вашему запросу ничего не найдено",
+  "auto_po_vashemu_zaprosu_nichego_ne_nayde": "Сіздің сұранысыңыз бойынша ештеңе табылған жоқ",
   "@auto_po_vashemu_zaprosu_nichego_ne_nayde": {
     "description": "Auto-extracted"
   },
-  "auto_net_podhodyaschih_tovarov": "Нет подходящих товаров",
+  "auto_net_podhodyaschih_tovarov": "Тиісті тауарлар жоқ",
   "@auto_net_podhodyaschih_tovarov": {
     "description": "Auto-extracted"
   },
-  "auto_tsena": "Цена",
+  "auto_tsena": "Бағасы",
   "@auto_tsena": {
     "description": "Auto-extracted"
   },
@@ -3883,116 +3858,1000 @@
   "@auto_partiya": {
     "description": "Auto-extracted"
   },
-  "auto_udalit_za_narushenie": "Удалить за нарушение",
+  "auto_udalit_za_narushenie": "Бұзушылық үшін жою",
   "@auto_udalit_za_narushenie": {
     "description": "Auto-extracted"
   },
-  "auto_otklonit": "Отклонить",
+  "auto_otklonit": "Бас тарту",
   "@auto_otklonit": {
     "description": "Auto-extracted"
   },
-  "auto_o_tovare": "О товаре",
+  "auto_o_tovare": "Өнім туралы",
   "@auto_o_tovare": {
     "description": "Auto-extracted"
   },
-  "auto_podrobnee": "Подробнее",
+  "auto_podrobnee": "Толығырақ",
   "@auto_podrobnee": {
     "description": "Auto-extracted"
   },
-  "auto_deystvie_nelzya_otmenit": "Действие нельзя отменить.",
+  "auto_deystvie_nelzya_otmenit": "Әрекетті қайтару мүмкін емес.",
   "@auto_deystvie_nelzya_otmenit": {
     "description": "Auto-extracted"
   },
-  "auto_eto_udalit_vse_backupkody_i_doveren": "Это удалит все backup-коды и доверенные устройства пользователя. ",
+  "auto_eto_udalit_vse_backupkody_i_doveren": "Бұл пайдаланушының барлық сақтық көшірме кодтарын және сенімді құрылғыларын жояды. ",
   "@auto_eto_udalit_vse_backupkody_i_doveren": {
     "description": "Auto-extracted"
   },
-  "auto_dvuhfaktornaya_autentifikatsiya_otk": "Двухфакторная аутентификация отключена",
+  "auto_dvuhfaktornaya_autentifikatsiya_otk": "Екі факторлы аутентификация өшірілген",
   "@auto_dvuhfaktornaya_autentifikatsiya_otk": {
     "description": "Auto-extracted"
   },
-  "auto_deystvie_dostupno_tolko_moderatoram": "Действие доступно только модераторам",
+  "auto_deystvie_dostupno_tolko_moderatoram": "Әрекет тек модераторларға қол жетімді",
   "@auto_deystvie_dostupno_tolko_moderatoram": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_otklyuchit_2fa": "Не удалось отключить 2FA",
+  "auto_ne_udalos_otklyuchit_2fa": "2FA өшіру мүмкін болмады",
   "@auto_ne_udalos_otklyuchit_2fa": {
     "description": "Auto-extracted"
   },
-  "auto_otklyuchit_dvuhfaktornuyu_autentifi": "Отключить двухфакторную аутентификацию",
+  "auto_otklyuchit_dvuhfaktornuyu_autentifi": "Екі факторлы аутентификацияны өшіріңіз",
   "@auto_otklyuchit_dvuhfaktornuyu_autentifi": {
     "description": "Auto-extracted"
   },
-  "auto_napitok_cocacola_gazirovannyy_15_l": "Напиток Coca-Cola газированный 1.5 л",
+  "auto_napitok_cocacola_gazirovannyy_15_l": "Coca-Cola газдалған сусын 1.5 л",
   "@auto_napitok_cocacola_gazirovannyy_15_l": {
     "description": "Auto-extracted"
   },
-  "auto_cocacola_samyy_populyarnyy_gazirova": "Coca-Cola - самый популярный газированный напиток в мире. Имеет резкий, но приятный вкус, хорошо утоляет жажду, рекомендуется пить охлажденным.",
+  "auto_cocacola_samyy_populyarnyy_gazirova": "Coca - Cola-әлемдегі ең танымал газдалған сусын. Оның өткір, бірақ жағымды дәмі бар, шөлді жақсы басады, салқындатылған ішу ұсынылады.",
   "@auto_cocacola_samyy_populyarnyy_gazirova": {
     "description": "Auto-extracted"
   },
-  "auto_napitki": "Напитки",
+  "auto_napitki": "Сусындар",
   "@auto_napitki": {
     "description": "Auto-extracted"
   },
-  "auto_gazirovannye_napitki": "Газированные напитки",
+  "auto_gazirovannye_napitki": "Газдалған сусындар",
   "@auto_gazirovannye_napitki": {
     "description": "Auto-extracted"
   },
-  "auto_gazirovannaya_voda_sahar_krasitel_s": "Газированная вода, сахар, краситель (сахарный колер [IV]), регулятор кислотности (ортофосфорная кислота), натуральные ароматизаторы, кофеин.",
+  "auto_gazirovannaya_voda_sahar_krasitel_s": "Газдалған су, қант, бояғыш (қант түсі [IV]), қышқылдықты реттегіш (ортофосфор қышқылы), табиғи хош иістер, кофеин.",
   "@auto_gazirovannaya_voda_sahar_krasitel_s": {
     "description": "Auto-extracted"
   },
-  "auto_strana_proizvoditelya": "Страна производителя",
+  "auto_strana_proizvoditelya": "Өндіруші ел",
   "@auto_strana_proizvoditelya": {
     "description": "Auto-extracted"
   },
-  "auto_kazahstan": "Казахстан",
+  "auto_kazahstan": "Қазақстан",
   "@auto_kazahstan": {
     "description": "Auto-extracted"
   },
-  "auto_torgovaya_marka": "Торговая марка",
+  "auto_torgovaya_marka": "Сауда белгісі",
   "@auto_torgovaya_marka": {
     "description": "Auto-extracted"
   },
-  "auto_lineyka": "Линейка",
+  "auto_lineyka": "Сызғыш",
   "@auto_lineyka": {
     "description": "Auto-extracted"
   },
-  "auto_klassicheskaya": "Классическая",
+  "auto_klassicheskaya": "Классикалық",
   "@auto_klassicheskaya": {
     "description": "Auto-extracted"
   },
-  "auto_sklad_mansa": "Склад \"Манса\"",
+  "auto_sklad_mansa": "\"Манса\" Қоймасы",
   "@auto_sklad_mansa": {
     "description": "Auto-extracted"
   },
-  "auto_zavtra": "завтра",
+  "auto_zavtra": "ертең",
   "@auto_zavtra": {
     "description": "Auto-extracted"
   },
-  "auto_dostavka_mezhgorod": "Доставка межгород",
+  "auto_dostavka_mezhgorod": "Жеткізу қалааралық",
   "@auto_dostavka_mezhgorod": {
     "description": "Auto-extracted"
   },
-  "auto_chetverg_1700": "Четверг 17:00",
+  "auto_chetverg_1700": "Бейсенбі 17: 00",
   "@auto_chetverg_1700": {
     "description": "Auto-extracted"
   },
-  "auto_vs_21_sentyabrya": "Вс 21 сентября",
+  "auto_vs_21_sentyabrya": "21 қыркүйек жексенбі",
   "@auto_vs_21_sentyabrya": {
     "description": "Auto-extracted"
   },
-  "auto_sb_23_sentyabrya_1200": "Сб 23 сентября 12:00",
+  "auto_sb_23_sentyabrya_1200": "Сенбі 23 қыркүйек 12: 00",
   "@auto_sb_23_sentyabrya_1200": {
     "description": "Auto-extracted"
   },
-  "auto_kakoyto_krutoy_postavschik": "Какой-то крутой поставщик",
+  "auto_kakoyto_krutoy_postavschik": "Кейбір керемет жеткізуші",
   "@auto_kakoyto_krutoy_postavschik": {
     "description": "Auto-extracted"
   },
-  "auto_sb_20_sentyabrya": "Сб 20 сентября",
+  "auto_sb_20_sentyabrya": "Сенбі 20 қыркүйек",
   "@auto_sb_20_sentyabrya": {
     "description": "Auto-extracted"
+  },
+  "currency_auto_1": "Қазақша теңге",
+  "@currency_auto_1": {
+    "description": "Auto-extracted from lib\\models\\currency.dart"
+  },
+  "currency_auto_2": "Ресей рублі",
+  "@currency_auto_2": {
+    "description": "Auto-extracted from lib\\models\\currency.dart"
+  },
+  "language_auto_3": "Орыс",
+  "@language_auto_3": {
+    "description": "Auto-extracted from lib\\models\\language.dart"
+  },
+  "language_auto_4": "Қазақша",
+  "@language_auto_4": {
+    "description": "Auto-extracted from lib\\models\\language.dart"
+  },
+  "language_auto_5": "Орыс",
+  "@language_auto_5": {
+    "description": "Auto-extracted from lib\\models\\language.dart"
+  },
+  "language_auto_6": "Қазақша",
+  "@language_auto_6": {
+    "description": "Auto-extracted from lib\\models\\language.dart"
+  },
+  "language_auto_7": "Орыс",
+  "@language_auto_7": {
+    "description": "Auto-extracted from lib\\models\\language.dart"
+  },
+  "language_auto_8": "Қазақша",
+  "@language_auto_8": {
+    "description": "Auto-extracted from lib\\models\\language.dart"
+  },
+  "product_auto_9": "Жеткізушілер жоқ",
+  "@product_auto_9": {
+    "description": "Auto-extracted from lib\\models\\product.dart"
+  },
+  "user_address_auto_10": "Үй",
+  "@user_address_auto_10": {
+    "description": "Auto-extracted from lib\\models\\user_address.dart"
+  },
+  "user_address_auto_11": "Жұмыс",
+  "@user_address_auto_11": {
+    "description": "Auto-extracted from lib\\models\\user_address.dart"
+  },
+  "user_address_auto_12": "Басқа",
+  "@user_address_auto_12": {
+    "description": "Auto-extracted from lib\\models\\user_address.dart"
+  },
+  "user_address_auto_13": "Басқа",
+  "@user_address_auto_13": {
+    "description": "Auto-extracted from lib\\models\\user_address.dart"
+  },
+  "moderation_page_auto_14": "Rjrґr°r \" RES ' sњ R * R° RSR°Cђsѓs€Rµrsrer",
+  "@moderation_page_auto_14": {
+    "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
+  },
+  "moderation_page_auto_15": "Rћs ' Rєr \"Рѕрѕрес' СЊ",
+  "@moderation_page_auto_15": {
+    "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
+  },
+  "moderation_page_auto_16": "Рћ С ' Рѕрир°СЂР.",
+  "@moderation_page_auto_16": {
+    "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
+  },
+  "moderation_page_auto_17": "Рџрѕрґсђrsr±Рѕрµр",
+  "@moderation_page_auto_17": {
+    "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
+  },
+  "moderation_page_auto_18": " В· ",
+  "@moderation_page_auto_18": {
+    "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
+  },
+  "ai_service_auto_19": "API конфигурациясы қатесі",
+  "@ai_service_auto_19": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_20": "AI түйіндемесін құру мүмкін болмады",
+  "@ai_service_auto_20": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_21": "Сіз жеткізушілердің AI талдаушысысыз. Тек орыс тілінде жауап беруді ұмытпаңыз. ",
+  "@ai_service_auto_21": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_22": "Сіздің барлық жауаптарыңыз 100% орыс тілінде болуы керек. ",
+  "@ai_service_auto_22": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_23": "Ешқашан басқа тілдерді ешқандай жағдайда қолданбаңыз.",
+  "@ai_service_auto_23": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_24": "Сұрау тым ұзаққа созылды",
+  "@ai_service_auto_24": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_25": "Интернет байланысын тексеріңіз",
+  "@ai_service_auto_25": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_26": "AI түйіндемесін құру мүмкін болмады",
+  "@ai_service_auto_26": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_27": "AI түйіндемесін құру мүмкін болмады",
+  "@ai_service_auto_27": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_28": "API конфигурациясы қатесі",
+  "@ai_service_auto_28": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_29": "Сервер қатесі. Басқа модельді қолданып көрейік",
+  "@ai_service_auto_29": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_30": "AI қызметі қатесі",
+  "@ai_service_auto_30": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_31": "Жауапты өңдеу кезінде қате",
+  "@ai_service_auto_31": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_32": "Жауапты өңдеу кезінде қате",
+  "@ai_service_auto_32": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_33": "Жауапты өңдеу кезінде қате",
+  "@ai_service_auto_33": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_34": "Жауапты өңдеу кезінде қате",
+  "@ai_service_auto_34": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_35": "AI түйіндемесі сәтті жасалды",
+  "@ai_service_auto_35": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "ai_service_auto_36": "Жауапты өңдеу кезінде қате",
+  "@ai_service_auto_36": {
+    "description": "Auto-extracted from lib\\services\\api\\ai_service.dart"
+  },
+  "message_localization_auto_37": "Идентификатормен тапсырыс беру {orderId} табылған жоқ",
+  "@message_localization_auto_37": {
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+  },
+  "message_localization_auto_38": "Сіздің тапсырысыңыз #{orderId} расталды",
+  "@message_localization_auto_38": {
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+  },
+  "message_localization_auto_39": "Тапсырыс #{orderId} жеткізілді",
+  "@message_localization_auto_39": {
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+  },
+  "message_localization_auto_40": "ID бар өнім {productId} табылған жоқ",
+  "@message_localization_auto_40": {
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+  },
+  "message_localization_auto_41": "Тексеру қатесі: {details}",
+  "@message_localization_auto_41": {
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+  },
+  "message_localization_auto_42": "Ai жауабын жасау мүмкін болмады: {reason}",
+  "@message_localization_auto_42": {
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+  },
+  "custom_characteristic_validation_auto_43": "Сипаттаманың атауы мен мәнін толтырыңыз",
+  "@custom_characteristic_validation_auto_43": {
+    "description": "Auto-extracted from lib\\utils\\custom_characteristic_validation.dart"
+  },
+  "custom_characteristic_validation_auto_44": "Бұл сипаттама қазірдің өзінде қосылды",
+  "@custom_characteristic_validation_auto_44": {
+    "description": "Auto-extracted from lib\\utils\\custom_characteristic_validation.dart"
+  },
+  "month_year_parser_auto_45": "қаңтар",
+  "@month_year_parser_auto_45": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_46": "ақпан",
+  "@month_year_parser_auto_46": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_47": "Наурыз",
+  "@month_year_parser_auto_47": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_48": "сәуір",
+  "@month_year_parser_auto_48": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_49": "мамыр",
+  "@month_year_parser_auto_49": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_50": "маусым",
+  "@month_year_parser_auto_50": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_51": "шілде",
+  "@month_year_parser_auto_51": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_52": "тамыз",
+  "@month_year_parser_auto_52": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_53": "қыркүйек",
+  "@month_year_parser_auto_53": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_54": "қазан",
+  "@month_year_parser_auto_54": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_55": "қараша",
+  "@month_year_parser_auto_55": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_56": "желтоқсан",
+  "@month_year_parser_auto_56": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_57": "қаңтар",
+  "@month_year_parser_auto_57": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_58": "ақпан",
+  "@month_year_parser_auto_58": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_59": "мар",
+  "@month_year_parser_auto_59": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_60": "сәуір",
+  "@month_year_parser_auto_60": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_61": "маусым",
+  "@month_year_parser_auto_61": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_62": "шілде",
+  "@month_year_parser_auto_62": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_63": "тамыз",
+  "@month_year_parser_auto_63": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_64": "сен",
+  "@month_year_parser_auto_64": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_65": "Окта",
+  "@month_year_parser_auto_65": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_66": "Нұх",
+  "@month_year_parser_auto_66": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_67": "дек",
+  "@month_year_parser_auto_67": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_68": "қаңтар.",
+  "@month_year_parser_auto_68": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_69": "ақпан.",
+  "@month_year_parser_auto_69": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_70": "мар.",
+  "@month_year_parser_auto_70": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_71": "сәуір.",
+  "@month_year_parser_auto_71": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_72": "мамыр.",
+  "@month_year_parser_auto_72": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_73": "маусым.",
+  "@month_year_parser_auto_73": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_74": "шілде.",
+  "@month_year_parser_auto_74": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_75": "тамыз.",
+  "@month_year_parser_auto_75": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_76": "сен.",
+  "@month_year_parser_auto_76": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_77": "қазан.",
+  "@month_year_parser_auto_77": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_78": "Нұх.",
+  "@month_year_parser_auto_78": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "month_year_parser_auto_79": "желтоқсан.",
+  "@month_year_parser_auto_79": {
+    "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
+  },
+  "search_normalizer_auto_80": "е",
+  "@search_normalizer_auto_80": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_81": "е",
+  "@search_normalizer_auto_81": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_82": "а",
+  "@search_normalizer_auto_82": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_83": "б",
+  "@search_normalizer_auto_83": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_84": "в",
+  "@search_normalizer_auto_84": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_85": "г",
+  "@search_normalizer_auto_85": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_86": "д",
+  "@search_normalizer_auto_86": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_87": "е",
+  "@search_normalizer_auto_87": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_88": "е",
+  "@search_normalizer_auto_88": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_89": "ж",
+  "@search_normalizer_auto_89": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_90": "з",
+  "@search_normalizer_auto_90": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_91": "және",
+  "@search_normalizer_auto_91": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_92": "ж",
+  "@search_normalizer_auto_92": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_93": "к",
+  "@search_normalizer_auto_93": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_94": "л",
+  "@search_normalizer_auto_94": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_95": "м",
+  "@search_normalizer_auto_95": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_96": "н",
+  "@search_normalizer_auto_96": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_97": "туралы",
+  "@search_normalizer_auto_97": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_98": "Б",
+  "@search_normalizer_auto_98": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_99": "р",
+  "@search_normalizer_auto_99": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_100": "с",
+  "@search_normalizer_auto_100": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_101": "т",
+  "@search_normalizer_auto_101": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_102": "у",
+  "@search_normalizer_auto_102": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_103": "ф",
+  "@search_normalizer_auto_103": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_104": "х",
+  "@search_normalizer_auto_104": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_105": "о",
+  "@search_normalizer_auto_105": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_106": "с",
+  "@search_normalizer_auto_106": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_107": "ш",
+  "@search_normalizer_auto_107": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_108": "Ш",
+  "@search_normalizer_auto_108": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_109": "Коммерсант",
+  "@search_normalizer_auto_109": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_110": "лар",
+  "@search_normalizer_auto_110": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_111": "Б",
+  "@search_normalizer_auto_111": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_112": "Е",
+  "@search_normalizer_auto_112": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_113": "ю",
+  "@search_normalizer_auto_113": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_114": "мен",
+  "@search_normalizer_auto_114": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_115": "Ш",
+  "@search_normalizer_auto_115": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_116": "Ш",
+  "@search_normalizer_auto_116": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_117": "ж",
+  "@search_normalizer_auto_117": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_118": "х",
+  "@search_normalizer_auto_118": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_119": "о",
+  "@search_normalizer_auto_119": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_120": "с",
+  "@search_normalizer_auto_120": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_121": "ш",
+  "@search_normalizer_auto_121": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_122": "ю",
+  "@search_normalizer_auto_122": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_123": "мен",
+  "@search_normalizer_auto_123": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_124": "е",
+  "@search_normalizer_auto_124": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_125": "е",
+  "@search_normalizer_auto_125": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_126": "ю",
+  "@search_normalizer_auto_126": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_127": "мен",
+  "@search_normalizer_auto_127": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_128": "а",
+  "@search_normalizer_auto_128": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_129": "б",
+  "@search_normalizer_auto_129": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_130": "в",
+  "@search_normalizer_auto_130": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_131": "г",
+  "@search_normalizer_auto_131": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_132": "д",
+  "@search_normalizer_auto_132": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_133": "е",
+  "@search_normalizer_auto_133": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_134": "з",
+  "@search_normalizer_auto_134": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_135": "және",
+  "@search_normalizer_auto_135": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_136": "ж",
+  "@search_normalizer_auto_136": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_137": "к",
+  "@search_normalizer_auto_137": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_138": "л",
+  "@search_normalizer_auto_138": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_139": "м",
+  "@search_normalizer_auto_139": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_140": "н",
+  "@search_normalizer_auto_140": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_141": "туралы",
+  "@search_normalizer_auto_141": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_142": "Б",
+  "@search_normalizer_auto_142": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_143": "р",
+  "@search_normalizer_auto_143": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_144": "с",
+  "@search_normalizer_auto_144": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_145": "т",
+  "@search_normalizer_auto_145": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_146": "у",
+  "@search_normalizer_auto_146": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_147": "ф",
+  "@search_normalizer_auto_147": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_148": "х",
+  "@search_normalizer_auto_148": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_149": "к",
+  "@search_normalizer_auto_149": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_150": "к",
+  "@search_normalizer_auto_150": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_151": "в",
+  "@search_normalizer_auto_151": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_152": "кс",
+  "@search_normalizer_auto_152": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_153": "дж",
+  "@search_normalizer_auto_153": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_154": "е",
+  "@search_normalizer_auto_154": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_155": "ж",
+  "@search_normalizer_auto_155": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_156": "о",
+  "@search_normalizer_auto_156": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_157": "у",
+  "@search_normalizer_auto_157": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_158": "к",
+  "@search_normalizer_auto_158": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_159": "е",
+  "@search_normalizer_auto_159": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_160": "н",
+  "@search_normalizer_auto_160": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_161": "г",
+  "@search_normalizer_auto_161": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_162": "ш",
+  "@search_normalizer_auto_162": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_163": "Ш",
+  "@search_normalizer_auto_163": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_164": "з",
+  "@search_normalizer_auto_164": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_165": "х",
+  "@search_normalizer_auto_165": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_166": "Коммерсант",
+  "@search_normalizer_auto_166": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_167": "ф",
+  "@search_normalizer_auto_167": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_168": "лар",
+  "@search_normalizer_auto_168": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_169": "в",
+  "@search_normalizer_auto_169": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_170": "а",
+  "@search_normalizer_auto_170": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_171": "Б",
+  "@search_normalizer_auto_171": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_172": "р",
+  "@search_normalizer_auto_172": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_173": "туралы",
+  "@search_normalizer_auto_173": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_174": "л",
+  "@search_normalizer_auto_174": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_175": "д",
+  "@search_normalizer_auto_175": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_176": "ж",
+  "@search_normalizer_auto_176": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_177": "Е",
+  "@search_normalizer_auto_177": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_178": "мен",
+  "@search_normalizer_auto_178": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_179": "с",
+  "@search_normalizer_auto_179": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_180": "с",
+  "@search_normalizer_auto_180": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_181": "м",
+  "@search_normalizer_auto_181": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_182": "және",
+  "@search_normalizer_auto_182": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_183": "т",
+  "@search_normalizer_auto_183": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_184": "Б",
+  "@search_normalizer_auto_184": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_185": "б",
+  "@search_normalizer_auto_185": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_186": "ю",
+  "@search_normalizer_auto_186": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_187": "ж",
+  "@search_normalizer_auto_187": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_188": "о",
+  "@search_normalizer_auto_188": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_189": "у",
+  "@search_normalizer_auto_189": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_190": "к",
+  "@search_normalizer_auto_190": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_191": "е",
+  "@search_normalizer_auto_191": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_192": "н",
+  "@search_normalizer_auto_192": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_193": "г",
+  "@search_normalizer_auto_193": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_194": "ш",
+  "@search_normalizer_auto_194": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_195": "Ш",
+  "@search_normalizer_auto_195": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_196": "з",
+  "@search_normalizer_auto_196": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_197": "х",
+  "@search_normalizer_auto_197": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_198": "Коммерсант",
+  "@search_normalizer_auto_198": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_199": "ф",
+  "@search_normalizer_auto_199": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_200": "лар",
+  "@search_normalizer_auto_200": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_201": "в",
+  "@search_normalizer_auto_201": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_202": "а",
+  "@search_normalizer_auto_202": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_203": "Б",
+  "@search_normalizer_auto_203": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_204": "р",
+  "@search_normalizer_auto_204": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_205": "туралы",
+  "@search_normalizer_auto_205": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_206": "л",
+  "@search_normalizer_auto_206": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_207": "д",
+  "@search_normalizer_auto_207": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_208": "ж",
+  "@search_normalizer_auto_208": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_209": "Е",
+  "@search_normalizer_auto_209": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_210": "мен",
+  "@search_normalizer_auto_210": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_211": "с",
+  "@search_normalizer_auto_211": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_212": "с",
+  "@search_normalizer_auto_212": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_213": "м",
+  "@search_normalizer_auto_213": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_214": "және",
+  "@search_normalizer_auto_214": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_215": "т",
+  "@search_normalizer_auto_215": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_216": "Б",
+  "@search_normalizer_auto_216": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_217": "б",
+  "@search_normalizer_auto_217": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_218": "ю",
+  "@search_normalizer_auto_218": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "search_normalizer_auto_219": "е",
+  "@search_normalizer_auto_219": {
+    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
+  },
+  "wizard_init_auto_220": "Өндіруші ел",
+  "@wizard_init_auto_220": {
+    "description": "Auto-extracted from lib\\utils\\wizard_init.dart"
+  },
+  "wizard_init_auto_221": "Жарамдылық мерзімі",
+  "@wizard_init_auto_221": {
+    "description": "Auto-extracted from lib\\utils\\wizard_init.dart"
   }
 }

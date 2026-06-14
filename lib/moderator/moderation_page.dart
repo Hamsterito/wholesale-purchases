@@ -1,4 +1,4 @@
-﻿import 'package:flutter_project/services/localization/app_localizations.dart';
+import 'package:flutter_project/services/localization/app_localizations.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -874,8 +874,8 @@ class _ModerationPageState extends State<ModerationPage> {
                                                           .delete_outline_rounded,
                                                       size: 18,
                                                     ),
-                                              label: const Text(
-                                                'РЈРґР°Р»РёС‚СЊ Р·Р° РЅР°СЂСѓС€РµРЅРёРµ',
+                                              label: Text(
+                                                AppLocalizations.current.getString('moderation_page_auto_14'),
                                               ),
                                             );
 
@@ -929,8 +929,8 @@ class _ModerationPageState extends State<ModerationPage> {
                                                     Icons.highlight_off,
                                                     size: 18,
                                                   ),
-                                                  label: const Text(
-                                                    'РћС‚РєР»РѕРЅРёС‚СЊ',
+                                                  label: Text(
+                                                    AppLocalizations.current.getString('moderation_page_auto_15'),
                                                   ),
                                                 );
 
@@ -1132,7 +1132,7 @@ class _ModerationAboutTile extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'Рћ С‚РѕРІР°СЂРµ',
+                    AppLocalizations.current.getString('moderation_page_auto_16'),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -1158,7 +1158,7 @@ class _ModerationAboutTile extends StatelessWidget {
             ],
             const SizedBox(height: 8),
             Text(
-              'РџРѕРґСЂРѕР±РЅРµРµ',
+              AppLocalizations.current.getString('moderation_page_auto_17'),
               style: TextStyle(
                 fontSize: 13,
                 color: palette.accent,
@@ -1185,6 +1185,6 @@ class _ModerationAboutTile extends StatelessWidget {
         if (parts.length >= 3) break outer;
       }
     }
-    return parts.join(' В· ');
+    return parts.join(AppLocalizations.current.getString('moderation_page_auto_18'));
   }
 }

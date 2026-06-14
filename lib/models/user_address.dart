@@ -1,4 +1,5 @@
-﻿class AddressDraft {
+import 'package:flutter_project/services/localization/app_localizations.dart';
+class AddressDraft {
   final String label;
   final String addressLine;
   final String street;
@@ -78,13 +79,13 @@ class UserAddress {
   String get displayTitle {
     switch (normalizedLabel) {
       case 'home':
-        return 'Дом';
+        return AppLocalizations.current.getString('user_address_auto_10');
       case 'work':
-        return 'Работа';
+        return AppLocalizations.current.getString('user_address_auto_11');
       case 'other':
-        return 'Другое';
+        return AppLocalizations.current.getString('user_address_auto_12');
       default:
-        return label.isNotEmpty ? label : 'Другое';
+        return label.isNotEmpty ? label : AppLocalizations.current.getString('user_address_auto_13');
     }
   }
 
