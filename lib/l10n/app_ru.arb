@@ -4503,6 +4503,27 @@
   "@month_year_parser_auto_65": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
+  "supplier_orders_order_number": "Заказ №{orderId}",
+  "supplier_orders_items_count": "{count} поз.",
+  "reviews_count_prefix": "Оценок: {count}",
+  "questions_error_loading": "Ошибка загрузки вопросов: {error}",
+  "questions_total_count": "{count} всего",
+  "questions_min_chars_error": "Минимум {minLength} символов ({current}/{minLength})",
+  "questions_enter_prompt": "Введите ваш вопрос (минимум {minLength} символов)",
+  "product_added_to_cart": "Добавлено в корзину: {name}",
+  "product_removed_from_cart": "Удалено из корзины: {name}",
+  "product_tab_reviews": "Оценки ({count})",
+  "product_tab_questions": "Вопросы ({count})",
+  "product_price_per_unit": "{price} ₸/шт",
+  "product_in_stock": "В наличии: {count} шт.",
+  "product_reviews_label": "{count} оценок",
+  "order_history_order_number": "Заказ №{id}",
+  "order_history_items_count": "{count} шт.",
+  "order_history_units_count": "{count} ед.",
+  "order_history_received_items": "{received}/{total} шт.",
+  "order_history_supplier_name": "Поставщик: {name}",
+  "order_history_export_error": "Ошибка экспорта: {error}",
+  "error_loading_products": "Ошибка загрузки товаров: {error}",
   "month_year_parser_auto_66": "ноя",
   "@month_year_parser_auto_66": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"

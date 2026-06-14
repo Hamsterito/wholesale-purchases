@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../models/product.dart';
 import '../services/api/api_service.dart';
@@ -65,7 +65,7 @@ class _CategoryProductsPageState extends State<CategoryProductsPage>
       if (!mounted) return;
       if (showLoading) {
         setState(() {
-          _errorMessage = 'Ошибка загрузки товаров: $e';
+          _errorMessage = context.l10n.errorLoadingProducts(e.toString());
           _isLoading = false;
         });
       }

@@ -557,4 +557,25 @@ String supplierProfilePreviewShow(int count) => getString('supplier_profile_prev
   
   String supplierOrdersOrderNumber(String orderId) => getString('supplier_orders_order_number', params: {'orderId': orderId});
   String supplierOrdersItemsCount(int count) => getString('supplier_orders_items_count', params: {'count': count});
+  
+  // Pages
+  String reviewsCountPrefix(int count) => getString('reviews_count_prefix', params: {'count': count});
+  String questionsErrorLoading(String error) => getString('questions_error_loading', params: {'error': error});
+  String questionsTotalCount(int count) => getString('questions_total_count', params: {'count': count});
+  String questionsMinCharsError(int minLength, int current) => getString('questions_min_chars_error', params: {'minLength': minLength, 'current': current});
+  String questionsEnterPrompt(int minLength) => getString('questions_enter_prompt', params: {'minLength': minLength});
+  String productDetailAddedToCart(String name) => getString('product_added_to_cart', params: {'name': name});
+  String productDetailRemovedFromCart(String name) => getString('product_removed_from_cart', params: {'name': name});
+  String productTabReviews(int count) => getString('product_tab_reviews', params: {'count': count});
+  String productTabQuestions(int count) => getString('product_tab_questions', params: {'count': count});
+  String productPricePerUnit(String price) => getString('product_price_per_unit', params: {'price': price});
+  String productInStock(int count) => getString('product_in_stock', params: {'count': count});
+  String productReviewsLabel(int count) => getString('product_reviews_label', params: {'count': count});
+  String orderHistoryOrderNumber(String id) => getString('order_history_order_number', params: {'id': id});
+  String orderHistoryItemsCount(int count) => getString('order_history_items_count', params: {'count': count});
+  String orderHistoryUnitsCount(int count) => getString('order_history_units_count', params: {'count': count});
+  String orderHistoryReceivedItems(int received, int total) => getString('order_history_received_items', params: {'received': received, 'total': total});
+  String orderHistorySupplierName(String name) => getString('order_history_supplier_name', params: {'name': name});
+  String orderHistoryExportError(String error) => getString('order_history_export_error', params: {'error': error});
+  String errorLoadingProducts(String error) => getString('error_loading_products', params: {'error': error});
 }

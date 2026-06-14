@@ -435,7 +435,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Заказ №${order.id}',
+          context.l10n.orderHistoryOrderNumber(order.id),
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontSize: 17,
@@ -485,11 +485,11 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         ),
         _buildMetaBadge(
           icon: Icons.view_agenda_outlined,
-          text: '${order.items.length} шт.',
+          text: context.l10n.orderHistoryItemsCount(order.items.length),
         ),
         _buildMetaBadge(
           icon: Icons.shopping_cart_outlined,
-          text: '${order.totalUnits} ед.',
+          text: context.l10n.orderHistoryUnitsCount(order.totalUnits),
         ),
         _buildMetaBadge(
           icon: _isCancelledStatus(order.status)
@@ -548,7 +548,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         : order.receivedItemsCount;
     final receivedSummary = order.items.isEmpty
         ? context.l10n.getString('auto_netTovarov')
-        : '$effectiveReceived/${order.items.length} шт.';
+        : context.l10n.orderHistoryReceivedItems(effectiveReceived, order.items.length);
 
     final children = <Widget>[
       _buildOrderDetailRow(
@@ -575,7 +575,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
       _buildOrderDetailRow(
         icon: Icons.widgets_outlined,
         label: context.l10n.getString('auto_obshcheeKolvo'),
-        value: '${order.totalUnits} ед.',
+        value: context.l10n.orderHistoryUnitsCount(order.totalUnits),
       ),
       const SizedBox(height: 10),
       _buildOrderDetailRow(
@@ -720,7 +720,7 @@ if (order.items.isEmpty)
                               if (supplierName.isNotEmpty) ...[
                                 const SizedBox(height: 2),
                                 Text(
-                                  'Поставщик: $supplierName',
+                                  context.l10n.orderHistorySupplierName(supplierName),
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: _mutedText,
@@ -895,7 +895,7 @@ if (order.items.isEmpty)
           type: MessageType.notification,
           severity: MessageSeverity.error,
           title: '',
-          body: 'Ошибка экспорта: $e',
+          body: context.l10n.orderHistoryExportError(e.toString()),
           timestamp: DateTime.now(),
           language: MessageLocalizationManager.getCurrentLanguage(),
         ),

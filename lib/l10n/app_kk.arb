@@ -4890,5 +4890,25 @@
   "supplier_products_stock_quantity": "{count} дана",
   "supplier_products_min_quantity": "{count} дана",
   "supplier_orders_order_number": "Тапсырыс №{orderId}",
-  "supplier_orders_items_count": "{count} поз."
+  "supplier_orders_items_count": "{count} поз.",
+  
+  "reviews_count_prefix": "Бағалаулар: {count}",
+  "questions_error_loading": "Сұрақтарды жүктеу қатесі: {error}",
+  "questions_total_count": "Барлығы {count}",
+  "questions_min_chars_error": "Кемінде {minLength} таңба ({current}/{minLength})",
+  "questions_enter_prompt": "Сұрағыңызды енгізіңіз (кемінде {minLength} таңба)",
+  "product_added_to_cart": "Себетке қосылды: {name}",
+  "product_removed_from_cart": "Себеттен өшірілді: {name}",
+  "product_tab_reviews": "Бағалаулар ({count})",
+  "product_tab_questions": "Сұрақтар ({count})",
+  "product_price_per_unit": "{price} ₸/дана",
+  "product_in_stock": "Қоймада: {count} дана",
+  "product_reviews_label": "{count} бағалау",
+  "order_history_order_number": "Тапсырыс №{id}",
+  "order_history_items_count": "{count} поз.",
+  "order_history_units_count": "{count} дана",
+  "order_history_received_items": "{received}/{total} поз.",
+  "order_history_supplier_name": "Жеткізуші: {name}",
+  "order_history_export_error": "Экспорттау қатесі: {error}",
+  "error_loading_products": "Тауарларды жүктеу қатесі: {error}"
 }

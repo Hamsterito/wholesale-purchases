@@ -126,7 +126,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
     } catch (e) {
       if (mounted) {
         setState(() {
-          _errorMessage = 'Ошибка загрузки вопросов: $e';
+          _errorMessage = context.l10n.questionsErrorLoading(e.toString());
           _pageState = _PageState.error;
           _isLoadingMore = false;
         });
@@ -246,7 +246,7 @@ floatingActionButton: FloatingActionButton.extended(
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  '$_totalQuestions всего',
+                  context.l10n.questionsTotalCount(_totalQuestions),
                   style: TextStyle(fontSize: 12, color: palette.muted),
                 ),
               ],
@@ -397,7 +397,7 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
         _validationError = null;
       } else if (text.length < _minLength) {
         _validationError =
-            'Минимум $_minLength символов (${text.length}/$_minLength)';
+            context.l10n.questionsMinCharsError(_minLength, text.length);
       } else {
         _validationError = null;
       }
@@ -562,7 +562,7 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
                       style: TextStyle(color: palette.ink),
                       decoration: InputDecoration(
                         hintText:
-                            'Введите ваш вопрос (минимум $_minLength символов)',
+                            context.l10n.questionsEnterPrompt(_minLength),
                         hintStyle: TextStyle(color: palette.muted),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),

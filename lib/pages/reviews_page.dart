@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../models/product.dart';
 import '../models/review_entry.dart';
@@ -192,7 +192,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Оценок: $_effectiveReviewCount',
+                    context.l10n.reviewsCountPrefix(_effectiveReviewCount),
                     style: TextStyle(fontSize: 12, color: palette.muted),
                   ),
                 ],
@@ -318,7 +318,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Оценок: $_effectiveReviewCount',
+                  context.l10n.reviewsCountPrefix(_effectiveReviewCount),
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,

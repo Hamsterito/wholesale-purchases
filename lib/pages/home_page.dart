@@ -227,7 +227,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
       if (!mounted) return;
       if (showLoading) {
         setState(() {
-          _errorMessage = 'Ошибка загрузки товаров: $e';
+          _errorMessage = context.l10n.errorLoadingProducts(e.toString());
           _isLoading = false;
         });
       }

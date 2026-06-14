@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:share_plus/share_plus.dart';
@@ -416,7 +416,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     );
     showTopMessage(
       context,
-      'Добавлено в корзину: ${widget.product.name}',
+      context.l10n.productDetailAddedToCart(widget.product.name),
       backgroundColor: _palette.accent,
       showAtBottom: true,
       bottomOffset: _bottomMessageOffset,
@@ -433,7 +433,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     );
     showTopMessage(
       context,
-      'Удалено из корзины: ${widget.product.name}',
+      context.l10n.productDetailRemovedFromCart(widget.product.name),
       backgroundColor: _palette.error,
       showAtBottom: true,
       bottomOffset: _bottomMessageOffset,
@@ -483,8 +483,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                               fontWeight: FontWeight.w600,
                             ),
                             tabs: [
-                              Tab(text: 'Оценки ($_resolvedReviewCount)'),
-                              Tab(text: 'Вопросы ($_resolvedQuestionCount)'),
+                              Tab(text: context.l10n.productTabReviews(_resolvedReviewCount)),
+                              Tab(text: context.l10n.productTabQuestions(_resolvedQuestionCount)),
                             ],
                           ),
                         ),
@@ -1058,7 +1058,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             children: [
               Expanded(
                 child: Text(
-                  '${supplier.pricePerUnit} ₸/шт',
+                  context.l10n.productPricePerUnit(supplier.pricePerUnit.toString()),
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -1081,7 +1081,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                 ),
                 child: Text(
                   isAvailable
-                      ? 'В наличии: ${supplier.stockQuantity} шт.'
+                      ? context.l10n.productInStock(supplier.stockQuantity)
                       : context.l10n.getString('auto_netVNalichii'),
                   style: TextStyle(
                     color: isAvailable ? _palette.accent : _palette.error,
@@ -1434,7 +1434,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             icon: Icons.star_rounded,
             iconColor: palette.accent,
             value: widget.product.rating.toStringAsFixed(1),
-            label: '$_resolvedReviewCount оценок',
+            label: context.l10n.productReviewsLabel(_resolvedReviewCount),
           ),
           const SizedBox(width: 12),
           _buildStatButton(
