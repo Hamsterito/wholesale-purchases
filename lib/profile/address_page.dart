@@ -3,6 +3,8 @@ import '../theme/app_color_palette.dart';
 import 'package:flutter/services.dart';
 import '../models/user_address.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
+import 'package:geolocator/geolocator.dart';
 
 class AddressPage extends StatefulWidget {
   const AddressPage({super.key, this.initial});
@@ -20,7 +22,7 @@ class _AddressPageState extends State<AddressPage> {
   static const int _apartmentMaxLength = 20;
   static final RegExp _zipPattern = RegExp(r'^\d{3,10}$');
   static final RegExp _apartmentPattern = RegExp(
-    r'^[0-9A-Za-zА-Яа-яЁё\\-\\/ ]+$',
+    r'^[0-9A-Za-zА-Яа-яЁё\-\/ ]+$',
   );
   static final RegExp _whitespaceRegExp = RegExp(r'\s+');
 
@@ -34,6 +36,10 @@ class _AddressPageState extends State<AddressPage> {
   String? _streetError;
   String? _zipError;
   String? _apartmentError;
+
+  YandexMapController? _mapController;
+  bool _isLoadingLocation = false;
+  static const Point _defaultPoint = Point(latitude: 51.128207, longitude: 71.430411);
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
@@ -69,6 +75,152 @@ class _AddressPageState extends State<AddressPage> {
     super.dispose();
   }
 
+  Future<void> _moveToCurrentLocation() async {
+    setState(() {
+      _isLoadingLocation = true;
+    });
+
+    try {
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          return;
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        return;
+      }
+
+      final position = await Geolocator.getCurrentPosition(locationSettings: const LocationSettings(accuracy: LocationAccuracy.high));
+      final point = Point(latitude: position.latitude, longitude: position.longitude);
+
+      await _mapController?.moveCamera(
+        CameraUpdate.newCameraPosition(CameraPosition(target: point, zoom: 16)),
+        animation: const MapAnimation(type: MapAnimationType.smooth, duration: 1.0)
+      );
+      
+      _fetchAddress(point);
+    } catch (e) {
+      debugPrint("Location error: $e");
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoadingLocation = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _fetchAddress(Point point) async {
+    debugPrint("Geocoding started for point: ${point.latitude}, ${point.longitude}");
+    final resultWithSession = await YandexSearch.searchByPoint(
+      point: point,
+      searchOptions: const SearchOptions(
+        searchType: SearchType.geo,
+        geometry: false,
+      ),
+    );
+
+    try {
+      final result = await resultWithSession.$2;
+      if (result.error != null) {
+        debugPrint("Geocoding error from Yandex: ${result.error}");
+        return;
+      }
+
+      final items = result.items;
+      debugPrint("Geocoding items found: ${items?.length}");
+      if (items != null && items.isNotEmpty) {
+        final topItem = items.first;
+        final addressDetails = topItem.toponymMetadata?.address;
+        
+        debugPrint("Address details: ${addressDetails?.formattedAddress}");
+
+        if (addressDetails != null) {
+          String street = '';
+          String formattedAddress = addressDetails.formattedAddress;
+
+          if (addressDetails.addressComponents.containsKey(SearchComponentKind.street)) {
+            street = addressDetails.addressComponents[SearchComponentKind.street] ?? '';
+          }
+
+          if (mounted) {
+            setState(() {
+              if (street.isNotEmpty) {
+                _streetController.text = street;
+                _streetError = null;
+              }
+              _addressController.text = formattedAddress;
+              _addressError = null;
+            });
+          }
+        } else {
+          debugPrint("No address details in the top item");
+        }
+      }
+    } catch (e) {
+      debugPrint("Geocoding exception: $e");
+    }
+  }
+
+  Widget _buildMap() {
+    return Container(
+      height: 250,
+      margin: const EdgeInsets.only(bottom: 16),
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: _inputFill, width: 2),
+      ),
+      child: Stack(
+        children: [
+          YandexMap(
+            onMapCreated: (YandexMapController yandexMapController) async {
+              _mapController = yandexMapController;
+              if (widget.initial == null) {
+                await _moveToCurrentLocation();
+              } else {
+                _mapController?.moveCamera(
+                  CameraUpdate.newCameraPosition(
+                    const CameraPosition(target: _defaultPoint, zoom: 12)
+                  )
+                );
+              }
+            },
+            onCameraPositionChanged: (CameraPosition cameraPosition, CameraUpdateReason reason, bool finished) {
+              if (finished && reason == CameraUpdateReason.gestures) {
+                 _fetchAddress(cameraPosition.target);
+              }
+            },
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 30),
+              child: Icon(Icons.location_on, size: 40, color: context.colorPalette.accent),
+            ),
+          ),
+          Positioned(
+            right: 16,
+            bottom: 16,
+            child: FloatingActionButton.small(
+              heroTag: 'my_location_btn',
+              backgroundColor: _cardBg,
+              onPressed: _isLoadingLocation ? null : _moveToCurrentLocation,
+              child: _isLoadingLocation 
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircularProgressIndicator(strokeWidth: 2, color: context.colorPalette.accent),
+                    )
+                  : Icon(Icons.my_location, color: context.colorPalette.accent),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final primaryColor = context.colorPalette.accent;
@@ -98,6 +250,7 @@ class _AddressPageState extends State<AddressPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            _buildMap(),
             _buildTextField(
               label: context.l10n.getString('auto_adres'),
               controller: _addressController,

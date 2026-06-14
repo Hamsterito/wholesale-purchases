@@ -52,6 +52,8 @@ dependencies:
   flutter_svg: ^2.1.1
   pin_code_fields: ^8.0.1
   uuid: ^4.4.0
+  yandex_mapkit: 4.1.0
+  geolocator: ^14.0.2
 
 dev_dependencies:
   flutter_test:

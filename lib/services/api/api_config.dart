@@ -12,17 +12,17 @@ class ApiConfig {
     }
 
     if (kIsWeb) {
-      return 'http://localhost:8080';
+      return 'http://localhost:8081';
     }
 
     if (Platform.isAndroid) {
       // 10.0.2.2 - для эмулятора Android
       // 192.168.1.101 - для реального устройства в локальной сети
       // Если не работает, замени на IP своего компьютера
-      return 'http://192.168.1.101:8080';
+      return 'http://192.168.1.101:8081';
     }
 
-    return 'http://localhost:8080';
+    return 'http://localhost:8081';
   }
 
   static String get aiApiKey {
