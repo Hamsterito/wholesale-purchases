@@ -4370,4 +4370,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String supplier_products_min_quantity(int count) {
     return '$count шт.';
   }
+
+  @override
+  String util_seconds_left(String count) {
+    return '$count секунд';
+  }
+
+  @override
+  String get util_review_one => 'отзыв';
+
+  @override
+  String get util_review_few => 'отзыва';
+
+  @override
+  String get util_review_many => 'отзывов';
 }

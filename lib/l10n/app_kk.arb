@@ -4940,5 +4940,9 @@
   "moderation_price_per_unit": "Бірлігі үшін {price} ₸",
   "moderation_comment_prefix": "Модерация пікірі: {comment}",
   "moderation_characteristic_format": "{key} — {value}",
-  "moderator_two_factor_remove_warning": "Бұл {name} пайдаланушысының барлық резервтік кодтарын және сенімді құрылғыларын жояды. {warning}"
+  "moderator_two_factor_remove_warning": "Бұл {name} пайдаланушысының барлық резервтік кодтарын және сенімді құрылғыларын жояды. {warning}",
+  "util_seconds_left": "{count} секунд",
+  "util_review_one": "пікір",
+  "util_review_few": "пікір",
+  "util_review_many": "пікір"
 }

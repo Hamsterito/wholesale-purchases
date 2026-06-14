@@ -4361,4 +4361,18 @@ class AppLocalizationsKk extends AppLocalizations {
   String supplier_products_min_quantity(int count) {
     return '$count дана';
   }
+
+  @override
+  String util_seconds_left(String count) {
+    return '$count секунд';
+  }
+
+  @override
+  String get util_review_one => 'пікір';
+
+  @override
+  String get util_review_few => 'пікір';
+
+  @override
+  String get util_review_many => 'пікір';
 }

@@ -5409,5 +5409,17 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+  "util_seconds_left": "{count} секунд",
+  "@util_seconds_left": {
+    "description": "Remaining seconds",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "util_review_one": "отзыв",
+  "util_review_few": "отзыва",
+  "util_review_many": "отзывов"
 }

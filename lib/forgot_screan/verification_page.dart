@@ -307,7 +307,7 @@ class _VerificationPageState extends State<VerificationPage> {
                                     builder: (context, isDisabled, _) {
                                       return Text(
                                         isDisabled
-                                            ? '$remainingTime секунд'
+                                            ? AppLocalizations.current.getString('util_seconds_left', params: {'count': remainingTime.toString()})
                                             : '',
                                         style: TextStyle(
                                           fontSize: 14,

@@ -7895,6 +7895,30 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'{count} шт.'**
   String supplier_products_min_quantity(int count);
+
+  /// Remaining seconds
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} секунд'**
+  String util_seconds_left(String count);
+
+  /// No description provided for @util_review_one.
+  ///
+  /// In ru, this message translates to:
+  /// **'отзыв'**
+  String get util_review_one;
+
+  /// No description provided for @util_review_few.
+  ///
+  /// In ru, this message translates to:
+  /// **'отзыва'**
+  String get util_review_few;
+
+  /// No description provided for @util_review_many.
+  ///
+  /// In ru, this message translates to:
+  /// **'отзывов'**
+  String get util_review_many;
 }
 
 class _AppLocalizationsDelegate
