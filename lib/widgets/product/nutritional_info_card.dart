@@ -38,7 +38,7 @@ class NutritionalInfoCard extends StatelessWidget {
               Expanded(
                 child: _buildNutritionItem(
                   context: context,
-                  value: '${nutritionalInfo.calories.toStringAsFixed(0)} к',
+                  value: context.l10n.nutritionCaloriesUnit(nutritionalInfo.calories.toStringAsFixed(0)),
                   label: context.l10n.getString('auto_kalorii'),
                 ),
               ),
@@ -46,7 +46,7 @@ class NutritionalInfoCard extends StatelessWidget {
               Expanded(
                 child: _buildNutritionItem(
                   context: context,
-                  value: '${nutritionalInfo.protein.toStringAsFixed(0)} г',
+                  value: context.l10n.nutritionGramsUnit(nutritionalInfo.protein.toStringAsFixed(0)),
                   label: context.l10n.getString('auto_belki'),
                 ),
               ),
@@ -54,7 +54,7 @@ class NutritionalInfoCard extends StatelessWidget {
               Expanded(
                 child: _buildNutritionItem(
                   context: context,
-                  value: '${nutritionalInfo.fat.toStringAsFixed(0)} г',
+                  value: context.l10n.nutritionGramsUnit(nutritionalInfo.fat.toStringAsFixed(0)),
                   label: context.l10n.getString('auto_zhiry'),
                 ),
               ),
@@ -63,7 +63,7 @@ class NutritionalInfoCard extends StatelessWidget {
                 child: _buildNutritionItem(
                   context: context,
                   value:
-                      '${nutritionalInfo.carbohydrates.toStringAsFixed(1)} г',
+                      context.l10n.nutritionGramsUnit(nutritionalInfo.carbohydrates.toStringAsFixed(1)),
                   label: context.l10n.getString('auto_uglevody'),
                 ),
               ),

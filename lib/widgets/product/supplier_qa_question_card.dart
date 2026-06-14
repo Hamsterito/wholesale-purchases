@@ -121,7 +121,7 @@ class SupplierQAQuestionCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        'Ответ от ${question.answer!.supplierName}',
+                        context.l10n.qaAnswerFromSupplier(question.answer!.supplierName),
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,

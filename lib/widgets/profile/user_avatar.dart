@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../services/app_logger.dart';
 import '../../theme/app_color_palette.dart';
+import '../../services/localization/localization_extension.dart';
 
 /// Единая точка отображения аватарки пользователя.
 /// При ошибке загрузки картинки откатывается к placeholder, а не падает.
@@ -54,7 +55,7 @@ class UserAvatar extends StatelessWidget {
           },
           errorBuilder: (context, error, stackTrace) {
             AppLogger.warning(
-              'Не удалось загрузить аватарку: $url ($error)',
+              context.l10n.avatarLoadError(url, error.toString()),
               scope: 'avatar',
             );
             // Сбрасываем failed-запись, чтобы повторный показ этого URL

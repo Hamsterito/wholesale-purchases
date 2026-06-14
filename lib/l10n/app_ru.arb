@@ -5182,5 +5182,182 @@
     }
   },
   "validation_empty_or_too_long": "Заполните название и значение характеристики",
-  "validation_duplicate": "Такая характеристика уже добавлена"
+  "validation_duplicate": "Такая характеристика уже добавлена",
+  "qa_minimum_characters": "Минимум {minLength} символов ({currentLength}/{minLength})",
+  "@qa_minimum_characters": {
+    "placeholders": {
+      "minLength": { "type": "int" },
+      "currentLength": { "type": "int" }
+    }
+  },
+  "qa_enter_answer_minimum": "Введите ответ (минимум {minLength} символов)",
+  "@qa_enter_answer_minimum": {
+    "placeholders": {
+      "minLength": { "type": "int" }
+    }
+  },
+  "avatar_load_error": "Не удалось загрузить аватарку: {url} ({error})",
+  "@avatar_load_error": {
+    "placeholders": {
+      "url": { "type": "String" },
+      "error": { "type": "String" }
+    }
+  },
+  "qa_answer_from_supplier": "Ответ от {supplierName}",
+  "@qa_answer_from_supplier": {
+    "placeholders": {
+      "supplierName": { "type": "String" }
+    }
+  },
+  "ratings_count_parentheses": "Оценок ({count})",
+  "@ratings_count_parentheses": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "ratings_count_colon": "Оценок: {count}",
+  "@ratings_count_colon": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "nutrition_calories_unit": "{value} к",
+  "@nutrition_calories_unit": {
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+  "nutrition_grams_unit": "{value} г",
+  "@nutrition_grams_unit": {
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+  "templates_sheet_rename_template": "Переименовать шаблон {name}",
+  "@templates_sheet_rename_template": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "templates_sheet_delete_template": "Удалить шаблон {name}",
+  "@templates_sheet_delete_template": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "templates_sheet_add_to_cart_template": "В корзину шаблон {name}",
+  "@templates_sheet_add_to_cart_template": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "supplier_stats_days": "{days} дн.",
+  "@supplier_stats_days": {
+    "placeholders": {
+      "days": { "type": "String" }
+    }
+  },
+  "supplier_stats_units_sold": "{count} шт. продано",
+  "@supplier_stats_units_sold": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "supplier_stats_repeat_buyers": "{percentage}% постоянных",
+  "@supplier_stats_repeat_buyers": {
+    "placeholders": {
+      "percentage": { "type": "String" }
+    }
+  },
+  "supplier_stats_reviews": "{count} отзывов",
+  "@supplier_stats_reviews": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "supplier_stats_order_prefix": "Заказ #{orderId}",
+  "@supplier_stats_order_prefix": {
+    "placeholders": {
+      "orderId": { "type": "String" }
+    }
+  },
+  "wizard_error_price_max": "Цена не должна превышать {max}",
+  "@wizard_error_price_max": {
+    "placeholders": {
+      "max": { "type": "String" }
+    }
+  },
+  "wizard_error_min_quantity_max": "Минимальное количество не должно превышать {max}",
+  "@wizard_error_min_quantity_max": {
+    "placeholders": {
+      "max": { "type": "String" }
+    }
+  },
+  "wizard_error_stock_max": "Остаток на складе не должен превышать {max}",
+  "@wizard_error_stock_max": {
+    "placeholders": {
+      "max": { "type": "String" }
+    }
+  },
+  "wizard_error_calories_max": "Калории не должны превышать {max} (ограничение NUMERIC(10,2))",
+  "@wizard_error_calories_max": {
+    "placeholders": {
+      "max": { "type": "String" }
+    }
+  },
+  "wizard_error_protein_max": "Белки не должны превышать {max} (ограничение NUMERIC(10,2))",
+  "@wizard_error_protein_max": {
+    "placeholders": {
+      "max": { "type": "String" }
+    }
+  },
+  "wizard_error_fat_max": "Жиры не должны превышать {max} (ограничение NUMERIC(10,2))",
+  "@wizard_error_fat_max": {
+    "placeholders": {
+      "max": { "type": "String" }
+    }
+  },
+  "wizard_error_carbs_max": "Углеводы не должны превышать {max} (ограничение NUMERIC(10,2))",
+  "@wizard_error_carbs_max": {
+    "placeholders": {
+      "max": { "type": "String" }
+    }
+  },
+  "wizard_show_all_categories": "Показать все ({count})",
+  "@wizard_show_all_categories": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "wizard_step_indicator": "Шаг {current} из {total}",
+  "@wizard_step_indicator": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "supplier_products_stock_quantity": "{count} шт.",
+  "@supplier_products_stock_quantity": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "supplier_products_min_quantity": "{count} шт.",
+  "@supplier_products_min_quantity": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "supplier_orders_order_number": "Заказ №{orderId}",
+  "@supplier_orders_order_number": {
+    "placeholders": {
+      "orderId": { "type": "String" }
+    }
+  },
+  "supplier_orders_items_count": "{count} поз.",
+  "@supplier_orders_items_count": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

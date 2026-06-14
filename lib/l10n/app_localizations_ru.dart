@@ -3984,4 +3984,149 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get validation_duplicate => 'Такая характеристика уже добавлена';
+
+  @override
+  String qa_minimum_characters(int minLength, int currentLength) {
+    return 'Минимум $minLength символов ($currentLength/$minLength)';
+  }
+
+  @override
+  String qa_enter_answer_minimum(int minLength) {
+    return 'Введите ответ (минимум $minLength символов)';
+  }
+
+  @override
+  String avatar_load_error(String url, String error) {
+    return 'Не удалось загрузить аватарку: $url ($error)';
+  }
+
+  @override
+  String qa_answer_from_supplier(String supplierName) {
+    return 'Ответ от $supplierName';
+  }
+
+  @override
+  String ratings_count_parentheses(int count) {
+    return 'Оценок ($count)';
+  }
+
+  @override
+  String ratings_count_colon(int count) {
+    return 'Оценок: $count';
+  }
+
+  @override
+  String nutrition_calories_unit(String value) {
+    return '$value к';
+  }
+
+  @override
+  String nutrition_grams_unit(String value) {
+    return '$value г';
+  }
+
+  @override
+  String templates_sheet_rename_template(String name) {
+    return 'Переименовать шаблон $name';
+  }
+
+  @override
+  String templates_sheet_delete_template(String name) {
+    return 'Удалить шаблон $name';
+  }
+
+  @override
+  String templates_sheet_add_to_cart_template(String name) {
+    return 'В корзину шаблон $name';
+  }
+
+  @override
+  String supplier_stats_days(String days) {
+    return '$days дн.';
+  }
+
+  @override
+  String supplier_stats_units_sold(int count) {
+    return '$count шт. продано';
+  }
+
+  @override
+  String supplier_stats_repeat_buyers(String percentage) {
+    return '$percentage% постоянных';
+  }
+
+  @override
+  String supplier_stats_reviews(int count) {
+    return '$count отзывов';
+  }
+
+  @override
+  String supplier_stats_order_prefix(String orderId) {
+    return 'Заказ #$orderId';
+  }
+
+  @override
+  String wizard_error_price_max(String max) {
+    return 'Цена не должна превышать $max';
+  }
+
+  @override
+  String wizard_error_min_quantity_max(String max) {
+    return 'Минимальное количество не должно превышать $max';
+  }
+
+  @override
+  String wizard_error_stock_max(String max) {
+    return 'Остаток на складе не должен превышать $max';
+  }
+
+  @override
+  String wizard_error_calories_max(String max) {
+    return 'Калории не должны превышать $max (ограничение NUMERIC(10,2))';
+  }
+
+  @override
+  String wizard_error_protein_max(String max) {
+    return 'Белки не должны превышать $max (ограничение NUMERIC(10,2))';
+  }
+
+  @override
+  String wizard_error_fat_max(String max) {
+    return 'Жиры не должны превышать $max (ограничение NUMERIC(10,2))';
+  }
+
+  @override
+  String wizard_error_carbs_max(String max) {
+    return 'Углеводы не должны превышать $max (ограничение NUMERIC(10,2))';
+  }
+
+  @override
+  String wizard_show_all_categories(int count) {
+    return 'Показать все ($count)';
+  }
+
+  @override
+  String wizard_step_indicator(int current, int total) {
+    return 'Шаг $current из $total';
+  }
+
+  @override
+  String supplier_products_stock_quantity(int count) {
+    return '$count шт.';
+  }
+
+  @override
+  String supplier_products_min_quantity(int count) {
+    return '$count шт.';
+  }
+
+  @override
+  String supplier_orders_order_number(String orderId) {
+    return 'Заказ №$orderId';
+  }
+
+  @override
+  String supplier_orders_items_count(int count) {
+    return '$count поз.';
+  }
 }

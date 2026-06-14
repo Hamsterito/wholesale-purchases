@@ -1021,7 +1021,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                 _vertDivider(),
                 _miniStat(context.l10n.getString('auto_proshlyyMesyats'), o.lastMonthCount.toString()),
                 _vertDivider(),
-                _miniStat(context.l10n.getString('auto_srDostavka'), '${o.averageFulfillmentDays} дн.'),
+                _miniStat(context.l10n.getString('auto_srDostavka'), context.l10n.supplierStatsDays(o.averageFulfillmentDays.toString())),
               ],
             ),
           ),
@@ -1136,7 +1136,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${p.unitsSold} шт. продано',
+                        context.l10n.supplierStatsUnitsSold(p.unitsSold),
                         style: TextStyle(
                           fontSize: 11,
                           color: palette.ink.withValues(alpha: 0.45),
@@ -1227,7 +1227,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
           ),
           const SizedBox(height: 4),
           Text(
-            '${b.repeatBuyersPercentage}% постоянных',
+            context.l10n.supplierStatsRepeatBuyers(b.repeatBuyersPercentage.toString()),
             style: TextStyle(
               fontSize: 10,
               color: palette.ink.withValues(alpha: 0.45),
@@ -1272,7 +1272,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
             ],
           ),
           Text(
-            '${r.totalReviews} отзывов',
+            context.l10n.supplierStatsReviews(r.totalReviews),
             style: TextStyle(
               fontSize: 11,
               color: palette.ink.withValues(alpha: 0.45),
@@ -1382,7 +1382,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Заказ #${order.orderId}',
+                        context.l10n.supplierStatsOrderPrefix(order.orderId),
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,

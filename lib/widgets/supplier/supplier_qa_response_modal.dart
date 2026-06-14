@@ -56,7 +56,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
         _validationError = null;
       } else if (text.length < _minLength) {
         _validationError =
-            'Минимум $_minLength символов (${text.length}/$_minLength)';
+            context.l10n.qaMinimumCharacters(_minLength, text.length);
       } else {
         _validationError = null;
       }
@@ -274,7 +274,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
                       style: TextStyle(color: palette.ink),
                       decoration: InputDecoration(
                         hintText:
-                            'Введите ответ (минимум $_minLength символов)',
+                            context.l10n.qaEnterAnswerMinimum(_minLength),
                         hintStyle: TextStyle(color: palette.muted),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),

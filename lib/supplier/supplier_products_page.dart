@@ -302,7 +302,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
     final imagePath = product.imageUrls.isNotEmpty
         ? product.imageUrls.first
         : '';
-    final stockQuantityLabel = '${product.stockQuantity} шт.';
+    final stockQuantityLabel = context.l10n.supplierProductsStockQuantity(product.stockQuantity);
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -433,7 +433,7 @@ Expanded(
                   child: _MetricTile(
                     icon: Icons.inventory_2_outlined,
                     label: context.l10n.getString('auto_minPartiya'),
-                    value: '${product.minQuantity} шт.',
+                    value: context.l10n.supplierProductsMinQuantity(product.minQuantity),
                   ),
                 ),
                 const SizedBox(width: 8),

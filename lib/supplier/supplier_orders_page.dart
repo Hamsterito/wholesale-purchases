@@ -869,7 +869,7 @@ child: _isExportingHistory
           title: isHistoryOrder
               ? _buildHistoryTitle(order)
               : Text(
-                  'Заказ №${order.id}',
+                  context.l10n.supplierOrdersOrderNumber(order.id),
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -1020,7 +1020,7 @@ Text(
         ),
         _buildMetaBadge(
           icon: Icons.view_agenda_outlined,
-          text: '${order.items.length} поз.',
+          text: context.l10n.supplierOrdersItemsCount(order.items.length),
         ),
 _buildMetaBadge(
            icon: Icons.shopping_cart_outlined,

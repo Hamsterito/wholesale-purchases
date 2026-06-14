@@ -7429,6 +7429,180 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Такая характеристика уже добавлена'**
   String get validation_duplicate;
+
+  /// No description provided for @qa_minimum_characters.
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимум {minLength} символов ({currentLength}/{minLength})'**
+  String qa_minimum_characters(int minLength, int currentLength);
+
+  /// No description provided for @qa_enter_answer_minimum.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите ответ (минимум {minLength} символов)'**
+  String qa_enter_answer_minimum(int minLength);
+
+  /// No description provided for @avatar_load_error.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить аватарку: {url} ({error})'**
+  String avatar_load_error(String url, String error);
+
+  /// No description provided for @qa_answer_from_supplier.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ответ от {supplierName}'**
+  String qa_answer_from_supplier(String supplierName);
+
+  /// No description provided for @ratings_count_parentheses.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оценок ({count})'**
+  String ratings_count_parentheses(int count);
+
+  /// No description provided for @ratings_count_colon.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оценок: {count}'**
+  String ratings_count_colon(int count);
+
+  /// No description provided for @nutrition_calories_unit.
+  ///
+  /// In ru, this message translates to:
+  /// **'{value} к'**
+  String nutrition_calories_unit(String value);
+
+  /// No description provided for @nutrition_grams_unit.
+  ///
+  /// In ru, this message translates to:
+  /// **'{value} г'**
+  String nutrition_grams_unit(String value);
+
+  /// No description provided for @templates_sheet_rename_template.
+  ///
+  /// In ru, this message translates to:
+  /// **'Переименовать шаблон {name}'**
+  String templates_sheet_rename_template(String name);
+
+  /// No description provided for @templates_sheet_delete_template.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить шаблон {name}'**
+  String templates_sheet_delete_template(String name);
+
+  /// No description provided for @templates_sheet_add_to_cart_template.
+  ///
+  /// In ru, this message translates to:
+  /// **'В корзину шаблон {name}'**
+  String templates_sheet_add_to_cart_template(String name);
+
+  /// No description provided for @supplier_stats_days.
+  ///
+  /// In ru, this message translates to:
+  /// **'{days} дн.'**
+  String supplier_stats_days(String days);
+
+  /// No description provided for @supplier_stats_units_sold.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} шт. продано'**
+  String supplier_stats_units_sold(int count);
+
+  /// No description provided for @supplier_stats_repeat_buyers.
+  ///
+  /// In ru, this message translates to:
+  /// **'{percentage}% постоянных'**
+  String supplier_stats_repeat_buyers(String percentage);
+
+  /// No description provided for @supplier_stats_reviews.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} отзывов'**
+  String supplier_stats_reviews(int count);
+
+  /// No description provided for @supplier_stats_order_prefix.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ #{orderId}'**
+  String supplier_stats_order_prefix(String orderId);
+
+  /// No description provided for @wizard_error_price_max.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цена не должна превышать {max}'**
+  String wizard_error_price_max(String max);
+
+  /// No description provided for @wizard_error_min_quantity_max.
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимальное количество не должно превышать {max}'**
+  String wizard_error_min_quantity_max(String max);
+
+  /// No description provided for @wizard_error_stock_max.
+  ///
+  /// In ru, this message translates to:
+  /// **'Остаток на складе не должен превышать {max}'**
+  String wizard_error_stock_max(String max);
+
+  /// No description provided for @wizard_error_calories_max.
+  ///
+  /// In ru, this message translates to:
+  /// **'Калории не должны превышать {max} (ограничение NUMERIC(10,2))'**
+  String wizard_error_calories_max(String max);
+
+  /// No description provided for @wizard_error_protein_max.
+  ///
+  /// In ru, this message translates to:
+  /// **'Белки не должны превышать {max} (ограничение NUMERIC(10,2))'**
+  String wizard_error_protein_max(String max);
+
+  /// No description provided for @wizard_error_fat_max.
+  ///
+  /// In ru, this message translates to:
+  /// **'Жиры не должны превышать {max} (ограничение NUMERIC(10,2))'**
+  String wizard_error_fat_max(String max);
+
+  /// No description provided for @wizard_error_carbs_max.
+  ///
+  /// In ru, this message translates to:
+  /// **'Углеводы не должны превышать {max} (ограничение NUMERIC(10,2))'**
+  String wizard_error_carbs_max(String max);
+
+  /// No description provided for @wizard_show_all_categories.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать все ({count})'**
+  String wizard_show_all_categories(int count);
+
+  /// No description provided for @wizard_step_indicator.
+  ///
+  /// In ru, this message translates to:
+  /// **'Шаг {current} из {total}'**
+  String wizard_step_indicator(int current, int total);
+
+  /// No description provided for @supplier_products_stock_quantity.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} шт.'**
+  String supplier_products_stock_quantity(int count);
+
+  /// No description provided for @supplier_products_min_quantity.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} шт.'**
+  String supplier_products_min_quantity(int count);
+
+  /// No description provided for @supplier_orders_order_number.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ №{orderId}'**
+  String supplier_orders_order_number(String orderId);
+
+  /// No description provided for @supplier_orders_items_count.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} поз.'**
+  String supplier_orders_items_count(int count);
 }
 
 class _AppLocalizationsDelegate

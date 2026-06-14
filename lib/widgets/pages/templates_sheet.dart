@@ -358,7 +358,7 @@ class _TemplateCard extends StatelessWidget {
           value: _TemplateAction.rename,
           child: Semantics(
             button: true,
-            label: '${context.l10n.templatesSheetRename} шаблон ${template.name}',
+            label: context.l10n.templatesSheetRenameTemplate(template.name),
             child: Row(
               children: [
                 Icon(Icons.edit_outlined, size: 18, color: palette.muted),
@@ -375,7 +375,7 @@ class _TemplateCard extends StatelessWidget {
           value: _TemplateAction.delete,
           child: Semantics(
             button: true,
-            label: '${context.l10n.templatesSheetDelete} шаблон ${template.name}',
+            label: context.l10n.templatesSheetDeleteTemplate(template.name),
             child: Row(
               children: [
                 Icon(Icons.delete_outline, size: 18, color: palette.error),
@@ -428,7 +428,7 @@ Widget _buildItemsList() {
       padding: const EdgeInsets.fromLTRB(12, 4, 12, 12),
       child: Semantics(
         button: true,
-        label: '${context.l10n.templatesSheetAddToCart} шаблон ${template.name}',
+        label: context.l10n.templatesSheetAddToCartTemplate(template.name),
         child: SizedBox(
           width: double.infinity,
           height: 44,

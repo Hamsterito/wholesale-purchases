@@ -222,7 +222,7 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
       children: [
         Expanded(
           child: Text(
-            'Оценок ($_effectiveReviewCount)',
+            context.l10n.ratingsCountParentheses(_effectiveReviewCount),
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w700,
@@ -283,7 +283,7 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
               Text('/5', style: TextStyle(fontSize: 13, color: _mutedText)),
               const SizedBox(height: 8),
               Text(
-                'Оценок: $_effectiveReviewCount',
+                context.l10n.ratingsCountColon(_effectiveReviewCount),
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w500,

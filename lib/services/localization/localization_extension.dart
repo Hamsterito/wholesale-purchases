@@ -516,4 +516,45 @@ String supplierProfilePreviewShow(int count) => getString('supplier_profile_prev
    String get chatYesterday => getString('chat_yesterday');
    String get chatBuyerDefault => getString('chat_buyer_default');
    String get chatNoReviewText => getString('chat_no_review_text');
+
+  // QA strings added
+  String qaMinimumCharacters(int minLength, int currentLength) => getString('qa_minimum_characters', params: {'minLength': minLength, 'currentLength': currentLength});
+  String qaEnterAnswerMinimum(int minLength) => getString('qa_enter_answer_minimum', params: {'minLength': minLength});
+  String avatarLoadError(String url, String error) => getString('avatar_load_error', params: {'url': url, 'error': error});
+  String qaAnswerFromSupplier(String supplierName) => getString('qa_answer_from_supplier', params: {'supplierName': supplierName});
+  
+  // Ratings and nutrition
+  String ratingsCountParentheses(int count) => getString('ratings_count_parentheses', params: {'count': count});
+  String ratingsCountColon(int count) => getString('ratings_count_colon', params: {'count': count});
+  String nutritionCaloriesUnit(String value) => getString('nutrition_calories_unit', params: {'value': value});
+  String nutritionGramsUnit(String value) => getString('nutrition_grams_unit', params: {'value': value});
+  
+  // Templates
+  String templatesSheetRenameTemplate(String name) => getString('templates_sheet_rename_template', params: {'name': name});
+  String templatesSheetDeleteTemplate(String name) => getString('templates_sheet_delete_template', params: {'name': name});
+  String templatesSheetAddToCartTemplate(String name) => getString('templates_sheet_add_to_cart_template', params: {'name': name});
+  
+  // Supplier statistics
+  String supplierStatsDays(String days) => getString('supplier_stats_days', params: {'days': days});
+  String supplierStatsUnitsSold(int count) => getString('supplier_stats_units_sold', params: {'count': count});
+  String supplierStatsRepeatBuyers(String percentage) => getString('supplier_stats_repeat_buyers', params: {'percentage': percentage});
+  String supplierStatsReviews(int count) => getString('supplier_stats_reviews', params: {'count': count});
+  String supplierStatsOrderPrefix(String orderId) => getString('supplier_stats_order_prefix', params: {'orderId': orderId});
+  
+  // Wizard and products
+  String wizardErrorPriceMax(String max) => getString('wizard_error_price_max', params: {'max': max});
+  String wizardErrorMinQuantityMax(String max) => getString('wizard_error_min_quantity_max', params: {'max': max});
+  String wizardErrorStockMax(String max) => getString('wizard_error_stock_max', params: {'max': max});
+  String wizardErrorCaloriesMax(String max) => getString('wizard_error_calories_max', params: {'max': max});
+  String wizardErrorProteinMax(String max) => getString('wizard_error_protein_max', params: {'max': max});
+  String wizardErrorFatMax(String max) => getString('wizard_error_fat_max', params: {'max': max});
+  String wizardErrorCarbsMax(String max) => getString('wizard_error_carbs_max', params: {'max': max});
+  String wizardShowAllCategories(int count) => getString('wizard_show_all_categories', params: {'count': count});
+  String wizardStepIndicator(int current, int total) => getString('wizard_step_indicator', params: {'current': current, 'total': total});
+  
+  String supplierProductsStockQuantity(int count) => getString('supplier_products_stock_quantity', params: {'count': count});
+  String supplierProductsMinQuantity(int count) => getString('supplier_products_min_quantity', params: {'count': count});
+  
+  String supplierOrdersOrderNumber(String orderId) => getString('supplier_orders_order_number', params: {'orderId': orderId});
+  String supplierOrdersItemsCount(int count) => getString('supplier_orders_items_count', params: {'count': count});
 }

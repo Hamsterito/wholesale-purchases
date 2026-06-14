@@ -376,7 +376,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         return false;
       }
       if (price > _maxIntegerFieldValue) {
-        _error = 'Цена не должна превышать $_maxIntegerFieldValue';
+        _error = context.l10n.wizardErrorPriceMax(_maxIntegerFieldValue.toString());
         return false;
       }
       if (minQuantity <= 0) {
@@ -384,8 +384,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         return false;
       }
       if (minQuantity > _maxIntegerFieldValue) {
-        _error =
-            'Минимальное количество не должно превышать $_maxIntegerFieldValue';
+        _error = context.l10n.wizardErrorMinQuantityMax(_maxIntegerFieldValue.toString());
         return false;
       }
       if (stockQuantity < 0) {
@@ -393,7 +392,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         return false;
       }
       if (stockQuantity > _maxIntegerFieldValue) {
-        _error = 'Остаток на складе не должен превышать $_maxIntegerFieldValue';
+        _error = context.l10n.wizardErrorStockMax(_maxIntegerFieldValue.toString());
         return false;
       }
       if (stockQuantity > 0 && stockQuantity < minQuantity) {
@@ -458,8 +457,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           return false;
         }
         if (_exceedsNumeric10Scale2(calories)) {
-          _error =
-              'Калории не должны превышать $_numeric10Scale2MaxValue (ограничение NUMERIC(10,2))';
+          _error = context.l10n.wizardErrorCaloriesMax(_numeric10Scale2MaxValue.toString());
           return false;
         }
       }
@@ -470,8 +468,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           return false;
         }
         if (_exceedsNumeric10Scale2(protein)) {
-          _error =
-              'Белки не должны превышать $_numeric10Scale2MaxValue (ограничение NUMERIC(10,2))';
+          _error = context.l10n.wizardErrorProteinMax(_numeric10Scale2MaxValue.toString());
           return false;
         }
       }
@@ -482,8 +479,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           return false;
         }
         if (_exceedsNumeric10Scale2(fat)) {
-          _error =
-              'Жиры не должны превышать $_numeric10Scale2MaxValue (ограничение NUMERIC(10,2))';
+          _error = context.l10n.wizardErrorFatMax(_numeric10Scale2MaxValue.toString());
           return false;
         }
       }
@@ -494,8 +490,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           return false;
         }
         if (_exceedsNumeric10Scale2(carbs)) {
-          _error =
-              'Углеводы не должны превышать $_numeric10Scale2MaxValue (ограничение NUMERIC(10,2))';
+          _error = context.l10n.wizardErrorCarbsMax(_numeric10Scale2MaxValue.toString());
           return false;
         }
       }
@@ -1741,7 +1736,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
               child: Text(
                 _showAllPresetCategories
                     ? context.l10n.getString('auto_pokazatMenshe')
-                    : 'Показать все (${filteredCategories.length})',
+                    : context.l10n.wizardShowAllCategories(filteredCategories.length),
               ),
             ),
           ],
@@ -1994,7 +1989,7 @@ class _StepHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Шаг ${step + 1} из $totalSteps',
+            context.l10n.wizardStepIndicator(step + 1, totalSteps),
             style: TextStyle(
               color: colorScheme.onSurfaceVariant,
               fontSize: 12,

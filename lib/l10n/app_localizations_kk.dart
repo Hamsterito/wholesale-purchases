@@ -3951,7 +3951,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String product_card_days_per_week(int count, String time) {
-    return '$count дн./ нед $time';
+    return '$count күн/апта $time';
   }
 
   @override
@@ -3974,5 +3974,150 @@ class AppLocalizationsKk extends AppLocalizations {
       'Сипаттаманың атауы мен мәнін толтырыңыз';
 
   @override
-  String get validation_duplicate => 'Бұл сипаттама қазірдің өзінде қосылды';
+  String get validation_duplicate => 'Мұндай сипаттама қосылған';
+
+  @override
+  String qa_minimum_characters(int minLength, int currentLength) {
+    return 'Кемінде $minLength таңба ($currentLength/$minLength)';
+  }
+
+  @override
+  String qa_enter_answer_minimum(int minLength) {
+    return 'Жауапты енгізіңіз (кемінде $minLength таңба)';
+  }
+
+  @override
+  String avatar_load_error(String url, String error) {
+    return 'Аватарды жүктеу мүмкін болмады: $url ($error)';
+  }
+
+  @override
+  String qa_answer_from_supplier(String supplierName) {
+    return 'Жауап $supplierName';
+  }
+
+  @override
+  String ratings_count_parentheses(int count) {
+    return 'Бағалаулар ($count)';
+  }
+
+  @override
+  String ratings_count_colon(int count) {
+    return 'Бағалаулар: $count';
+  }
+
+  @override
+  String nutrition_calories_unit(String value) {
+    return '$value к';
+  }
+
+  @override
+  String nutrition_grams_unit(String value) {
+    return '$value г';
+  }
+
+  @override
+  String templates_sheet_rename_template(String name) {
+    return '$name үлгісінің атын өзгерту';
+  }
+
+  @override
+  String templates_sheet_delete_template(String name) {
+    return '$name үлгісін жою';
+  }
+
+  @override
+  String templates_sheet_add_to_cart_template(String name) {
+    return '$name үлгісін себетке қосу';
+  }
+
+  @override
+  String supplier_stats_days(String days) {
+    return '$days күн';
+  }
+
+  @override
+  String supplier_stats_units_sold(int count) {
+    return '$count дана сатылды';
+  }
+
+  @override
+  String supplier_stats_repeat_buyers(String percentage) {
+    return '$percentage% тұрақты';
+  }
+
+  @override
+  String supplier_stats_reviews(int count) {
+    return '$count пікір';
+  }
+
+  @override
+  String supplier_stats_order_prefix(String orderId) {
+    return 'Тапсырыс #$orderId';
+  }
+
+  @override
+  String wizard_error_price_max(String max) {
+    return 'Бағасы $max аспауы тиіс';
+  }
+
+  @override
+  String wizard_error_min_quantity_max(String max) {
+    return 'Ең аз мөлшері $max аспауы тиіс';
+  }
+
+  @override
+  String wizard_error_stock_max(String max) {
+    return 'Қоймадағы қалдық $max аспауы тиіс';
+  }
+
+  @override
+  String wizard_error_calories_max(String max) {
+    return 'Калория $max аспауы тиіс (NUMERIC(10,2) шектеуі)';
+  }
+
+  @override
+  String wizard_error_protein_max(String max) {
+    return 'Ақуыздар $max аспауы тиіс (NUMERIC(10,2) шектеуі)';
+  }
+
+  @override
+  String wizard_error_fat_max(String max) {
+    return 'Майлар $max аспауы тиіс (NUMERIC(10,2) шектеуі)';
+  }
+
+  @override
+  String wizard_error_carbs_max(String max) {
+    return 'Көмірсулар $max аспауы тиіс (NUMERIC(10,2) шектеуі)';
+  }
+
+  @override
+  String wizard_show_all_categories(int count) {
+    return 'Барлығын көрсету ($count)';
+  }
+
+  @override
+  String wizard_step_indicator(int current, int total) {
+    return '$current-қадам $total-дан';
+  }
+
+  @override
+  String supplier_products_stock_quantity(int count) {
+    return '$count дана';
+  }
+
+  @override
+  String supplier_products_min_quantity(int count) {
+    return '$count дана';
+  }
+
+  @override
+  String supplier_orders_order_number(String orderId) {
+    return 'Тапсырыс №$orderId';
+  }
+
+  @override
+  String supplier_orders_items_count(int count) {
+    return '$count поз.';
+  }
 }
