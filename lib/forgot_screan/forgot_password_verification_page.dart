@@ -1,3 +1,4 @@
+import '../services/localization/app_localizations.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -120,7 +121,7 @@ class _ForgotPasswordVerificationPageState
     final code = _pinController.text.trim();
     if (code.length != 6) {
       _errorController.add(ErrorAnimationType.shake);
-      _showMessage('Введите 6-значный код', MessageSeverity.warning);
+      _showMessage(AppLocalizations.current.getString('auto_vvedite_6znachnyy_kod'), MessageSeverity.warning);
       return;
     }
 
@@ -153,12 +154,12 @@ class _ForgotPasswordVerificationPageState
       } else {
         // Ошибка верификации
         final body = utf8.decode(response.bodyBytes);
-        final message = parseApiMessage(body, fallback: 'Ошибка сервера');
+        final message = parseApiMessage(body, fallback: AppLocalizations.current.getString('auto_oshibka_servera'));
         _showMessage(message, MessageSeverity.error);
       }
     } catch (e) {
       AppLogger.error('Error verifying reset code: $e', scope: 'auth');
-      _showMessage('Ошибка сети', MessageSeverity.error);
+      _showMessage(AppLocalizations.current.getString('auto_oshibka_seti'), MessageSeverity.error);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -198,7 +199,7 @@ class _ForgotPasswordVerificationPageState
         // Код отправлен повторно. Таймер крутим по cooldown'у, а не по TTL кода.
         await OtpCooldownStore.markRequested(widget.email, 'password_reset');
 
-        _showMessage('Код отправлен повторно', MessageSeverity.info);
+        _showMessage(AppLocalizations.current.getString('auto_kod_otpravlen_povtorno'), MessageSeverity.info);
 
         _remainingTimeNotifier.value = OtpCooldownStore.cooldown.inSeconds;
         _isButtonDisabledNotifier.value = true;
@@ -206,12 +207,12 @@ class _ForgotPasswordVerificationPageState
       } else {
         // Ошибка повторной отправки
         final body = utf8.decode(response.bodyBytes);
-        final message = parseApiMessage(body, fallback: 'Ошибка сервера');
+        final message = parseApiMessage(body, fallback: AppLocalizations.current.getString('auto_oshibka_servera'));
         _showMessage(message, MessageSeverity.error);
       }
     } catch (e) {
       AppLogger.error('Error resending reset code: $e', scope: 'auth');
-      _showMessage('Ошибка сети', MessageSeverity.error);
+      _showMessage(AppLocalizations.current.getString('auto_oshibka_seti'), MessageSeverity.error);
     }
   }
 
@@ -263,19 +264,19 @@ class _ForgotPasswordVerificationPageState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Восстановление пароля',
+                      AppLocalizations.current.getString('auto_vosstanovlenie_parolya'),
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
                     Text(
-                      'Мы отправили код на вашу почту',
+                      AppLocalizations.current.getString('auto_my_otpravili_kod_na_vashu_pochtu'),
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
                       widget.email,
                       style: TextStyle(
@@ -308,7 +309,7 @@ class _ForgotPasswordVerificationPageState
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'КОД',
+                            AppLocalizations.current.getString('auto_kod'),
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
@@ -336,7 +337,7 @@ class _ForgotPasswordVerificationPageState
                                   );
                                 },
                               ),
-                              const SizedBox(width: 4),
+                              SizedBox(width: 4),
                               ValueListenableBuilder<bool>(
                                 valueListenable: _isButtonDisabledNotifier,
                                 builder: (context, isDisabled, _) {
@@ -345,7 +346,7 @@ class _ForgotPasswordVerificationPageState
                                         ? null
                                         : _resendCode,
                                     child: Text(
-                                      'Отправить снова',
+                                      AppLocalizations.current.getString('auto_otpravit_snova'),
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
@@ -361,7 +362,7 @@ class _ForgotPasswordVerificationPageState
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
 
                       // ПОЛЯ ВВОДА КОДА
                       LayoutBuilder(
@@ -414,7 +415,7 @@ class _ForgotPasswordVerificationPageState
                           );
                         },
                       ),
-                      const SizedBox(height: 32),
+                      SizedBox(height: 32),
 
                       // КНОПКА ПОДТВЕРЖДЕНИЯ
                       SizedBox(
@@ -435,7 +436,7 @@ class _ForgotPasswordVerificationPageState
                                   color: Colors.white,
                                 )
                               : Text(
-                                  'ПРОДОЛЖИТЬ',
+                                  AppLocalizations.current.getString('auto_prodolzhit'),
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,

@@ -1,3 +1,4 @@
+﻿import 'package:flutter_project/services/localization/app_localizations.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class _ModerationPageState extends State<ModerationPage> {
       setState(() => _products = products);
     } catch (e) {
       if (!mounted) return;
-      setState(() => _error = 'Не удалось загрузить товары');
+      setState(() => _error = AppLocalizations.current.getString('auto_ne_udalos_zagruzit_tovary'));
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -69,11 +70,11 @@ class _ModerationPageState extends State<ModerationPage> {
   String _statusLabel(String status) {
     switch (status) {
       case 'approved':
-        return 'Одобрено';
+        return AppLocalizations.current.getString('auto_odobreno');
       case 'rejected':
-        return 'Отклонено';
+        return AppLocalizations.current.getString('auto_otkloneno');
       default:
-        return 'На модерации';
+        return AppLocalizations.current.getString('auto_na_moderatsii');
     }
   }
 
@@ -91,7 +92,7 @@ class _ModerationPageState extends State<ModerationPage> {
   Future<void> _updateStatus(SupplierProduct product, String status) async {
     final requireComment = status == 'rejected';
     final comment = await _askComment(
-      title: status == 'approved' ? 'Одобрить товар' : 'Отклонить товар',
+      title: status == 'approved' ? AppLocalizations.current.getString('auto_odobrit_tovar') : AppLocalizations.current.getString('auto_otklonit_tovar'),
       requireComment: requireComment,
     );
 
@@ -115,10 +116,10 @@ class _ModerationPageState extends State<ModerationPage> {
       if (!mounted) return;
       await _loadProducts();
       if (!mounted) return;
-      _showSnack(status == 'approved' ? 'Товар одобрен' : 'Товар отклонен');
+      _showSnack(status == 'approved' ? AppLocalizations.current.getString('auto_tovar_odobren') : AppLocalizations.current.getString('auto_tovar_otklonen'));
     } catch (e) {
       _showSnack(
-        _extractErrorMessage(e, fallback: 'Ошибка при обновлении статуса'),
+        _extractErrorMessage(e, fallback: AppLocalizations.current.getString('auto_oshibka_pri_obnovlenii_statusa')),
         severity: MessageSeverity.error,
       );
     } finally {
@@ -132,7 +133,7 @@ class _ModerationPageState extends State<ModerationPage> {
     final moderatorId = AuthStorage.userId ?? 0;
     if (moderatorId <= 0) {
       _showSnack(
-        'Не удалось определить модератора',
+        AppLocalizations.current.getString('auto_ne_udalos_opredelit_moderatora'),
         severity: MessageSeverity.error,
       );
       return;
@@ -142,10 +143,10 @@ class _ModerationPageState extends State<ModerationPage> {
     }
 
     final reason = await _askComment(
-      title: 'Удалить товар за нарушение',
+      title: AppLocalizations.current.getString('auto_udalit_tovar_za_narushenie'),
       requireComment: true,
-      hintText: 'Причина удаления для поставщика',
-      submitLabel: 'Удалить',
+      hintText: AppLocalizations.current.getString('auto_prichina_udaleniya_dlya_postavschik'),
+      submitLabel: AppLocalizations.current.getString('auto_udalit'),
     );
     if (!mounted || reason == null) {
       return;
@@ -169,12 +170,12 @@ class _ModerationPageState extends State<ModerationPage> {
       final supplierNotified = result['supplierNotified'] == true;
       _showSnack(
         supplierNotified
-            ? 'Товар удален, поставщик уведомлен'
-            : 'Товар удален',
+            ? AppLocalizations.current.getString('auto_tovar_udalen_postavschik_uvedomlen')
+            : AppLocalizations.current.getString('auto_tovar_udalen'),
       );
     } catch (e) {
       _showSnack(
-        _extractErrorMessage(e, fallback: 'Не удалось удалить товар'),
+        _extractErrorMessage(e, fallback: AppLocalizations.current.getString('auto_ne_udalos_udalit_tovar')),
         severity: MessageSeverity.error,
       );
     } finally {
@@ -188,15 +189,16 @@ class _ModerationPageState extends State<ModerationPage> {
     required String title,
     required bool requireComment,
     String? hintText,
-    String submitLabel = 'Отправить',
+    String? submitLabel,
   }) async {
+    final effectiveSubmitLabel = submitLabel ?? AppLocalizations.current.getString('auto_otpravit');
     var draft = '';
     return showDialog<String>(
       context: context,
       builder: (dialogContext) {
         final colorScheme = Theme.of(dialogContext).colorScheme;
         final hint =
-            hintText ?? (requireComment ? 'Причина отклонения' : 'Комментарий');
+            hintText ?? (requireComment ? AppLocalizations.current.getString('auto_prichina_otkloneniya') : AppLocalizations.current.getString('auto_kommentariy'));
         return StatefulBuilder(
           builder: (context, setDialogState) {
             final normalizedDraft = draft.trim();
@@ -268,7 +270,7 @@ class _ModerationPageState extends State<ModerationPage> {
                   onPressed: canSubmit
                       ? () => Navigator.of(dialogContext).pop(normalizedDraft)
                       : null,
-                  child: Text(submitLabel),
+                  child: Text(effectiveSubmitLabel),
                 ),
               ],
             );
@@ -312,12 +314,12 @@ class _ModerationPageState extends State<ModerationPage> {
   String _quantityLabel(SupplierProduct product) {
     final maxQuantity = product.maxQuantity;
     if (maxQuantity == null || maxQuantity <= product.minQuantity) {
-      return 'от ${product.minQuantity} шт.';
+      return 'РѕС‚ ${product.minQuantity} С€С‚.';
     }
-    return '${product.minQuantity}-$maxQuantity шт.';
+    return '${product.minQuantity}-$maxQuantity С€С‚.';
   }
 
-  // schedule:Пн,Вт,Пт 14:00 → «Пн, Вт, Пт · 14:00», legacy-строки отдаём как есть.
+  // schedule:РџРЅ,Р’С‚,РџС‚ 14:00 в†’ В«РџРЅ, Р’С‚, РџС‚ В· 14:00В», legacy-СЃС‚СЂРѕРєРё РѕС‚РґР°С‘Рј РєР°Рє РµСЃС‚СЊ.
   String _deliveryDisplay(SupplierProduct product) {
     final raw = product.deliveryBadge.trim().isNotEmpty
         ? product.deliveryBadge.trim()
@@ -328,7 +330,7 @@ class _ModerationPageState extends State<ModerationPage> {
     final summary = formatScheduleSummary(schedule);
     final time = formatDeliveryTimeShort(schedule);
     if (time == null || time.isEmpty) return summary;
-    return '$summary · $time';
+    return '$summary В· $time';
   }
 
   void _openAboutSheet(SupplierProduct product) {
@@ -339,13 +341,13 @@ class _ModerationPageState extends State<ModerationPage> {
     );
   }
 
-  // Каждая категория - свой чип. Иконка только у первого, чтобы лента не пестрила.
+  // РљР°Р¶РґР°СЏ РєР°С‚РµРіРѕСЂРёСЏ - СЃРІРѕР№ С‡РёРї. РРєРѕРЅРєР° С‚РѕР»СЊРєРѕ Сѓ РїРµСЂРІРѕРіРѕ, С‡С‚РѕР±С‹ Р»РµРЅС‚Р° РЅРµ РїРµСЃС‚СЂРёР»Р°.
   List<Widget> _buildCategoryPills(SupplierProduct product) {
     if (product.categories.isEmpty) {
-      return const [
+      return [
         _ModerationInfoPill(
           icon: Icons.category_outlined,
-          text: 'Без категории',
+          text: AppLocalizations.current.getString('auto_bez_kategorii'),
         ),
       ];
     }
@@ -395,8 +397,8 @@ class _ModerationPageState extends State<ModerationPage> {
         .toList();
   }
 
-  // Дебаунсим ввод 300мс - иначе setState и пересчёт фильтра дёргаются на каждый
-  // символ при быстром наборе.
+  // Р”РµР±Р°СѓРЅСЃРёРј РІРІРѕРґ 300РјСЃ - РёРЅР°С‡Рµ setState Рё РїРµСЂРµСЃС‡С‘С‚ С„РёР»СЊС‚СЂР° РґС‘СЂРіР°СЋС‚СЃСЏ РЅР° РєР°Р¶РґС‹Р№
+  // СЃРёРјРІРѕР» РїСЂРё Р±С‹СЃС‚СЂРѕРј РЅР°Р±РѕСЂРµ.
   void _onSearchChanged(String value) {
     _searchDebounce?.cancel();
     _searchDebounce = Timer(_searchDebounceDuration, () {
@@ -437,7 +439,7 @@ class _ModerationPageState extends State<ModerationPage> {
             children: [
               Expanded(
                 child: _StatusChip(
-                  label: 'На проверке',
+                  label: AppLocalizations.current.getString('auto_na_proverke'),
                   isActive: _statusFilter == 'pending',
                   onTap: () {
                     setState(() => _statusFilter = 'pending');
@@ -448,7 +450,7 @@ class _ModerationPageState extends State<ModerationPage> {
               const SizedBox(width: 8),
               Expanded(
                 child: _StatusChip(
-                  label: 'Одобрено',
+                  label: AppLocalizations.current.getString('auto_odobreno'),
                   isActive: _statusFilter == 'approved',
                   onTap: () {
                     setState(() => _statusFilter = 'approved');
@@ -459,7 +461,7 @@ class _ModerationPageState extends State<ModerationPage> {
               const SizedBox(width: 8),
               Expanded(
                 child: _StatusChip(
-                  label: 'Отклонено',
+                  label: AppLocalizations.current.getString('auto_otkloneno'),
                   isActive: _statusFilter == 'rejected',
                   onTap: () {
                     setState(() => _statusFilter = 'rejected');
@@ -470,7 +472,7 @@ class _ModerationPageState extends State<ModerationPage> {
               const SizedBox(width: 8),
               Expanded(
                 child: _StatusChip(
-                  label: 'Все',
+                  label: AppLocalizations.current.getString('auto_vse'),
                   isActive: _statusFilter == 'all',
                   onTap: () {
                     setState(() => _statusFilter = 'all');
@@ -499,7 +501,7 @@ class _ModerationPageState extends State<ModerationPage> {
                 onChanged: _onSearchChanged,
                 decoration: InputDecoration(
                   isDense: true,
-                  hintText: 'Поиск: товар, поставщик, категория',
+                  hintText: AppLocalizations.current.getString('auto_poisk_tovar_postavschik_kategoriya'),
                   hintStyle: TextStyle(
                     color: colorScheme.onSurfaceVariant.withValues(alpha: 0.88),
                   ),
@@ -514,7 +516,7 @@ class _ModerationPageState extends State<ModerationPage> {
                   suffixIcon: _searchQuery.trim().isEmpty
                       ? null
                       : IconButton(
-                          tooltip: 'Очистить',
+                          tooltip: AppLocalizations.current.getString('auto_ochistit'),
                           onPressed: () {
                             _searchDebounce?.cancel();
                             _searchController.clear();
@@ -579,12 +581,12 @@ class _ModerationPageState extends State<ModerationPage> {
                 : RefreshIndicator(
                     onRefresh: _loadProducts,
                     child: _products.isEmpty
-                        ? const ModeratorEmptyState(message: 'Нет заявок')
+                        ? ModeratorEmptyState(message: AppLocalizations.current.getString('auto_net_zayavok'))
                         : visibleProducts.isEmpty
                         ? ModeratorEmptyState(
                             message: hasSearchQuery
-                                ? 'По вашему запросу ничего не найдено'
-                                : 'Нет подходящих товаров',
+                                ? AppLocalizations.current.getString('auto_po_vashemu_zaprosu_nichego_ne_nayde')
+                                : AppLocalizations.current.getString('auto_net_podhodyaschih_tovarov'),
                           )
                         : ListView.separated(
                             padding: const EdgeInsets.fromLTRB(12, 8, 12, 14),
@@ -752,7 +754,7 @@ class _ModerationPageState extends State<ModerationPage> {
                                             _ModerationInfoPill(
                                               icon: Icons.inventory_2_outlined,
                                               text:
-                                                  'Остаток: ${product.stockQuantity} шт.',
+                                                  'РћСЃС‚Р°С‚РѕРє: ${product.stockQuantity} С€С‚.',
                                             ),
                                             if (product.deliveryBadge
                                                     .trim()
@@ -784,22 +786,27 @@ class _ModerationPageState extends State<ModerationPage> {
                                           child: Column(
                                             children: [
                                               _ModerationMetricRow(
-                                                label: 'Цена',
+                                                label: AppLocalizations.current.getString('auto_tsena'),
                                                 value:
-                                                    '${product.pricePerUnit} ₸ за единицу',
+                                                    '${product.pricePerUnit} в‚ё Р·Р° РµРґРёРЅРёС†Сѓ',
                                               ),
                                               const SizedBox(height: 8),
                                               _ModerationMetricRow(
-                                                label: 'Партия',
+                                                label: AppLocalizations.current.getString('auto_partiya'),
                                                 value: _quantityLabel(product),
                                               ),
                                             ],
                                           ),
                                         ),
                                         const SizedBox(height: 12),
-                                        _ModerationAboutTile(
-                                          product: product,
+                                        InkWell(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
                                           onTap: () => _openAboutSheet(product),
+                                          child: _ModerationAboutTile(
+                                            product: product,
+                                            onTap: () => _openAboutSheet(product),
+                                          ),
                                         ),
                                         if (product
                                             .moderationComment
@@ -823,7 +830,7 @@ class _ModerationPageState extends State<ModerationPage> {
                                               ),
                                             ),
                                             child: Text(
-                                              'Комментарий модерации: ${product.moderationComment}',
+                                              'РљРѕРјРјРµРЅС‚Р°СЂРёР№ РјРѕРґРµСЂР°С†РёРё: ${product.moderationComment}',
                                               style: TextStyle(
                                                 color: colorScheme
                                                     .onSurfaceVariant,
@@ -868,14 +875,14 @@ class _ModerationPageState extends State<ModerationPage> {
                                                       size: 18,
                                                     ),
                                               label: const Text(
-                                                'Удалить за нарушение',
+                                                'РЈРґР°Р»РёС‚СЊ Р·Р° РЅР°СЂСѓС€РµРЅРёРµ',
                                               ),
                                             );
 
-                                            // На этапе pending кнопку «Удалить за нарушение»
-                                            // не показываем - для отказа есть «Отклонить»,
-                                            // удаление имеет смысл только для уже опубликованных
-                                            // или ранее отклонённых товаров.
+                                            // РќР° СЌС‚Р°РїРµ pending РєРЅРѕРїРєСѓ В«РЈРґР°Р»РёС‚СЊ Р·Р° РЅР°СЂСѓС€РµРЅРёРµВ»
+                                            // РЅРµ РїРѕРєР°Р·С‹РІР°РµРј - РґР»СЏ РѕС‚РєР°Р·Р° РµСЃС‚СЊ В«РћС‚РєР»РѕРЅРёС‚СЊВ»,
+                                            // СѓРґР°Р»РµРЅРёРµ РёРјРµРµС‚ СЃРјС‹СЃР» С‚РѕР»СЊРєРѕ РґР»СЏ СѓР¶Рµ РѕРїСѓР±Р»РёРєРѕРІР°РЅРЅС‹С…
+                                            // РёР»Рё СЂР°РЅРµРµ РѕС‚РєР»РѕРЅС‘РЅРЅС‹С… С‚РѕРІР°СЂРѕРІ.
                                             if (product.moderationStatus !=
                                                 'pending') {
                                               return SizedBox(
@@ -923,7 +930,7 @@ class _ModerationPageState extends State<ModerationPage> {
                                                     size: 18,
                                                   ),
                                                   label: const Text(
-                                                    'Отклонить',
+                                                    'РћС‚РєР»РѕРЅРёС‚СЊ',
                                                   ),
                                                 );
 
@@ -1094,7 +1101,7 @@ class _ModerationMetricRow extends StatelessWidget {
   }
 }
 
-// Плашка-вход в bottom sheet с характеристиками и описанием.
+// РџР»Р°С€РєР°-РІС…РѕРґ РІ bottom sheet СЃ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєР°РјРё Рё РѕРїРёСЃР°РЅРёРµРј.
 class _ModerationAboutTile extends StatelessWidget {
   const _ModerationAboutTile({required this.product, required this.onTap});
 
@@ -1125,7 +1132,7 @@ class _ModerationAboutTile extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'О товаре',
+                    'Рћ С‚РѕРІР°СЂРµ',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -1151,7 +1158,7 @@ class _ModerationAboutTile extends StatelessWidget {
             ],
             const SizedBox(height: 8),
             Text(
-              'Подробнее',
+              'РџРѕРґСЂРѕР±РЅРµРµ',
               style: TextStyle(
                 fontSize: 13,
                 color: palette.accent,
@@ -1173,11 +1180,11 @@ class _ModerationAboutTile extends StatelessWidget {
         if (item.key.trim().isEmpty) {
           parts.add(item.value);
         } else {
-          parts.add('${item.key} — ${item.value}');
+          parts.add('${item.key} вЂ” ${item.value}');
         }
         if (parts.length >= 3) break outer;
       }
     }
-    return parts.join(' · ');
+    return parts.join(' В· ');
   }
 }

@@ -1,3 +1,4 @@
+import '../services/localization/app_localizations.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -82,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: _labelStyle),
-        const SizedBox(height: 5),
+        SizedBox(height: 5),
         field,
         ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 18),
@@ -97,7 +98,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         size: 14,
                         color: _colorScheme.error,
                       ),
-                      const SizedBox(width: 4),
+                      SizedBox(width: 4),
                       Expanded(
                         child: Text(
                           errorText,
@@ -181,10 +182,10 @@ class _RegisterPageState extends State<RegisterPage> {
   String? _validateName(String value) {
     final name = value.trim();
     if (name.isEmpty) {
-      return 'Введите имя';
+      return AppLocalizations.current.getString('auto_vvedite_imya');
     }
     if (name.length < 2) {
-      return 'Имя должно быть не короче 2 символов';
+      return AppLocalizations.current.getString('auto_imya_dolzhno_byt_ne_koroche_2_simvo');
     }
     return null;
   }
@@ -192,10 +193,10 @@ class _RegisterPageState extends State<RegisterPage> {
   String? _validateEmail(String value) {
     final email = value.trim();
     if (email.isEmpty) {
-      return 'Введите почту';
+      return AppLocalizations.current.getString('auto_vvedite_pochtu');
     }
     if (!_emailRegex.hasMatch(email)) {
-      return 'Введите корректную почту';
+      return AppLocalizations.current.getString('auto_vvedite_korrektnuyu_pochtu');
     }
     if (_lastCheckedEmail == email && _emailAvailabilityError != null) {
       return _emailAvailabilityError;
@@ -206,20 +207,20 @@ class _RegisterPageState extends State<RegisterPage> {
   String? _validatePhone(String value) {
     final digits = value.replaceAll(_nonDigitRegExp, '');
     if (digits.isEmpty) {
-      return 'Введите номер телефона';
+      return AppLocalizations.current.getString('auto_vvedite_nomer_telefona');
     }
     if (digits.length != 11) {
-      return 'Номер должен быть в формате +7-000-000-0000';
+      return AppLocalizations.current.getString('auto_nomer_dolzhen_byt_v_formate_7_000_0');
     }
     if (!digits.startsWith('7')) {
-      return 'Номер должен начинаться с +7';
+      return AppLocalizations.current.getString('auto_nomer_dolzhen_nachinatsya_s_7');
     }
     return null;
   }
 
   String? _validateSupplierName(String value) {
     if (value.trim().isEmpty) {
-      return 'Введите название компании';
+      return AppLocalizations.current.getString('auto_vvedite_nazvanie_kompanii');
     }
     return null;
   }
@@ -227,10 +228,10 @@ class _RegisterPageState extends State<RegisterPage> {
   String? _validatePassword(String value) {
     final password = value.trim();
     if (password.isEmpty) {
-      return 'Введите пароль';
+      return AppLocalizations.current.getString('auto_vvedite_parol');
     }
     if (password.length < 6) {
-      return 'Пароль должен быть не короче 6 символов';
+      return AppLocalizations.current.getString('auto_parol_dolzhen_byt_ne_koroche_6_simv');
     }
     return null;
   }
@@ -238,10 +239,10 @@ class _RegisterPageState extends State<RegisterPage> {
   String? _validateConfirmPassword(String value) {
     final confirm = value.trim();
     if (confirm.isEmpty) {
-      return 'Повторите пароль';
+      return AppLocalizations.current.getString('auto_povtorite_parol');
     }
     if (confirm != _passwordController.text.trim()) {
-      return 'Пароли не совпадают';
+      return AppLocalizations.current.getString('auto_paroli_ne_sovpadayut');
     }
     return null;
   }
@@ -335,7 +336,7 @@ class _RegisterPageState extends State<RegisterPage> {
         final body = utf8.decode(response.bodyBytes);
         final decoded = jsonDecode(body);
         if (decoded is Map && decoded['available'] == false) {
-          availabilityError = 'Email уже зарегистрирован';
+          availabilityError = AppLocalizations.current.getString('auto_email_uzhe_zaregistrirovan');
         }
       }
 
@@ -375,7 +376,7 @@ class _RegisterPageState extends State<RegisterPage> {
       _scheduleEmailAvailabilityCheck();
     }
 
-    // Пока поле не "тронуто" (фокус с него не уходил) - не зажигаем ошибку
+    // Пока поле не AppLocalizations.current.getString('auto_tronuto') (фокус с него не уходил) - не зажигаем ошибку
     // во время набора. Но если ошибка уже показана, гасим её сразу,
     // как только ввод стал валидным.
     if (!_touchedFields.contains(field) && _fieldErrors[field] == null) {
@@ -410,7 +411,7 @@ class _RegisterPageState extends State<RegisterPage> {
     if (messages.isEmpty) {
       _clearTopMessage();
     } else {
-      _showTopError('Проверьте заполнение полей', messages);
+      _showTopError(AppLocalizations.current.getString('auto_proverte_zapolnenie_poley'), messages);
     }
 
     return messages.isEmpty;
@@ -452,7 +453,7 @@ class _RegisterPageState extends State<RegisterPage> {
     if (messages.isEmpty) {
       _clearTopMessage();
     } else {
-      _showTopError('Проверьте заполнение полей', messages);
+      _showTopError(AppLocalizations.current.getString('auto_proverte_zapolnenie_poley'), messages);
     }
 
     return messages.isEmpty;
@@ -474,16 +475,16 @@ class _RegisterPageState extends State<RegisterPage> {
   // список по ширине поля с плавной анимацией.
   Widget _buildRoleField() {
     return _buildFieldWithError(
-      label: 'РОЛЬ',
+      label: AppLocalizations.current.getString('auto_rol'),
       errorText: null,
       field: AnimatedSelectField<String>(
         value: _role,
         decoration: _inputDecoration(hintText: '', hasError: false),
         textStyle: TextStyle(color: _colorScheme.onSurface, fontSize: 15),
         onChanged: _selectRole,
-        options: const [
-          SelectOption('buyer', 'Покупатель'),
-          SelectOption('supplier', 'Поставщик'),
+        options: [
+          SelectOption('buyer', AppLocalizations.current.getString('auto_pokupatel')),
+          SelectOption('supplier', AppLocalizations.current.getString('auto_postavshchik')),
         ],
       ),
     );
@@ -494,7 +495,7 @@ class _RegisterPageState extends State<RegisterPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildFieldWithError(
-          label: 'ИМЯ',
+          label: AppLocalizations.current.getString('auto_imya'),
           errorText: _fieldErrors['name'],
           field: TextField(
             controller: _nameController,
@@ -503,14 +504,14 @@ class _RegisterPageState extends State<RegisterPage> {
             textCapitalization: TextCapitalization.words,
             onChanged: (_) => _onFieldChanged('name'),
             decoration: _inputDecoration(
-              hintText: 'Введите имя',
+              hintText: AppLocalizations.current.getString('auto_vvedite_imya'),
               hasError: _fieldErrors['name'] != null,
             ),
           ),
         ),
         SizedBox(height: fieldGap),
         _buildFieldWithError(
-          label: 'ПОЧТА',
+          label: AppLocalizations.current.getString('auto_pochta'),
           errorText: _fieldErrors['email'],
           field: TextField(
             controller: _emailController,
@@ -525,7 +526,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         SizedBox(height: fieldGap),
         _buildFieldWithError(
-          label: 'НОМЕР ТЕЛЕФОНА',
+          label: AppLocalizations.current.getString('auto_nomer_telefona'),
           errorText: _fieldErrors['phone'],
           field: TextField(
             controller: _phoneController,
@@ -555,7 +556,7 @@ class _RegisterPageState extends State<RegisterPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildFieldWithError(
-            label: 'НАЗВАНИЕ КОМПАНИИ',
+            label: AppLocalizations.current.getString('auto_nazvanie_kompanii'),
             errorText: _fieldErrors['supplierName'],
             field: TextField(
               controller: _supplierNameController,
@@ -564,7 +565,7 @@ class _RegisterPageState extends State<RegisterPage> {
               textCapitalization: TextCapitalization.words,
               onChanged: (_) => _onFieldChanged('supplierName'),
               decoration: _inputDecoration(
-                hintText: 'Например, ТОО Склад Манса',
+                hintText: AppLocalizations.current.getString('auto_naprimer_too_sklad_mansa'),
                 hasError: _fieldErrors['supplierName'] != null,
               ),
             ),
@@ -576,7 +577,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     return Text(
-      'Дополнительные данные не требуются.',
+      AppLocalizations.current.getString('auto_dopolnitelnye_dannye_ne_trebuyutsya'),
       style: TextStyle(color: _mutedText, fontSize: 14),
     );
   }
@@ -584,7 +585,7 @@ class _RegisterPageState extends State<RegisterPage> {
   List<Widget> _buildPasswordFields(double fieldGap) {
     return [
       _buildFieldWithError(
-        label: 'ПАРОЛЬ',
+        label: AppLocalizations.current.getString('auto_parol'),
         errorText: _fieldErrors['password'],
         field: TextField(
           controller: _passwordController,
@@ -613,7 +614,7 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
       SizedBox(height: fieldGap),
       _buildFieldWithError(
-        label: 'ПОВТОРИТЕ ПАРОЛЬ',
+        label: AppLocalizations.current.getString('auto_povtorite_parol_1'),
         errorText: _fieldErrors['confirmPassword'],
         field: TextField(
           controller: _confirmPasswordController,
@@ -652,7 +653,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    // На потере фокуса помечаем поле как "тронутое" и валидируем -
+    // На потере фокуса помечаем поле как AppLocalizations.current.getString('auto_tronutoe') и валидируем -
     // так ошибка появляется когда пользователь ушёл с поля, а не на каждой клавише.
     _focusNodes.forEach((field, node) {
       node.addListener(() {
@@ -694,21 +695,21 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String get _stepTitle {
     if (_role == 'supplier') {
-      return _step == 0 ? 'Данные' : 'Компания и пароль';
+      return _step == 0 ? AppLocalizations.current.getString('auto_dannye') : AppLocalizations.current.getString('auto_kompaniya_i_parol');
     }
-    return _step == 0 ? 'Данные' : 'Пароль';
+    return _step == 0 ? AppLocalizations.current.getString('auto_dannye') : AppLocalizations.current.getString('auto_parol_1');
   }
 
   String get _stepIndicator {
     final visibleStep = _role == 'buyer' && _step == 2 ? 1 : _step;
-    return 'Шаг ${visibleStep + 1} из 2';
+    return AppLocalizations.current.getString('auto_shag_visiblestep_1_iz_2', params: {'step': visibleStep + 1});
   }
 
   String get _primaryActionLabel {
     if (_isSubmitStep) {
-      return 'ЗАРЕГИСТРИРОВАТЬСЯ';
+      return AppLocalizations.current.getString('auto_zaregistrirovatsya');
     }
-    return 'ДАЛЕЕ';
+    return AppLocalizations.current.getString('auto_dalee');
   }
 
   void _goNext() {
@@ -791,7 +792,7 @@ class _RegisterPageState extends State<RegisterPage> {
           );
           await OtpCooldownStore.markRequested(email, 'register');
           _showTopSuccess(
-            responseData['message']?.toString() ?? 'Регистрация прошла успешно',
+            responseData['message']?.toString() ?? AppLocalizations.current.getString('auto_registratsiya_proshla_uspeshno'),
           );
           await Future<void>.delayed(const Duration(milliseconds: 600));
           if (!mounted) return;
@@ -807,8 +808,8 @@ class _RegisterPageState extends State<RegisterPage> {
             scope: 'auth',
           );
           final message =
-              responseData['message']?.toString() ?? 'Сервер вернул ошибку';
-          _showTopError('Не удалось завершить регистрацию', [message]);
+              responseData['message']?.toString() ?? AppLocalizations.current.getString('auto_server_vernul_oshibku');
+          _showTopError(AppLocalizations.current.getString('auto_ne_udalos_zavershit_registratsiyu'), [message]);
         }
       } catch (_) {
         AppLogger.warning(
@@ -816,9 +817,9 @@ class _RegisterPageState extends State<RegisterPage> {
           scope: 'auth',
         );
         final cleanMessage = responseBody.trim().isEmpty
-            ? 'Сервер вернул ошибку. Попробуйте снова.'
+            ? AppLocalizations.current.getString('auto_server_vernul_oshibku_poprobuyte_sn')
             : responseBody.trim();
-        _showTopError('Не удалось завершить регистрацию', [cleanMessage]);
+        _showTopError(AppLocalizations.current.getString('auto_ne_udalos_zavershit_registratsiyu'), [cleanMessage]);
       }
     } catch (e, st) {
       AppLogger.error(
@@ -828,7 +829,7 @@ class _RegisterPageState extends State<RegisterPage> {
         stackTrace: st,
       );
       if (mounted) {
-        _showTopError('Ошибка подключения', ['$e']);
+        _showTopError(AppLocalizations.current.getString('auto_oshibka_podklyucheniya'), ['$e']);
       }
     } finally {
       if (mounted) {
@@ -942,7 +943,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Регистрация',
+                      AppLocalizations.current.getString('auto_registratsiya'),
                       style: TextStyle(
                         fontSize: headerTitleSize,
                         fontWeight: FontWeight.bold,
@@ -951,7 +952,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     SizedBox(height: sectionGap),
                     Text(
-                      'Зарегистрируйтесь чтобы начать',
+                      AppLocalizations.current.getString('auto_zaregistriruytes_chtoby_nachat'),
                       style: TextStyle(
                         fontSize: headerSubtitleSize,
                         color: Colors.white,
@@ -1031,21 +1032,21 @@ class _RegisterPageState extends State<RegisterPage> {
                                 child: OutlinedButton(
                                   onPressed: _step == 0 ? null : _goBack,
                                   style: backButtonStyle,
-                                  child: const FittedBox(
+                                  child: FittedBox(
                                     fit: BoxFit.scaleDown,
-                                    child: Text('НАЗАД'),
+                                    child: Text(AppLocalizations.current.getString('auto_nazad_1')),
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 10),
+                            SizedBox(width: 10),
                             Expanded(
                               child: SizedBox(
                                 child: ElevatedButton(
                                   onPressed: _isLoading ? null : _goNext,
                                   style: primaryButtonStyle,
                                   child: _isSubmitStep && _isLoading
-                                      ? const SizedBox(
+                                      ? SizedBox(
                                           width: 18,
                                           height: 18,
                                           child: CircularProgressIndicator(

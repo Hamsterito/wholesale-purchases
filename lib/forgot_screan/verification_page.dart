@@ -1,3 +1,4 @@
+import '../services/localization/app_localizations.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -122,7 +123,7 @@ class _VerificationPageState extends State<VerificationPage> {
     if (code.length != 6) {
       AppLogger.warning('Invalid code length: $code', scope: 'auth');
       _errorController.add(ErrorAnimationType.shake);
-      _showMessage('Введите 6-значный код', MessageSeverity.warning);
+      _showMessage(AppLocalizations.current.getString('auto_vvedite_6znachnyy_kod'), MessageSeverity.warning);
       return;
     }
 
@@ -141,7 +142,7 @@ class _VerificationPageState extends State<VerificationPage> {
       if (response.statusCode == 200) {
         await OtpCooldownStore.clear(widget.email, 'register');
         _showMessage(
-          'Email подтверждён. Теперь можно войти.',
+          AppLocalizations.current.getString('auto_email_podtverzhdn_teper_mozhno_voyt'),
           MessageSeverity.info,
         );
         await Future<void>.delayed(const Duration(milliseconds: 600));
@@ -153,7 +154,7 @@ class _VerificationPageState extends State<VerificationPage> {
       }
     } catch (e) {
       AppLogger.error('Error confirming code: $e', scope: 'auth');
-      _showMessage('Ошибка сети при подтверждении', MessageSeverity.error);
+      _showMessage(AppLocalizations.current.getString('auto_oshibka_seti_pri_podtverzhdenii'), MessageSeverity.error);
     }
   }
 
@@ -183,7 +184,7 @@ class _VerificationPageState extends State<VerificationPage> {
       if (!mounted) return;
       if (response.statusCode == 200) {
         await OtpCooldownStore.markRequested(widget.email, 'register');
-        _showMessage('Код отправлен повторно', MessageSeverity.info);
+        _showMessage(AppLocalizations.current.getString('auto_kod_otpravlen_povtorno'), MessageSeverity.info);
         _remainingTimeNotifier.value = 60;
         _startTimer();
       } else {
@@ -192,7 +193,7 @@ class _VerificationPageState extends State<VerificationPage> {
       }
     } catch (e) {
       AppLogger.error('Error resending code: $e', scope: 'auth');
-      _showMessage('Ошибка сети при повторной отправке', MessageSeverity.error);
+      _showMessage(AppLocalizations.current.getString('auto_oshibka_seti_pri_povtornoy_otpravke'), MessageSeverity.error);
     }
   }
 
@@ -244,19 +245,19 @@ class _VerificationPageState extends State<VerificationPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Верификация',
+                      AppLocalizations.current.getString('auto_verifikatsiya'),
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
                     Text(
-                      'Мы отправили код на вашу почту',
+                      AppLocalizations.current.getString('auto_my_otpravili_kod_na_vashu_pochtu'),
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
                       widget.email,
                       style: TextStyle(
@@ -289,7 +290,7 @@ class _VerificationPageState extends State<VerificationPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'КОД',
+                            AppLocalizations.current.getString('auto_kod'),
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
@@ -317,7 +318,7 @@ class _VerificationPageState extends State<VerificationPage> {
                                   );
                                 },
                               ),
-                              const SizedBox(width: 4),
+                              SizedBox(width: 4),
                               ValueListenableBuilder<bool>(
                                 valueListenable: _isButtonDisabledNotifier,
                                 builder: (context, isDisabled, _) {
@@ -328,7 +329,7 @@ class _VerificationPageState extends State<VerificationPage> {
                                             _resendCode();
                                           },
                                     child: Text(
-                                      'Отправить снова',
+                                      AppLocalizations.current.getString('auto_otpravit_snova'),
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
@@ -344,7 +345,7 @@ class _VerificationPageState extends State<VerificationPage> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
 
                       // ПОЛЯ ВВОДА КОДА
                       LayoutBuilder(
@@ -397,7 +398,7 @@ class _VerificationPageState extends State<VerificationPage> {
                           );
                         },
                       ),
-                      const SizedBox(height: 32),
+                      SizedBox(height: 32),
 
                       // КНОПКА ПОДТВЕРЖДЕНИЯ
                       SizedBox(
@@ -414,7 +415,7 @@ class _VerificationPageState extends State<VerificationPage> {
                             ),
                           ),
                           child: Text(
-                            'Подтвердить',
+                            AppLocalizations.current.getString('auto_podtverdit'),
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,

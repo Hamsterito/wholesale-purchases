@@ -1,3 +1,4 @@
+import 'package:flutter_project/services/localization/app_localizations.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps
 import 'dart:convert';
 import '../../models/supplier_stats.dart';
@@ -28,10 +29,10 @@ class StatisticsCacheService {
         '${_cacheTimestampKeyPrefix}summary_$userId',
         DateTime.now().millisecondsSinceEpoch,
       );
-      AppLogger.info('Сводка статистики закэширована', scope: 'cache');
+      AppLogger.info(AppLocalizations.current.getString('auto_svodka_statistiki_zakeshirovana'), scope: 'cache');
     } catch (e) {
       AppLogger.error(
-        'Ошибка при кэшировании сводки',
+        AppLocalizations.current.getString('auto_oshibka_pri_keshirovanii_svodki'),
         scope: 'cache',
         error: e,
       );
@@ -65,7 +66,7 @@ class StatisticsCacheService {
       return SupplierStatsSummary.fromJson(data);
     } catch (e) {
       AppLogger.error(
-        'Ошибка при получении кэша сводки',
+        AppLocalizations.current.getString('auto_oshibka_pri_poluchenii_kesha_svodki'),
         scope: 'cache',
         error: e,
       );
@@ -83,10 +84,10 @@ class StatisticsCacheService {
         '${_cacheTimestampKeyPrefix}ai_summary_$userId',
         DateTime.now().millisecondsSinceEpoch,
       );
-      AppLogger.info('AI резюме закэшировано', scope: 'cache');
+      AppLogger.info(AppLocalizations.current.getString('auto_ai_rezyume_zakeshirovano'), scope: 'cache');
     } catch (e) {
       AppLogger.error(
-        'Ошибка при кэшировании AI резюме',
+        AppLocalizations.current.getString('auto_oshibka_pri_keshirovanii_ai_rezyume'),
         scope: 'cache',
         error: e,
       );
@@ -116,7 +117,7 @@ class StatisticsCacheService {
       return prefs.getString(key);
     } catch (e) {
       AppLogger.error(
-        'Ошибка при получении кэша AI резюме',
+        AppLocalizations.current.getString('auto_oshibka_pri_poluchenii_kesha_ai_rez'),
         scope: 'cache',
         error: e,
       );
@@ -142,9 +143,9 @@ class StatisticsCacheService {
         await prefs.remove(key);
       }
 
-      AppLogger.info('Кэш статистики очищен', scope: 'cache');
+      AppLogger.info(AppLocalizations.current.getString('auto_kesh_statistiki_ochischen'), scope: 'cache');
     } catch (e) {
-      AppLogger.error('Ошибка при очистке кэша', scope: 'cache', error: e);
+      AppLogger.error(AppLocalizations.current.getString('auto_oshibka_pri_ochistke_kesha'), scope: 'cache', error: e);
     }
   }
 

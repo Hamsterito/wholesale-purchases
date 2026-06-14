@@ -22,6 +22,7 @@ avdmanager create avd -n Pixel7 -k "system-images;android-34;google_apis;x86_64"
 
 ```bash
 emulator -avd Pixel7
+emulator -avd Tecno_Pova_5
 ```
 
 ---

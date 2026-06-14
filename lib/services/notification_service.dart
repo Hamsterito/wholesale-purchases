@@ -1,3 +1,4 @@
+import 'package:flutter_project/services/localization/app_localizations.dart';
 // Счётчики уведомлений профиля: загрузка с API, кэш, polling, optimistic hold.
 
 import 'dart:async';
@@ -79,7 +80,7 @@ class NotificationService with WidgetsBindingObserver {
 
   /// Счётчик попыток refresh для тестов: инкрементируется сразу после
   /// auth-guard, до throttle и до защиты от параллельных вызовов - иначе
-  /// тест не отличит "пропустили из-за throttle" от "вообще не дошли".
+  /// тест не отличит AppLocalizations.current.getString('auto_propustili_izza_throttle') от AppLocalizations.current.getString('auto_voobsche_ne_doshli').
   int _refreshAttemptCount = 0;
 
   /// Тестовый билдер счётчиков вместо ApiService.getNotificationCounts.
@@ -101,7 +102,7 @@ class NotificationService with WidgetsBindingObserver {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) {
       AppLogger.debug(
-        'NotificationService: userId не задан, инициализация пропущена',
+        AppLocalizations.current.getString('auto_notificationservice_userid_ne_zadan'),
         scope: 'notifications',
       );
       return;
@@ -138,7 +139,7 @@ class NotificationService with WidgetsBindingObserver {
   /// Без этого следующий вошедший увидит чужие значения.
   Future<void> clearForLogout() async {
     AppLogger.info(
-      'NotificationService: очистка состояния при logout',
+      AppLocalizations.current.getString('auto_notificationservice_ochistka_sostoy'),
       scope: 'notifications',
     );
 
@@ -264,14 +265,14 @@ class NotificationService with WidgetsBindingObserver {
 
       if (holdActive) {
         AppLogger.debug(
-          'Optimistic hold активен, пропускаем перезапись счётчиков',
+          AppLocalizations.current.getString('auto_optimistic_hold_aktiven_propuskaem'),
           scope: 'notifications',
         );
       } else {
         // Пока шёл запрос, пользователь мог разлогиниться - перепроверяем.
         if (AuthStorage.userId != userId) {
           AppLogger.debug(
-            'userId изменился во время refresh, отменяем обновление',
+            AppLocalizations.current.getString('auto_userid_izmenilsya_vo_vremya_refresh'),
             scope: 'notifications',
           );
         } else {
@@ -288,7 +289,7 @@ class NotificationService with WidgetsBindingObserver {
       _lastRefreshAt = DateTime.now();
     } catch (e, st) {
       AppLogger.error(
-        'Не удалось обновить счётчики уведомлений после всех попыток, используем кэш',
+        AppLocalizations.current.getString('auto_ne_udalos_obnovit_schtchiki_uvedoml'),
         scope: 'notifications',
         error: e,
         stackTrace: st,
@@ -322,7 +323,7 @@ class NotificationService with WidgetsBindingObserver {
           final age = DateTime.now().difference(cachedAt);
           if (age > NotificationBadgeConfig.cacheExpiration) {
             AppLogger.debug(
-              'Кэш уведомлений устарел, пропускаем загрузку',
+              AppLocalizations.current.getString('auto_kesh_uvedomleniy_ustarel_propuskaem'),
               scope: 'notifications',
             );
             return;
@@ -386,7 +387,7 @@ class NotificationService with WidgetsBindingObserver {
   void _runPollingTick() {
     if (AuthStorage.userId == null || AuthStorage.userId! <= 0) {
       AppLogger.debug(
-        'Пользователь разлогинился, останавливаем polling',
+        AppLocalizations.current.getString('auto_polzovatel_razloginilsya_ostanavliv'),
         scope: 'notifications',
       );
       _stopPolling();
@@ -399,7 +400,7 @@ class NotificationService with WidgetsBindingObserver {
     // тики будут лить одно и то же сообщение в лог.
     if (_optimisticHoldUntil != null && !_isOptimisticHoldActive()) {
       AppLogger.debug(
-        'Optimistic hold истёк, возобновляем polling',
+        AppLocalizations.current.getString('auto_optimistic_hold_istk_vozobnovlyaem'),
         scope: 'notifications',
       );
       _optimisticHoldUntil = null;
@@ -409,7 +410,7 @@ class NotificationService with WidgetsBindingObserver {
     // лишний запрос и не перезаписать локальные изменения с сервера.
     if (_isOptimisticHoldActive()) {
       AppLogger.debug(
-        'Polling пропущен: активен optimistic hold',
+        AppLocalizations.current.getString('auto_polling_propuschen_aktiven_optimist'),
         scope: 'notifications',
       );
       return;
@@ -481,7 +482,7 @@ class NotificationService with WidgetsBindingObserver {
     }
 
     // Недостижимо, но компилятор требует return.
-    throw StateError('_retryWithBackoff: неожиданное завершение цикла');
+    throw StateError(AppLocalizations.current.getString('auto_retrywithbackoff_neozhidannoe_zaver'));
   }
 
   /// Сдвигает конец optimistic hold на полный период от текущего момента.

@@ -1,3 +1,4 @@
+import 'package:flutter_project/services/localization/app_localizations.dart';
 import '../../services/store/app_settings.dart';
 import '../../models/language.dart';
 import '../localization/arb_loader.dart';
@@ -12,7 +13,7 @@ class MessageLocalizationManager {
   static final Map<String, Map<String, String>> _messageTemplatesCache = {};
 
   // Маппинг старых кодов на новые ключи ARB
-  static const Map<String, String> _codeToArbKey = {
+  static final Map<String, String> _codeToArbKey = {
     'ORDER_NOT_FOUND': 'message_order_not_found',
     'ORDER_CONFIRMED': 'message_order_confirmed',
     'ORDER_DELIVERED': 'message_order_delivered',
@@ -28,16 +29,16 @@ class MessageLocalizationManager {
   // Хардкод-фолбэк по исходным кодам - используется, если ARB ещё не загружен
   // (старт до init, тесты) или нужного ключа в ARB нет. Так getTemplate
   // остаётся синхронным и никогда не отдаёт пустоту для известных кодов.
-  static const Map<String, String> _fallbackTemplates = <String, String>{
+  static final Map<String, String> _fallbackTemplates = <String, String>{
     'ORDER_NOT_FOUND': 'Заказ с ID {orderId} не найден',
     'ORDER_CONFIRMED': 'Ваш заказ #{orderId} подтверждён',
     'ORDER_DELIVERED': 'Заказ #{orderId} доставлен',
     'PRODUCT_NOT_FOUND': 'Товар с ID {productId} не найден',
-    'NETWORK_ERROR': 'Ошибка сети. Проверьте подключение и попробуйте снова',
-    'TIMEOUT_ERROR': 'Превышено время ожидания ответа сервера',
+    'NETWORK_ERROR': AppLocalizations.current.getString('auto_oshibka_seti_proverte_podklyuchenie'),
+    'TIMEOUT_ERROR': AppLocalizations.current.getString('auto_prevysheno_vremya_ozhidaniya_otveta'),
     'VALIDATION_ERROR': 'Ошибка валидации: {details}',
-    'AUTH_REQUIRED': 'Требуется авторизация',
-    'PARSE_ERROR': 'Не удалось разобрать сообщение',
+    'AUTH_REQUIRED': AppLocalizations.current.getString('auto_trebuetsya_avtorizatsiya'),
+    'PARSE_ERROR': AppLocalizations.current.getString('auto_ne_udalos_razobrat_soobschenie'),
     'AI_GENERATION_FAILED': 'Не удалось сгенерировать ответ AI: {reason}',
   };
 

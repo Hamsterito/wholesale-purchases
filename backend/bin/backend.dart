@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 import 'package:shelf/shelf.dart';
@@ -113,7 +113,7 @@ void main() async {
     await _cleanupExpiredTrustedDevices(connection);
   });
 
-  // Запуск HTTP сервера на порту 8080
-  final server = await serve(handler, InternetAddress.anyIPv4, 8080);
+  // Запуск HTTP сервера на порту 8081
+  final server = await serve(handler, InternetAddress.anyIPv4, 8081);
   print('Сервер запущен: http://${server.address.host}:${server.port}');
 }

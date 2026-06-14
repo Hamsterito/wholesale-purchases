@@ -1,3 +1,4 @@
+import 'package:flutter_project/services/localization/app_localizations.dart';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -9,7 +10,7 @@ import 'app_http_client.dart';
 
 /// Базовое исключение слоя 2FA - сообщение и HTTP-код.
 class TwoFactorException implements Exception {
-  const TwoFactorException(this.message, {this.statusCode});
+  TwoFactorException(this.message, {this.statusCode});
 
   final String message;
   final int? statusCode;
@@ -20,28 +21,28 @@ class TwoFactorException implements Exception {
 
 /// 400 - неверный код, истёк OTP или backup-код уже использован.
 class TwoFactorInvalidCodeException extends TwoFactorException {
-  const TwoFactorInvalidCodeException(super.message) : super(statusCode: 400);
+  TwoFactorInvalidCodeException(super.message) : super(statusCode: 400);
 }
 
 /// 410 - pending session логина истёк или превысил лимит попыток.
 class TwoFactorChallengeExpiredException extends TwoFactorException {
-  const TwoFactorChallengeExpiredException(super.message)
+  TwoFactorChallengeExpiredException(super.message)
     : super(statusCode: 410);
 }
 
 /// 429 - rate-limit на enable lockout, resend cooldown или verify.
 class TwoFactorRateLimitException extends TwoFactorException {
-  const TwoFactorRateLimitException(super.message) : super(statusCode: 429);
+  TwoFactorRateLimitException(super.message) : super(statusCode: 429);
 }
 
 /// 403 - роль пользователя не позволяет выполнять admin-disable.
 class TwoFactorForbiddenException extends TwoFactorException {
-  const TwoFactorForbiddenException(super.message) : super(statusCode: 403);
+  TwoFactorForbiddenException(super.message) : super(statusCode: 403);
 }
 
 /// 401 - отсутствует X-User-Id или сессия невалидна.
 class TwoFactorUnauthorizedException extends TwoFactorException {
-  const TwoFactorUnauthorizedException(super.message) : super(statusCode: 401);
+  TwoFactorUnauthorizedException(super.message) : super(statusCode: 401);
 }
 
 /// Статус 2FA для текущего или целевого пользователя.
@@ -204,8 +205,8 @@ class TwoFactorApi {
     final data = _parseResponse(response) ?? const <String, dynamic>{};
     final userJson = data['user'];
     if (userJson is! Map) {
-      throw const TwoFactorException(
-        'Сервер вернул пустые данные пользователя',
+      throw TwoFactorException(
+        AppLocalizations.current.getString('auto_server_vernul_pustye_dannye_polzova'),
       );
     }
     return TwoFactorLoginResult(
@@ -334,15 +335,15 @@ class TwoFactorApi {
   static String _defaultMessage(int status) {
     switch (status) {
       case 400:
-        return 'Неверный код или истёк срок действия';
+        return AppLocalizations.current.getString('auto_nevernyy_kod_ili_istk_srok_deystviy');
       case 401:
-        return 'Требуется авторизация';
+        return AppLocalizations.current.getString('auto_trebuetsya_avtorizatsiya');
       case 403:
-        return 'Действие недоступно для вашей роли';
+        return AppLocalizations.current.getString('auto_deystvie_nedostupno_dlya_vashey_rol');
       case 410:
-        return 'Срок действия кода истёк, повторите вход';
+        return AppLocalizations.current.getString('auto_srok_deystviya_koda_istk_povtorite');
       case 429:
-        return 'Слишком много попыток, попробуйте позже';
+        return AppLocalizations.current.getString('auto_slishkom_mnogo_popytok_poprobuyte_p');
       default:
         return 'Не удалось выполнить запрос (HTTP $status)';
     }

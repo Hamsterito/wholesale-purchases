@@ -1,3 +1,4 @@
+import '../services/localization/app_localizations.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../models/message.dart';
@@ -65,20 +66,20 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     final confirmPassword = _confirmPasswordController.text.trim();
 
     if (password.isEmpty || confirmPassword.isEmpty) {
-      _showMessage('Заполните все поля', MessageSeverity.warning);
+      _showMessage(AppLocalizations.current.getString('auto_zapolnite_vse_polya'), MessageSeverity.warning);
       return;
     }
 
     if (password.length < 6) {
       _showMessage(
-        'Пароль должен содержать минимум 6 символов',
+        AppLocalizations.current.getString('auto_parol_dolzhen_soderzhat_minimum_6_s'),
         MessageSeverity.warning,
       );
       return;
     }
 
     if (password != confirmPassword) {
-      _showMessage('Пароли не совпадают', MessageSeverity.warning);
+      _showMessage(AppLocalizations.current.getString('auto_paroli_ne_sovpadayut'), MessageSeverity.warning);
       return;
     }
 
@@ -105,7 +106,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
       if (response.statusCode == 200) {
         await OtpCooldownStore.clear(widget.email, 'password_reset');
-        _showMessage('Пароль успешно изменён', MessageSeverity.info);
+        _showMessage(AppLocalizations.current.getString('auto_parol_uspeshno_izmenn'), MessageSeverity.info);
         await Future<void>.delayed(const Duration(milliseconds: 600));
         if (!mounted) return;
 
@@ -113,12 +114,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         Navigator.of(context).popUntil((route) => route.isFirst);
       } else {
         final body = utf8.decode(response.bodyBytes);
-        final message = parseApiMessage(body, fallback: 'Ошибка сервера');
+        final message = parseApiMessage(body, fallback: AppLocalizations.current.getString('auto_oshibka_servera'));
         _showMessage(message, MessageSeverity.error);
       }
     } catch (e) {
       AppLogger.error('Error resetting password: $e', scope: 'auth');
-      _showMessage('Ошибка сети', MessageSeverity.error);
+      _showMessage(AppLocalizations.current.getString('auto_oshibka_seti'), MessageSeverity.error);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -174,16 +175,16 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Новый пароль',
+                      AppLocalizations.current.getString('auto_novyy_parol'),
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
                     Text(
-                      'Введите новый пароль',
+                      AppLocalizations.current.getString('auto_vvedite_novyy_parol'),
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ],
@@ -207,19 +208,19 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'НОВЫЙ ПАРОЛЬ',
+                          AppLocalizations.current.getString('auto_novyy_parol_1'),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.5,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         TextField(
                           controller: _passwordController,
                           obscureText: _obscurePassword,
                           decoration: InputDecoration(
-                            hintText: 'Введите новый пароль',
+                            hintText: AppLocalizations.current.getString('auto_vvedite_novyy_parol'),
                             hintStyle: TextStyle(color: _mutedText),
                             filled: true,
                             fillColor: _inputFill,
@@ -246,21 +247,21 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 24),
+                        SizedBox(height: 24),
                         Text(
-                          'ПОДТВЕРДИТЕ ПАРОЛЬ',
+                          AppLocalizations.current.getString('auto_podtverdite_parol'),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.5,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         TextField(
                           controller: _confirmPasswordController,
                           obscureText: _obscureConfirmPassword,
                           decoration: InputDecoration(
-                            hintText: 'Подтвердите новый пароль',
+                            hintText: AppLocalizations.current.getString('auto_podtverdite_novyy_parol'),
                             hintStyle: TextStyle(color: _mutedText),
                             filled: true,
                             fillColor: _inputFill,
@@ -288,7 +289,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 32),
+                        SizedBox(height: 32),
                         SizedBox(
                           width: double.infinity,
                           height: 50,
@@ -307,7 +308,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                     color: Colors.white,
                                   )
                                 : Text(
-                                    'СОХРАНИТЬ ПАРОЛЬ',
+                                    AppLocalizations.current.getString('auto_sohranit_parol'),
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,

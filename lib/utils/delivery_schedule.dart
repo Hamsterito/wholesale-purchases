@@ -1,4 +1,5 @@
 import 'ru_plural.dart';
+import '../services/localization/app_localizations.dart';
 
 /// Расписание доставки, которое поставщик задаёт в визарде.
 /// Покупатель видит не сырую строку, а вычисленный текст: «Доставка завтра, 14:00»
@@ -41,7 +42,7 @@ class WeeklyDeliverySchedule extends DeliverySchedule {
   String encode() {
     final days = _sortWeekdays(
       weekdays,
-    ).map((w) => _shortWeekday[w] ?? 'Пн').join(',');
+    ).map((w) => _shortWeekday[w] ?? AppLocalizations.current.getString('util_weekday_mon')).join(',');
     return 'schedule:$days ${_formatHm(hour, minute)}';
   }
 }
@@ -71,15 +72,15 @@ String formatScheduleSummary(DeliverySchedule s) {
     final preset = _matchWeeklyPreset(s.weekdays);
     if (preset != null) return preset;
     final sorted = _sortWeekdays(s.weekdays);
-    // Один день показываем полным названием - «Вторник», «Пятница».
+    // Один день показываем полным названием
     if (sorted.length == 1) {
-      return _fullWeekdayNominative[sorted.first] ?? 'Пн';
+      return _fullWeekdayNominative[sorted.first] ?? AppLocalizations.current.getString('util_weekday_mon');
     }
-    return sorted.map((w) => _shortWeekday[w] ?? 'Пн').join(', ');
+    return sorted.map((w) => _shortWeekday[w] ?? AppLocalizations.current.getString('util_weekday_mon')).join(', ');
   }
   if (s is LeadTimeDeliverySchedule) {
-    if (s.minDays == 0 && s.maxDays == 0) return 'Сегодня';
-    if (s.minDays == 1 && s.maxDays == 1) return 'Завтра';
+    if (s.minDays == 0 && s.maxDays == 0) return AppLocalizations.current.getString('util_today');
+    if (s.minDays == 1 && s.maxDays == 1) return AppLocalizations.current.getString('util_tomorrow');
     if (s.minDays == s.maxDays) {
       return '${s.minDays} ${_daysLabel(s.minDays)}';
     }
@@ -88,17 +89,15 @@ String formatScheduleSummary(DeliverySchedule s) {
   return '';
 }
 
-/// Текст с временем развоза для детальной карточки. Возвращает null,
-/// если расписание не имеет осмысленного времени для покупателя
-/// (lead-time без cutoff и weekly без указанного времени).
+/// Текст с временем развоза для детальной карточки.
 String? formatDeliveryTimeNote(DeliverySchedule s) {
   if (s is WeeklyDeliverySchedule) {
-    return 'Развоз в ${_formatHm(s.hour, s.minute)}';
+    return AppLocalizations.current.getString('util_delivery_at').replaceAll('{time}', _formatHm(s.hour, s.minute));
   }
   if (s is LeadTimeDeliverySchedule) {
     final c = s.cutoff;
     if (c == null) return null;
-    return 'Заказы до ${_formatHm(c.hour, c.minute)} уезжают сегодня';
+    return AppLocalizations.current.getString('util_orders_before').replaceAll('{time}', _formatHm(c.hour, c.minute));
   }
   return null;
 }
@@ -131,8 +130,8 @@ String? formatDeliveryDateShort(DeliverySchedule s, DateTime now) {
         s.minute,
       );
       if (candidate.isBefore(now)) continue;
-      if (offset == 0) return 'сегодня';
-      if (offset == 1) return 'завтра';
+      if (offset == 0) return AppLocalizations.current.getString('util_today_lower');
+      if (offset == 1) return AppLocalizations.current.getString('util_tomorrow_lower');
       return _formatDayMonth(date);
     }
     return null;
@@ -149,8 +148,8 @@ String? formatDeliveryDateShort(DeliverySchedule s, DateTime now) {
         max += 1;
       }
     }
-    if (min == 0 && max == 0) return 'сегодня';
-    if (min == 1 && max == 1) return 'завтра';
+    if (min == 0 && max == 0) return AppLocalizations.current.getString('util_today_lower');
+    if (min == 1 && max == 1) return AppLocalizations.current.getString('util_tomorrow_lower');
     final from = now.add(Duration(days: min));
     if (min == max) return _formatDayMonth(from);
     final to = now.add(Duration(days: max));
@@ -170,11 +169,11 @@ String formatExpectedDelivery(DeliverySchedule s, DateTime now) {
   if (s is LeadTimeDeliverySchedule) {
     return _formatLeadTimeExpected(s, now);
   }
-  return 'Доставка';
+  return AppLocalizations.current.getString('util_delivery');
 }
 
 String _formatWeeklyExpected(WeeklyDeliverySchedule s, DateTime now) {
-  if (s.weekdays.isEmpty) return 'Доставка';
+  if (s.weekdays.isEmpty) return AppLocalizations.current.getString('util_delivery');
   for (var offset = 0; offset <= 14; offset++) {
     final date = now.add(Duration(days: offset));
     if (!s.weekdays.contains(date.weekday)) continue;
@@ -186,11 +185,11 @@ String _formatWeeklyExpected(WeeklyDeliverySchedule s, DateTime now) {
       s.minute,
     );
     if (candidate.isBefore(now)) continue;
-    if (offset == 0) return 'Доставка сегодня';
-    if (offset == 1) return 'Доставка завтра';
-    return 'Доставка ${_formatDayMonth(date)}';
+    if (offset == 0) return AppLocalizations.current.getString('util_delivery_today');
+    if (offset == 1) return AppLocalizations.current.getString('util_delivery_tomorrow');
+    return AppLocalizations.current.getString('util_delivery_date').replaceAll('{date}', _formatDayMonth(date));
   }
-  return 'Доставка';
+  return AppLocalizations.current.getString('util_delivery');
 }
 
 String _formatLeadTimeExpected(LeadTimeDeliverySchedule s, DateTime now) {
@@ -206,13 +205,15 @@ String _formatLeadTimeExpected(LeadTimeDeliverySchedule s, DateTime now) {
       max += 1;
     }
   }
-  if (min == 0 && max == 0) return 'Доставка сегодня';
-  if (min == 1 && max == 1) return 'Доставка завтра';
+  if (min == 0 && max == 0) return AppLocalizations.current.getString('util_delivery_today');
+  if (min == 1 && max == 1) return AppLocalizations.current.getString('util_delivery_tomorrow');
   // Календарные даты вместо «через N дней» - покупатель сразу видит число.
   final fromDate = now.add(Duration(days: min));
-  if (min == max) return 'Доставка ${_formatDayMonth(fromDate)}';
+  if (min == max) {
+    return AppLocalizations.current.getString('util_delivery_date').replaceAll('{date}', _formatDayMonth(fromDate));
+  }
   final toDate = now.add(Duration(days: max));
-  return 'Доставка ${_formatDateRange(fromDate, toDate)}';
+  return AppLocalizations.current.getString('util_delivery_range').replaceAll('{range}', _formatDateRange(fromDate, toDate));
 }
 
 String _formatDayMonth(DateTime date) {
@@ -281,9 +282,10 @@ LeadTimeDeliverySchedule? _decodeLeadTime(String raw) {
 Set<int> _parseWeekdaysPart(String raw) {
   final lowered = raw.toLowerCase().trim();
   if (lowered.isEmpty) return const <int>{};
-  if (lowered == 'будни') return _workdayPreset.toSet();
-  if (lowered == 'выходные') return _weekendPreset.toSet();
-  if (lowered == 'ежедневно' || lowered == 'каждый день') {
+  if (lowered == AppLocalizations.current.getString('util_weekday_keyword_weekdays')) return _workdayPreset.toSet();
+  if (lowered == AppLocalizations.current.getString('util_weekday_keyword_weekends')) return _weekendPreset.toSet();
+  if (lowered == AppLocalizations.current.getString('util_weekday_keyword_daily') ||
+      lowered == AppLocalizations.current.getString('util_weekday_keyword_every_day')) {
     return _weekdayOrder.toSet();
   }
 
@@ -328,9 +330,9 @@ int? _parseWeekday(String value) {
 }
 
 String? _matchWeeklyPreset(Set<int> weekdays) {
-  if (_sameWeekdays(weekdays, _weekdayOrder)) return 'Ежедневно';
-  if (_sameWeekdays(weekdays, _workdayPreset)) return 'Будни';
-  if (_sameWeekdays(weekdays, _weekendPreset)) return 'Выходные';
+  if (_sameWeekdays(weekdays, _weekdayOrder)) return AppLocalizations.current.getString('util_daily');
+  if (_sameWeekdays(weekdays, _workdayPreset)) return AppLocalizations.current.getString('util_weekdays');
+  if (_sameWeekdays(weekdays, _weekendPreset)) return AppLocalizations.current.getString('util_weekends');
   return null;
 }
 
@@ -356,42 +358,42 @@ String _formatHm(int hour, int minute) {
   return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
 }
 
-String _daysLabel(int n) => pluralizeRu(n, 'день', 'дня', 'дней');
+String _daysLabel(int n) => pluralizeRu(n, AppLocalizations.current.getString('util_day_one'), AppLocalizations.current.getString('util_day_few'), AppLocalizations.current.getString('util_day_many'));
 
-const Map<int, String> _shortWeekday = <int, String>{
-  DateTime.monday: 'Пн',
-  DateTime.tuesday: 'Вт',
-  DateTime.wednesday: 'Ср',
-  DateTime.thursday: 'Чт',
-  DateTime.friday: 'Пт',
-  DateTime.saturday: 'Сб',
-  DateTime.sunday: 'Вс',
+Map<int, String> get _shortWeekday => <int, String>{
+  DateTime.monday: AppLocalizations.current.getString('util_weekday_mon'),
+  DateTime.tuesday: AppLocalizations.current.getString('util_weekday_tue'),
+  DateTime.wednesday: AppLocalizations.current.getString('util_weekday_wed'),
+  DateTime.thursday: AppLocalizations.current.getString('util_weekday_thu'),
+  DateTime.friday: AppLocalizations.current.getString('util_weekday_fri'),
+  DateTime.saturday: AppLocalizations.current.getString('util_weekday_sat'),
+  DateTime.sunday: AppLocalizations.current.getString('util_weekday_sun'),
 };
 
-const Map<int, String> _fullWeekdayNominative = <int, String>{
-  DateTime.monday: 'Понедельник',
-  DateTime.tuesday: 'Вторник',
-  DateTime.wednesday: 'Среда',
-  DateTime.thursday: 'Четверг',
-  DateTime.friday: 'Пятница',
-  DateTime.saturday: 'Суббота',
-  DateTime.sunday: 'Воскресенье',
+Map<int, String> get _fullWeekdayNominative => <int, String>{
+  DateTime.monday: AppLocalizations.current.getString('util_weekday_monday'),
+  DateTime.tuesday: AppLocalizations.current.getString('util_weekday_tuesday'),
+  DateTime.wednesday: AppLocalizations.current.getString('util_weekday_wednesday'),
+  DateTime.thursday: AppLocalizations.current.getString('util_weekday_thursday'),
+  DateTime.friday: AppLocalizations.current.getString('util_weekday_friday'),
+  DateTime.saturday: AppLocalizations.current.getString('util_weekday_saturday'),
+  DateTime.sunday: AppLocalizations.current.getString('util_weekday_sunday'),
 };
 
 // Месяцы в родительном падеже для дат вида «13 ноября».
-const Map<int, String> _genitiveMonth = <int, String>{
-  1: 'января',
-  2: 'февраля',
-  3: 'марта',
-  4: 'апреля',
-  5: 'мая',
-  6: 'июня',
-  7: 'июля',
-  8: 'августа',
-  9: 'сентября',
-  10: 'октября',
-  11: 'ноября',
-  12: 'декабря',
+Map<int, String> get _genitiveMonth => <int, String>{
+  1: AppLocalizations.current.getString('util_month_gen_1'),
+  2: AppLocalizations.current.getString('util_month_gen_2'),
+  3: AppLocalizations.current.getString('util_month_gen_3'),
+  4: AppLocalizations.current.getString('util_month_gen_4'),
+  5: AppLocalizations.current.getString('util_month_gen_5'),
+  6: AppLocalizations.current.getString('util_month_gen_6'),
+  7: AppLocalizations.current.getString('util_month_gen_7'),
+  8: AppLocalizations.current.getString('util_month_gen_8'),
+  9: AppLocalizations.current.getString('util_month_gen_9'),
+  10: AppLocalizations.current.getString('util_month_gen_10'),
+  11: AppLocalizations.current.getString('util_month_gen_11'),
+  12: AppLocalizations.current.getString('util_month_gen_12'),
 };
 
 const List<int> _weekdayOrder = <int>[

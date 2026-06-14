@@ -1,3 +1,4 @@
+import '../services/localization/app_localizations.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -95,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
     final password = _passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      _showMessage('Введите почту и пароль', MessageSeverity.warning);
+      _showMessage(AppLocalizations.current.getString('auto_vvedite_pochtu_i_parol'), MessageSeverity.warning);
       return;
     }
 
@@ -151,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
           if (challengeId.isEmpty) {
             if (mounted) {
               _showMessage(
-                'Сервер не вернул challenge для 2FA',
+                AppLocalizations.current.getString('auto_server_ne_vernul_challenge_dlya_2fa'),
                 MessageSeverity.error,
               );
             }
@@ -224,10 +225,10 @@ class _LoginPageState extends State<LoginPage> {
           }
         } catch (_) {
           final fallbackMessage = switch (response.statusCode) {
-            400 => 'Проверьте, что почта и пароль заполнены',
-            401 => 'Неверная почта или пароль',
-            403 => 'Доступ запрещён',
-            _ => 'Не удалось выполнить вход. Попробуйте позже.',
+            400 => AppLocalizations.current.getString('auto_proverte_chto_pochta_i_parol_zapoln'),
+            401 => AppLocalizations.current.getString('auto_nevernaya_pochta_ili_parol'),
+            403 => AppLocalizations.current.getString('auto_dostup_zapreshchen'),
+            _ => AppLocalizations.current.getString('auto_ne_udalos_vypolnit_vkhod_poprobuyte'),
           };
           message = errorBody.isEmpty ? fallbackMessage : errorBody;
         }
@@ -241,7 +242,7 @@ class _LoginPageState extends State<LoginPage> {
         stackTrace: st,
       );
       if (!mounted) return;
-      _showMessage('Ошибка подключения к серверу: $e', MessageSeverity.error);
+      _showMessage(AppLocalizations.current.getString('auto_oshibka_podklyucheniya_k_serveru_e'), MessageSeverity.error);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -289,8 +290,8 @@ class _LoginPageState extends State<LoginPage> {
     if (!mounted) return;
     _showMessage(
       name == null || name.isEmpty
-          ? 'Вход выполнен'
-          : 'Добро пожаловать, $name!',
+          ? AppLocalizations.current.getString('auto_vkhod_vypolnen')
+          : AppLocalizations.current.getString('auto_dobro_pozhalovat_name'),
       MessageSeverity.info,
     );
 
@@ -325,9 +326,9 @@ class _LoginPageState extends State<LoginPage> {
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
-                      'Войти',
+                      AppLocalizations.current.getString('auto_voyti'),
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
@@ -336,11 +337,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: 12),
                     Text(
-                      'Зайдите или зарегистрируйтесь',
+                      AppLocalizations.current.getString('auto_zaydite_ili_zaregistriruytes'),
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                     Text(
-                      'В свой аккаунт',
+                      AppLocalizations.current.getString('auto_v_svoy_akkaunt'),
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ],
@@ -364,14 +365,14 @@ class _LoginPageState extends State<LoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'ПОЧТА',
+                          AppLocalizations.current.getString('auto_pochta'),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.5,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         TextField(
                           controller: _emailController,
                           keyboardType: TextInputType.text,
@@ -390,16 +391,16 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
                         Text(
-                          'ПАРОЛЬ',
+                          AppLocalizations.current.getString('auto_parol'),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.5,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         TextField(
                           controller: _passwordController,
                           obscureText: _obscurePassword,
@@ -431,7 +432,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -458,9 +459,9 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 8),
+                                SizedBox(width: 8),
                                 Text(
-                                  'Запомнить меня',
+                                  AppLocalizations.current.getString('auto_zapomnit_menya'),
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: _colorScheme.onSurface,
@@ -471,7 +472,7 @@ class _LoginPageState extends State<LoginPage> {
                             TextButton(
                               onPressed: _navigateToForgotPassword,
                               child: Text(
-                                'Забыли пароль?',
+                                AppLocalizations.current.getString('auto_zabyli_parol'),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: _colorScheme.onSurface,
@@ -481,7 +482,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 24),
+                        SizedBox(height: 24),
                         SizedBox(
                           width: double.infinity,
                           height: 50,
@@ -500,7 +501,7 @@ class _LoginPageState extends State<LoginPage> {
                                     color: Colors.white,
                                   )
                                 : Text(
-                                    'ВОЙТИ',
+                                    AppLocalizations.current.getString('auto_voyti_1'),
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
@@ -510,13 +511,13 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20),
                         Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Нет аккаунта? ',
+                                AppLocalizations.current.getString('auto_net_akkaunta'),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: _mutedText,
@@ -531,7 +532,7 @@ class _LoginPageState extends State<LoginPage> {
                                       MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 child: Text(
-                                  'Зарегистрируйтесь',
+                                  AppLocalizations.current.getString('auto_zaregistriruytes'),
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: _colorScheme.onSurface,

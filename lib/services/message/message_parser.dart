@@ -1,3 +1,4 @@
+import 'package:flutter_project/services/localization/app_localizations.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
@@ -74,7 +75,7 @@ class MessageParser {
     }
 
     final title = isSuccess
-        ? 'Запрос выполнен'
+        ? AppLocalizations.current.getString('auto_zapros_vypolnen')
         : 'Ошибка запроса (HTTP $status)';
 
     final body = (extractedBody != null && extractedBody.isNotEmpty)
@@ -113,7 +114,7 @@ class MessageParser {
 
     final validation = MessageValidator.validate(message);
     if (!validation.isValid) {
-      return _genericParseError('некорректный ответ API', <String, dynamic>{
+      return _genericParseError(AppLocalizations.current.getString('auto_nekorrektnyy_otvet_api'), <String, dynamic>{
         'httpStatus': status,
         if (endpoint != null) 'endpoint': endpoint,
         if (method != null) 'method': method,
@@ -155,7 +156,7 @@ class MessageParser {
       id: _generateUuid(),
       type: MessageType.error,
       severity: severity,
-      title: 'Ошибка приложения',
+      title: AppLocalizations.current.getString('auto_oshibka_prilozheniya'),
       body: _truncate(body, MessageValidator.maxBodyLength),
       code: code,
       timestamp: DateTime.now(),
@@ -165,7 +166,7 @@ class MessageParser {
 
     final validation = MessageValidator.validate(message);
     if (!validation.isValid) {
-      return _genericParseError('не удалось разобрать исключение', metadata);
+      return _genericParseError(AppLocalizations.current.getString('auto_ne_udalos_razobrat_isklyuchenie'), metadata);
     }
     return message;
   }
@@ -198,7 +199,7 @@ class MessageParser {
     final validation = MessageValidator.validate(message);
     if (!validation.isValid) {
       return _genericParseError(
-        'некорректное сообщение поддержки',
+        AppLocalizations.current.getString('auto_nekorrektnoe_soobschenie_podderzhki'),
         <String, dynamic>{
           'chatId': msg.chatId,
           'userId': msg.userId,
@@ -214,14 +215,14 @@ class MessageParser {
       final message = Message.fromJson(json);
       final validation = MessageValidator.validate(message);
       if (!validation.isValid) {
-        return _genericParseError('JSON не прошёл валидацию', <String, dynamic>{
+        return _genericParseError(AppLocalizations.current.getString('auto_json_ne_proshl_validatsiyu'), <String, dynamic>{
           'jsonSnippet': _truncate(json.toString(), 500),
           'validationErrors': validation.errors,
         });
       }
       return message;
     } catch (e) {
-      return _genericParseError('не удалось разобрать JSON', <String, dynamic>{
+      return _genericParseError(AppLocalizations.current.getString('auto_ne_udalos_razobrat_json'), <String, dynamic>{
         'jsonSnippet': _truncate(json.toString(), 500),
         'exception': e.toString(),
       });
@@ -280,7 +281,7 @@ class MessageParser {
     }
 
     final resolvedTitle = (title == null || title.isEmpty)
-        ? 'Уведомление'
+        ? AppLocalizations.current.getString('auto_uvedomlenie')
         : title;
     final resolvedBody = (body == null || body.isEmpty)
         ? (notification?.toString() ?? '')
@@ -304,7 +305,7 @@ class MessageParser {
 
     final validation = MessageValidator.validate(message);
     if (!validation.isValid) {
-      return _genericParseError('некорректное уведомление', <String, dynamic>{
+      return _genericParseError(AppLocalizations.current.getString('auto_nekorrektnoe_uvedomlenie'), <String, dynamic>{
         if (category != null) 'category': category,
         'validationErrors': validation.errors,
       });
@@ -332,7 +333,7 @@ class MessageParser {
       id: _generateUuid(),
       type: MessageType.aiGenerated,
       severity: MessageSeverity.info,
-      title: 'AI-генерация',
+      title: AppLocalizations.current.getString('auto_aigeneratsiya'),
       body: _truncate(content, MessageValidator.maxBodyLength),
       timestamp: DateTime.now(),
       language: MessageLocalizationManager.getCurrentLanguage(),
@@ -341,7 +342,7 @@ class MessageParser {
 
     final validation = MessageValidator.validate(message);
     if (!validation.isValid) {
-      return _genericParseError('некорректный ответ AI', <String, dynamic>{
+      return _genericParseError(AppLocalizations.current.getString('auto_nekorrektnyy_otvet_ai'), <String, dynamic>{
         'model': model,
         'validationErrors': validation.errors,
       });
@@ -375,7 +376,7 @@ class MessageParser {
       id: _generateUuid(),
       type: MessageType.error,
       severity: MessageSeverity.warning,
-      title: 'Ошибка разбора сообщения',
+      title: AppLocalizations.current.getString('auto_oshibka_razbora_soobscheniya'),
       body: _truncate(
         'Не удалось разобрать сообщение: $reason',
         MessageValidator.maxBodyLength,

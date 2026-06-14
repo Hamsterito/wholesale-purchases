@@ -1,5 +1,6 @@
 import '../models/product.dart';
 import '../models/supplier_product.dart';
+import '../services/localization/app_localizations.dart';
 
 /// Раздел характеристик товара, отображаемый одним блоком в табе «Характеристики».
 /// Состав хранится одной записью с пустым ключом - UI рендерит её одной строкой.
@@ -59,35 +60,35 @@ List<CharacteristicSection> _buildSections({
   }
   if (general.isNotEmpty) {
     sections.add(
-      CharacteristicSection(title: 'Общие характеристики', items: general),
+      CharacteristicSection(title: AppLocalizations.current.getString('util_general_characteristics'), items: general),
     );
   }
 
   final nutrition = <MapEntry<String, String>>[];
   if (calories > 0) {
-    nutrition.add(MapEntry('Калории', '${_formatNumber(calories)} ккал'));
+    nutrition.add(MapEntry(AppLocalizations.current.getString('util_calories'), '${_formatNumber(calories)} ${AppLocalizations.current.getString('util_kcal')}'));
   }
   if (protein > 0) {
-    nutrition.add(MapEntry('Белки', '${_formatNumber(protein)} г/100 г'));
+    nutrition.add(MapEntry(AppLocalizations.current.getString('util_protein'), '${_formatNumber(protein)} ${AppLocalizations.current.getString('util_grams_per_100g')}'));
   }
   if (fat > 0) {
-    nutrition.add(MapEntry('Жиры', '${_formatNumber(fat)} г/100 г'));
+    nutrition.add(MapEntry(AppLocalizations.current.getString('util_fat'), '${_formatNumber(fat)} ${AppLocalizations.current.getString('util_grams_per_100g')}'));
   }
   if (carbohydrates > 0) {
     nutrition.add(
-      MapEntry('Углеводы', '${_formatNumber(carbohydrates)} г/100 г'),
+      MapEntry(AppLocalizations.current.getString('util_carbohydrates'), '${_formatNumber(carbohydrates)} ${AppLocalizations.current.getString('util_grams_per_100g')}'),
     );
   }
   if (nutrition.isNotEmpty) {
-    sections.add(CharacteristicSection(title: 'Питание', items: nutrition));
+    sections.add(CharacteristicSection(title: AppLocalizations.current.getString('util_nutrition'), items: nutrition));
   }
 
   final trimmedIngredients = ingredients.trim();
   if (trimmedIngredients.isNotEmpty) {
     sections.add(
       CharacteristicSection(
-        title: 'Состав',
-        items: [MapEntry('Состав', trimmedIngredients)],
+        title: AppLocalizations.current.getString('util_composition'),
+        items: [MapEntry(AppLocalizations.current.getString('util_composition'), trimmedIngredients)],
       ),
     );
   }

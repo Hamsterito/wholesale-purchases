@@ -1,3 +1,4 @@
+import 'package:flutter_project/services/localization/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/api/two_factor_api.dart';
@@ -90,10 +91,8 @@ class _TwoFactorAdminDisableTileState extends State<TwoFactorAdminDisableTile> {
     if (_busy) return;
     final name = widget.targetUserName?.trim();
     final confirmText = (name != null && name.isNotEmpty)
-        ? 'Это удалит все backup-коды и доверенные устройства пользователя $name. '
-              'Действие нельзя отменить.'
-        : 'Это удалит все backup-коды и доверенные устройства пользователя. '
-              'Действие нельзя отменить.';
+        ? 'Это удалит все backup-коды и доверенные устройства пользователя $name. ${AppLocalizations.current.getString('auto_deystvie_nelzya_otmenit')}'
+        : '${AppLocalizations.current.getString('auto_eto_udalit_vse_backupkody_i_doveren')} ${AppLocalizations.current.getString('auto_deystvie_nelzya_otmenit')}';
 
     final confirmed = await showDialog<bool>(
       context: context,
@@ -101,21 +100,21 @@ class _TwoFactorAdminDisableTileState extends State<TwoFactorAdminDisableTile> {
         final dialogPalette = dialogContext.colorPalette;
         return AlertDialog(
           backgroundColor: dialogPalette.card,
-title: Text(context.l10n.twoFactorDisableTitle),
-           content: Text(confirmText),
-           actions: [
-             TextButton(
-               onPressed: () => Navigator.of(dialogContext).pop(false),
-               child: Text(context.l10n.cancel),
-             ),
-             FilledButton(
-               style: FilledButton.styleFrom(
-                 backgroundColor: dialogPalette.error,
-                 foregroundColor: Colors.white,
-               ),
-               onPressed: () => Navigator.of(dialogContext).pop(true),
-               child: Text(context.l10n.twoFactorDisableButton),
-             ),
+          title: Text(context.l10n.twoFactorDisableTitle),
+          content: Text(confirmText),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: Text(context.l10n.cancel),
+            ),
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: dialogPalette.error,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              child: Text(context.l10n.twoFactorDisableButton),
+            ),
           ],
         );
       },
@@ -128,19 +127,19 @@ title: Text(context.l10n.twoFactorDisableTitle),
       final disable = widget.adminDisable ?? TwoFactorApi.adminDisable;
       await disable(widget.targetUserId);
       if (!mounted) return;
-      _showTop('Двухфакторная аутентификация отключена');
+      _showTop(AppLocalizations.current.getString('auto_dvuhfaktornaya_autentifikatsiya_otk'));
       widget.onDisabled?.call();
       // После успеха перечитываем статус - тайл скроется сам (enabled=false).
       await _loadStatus();
     } on TwoFactorForbiddenException {
       if (!mounted) return;
-      _showTop('Действие доступно только модераторам', isError: true);
+      _showTop(AppLocalizations.current.getString('auto_deystvie_dostupno_tolko_moderatoram'), isError: true);
     } on TwoFactorException catch (e) {
       if (!mounted) return;
       _showTop(e.message, isError: true);
     } catch (_) {
       if (!mounted) return;
-      _showTop('Не удалось отключить 2FA', isError: true);
+      _showTop(AppLocalizations.current.getString('auto_ne_udalos_otklyuchit_2fa'), isError: true);
     } finally {
       if (mounted) {
         setState(() => _busy = false);
@@ -195,7 +194,7 @@ title: Text(context.l10n.twoFactorDisableTitle),
                 )
               : Icon(Icons.shield_moon_outlined, color: palette.error),
           label: Text(
-            'Отключить двухфакторную аутентификацию',
+            AppLocalizations.current.getString('auto_otklyuchit_dvuhfaktornuyu_autentifi'),
             style: TextStyle(color: palette.error),
           ),
           style: OutlinedButton.styleFrom(

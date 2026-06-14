@@ -1,3 +1,4 @@
+import 'package:flutter_project/services/localization/app_localizations.dart';
 import 'dart:convert';
 
 import '../../models/message.dart';
@@ -47,7 +48,7 @@ class MessagePrettyPrinter {
   }
 
   static String _compactSummary(Message message) {
-    final title = message.title.isEmpty ? '(без заголовка)' : message.title;
+    final title = message.title.isEmpty ? AppLocalizations.current.getString('auto_bez_zagolovka') : message.title;
     final body = _truncate(message.body, _bodyTruncateLimit);
     return '[${message.severity.value}][${message.type.value}] '
         '${message.displayId} | $title — $body';

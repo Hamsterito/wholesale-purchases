@@ -416,7 +416,7 @@ class _ProductCardState extends State<ProductCard> {
               if (added) {
                 showTopMessage(
                   context,
-                  'Добавлено в избранное',
+                  context.l10n.getString('auto_dobavlenoVIzbrannoe'),
                   backgroundColor: _palette.accent,
                   showClose: !showFavoritesUndo,
                 );
@@ -516,7 +516,7 @@ class _ProductCardState extends State<ProductCard> {
     if (deliveryDate.isEmpty) return const SizedBox.shrink();
     // formatExpectedDelivery возвращает фразу уже с «Доставка ...» внутри,
     // поэтому свой префикс добавляем только для старых сырых строк.
-    final text = deliveryDate.toLowerCase().startsWith('доставка')
+    final text = deliveryDate.toLowerCase().startsWith(context.l10n.getString('auto_dostavka'))
         ? deliveryDate
         : 'Доставка: $deliveryDate';
     return Text(
@@ -694,13 +694,13 @@ class _ProductCardState extends State<ProductCard> {
       return const <int>{};
     }
 
-    if (normalized == 'будни') {
+    if (normalized == context.l10n.getString('auto_budni')) {
       return _workdaysPreset.toSet();
     }
-    if (normalized == 'выходные') {
+    if (normalized == context.l10n.getString('auto_vyhodnye')) {
       return _weekendPreset.toSet();
     }
-    if (normalized == 'ежедневно' || normalized == 'каждый день') {
+    if (normalized == context.l10n.getString('auto_ezhednevno') || normalized == context.l10n.getString('auto_kazhdyyDen')) {
       return _weekdayOrder.toSet();
     }
 
@@ -776,8 +776,8 @@ class _ProductCardState extends State<ProductCard> {
         return null;
       }
     }
-    final start = _weekdaysShort[sortedWeekdays.first] ?? 'Пн';
-    final end = _weekdaysShort[sortedWeekdays.last] ?? 'Пн';
+    final start = _weekdaysShort[sortedWeekdays.first] ?? context.l10n.getString('auto_pn');
+    final end = _weekdaysShort[sortedWeekdays.last] ?? context.l10n.getString('auto_pn');
     return '$start-$end';
   }
 
@@ -856,46 +856,26 @@ class _ProductCardState extends State<ProductCard> {
 
   int? _parseWeekdayShort(String? value) {
     final normalized = value?.replaceAll('.', '').trim().toLowerCase();
-    switch (normalized) {
-      case 'пн':
-        return DateTime.monday;
-      case 'вт':
-        return DateTime.tuesday;
-      case 'ср':
-        return DateTime.wednesday;
-      case 'чт':
-        return DateTime.thursday;
-      case 'пт':
-        return DateTime.friday;
-      case 'сб':
-        return DateTime.saturday;
-      case 'вс':
-        return DateTime.sunday;
-      default:
-        return null;
-    }
+    if (normalized == context.l10n.getString('auto_pn_1')) return DateTime.monday;
+    if (normalized == context.l10n.getString('auto_vt')) return DateTime.tuesday;
+    if (normalized == context.l10n.getString('auto_sr')) return DateTime.wednesday;
+    if (normalized == context.l10n.getString('auto_cht')) return DateTime.thursday;
+    if (normalized == context.l10n.getString('auto_pt')) return DateTime.friday;
+    if (normalized == context.l10n.getString('auto_sb')) return DateTime.saturday;
+    if (normalized == context.l10n.getString('auto_vs')) return DateTime.sunday;
+    return null;
   }
 
   int? _parseWeekdayFull(String? value) {
     final normalized = value?.replaceAll('.', '').trim().toLowerCase();
-    switch (normalized) {
-      case 'понедельник':
-        return DateTime.monday;
-      case 'вторник':
-        return DateTime.tuesday;
-      case 'среда':
-        return DateTime.wednesday;
-      case 'четверг':
-        return DateTime.thursday;
-      case 'пятница':
-        return DateTime.friday;
-      case 'суббота':
-        return DateTime.saturday;
-      case 'воскресенье':
-        return DateTime.sunday;
-      default:
-        return null;
-    }
+    if (normalized == context.l10n.getString('auto_ponedelnik')) return DateTime.monday;
+    if (normalized == context.l10n.getString('auto_vtornik')) return DateTime.tuesday;
+    if (normalized == context.l10n.getString('auto_sreda')) return DateTime.wednesday;
+    if (normalized == context.l10n.getString('auto_chetverg')) return DateTime.thursday;
+    if (normalized == context.l10n.getString('auto_pyatnitsa')) return DateTime.friday;
+    if (normalized == context.l10n.getString('auto_subbota')) return DateTime.saturday;
+    if (normalized == context.l10n.getString('auto_voskresene')) return DateTime.sunday;
+    return null;
   }
 
   String _formatTime(DateTime value) {
@@ -1372,7 +1352,7 @@ child: Text(
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  'шт',
+                  context.l10n.getString('auto_sht'),
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,

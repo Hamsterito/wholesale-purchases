@@ -1,3 +1,4 @@
+import 'package:flutter_project/services/localization/app_localizations.dart';
 import 'dart:convert';
 import 'dart:math';
 
@@ -60,32 +61,32 @@ class PurchaseTemplate {
     final updatedAt = json['updatedAt'];
     final rawItems = json['items'];
     if (id is! String || id.isEmpty) {
-      throw const FormatException('PurchaseTemplate.id невалиден');
+      throw FormatException(AppLocalizations.current.getString('auto_purchasetemplateid_nevaliden'));
     }
     if (name is! String) {
-      throw const FormatException('PurchaseTemplate.name невалиден');
+      throw FormatException(AppLocalizations.current.getString('auto_purchasetemplatename_nevaliden'));
     }
     if (createdAt is! String) {
-      throw const FormatException('PurchaseTemplate.createdAt невалиден');
+      throw FormatException(AppLocalizations.current.getString('auto_purchasetemplatecreatedat_nevaliden'));
     }
     if (updatedAt is! String) {
-      throw const FormatException('PurchaseTemplate.updatedAt невалиден');
+      throw FormatException(AppLocalizations.current.getString('auto_purchasetemplateupdatedat_nevaliden'));
     }
     if (rawItems is! List) {
-      throw const FormatException('PurchaseTemplate.items невалиден');
+      throw FormatException(AppLocalizations.current.getString('auto_purchasetemplateitems_nevaliden'));
     }
     final parsedCreated = DateTime.tryParse(createdAt);
     final parsedUpdated = DateTime.tryParse(updatedAt);
     if (parsedCreated == null) {
-      throw const FormatException('PurchaseTemplate.createdAt не ISO-8601');
+      throw FormatException(AppLocalizations.current.getString('auto_purchasetemplatecreatedat_ne_iso860'));
     }
     if (parsedUpdated == null) {
-      throw const FormatException('PurchaseTemplate.updatedAt не ISO-8601');
+      throw FormatException(AppLocalizations.current.getString('auto_purchasetemplateupdatedat_ne_iso860'));
     }
     final items = <TemplateItem>[];
     for (final raw in rawItems) {
       if (raw is! Map) {
-        throw const FormatException('TemplateItem не объект');
+        throw FormatException(AppLocalizations.current.getString('auto_templateitem_ne_obekt'));
       }
       items.add(TemplateItem.fromJson(raw.cast<String, dynamic>()));
     }
@@ -194,31 +195,31 @@ class TemplateItem {
     final maxQuantity = json['maxQuantity'];
 
     if (productId is! String || productId.isEmpty) {
-      throw const FormatException('TemplateItem.productId невалиден');
+      throw FormatException(AppLocalizations.current.getString('auto_templateitemproductid_nevaliden'));
     }
     if (supplierId is! String || supplierId.isEmpty) {
-      throw const FormatException('TemplateItem.supplierId невалиден');
+      throw FormatException(AppLocalizations.current.getString('auto_templateitemsupplierid_nevaliden'));
     }
     if (quantity is! int || quantity < 1) {
-      throw const FormatException('TemplateItem.quantity невалиден');
+      throw FormatException(AppLocalizations.current.getString('auto_templateitemquantity_nevaliden'));
     }
     if (productName is! String) {
-      throw const FormatException('TemplateItem.productName невалиден');
+      throw FormatException(AppLocalizations.current.getString('auto_templateitemproductname_nevaliden'));
     }
     if (productImageUrl is! String) {
-      throw const FormatException('TemplateItem.productImageUrl невалиден');
+      throw FormatException(AppLocalizations.current.getString('auto_templateitemproductimageurl_nevalid'));
     }
     if (supplierName is! String) {
-      throw const FormatException('TemplateItem.supplierName невалиден');
+      throw FormatException(AppLocalizations.current.getString('auto_templateitemsuppliername_nevaliden'));
     }
     if (pricePerUnit is! int) {
-      throw const FormatException('TemplateItem.pricePerUnit невалиден');
+      throw FormatException(AppLocalizations.current.getString('auto_templateitempriceperunit_nevaliden'));
     }
     if (minQuantity is! int) {
-      throw const FormatException('TemplateItem.minQuantity невалиден');
+      throw FormatException(AppLocalizations.current.getString('auto_templateitemminquantity_nevaliden'));
     }
     if (maxQuantity != null && maxQuantity is! int) {
-      throw const FormatException('TemplateItem.maxQuantity невалиден');
+      throw FormatException(AppLocalizations.current.getString('auto_templateitemmaxquantity_nevaliden'));
     }
     return TemplateItem(
       productId: productId,
@@ -304,7 +305,7 @@ enum TemplateValidationErrorKind {
 
 /// Ошибка валидации шаблона с готовым русским сообщением для UI.
 class TemplateValidationError {
-  const TemplateValidationError({
+  TemplateValidationError({
     required this.kind,
     required this.userMessage,
   });
@@ -313,40 +314,40 @@ class TemplateValidationError {
   final String userMessage;
 
   /// Фабрики с фиксированными сообщениями.
-  factory TemplateValidationError.nameEmpty() => const TemplateValidationError(
+  factory TemplateValidationError.nameEmpty() => TemplateValidationError(
     kind: TemplateValidationErrorKind.nameEmpty,
-    userMessage: 'Имя шаблона: от 1 до 50 символов',
+    userMessage: AppLocalizations.current.getString('auto_imya_shablona_ot_1_do_50_simvolov'),
   );
 
   factory TemplateValidationError.nameTooLong() =>
-      const TemplateValidationError(
+      TemplateValidationError(
         kind: TemplateValidationErrorKind.nameTooLong,
-        userMessage: 'Имя шаблона: от 1 до 50 символов',
+        userMessage: AppLocalizations.current.getString('auto_imya_shablona_ot_1_do_50_simvolov'),
       );
 
   factory TemplateValidationError.nameDuplicate() =>
-      const TemplateValidationError(
+      TemplateValidationError(
         kind: TemplateValidationErrorKind.nameDuplicate,
-        userMessage: 'Шаблон с таким именем уже существует',
+        userMessage: AppLocalizations.current.getString('auto_shablon_s_takim_imenem_uzhe_susches'),
       );
 
   // Защитный кейс: UI скрывает действие при пустой корзине, но стор
   // всё равно валидирует вход.
-  factory TemplateValidationError.itemsEmpty() => const TemplateValidationError(
+  factory TemplateValidationError.itemsEmpty() => TemplateValidationError(
     kind: TemplateValidationErrorKind.itemsEmpty,
-    userMessage: 'Шаблон не может быть пустым',
+    userMessage: AppLocalizations.current.getString('auto_shablon_ne_mozhet_byt_pustym'),
   );
 
   factory TemplateValidationError.itemsLimitExceeded() =>
-      const TemplateValidationError(
+      TemplateValidationError(
         kind: TemplateValidationErrorKind.itemsLimitExceeded,
-        userMessage: 'В шаблоне может быть не более 100 позиций.',
+        userMessage: AppLocalizations.current.getString('auto_v_shablone_mozhet_byt_ne_bolee_100'),
       );
 
   factory TemplateValidationError.templatesLimitExceeded() =>
-      const TemplateValidationError(
+      TemplateValidationError(
         kind: TemplateValidationErrorKind.templatesLimitExceeded,
-        userMessage: 'Достигнут лимит шаблонов: 20. Удалите ненужный шаблон.',
+        userMessage: AppLocalizations.current.getString('auto_dostignut_limit_shablonov_20_udalit'),
       );
 
   @override
@@ -450,7 +451,7 @@ class TemplatesStore extends ChangeNotifier {
   static const int maxNameLength = 50;
 
   // userId, под которым загружен текущий кэш. null - кэш ещё не грузили
-  // или принадлежит "никому" (несогласованное состояние авторизации).
+  // или принадлежит AppLocalizations.current.getString('auto_nikomu') (несогласованное состояние авторизации).
   int? _loadedUserId;
   bool _isLoaded = false;
   final List<PurchaseTemplate> _templates = <PurchaseTemplate>[];
@@ -480,8 +481,8 @@ class TemplatesStore extends ChangeNotifier {
 
     if (remembered && (userId == null || userId <= 0)) {
       AppLogger.warning(
-        'loadForCurrentUser: рассогласование авторизации '
-        '(isRemembered=true, userId=$userId), кэш пуст',
+        "${AppLocalizations.current.getString('auto_loadforcurrentuser_rassoglasovanie')}"
+        "(isRemembered=true, userId=$userId), кэш пуст",
         scope: _logScope,
       );
       _replaceCache(<PurchaseTemplate>[], loadedUserId: null);
@@ -505,7 +506,7 @@ class TemplatesStore extends ChangeNotifier {
       _replaceCache(parsed, loadedUserId: userId);
     } catch (e, st) {
       AppLogger.error(
-        'loadForCurrentUser: не удалось прочитать SharedPreferences',
+        AppLocalizations.current.getString('auto_loadforcurrentuser_ne_udalos_prochi'),
         scope: _logScope,
         error: e,
         stackTrace: st,
@@ -530,7 +531,7 @@ class TemplatesStore extends ChangeNotifier {
         await prefs.remove(_storageKey(userId));
       } catch (e, st) {
         AppLogger.error(
-          'clearCache: не удалось очистить SharedPreferences',
+          AppLocalizations.current.getString('auto_clearcache_ne_udalos_ochistit_share'),
           scope: _logScope,
           error: e,
           stackTrace: st,
@@ -928,7 +929,7 @@ class TemplatesStore extends ChangeNotifier {
       await prefs.setString(_storageKey(userId), encode(_templates));
     } catch (e, st) {
       AppLogger.error(
-        '_persist: не удалось записать шаблоны в SharedPreferences',
+        AppLocalizations.current.getString('auto_persist_ne_udalos_zapisat_shablony'),
         scope: _logScope,
         error: e,
         stackTrace: st,

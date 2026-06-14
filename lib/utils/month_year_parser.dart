@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import '../services/localization/app_localizations.dart';
 
 /// Парсер для преобразования различных форматов месяца/года в DateTime.
 ///
@@ -145,19 +146,19 @@ class MonthYearParser {
 
   /// Форматирует DateTime в читаемый формат "май 2026"
   static String formatForDisplay(DateTime date) {
-    const months = [
-      'января',
-      'февраля',
-      'марта',
-      'апреля',
-      'мая',
-      'июня',
-      'июля',
-      'августа',
-      'сентября',
-      'октября',
-      'ноября',
-      'декабря',
+    final months = [
+      AppLocalizations.current.getString('util_month_display_1'),
+      AppLocalizations.current.getString('util_month_display_2'),
+      AppLocalizations.current.getString('util_month_display_3'),
+      AppLocalizations.current.getString('util_month_display_4'),
+      AppLocalizations.current.getString('util_month_display_5'),
+      AppLocalizations.current.getString('util_month_display_6'),
+      AppLocalizations.current.getString('util_month_display_7'),
+      AppLocalizations.current.getString('util_month_display_8'),
+      AppLocalizations.current.getString('util_month_display_9'),
+      AppLocalizations.current.getString('util_month_display_10'),
+      AppLocalizations.current.getString('util_month_display_11'),
+      AppLocalizations.current.getString('util_month_display_12'),
     ];
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }

@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../profile/personal_info.dart';
 import '../profile/my_addresses.dart';
@@ -247,7 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           context: context,
                           icon: Icons.location_on_outlined,
                           iconColor: context.colorPalette.warning,
-                          title: l10n.getString('profile_addresses_label'),
+                          title: l10n.getString('auto_moiAdresa'),
                           onTap: () {
                             Navigator.push(
                               context,
@@ -322,7 +322,7 @@ class _ProfilePageState extends State<ProfilePage> {
                      context: context,
                      icon: Icons.credit_card,
                      iconColor: context.colorPalette.success,
-                     title: l10n.getString('profile_payment_method'),
+                     title: l10n.getString('auto_metodOplaty'),
                      onTap: () {
                        Navigator.push(
                          context,
@@ -349,7 +349,7 @@ class _ProfilePageState extends State<ProfilePage> {
                  context: context,
                  icon: Icons.favorite_outline,
                  iconColor: context.colorPalette.accent,
-                 title: l10n.getString('profile_favorites'),
+                 title: l10n.getString('auto_izbrannoe'),
                  onTap: () {
                    Navigator.push(
                      context,
@@ -375,7 +375,7 @@ class _ProfilePageState extends State<ProfilePage> {
                    context: context,
                    icon: Icons.help_outline,
                    iconColor: context.colorPalette.warning,
-                   title: l10n.getString('profile_qa'),
+                   title: l10n.getString('auto_voprosyIOtvety'),
                    onTap: () {
                      Navigator.push(
                        context,
@@ -441,7 +441,7 @@ class _ProfilePageState extends State<ProfilePage> {
                  context: context,
                  icon: Icons.support_agent_outlined,
                  iconColor: context.colorPalette.success,
-                 title: l10n.getString('profile_support'),
+                 title: l10n.getString('auto_tehpodderzhka'),
                  badge: ValueListenableBuilder<int>(
                    valueListenable: NotificationService().unreadMessagesCount,
                    builder: (context, count, _) =>

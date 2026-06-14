@@ -149,7 +149,7 @@ ExpandableTextBlock(
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        'Ответ от ${responderName ?? "поставщика"}',
+                        'Ответ от ${responderName ?? context.l10n.getString('auto_postavshchika')}',
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
@@ -190,7 +190,7 @@ ExpandableTextBlock(
 
   Widget _buildActionButtons(BuildContext context, AppColorPalette palette) {
     if (hasResponse) {
-      // Показать кнопки "Изменить ответ" и "Удалить"
+      // Показать кнопки context.l10n.getString('auto_izmenitOtvet') и context.l10n.getString('auto_udalit')
       return Row(
         children: [
           Expanded(
@@ -201,7 +201,7 @@ ExpandableTextBlock(
                 padding: const EdgeInsets.symmetric(vertical: 8),
               ),
               child: Text(
-                'Изменить ответ',
+                context.l10n.getString('auto_izmenitOtvet'),
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
@@ -222,7 +222,7 @@ ExpandableTextBlock(
         ],
       );
     } else {
-      // Показать кнопку "Ответить"
+      // Показать кнопку context.l10n.getString('auto_otvetit')
       return SizedBox(
         width: double.infinity,
         child: FilledButton(

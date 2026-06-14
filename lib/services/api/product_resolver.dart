@@ -1,3 +1,4 @@
+import 'package:flutter_project/services/localization/app_localizations.dart';
 import '../../models/product.dart';
 import 'api_service.dart';
 import '../app_logger.dart';
@@ -47,7 +48,7 @@ class ApiProductResolver implements ProductResolver {
       return map;
     } catch (e, st) {
       AppLogger.error(
-        'ApiProductResolver: не удалось загрузить каталог',
+        AppLocalizations.current.getString('auto_apiproductresolver_ne_udalos_zagruz'),
         scope: _logScope,
         error: e,
         stackTrace: st,

@@ -1,3 +1,4 @@
+import 'package:flutter_project/services/localization/app_localizations.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
@@ -363,15 +364,16 @@ class ApiService {
 
   static Future<Order> createOrder({
     required List<Map<String, dynamic>> items,
-    String status = 'Собирается',
+    String? status,
     String? deliveryAddress,
     required int userId,
   }) async {
+    final effectiveStatus = status ?? AppLocalizations.current.getString('auto_sobiraetsya');
     if (items.isEmpty) {
-      throw ArgumentError('Список товаров не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_spisok_tovarov_ne_dolzhen_byt_pusty'));
     }
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -379,7 +381,7 @@ class ApiService {
         Uri.parse('$baseUrl/orders'),
         headers: const {'content-type': 'application/json; charset=utf-8'},
         body: jsonEncode({
-          'status': status,
+          'status': effectiveStatus,
           'items': items,
           if (deliveryAddress != null && deliveryAddress.trim().isNotEmpty)
             'deliveryAddress': deliveryAddress.trim(),
@@ -404,7 +406,7 @@ class ApiService {
 
   static Future<UserProfile> getUserProfile({required int userId}) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -433,7 +435,7 @@ class ApiService {
     String? supplierName,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     final payload = <String, dynamic>{};
@@ -452,7 +454,7 @@ class ApiService {
 
     if (payload.isEmpty) {
       throw ArgumentError(
-        'Необходимо передать хотя бы одно поле для обновления',
+        AppLocalizations.current.getString('auto_neobhodimo_peredat_hotya_by_odno_po'),
       );
     }
 
@@ -488,7 +490,7 @@ class ApiService {
     String? confirmPassword,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     final normalizedCurrentPassword = currentPassword.trim();
@@ -496,18 +498,18 @@ class ApiService {
     final normalizedConfirmPassword = confirmPassword?.trim();
 
     if (normalizedCurrentPassword.isEmpty || normalizedNewPassword.isEmpty) {
-      throw ArgumentError('Текущий и новый пароль обязательны');
+      throw ArgumentError(AppLocalizations.current.getString('auto_tekuschiy_i_novyy_parol_obyazatelny'));
     }
     if (normalizedCurrentPassword.length < 6 ||
         normalizedNewPassword.length < 6) {
-      throw ArgumentError('Пароль должен содержать минимум 6 символов');
+      throw ArgumentError(AppLocalizations.current.getString('auto_parol_dolzhen_soderzhat_minimum_6_s'));
     }
     if (normalizedCurrentPassword == normalizedNewPassword) {
-      throw ArgumentError('Новый пароль должен отличаться от текущего');
+      throw ArgumentError(AppLocalizations.current.getString('auto_novyy_parol_dolzhen_otlichatsya_ot'));
     }
     if (normalizedConfirmPassword != null &&
         normalizedConfirmPassword != normalizedNewPassword) {
-      throw ArgumentError('Подтверждение пароля не совпадает');
+      throw ArgumentError(AppLocalizations.current.getString('auto_podtverzhdenie_parolya_ne_sovpadaet'));
     }
 
     try {
@@ -550,7 +552,7 @@ class ApiService {
     String? mimeType,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -612,7 +614,7 @@ class ApiService {
   // На любой статус вне 200..299 - Exception с телом ответа.
   static Future<void> deleteAvatar({required int userId}) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -635,7 +637,7 @@ class ApiService {
     required int userId,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -663,7 +665,7 @@ class ApiService {
     required AddressDraft draft,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -693,7 +695,7 @@ class ApiService {
     required AddressDraft draft,
   }) async {
     if (userId <= 0 || addressId <= 0) {
-      throw ArgumentError('userId и addressId должны быть положительными');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_i_addressid_dolzhny_byt_polo'));
     }
 
     try {
@@ -720,7 +722,7 @@ class ApiService {
     required int addressId,
   }) async {
     if (userId <= 0 || addressId <= 0) {
-      throw ArgumentError('userId и addressId должны быть положительными');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_i_addressid_dolzhny_byt_polo'));
     }
 
     try {
@@ -741,7 +743,7 @@ class ApiService {
 
   static Future<Order> acceptOrder(String orderId) async {
     if (orderId.isEmpty) {
-      throw ArgumentError('orderId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_orderid_ne_dolzhen_byt_pustym'));
     }
 
     try {
@@ -768,10 +770,10 @@ class ApiService {
     required int userId,
   }) async {
     if (orderId.isEmpty) {
-      throw ArgumentError('orderId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_orderid_ne_dolzhen_byt_pustym'));
     }
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -800,7 +802,7 @@ class ApiService {
 
   static Future<List<ReviewEntry>> getUserReviews({required int userId}) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -826,7 +828,7 @@ class ApiService {
   }) async {
     final normalizedProductId = productId.trim();
     if (normalizedProductId.isEmpty) {
-      throw ArgumentError('productId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_productid_ne_dolzhen_byt_pustym'));
     }
 
     try {
@@ -855,7 +857,7 @@ class ApiService {
     required int userId,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -889,7 +891,7 @@ class ApiService {
     required String reviewText,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -927,10 +929,10 @@ class ApiService {
     required String reviewText,
   }) async {
     if (reviewId.isEmpty) {
-      throw ArgumentError('reviewId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_reviewid_ne_dolzhen_byt_pustym'));
     }
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -961,10 +963,10 @@ class ApiService {
     required int userId,
   }) async {
     if (reviewId.isEmpty) {
-      throw ArgumentError('reviewId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_reviewid_ne_dolzhen_byt_pustym'));
     }
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -1071,10 +1073,10 @@ class ApiService {
     required int userId,
   }) async {
     if (productId.trim().isEmpty) {
-      throw ArgumentError('productId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_productid_ne_dolzhen_byt_pustym'));
     }
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -1140,13 +1142,13 @@ class ApiService {
     required String status,
   }) async {
     if (orderId.trim().isEmpty) {
-      throw ArgumentError('orderId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_orderid_ne_dolzhen_byt_pustym'));
     }
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
     if (status.trim().isEmpty) {
-      throw ArgumentError('status не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_status_ne_dolzhen_byt_pustym'));
     }
 
     try {
@@ -1235,13 +1237,13 @@ class ApiService {
     final normalizedReason = reason.trim();
 
     if (normalizedProductId.isEmpty) {
-      throw ArgumentError('productId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_productid_ne_dolzhen_byt_pustym'));
     }
     if (moderatorId <= 0) {
-      throw ArgumentError('moderatorId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_moderatorid_dolzhen_byt_polozhiteln'));
     }
     if (normalizedReason.isEmpty) {
-      throw ArgumentError('reason не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_reason_ne_dolzhen_byt_pustym'));
     }
 
     try {
@@ -1350,7 +1352,7 @@ class ApiService {
     bool isActive = true,
   }) async {
     if (name.trim().isEmpty) {
-      throw ArgumentError('name не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_name_ne_dolzhen_byt_pustym'));
     }
 
     try {
@@ -1394,7 +1396,7 @@ class ApiService {
     bool? isActive,
   }) async {
     if (id <= 0) {
-      throw ArgumentError('id должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_id_dolzhen_byt_polozhitelnym'));
     }
 
     final payload = <String, dynamic>{};
@@ -1444,7 +1446,7 @@ class ApiService {
 
   static Future<void> deleteModerationCategory({required int id}) async {
     if (id <= 0) {
-      throw ArgumentError('id должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_id_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -1468,10 +1470,10 @@ class ApiService {
     int? chatId,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
     if (chatId != null && chatId <= 0) {
-      throw ArgumentError('chatId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_chatid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -1504,10 +1506,10 @@ class ApiService {
     int? chatId,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
     if (chatId != null && chatId <= 0) {
-      throw ArgumentError('chatId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_chatid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -1548,13 +1550,13 @@ class ApiService {
     String? subject,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
     if (text.trim().isEmpty) {
-      throw ArgumentError('text не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_text_ne_dolzhen_byt_pustym'));
     }
     if (chatId != null && chatId <= 0) {
-      throw ArgumentError('chatId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_chatid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -1624,7 +1626,7 @@ class ApiService {
     required int chatId,
   }) async {
     if (chatId <= 0) {
-      throw ArgumentError('chatId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_chatid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -1654,7 +1656,7 @@ class ApiService {
     required int chatId,
   }) async {
     if (chatId <= 0) {
-      throw ArgumentError('chatId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_chatid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -1683,10 +1685,10 @@ class ApiService {
     String? reason,
   }) async {
     if (chatId <= 0) {
-      throw ArgumentError('chatId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_chatid_dolzhen_byt_polozhitelnym'));
     }
     if (moderatorId <= 0) {
-      throw ArgumentError('moderatorId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_moderatorid_dolzhen_byt_polozhiteln'));
     }
 
     try {
@@ -1712,10 +1714,10 @@ class ApiService {
     int? chatId,
   }) {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
     if (chatId != null && chatId <= 0) {
-      throw ArgumentError('chatId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_chatid_dolzhen_byt_polozhitelnym'));
     }
 
     final query = <String, String>{'userId': '$userId'};
@@ -1725,12 +1727,12 @@ class ApiService {
     final uri = Uri.parse(
       '$baseUrl/support/events',
     ).replace(queryParameters: query);
-    return _sharedEventStream(uri, streamLabel: 'пользователь');
+    return _sharedEventStream(uri, streamLabel: AppLocalizations.current.getString('auto_polzovatel'));
   }
 
   static Stream<Map<String, dynamic>> moderatorSupportEvents({int? chatId}) {
     if (chatId != null && chatId <= 0) {
-      throw ArgumentError('chatId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_chatid_dolzhen_byt_polozhitelnym'));
     }
 
     final query = <String, String>{};
@@ -1740,7 +1742,7 @@ class ApiService {
     final uri = Uri.parse(
       '$baseUrl/moderation/support/events',
     ).replace(queryParameters: query.isEmpty ? null : query);
-    return _sharedEventStream(uri, streamLabel: 'модератор');
+    return _sharedEventStream(uri, streamLabel: AppLocalizations.current.getString('auto_moderator'));
   }
 
   // Мультиплексер SSE-стримов: одна реальная подписка на уникальный URI,
@@ -1890,7 +1892,7 @@ class ApiService {
   }) async {
     final normalizedProductId = productId.trim();
     if (normalizedProductId.isEmpty) {
-      throw ArgumentError('productId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_productid_ne_dolzhen_byt_pustym'));
     }
 
     try {
@@ -1907,21 +1909,21 @@ class ApiService {
         if (!decoded.containsKey('questions') ||
             !decoded.containsKey('total')) {
           throw Exception(
-            'Неверный формат ответа сервера: отсутствуют поля questions или total',
+            AppLocalizations.current.getString('auto_nevernyy_format_otveta_servera_otsu'),
           );
         }
 
         final questions = decoded['questions'];
         if (questions is! List) {
           throw Exception(
-            'Неверный формат ответа сервера: questions должен быть списком',
+            AppLocalizations.current.getString('auto_nevernyy_format_otveta_servera_ques'),
           );
         }
 
         final total = decoded['total'];
         if (total is! int) {
           throw Exception(
-            'Неверный формат ответа сервера: total должен быть числом',
+            AppLocalizations.current.getString('auto_nevernyy_format_otveta_servera_tota'),
           );
         }
 
@@ -1948,16 +1950,16 @@ class ApiService {
     final normalizedQuestionText = questionText.trim();
 
     if (normalizedProductId.isEmpty) {
-      throw ArgumentError('productId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_productid_ne_dolzhen_byt_pustym'));
     }
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
     if (normalizedQuestionText.isEmpty) {
-      throw ArgumentError('Вопрос не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_vopros_ne_dolzhen_byt_pustym'));
     }
     if (normalizedQuestionText.length < 10) {
-      throw ArgumentError('Вопрос должен содержать минимум 10 символов');
+      throw ArgumentError(AppLocalizations.current.getString('auto_vopros_dolzhen_soderzhat_minimum_10'));
     }
 
     try {
@@ -2001,7 +2003,7 @@ class ApiService {
       }),
     );
     if (response.statusCode != 201) {
-      throw Exception('Не удалось ответить');
+      throw Exception(AppLocalizations.current.getString('auto_ne_udalos_otvetit'));
     }
   }
 
@@ -2011,7 +2013,7 @@ class ApiService {
     int limit = 20,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -2047,7 +2049,7 @@ class ApiService {
     int limit = 20,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -2084,14 +2086,14 @@ class ApiService {
   }) async {
     final normalizedQuestionId = questionId.trim();
     if (normalizedQuestionId.isEmpty) {
-      throw ArgumentError('questionId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_questionid_ne_dolzhen_byt_pustym'));
     }
     if (supplierUserId <= 0) {
-      throw ArgumentError('supplierUserId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_supplieruserid_dolzhen_byt_polozhit'));
     }
     final normalizedAnswerText = answerText.trim();
     if (normalizedAnswerText.isEmpty) {
-      throw ArgumentError('answerText не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_answertext_ne_dolzhen_byt_pustym'));
     }
 
     try {
@@ -2124,14 +2126,14 @@ class ApiService {
   }) async {
     final normalizedReviewId = reviewId.trim();
     if (normalizedReviewId.isEmpty) {
-      throw ArgumentError('reviewId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_reviewid_ne_dolzhen_byt_pustym'));
     }
     if (supplierUserId <= 0) {
-      throw ArgumentError('supplierUserId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_supplieruserid_dolzhen_byt_polozhit'));
     }
     final normalizedResponseText = responseText.trim();
     if (normalizedResponseText.isEmpty) {
-      throw ArgumentError('responseText не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_responsetext_ne_dolzhen_byt_pustym'));
     }
 
     try {
@@ -2164,14 +2166,14 @@ class ApiService {
   }) async {
     final normalizedReviewId = reviewId.trim();
     if (normalizedReviewId.isEmpty) {
-      throw ArgumentError('reviewId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_reviewid_ne_dolzhen_byt_pustym'));
     }
     if (supplierUserId <= 0) {
-      throw ArgumentError('supplierUserId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_supplieruserid_dolzhen_byt_polozhit'));
     }
     final normalizedResponseText = responseText.trim();
     if (normalizedResponseText.isEmpty) {
-      throw ArgumentError('responseText не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_responsetext_ne_dolzhen_byt_pustym'));
     }
 
     try {
@@ -2224,7 +2226,7 @@ class ApiService {
     final mockSuppliers = {
       'supplier_123': Supplier(
         id: 'supplier_123',
-        name: 'ООО Оптовая Компания',
+        name: AppLocalizations.current.getString('auto_ooo_optovaya_kompaniya'),
         rating: 4.5,
         reviewCount: 128,
         pricePerUnit: 1500,
@@ -2232,17 +2234,17 @@ class ApiService {
         maxQuantity: 1000,
         stockQuantity: 500,
         deliveryDate: '2024-01-15',
-        deliveryInfo: 'Доставка по России',
-        deliveryBadge: 'Быстрая доставка',
+        deliveryInfo: AppLocalizations.current.getString('auto_dostavka_po_rossii'),
+        deliveryBadge: AppLocalizations.current.getString('auto_bystraya_dostavka'),
         logoUrl: 'https://via.placeholder.com/200?text=Supplier123',
-        description: 'Поставщик качественных товаров оптом с 10-летним опытом',
-        address: 'г. Москва, ул. Примерная, д. 1',
+        description: AppLocalizations.current.getString('auto_postavschik_kachestvennyh_tovarov_o'),
+        address: AppLocalizations.current.getString('auto_g_moskva_ul_primernaya_d_1'),
         phone: '+7 (495) 123-45-67',
         email: 'info@supplier123.ru',
       ),
       'supplier_456': Supplier(
         id: 'supplier_456',
-        name: 'ООО Торговый Дом',
+        name: AppLocalizations.current.getString('auto_ooo_torgovyy_dom'),
         rating: 4.2,
         reviewCount: 95,
         pricePerUnit: 2000,
@@ -2250,17 +2252,17 @@ class ApiService {
         maxQuantity: 500,
         stockQuantity: 300,
         deliveryDate: '2024-01-16',
-        deliveryInfo: 'Доставка по России и СНГ',
-        deliveryBadge: 'Надёжный партнёр',
+        deliveryInfo: AppLocalizations.current.getString('auto_dostavka_po_rossii_i_sng'),
+        deliveryBadge: AppLocalizations.current.getString('auto_nadzhnyy_partnr'),
         logoUrl: 'https://via.placeholder.com/200?text=Supplier456',
-        description: 'Крупный оптовый поставщик с широким ассортиментом',
-        address: 'г. Санкт-Петербург, пр. Невский, д. 50',
+        description: AppLocalizations.current.getString('auto_krupnyy_optovyy_postavschik_s_shiro'),
+        address: AppLocalizations.current.getString('auto_g_sanktpeterburg_pr_nevskiy_d_50'),
         phone: '+7 (812) 456-78-90',
         email: 'sales@torgovydom.ru',
       ),
       'supplier_789': Supplier(
         id: 'supplier_789',
-        name: 'ООО Экспресс Поставки',
+        name: AppLocalizations.current.getString('auto_ooo_ekspress_postavki'),
         rating: 4.8,
         reviewCount: 256,
         pricePerUnit: 1200,
@@ -2268,11 +2270,11 @@ class ApiService {
         maxQuantity: 2000,
         stockQuantity: 1500,
         deliveryDate: '2024-01-14',
-        deliveryInfo: 'Экспресс-доставка 24 часа',
-        deliveryBadge: 'Быстрая доставка',
+        deliveryInfo: AppLocalizations.current.getString('auto_ekspressdostavka_24_chasa'),
+        deliveryBadge: AppLocalizations.current.getString('auto_bystraya_dostavka'),
         logoUrl: 'https://via.placeholder.com/200?text=Supplier789',
-        description: 'Специализируемся на быстрой доставке товаров оптом',
-        address: 'г. Екатеринбург, ул. Главная, д. 100',
+        description: AppLocalizations.current.getString('auto_spetsializiruemsya_na_bystroy_dosta'),
+        address: AppLocalizations.current.getString('auto_g_ekaterinburg_ul_glavnaya_d_100'),
         phone: '+7 (343) 789-01-23',
         email: 'express@dostavka.ru',
       ),
@@ -2294,11 +2296,11 @@ class ApiService {
       maxQuantity: 1000,
       stockQuantity: 500,
       deliveryDate: '2024-01-15',
-      deliveryInfo: 'Доставка по России',
-      deliveryBadge: 'Стандартная доставка',
+      deliveryInfo: AppLocalizations.current.getString('auto_dostavka_po_rossii'),
+      deliveryBadge: AppLocalizations.current.getString('auto_standartnaya_dostavka'),
       logoUrl: 'https://via.placeholder.com/200?text=$supplierId',
-      description: 'Надёжный поставщик оптовых товаров',
-      address: 'Россия',
+      description: AppLocalizations.current.getString('auto_nadzhnyy_postavschik_optovyh_tovaro'),
+      address: AppLocalizations.current.getString('auto_rossiya'),
       phone: '+7 (000) 000-00-00',
       email: 'info@supplier.ru',
     );
@@ -2311,16 +2313,16 @@ class ApiService {
       'supplier_123': [
         {
           'id': 'product_1',
-          'name': 'Товар 1 от поставщика 123',
+          'name': AppLocalizations.current.getString('auto_tovar_1_ot_postavschika_123'),
           'price': 1500,
           'rating': 4.5,
           'reviewCount': 50,
           'imageUrl': 'https://via.placeholder.com/200?text=Product1',
-          'category': 'Категория 1',
+          'category': AppLocalizations.current.getString('auto_kategoriya_1'),
           'suppliers': [
             {
               'id': 'supplier_123',
-              'name': 'ООО Оптовая Компания',
+              'name': AppLocalizations.current.getString('auto_ooo_optovaya_kompaniya'),
               'rating': 4.5,
               'reviewCount': 128,
               'pricePerUnit': 1500,
@@ -2328,23 +2330,23 @@ class ApiService {
               'maxQuantity': 1000,
               'stockQuantity': 500,
               'deliveryDate': '2024-01-15',
-              'deliveryInfo': 'Доставка по России',
-              'deliveryBadge': 'Быстрая доставка',
+              'deliveryInfo': AppLocalizations.current.getString('auto_dostavka_po_rossii'),
+              'deliveryBadge': AppLocalizations.current.getString('auto_bystraya_dostavka'),
             },
           ],
         },
         {
           'id': 'product_2',
-          'name': 'Товар 2 от поставщика 123',
+          'name': AppLocalizations.current.getString('auto_tovar_2_ot_postavschika_123'),
           'price': 2000,
           'rating': 4.2,
           'reviewCount': 30,
           'imageUrl': 'https://via.placeholder.com/200?text=Product2',
-          'category': 'Категория 2',
+          'category': AppLocalizations.current.getString('auto_kategoriya_2'),
           'suppliers': [
             {
               'id': 'supplier_123',
-              'name': 'ООО Оптовая Компания',
+              'name': AppLocalizations.current.getString('auto_ooo_optovaya_kompaniya'),
               'rating': 4.5,
               'reviewCount': 128,
               'pricePerUnit': 2000,
@@ -2352,8 +2354,8 @@ class ApiService {
               'maxQuantity': 1000,
               'stockQuantity': 500,
               'deliveryDate': '2024-01-15',
-              'deliveryInfo': 'Доставка по России',
-              'deliveryBadge': 'Быстрая доставка',
+              'deliveryInfo': AppLocalizations.current.getString('auto_dostavka_po_rossii'),
+              'deliveryBadge': AppLocalizations.current.getString('auto_bystraya_dostavka'),
             },
           ],
         },
@@ -2361,16 +2363,16 @@ class ApiService {
       'supplier_456': [
         {
           'id': 'product_3',
-          'name': 'Товар 1 от поставщика 456',
+          'name': AppLocalizations.current.getString('auto_tovar_1_ot_postavschika_456'),
           'price': 2000,
           'rating': 4.2,
           'reviewCount': 40,
           'imageUrl': 'https://via.placeholder.com/200?text=Product3',
-          'category': 'Категория 1',
+          'category': AppLocalizations.current.getString('auto_kategoriya_1'),
           'suppliers': [
             {
               'id': 'supplier_456',
-              'name': 'ООО Торговый Дом',
+              'name': AppLocalizations.current.getString('auto_ooo_torgovyy_dom'),
               'rating': 4.2,
               'reviewCount': 95,
               'pricePerUnit': 2000,
@@ -2378,8 +2380,8 @@ class ApiService {
               'maxQuantity': 500,
               'stockQuantity': 300,
               'deliveryDate': '2024-01-16',
-              'deliveryInfo': 'Доставка по России и СНГ',
-              'deliveryBadge': 'Надёжный партнёр',
+              'deliveryInfo': AppLocalizations.current.getString('auto_dostavka_po_rossii_i_sng'),
+              'deliveryBadge': AppLocalizations.current.getString('auto_nadzhnyy_partnr'),
             },
           ],
         },
@@ -2387,16 +2389,16 @@ class ApiService {
       'supplier_789': [
         {
           'id': 'product_4',
-          'name': 'Товар 1 от поставщика 789',
+          'name': AppLocalizations.current.getString('auto_tovar_1_ot_postavschika_789'),
           'price': 1200,
           'rating': 4.8,
           'reviewCount': 100,
           'imageUrl': 'https://via.placeholder.com/200?text=Product4',
-          'category': 'Категория 1',
+          'category': AppLocalizations.current.getString('auto_kategoriya_1'),
           'suppliers': [
             {
               'id': 'supplier_789',
-              'name': 'ООО Экспресс Поставки',
+              'name': AppLocalizations.current.getString('auto_ooo_ekspress_postavki'),
               'rating': 4.8,
               'reviewCount': 256,
               'pricePerUnit': 1200,
@@ -2404,23 +2406,23 @@ class ApiService {
               'maxQuantity': 2000,
               'stockQuantity': 1500,
               'deliveryDate': '2024-01-14',
-              'deliveryInfo': 'Экспресс-доставка 24 часа',
-              'deliveryBadge': 'Быстрая доставка',
+              'deliveryInfo': AppLocalizations.current.getString('auto_ekspressdostavka_24_chasa'),
+              'deliveryBadge': AppLocalizations.current.getString('auto_bystraya_dostavka'),
             },
           ],
         },
         {
           'id': 'product_5',
-          'name': 'Товар 2 от поставщика 789',
+          'name': AppLocalizations.current.getString('auto_tovar_2_ot_postavschika_789'),
           'price': 1800,
           'rating': 4.6,
           'reviewCount': 80,
           'imageUrl': 'https://via.placeholder.com/200?text=Product5',
-          'category': 'Категория 2',
+          'category': AppLocalizations.current.getString('auto_kategoriya_2'),
           'suppliers': [
             {
               'id': 'supplier_789',
-              'name': 'ООО Экспресс Поставки',
+              'name': AppLocalizations.current.getString('auto_ooo_ekspress_postavki'),
               'rating': 4.8,
               'reviewCount': 256,
               'pricePerUnit': 1800,
@@ -2428,8 +2430,8 @@ class ApiService {
               'maxQuantity': 2000,
               'stockQuantity': 1500,
               'deliveryDate': '2024-01-14',
-              'deliveryInfo': 'Экспресс-доставка 24 часа',
-              'deliveryBadge': 'Быстрая доставка',
+              'deliveryInfo': AppLocalizations.current.getString('auto_ekspressdostavka_24_chasa'),
+              'deliveryBadge': AppLocalizations.current.getString('auto_bystraya_dostavka'),
             },
           ],
         },
@@ -2447,7 +2449,7 @@ class ApiService {
   static Future<Supplier> getSupplier(String supplierId) async {
     final normalizedId = supplierId.trim();
     if (normalizedId.isEmpty) {
-      throw ArgumentError('supplierId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_supplierid_ne_dolzhen_byt_pustym'));
     }
 
     try {
@@ -2455,7 +2457,7 @@ class ApiService {
           .get(Uri.parse('$baseUrl/suppliers/$normalizedId'))
           .timeout(
             const Duration(seconds: 15),
-            onTimeout: () => throw Exception('Время ожидания истекло'),
+            onTimeout: () => throw Exception(AppLocalizations.current.getString('auto_vremya_ozhidaniya_isteklo')),
           );
 
       if (response.statusCode == 200) {
@@ -2469,7 +2471,7 @@ class ApiService {
           debugPrint('Возвращаем mock-данные для поставщика: $normalizedId');
           return _getMockSupplier(normalizedId);
         }
-        throw Exception('Поставщик не найден');
+        throw Exception(AppLocalizations.current.getString('auto_postavschik_ne_nayden'));
       }
 
       final errorMessage = _extractResponseErrorMessage(response);
@@ -2501,7 +2503,7 @@ class ApiService {
   }) async {
     final normalizedId = supplierId.trim();
     if (normalizedId.isEmpty) {
-      throw ArgumentError('supplierId не должен быть пустым');
+      throw ArgumentError(AppLocalizations.current.getString('auto_supplierid_ne_dolzhen_byt_pustym'));
     }
 
     try {
@@ -2517,7 +2519,7 @@ class ApiService {
           .get(uri)
           .timeout(
             const Duration(seconds: 15),
-            onTimeout: () => throw Exception('Время ожидания истекло'),
+            onTimeout: () => throw Exception(AppLocalizations.current.getString('auto_vremya_ozhidaniya_isteklo')),
           );
 
       if (response.statusCode == 200) {
@@ -2541,7 +2543,7 @@ class ApiService {
           debugPrint('Возвращаем mock-каталог для поставщика: $normalizedId');
           return _getMockSupplierCatalog(normalizedId);
         }
-        throw Exception('Поставщик не найден');
+        throw Exception(AppLocalizations.current.getString('auto_postavschik_ne_nayden'));
       }
 
       final errorMessage = _extractResponseErrorMessage(response);
@@ -2572,7 +2574,7 @@ class ApiService {
     DateTime? endDate,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -2607,7 +2609,7 @@ class ApiService {
     required int userId,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -2642,7 +2644,7 @@ class ApiService {
     required DateTime endDate,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -2681,7 +2683,7 @@ class ApiService {
     DateTime? endDate,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -2722,7 +2724,7 @@ class ApiService {
     DateTime? endDate,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -2759,7 +2761,7 @@ class ApiService {
     DateTime? endDate,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -2796,7 +2798,7 @@ class ApiService {
     DateTime? endDate,
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -2836,7 +2838,7 @@ class ApiService {
     String role = '',
   }) async {
     if (userId <= 0) {
-      throw ArgumentError('userId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_userid_dolzhen_byt_polozhitelnym'));
     }
 
     // Любая роль может быть покупателем - фильтруем по роли только модерационный запрос.
@@ -2869,7 +2871,7 @@ class ApiService {
     try {
       final thread = await getSupportThread(userId: userId).timeout(
         const Duration(seconds: 5),
-        onTimeout: () => throw Exception('Таймаут'),
+        onTimeout: () => throw Exception(AppLocalizations.current.getString('auto_taymaut')),
       );
       if (thread.chat == null || !thread.chat!.isOpen) return 0;
       // Если последнее сообщение от модератора - значит пользователь не ответил
@@ -2886,7 +2888,7 @@ class ApiService {
     try {
       final orders = await getOrders(userId: userId).timeout(
         const Duration(seconds: 5),
-        onTimeout: () => throw Exception('Таймаут'),
+        onTimeout: () => throw Exception(AppLocalizations.current.getString('auto_taymaut')),
       );
       return orders.where((o) => isInTransitStatus(o.status)).length;
     } catch (_) {
@@ -2898,45 +2900,45 @@ class ApiService {
   @visibleForTesting
   static bool isInTransitStatus(String status) {
     final s = status.trim().toLowerCase();
-    return s == 'в пути' ||
+    return s == AppLocalizations.current.getString('auto_v_puti') ||
         s == 'in transit' ||
         s == 'in_transit' ||
         s == 'shipped' ||
         s == 'on the way' ||
-        s == 'отправлен' ||
-        s == 'отправлено';
+        s == AppLocalizations.current.getString('auto_otpravlen') ||
+        s == AppLocalizations.current.getString('auto_otpravleno');
   }
 
   /// Считает заказы поставщика, ожидающие действия:
-  /// заказы со статусом "Собирается" / "В пути" / etc.
+  /// заказы со статусом AppLocalizations.current.getString('auto_sobiraetsya') / AppLocalizations.current.getString('auto_v_puti_1') / etc.
   /// (не завершённые покупателем и не отменённые).
   /// Использует /supplier/orders, а не /orders - это разные эндпоинты.
   static Future<int> _fetchPendingSupplierOrdersCount(int userId) async {
     try {
       final orders = await getSupplierOrders(userId: userId).timeout(
         const Duration(seconds: 5),
-        onTimeout: () => throw Exception('Таймаут'),
+        onTimeout: () => throw Exception(AppLocalizations.current.getString('auto_taymaut')),
       );
       return orders.where((o) {
         final s = o.status.trim().toLowerCase();
-        // "Принят" покупателем = заказ закрыт для поставщика
+        // AppLocalizations.current.getString('auto_prinyat') покупателем = заказ закрыт для поставщика
         final isDone =
-            s == 'доставлен' ||
-            s == 'получено' ||
+            s == AppLocalizations.current.getString('auto_dostavlen') ||
+            s == AppLocalizations.current.getString('auto_polucheno') ||
             s == 'delivered' ||
-            s == 'принят' ||
-            s == 'принята' ||
-            s == 'принято' ||
-            s == 'приняты' ||
+            s == AppLocalizations.current.getString('auto_prinyat_1') ||
+            s == AppLocalizations.current.getString('auto_prinyata') ||
+            s == AppLocalizations.current.getString('auto_prinyato') ||
+            s == AppLocalizations.current.getString('auto_prinyaty') ||
             s == 'accepted' ||
             s == 'received' ||
-            s == 'завершено' ||
+            s == AppLocalizations.current.getString('auto_zaversheno') ||
             s == 'completed';
         final isCancelled =
-            s.contains('отмена') ||
+            s.contains(AppLocalizations.current.getString('auto_otmena')) ||
             s == 'cancelled' ||
-            s == 'отменён' ||
-            s == 'отменен';
+            s == AppLocalizations.current.getString('auto_otmenn') ||
+            s == AppLocalizations.current.getString('auto_otmenen');
         return !isDone && !isCancelled;
       }).length;
     } catch (_) {
@@ -2945,16 +2947,16 @@ class ApiService {
   }
 
   /// Считает доставленные заказы покупателя, которые ещё не подтверждены как полученные.
-  /// Статус "Доставлен" означает, что товар привезли, но покупатель ещё не нажал "Получил".
+  /// Статус AppLocalizations.current.getString('auto_dostavlen_1') означает, что товар привезли, но покупатель ещё не нажал AppLocalizations.current.getString('auto_poluchil').
   static Future<int> _fetchDeliveredOrdersCount(int userId) async {
     try {
       final orders = await getOrders(userId: userId).timeout(
         const Duration(seconds: 5),
-        onTimeout: () => throw Exception('Таймаут'),
+        onTimeout: () => throw Exception(AppLocalizations.current.getString('auto_taymaut')),
       );
       return orders.where((o) {
         final s = o.status.trim().toLowerCase();
-        return s == 'доставлен' || s == 'delivered';
+        return s == AppLocalizations.current.getString('auto_dostavlen') || s == 'delivered';
       }).length;
     } catch (_) {
       return 0;
@@ -2966,7 +2968,7 @@ class ApiService {
     try {
       final items = await getPendingReviews(userId: userId).timeout(
         const Duration(seconds: 5),
-        onTimeout: () => throw Exception('Таймаут'),
+        onTimeout: () => throw Exception(AppLocalizations.current.getString('auto_taymaut')),
       );
       return items.length;
     } catch (_) {
@@ -2979,7 +2981,7 @@ class ApiService {
     try {
       final products = await getModerationProducts(status: 'pending').timeout(
         const Duration(seconds: 5),
-        onTimeout: () => throw Exception('Таймаут'),
+        onTimeout: () => throw Exception(AppLocalizations.current.getString('auto_taymaut')),
       );
       return products.length;
     } catch (_) {
@@ -3023,7 +3025,7 @@ class ApiService {
   static Map<String, String> _superAdminHeaders() {
     final id = AuthStorage.userId;
     if (id == null || id <= 0) {
-      throw StateError('Не авторизован');
+      throw StateError(AppLocalizations.current.getString('auto_ne_avtorizovan'));
     }
     return {
       'content-type': 'application/json; charset=utf-8',
@@ -3087,7 +3089,7 @@ class ApiService {
         if (decoded is Map) {
           return Moderator.fromJson(Map<String, dynamic>.from(decoded));
         }
-        throw Exception('Сервер вернул некорректный ответ');
+        throw Exception(AppLocalizations.current.getString('auto_server_vernul_nekorrektnyy_otvet'));
       }
 
       final errorMessage = _extractResponseErrorMessage(response);
@@ -3103,7 +3105,7 @@ class ApiService {
   /// Удаляет модератора по идентификатору. Только для Super_Admin.
   static Future<void> deleteModerator({required int id}) async {
     if (id <= 0) {
-      throw ArgumentError('id должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_id_dolzhen_byt_polozhitelnym'));
     }
 
     try {
@@ -3137,10 +3139,10 @@ class ApiService {
     String? query,
   }) async {
     if (offset < 0) {
-      throw ArgumentError('offset не должен быть отрицательным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_offset_ne_dolzhen_byt_otritsatelnym'));
     }
     if (limit <= 0) {
-      throw ArgumentError('limit должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_limit_dolzhen_byt_polozhitelnym'));
     }
 
     const endpoint = '/moderation/suppliers';
@@ -3173,7 +3175,7 @@ class ApiService {
             Map<String, dynamic>.from(decoded),
           );
         }
-        throw Exception('Сервер вернул некорректный ответ');
+        throw Exception(AppLocalizations.current.getString('auto_server_vernul_nekorrektnyy_otvet'));
       }
 
       throw Exception(
@@ -3195,10 +3197,10 @@ class ApiService {
     bool peek = false,
   }) async {
     if (moderatorId <= 0) {
-      throw ArgumentError('moderatorId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_moderatorid_dolzhen_byt_polozhiteln'));
     }
     if (targetUserId <= 0) {
-      throw ArgumentError('targetUserId должен быть положительным');
+      throw ArgumentError(AppLocalizations.current.getString('auto_targetuserid_dolzhen_byt_polozhitel'));
     }
 
     const endpoint = '/moderation/support/chats/find-or-create';

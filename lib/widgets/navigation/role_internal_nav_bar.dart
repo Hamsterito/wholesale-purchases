@@ -6,6 +6,7 @@ import 'navigation_shell.dart';
 import 'role_nav_config.dart';
 import 'role_navigation_bar.dart';
 
+
 /// Нижняя навигация для внутренних экранов (история заказов, настройки и т.д.).
 /// Показывает панель активной роли, а при нажатии на вкладку делает
 /// pushAndRemoveUntil на свежий NavigationShell с нужным индексом - внутренние

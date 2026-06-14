@@ -1,6 +1,7 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../../models/product.dart';
 import '../../theme/app_color_palette.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 class NutritionalInfoCard extends StatelessWidget {
   final NutritionalInfo nutritionalInfo;
@@ -19,7 +20,7 @@ class NutritionalInfoCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Пищевая ценность',
+            context.l10n.getString('auto_pishchevayaTsennost'),
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -28,7 +29,7 @@ class NutritionalInfoCard extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'В 100 граммах:',
+            context.l10n.getString('auto_v100Grammah'),
             style: TextStyle(fontSize: 12, color: palette.muted),
           ),
           const SizedBox(height: 12),
@@ -38,7 +39,7 @@ class NutritionalInfoCard extends StatelessWidget {
                 child: _buildNutritionItem(
                   context: context,
                   value: '${nutritionalInfo.calories.toStringAsFixed(0)} к',
-                  label: 'Калории',
+                  label: context.l10n.getString('auto_kalorii'),
                 ),
               ),
               const SizedBox(width: 8),
@@ -46,7 +47,7 @@ class NutritionalInfoCard extends StatelessWidget {
                 child: _buildNutritionItem(
                   context: context,
                   value: '${nutritionalInfo.protein.toStringAsFixed(0)} г',
-                  label: 'Белки',
+                  label: context.l10n.getString('auto_belki'),
                 ),
               ),
               const SizedBox(width: 8),
@@ -54,7 +55,7 @@ class NutritionalInfoCard extends StatelessWidget {
                 child: _buildNutritionItem(
                   context: context,
                   value: '${nutritionalInfo.fat.toStringAsFixed(0)} г',
-                  label: 'Жиры',
+                  label: context.l10n.getString('auto_zhiry'),
                 ),
               ),
               const SizedBox(width: 8),
@@ -63,7 +64,7 @@ class NutritionalInfoCard extends StatelessWidget {
                   context: context,
                   value:
                       '${nutritionalInfo.carbohydrates.toStringAsFixed(1)} г',
-                  label: 'Углеводы',
+                  label: context.l10n.getString('auto_uglevody'),
                 ),
               ),
             ],

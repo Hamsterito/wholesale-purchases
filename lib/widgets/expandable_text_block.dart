@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 class ExpandableTextBlock extends StatefulWidget {
   const ExpandableTextBlock(
@@ -7,8 +8,8 @@ class ExpandableTextBlock extends StatefulWidget {
     required this.textStyle,
     required this.actionColor,
     this.collapsedMaxLines = 3,
-    this.moreLabel = 'Подробнее',
-    this.lessLabel = 'Свернуть',
+    this.moreLabel,
+    this.lessLabel,
     this.actionFontSize = 12,
     this.onExpansionChanged,
   });
@@ -17,8 +18,8 @@ class ExpandableTextBlock extends StatefulWidget {
   final TextStyle textStyle;
   final Color actionColor;
   final int collapsedMaxLines;
-  final String moreLabel;
-  final String lessLabel;
+  final String? moreLabel;
+  final String? lessLabel;
   final double actionFontSize;
   final ValueChanged<bool>? onExpansionChanged;
 
@@ -80,7 +81,9 @@ class _ExpandableTextBlockState extends State<ExpandableTextBlock> {
                     widget.onExpansionChanged?.call(_isExpanded);
                   },
                 child: Text(
-                  _isExpanded ? widget.lessLabel : widget.moreLabel,
+                  _isExpanded
+                      ? (widget.lessLabel ?? context.l10n.getString('auto_svernut'))
+                      : (widget.moreLabel ?? context.l10n.getString('auto_podrobnee')),
                   style: TextStyle(
                     color: widget.actionColor,
                     fontSize: widget.actionFontSize,

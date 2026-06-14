@@ -1,3 +1,4 @@
+import 'package:flutter_project/services/localization/app_localizations.dart';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -114,7 +115,7 @@ class FavoritesStore extends ChangeNotifier {
             }
           } catch (e) {
             AppLogger.warning(
-              'Не удалось восстановить поставщика из хранилища',
+              AppLocalizations.current.getString('auto_ne_udalos_vosstanovit_postavschika'),
               scope: 'favorites',
             );
           }
@@ -126,7 +127,7 @@ class FavoritesStore extends ChangeNotifier {
       }
     } catch (e, st) {
       AppLogger.error(
-        'Ошибка загрузки избранного из хранилища',
+        AppLocalizations.current.getString('auto_oshibka_zagruzki_izbrannogo_iz_hran'),
         scope: 'favorites',
         error: e,
         stackTrace: st,
@@ -149,7 +150,7 @@ class FavoritesStore extends ChangeNotifier {
       await prefs.setString(_suppliersKey, suppliersJson);
     } catch (e, st) {
       AppLogger.error(
-        'Ошибка сохранения избранного в хранилище',
+        AppLocalizations.current.getString('auto_oshibka_sohraneniya_izbrannogo_v_hr'),
         scope: 'favorites',
         error: e,
         stackTrace: st,

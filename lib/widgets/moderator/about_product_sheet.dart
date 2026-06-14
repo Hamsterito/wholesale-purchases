@@ -121,7 +121,7 @@ class _AboutProductSheetState extends State<AboutProductSheet>
             children: [
               Expanded(
                 child: Text(
-                  'О товаре',
+                  context.l10n.getString('auto_oTovare'),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
@@ -132,7 +132,7 @@ class _AboutProductSheetState extends State<AboutProductSheet>
               IconButton(
                 onPressed: () => Navigator.of(context).pop(),
                 icon: Icon(Icons.close, color: palette.ink),
-                tooltip: 'Закрыть',
+                tooltip: context.l10n.getString('auto_zakryt'),
               ),
             ],
           ),
@@ -163,7 +163,7 @@ class _AboutProductSheetState extends State<AboutProductSheet>
                   ? Padding(
                       padding: const EdgeInsets.symmetric(vertical: 24),
                       child: Text(
-                        'Нет данных о товаре',
+                        context.l10n.getString('auto_netDannyhOTovare'),
                         style: TextStyle(fontSize: 14, color: palette.muted),
                       ),
                     )
@@ -187,7 +187,7 @@ class _AboutProductSheetState extends State<AboutProductSheet>
                           key: _descriptionKey,
                           padding: const EdgeInsets.only(bottom: 8),
                           child: Text(
-                            'Описание',
+                            context.l10n.getString('auto_opisanie_1'),
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -239,7 +239,7 @@ class _DescriptionBlock extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: isPlaceholder
           ? Text(
-              'Описание не указано',
+              context.l10n.getString('auto_opisanieNeUkazano'),
               style: TextStyle(fontSize: 14, color: palette.muted),
             )
           : Text(

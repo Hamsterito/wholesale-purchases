@@ -1,3 +1,4 @@
+import '../services/localization/app_localizations.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -133,7 +134,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
     if (_useBackupCode) {
       final raw = _backupController.text.trim().toUpperCase();
       if (raw.length != _backupCodeLength) {
-        setState(() => _inlineError = 'Введите 10-символьный backup-код');
+        setState(() => _inlineError = AppLocalizations.current.getString('auto_vvedite_10_simvolnyy_backup_kod'));
         return;
       }
       code = null;
@@ -141,7 +142,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
     } else {
       final raw = _pinController.text.trim();
       if (raw.length != _emailOtpLength) {
-        setState(() => _inlineError = 'Введите $_emailOtpLength-значный код');
+        setState(() => _inlineError = AppLocalizations.current.getString('auto_vvedite_emailotplength_znachnyy_kod'));
         _errorController.add(ErrorAnimationType.shake);
         return;
       }
@@ -172,7 +173,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
       if (!mounted) return;
       setState(() {
         _isSubmitting = false;
-        _inlineError = _useBackupCode ? e.message : 'Неверный код';
+        _inlineError = _useBackupCode ? e.message : AppLocalizations.current.getString('auto_nevernyy_kod');
       });
     } on TwoFactorRateLimitException catch (e) {
       if (!mounted) return;
@@ -196,7 +197,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
       if (mounted) {
         setState(() {
           _isSubmitting = false;
-          _inlineError = 'Ошибка подключения к серверу';
+          _inlineError = AppLocalizations.current.getString('auto_oshibka_podklyucheniya_k_serveru');
         });
       }
     }
@@ -207,7 +208,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
     // persistAcrossNavigation - сообщение должно пережить pop на LoginPage.
     showTopMessage(
       context,
-      'Срок действия кода истёк, повторите вход',
+      AppLocalizations.current.getString('auto_srok_deystviya_koda_istek_povtorite'),
       backgroundColor: context.colorPalette.error,
       duration: const Duration(seconds: 4),
       persistAcrossNavigation: true,
@@ -228,7 +229,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
       _startResendCooldown();
       showTopMessage(
         context,
-        'Код отправлен повторно',
+        AppLocalizations.current.getString('auto_kod_otpravlen_povtorno'),
         backgroundColor: context.colorPalette.success,
         duration: const Duration(seconds: 2),
       );
@@ -254,7 +255,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
         stackTrace: st,
       );
       if (mounted) {
-        setState(() => _inlineError = 'Не удалось отправить код повторно');
+        setState(() => _inlineError = AppLocalizations.current.getString('auto_ne_udalos_otpravit_kod_povtorno'));
       }
     } finally {
       if (mounted) setState(() => _isResending = false);
@@ -295,16 +296,16 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
                           Icons.arrow_back,
                           color: _colorScheme.onSurface,
                         ),
-                        tooltip: 'Назад',
+                        tooltip: AppLocalizations.current.getString('auto_nazad'),
                         onPressed: _isSubmitting
                             ? null
                             : () => Navigator.of(context).pop(),
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    const Expanded(
+                    SizedBox(width: 12),
+                    Expanded(
                       child: Text(
-                        'Подтверждение входа',
+                        AppLocalizations.current.getString('auto_podtverzhdenie_vkhoda'),
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -323,8 +324,8 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Двухфакторная\nаутентификация',
+                      Text(
+                        AppLocalizations.current.getString('auto_dvukhfaktornaya_nautentifikatsiya'),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 28,
@@ -333,12 +334,12 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
                           height: 1.15,
                         ),
                       ),
-                      const SizedBox(height: 12),
-                      const Text(
-                        'Мы отправили код на вашу почту',
+                      SizedBox(height: 12),
+                      Text(
+                        AppLocalizations.current.getString('auto_my_otpravili_kod_na_vashu_pochtu'),
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4),
                       Text(
                         widget.email,
                         textAlign: TextAlign.center,
@@ -370,13 +371,13 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildHeaderRow(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                         if (_useBackupCode)
                           _buildBackupCodeField()
                         else
                           _buildPinCodeField(),
                         if (_inlineError != null) ...[
-                          const SizedBox(height: 12),
+                          SizedBox(height: 12),
                           Text(
                             _inlineError!,
                             style: TextStyle(
@@ -386,11 +387,11 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
                             ),
                           ),
                         ],
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                         _buildToggleBackupButton(),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         _buildRememberDeviceCheckbox(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                         _buildSubmitButton(),
                       ],
                     ),
@@ -405,7 +406,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
   }
 
   Widget _buildHeaderRow() {
-    final label = _useBackupCode ? 'BACKUP-КОД' : 'КОД ИЗ ПОЧТЫ';
+    final label = _useBackupCode ? AppLocalizations.current.getString('auto_backup_kod') : AppLocalizations.current.getString('auto_kod_iz_pochty');
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -429,7 +430,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
     return TextButton(
       onPressed: disabled ? null : _resendCode,
       child: Text(
-        'Отправить снова',
+        AppLocalizations.current.getString('auto_otpravit_snova'),
         style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
@@ -558,8 +559,8 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
         ),
         child: Text(
           _useBackupCode
-              ? 'Вернуться к коду из почты'
-              : 'Использовать backup-код',
+              ? AppLocalizations.current.getString('auto_vernutsya_k_kodu_iz_pochty')
+              : AppLocalizations.current.getString('auto_ispolzovat_backup_kod'),
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
@@ -594,10 +595,10 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
                 ),
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
             Expanded(
               child: Text(
-                'Запомнить устройство на 30 дней',
+                AppLocalizations.current.getString('auto_zapomnit_ustroystvo_na_30_dney'),
                 style: TextStyle(fontSize: 14, color: _colorScheme.onSurface),
               ),
             ),
@@ -622,7 +623,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
         child: _isSubmitting
-            ? const SizedBox(
+            ? SizedBox(
                 width: 24,
                 height: 24,
                 child: CircularProgressIndicator(
@@ -630,8 +631,8 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
                   strokeWidth: 2.4,
                 ),
               )
-            : const Text(
-                'Подтвердить',
+            : Text(
+                AppLocalizations.current.getString('auto_podtverdit'),
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,

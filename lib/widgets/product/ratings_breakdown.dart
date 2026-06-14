@@ -4,6 +4,7 @@ import '../../models/product.dart';
 import '../../models/review_entry.dart';
 import '../../theme/app_color_palette.dart';
 import 'rating_stars.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 class RatingsBreakdown extends StatefulWidget {
   const RatingsBreakdown({
@@ -116,7 +117,7 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
   String _initial(String value) {
     final normalized = value.trim();
     if (normalized.isEmpty) {
-      return 'П';
+      return context.l10n.getString('auto_p_1');
     }
     return normalized.characters.first.toUpperCase();
   }
@@ -238,15 +239,15 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               visualDensity: VisualDensity.compact,
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Читать все',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                  context.l10n.getString('auto_chitatVse'),
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                 ),
-                SizedBox(width: 2),
-                Icon(Icons.chevron_right_rounded, size: 16),
+                const SizedBox(width: 2),
+                const Icon(Icons.chevron_right_rounded, size: 16),
               ],
             ),
           ),
@@ -383,7 +384,7 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
           const SizedBox(width: 8),
           Expanded(
             child: Text(
-              'Пока нет отзывов. Станьте первым, кто оценит товар.',
+              context.l10n.getString('auto_pokaNetOtzyvovStanteP'),
               style: TextStyle(fontSize: 12, color: _mutedText, height: 1.3),
             ),
           ),
@@ -394,10 +395,10 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
 
   Widget _buildReviewCard(ReviewEntry review) {
     final title = review.reviewerName.trim().isEmpty
-        ? 'Покупатель'
+        ? context.l10n.getString('auto_pokupatel')
         : review.reviewerName.trim();
     final text = review.reviewText.trim().isEmpty
-        ? 'Без текста отзыва'
+        ? context.l10n.getString('auto_bezTekstaOtzyva')
         : review.reviewText.trim();
 
     return Padding(

@@ -1,3 +1,4 @@
+import '../services/localization/app_localizations.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Future<void> _sendResetCode() async {
     final email = _emailController.text.trim();
     if (email.isEmpty) {
-      _showMessage('Введите email', MessageSeverity.warning);
+      _showMessage(AppLocalizations.current.getString('auto_vvedite_email'), MessageSeverity.warning);
       return;
     }
 
@@ -113,12 +114,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         );
       } else {
         final body = utf8.decode(response.bodyBytes);
-        final message = parseApiMessage(body, fallback: 'Ошибка сервера');
+        final message = parseApiMessage(body, fallback: AppLocalizations.current.getString('auto_oshibka_servera'));
         _showMessage(message, MessageSeverity.error);
       }
     } catch (e) {
       AppLogger.error('Error sending reset code: $e', scope: 'auth');
-      _showMessage('Ошибка сети', MessageSeverity.error);
+      _showMessage(AppLocalizations.current.getString('auto_oshibka_seti'), MessageSeverity.error);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -174,16 +175,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Забыли пароль',
+                      AppLocalizations.current.getString('auto_zabyli_parol_1'),
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    const Text(
-                      'Напиши свою почту',
+                    SizedBox(height: 12),
+                    Text(
+                      AppLocalizations.current.getString('auto_napishi_svoyu_pochtu'),
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ],
@@ -207,14 +208,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'ЭЛ. ПОЧТА',
+                          AppLocalizations.current.getString('auto_el_pochta'),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.5,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         TextField(
                           controller: _emailController,
                           keyboardType: TextInputType.text,
@@ -233,7 +234,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 32),
+                        SizedBox(height: 32),
                         SizedBox(
                           width: double.infinity,
                           height: 50,
@@ -251,8 +252,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                 ? const CircularProgressIndicator(
                                     color: Colors.white,
                                   )
-                                : const Text(
-                                    'ОТПРАВИТЬ КОД',
+                                : Text(
+                                    AppLocalizations.current.getString('auto_otpravit_kod'),
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
