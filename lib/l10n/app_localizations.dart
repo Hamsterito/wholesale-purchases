@@ -7381,6 +7381,54 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Срок годности'**
   String get wizard_init_auto_221;
+
+  /// No description provided for @product_card_added_to_cart.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавлено в корзину: {name} -{count} шт.'**
+  String product_card_added_to_cart(String name, int count);
+
+  /// No description provided for @product_card_delivery.
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставка: {date}'**
+  String product_card_delivery(String date);
+
+  /// No description provided for @product_card_days_per_week.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} дн./нед {time}'**
+  String product_card_days_per_week(int count, String time);
+
+  /// No description provided for @product_card_today.
+  ///
+  /// In ru, this message translates to:
+  /// **'сегодня {time}'**
+  String product_card_today(String time);
+
+  /// No description provided for @product_card_tomorrow.
+  ///
+  /// In ru, this message translates to:
+  /// **'завтра {time}'**
+  String product_card_tomorrow(String time);
+
+  /// No description provided for @supplier_qa_review_card_reply_from.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ответ от {name}'**
+  String supplier_qa_review_card_reply_from(String name);
+
+  /// No description provided for @validation_empty_or_too_long.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заполните название и значение характеристики'**
+  String get validation_empty_or_too_long;
+
+  /// No description provided for @validation_duplicate.
+  ///
+  /// In ru, this message translates to:
+  /// **'Такая характеристика уже добавлена'**
+  String get validation_duplicate;
 }
 
 class _AppLocalizationsDelegate

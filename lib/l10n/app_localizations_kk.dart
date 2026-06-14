@@ -3938,4 +3938,41 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get wizard_init_auto_221 => 'Жарамдылық мерзімі';
+
+  @override
+  String product_card_added_to_cart(String name, int count) {
+    return 'Себетке қосылды: $name -$count дана.';
+  }
+
+  @override
+  String product_card_delivery(String date) {
+    return 'Жеткізу: $date';
+  }
+
+  @override
+  String product_card_days_per_week(int count, String time) {
+    return '$count дн./ нед $time';
+  }
+
+  @override
+  String product_card_today(String time) {
+    return 'бүгін $time';
+  }
+
+  @override
+  String product_card_tomorrow(String time) {
+    return 'ертең $time';
+  }
+
+  @override
+  String supplier_qa_review_card_reply_from(String name) {
+    return 'Жауап $name';
+  }
+
+  @override
+  String get validation_empty_or_too_long =>
+      'Сипаттаманың атауы мен мәнін толтырыңыз';
+
+  @override
+  String get validation_duplicate => 'Бұл сипаттама қазірдің өзінде қосылды';
 }

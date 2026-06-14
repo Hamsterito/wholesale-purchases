@@ -149,7 +149,7 @@ ExpandableTextBlock(
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        'Ответ от ${responderName ?? context.l10n.getString('auto_postavshchika')}',
+                        context.l10n.getString('supplier_qa_review_card_reply_from', params: {'name': responderName ?? context.l10n.getString('auto_postavshchika')}),
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,

@@ -3947,4 +3947,41 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get wizard_init_auto_221 => 'Срок годности';
+
+  @override
+  String product_card_added_to_cart(String name, int count) {
+    return 'Добавлено в корзину: $name -$count шт.';
+  }
+
+  @override
+  String product_card_delivery(String date) {
+    return 'Доставка: $date';
+  }
+
+  @override
+  String product_card_days_per_week(int count, String time) {
+    return '$count дн./нед $time';
+  }
+
+  @override
+  String product_card_today(String time) {
+    return 'сегодня $time';
+  }
+
+  @override
+  String product_card_tomorrow(String time) {
+    return 'завтра $time';
+  }
+
+  @override
+  String supplier_qa_review_card_reply_from(String name) {
+    return 'Ответ от $name';
+  }
+
+  @override
+  String get validation_empty_or_too_long =>
+      'Заполните название и значение характеристики';
+
+  @override
+  String get validation_duplicate => 'Такая характеристика уже добавлена';
 }

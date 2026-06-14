@@ -1,3 +1,5 @@
+import '../services/localization/app_localizations.dart';
+
 // Чистый валидатор пользовательских пар «название → значение» для визарда
 // товара поставщика. Не зависит от Flutter - только pure Dart.
 
@@ -23,9 +25,8 @@ class CustomCharacteristicValidationResult {
   bool get isOk => error == null;
 }
 
-const String _emptyOrTooLongMessage =
-    'Заполните название и значение характеристики';
-const String _duplicateMessage = 'Такая характеристика уже добавлена';
+String get _emptyOrTooLongMessage => AppLocalizations.current.getString('validation_empty_or_too_long');
+String get _duplicateMessage => AppLocalizations.current.getString('validation_duplicate');
 
 /// Возвращает .ok(normalized) если все пары валидны и уникальны,
 /// иначе .fail(error) с готовым текстом сообщения и индексом проблемного

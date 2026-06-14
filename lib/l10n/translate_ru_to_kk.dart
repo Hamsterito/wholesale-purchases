@@ -201,7 +201,8 @@ Future<List<String>?> _sendWithRetry({
           .timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 200) {
-        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        final decodedBody = utf8.decode(response.bodyBytes);
+        final json = jsonDecode(decodedBody) as Map<String, dynamic>;
         return (json['translations'] as List<dynamic>).map((t) => t['text'] as String).toList();
       }
 

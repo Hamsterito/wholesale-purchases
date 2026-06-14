@@ -299,7 +299,7 @@ class _ProductCardState extends State<ProductCard> {
     if (showMessages) {
       showTopMessage(
         context,
-        'Добавлено в корзину: ${product.name} -$selected шт.',
+        context.l10n.getString('product_card_added_to_cart', params: {'name': product.name, 'count': selected}),
         backgroundColor: _palette.accent,
       );
     }
@@ -518,7 +518,7 @@ class _ProductCardState extends State<ProductCard> {
     // поэтому свой префикс добавляем только для старых сырых строк.
     final text = deliveryDate.toLowerCase().startsWith(context.l10n.getString('auto_dostavka'))
         ? deliveryDate
-        : 'Доставка: $deliveryDate';
+        : context.l10n.getString('product_card_delivery', params: {'date': deliveryDate});
     return Text(
       text,
       style: TextStyle(fontSize: compact ? 10 : 11, color: _mutedText),
@@ -590,7 +590,7 @@ class _ProductCardState extends State<ProductCard> {
     if (rangeLabel != null) {
       return '$rangeLabel $time';
     }
-    return '${sortedWeekdays.length} дн./нед $time';
+    return context.l10n.getString('product_card_days_per_week', params: {'count': sortedWeekdays.length, 'time': time});
   }
 
   String _resolveDeliveryDateText(Supplier supplier) {
@@ -835,10 +835,10 @@ class _ProductCardState extends State<ProductCard> {
     final time = _formatTime(deliveryAt);
 
     if (daysLeft <= 0) {
-      return 'сегодня $time';
+      return context.l10n.getString('product_card_today', params: {'time': time});
     }
     if (daysLeft == 1) {
-      return 'завтра $time';
+      return context.l10n.getString('product_card_tomorrow', params: {'time': time});
     }
 
     final day = deliveryAt.day.toString().padLeft(2, '0');

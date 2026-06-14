@@ -4853,5 +4853,13 @@
   "wizard_init_auto_221": "Жарамдылық мерзімі",
   "@wizard_init_auto_221": {
     "description": "Auto-extracted from lib\\utils\\wizard_init.dart"
-  }
+  },
+  "product_card_added_to_cart": "Себетке қосылды: {name} -{count} дана.",
+  "product_card_delivery": "Жеткізу: {date}",
+  "product_card_days_per_week": "{count} күн/апта {time}",
+  "product_card_today": "бүгін {time}",
+  "product_card_tomorrow": "ертең {time}",
+  "supplier_qa_review_card_reply_from": "Жауап {name}",
+  "validation_empty_or_too_long": "Сипаттаманың атауы мен мәнін толтырыңыз",
+  "validation_duplicate": "Мұндай сипаттама қосылған"
 }
