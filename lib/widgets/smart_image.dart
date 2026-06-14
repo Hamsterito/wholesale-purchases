@@ -144,21 +144,7 @@ class _SmartImageState extends State<SmartImage> {
     final isEncoded = isDataUrl || isBase64;
     final isNetwork = _isNetwork(path);
 
-    Widget content = LayoutBuilder(
-      builder: (context, constraints) {
-        final devicePixelRatio =
-            MediaQuery.maybeOf(context)?.devicePixelRatio ?? 1.0;
-        final logicalWidth = _resolveLogicalDimension(
-          constraints.maxWidth,
-          widget.width,
-        );
-        final logicalHeight = _resolveLogicalDimension(
-          constraints.maxHeight,
-          widget.height,
-        );
-        final cacheWidth = _toCacheDimension(logicalWidth, devicePixelRatio);
-        final cacheHeight = _toCacheDimension(logicalHeight, devicePixelRatio);
-
+    Widget content = () {
         if (path.isEmpty) {
           return safePlaceholder;
         }
@@ -179,8 +165,6 @@ class _SmartImageState extends State<SmartImage> {
             filterQuality: widget.filterQuality,
             isAntiAlias: true,
             gaplessPlayback: true,
-            cacheWidth: cacheWidth,
-            cacheHeight: cacheHeight,
             errorBuilder: (_, __, ___) => safePlaceholder,
           );
         }
@@ -194,8 +178,6 @@ class _SmartImageState extends State<SmartImage> {
             filterQuality: widget.filterQuality,
             isAntiAlias: true,
             gaplessPlayback: true,
-            cacheWidth: cacheWidth,
-            cacheHeight: cacheHeight,
             errorBuilder: (_, __, ___) => safePlaceholder,
           );
         }
@@ -208,12 +190,9 @@ class _SmartImageState extends State<SmartImage> {
           filterQuality: widget.filterQuality,
           isAntiAlias: true,
           gaplessPlayback: true,
-          cacheWidth: cacheWidth,
-          cacheHeight: cacheHeight,
           errorBuilder: (_, __, ___) => safePlaceholder,
         );
-      },
-    );
+    }();
 
     final borderRadius = widget.borderRadius;
     if (borderRadius == null) {
@@ -236,19 +215,6 @@ class _CacheLookup {
   final Uint8List? bytes;
 }
 
-double? _resolveLogicalDimension(double constraint, double? fallback) {
-  if (constraint.isFinite && constraint > 0) return constraint;
-  if (fallback != null && fallback.isFinite && fallback > 0) return fallback;
-  return null;
-}
-
-int? _toCacheDimension(double? logical, double devicePixelRatio) {
-  if (logical == null || !logical.isFinite || logical <= 0) return null;
-  final value = (logical * devicePixelRatio).round();
-  if (value <= 0) return null;
-  final clamped = value.clamp(16, 4096);
-  return clamped.toInt();
-}
 
 Uint8List? _decodeEncodedImagePath(String rawPath) {
   final path = rawPath.trim();

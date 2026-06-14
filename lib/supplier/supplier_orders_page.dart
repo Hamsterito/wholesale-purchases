@@ -220,7 +220,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
       return false;
     }
     if (currentStep < 0) {
-      return true;
+      return targetStep == 0;
     }
     if (currentStep >= 3) {
       return false;

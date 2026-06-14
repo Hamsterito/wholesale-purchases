@@ -264,6 +264,14 @@ title: Text(
     return status.trim().toLowerCase();
   }
 
+  bool _isPendingStatus(String status) {
+    final normalized = _normalizeStatus(status);
+    return normalized == 'pending' ||
+        normalized == 'new' ||
+        normalized == context.l10n.getString('auto_novyy') ||
+        normalized == context.l10n.getString('auto_ozhidaet');
+  }
+
   bool _isDeliveredStatus(String status) {
     final normalized = _normalizeStatus(status);
     return normalized == context.l10n.getString('auto_dostavlen') ||
@@ -321,7 +329,8 @@ title: Text(
   }
 
   bool _isActiveStatus(String status) {
-    return _isInTransitStatus(status) ||
+    return _isPendingStatus(status) ||
+        _isInTransitStatus(status) ||
         _isProcessingStatus(status) ||
         _isDeliveredStatus(status);
   }

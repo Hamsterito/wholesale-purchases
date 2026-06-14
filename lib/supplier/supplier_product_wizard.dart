@@ -64,6 +64,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   bool _deliveryTimeInputInvalid = false;
   bool _cutoffInputInvalid = false;
   _DeliveryMode _deliveryMode = _DeliveryMode.weekly;
+  bool _isInit = false;
   // Якорь для прокрутки к блоку расписания после смены режима.
   final GlobalKey _deliveryBlockKey = GlobalKey();
   final List<String> _images = [];
@@ -144,6 +145,19 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isInit) {
+      final product = widget.product;
+      if (product != null) {
+        _countryController.text = product.characteristics[context.l10n.getString('auto_stranaProizvoditelya')] ?? '';
+        _shelfLifeController.text = product.characteristics[context.l10n.getString('auto_srokGodnosti')] ?? '';
+      }
+      _isInit = true;
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
     final product = widget.product;
@@ -183,12 +197,8 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     _carbsController = TextEditingController(
       text: product?.nutritionalInfo.carbohydrates.toStringAsFixed(1) ?? '',
     );
-    _countryController = TextEditingController(
-      text: product?.characteristics[context.l10n.getString('auto_stranaProizvoditelya')] ?? '',
-    );
-    _shelfLifeController = TextEditingController(
-      text: product?.characteristics[context.l10n.getString('auto_srokGodnosti')] ?? '',
-    );
+    _countryController = TextEditingController();
+    _shelfLifeController = TextEditingController();
     final now = DateTime.now();
     final eta = now.add(const Duration(days: 1));
     _deliveryWeekdays

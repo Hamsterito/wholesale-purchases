@@ -17,7 +17,7 @@
   "@common_delete": {
     "description": "Кнопка удаления"
   },
-  "common_edit": "Править",
+  "common_edit": "Редактировать",
   "@common_edit": {
     "description": "Кнопка редактирования"
   },
@@ -41,7 +41,7 @@
   "@common_try_again": {
     "description": "Кнопка повторного действия"
   },
-  "common_retry": "Повторение",
+  "common_retry": "Повторить",
   "@common_retry": {
     "description": "Кнопка повтора действия"
   },
@@ -155,7 +155,7 @@
   },
   "catalog_no_products": "Товары не найдены",
   "@catalog_no_products": {
-    "description": "Уведомление об отсутствии продуктов"
+    "description": "Уведомление об отсутствии товаров"
   },
   "cart_title": "Корзина",
   "@cart_title": {
@@ -169,7 +169,7 @@
   "@cart_clear_title": {
     "description": "Тема диалога очистки корзины"
   },
-  "cart_clear_message": "Все продукты будут удалены из корзины.",
+  "cart_clear_message": "Все товары будут удалены из корзины.",
   "@cart_clear_message": {
     "description": "Сообщение в диалоге очистки корзины"
   },
@@ -197,9 +197,9 @@
   "@order_no_orders": {
     "description": "Уведомление об отсутствии заказов"
   },
-  "product_details": "Детали продукта",
+  "product_details": "Детали товара",
   "@product_details": {
-    "description": "Заголовок страницы сведений о продукте"
+    "description": "Заголовок страницы сведений о товаре"
   },
   "product_reviews": "Отзывы",
   "@product_reviews": {
@@ -249,9 +249,9 @@
   "@profile_edit_field_hint": {
     "description": "Совет поля редактирования профиля"
   },
-  "supplier_products": "Продукты",
+  "supplier_products": "Мои товары",
   "@supplier_products": {
-    "description": "Заголовок страницы продуктов поставщика"
+    "description": "Заголовок страницы товаров поставщика"
   },
   "supplier_orders": "Заказы",
   "@supplier_orders": {
@@ -261,13 +261,13 @@
   "@supplier_profile": {
     "description": "Заголовок профиля поставщика"
   },
-  "supplier_add_product": "Добавление продукта",
+  "supplier_add_product": "Добавление товара",
   "@supplier_add_product": {
-    "description": "Кнопка Добавить продукт"
+    "description": "Кнопка Добавить товар"
   },
-  "supplier_edit_product": "Править",
+  "supplier_edit_product": "Редактировать",
   "@supplier_edit_product": {
-    "description": "Кнопка редактирования продукта"
+    "description": "Кнопка редактирования товара"
   },
   "supplier_search_suppliers": "Поиск по поставщикам",
   "@supplier_search_suppliers": {
@@ -283,7 +283,7 @@
   },
   "supplier_weight_hint": "Например, 1450",
   "@supplier_weight_hint": {
-    "description": "Совет по весу продукта"
+    "description": "Совет по весу товара"
   },
   "supplier_calories_hint": "Например, 120",
   "@supplier_calories_hint": {
@@ -323,7 +323,7 @@
   },
   "moderator_delete_reason": "Причина удаления для поставщика",
   "@moderator_delete_reason": {
-    "description": "Причина удаления продукта"
+    "description": "Причина удаления товара"
   },
   "moderator_close_reason": "Причина закрытия (необязательно)",
   "@moderator_close_reason": {
@@ -440,9 +440,9 @@
       }
     }
   },
-  "message_product_not_found": "ID {productId} существующий продукт не найден",
+  "message_product_not_found": "ID {productId} существующий товар не найден",
   "@message_product_not_found": {
-    "description": "Образец уведомления о незаработанном продукте",
+    "description": "Образец уведомления о незаработанном товаре",
     "placeholders": {
       "productId": {
         "type": "String"
@@ -507,13 +507,13 @@
   "@auth_session_expired": {
     "description": "Уведомление об окончании сеанса"
   },
-  "product_similar": "Организационные продукты",
+  "product_similar": "Похожие товары",
   "@product_similar": {
-    "description": "Тема секции организационных продуктов"
+    "description": "Тема секции организационных товаров"
   },
-  "supplier_error_load_products": "Не удалось загрузить продукты",
+  "supplier_error_load_products": "Не удалось загрузить товары",
   "@supplier_error_load_products": {
-    "description": "Ошибка загрузки продуктов"
+    "description": "Ошибка загрузки товаров"
   },
   "supplier_error_load_orders": "Не удалось загрузить заказы",
   "@supplier_error_load_orders": {
@@ -525,51 +525,51 @@
   },
   "supplier_product_sent_moderation": "Товар отправлен на модерацию",
   "@supplier_product_sent_moderation": {
-    "description": "Уведомление о отправке продукта на модерацию"
+    "description": "Уведомление о отправке товара на модерацию"
   },
   "supplier_changes_sent_moderation": "Изменения направлены на модерацию",
   "@supplier_changes_sent_moderation": {
     "description": "Уведомление о внесении изменений в модерацию"
   },
-  "supplier_delete_product": "Удалить продукт?",
+  "supplier_delete_product": "Удалить товар?",
   "@supplier_delete_product": {
-    "description": "Тема диалога удаления продукта"
+    "description": "Тема диалога удаления товара"
   },
-  "supplier_product": "Продукт",
+  "supplier_product": "Товар",
   "@supplier_product": {
     "description": "Наименование субъекта продукции"
   },
-  "supplier_removed_from_publication": "Продукт взят из публицистики",
+  "supplier_removed_from_publication": "Товар снят с публикации",
   "@supplier_removed_from_publication": {
     "description": "Извещение о снятии продукции с публицистики"
   },
-  "supplier_product_deleted": "Продукт уничтожен",
+  "supplier_product_deleted": "Товар удален",
   "@supplier_product_deleted": {
-    "description": "Уведомление об уничтожении продукта"
+    "description": "Уведомление об уничтожении товара"
   },
-  "supplier_error_delete_product": "Не удалось удалить продукт",
+  "supplier_error_delete_product": "Не удалось удалить товар",
   "@supplier_error_delete_product": {
-    "description": "Сообщение об ошибке удаления продукта"
+    "description": "Сообщение об ошибке удаления товара"
   },
-  "supplier_apprved": "Утверждено",
+  "supplier_apprved": "Подтверждено",
   "@supplier_apprved": {
-    "description": "Утвержденный статус продукта"
+    "description": "Утвержденный статус товара"
   },
   "supplier_rejected": "Не вставлен",
   "@supplier_rejected": {
-    "description": "Статус продукта без вставки"
+    "description": "Статус товара без вставки"
   },
-  "supplier_pending": "В умеренности",
+  "supplier_pending": "На модерации",
   "@supplier_pending": {
-    "description": "Статус продукта в умеренности"
+    "description": "Статус товара в умеренности"
   },
   "supplier_no_title": "Без названия",
   "@supplier_no_title": {
-    "description": "Текст для безымянного продукта"
+    "description": "Текст для безымянного товара"
   },
   "supplier_no_description": "Без описания",
   "@supplier_no_description": {
-    "description": "Текст для продукта без описания"
+    "description": "Текст для товара без описания"
   },
   "supplier_orders_empty_no_orders": "Нет заказов",
   "@supplier_orders_empty_no_orders": {
@@ -647,13 +647,13 @@
   "@supplier_export_excel": {
     "description": "Кнопка экспорта в файл Excel"
   },
-  "supplier_products_in_order": "Продукты на заказ",
+  "supplier_products_in_order": "Мои товары на заказ",
   "@supplier_products_in_order": {
     "description": "Тема секции продукции на заказ"
   },
   "supplier_top_products": "Популярные товары",
   "@supplier_top_products": {
-    "description": "Тема секции продуктов группы"
+    "description": "Тема секции товаров группы"
   },
   "supplier_recent_orders": "Последние заказы",
   "@supplier_recent_orders": {
@@ -686,7 +686,7 @@
   },
   "review_quick_fresh_product": "Свежий товар",
   "@review_quick_fresh_product": {
-    "description": "Тег продукта свежий"
+    "description": "Тег товара свежий"
   },
   "review_quick_polite_courier": "Вежливый курьер",
   "@review_quick_polite_courier": {
@@ -728,7 +728,7 @@
   "@checkout": {
     "description": "Название страницы кладки"
   },
-  "supplier_status_assembling": "Подготовка идет",
+  "supplier_status_assembling": "Собирается",
   "@supplier_status_assembling": {
     "description": "Статус при подготовке заказа"
   },
@@ -740,7 +740,7 @@
   "@supplier_status_delivered": {
     "description": "Заказ доставлен статус"
   },
-  "supplier_status_accepted": "Получено",
+  "supplier_status_accepted": "Принято",
   "@supplier_status_accepted": {
     "description": "Заказ получен статус"
   },
@@ -882,7 +882,7 @@
   "@qa_refresh": {
     "description": "Кнопка обновления подписка"
   },
-  "qa_retry": "Повторение",
+  "qa_retry": "Повторить",
   "@qa_retry": {
     "description": "Кнопка повтора подписка"
   },
@@ -939,11 +939,11 @@
   "@profile_reviews_empty": {
     "description": "Сообщение об отсутствии комментариев"
   },
-  "profile_reviews_pending_title": "Ждите комментариев",
+  "profile_reviews_pending_title": "Ожидают отзыва",
   "@profile_reviews_pending_title": {
     "description": "Тема ожидаемой секции комментариев"
   },
-  "profile_reviews_pending_subtitle": "Дайте оценку покупкам-это поможет другим",
+  "profile_reviews_pending_subtitle": "Оцените покупки — это поможет другим",
   "@profile_reviews_pending_subtitle": {
     "description": "Подзаголовок секции ожидаемых отзывов"
   },
@@ -985,7 +985,7 @@
   "@profile_reviews_add_details": {
     "description": "Т қосу добавить записи подписка"
   },
-  "profile_reviews_edit_button": "Править",
+  "profile_reviews_edit_button": "Редактировать",
   "@profile_reviews_edit_button": {
     "description": "Кнопка редактирования"
   },
@@ -1009,7 +1009,7 @@
   "@profile_reviews_save_error": {
     "description": "Сообщение об ошибке сохранения"
   },
-  "profile_reviews_login_required": "Войдите, чтобы отредактировать отзыв",
+  "profile_reviews_login_required": "Войдите, чтобы Отправить отзыв",
   "@profile_reviews_login_required": {
     "description": "Уведомление о необходимости авторизации"
   },
@@ -1021,7 +1021,7 @@
   "@profile_reviews_submit_success": {
     "description": "Успешное отправление сообщения"
   },
-  "profile_reviews_submit_error": "Не удалось отправить комментарий",
+  "profile_reviews_submit_error": "Не удалось Отправить комментарий",
   "@profile_reviews_submit_error": {
     "description": "Сообщение об ошибке отправки"
   },
@@ -1102,7 +1102,7 @@
   "@review_share_feedback": {
     "description": "Совет поля мнений"
   },
-  "review_edit_button": "Править",
+  "review_edit_button": "Редактировать",
   "@review_edit_button": {
     "description": "Кнопка редактирования"
   },
@@ -1124,7 +1124,7 @@
   },
   "review_submit_button": "Отправить комментарий",
   "@review_submit_button": {
-    "description": "Кнопка отправить комментарий"
+    "description": "Кнопка Отправить комментарий"
   },
   "review_delete_confirm": "Удалить комментарий?",
   "@review_delete_confirm": {
@@ -1134,7 +1134,7 @@
   "@review_close_dialog": {
     "description": "Кнопка закрытия диалога"
   },
-  "review_edit_draft": "Править",
+  "review_edit_draft": "Редактировать",
   "@review_edit_draft": {
     "description": "Кнопка редактирования"
   },
@@ -1148,7 +1148,7 @@
   },
   "review_submit_draft": "Отправить комментарий",
   "@review_submit_draft": {
-    "description": "Кнопка отправить комментарий"
+    "description": "Кнопка Отправить комментарий"
   },
   "review_thank_you": "Спасибо за комментарий!",
   "@review_thank_you": {
@@ -1243,9 +1243,9 @@
   "@nav_moderators": {
     "description": "Навигация: список модераторов"
   },
-  "supplier_delete_product_confirm": "Вы уверены, что хотите удалить этот продукт?",
+  "supplier_delete_product_confirm": "Вы уверены, что хотите удалить этот товар?",
   "@supplier_delete_product_confirm": {
-    "description": "Подтверждение удаления продукта"
+    "description": "Подтверждение удаления товара"
   },
   "supplier_profile_title": "Профиль поставщика",
   "@supplier_profile_title": {
@@ -1255,7 +1255,7 @@
   "@template_replace_cart": {
     "description": "Тема диалога переключения корзины"
   },
-  "template_replace_cart_confirm": "Текущая корзина заменяется продуктами из шаблона. Продолжать?",
+  "template_replace_cart_confirm": "Текущая корзина заменяется товарами из шаблона. Продолжать?",
   "@template_replace_cart_confirm": {
     "description": "Подтверждение замены корзины образцом"
   },
@@ -1305,51 +1305,51 @@
   "@zakazi_tomorrow": {
     "description": "Дата завтра"
   },
-  "zakazi_month_january": "январь",
+  "zakazi_month_january": "января",
   "@zakazi_month_january": {
     "description": "Январь месяц"
   },
-  "zakazi_month_february": "февраль",
+  "zakazi_month_february": "февраля",
   "@zakazi_month_february": {
     "description": "Февраль месяц"
   },
-  "zakazi_month_march": "март",
+  "zakazi_month_march": "марта",
   "@zakazi_month_march": {
     "description": "Месяц марта"
   },
-  "zakazi_month_april": "апрель",
+  "zakazi_month_april": "апреля",
   "@zakazi_month_april": {
     "description": "Апрель месяц"
   },
-  "zakazi_month_may": "май",
+  "zakazi_month_may": "мая",
   "@zakazi_month_may": {
     "description": "Май месяц"
   },
-  "zakazi_month_june": "июнь",
+  "zakazi_month_june": "июня",
   "@zakazi_month_june": {
     "description": "Июнь месяц"
   },
-  "zakazi_month_july": "июль",
+  "zakazi_month_july": "июля",
   "@zakazi_month_july": {
     "description": "Месяц июля"
   },
-  "zakazi_month_august": "август",
+  "zakazi_month_august": "августа",
   "@zakazi_month_august": {
     "description": "Месяц августа"
   },
-  "zakazi_month_september": "сентябрь",
+  "zakazi_month_september": "сентября",
   "@zakazi_month_september": {
     "description": "Сентябрь месяц"
   },
-  "zakazi_month_october": "октябрь",
+  "zakazi_month_october": "октября",
   "@zakazi_month_october": {
     "description": "Месяц октября"
   },
-  "zakazi_month_november": "ноябрь",
+  "zakazi_month_november": "ноября",
   "@zakazi_month_november": {
     "description": "Ноябрь месяц"
   },
-  "zakazi_month_december": "декабрь",
+  "zakazi_month_december": "декабря",
   "@zakazi_month_december": {
     "description": "Месяц декабря"
   },
@@ -1357,15 +1357,15 @@
   "@zakazi_quantity_short": {
     "description": "Сокращение категории"
   },
-  "zakazi_accepted_label": "Получено",
+  "zakazi_accepted_label": "Принято",
   "@zakazi_accepted_label": {
-    "description": "Полученный статус подпишись"
+    "description": "Статус получения заказа"
   },
   "zakazi_after_delivery": "С доставкой",
   "@zakazi_after_delivery": {
-    "description": "С доставкой подпишись"
+    "description": "С доставкой"
   },
-  "zakazi_can_accept_after_delivery": "Можно получить после доставки",
+  "zakazi_can_accept_after_delivery": "Можно принять товар после доставки",
   "@zakazi_can_accept_after_delivery": {
     "description": "Уведомление о том, что вы можете получить после доставки"
   },
@@ -1590,11 +1590,11 @@
   "@cart_template_apply_error": {
     "description": "Ошибка использования шаблона"
   },
-  "cart_template_apply_none": "Образец не использовался: ни один продукт не доступен",
+  "cart_template_apply_none": "Образец не использовался: ни один товар не доступен",
   "@cart_template_apply_none": {
     "description": "Когда ни одна продукция в образце не найдена в каталоге"
   },
-  "cart_template_apply_success": "Корзина «{name}\"заменено образцом: {added} добавлен продукт",
+  "cart_template_apply_success": "Корзина «{name}\"заменено образцом: {added} добавлен товар",
   "@cart_template_apply_success": {
     "description": "Успешное использование шаблона",
     "placeholders": {
@@ -1626,7 +1626,7 @@
   },
   "cart_template_skipped_title": "{count} {plural} проведено",
   "@cart_template_skipped_title": {
-    "description": "Тема списка реализованных продуктов",
+    "description": "Тема списка реализованных товаров",
     "placeholders": {
       "count": {
         "type": "int"
@@ -1809,11 +1809,11 @@
   },
   "home_all_tab": "Всего",
   "@home_all_tab": {
-    "description": "Название вкладки \"Все продукты\""
+    "description": "Название вкладки \"Все товары\""
   },
-  "home_loading_error": "Ошибка загрузки продуктов: {error}",
+  "home_loading_error": "Ошибка загрузки товаров: {error}",
   "@home_loading_error": {
-    "description": "Сообщение об ошибке загрузки продуктов",
+    "description": "Сообщение об ошибке загрузки товаров",
     "placeholders": {
       "error": {
         "type": "int"
@@ -1857,9 +1857,9 @@
   "@chat_today": {
     "description": "Подпис сегодняшнего дня в чате"
   },
-  "home_no_products": "Продукты не найдены",
+  "home_no_products": "Товары не найдены",
   "@home_no_products": {
-    "description": "Уведомление об отсутствии продуктов"
+    "description": "Уведомление об отсутствии товаров"
   },
   "home_title": "Главная",
   "@home_title": {
@@ -1923,7 +1923,7 @@
   },
   "filter_show_button": "Показать {count}",
   "@filter_show_button": {
-    "description": "Кнопка отображения отфильтрованных продуктов",
+    "description": "Кнопка отображения отфильтрованных товаров",
     "placeholders": {
       "count": {
         "type": "int"
@@ -2203,7 +2203,7 @@
   "@supplier_reset_button": {
     "description": "Кнопка сброса"
   },
-  "supplier_products_edit": "Править",
+  "supplier_products_edit": "Редактировать",
   "@supplier_products_edit": {
     "description": "Кнопка редактирования товара"
   },
@@ -2638,15 +2638,15 @@
   "@auto_server_ne_vernul_challenge_dlya_2fa": {
     "description": "Auto-extracted"
   },
-  "auto_proverte_chto_pochta_i_parol_zapoln": "Проверьте, что почта и пароль заполнены",
+  "auto_proverte_chto_pochta_i_parol_zapoln": "Не удалось выполнить вход. Попробуйте позже.",
   "@auto_proverte_chto_pochta_i_parol_zapoln": {
     "description": "Auto-extracted"
   },
-  "auto_nevernaya_pochta_ili_parol": "Неверная почта или пароль",
+  "auto_nevernaya_pochta_ili_parol": "Не удалось выполнить вход. Попробуйте позже.",
   "@auto_nevernaya_pochta_ili_parol": {
     "description": "Auto-extracted"
   },
-  "auto_dostup_zapreshchen": "Доступ запрещён",
+  "auto_dostup_zapreshchen": "Не удалось выполнить вход. Попробуйте позже.",
   "@auto_dostup_zapreshchen": {
     "description": "Auto-extracted"
   },
@@ -2658,7 +2658,7 @@
   "@auto_oshibka_podklyucheniya_k_serveru_e": {
     "description": "Auto-extracted"
   },
-  "auto_vkhod_vypolnen": "Вход выполнен",
+  "auto_vkhod_vypolnen": "Добро пожаловать, $name!",
   "@auto_vkhod_vypolnen": {
     "description": "Auto-extracted"
   },
@@ -2710,7 +2710,7 @@
   "@auto_kod_otpravlen_povtorno": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_otpravit_kod_povtorno": "Не удалось отправить код повторно",
+  "auto_ne_udalos_otpravit_kod_povtorno": "Не удалось Отправить код повторно",
   "@auto_ne_udalos_otpravit_kod_povtorno": {
     "description": "Auto-extracted"
   },
@@ -2738,7 +2738,7 @@
   "@auto_otpravit_snova": {
     "description": "Auto-extracted"
   },
-  "auto_vernutsya_k_kodu_iz_pochty": "Вернуться к коду из почты",
+  "auto_vernutsya_k_kodu_iz_pochty": "Использовать backup-код",
   "@auto_vernutsya_k_kodu_iz_pochty": {
     "description": "Auto-extracted"
   },
@@ -2843,7 +2843,7 @@
   "@auto_registratsiya_proshla_uspeshno": {
     "description": "Auto-extracted"
   },
-  "auto_server_vernul_oshibku": "Сервер вернул ошибку",
+  "auto_server_vernul_oshibku": "Не удалось завершить регистрацию",
   "@auto_server_vernul_oshibku": {
     "description": "Auto-extracted"
   },
@@ -2855,7 +2855,7 @@
   "@auto_server_vernul_oshibku_poprobuyte_sn": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_podklyucheniya": "Ошибка подключения",
+  "auto_oshibka_podklyucheniya": "$e",
   "@auto_oshibka_podklyucheniya": {
     "description": "Auto-extracted"
   },
@@ -2887,7 +2887,7 @@
   "@auto_el_pochta": {
     "description": "Auto-extracted"
   },
-  "auto_otpravit_kod": "ОТПРАВИТЬ КОД",
+  "auto_otpravit_kod": "Отправить КОД",
   "@auto_otpravit_kod": {
     "description": "Auto-extracted"
   },
@@ -3067,7 +3067,7 @@
   "@auto_polzovatel": {
     "description": "Auto-extracted"
   },
-  "auto_moderator": "модератор",
+  "auto_moderator": "Модератор",
   "@auto_moderator": {
     "description": "Auto-extracted"
   },
@@ -3115,7 +3115,7 @@
   "@auto_ooo_optovaya_kompaniya": {
     "description": "Auto-extracted"
   },
-  "auto_dostavka_po_rossii": "Доставка по России",
+  "auto_dostavka_po_rossii": "Быстрая доставка",
   "@auto_dostavka_po_rossii": {
     "description": "Auto-extracted"
   },
@@ -3123,7 +3123,7 @@
   "@auto_bystraya_dostavka": {
     "description": "Auto-extracted"
   },
-  "auto_postavschik_kachestvennyh_tovarov_o": "Поставщик качественных товаров оптом с 10-летним опытом",
+  "auto_postavschik_kachestvennyh_tovarov_o": "г. Москва, ул. Примерная, д. 1",
   "@auto_postavschik_kachestvennyh_tovarov_o": {
     "description": "Auto-extracted"
   },
@@ -3135,7 +3135,7 @@
   "@auto_ooo_torgovyy_dom": {
     "description": "Auto-extracted"
   },
-  "auto_dostavka_po_rossii_i_sng": "Доставка по России и СНГ",
+  "auto_dostavka_po_rossii_i_sng": "Надёжный партнёр",
   "@auto_dostavka_po_rossii_i_sng": {
     "description": "Auto-extracted"
   },
@@ -3143,7 +3143,7 @@
   "@auto_nadzhnyy_partnr": {
     "description": "Auto-extracted"
   },
-  "auto_krupnyy_optovyy_postavschik_s_shiro": "Крупный оптовый поставщик с широким ассортиментом",
+  "auto_krupnyy_optovyy_postavschik_s_shiro": "г. Санкт-Петербург, пр. Невский, д. 50",
   "@auto_krupnyy_optovyy_postavschik_s_shiro": {
     "description": "Auto-extracted"
   },
@@ -3155,11 +3155,11 @@
   "@auto_ooo_ekspress_postavki": {
     "description": "Auto-extracted"
   },
-  "auto_ekspressdostavka_24_chasa": "Экспресс-доставка 24 часа",
+  "auto_ekspressdostavka_24_chasa": "Быстрая доставка",
   "@auto_ekspressdostavka_24_chasa": {
     "description": "Auto-extracted"
   },
-  "auto_spetsializiruemsya_na_bystroy_dosta": "Специализируемся на быстрой доставке товаров оптом",
+  "auto_spetsializiruemsya_na_bystroy_dosta": "г. Екатеринбург, ул. Главная, д. 100",
   "@auto_spetsializiruemsya_na_bystroy_dosta": {
     "description": "Auto-extracted"
   },
@@ -3171,7 +3171,7 @@
   "@auto_standartnaya_dostavka": {
     "description": "Auto-extracted"
   },
-  "auto_nadzhnyy_postavschik_optovyh_tovaro": "Надёжный поставщик оптовых товаров",
+  "auto_nadzhnyy_postavschik_optovyh_tovaro": "Россия",
   "@auto_nadzhnyy_postavschik_optovyh_tovaro": {
     "description": "Auto-extracted"
   },
@@ -3227,7 +3227,7 @@
   "@auto_v_puti": {
     "description": "Auto-extracted"
   },
-  "auto_otpravlen": "отправлен",
+  "auto_otpravlen": "отправлено",
   "@auto_otpravlen": {
     "description": "Auto-extracted"
   },
@@ -3239,27 +3239,27 @@
   "@auto_v_puti_1": {
     "description": "Auto-extracted"
   },
-  "auto_prinyat": "Принят",
+  "auto_prinyat": "завершено",
   "@auto_prinyat": {
     "description": "Auto-extracted"
   },
-  "auto_dostavlen": "доставлен",
+  "auto_dostavlen": "завершено",
   "@auto_dostavlen": {
     "description": "Auto-extracted"
   },
-  "auto_polucheno": "получено",
+  "auto_polucheno": "Принято",
   "@auto_polucheno": {
     "description": "Auto-extracted"
   },
-  "auto_prinyat_1": "принят",
+  "auto_prinyat_1": "приняты",
   "@auto_prinyat_1": {
     "description": "Auto-extracted"
   },
-  "auto_prinyata": "принята",
+  "auto_prinyata": "приняты",
   "@auto_prinyata": {
     "description": "Auto-extracted"
   },
-  "auto_prinyato": "принято",
+  "auto_prinyato": "завершено",
   "@auto_prinyato": {
     "description": "Auto-extracted"
   },
@@ -3271,11 +3271,11 @@
   "@auto_zaversheno": {
     "description": "Auto-extracted"
   },
-  "auto_otmena": "отмена",
+  "auto_otmena": "Отмена",
   "@auto_otmena": {
     "description": "Auto-extracted"
   },
-  "auto_otmenn": "отменён",
+  "auto_otmenn": "отменен",
   "@auto_otmenn": {
     "description": "Auto-extracted"
   },
@@ -3339,7 +3339,7 @@
   "@auto_slishkom_mnogo_popytok_poprobuyte_p": {
     "description": "Auto-extracted"
   },
-  "auto_tovar": "товар",
+  "auto_tovar": "Товар",
   "@auto_tovar": {
     "description": "Auto-extracted"
   },
@@ -3355,15 +3355,15 @@
   "@auto_nm": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_seti_proverte_podklyuchenie": "Ошибка сети. Проверьте подключение и попробуйте снова",
+  "auto_oshibka_seti_proverte_podklyuchenie": "Не удалось сгенерировать ответ AI: {reason}",
   "@auto_oshibka_seti_proverte_podklyuchenie": {
     "description": "Auto-extracted"
   },
-  "auto_prevysheno_vremya_ozhidaniya_otveta": "Превышено время ожидания ответа сервера",
+  "auto_prevysheno_vremya_ozhidaniya_otveta": "Не удалось сгенерировать ответ AI: {reason}",
   "@auto_prevysheno_vremya_ozhidaniya_otveta": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_razobrat_soobschenie": "Не удалось разобрать сообщение",
+  "auto_ne_udalos_razobrat_soobschenie": "Не удалось сгенерировать ответ AI: {reason}",
   "@auto_ne_udalos_razobrat_soobschenie": {
     "description": "Auto-extracted"
   },
@@ -3539,7 +3539,7 @@
   "@auto_retrywithbackoff_neozhidannoe_zaver": {
     "description": "Auto-extracted"
   },
-  "auto_svodka_statistiki_zakeshirovana": "Сводка статистики закэширована",
+  "auto_svodka_statistiki_zakeshirovana": "cache",
   "@auto_svodka_statistiki_zakeshirovana": {
     "description": "Auto-extracted"
   },
@@ -3551,7 +3551,7 @@
   "@auto_oshibka_pri_poluchenii_kesha_svodki": {
     "description": "Auto-extracted"
   },
-  "auto_ai_rezyume_zakeshirovano": "AI резюме закэшировано",
+  "auto_ai_rezyume_zakeshirovano": "cache",
   "@auto_ai_rezyume_zakeshirovano": {
     "description": "Auto-extracted"
   },
@@ -3563,11 +3563,11 @@
   "@auto_oshibka_pri_poluchenii_kesha_ai_rez": {
     "description": "Auto-extracted"
   },
-  "auto_kesh_statistiki_ochischen": "Кэш статистики очищен",
+  "auto_kesh_statistiki_ochischen": "cache",
   "@auto_kesh_statistiki_ochischen": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_pri_ochistke_kesha": "Ошибка при очистке кэша",
+  "auto_oshibka_pri_ochistke_kesha": "cache",
   "@auto_oshibka_pri_ochistke_kesha": {
     "description": "Auto-extracted"
   },
@@ -3675,7 +3675,7 @@
   "@auto_nikomu": {
     "description": "Auto-extracted"
   },
-  "auto_loadforcurrentuser_rassoglasovanie": "loadForCurrentUser: рассогласование авторизации ",
+  "auto_loadforcurrentuser_rassoglasovanie": "(isRemembered=true, userId=$userId), кэш пуст",
   "@auto_loadforcurrentuser_rassoglasovanie": {
     "description": "Auto-extracted"
   },
@@ -4059,7 +4059,7 @@
   "@auto_udalit_tovar_za_narushenie": {
     "description": "Auto-extracted"
   },
-  "auto_prichina_udaleniya_dlya_postavschik": "Причина удаления для поставщика",
+  "auto_prichina_udaleniya_dlya_postavschik": "Удалить",
   "@auto_prichina_udaleniya_dlya_postavschik": {
     "description": "Auto-extracted"
   },
@@ -4067,7 +4067,7 @@
   "@auto_udalit": {
     "description": "Auto-extracted"
   },
-  "auto_tovar_udalen_postavschik_uvedomlen": "Товар удален, поставщик уведомлен",
+  "auto_tovar_udalen_postavschik_uvedomlen": "Товар удален",
   "@auto_tovar_udalen_postavschik_uvedomlen": {
     "description": "Auto-extracted"
   },
@@ -4115,7 +4115,7 @@
   "@auto_net_zayavok": {
     "description": "Auto-extracted"
   },
-  "auto_po_vashemu_zaprosu_nichego_ne_nayde": "По вашему запросу ничего не найдено",
+  "auto_po_vashemu_zaprosu_nichego_ne_nayde": "Нет подходящих товаров",
   "@auto_po_vashemu_zaprosu_nichego_ne_nayde": {
     "description": "Auto-extracted"
   },
@@ -4179,7 +4179,7 @@
   "@auto_cocacola_samyy_populyarnyy_gazirova": {
     "description": "Auto-extracted"
   },
-  "auto_napitki": "Напитки",
+  "auto_napitki": "Товары для дома",
   "@auto_napitki": {
     "description": "Auto-extracted"
   },
@@ -4195,11 +4195,11 @@
   "@auto_strana_proizvoditelya": {
     "description": "Auto-extracted"
   },
-  "auto_kazahstan": "Казахстан",
+  "auto_kazahstan": "Классическая",
   "@auto_kazahstan": {
     "description": "Auto-extracted"
   },
-  "auto_torgovaya_marka": "Торговая марка",
+  "auto_torgovaya_marka": "Классическая",
   "@auto_torgovaya_marka": {
     "description": "Auto-extracted"
   },
@@ -4215,11 +4215,11 @@
   "@auto_sklad_mansa": {
     "description": "Auto-extracted"
   },
-  "auto_zavtra": "завтра",
+  "auto_zavtra": "Четверг 17:00",
   "@auto_zavtra": {
     "description": "Auto-extracted"
   },
-  "auto_dostavka_mezhgorod": "Доставка межгород",
+  "auto_dostavka_mezhgorod": "Четверг 17:00",
   "@auto_dostavka_mezhgorod": {
     "description": "Auto-extracted"
   },
@@ -4227,7 +4227,7 @@
   "@auto_chetverg_1700": {
     "description": "Auto-extracted"
   },
-  "auto_vs_21_sentyabrya": "Вс 21 сентября",
+  "auto_vs_21_sentyabrya": "Сб 23 сентября 12:00",
   "@auto_vs_21_sentyabrya": {
     "description": "Auto-extracted"
   },
@@ -4239,7 +4239,7 @@
   "@auto_kakoyto_krutoy_postavschik": {
     "description": "Auto-extracted"
   },
-  "auto_sb_20_sentyabrya": "Сб 20 сентября",
+  "auto_sb_20_sentyabrya": "Четверг 17:00",
   "@auto_sb_20_sentyabrya": {
     "description": "Auto-extracted"
   },
@@ -5236,178 +5236,240 @@
   "qa_minimum_characters": "Минимум {minLength} символов ({currentLength}/{minLength})",
   "@qa_minimum_characters": {
     "placeholders": {
-      "minLength": { "type": "int" },
-      "currentLength": { "type": "int" }
+      "minLength": {
+        "type": "int"
+      },
+      "currentLength": {
+        "type": "int"
+      }
     }
   },
   "qa_enter_answer_minimum": "Введите ответ (минимум {minLength} символов)",
   "@qa_enter_answer_minimum": {
     "placeholders": {
-      "minLength": { "type": "int" }
+      "minLength": {
+        "type": "int"
+      }
     }
   },
   "avatar_load_error": "Не удалось загрузить аватарку: {url} ({error})",
   "@avatar_load_error": {
     "placeholders": {
-      "url": { "type": "String" },
-      "error": { "type": "String" }
+      "url": {
+        "type": "String"
+      },
+      "error": {
+        "type": "String"
+      }
     }
   },
   "qa_answer_from_supplier": "Ответ от {supplierName}",
   "@qa_answer_from_supplier": {
     "placeholders": {
-      "supplierName": { "type": "String" }
+      "supplierName": {
+        "type": "String"
+      }
     }
   },
   "ratings_count_parentheses": "Оценок ({count})",
   "@ratings_count_parentheses": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "ratings_count_colon": "Оценок: {count}",
   "@ratings_count_colon": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "nutrition_calories_unit": "{value} к",
   "@nutrition_calories_unit": {
     "placeholders": {
-      "value": { "type": "String" }
+      "value": {
+        "type": "String"
+      }
     }
   },
   "nutrition_grams_unit": "{value} г",
   "@nutrition_grams_unit": {
     "placeholders": {
-      "value": { "type": "String" }
+      "value": {
+        "type": "String"
+      }
     }
   },
   "templates_sheet_rename_template": "Переименовать шаблон {name}",
   "@templates_sheet_rename_template": {
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
   "templates_sheet_delete_template": "Удалить шаблон {name}",
   "@templates_sheet_delete_template": {
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
   "templates_sheet_add_to_cart_template": "В корзину шаблон {name}",
   "@templates_sheet_add_to_cart_template": {
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
   "supplier_stats_days": "{days} дн.",
   "@supplier_stats_days": {
     "placeholders": {
-      "days": { "type": "String" }
+      "days": {
+        "type": "String"
+      }
     }
   },
   "supplier_stats_units_sold": "{count} шт. продано",
   "@supplier_stats_units_sold": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "supplier_stats_repeat_buyers": "{percentage}% постоянных",
   "@supplier_stats_repeat_buyers": {
     "placeholders": {
-      "percentage": { "type": "String" }
+      "percentage": {
+        "type": "String"
+      }
     }
   },
   "supplier_stats_reviews": "{count} отзывов",
   "@supplier_stats_reviews": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "supplier_stats_order_prefix": "Заказ #{orderId}",
   "@supplier_stats_order_prefix": {
     "placeholders": {
-      "orderId": { "type": "String" }
+      "orderId": {
+        "type": "String"
+      }
     }
   },
   "wizard_error_price_max": "Цена не должна превышать {max}",
   "@wizard_error_price_max": {
     "placeholders": {
-      "max": { "type": "String" }
+      "max": {
+        "type": "String"
+      }
     }
   },
   "wizard_error_min_quantity_max": "Минимальное количество не должно превышать {max}",
   "@wizard_error_min_quantity_max": {
     "placeholders": {
-      "max": { "type": "String" }
+      "max": {
+        "type": "String"
+      }
     }
   },
   "wizard_error_stock_max": "Остаток на складе не должен превышать {max}",
   "@wizard_error_stock_max": {
     "placeholders": {
-      "max": { "type": "String" }
+      "max": {
+        "type": "String"
+      }
     }
   },
   "wizard_error_calories_max": "Калории не должны превышать {max} (ограничение NUMERIC(10,2))",
   "@wizard_error_calories_max": {
     "placeholders": {
-      "max": { "type": "String" }
+      "max": {
+        "type": "String"
+      }
     }
   },
   "wizard_error_protein_max": "Белки не должны превышать {max} (ограничение NUMERIC(10,2))",
   "@wizard_error_protein_max": {
     "placeholders": {
-      "max": { "type": "String" }
+      "max": {
+        "type": "String"
+      }
     }
   },
   "wizard_error_fat_max": "Жиры не должны превышать {max} (ограничение NUMERIC(10,2))",
   "@wizard_error_fat_max": {
     "placeholders": {
-      "max": { "type": "String" }
+      "max": {
+        "type": "String"
+      }
     }
   },
   "wizard_error_carbs_max": "Углеводы не должны превышать {max} (ограничение NUMERIC(10,2))",
   "@wizard_error_carbs_max": {
     "placeholders": {
-      "max": { "type": "String" }
+      "max": {
+        "type": "String"
+      }
     }
   },
   "wizard_show_all_categories": "Показать все ({count})",
   "@wizard_show_all_categories": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "wizard_step_indicator": "Шаг {current} из {total}",
   "@wizard_step_indicator": {
     "placeholders": {
-      "current": { "type": "int" },
-      "total": { "type": "int" }
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "supplier_products_stock_quantity": "{count} шт.",
   "@supplier_products_stock_quantity": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "supplier_products_min_quantity": "{count} шт.",
   "@supplier_products_min_quantity": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "supplier_orders_order_number": "Заказ №{orderId}",
   "@supplier_orders_order_number": {
     "placeholders": {
-      "orderId": { "type": "String" }
+      "orderId": {
+        "type": "String"
+      }
     }
   },
-  "supplier_orders_items_count": "{count} поз.",
   "@supplier_orders_items_count": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "util_seconds_left": "{count} секунд",
@@ -5421,5 +5483,1135 @@
   },
   "util_review_one": "отзыв",
   "util_review_few": "отзыва",
-  "util_review_many": "отзывов"
+  "util_review_many": "отзывов",
+  "auto_oshibkaZapuska": "Ошибка запуска",
+  "@auto_oshibkaZapuska": {},
+  "auto_oshibkaZapuskaPrilozhen": "Ошибка запуска приложения",
+  "@auto_oshibkaZapuskaPrilozhen": {},
+  "auto_poprobuytePerezapustitP": "Попробуйте перезапустить приложение",
+  "@auto_poprobuytePerezapustitP": {},
+  "auto_optovyeZakupki": "kk",
+  "@auto_optovyeZakupki": {},
+  "auto_vvediteImya": "Слишком короткое",
+  "@auto_vvediteImya": {},
+  "auto_slishkomKorotkoe": "Слишком короткое",
+  "@auto_slishkomKorotkoe": {},
+  "auto_vvediteEmail": "Некорректный email",
+  "@auto_vvediteEmail": {},
+  "auto_nekorrektnyyEmail": "Некорректный email",
+  "@auto_nekorrektnyyEmail": {},
+  "auto_vvediteTelefon": "Должен начинаться с 7",
+  "@auto_vvediteTelefon": {},
+  "auto_nuzhno11Tsifr": "Должен начинаться с 7",
+  "@auto_nuzhno11Tsifr": {},
+  "auto_dolzhenNachinatsyaS7": "Должен начинаться с 7",
+  "@auto_dolzhenNachinatsyaS7": {},
+  "auto_vvediteParol": "Минимум 6 символов",
+  "@auto_vvediteParol": {},
+  "auto_minimum6Simvolov": "Минимум 6 символов",
+  "@auto_minimum6Simvolov": {},
+  "auto_neUdalosSozdatModerato": "Не удалось создать модератора",
+  "@auto_neUdalosSozdatModerato": {},
+  "auto_imya_1": "Имя",
+  "@auto_imya_1": {},
+  "auto_telefon": "Телефон",
+  "@auto_telefon": {},
+  "auto_skryt": "Скрыть",
+  "@auto_skryt": {},
+  "auto_neAvtorizovan": "доступ",
+  "@auto_neAvtorizovan": {},
+  "auto_dostup": "доступ",
+  "@auto_dostup": {},
+  "auto_neUdalosZagruzitModera": "Не удалось загрузить модераторов",
+  "@auto_neUdalosZagruzitModera": {},
+  "auto_moderatorDobavlen": "Модератор добавлен",
+  "@auto_moderatorDobavlen": {},
+  "auto_moderatorUdalyon": "Модератор удалён",
+  "@auto_moderatorUdalyon": {},
+  "auto_dobavitModeratora": "Добавить модератора",
+  "@auto_dobavitModeratora": {},
+  "auto_dobavit": "Добавить",
+  "@auto_dobavit": {},
+  "auto_poiskPoImeniIliEmail": "Поиск по имени или email",
+  "@auto_poiskPoImeniIliEmail": {},
+  "auto_moderatoryNeNaydeny": "Ничего не найдено по запросу",
+  "@auto_moderatoryNeNaydeny": {},
+  "auto_nichegoNeNaydenoPoZap": "Ничего не найдено по запросу",
+  "@auto_nichegoNeNaydenoPoZap": {},
+  "auto_oshibka": "Ошибка",
+  "@auto_oshibka": {},
+  "auto_dostupZapreshchyonVoydi": "Доступ запрещён. Войдите снова.",
+  "@auto_dostupZapreshchyonVoydi": {},
+  "auto_bezImeni": "Без имени",
+  "@auto_bezImeni": {},
+  "auto_elPochta_1": "Эл. почта",
+  "@auto_elPochta_1": {},
+  "auto_neUdalosZagruzitChaty": "Не удалось загрузить чаты техподдержки",
+  "@auto_neUdalosZagruzitChaty": {},
+  "auto_zakryt_1": "Закрыт",
+  "@auto_zakryt_1": {},
+  "auto_otkrytye": "Открытые",
+  "@auto_otkrytye": {},
+  "auto_istoriya": "История",
+  "@auto_istoriya": {},
+  "auto_zakrytyhChatovPokaNet": "Открытых чатов сейчас нет",
+  "@auto_zakrytyhChatovPokaNet": {},
+  "auto_otkrytyhChatovSeychasN": "Открытых чатов сейчас нет",
+  "@auto_otkrytyhChatovSeychasN": {},
+  "auto_neUdalosZagruzitSoobsh": "Не удалось загрузить сообщения",
+  "@auto_neUdalosZagruzitSoobsh": {},
+  "auto_neUdalosOpredelitSotru": "Не удалось определить сотрудника техподдержки",
+  "@auto_neUdalosOpredelitSotru": {},
+  "auto_chatUzheZakryt": "Чат уже закрыт",
+  "@auto_chatUzheZakryt": {},
+  "auto_vvediteSoobshchenie": "Введите сообщение",
+  "@auto_vvediteSoobshchenie": {},
+  "auto_neUdalosOtpravitSoobsh": "Не удалось Отправить сообщение",
+  "@auto_neUdalosOtpravitSoobsh": {},
+  "auto_prichinaZakrytiyaNeobya": "Закрыть",
+  "@auto_prichinaZakrytiyaNeobya": {},
+  "auto_chatZakryt": "Чат закрыт",
+  "@auto_chatZakryt": {},
+  "auto_neUdalosZakrytChat": "Не удалось закрыть чат",
+  "@auto_neUdalosZakrytChat": {},
+  "auto_otvetitPolzovatelyu": "Ответить пользователю",
+  "@auto_otvetitPolzovatelyu": {},
+  "auto_chatOtkryt": "Чат открыт",
+  "@auto_chatOtkryt": {},
+  "auto_zakrytChat": "Закрыть чат",
+  "@auto_zakrytChat": {},
+  "auto_adresDostavki": "Адрес доставки",
+  "@auto_adresDostavki": {},
+  "auto_podtverditVybor": "Подтвердить выбор",
+  "@auto_podtverditVybor": {},
+  "auto_adresovPokaNet": "Адресов пока нет",
+  "@auto_adresovPokaNet": {},
+  "auto_dobavteAdresChtobyProd": "Добавьте адрес, чтобы продолжить оформление.",
+  "@auto_dobavteAdresChtobyProd": {},
+  "auto_bezAdresa": "Без адреса",
+  "@auto_bezAdresa": {},
+  "auto_neUdalosSohranitAdres": "Не удалось сохранить адрес",
+  "@auto_neUdalosSohranitAdres": {},
+  "auto_voyditeChtobyOformitZa": "Войдите, чтобы оформить заказ",
+  "@auto_voyditeChtobyOformitZa": {},
+  "auto_pozitsiya": "позиция",
+  "@auto_pozitsiya": {},
+  "auto_pozitsii": "позиции",
+  "@auto_pozitsii": {},
+  "auto_pozitsiy": "позиций",
+  "@auto_pozitsiy": {},
+  "auto_ochistitKorzinu": "Очистить корзину",
+  "@auto_ochistitKorzinu": {},
+  "auto_napit": "напит",
+  "@auto_napit": {},
+  "auto_frukt": "фрукт",
+  "@auto_frukt": {},
+  "auto_pekar": "пекар",
+  "@auto_pekar": {},
+  "auto_moloch": "молоч",
+  "@auto_moloch": {},
+  "auto_ptits": "птиц",
+  "@auto_ptits": {},
+  "auto_katalog": "Каталог",
+  "@auto_katalog": {},
+  "auto_poiskKategoriy": "Поиск категорий...",
+  "@auto_poiskKategoriy": {},
+  "auto_netKategoriy": "Нет категорий",
+  "@auto_netKategoriy": {},
+  "auto_nichegoNeNaydeno": "Ничего не найдено",
+  "@auto_nichegoNeNaydeno": {},
+  "auto_poiskPodkategoriy": "Поиск подкатегорий...",
+  "@auto_poiskPodkategoriy": {},
+  "auto_povtorit": "Повторить",
+  "@auto_povtorit": {},
+  "auto_vEtoyKategoriiPokaNet": "В этой категории пока нет товаров",
+  "@auto_vEtoyKategoriiPokaNet": {},
+  "auto_barlyy": "все",
+  "@auto_barlyy": {},
+  "auto_skid": "скид",
+  "@auto_skid": {},
+  "auto_istoriyaZakazov": "История заказов",
+  "@auto_istoriyaZakazov": {},
+  "auto_filtr": "Фильтр",
+  "@auto_filtr": {},
+  "auto_eksportirovatVExcel": "Экспортировать в .excel",
+  "@auto_eksportirovatVExcel": {},
+  "auto_istoriyaPokaPustaya": "История пока пустая",
+  "@auto_istoriyaPokaPustaya": {},
+  "auto_netTovarov": "Нет товаров",
+  "@auto_netTovarov": {},
+  "auto_status": "Статус",
+  "@auto_status": {},
+  "auto_dataZakaza": "Дата заказа",
+  "@auto_dataZakaza": {},
+  "auto_kolichestvoTovarov": "Количество товаров",
+  "@auto_kolichestvoTovarov": {},
+  "auto_obshcheeKolvo": "Общее кол-во:",
+  "@auto_obshcheeKolvo": {},
+  "auto_tovaryVZakaze": "Товары в заказе",
+  "@auto_tovaryVZakaze": {},
+  "auto_polucheno_1": "завершено",
+  "@auto_polucheno_1": {},
+  "auto_otmen": "отмен",
+  "@auto_otmen": {},
+  "auto_trebuetsyaAvtorizatsiya": "Требуется авторизация",
+  "@auto_trebuetsyaAvtorizatsiya": {},
+  "auto_faylZagruzhen": "Файл загружен",
+  "@auto_faylZagruzhen": {},
+  "auto_dostavleno": "доставлено",
+  "@auto_dostavleno": {},
+  "auto_netVNalichii": "Нет в наличии",
+  "@auto_netVNalichii": {},
+  "auto_oTovare": "О товаре",
+  "@auto_oTovare": {},
+  "auto_udalitIzIzbrannogo": "Добавить в избранное",
+  "@auto_udalitIzIzbrannogo": {},
+  "auto_dobavitVIzbrannoe": "Добавить в избранное",
+  "@auto_dobavitVIzbrannoe": {},
+  "auto_dobavlenoVIzbrannoe": "Добавлено в избранное",
+  "@auto_dobavlenoVIzbrannoe": {},
+  "auto_udalenoIzIzbrannogo": "Удалено из избранного",
+  "@auto_udalenoIzIzbrannogo": {},
+  "auto_otzyvovPokaNet": "Оценить товар можно только после ее покупки",
+  "@auto_otzyvovPokaNet": {},
+  "auto_otsenitTovarMozhnoTolk": "Оценить товар можно только после ее покупки",
+  "@auto_otsenitTovarMozhnoTolk": {},
+  "auto_voprosovPoTovaruEshche": "Будьте первым!",
+  "@auto_voprosovPoTovaruEshche": {},
+  "auto_budtePervym": "Будьте первым!",
+  "@auto_budtePervym": {},
+  "auto_zadatVopros": "Задать вопрос",
+  "@auto_zadatVopros": {},
+  "auto_voprosov": "вопросов",
+  "@auto_voprosov": {},
+  "auto_zakryt": "Закрыть",
+  "@auto_zakryt": {},
+  "auto_harakteristiki": "Описание",
+  "@auto_harakteristiki": {},
+  "auto_opisanie_1": "Описание",
+  "@auto_opisanie_1": {},
+  "auto_netDannyhOTovare": "Нет данных о товаре",
+  "@auto_netDannyhOTovare": {},
+  "auto_opisanieNeUkazano": "Описание не указано",
+  "@auto_opisanieNeUkazano": {},
+  "auto_bezTeksta": "Без текста",
+  "@auto_bezTeksta": {},
+  "auto_pereytiKoVsemOtzyvam": "Перейти ко всем отзывам",
+  "@auto_pereytiKoVsemOtzyvam": {},
+  "auto_pereytiKoVsemVoprosam": "Перейти ко всем вопросам",
+  "@auto_pereytiKoVsemVoprosam": {},
+  "auto_voprosyOTovare": "Вопросы о товаре",
+  "@auto_voprosyOTovare": {},
+  "auto_netVoprosov": "Нет вопросов",
+  "@auto_netVoprosov": {},
+  "auto_budtePervymKtoZadastV": "Будьте первым, кто задаст вопрос!",
+  "@auto_budtePervymKtoZadastV": {},
+  "auto_vyNeAvtorizovany": "Вы не авторизованы",
+  "@auto_vyNeAvtorizovany": {},
+  "auto_vashVopros": "Ваш вопрос",
+  "@auto_vashVopros": {},
+  "auto_neUdalosZagruzitOtzyvy_1": "Не удалось загрузить отзывы",
+  "@auto_neUdalosZagruzitOtzyvy_1": {},
+  "auto_otzyvy": "Отзывы",
+  "@auto_otzyvy": {},
+  "auto_pokaNetOtzyvov": "Пока нет отзывов",
+  "@auto_pokaNetOtzyvov": {},
+  "auto_zdesPoyavyatsyaOtsenki": "Здесь появятся оценки и мнения покупателей.",
+  "@auto_zdesPoyavyatsyaOtsenki": {},
+  "auto_svernut": "Свернуть",
+  "@auto_svernut": {},
+  "auto_otvetProdavtsa": "Ответ продавца",
+  "@auto_otvetProdavtsa": {},
+  "auto_vse_1": "Все",
+  "@auto_vse_1": {},
+  "auto_postavshchikNeNayden": "Время ожидания истекло. Проверьте соединение и повторите попытку.",
+  "@auto_postavshchikNeNayden": {},
+  "auto_vremyaOzhidaniya": "Время ожидания истекло. Проверьте соединение и повторите попытку.",
+  "@auto_vremyaOzhidaniya": {},
+  "auto_vremyaOzhidaniyaIsteklo": "Время ожидания истекло. Проверьте соединение и повторите попытку.",
+  "@auto_vremyaOzhidaniyaIsteklo": {},
+  "auto_netPodklyucheniyaKInte": "Нет подключения к интернету",
+  "@auto_netPodklyucheniyaKInte": {},
+  "auto_neUdalosZagruzitDannye": "Не удалось загрузить данные. Попробуйте ещё раз.",
+  "@auto_neUdalosZagruzitDannye": {},
+  "auto_netTovarovOtEtogoPost": "Товары не найдены",
+  "@auto_netTovarovOtEtogoPost": {},
+  "auto_tovaryNeNaydeny": "Товары не найдены",
+  "@auto_tovaryNeNaydeny": {},
+  "auto_poisk": "Поиск...",
+  "@auto_poisk": {},
+  "auto_proizoshlaOshibka": "Произошла ошибка",
+  "@auto_proizoshlaOshibka": {},
+  "auto_vernutsya": "Вернуться",
+  "@auto_vernutsya": {},
+  "auto_filtry": "Фильтры",
+  "@auto_filtry": {},
+  "auto_tsenaZaSht": "Цена за шт.",
+  "@auto_tsenaZaSht": {},
+  "auto_ot": "от",
+  "@auto_ot": {},
+  "auto_do": "до",
+  "@auto_do": {},
+  "auto_sortirovka": "Сортировка",
+  "@auto_sortirovka": {},
+  "auto_reyting": "Рейтинг",
+  "@auto_reyting": {},
+  "auto_poryadok": "Порядок",
+  "@auto_poryadok": {},
+  "auto_poVozrastaniyu": "По возрастанию",
+  "@auto_poVozrastaniyu": {},
+  "auto_poUbyvaniyu": "По убыванию",
+  "@auto_poUbyvaniyu": {},
+  "auto_dobavitAdres": "Добавить адрес",
+  "@auto_dobavitAdres": {},
+  "auto_adres": "АДРЕС",
+  "@auto_adres": {},
+  "auto_ulitsa": "УЛИЦА",
+  "@auto_ulitsa": {},
+  "auto_pochtovyyIndeks": "ПОЧТОВЫЙ ИНДЕКС",
+  "@auto_pochtovyyIndeks": {},
+  "auto_kvartira": "КВАРТИРА",
+  "@auto_kvartira": {},
+  "auto_dom": "Дом",
+  "@auto_dom": {},
+  "auto_rabota": "Работа",
+  "@auto_rabota": {},
+  "auto_drugoe": "Другое",
+  "@auto_drugoe": {},
+  "auto_sohranit": "СОХРАНИТЬ",
+  "@auto_sohranit": {},
+  "auto_sohranitAdres": "СОХРАНИТЬ АДРЕС",
+  "@auto_sohranitAdres": {},
+  "auto_vvediteAdres": "Введите адрес",
+  "@auto_vvediteAdres": {},
+  "auto_adresSlishkomKorotkiy": "Адрес слишком короткий",
+  "@auto_adresSlishkomKorotkiy": {},
+  "auto_ulitsa_1": "Поле \"Улица\" не должно превышать $_streetMaxLength символов",
+  "@auto_ulitsa_1": {},
+  "auto_indeksDolzhenSoderzhat": "Индекс должен содержать только цифры (3-10)",
+  "@auto_indeksDolzhenSoderzhat": {},
+  "auto_kvartira_1": "Поле \"Квартира\" не должно превышать $_apartmentMaxLength символов",
+  "@auto_kvartira_1": {},
+  "auto_nekorrektnyyFormatKvart": "Некорректный формат квартиры",
+  "@auto_nekorrektnyyFormatKvart": {},
+  "auto_vvediteImyaVladeltsaKa": "Введите имя владельца карты",
+  "@auto_vvediteImyaVladeltsaKa": {},
+  "auto_imyaSlishkomKorotkoe": "Имя слишком короткое",
+  "@auto_imyaSlishkomKorotkoe": {},
+  "auto_imyaNeDolzhnoSoderzhat": "Имя не должно содержать цифры",
+  "@auto_imyaNeDolzhnoSoderzhat": {},
+  "auto_vvediteNomerKarty": "Введите номер карты",
+  "@auto_vvediteNomerKarty": {},
+  "auto_nomerKartyDolzhenByt1": "Номер карты должен быть 16 цифр",
+  "@auto_nomerKartyDolzhenByt1": {},
+  "auto_nevernyyNomerKarty": "Неверный номер карты",
+  "@auto_nevernyyNomerKarty": {},
+  "auto_vvediteSrokDeystviya": "Введите срок действия",
+  "@auto_vvediteSrokDeystviya": {},
+  "auto_vvediteFormatMmgg": "Введите формат ММ/ГГ",
+  "@auto_vvediteFormatMmgg": {},
+  "auto_mesyatsDolzhenByt0112": "Месяц должен быть 01-12",
+  "@auto_mesyatsDolzhenByt0112": {},
+  "auto_srokDeystviyaIstyok": "Срок действия истёк",
+  "@auto_srokDeystviyaIstyok": {},
+  "auto_vvediteCvc": "Введите CVC",
+  "@auto_vvediteCvc": {},
+  "auto_cvc3Tsifry": "CVC: 3 цифры",
+  "@auto_cvc3Tsifry": {},
+  "auto_voyditeChtobyDobavitKa": "Войдите, чтобы добавить карту",
+  "@auto_voyditeChtobyDobavitKa": {},
+  "auto_proverteVvedyonnyeDanny": "Проверьте введённые данные",
+  "@auto_proverteVvedyonnyeDanny": {},
+  "auto_neUdalosSohranitKartu": "Не удалось сохранить карту",
+  "@auto_neUdalosSohranitKartu": {},
+  "auto_dobavitMetodOplaty": "Добавить метод оплаты",
+  "@auto_dobavitMetodOplaty": {},
+  "auto_imyaVladeltsaKarty": "ИМЯ ВЛАДЕЛЬЦА КАРТЫ",
+  "@auto_imyaVladeltsaKarty": {},
+  "auto_nomerKarty": "НОМЕР КАРТЫ",
+  "@auto_nomerKarty": {},
+  "auto_srokDeystviya": "СРОК ДЕЙСТВИЯ",
+  "@auto_srokDeystviya": {},
+  "auto_mmgg": "ММ/ГГ",
+  "@auto_mmgg": {},
+  "auto_dobavitMetodOplaty_1": "ДОБАВИТЬ МЕТОД ОПЛАТЫ",
+  "@auto_dobavitMetodOplaty_1": {},
+  "auto_vvediteTekushchiyParol": "Введите текущий пароль",
+  "@auto_vvediteTekushchiyParol": {},
+  "auto_vvediteNovyyParol": "Введите новый пароль",
+  "@auto_vvediteNovyyParol": {},
+  "auto_novyyParolDolzhenOtlic": "Новый пароль должен отличаться от текущего",
+  "@auto_novyyParolDolzhenOtlic": {},
+  "auto_povtoriteNovyyParol": "Повторите новый пароль",
+  "@auto_povtoriteNovyyParol": {},
+  "auto_paroliNeSovpadayut": "Пароли не совпадают",
+  "@auto_paroliNeSovpadayut": {},
+  "auto_neUdalosIzmenitParol": "Не удалось изменить пароль",
+  "@auto_neUdalosIzmenitParol": {},
+  "auto_sessiyaIsteklaVoyditeS": "Сессия истекла. Войдите снова.",
+  "@auto_sessiyaIsteklaVoyditeS": {},
+  "auto_izmenitParol": "Изменить пароль",
+  "@auto_izmenitParol": {},
+  "auto_tekushchiyParol": "Текущий пароль",
+  "@auto_tekushchiyParol": {},
+  "auto_novyyParol": "Новый пароль",
+  "@auto_novyyParol": {},
+  "auto_vvediteParolEshchyoRaz": "Введите пароль ещё раз",
+  "@auto_vvediteParolEshchyoRaz": {},
+  "auto_parolDolzhenSoderzhatM": "Пароль должен содержать минимум 6 символов и отличаться от текущего.",
+  "@auto_parolDolzhenSoderzhatM": {},
+  "auto_sohranitParol": "СОХРАНИТЬ ПАРОЛЬ",
+  "@auto_sohranitParol": {},
+  "auto_ivanIvanov": "Иван Иванов",
+  "@auto_ivanIvanov": {},
+  "auto_lyublyuSladosti": "Люблю сладости",
+  "@auto_lyublyuSladosti": {},
+  "auto_sdelatSnimok": "Сделать снимок",
+  "@auto_sdelatSnimok": {},
+  "auto_vybratIzGalerei": "Выбрать из галереи",
+  "@auto_vybratIzGalerei": {},
+  "auto_udalitFoto": "Удалить фото",
+  "@auto_udalitFoto": {},
+  "auto_razmerFaylaNeDolzhenP": "Размер файла не должен превышать 5 МБ",
+  "@auto_razmerFaylaNeDolzhenP": {},
+  "auto_redProfil": "Ред. Профиль",
+  "@auto_redProfil": {},
+  "auto_fio": "ФИО",
+  "@auto_fio": {},
+  "auto_elPochta": "ЭЛ. ПОЧТА",
+  "@auto_elPochta": {},
+  "auto_nomer": "НОМЕР",
+  "@auto_nomer": {},
+  "auto_opisanie": "ОПИСАНИЕ",
+  "@auto_opisanie": {},
+  "auto_nomerDolzhenBytVForma": "Номер должен быть в формате +7-XXX-XXX-XXXX",
+  "@auto_nomerDolzhenBytVForma": {},
+  "auto_kakSdelatZakaz": "Как сделать заказ?",
+  "@auto_kakSdelatZakaz": {},
+  "auto_chtobySdelatZakazVyber": "Чтобы сделать заказ, выберите товары из каталога, добавьте их в корзину и оформите заказ, указав адрес доставки и способ оплаты.",
+  "@auto_chtobySdelatZakazVyber": {},
+  "auto_kakieSposobyOplatyDost": "Какие способы оплаты доступны?",
+  "@auto_kakieSposobyOplatyDost": {},
+  "auto_myPrinimaemOplatuNalic": "Мы принимаем оплату наличными, банковскими картами (Visa, Mastercard), а также через PayPal.",
+  "@auto_myPrinimaemOplatuNalic": {},
+  "auto_skolkoVremeniZanimaetD": "Сколько времени занимает доставка?",
+  "@auto_skolkoVremeniZanimaetD": {},
+  "auto_standartnayaDostavkaZan": "Стандартная доставка занимает 1-3 рабочих дня. Экспресс-доставка доступна в течение 24 часов.",
+  "@auto_standartnayaDostavkaZan": {},
+  "auto_moguLiYaOtmenitZakaz": "Могу ли я отменить заказ?",
+  "@auto_moguLiYaOtmenitZakaz": {},
+  "auto_vyMozheteOtmenitZakaz": "Вы можете отменить заказ в течение 30 минут после оформления. После этого заказ уже будет передан на склад для сборки.",
+  "@auto_vyMozheteOtmenitZakaz": {},
+  "auto_kakIzmenitAdresDostavk": "Как изменить адрес доставки?",
+  "@auto_kakIzmenitAdresDostavk": {},
+  "auto_profil": "Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.",
+  "@auto_profil": {},
+  "auto_adresa": "Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.",
+  "@auto_adresa": {},
+  "auto_takzheMozhnoUkazatNov": "Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.",
+  "@auto_takzheMozhnoUkazatNov": {},
+  "auto_chtoDelatEsliTovarNe": "Что делать если товар не подошел?",
+  "@auto_chtoDelatEsliTovarNe": {},
+  "auto_vyMozheteVernutTovarV": "Вы можете вернуть товар в течение 14 дней с момента получения. Свяжитесь с нашей службой поддержки для оформления возврата.",
+  "@auto_vyMozheteVernutTovarV": {},
+  "auto_kakSvyazatsyaSPodderzh": "Как связаться с поддержкой?",
+  "@auto_kakSvyazatsyaSPodderzh": {},
+  "auto_tehpodderzhka": "Техподдержка",
+  "@auto_tehpodderzhka": {},
+  "auto_vPrilozheniiPoElektro": "Вы можете связаться с нами через раздел \"Техподдержка\" в приложении, по электронной почте или по телефону горячей линии.",
+  "@auto_vPrilozheniiPoElektro": {},
+  "auto_estLiMinimalnayaSumma": "Есть ли минимальная сумма заказа?",
+  "@auto_estLiMinimalnayaSumma": {},
+  "auto_minimalnayaSummaZakaza": "Минимальная сумма заказа составляет 500 ₸. При заказе от 5000 ₸ доставка бесплатная.",
+  "@auto_minimalnayaSummaZakaza": {},
+  "auto_voprosyIOtvety": "Вопросы и ответы",
+  "@auto_voprosyIOtvety": {},
+  "auto_izbrannoe": "Избранное",
+  "@auto_izbrannoe": {},
+  "auto_vkladkaIzbrannyeTovary": "Товары",
+  "@auto_vkladkaIzbrannyeTovary": {},
+  "auto_vkladkaIzbrannyeKompani": "Компании",
+  "@auto_vkladkaIzbrannyeKompani": {},
+  "auto_pokaNetIzbrannyhTovaro": "Пока нет избранных товаров",
+  "@auto_pokaNetIzbrannyhTovaro": {},
+  "auto_netIzbrannyhKompaniy": "Нет избранных компаний",
+  "@auto_netIzbrannyhKompaniy": {},
+  "auto_neUdalosZagruzitAdresa": "Не удалось загрузить адреса",
+  "@auto_neUdalosZagruzitAdresa": {},
+  "auto_nuzhnoVoytiVAkkaunt": "Нужно войти в аккаунт",
+  "@auto_nuzhnoVoytiVAkkaunt": {},
+  "auto_neUdalosUdalitAdres": "Не удалось удалить адрес",
+  "@auto_neUdalosUdalitAdres": {},
+  "auto_moiAdresa": "Мои адреса",
+  "@auto_moiAdresa": {},
+  "auto_dobavteAdresChtobyOfor": "Добавьте адрес, чтобы оформить заказ быстрее.",
+  "@auto_dobavteAdresChtobyOfor": {},
+  "auto_redaktirovat": "Редактировать",
+  "@auto_redaktirovat": {},
+  "auto_udalitAdres": "Удалить адрес?",
+  "@auto_udalitAdres": {},
+  "auto_kartaDobavlena": "Карта добавлена",
+  "@auto_kartaDobavlena": {},
+  "auto_metodOplaty": "Метод оплаты",
+  "@auto_metodOplaty": {},
+  "auto_nalichnye": "Наличные",
+  "@auto_nalichnye": {},
+  "auto_dobavitNovyy": "Добавить новый",
+  "@auto_dobavitNovyy": {},
+  "auto_netKartVisa": "Нет карт Visa",
+  "@auto_netKartVisa": {},
+  "auto_netKartMastercard": "Нет карт Mastercard",
+  "@auto_netKartMastercard": {},
+  "auto_dobavteKartuVisaChtoby": "Добавьте карту Visa, чтобы выбрать этот способ оплаты.",
+  "@auto_dobavteKartuVisaChtoby": {},
+  "auto_dobavteKartuMastercard": "Добавьте карту Mastercard, чтобы выбрать этот способ оплаты.",
+  "@auto_dobavteKartuMastercard": {},
+  "auto_vashiKartyVisa": "Ваши карты Visa",
+  "@auto_vashiKartyVisa": {},
+  "auto_vashiKartyMastercard": "Ваши карты Mastercard",
+  "@auto_vashiKartyMastercard": {},
+  "auto_vashiKarty": "Ваши карты",
+  "@auto_vashiKarty": {},
+  "auto_oplataNalichnymi": "Оплата наличными",
+  "@auto_oplataNalichnymi": {},
+  "auto_vyVybraliOplatuNalichn": "Вы выбрали оплату наличными при получении.",
+  "@auto_vyVybraliOplatuNalichn": {},
+  "auto_podklyucheniePaypalPoka": "Подключение PayPal пока недоступно.\\nВыберите карту или наличные.",
+  "@auto_podklyucheniePaypalPoka": {},
+  "auto_netSposobaOplaty": "Нет способа оплаты",
+  "@auto_netSposobaOplaty": {},
+  "auto_pozhaluystaVyberiteSpos": "Пожалуйста, выберите способ\\nоплаты",
+  "@auto_pozhaluystaVyberiteSpos": {},
+  "auto_udalitKartu": "Удалить карту",
+  "@auto_udalitKartu": {},
+  "auto_kartaUdalena": "Карта удалена",
+  "@auto_kartaUdalena": {},
+  "auto_neUkazano": "Не указано",
+  "@auto_neUkazano": {},
+  "auto_vvediteNomerTelefona": "Введите номер телефона",
+  "@auto_vvediteNomerTelefona": {},
+  "auto_nomerDolzhenBytVForma_1": "Номер должен быть в формате +7-000-000-0000",
+  "@auto_nomerDolzhenBytVForma_1": {},
+  "auto_imyaSohraneno": "Имя сохранено",
+  "@auto_imyaSohraneno": {},
+  "auto_emailSohranen": "Email сохранен",
+  "@auto_emailSohranen": {},
+  "auto_nomerSohranen": "Номер сохранен",
+  "@auto_nomerSohranen": {},
+  "auto_vvediteNazvanieKompanii": "Введите название компании",
+  "@auto_vvediteNazvanieKompanii": {},
+  "auto_nazvanieKompaniiSohrane": "Название компании сохранено",
+  "@auto_nazvanieKompaniiSohrane": {},
+  "auto_lichnayaInformatsiya": "Личная информация",
+  "@auto_lichnayaInformatsiya": {},
+  "auto_nazvanieKompanii": "НАЗВАНИЕ КОМПАНИИ",
+  "@auto_nazvanieKompanii": {},
+  "auto_vvediteNovoeZnachenie": "Введите новое значение",
+  "@auto_vvediteNovoeZnachenie": {},
+  "auto_sohranit_1": "Сохранить",
+  "@auto_sohranit_1": {},
+  "auto_nastroyki": "Настройки",
+  "@auto_nastroyki": {},
+  "auto_vyyti": "Выйти",
+  "@auto_vyyti": {},
+  "auto_moiZakazy": "Мои заказы",
+  "@auto_moiZakazy": {},
+  "auto_sposobOplaty": "Способ оплаты",
+  "@auto_sposobOplaty": {},
+  "auto_vashiOtzyvy": "Ваши отзывы",
+  "@auto_vashiOtzyvy": {},
+  "auto_bystrayaDostavka": "Вежливый курьер",
+  "@auto_bystrayaDostavka": {},
+  "auto_horoshayaTsena": "Вежливый курьер",
+  "@auto_horoshayaTsena": {},
+  "auto_kachestvennayaUpakovka": "Вежливый курьер",
+  "@auto_kachestvennayaUpakovka": {},
+  "auto_svezhiyTovar": "Вежливый курьер",
+  "@auto_svezhiyTovar": {},
+  "auto_vezhlivyyKurer": "Вежливый курьер",
+  "@auto_vezhlivyyKurer": {},
+  "auto_voyditeChtobyUvidetOtz": "Войдите, чтобы увидеть отзывы.",
+  "@auto_voyditeChtobyUvidetOtz": {},
+  "auto_neUdalosZagruzitOtzyvy": "Не удалось загрузить отзывы.",
+  "@auto_neUdalosZagruzitOtzyvy": {},
+  "auto_estPokupkiDlyaOtsenki": "Все отзывы о покупках",
+  "@auto_estPokupkiDlyaOtsenki": {},
+  "auto_vseOtzyvyOPokupkah": "Все отзывы о покупках",
+  "@auto_vseOtzyvyOPokupkah": {},
+  "auto_ozhidayutOtzyvov": "Оцените покупки - это помогает другим",
+  "@auto_ozhidayutOtzyvov": {},
+  "auto_otsenitePokupkiEtoPomo": "Оцените покупки - это помогает другим",
+  "@auto_otsenitePokupkiEtoPomo": {},
+  "auto_ostavitOtzyv": "Оставить отзыв",
+  "@auto_ostavitOtzyv": {},
+  "auto_ostavteOtzyvPoslePriny": "Оставьте отзыв после принятия заказа - он появится здесь.",
+  "@auto_ostavteOtzyvPoslePriny": {},
+  "auto_tekstOtzyva": "Текст отзыва",
+  "@auto_tekstOtzyva": {},
+  "auto_bezTekstaOtzyva": "Без текста отзыва",
+  "@auto_bezTekstaOtzyva": {},
+  "auto_otseniteTovar": "Оцените товар",
+  "@auto_otseniteTovar": {},
+  "auto_vashOtzyv": "Ваш отзыв",
+  "@auto_vashOtzyv": {},
+  "auto_podelitesVpechatleniyami": "Поделитесь впечатлениями",
+  "@auto_podelitesVpechatleniyami": {},
+  "auto_izmenit": "Изменить",
+  "@auto_izmenit": {},
+  "auto_voyditeChtobyRedaktirov": "Войдите, чтобы редактировать отзыв",
+  "@auto_voyditeChtobyRedaktirov": {},
+  "auto_otzyvObnovlen": "Отзыв обновлен",
+  "@auto_otzyvObnovlen": {},
+  "auto_neUdalosSohranitOtzyv": "Не удалось сохранить отзыв",
+  "@auto_neUdalosSohranitOtzyv": {},
+  "auto_postavteOtsenku": "Поставьте оценку",
+  "@auto_postavteOtsenku": {},
+  "auto_dobavteDetali": "Добавьте детали",
+  "@auto_dobavteDetali": {},
+  "auto_otpravitOtzyv": "Отправить отзыв",
+  "@auto_otpravitOtzyv": {},
+  "auto_voyditeChtobyOstavitOt": "Войдите, чтобы оставить отзыв",
+  "@auto_voyditeChtobyOstavitOt": {},
+  "auto_spasiboZaOtzyv": "Спасибо за отзыв!",
+  "@auto_spasiboZaOtzyv": {},
+  "auto_neUdalosOtpravitOtzyv": "Не удалось Отправить отзыв",
+  "@auto_neUdalosOtpravitOtzyv": {},
+  "auto_voyditeChtobyUdalitOtz": "Войдите, чтобы удалить отзыв",
+  "@auto_voyditeChtobyUdalitOtz": {},
+  "auto_otzyvUdalen": "Отзыв удален",
+  "@auto_otzyvUdalen": {},
+  "auto_neUdalosUdalitOtzyv": "Не удалось удалить отзыв",
+  "@auto_neUdalosUdalitOtzyv": {},
+  "auto_udalitOtzyv": "Удалить отзыв?",
+  "@auto_udalitOtzyv": {},
+  "auto_etoDeystvieNelzyaOtmen": "Это действие нельзя отменить.",
+  "@auto_etoDeystvieNelzyaOtmen": {},
+  "auto_rezervnyeKodyDvuhfaktor": "Сохраните их в надёжном месте - каждый код можно использовать только один раз.\\n",
+  "@auto_rezervnyeKodyDvuhfaktor": {},
+  "auto_sohraniteIhVNadyozhnom": "Сохраните их в надёжном месте - каждый код можно использовать только один раз.\\n",
+  "@auto_sohraniteIhVNadyozhnom": {},
+  "auto_kodySkopirovanyVBufer": "Коды скопированы в буфер обмена",
+  "@auto_kodySkopirovanyVBufer": {},
+  "auto_faylSKodamiSohranyon": "Файл с кодами сохранён",
+  "@auto_faylSKodamiSohranyon": {},
+  "auto_rezervnyeKody": "Резервные коды",
+  "@auto_rezervnyeKody": {},
+  "auto_rezervnyeKodyDvuhfaktor_1": "Резервные коды двухфакторной аутентификации",
+  "@auto_rezervnyeKodyDvuhfaktor_1": {},
+  "auto_sohraniteKodyVBezopasn": "Сохраните коды в безопасном месте — они показываются один раз. Каждый код можно использовать только однократно для входа, если потерян доступ к почте.",
+  "@auto_sohraniteKodyVBezopasn": {},
+  "auto_gotovo": "Готово",
+  "@auto_gotovo": {},
+  "auto_neUdalosOtpravitKodPo": "Не удалось Отправить код. Попробуйте ещё раз.",
+  "@auto_neUdalosOtpravitKodPo": {},
+  "auto_dvuhfaktornayaAutentifik": "Двухфакторная аутентификация отключена",
+  "@auto_dvuhfaktornayaAutentifik": {},
+  "auto_nevernyyKod": "Неверный код",
+  "@auto_nevernyyKod": {},
+  "auto_oshibkaPodklyucheniyaK": "Ошибка подключения к серверу",
+  "@auto_oshibkaPodklyucheniyaK": {},
+  "auto_kodOtpravlenPovtorno": "Код отправлен повторно",
+  "@auto_kodOtpravlenPovtorno": {},
+  "auto_neUdalosOtpravitKodPo_1": "Не удалось Отправить код повторно",
+  "@auto_neUdalosOtpravitKodPo_1": {},
+  "auto_vyklyuchenie2fa": "Выключение 2FA",
+  "@auto_vyklyuchenie2fa": {},
+  "auto_podtverzhdeniePoPochte": "Подтверждение по почте",
+  "@auto_podtverzhdeniePoPochte": {},
+  "auto_chtobyVyklyuchitDvuhfak": "чтобы выключить двухфакторную аутентификацию.",
+  "@auto_chtobyVyklyuchitDvuhfak": {},
+  "auto_povtoritOtpravku": "Повторить отправку",
+  "@auto_povtoritOtpravku": {},
+  "auto_srokDeystviyaKodaIstyo": "Срок действия кода истёк, отправьте повторно",
+  "@auto_srokDeystviyaKodaIstyo": {},
+  "auto_srokIstyok": "КОД ДЕЙСТВИТЕЛЕН $_ttlSecondsLeft СЕК",
+  "@auto_srokIstyok": {},
+  "auto_otpravitPovtorno": "Отправить повторно",
+  "@auto_otpravitPovtorno": {},
+  "auto_vklyuchenie2fa": "Включение 2FA",
+  "@auto_vklyuchenie2fa": {},
+  "auto_chtobyVklyuchitDvuhfakt": "чтобы включить двухфакторную аутентификацию.",
+  "@auto_chtobyVklyuchitDvuhfakt": {},
+  "auto_neUdalosZagruzitStatus": "Не удалось загрузить статус двухфакторной аутентификации",
+  "@auto_neUdalosZagruzitStatus": {},
+  "auto_regeneratsiyaBackupkodov": "Регенерация backup-кодов",
+  "@auto_regeneratsiyaBackupkodov": {},
+  "auto_chtobyZamenitTekushchie": "чтобы заменить текущие резервные коды.",
+  "@auto_chtobyZamenitTekushchie": {},
+  "auto_neUdalosSgenerirovatNo": "Не удалось сгенерировать новые коды",
+  "@auto_neUdalosSgenerirovatNo": {},
+  "auto_otzyvDoverennyhUstroyst": "Отзыв доверенных устройств",
+  "@auto_otzyvDoverennyhUstroyst": {},
+  "auto_chtobyOtozvatVseRanee": "чтобы отозвать все ранее запомненные устройства.",
+  "@auto_chtobyOtozvatVseRanee": {},
+  "auto_doverennyeUstroystvaOto": "Доверенные устройства отозваны",
+  "@auto_doverennyeUstroystvaOto": {},
+  "auto_neUdalosOtozvatUstroys": "Не удалось отозвать устройства",
+  "@auto_neUdalosOtozvatUstroys": {},
+  "auto_dvuhfaktornayaAutentifik_1": "Двухфакторная аутентификация",
+  "@auto_dvuhfaktornayaAutentifik_1": {},
+  "auto_ostalosMaloRezervnyhKo": "Осталось мало резервных кодов, сгенерируйте новые",
+  "@auto_ostalosMaloRezervnyhKo": {},
+  "auto_vklyuchenaPriVhodePotr": "Выключена. Защитите аккаунт дополнительным кодом.",
+  "@auto_vklyuchenaPriVhodePotr": {},
+  "auto_vyklyuchenaZashchititeA": "Выключена. Защитите аккаунт дополнительным кодом.",
+  "@auto_vyklyuchenaZashchititeA": {},
+  "auto_sgenerirovatNovyeBackup": "Старые коды будут удалены",
+  "@auto_sgenerirovatNovyeBackup": {},
+  "auto_staryeKodyBudutUdaleny": "Старые коды будут удалены",
+  "@auto_staryeKodyBudutUdaleny": {},
+  "auto_otozvatDoverennyeUstroy": "На всех устройствах потребуется код заново",
+  "@auto_otozvatDoverennyeUstroy": {},
+  "auto_naVsehUstroystvahPotre": "На всех устройствах потребуется код заново",
+  "@auto_naVsehUstroystvahPotre": {},
+  "auto_neUdalosOpredelitPolzo": "Не удалось определить пользователя",
+  "@auto_neUdalosOpredelitPolzo": {},
+  "auto_neUdalosZagruzitChat": "Не удалось загрузить чат",
+  "@auto_neUdalosZagruzitChat": {},
+  "auto_chatZakrytSozdayteNovo": "Чат закрыт. Создайте новое обращение.",
+  "@auto_chatZakrytSozdayteNovo": {},
+  "auto_chatSTehpodderzhkoy": "Чат с техподдержкой",
+  "@auto_chatSTehpodderzhkoy": {},
+  "auto_aktivnogoChataNetSnach": "Чат не найден.",
+  "@auto_aktivnogoChataNetSnach": {},
+  "auto_chatNeNayden": "Чат не найден.",
+  "@auto_chatNeNayden": {},
+  "auto_podderzhka": "Поддержка",
+  "@auto_podderzhka": {},
+  "auto_chatOtkrytTehpodderzhka": "Чат открыт. Техподдержка ответит в этом окне.",
+  "@auto_chatOtkrytTehpodderzhka": {},
+  "auto_operatoryOnlaynObychno": "Сейчас офлайн. Ответим в рабочее время.",
+  "@auto_operatoryOnlaynObychno": {},
+  "auto_seychasOflaynOtvetimV": "Сейчас офлайн. Ответим в рабочее время.",
+  "@auto_seychasOflaynOtvetimV": {},
+  "auto_opishiteProblemu": "Другое",
+  "@auto_opishiteProblemu": {},
+  "auto_problemaSZakazom": "Другое",
+  "@auto_problemaSZakazom": {},
+  "auto_problemaSOplatoy": "Другое",
+  "@auto_problemaSOplatoy": {},
+  "auto_tehnicheskieNepoladki": "Другое",
+  "@auto_tehnicheskieNepoladki": {},
+  "auto_voprosOTovare": "Другое",
+  "@auto_voprosOTovare": {},
+  "auto_neUdalosZagruzitObrash": "Не удалось загрузить обращение",
+  "@auto_neUdalosZagruzitObrash": {},
+  "auto_obrashchenieOtpravlenoV": "Сообщение отправлено",
+  "@auto_obrashchenieOtpravlenoV": {},
+  "auto_soobshchenieOtpravleno": "Сообщение отправлено",
+  "@auto_soobshchenieOtpravleno": {},
+  "auto_neUdalosOtpravitObrash": "Не удалось Отправить обращение",
+  "@auto_neUdalosOtpravitObrash": {},
+  "auto_svyazhitesSNami": "Свяжитесь с нами",
+  "@auto_svyazhitesSNami": {},
+  "auto_pnvs09002100Utc5": "Пн-Вс: 09:00 - 21:00 (UTC+5)",
+  "@auto_pnvs09002100Utc5": {},
+  "auto_prodolzhitObrashchenie": "Отправить обращение",
+  "@auto_prodolzhitObrashchenie": {},
+  "auto_otpravitObrashchenie": "Отправить обращение",
+  "@auto_otpravitObrashchenie": {},
+  "auto_aktivnyyChatOtkryt": "Активный чат открыт",
+  "@auto_aktivnyyChatOtkryt": {},
+  "auto_predydushcheeObrashcheni": "Предыдущее обращение закрыто. Если вопрос актуален, отправьте новое.",
+  "@auto_predydushcheeObrashcheni": {},
+  "auto_otkrytChatSTehpodderzh": "Открыть чат с техподдержкой",
+  "@auto_otkrytChatSTehpodderzh": {},
+  "auto_kategoriyaObrashcheniya": "Категория обращения",
+  "@auto_kategoriyaObrashcheniya": {},
+  "auto_vyberiteKategoriyu": "Выберите категорию",
+  "@auto_vyberiteKategoriyu": {},
+  "auto_temaObrashcheniya": "Тема обращения",
+  "@auto_temaObrashcheniya": {},
+  "auto_vvediteTemu": "Введите тему",
+  "@auto_vvediteTemu": {},
+  "auto_soobshchenie": "Сообщение",
+  "@auto_soobshchenie": {},
+  "auto_vPuti": "в пути",
+  "@auto_vPuti": {},
+  "auto_sobira": "собира",
+  "@auto_sobira": {},
+  "auto_dostav": "достав",
+  "@auto_dostav": {},
+  "auto_oshibkaOperatsii": "Ошибка операции",
+  "@auto_oshibkaOperatsii": {},
+  "auto_tovarSnyatSPublikatsii_1": "Товар удалён",
+  "@auto_tovarSnyatSPublikatsii_1": {},
+  "auto_tovarUdalyon": "Товар удалён",
+  "@auto_tovarUdalyon": {},
+  "auto_minPartiya": "Мин. партия:",
+  "@auto_minPartiya": {},
+  "auto_ostatok": "Остаток",
+  "@auto_ostatok": {},
+  "auto_pokaNetTovarov": "Пока нет товаров",
+  "@auto_pokaNetTovarov": {},
+  "auto_dobavtePervyyTovarIOt": "Добавьте первый товар и отправьте его на модерацию.",
+  "@auto_dobavtePervyyTovarIOt": {},
+  "auto_dobavitTovar": "Добавить товар",
+  "@auto_dobavitTovar": {},
+  "auto_ponedelnik_1": "Воскресенье",
+  "@auto_ponedelnik_1": {},
+  "auto_vtornik_1": "Воскресенье",
+  "@auto_vtornik_1": {},
+  "auto_sreda_1": "Воскресенье",
+  "@auto_sreda_1": {},
+  "auto_chetverg_1": "Воскресенье",
+  "@auto_chetverg_1": {},
+  "auto_pyatnitsa_1": "Воскресенье",
+  "@auto_pyatnitsa_1": {},
+  "auto_subbota_1": "Воскресенье",
+  "@auto_subbota_1": {},
+  "auto_voskresene_1": "Воскресенье",
+  "@auto_voskresene_1": {},
+  "auto_pn": "Вс",
+  "@auto_pn": {},
+  "auto_vt_1": "Вс",
+  "@auto_vt_1": {},
+  "auto_sr_1": "Вс",
+  "@auto_sr_1": {},
+  "auto_cht_1": "Вс",
+  "@auto_cht_1": {},
+  "auto_pt_1": "Вс",
+  "@auto_pt_1": {},
+  "auto_sb_1": "Вс",
+  "@auto_sb_1": {},
+  "auto_vs_1": "Вс",
+  "@auto_vs_1": {},
+  "auto_molochnayaProduktsiya": "Товары для дома",
+  "@auto_molochnayaProduktsiya": {},
+  "auto_ovoshchiIFrukty": "Товары для дома",
+  "@auto_ovoshchiIFrukty": {},
+  "auto_myasoIPtitsa": "Товары для дома",
+  "@auto_myasoIPtitsa": {},
+  "auto_bakaleya": "Товары для дома",
+  "@auto_bakaleya": {},
+  "auto_hlebIVypechka": "Товары для дома",
+  "@auto_hlebIVypechka": {},
+  "auto_zamorozka": "Товары для дома",
+  "@auto_zamorozka": {},
+  "auto_sneki": "Товары для дома",
+  "@auto_sneki": {},
+  "auto_bytovayaHimiya": "Товары для дома",
+  "@auto_bytovayaHimiya": {},
+  "auto_tovaryDlyaDoma": "Товары для дома",
+  "@auto_tovaryDlyaDoma": {},
+  "auto_stranaProizvoditelya": "Страна производителя",
+  "@auto_stranaProizvoditelya": {},
+  "auto_srokGodnosti": "Срок годности",
+  "@auto_srokGodnosti": {},
+  "auto_vvediteNazvanieTovara": "Введите название товара",
+  "@auto_vvediteNazvanieTovara": {},
+  "auto_ukazhiteSrokGodnosti": "Укажите срок годности",
+  "@auto_ukazhiteSrokGodnosti": {},
+  "auto_vyberiteKategoriyuIzSp": "Выберите категорию из списка",
+  "@auto_vyberiteKategoriyuIzSp": {},
+  "auto_vvediteKorrektnuyuTsenu": "Введите корректную цену",
+  "@auto_vvediteKorrektnuyuTsenu": {},
+  "auto_minimalnoeKolichestvoDo": "Минимальное количество должно быть больше 0",
+  "@auto_minimalnoeKolichestvoDo": {},
+  "auto_ukazhiteOstatokNaSklad": "Укажите остаток на складе",
+  "@auto_ukazhiteOstatokNaSklad": {},
+  "auto_ostatokNeMozhetBytMen": "Остаток не может быть меньше минимальной партии",
+  "@auto_ostatokNeMozhetBytMen": {},
+  "auto_vvediteVremyaDostavkiV": "Введите время доставки в формате ЧЧ:ММ",
+  "@auto_vvediteVremyaDostavkiV": {},
+  "auto_ukazhiteGrafikDostavki": "Укажите график доставки",
+  "@auto_ukazhiteGrafikDostavki": {},
+  "auto_vvediteMinimalnyySrokD": "Введите минимальный срок доставки",
+  "@auto_vvediteMinimalnyySrokD": {},
+  "auto_maksimalnyySrokNeMozhe": "Максимальный срок не может быть меньше минимального",
+  "@auto_maksimalnyySrokNeMozhe": {},
+  "auto_srokDostavkiSlishkomBo": "Срок доставки слишком большой",
+  "@auto_srokDostavkiSlishkomBo": {},
+  "auto_vvediteVremyaOtsechkiV": "Введите время отсечки в формате ЧЧ:ММ",
+  "@auto_vvediteVremyaOtsechkiV": {},
+  "auto_kaloriiDolzhnyBytNeotr": "Калории должны быть неотрицательным числом",
+  "@auto_kaloriiDolzhnyBytNeotr": {},
+  "auto_belkiDolzhnyBytNeotrit": "Белки должны быть неотрицательным числом",
+  "@auto_belkiDolzhnyBytNeotrit": {},
+  "auto_zhiryDolzhnyBytNeotrit": "Жиры должны быть неотрицательным числом",
+  "@auto_zhiryDolzhnyBytNeotrit": {},
+  "auto_uglevodyDolzhnyBytNeot": "Углеводы должны быть неотрицательным числом",
+  "@auto_uglevodyDolzhnyBytNeot": {},
+  "auto_dobavteHotyaByOdnuFot": "Добавьте хотя бы одну фотографию",
+  "@auto_dobavteHotyaByOdnuFot": {},
+  "auto_sozdatTovar": "Создать товар?",
+  "@auto_sozdatTovar": {},
+  "auto_izmeneniyaBudutOtpravle": "Отмена",
+  "@auto_izmeneniyaBudutOtpravle": {},
+  "auto_tovarBudetOtpravlenNa": "Отмена",
+  "@auto_tovarBudetOtpravlenNa": {},
+  "auto_sozdat": "Отмена",
+  "@auto_sozdat": {},
+  "auto_redaktirovanieTovara": "Редактирование товара",
+  "@auto_redaktirovanieTovara": {},
+  "auto_osnovnyeDannye": "Основные данные",
+  "@auto_osnovnyeDannye": {},
+  "auto_zapolniteNazvanieOpisan": "Заполните название, описание, страну и категорию товара.",
+  "@auto_zapolniteNazvanieOpisan": {},
+  "auto_nazvanieTovara": "Название товара",
+  "@auto_nazvanieTovara": {},
+  "auto_naprimerKazahstan": "Например, Казахстан",
+  "@auto_naprimerKazahstan": {},
+  "auto_naprimer12Mesyatsev": "Например, 12 месяцев",
+  "@auto_naprimer12Mesyatsev": {},
+  "auto_tsenaIUsloviya": "Минимальные количества и доставка.",
+  "@auto_tsenaIUsloviya": {},
+  "auto_minimalnyeKolichestvaI": "Минимальные количества и доставка.",
+  "@auto_minimalnyeKolichestvaI": {},
+  "auto_tsenaZaEdinitsu": "Цена за единицу (₸)",
+  "@auto_tsenaZaEdinitsu": {},
+  "auto_naprimer1450": "Например, 1450",
+  "@auto_naprimer1450": {},
+  "auto_minimalnoeKolichestvo": "Минимальное количество",
+  "@auto_minimalnoeKolichestvo": {},
+  "auto_vsegoKolichestvo": "Всего количество",
+  "@auto_vsegoKolichestvo": {},
+  "auto_naprimer120": "Например, 120",
+  "@auto_naprimer120": {},
+  "auto_sostavIHarakteristiki": "Необязательные данные: заполняйте только то, что нужно.",
+  "@auto_sostavIHarakteristiki": {},
+  "auto_neobyazatelnyeDannyeZap": "Необязательные данные: заполняйте только то, что нужно.",
+  "@auto_neobyazatelnyeDannyeZap": {},
+  "auto_sostav": "Состав",
+  "@auto_sostav": {},
+  "auto_kaloriiKkal100g": "Калории (ккал/100г)",
+  "@auto_kaloriiKkal100g": {},
+  "auto_belkiG100g": "Белки (г/100г)",
+  "@auto_belkiG100g": {},
+  "auto_zhiryG100g": "Жиры (г/100г)",
+  "@auto_zhiryG100g": {},
+  "auto_uglevodyG100g": "Углеводы (г/100г)",
+  "@auto_uglevodyG100g": {},
+  "auto_harakteristikiTovara": "Характеристики товара",
+  "@auto_harakteristikiTovara": {},
+  "auto_nazvanie": "Название",
+  "@auto_nazvanie": {},
+  "auto_znachenie": "Значение",
+  "@auto_znachenie": {},
+  "auto_udalitHarakteristiku": "Удалить характеристику",
+  "@auto_udalitHarakteristiku": {},
+  "auto_dobavitHarakteristiku": "Добавить характеристику",
+  "@auto_dobavitHarakteristiku": {},
+  "auto_fotografiiTovara": "Добавьте несколько фото",
+  "@auto_fotografiiTovara": {},
+  "auto_dobavteNeskolkoFoto": "Добавьте несколько фото",
+  "@auto_dobavteNeskolkoFoto": {},
+  "auto_ozhidaemayaDataDostavki": "Ожидаемая дата доставки",
+  "@auto_ozhidaemayaDataDostavki": {},
+  "auto_poGrafiku": "По графику",
+  "@auto_poGrafiku": {},
+  "auto_poSroku": "По сроку",
+  "@auto_poSroku": {},
+  "auto_pokupatelUviditOzhidaem": "Покупатель увидит ожидаемую дату доставки.",
+  "@auto_pokupatelUviditOzhidaem": {},
+  "auto_vyberiteDniNedeli": "Выберите дни недели",
+  "@auto_vyberiteDniNedeli": {},
+  "auto_bystryyVybor": "Быстрый выбор",
+  "@auto_bystryyVybor": {},
+  "auto_vremyaDostavki": "Время доставки",
+  "@auto_vremyaDostavki": {},
+  "auto_formatChchmm": "Формат: ЧЧ:ММ",
+  "@auto_formatChchmm": {},
+  "auto_nekorrektnoeVremya": "Некорректное время",
+  "@auto_nekorrektnoeVremya": {},
+  "auto_minimumDney": "Минимум дней",
+  "@auto_minimumDney": {},
+  "auto_maksimumDney": "Максимум дней",
+  "@auto_maksimumDney": {},
+  "auto_srokPriyomaZakazaNaSe": "Срок приёма заказа на сегодня",
+  "@auto_srokPriyomaZakazaNaSe": {},
+  "auto_kategorii": "Категории",
+  "@auto_kategorii": {},
+  "auto_poiskKategorii": "Поиск категории",
+  "@auto_poiskKategorii": {},
+  "auto_kategoriiNeNaydeny": "Категории не найдены",
+  "@auto_kategoriiNeNaydeny": {},
+  "auto_pokazatMenshe": "Показать меньше",
+  "@auto_pokazatMenshe": {},
+  "auto_foto": "Фото",
+  "@auto_foto": {},
+  "auto_kompaniya": "Компания",
+  "@auto_kompaniya": {},
+  "auto_vyNeAvtorizovanyPozhal": "Вы не авторизованы. Пожалуйста, войдите.",
+  "@auto_vyNeAvtorizovanyPozhal": {},
+  "auto_neUdalosZagruzitStatis": "Не удалось загрузить статистику",
+  "@auto_neUdalosZagruzitStatis": {},
+  "auto_neUdalosSformirovatAir": "Не удалось сформировать AI-резюме",
+  "@auto_neUdalosSformirovatAir": {},
+  "auto_statistika": "Статистика",
+  "@auto_statistika": {},
+  "auto_analitikaProdazh": "Аналитика продаж",
+  "@auto_analitikaProdazh": {},
+  "auto_obnovit": "Обновить",
+  "@auto_obnovit": {},
+  "auto_vseVremya": "Все время",
+  "@auto_vseVremya": {},
+  "auto_vybrat": "Выбрать",
+  "@auto_vybrat": {},
+  "auto_obshchayaVyruchka": "Общая выручка",
+  "@auto_obshchayaVyruchka": {},
+  "auto_vyruchkaZaMesyats": "Выручка за месяц",
+  "@auto_vyruchkaZaMesyats": {},
+  "auto_zaNedelyu": "За неделю",
+  "@auto_zaNedelyu": {},
+  "auto_vsegoZakazov": "Всего заказов",
+  "@auto_vsegoZakazov": {},
+  "auto_obzor": "Обзор",
+  "@auto_obzor": {},
+  "auto_sredniyChek": "Средний чек",
+  "@auto_sredniyChek": {},
+  "auto_dinamikaVyruchki": "Динамика выручки",
+  "@auto_dinamikaVyruchki": {},
+  "auto_netDannyh": "Нет данных",
+  "@auto_netDannyh": {},
+  "auto_dostavleny": "Доставлены",
+  "@auto_dostavleny": {},
+  "auto_otpravleny": "Отправлены",
+  "@auto_otpravleny": {},
+  "auto_podtverzhdeny": "Подтверждены",
+  "@auto_podtverzhdeny": {},
+  "auto_ozhidayut": "Ожидают",
+  "@auto_ozhidayut": {},
+  "auto_otmeneny": "Отменены",
+  "@auto_otmeneny": {},
+  "auto_statusyZakazov": "Статусы заказов",
+  "@auto_statusyZakazov": {},
+  "auto_etotMesyats": "Этот месяц",
+  "@auto_etotMesyats": {},
+  "auto_proshlyyMesyats": "Прошлый месяц",
+  "@auto_proshlyyMesyats": {},
+  "auto_srDostavka": "Ср. доставка",
+  "@auto_srDostavka": {},
+  "auto_pokupateli": "Покупатели",
+  "@auto_pokupateli": {},
+  "auto_vsego": "Всего",
+  "@auto_vsego": {},
+  "auto_postoyannye": "Постоянные",
+  "@auto_postoyannye": {},
+  "auto_novyeMes": "Новые / мес.",
+  "@auto_novyeMes": {},
+  "auto_poslednieOtzyvy": "Последние отзывы",
+  "@auto_poslednieOtzyvy": {},
+  "auto_aianaliz": "AI-анализ",
+  "@auto_aianaliz": {},
+  "auto_generiruyuAianaliz": "Генерирую AI-анализ…",
+  "@auto_generiruyuAianaliz": {},
+  "auto_appmessagedialogPodderzh": "AppMessageDialog поддерживает максимум 3 действия",
+  "@auto_appmessagedialogPodderzh": {},
+  "auto_poiskPoPostavshchikam": "Поиск по поставщикам",
+  "@auto_poiskPoPostavshchikam": {},
+  "auto_neprochitannyhUvedomleni_1": ")}",
+  "@auto_neprochitannyhUvedomleni_1": {},
+  "auto_pishchevayaTsennost": "Пищевая ценность",
+  "@auto_pishchevayaTsennost": {},
+  "auto_v100Grammah": "В 100 граммах:",
+  "@auto_v100Grammah": {},
+  "auto_kalorii": "Калории",
+  "@auto_kalorii": {},
+  "auto_belki": "Белки",
+  "@auto_belki": {},
+  "auto_zhiry": "Жиры",
+  "@auto_zhiry": {},
+  "auto_uglevody": "Углеводы",
+  "@auto_uglevody": {},
+  "auto_dostavka": "доставка",
+  "@auto_dostavka": {},
+  "auto_budni": "будни",
+  "@auto_budni": {},
+  "auto_vyhodnye": "выходные",
+  "@auto_vyhodnye": {},
+  "auto_kazhdyyDen": "каждый день",
+  "@auto_kazhdyyDen": {},
+  "auto_pn_1": "вс",
+  "@auto_pn_1": {},
+  "auto_vt": "вс",
+  "@auto_vt": {},
+  "auto_sr": "вс",
+  "@auto_sr": {},
+  "auto_cht": "вс",
+  "@auto_cht": {},
+  "auto_pt": "вс",
+  "@auto_pt": {},
+  "auto_sb": "вс",
+  "@auto_sb": {},
+  "auto_vs": "вс",
+  "@auto_vs": {},
+  "auto_ponedelnik": "воскресенье",
+  "@auto_ponedelnik": {},
+  "auto_vtornik": "воскресенье",
+  "@auto_vtornik": {},
+  "auto_sreda": "воскресенье",
+  "@auto_sreda": {},
+  "auto_chetverg": "воскресенье",
+  "@auto_chetverg": {},
+  "auto_pyatnitsa": "воскресенье",
+  "@auto_pyatnitsa": {},
+  "auto_subbota": "воскресенье",
+  "@auto_subbota": {},
+  "auto_voskresene": "воскресенье",
+  "@auto_voskresene": {},
+  "auto_sht": "шт",
+  "@auto_sht": {},
+  "auto_p_1": "П",
+  "@auto_p_1": {},
+  "auto_chitatVse": "Читать все",
+  "@auto_chitatVse": {},
+  "auto_pokaNetOtzyvovStanteP": "Пока нет отзывов. Станьте первым, кто оценит товар.",
+  "@auto_pokaNetOtzyvovStanteP": {},
+  "auto_postavshchika": "поставщика",
+  "@auto_postavshchika": {},
+  "auto_izmenitOtvet": "Изменить ответ",
+  "@auto_izmenitOtvet": {},
+  "auto_otvetitNaVopros": "Ответить на вопрос",
+  "@auto_otvetitNaVopros": {},
+  "auto_vopros": "Вопрос:",
+  "@auto_vopros": {},
+  "auto_vashOtvet": "Ваш ответ",
+  "@auto_vashOtvet": {},
+  "auto_otvetitNaOtzyv": "Ответить на отзыв",
+  "@auto_otvetitNaOtzyv": {},
+  "auto_otzyv": "Отзыв:",
+  "@auto_otzyv": {},
+  "auto_pereezzhal": "Переезжал",
+  "@auto_pereezzhal": {},
+  "auto_pokazat": "Показать",
+  "@auto_pokazat": {},
+  "auto_otkryt": "Открыть",
+  "@auto_otkryt": {},
+  "auto_ovoshch": "Овощи",
+  "@auto_ovoshch": {},
+  "auto_hleb": "Хлеб",
+  "@auto_hleb": {},
+  "auto_myas": "Мясо",
+  "@auto_myas": {},
+  "auto_zaDen": "За день",
+  "@auto_zaDen": {},
+  "auto_nedelya": "Неделя",
+  "@auto_nedelya": {},
+  "auto_mesyats": "Месяц",
+  "@auto_mesyats": {},
+  "auto_kvartal": "Квартал",
+  "@auto_kvartal": {},
+  "auto_redaktirovatAdres": "Редактировать адрес",
+  "@auto_redaktirovatAdres": {},
+  "auto_otpravlyaem": "Отправляем...",
+  "@auto_otpravlyaem": {},
+  "auto_sohranyaem": "Сохраняем...",
+  "@auto_sohranyaem": {},
+  "auto_vvediteKodPodtverzhdeni": "Введите код подтверждения",
+  "@auto_vvediteKodPodtverzhdeni": {},
+  "auto_tovarSnyatSPublikatsii": "Товар снят с публикации",
+  "@auto_tovarSnyatSPublikatsii": {},
+  "auto_sohranitIzmeneniya": "Сохранить изменения",
+  "@auto_sohranitIzmeneniya": {},
+  "auto_sozdanieTovara": "Создание товара",
+  "@auto_sozdanieTovara": {},
+  "auto_neprochitannoeUvedomleni": "непрочитанное уведомление",
+  "@auto_neprochitannoeUvedomleni": {},
+  "auto_neprochitannyhUvedomleni": "непрочитанных уведомлений",
+  "@auto_neprochitannyhUvedomleni": {},
+  "auto_ezhednevno": "Ежедневно",
+  "@auto_ezhednevno": {},
+  "auto_otvetit": "Ответить",
+  "@auto_otvetit": {}
 }

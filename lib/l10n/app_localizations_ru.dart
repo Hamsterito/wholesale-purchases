@@ -21,7 +21,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get common_delete => 'Удалить';
 
   @override
-  String get common_edit => 'Править';
+  String get common_edit => 'Редактировать';
 
   @override
   String get common_loading => 'Загрузка...';
@@ -39,7 +39,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get common_try_again => 'Попробуйте снова';
 
   @override
-  String get common_retry => 'Повторение';
+  String get common_retry => 'Повторить';
 
   @override
   String get common_send => 'Отправить';
@@ -135,7 +135,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cart_clear_title => 'Нужно очистить корзину?';
 
   @override
-  String get cart_clear_message => 'Все продукты будут удалены из корзины.';
+  String get cart_clear_message => 'Все товары будут удалены из корзины.';
 
   @override
   String get cart_clear_button => 'Очистить';
@@ -156,7 +156,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get order_no_orders => 'Нет заказов';
 
   @override
-  String get product_details => 'Детали продукта';
+  String get product_details => 'Детали товара';
 
   @override
   String get product_reviews => 'Отзывы';
@@ -195,7 +195,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profile_edit_field_hint => 'Введите новое значение';
 
   @override
-  String get supplier_products => 'Продукты';
+  String get supplier_products => 'Мои товары';
 
   @override
   String get supplier_orders => 'Заказы';
@@ -204,10 +204,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get supplier_profile => 'Профиль поставщика';
 
   @override
-  String get supplier_add_product => 'Добавление продукта';
+  String get supplier_add_product => 'Добавление товара';
 
   @override
-  String get supplier_edit_product => 'Править';
+  String get supplier_edit_product => 'Редактировать';
 
   @override
   String get supplier_search_suppliers => 'Поиск по поставщикам';
@@ -335,7 +335,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String message_product_not_found(String productId) {
-    return 'ID $productId существующий продукт не найден';
+    return 'ID $productId существующий товар не найден';
   }
 
   @override
@@ -380,10 +380,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auth_session_expired => 'Сеанс завершен. Войдите снова';
 
   @override
-  String get product_similar => 'Организационные продукты';
+  String get product_similar => 'Похожие товары';
 
   @override
-  String get supplier_error_load_products => 'Не удалось загрузить продукты';
+  String get supplier_error_load_products => 'Не удалось загрузить товары';
 
   @override
   String get supplier_error_load_orders => 'Не удалось загрузить заказы';
@@ -399,29 +399,28 @@ class AppLocalizationsRu extends AppLocalizations {
       'Изменения направлены на модерацию';
 
   @override
-  String get supplier_delete_product => 'Удалить продукт?';
+  String get supplier_delete_product => 'Удалить товар?';
 
   @override
-  String get supplier_product => 'Продукт';
+  String get supplier_product => 'Товар';
 
   @override
-  String get supplier_removed_from_publication =>
-      'Продукт взят из публицистики';
+  String get supplier_removed_from_publication => 'Товар снят с публикации';
 
   @override
-  String get supplier_product_deleted => 'Продукт уничтожен';
+  String get supplier_product_deleted => 'Товар удален';
 
   @override
-  String get supplier_error_delete_product => 'Не удалось удалить продукт';
+  String get supplier_error_delete_product => 'Не удалось удалить товар';
 
   @override
-  String get supplier_apprved => 'Утверждено';
+  String get supplier_apprved => 'Подтверждено';
 
   @override
   String get supplier_rejected => 'Не вставлен';
 
   @override
-  String get supplier_pending => 'В умеренности';
+  String get supplier_pending => 'На модерации';
 
   @override
   String get supplier_no_title => 'Без названия';
@@ -489,7 +488,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get supplier_export_excel => 'Экспорт в файл Excel';
 
   @override
-  String get supplier_products_in_order => 'Продукты на заказ';
+  String get supplier_products_in_order => 'Мои товары на заказ';
 
   @override
   String get supplier_top_products => 'Популярные товары';
@@ -549,7 +548,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get checkout => 'Оформление заказа';
 
   @override
-  String get supplier_status_assembling => 'Подготовка идет';
+  String get supplier_status_assembling => 'Собирается';
 
   @override
   String get supplier_status_in_transit => 'В пути';
@@ -558,7 +557,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get supplier_status_delivered => 'Доставлено';
 
   @override
-  String get supplier_status_accepted => 'Получено';
+  String get supplier_status_accepted => 'Принято';
 
   @override
   String get supplier_status_cancelled => 'Отменён';
@@ -664,7 +663,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get qa_refresh => 'Обновление';
 
   @override
-  String get qa_retry => 'Повторение';
+  String get qa_retry => 'Повторить';
 
   @override
   String get qa_expand => 'Подробнее';
@@ -705,11 +704,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profile_reviews_empty => 'пока нет комментариев';
 
   @override
-  String get profile_reviews_pending_title => 'Ждите комментариев';
+  String get profile_reviews_pending_title => 'Ожидают отзыва';
 
   @override
   String get profile_reviews_pending_subtitle =>
-      'Дайте оценку покупкам-это поможет другим';
+      'Оцените покупки — это поможет другим';
 
   @override
   String get profile_reviews_leave_review => 'Оставить комментарий';
@@ -738,7 +737,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profile_reviews_add_details => 'Добавить детали';
 
   @override
-  String get profile_reviews_edit_button => 'Править';
+  String get profile_reviews_edit_button => 'Редактировать';
 
   @override
   String get profile_reviews_delete_button => 'Удалить';
@@ -756,8 +755,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profile_reviews_save_error => 'Комментарий не удалось сохранить';
 
   @override
-  String get profile_reviews_login_required =>
-      'Войдите, чтобы отредактировать отзыв';
+  String get profile_reviews_login_required => 'Войдите, чтобы Отправить отзыв';
 
   @override
   String get profile_reviews_rating_required => 'Дайте товару оценку';
@@ -766,7 +764,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profile_reviews_submit_success => 'Спасибо за комментарий!';
 
   @override
-  String get profile_reviews_submit_error => 'Не удалось отправить комментарий';
+  String get profile_reviews_submit_error => 'Не удалось Отправить комментарий';
 
   @override
   String get profile_reviews_delete_confirm => 'Удалить комментарий?';
@@ -825,7 +823,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get review_share_feedback => 'Поделитесь впечатлениями';
 
   @override
-  String get review_edit_button => 'Править';
+  String get review_edit_button => 'Редактировать';
 
   @override
   String get review_delete_button => 'Удалить';
@@ -849,7 +847,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get review_close_dialog => 'Закрыть';
 
   @override
-  String get review_edit_draft => 'Править';
+  String get review_edit_draft => 'Редактировать';
 
   @override
   String get review_delete_draft => 'Удалить';
@@ -930,7 +928,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get supplier_delete_product_confirm =>
-      'Вы уверены, что хотите удалить этот продукт?';
+      'Вы уверены, что хотите удалить этот товар?';
 
   @override
   String get supplier_profile_title => 'Профиль поставщика';
@@ -940,7 +938,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get template_replace_cart_confirm =>
-      'Текущая корзина заменяется продуктами из шаблона. Продолжать?';
+      'Текущая корзина заменяется товарами из шаблона. Продолжать?';
 
   @override
   String get zakazi_my_orders => 'Мои заказы';
@@ -974,53 +972,53 @@ class AppLocalizationsRu extends AppLocalizations {
   String get zakazi_tomorrow => 'Завтра';
 
   @override
-  String get zakazi_month_january => 'январь';
+  String get zakazi_month_january => 'января';
 
   @override
-  String get zakazi_month_february => 'февраль';
+  String get zakazi_month_february => 'февраля';
 
   @override
-  String get zakazi_month_march => 'март';
+  String get zakazi_month_march => 'марта';
 
   @override
-  String get zakazi_month_april => 'апрель';
+  String get zakazi_month_april => 'апреля';
 
   @override
-  String get zakazi_month_may => 'май';
+  String get zakazi_month_may => 'мая';
 
   @override
-  String get zakazi_month_june => 'июнь';
+  String get zakazi_month_june => 'июня';
 
   @override
-  String get zakazi_month_july => 'июль';
+  String get zakazi_month_july => 'июля';
 
   @override
-  String get zakazi_month_august => 'август';
+  String get zakazi_month_august => 'августа';
 
   @override
-  String get zakazi_month_september => 'сентябрь';
+  String get zakazi_month_september => 'сентября';
 
   @override
-  String get zakazi_month_october => 'октябрь';
+  String get zakazi_month_october => 'октября';
 
   @override
-  String get zakazi_month_november => 'ноябрь';
+  String get zakazi_month_november => 'ноября';
 
   @override
-  String get zakazi_month_december => 'декабрь';
+  String get zakazi_month_december => 'декабря';
 
   @override
   String get zakazi_quantity_short => 'шт.';
 
   @override
-  String get zakazi_accepted_label => 'Получено';
+  String get zakazi_accepted_label => 'Принято';
 
   @override
   String get zakazi_after_delivery => 'С доставкой';
 
   @override
   String get zakazi_can_accept_after_delivery =>
-      'Можно получить после доставки';
+      'Можно принять товар после доставки';
 
   @override
   String zakazi_cancel_available(int time) {
@@ -1184,11 +1182,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get cart_template_apply_none =>
-      'Образец не использовался: ни один продукт не доступен';
+      'Образец не использовался: ни один товар не доступен';
 
   @override
   String cart_template_apply_success(int name, int added) {
-    return 'Корзина «$name\"заменено образцом: $added добавлен продукт';
+    return 'Корзина «$name\"заменено образцом: $added добавлен товар';
   }
 
   @override
@@ -1318,7 +1316,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String home_loading_error(int error) {
-    return 'Ошибка загрузки продуктов: $error';
+    return 'Ошибка загрузки товаров: $error';
   }
 
   @override
@@ -1348,7 +1346,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get chat_today => 'Сегодня';
 
   @override
-  String get home_no_products => 'Продукты не найдены';
+  String get home_no_products => 'Товары не найдены';
 
   @override
   String get home_title => 'Главная';
@@ -1605,7 +1603,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get supplier_reset_button => 'Восстановление';
 
   @override
-  String get supplier_products_edit => 'Править';
+  String get supplier_products_edit => 'Редактировать';
 
   @override
   String get supplier_products_add => 'Добавить товар';
@@ -1926,13 +1924,15 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_proverte_chto_pochta_i_parol_zapoln =>
-      'Проверьте, что почта и пароль заполнены';
+      'Не удалось выполнить вход. Попробуйте позже.';
 
   @override
-  String get auto_nevernaya_pochta_ili_parol => 'Неверная почта или пароль';
+  String get auto_nevernaya_pochta_ili_parol =>
+      'Не удалось выполнить вход. Попробуйте позже.';
 
   @override
-  String get auto_dostup_zapreshchen => 'Доступ запрещён';
+  String get auto_dostup_zapreshchen =>
+      'Не удалось выполнить вход. Попробуйте позже.';
 
   @override
   String get auto_ne_udalos_vypolnit_vkhod_poprobuyte =>
@@ -1943,7 +1943,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Ошибка подключения к серверу: \$e';
 
   @override
-  String get auto_vkhod_vypolnen => 'Вход выполнен';
+  String get auto_vkhod_vypolnen => 'Добро пожаловать, \$name!';
 
   @override
   String get auto_dobro_pozhalovat_name => 'Добро пожаловать, \$name!';
@@ -1988,7 +1988,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_ne_udalos_otpravit_kod_povtorno =>
-      'Не удалось отправить код повторно';
+      'Не удалось Отправить код повторно';
 
   @override
   String get auto_podtverzhdenie_vkhoda => 'Подтверждение входа';
@@ -2011,7 +2011,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_otpravit_snova => 'Отправить снова';
 
   @override
-  String get auto_vernutsya_k_kodu_iz_pochty => 'Вернуться к коду из почты';
+  String get auto_vernutsya_k_kodu_iz_pochty => 'Использовать backup-код';
 
   @override
   String get auto_ispolzovat_backup_kod => 'Использовать backup-код';
@@ -2095,7 +2095,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Регистрация прошла успешно';
 
   @override
-  String get auto_server_vernul_oshibku => 'Сервер вернул ошибку';
+  String get auto_server_vernul_oshibku => 'Не удалось завершить регистрацию';
 
   @override
   String get auto_ne_udalos_zavershit_registratsiyu =>
@@ -2106,7 +2106,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Сервер вернул ошибку. Попробуйте снова.';
 
   @override
-  String get auto_oshibka_podklyucheniya => 'Ошибка подключения';
+  String get auto_oshibka_podklyucheniya => '\$e';
 
   @override
   String get auto_zaregistriruytes_chtoby_nachat =>
@@ -2131,7 +2131,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_el_pochta => 'ЭЛ. ПОЧТА';
 
   @override
-  String get auto_otpravit_kod => 'ОТПРАВИТЬ КОД';
+  String get auto_otpravit_kod => 'Отправить КОД';
 
   @override
   String get auto_vvedite_6znachnyy_kod => 'Введите 6-значный код';
@@ -2292,7 +2292,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_polzovatel => 'пользователь';
 
   @override
-  String get auto_moderator => 'модератор';
+  String get auto_moderator => 'Модератор';
 
   @override
   String get auto_nevernyy_format_otveta_servera_otsu =>
@@ -2337,14 +2337,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_ooo_optovaya_kompaniya => 'ООО Оптовая Компания';
 
   @override
-  String get auto_dostavka_po_rossii => 'Доставка по России';
+  String get auto_dostavka_po_rossii => 'Быстрая доставка';
 
   @override
   String get auto_bystraya_dostavka => 'Быстрая доставка';
 
   @override
   String get auto_postavschik_kachestvennyh_tovarov_o =>
-      'Поставщик качественных товаров оптом с 10-летним опытом';
+      'г. Москва, ул. Примерная, д. 1';
 
   @override
   String get auto_g_moskva_ul_primernaya_d_1 =>
@@ -2354,14 +2354,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_ooo_torgovyy_dom => 'ООО Торговый Дом';
 
   @override
-  String get auto_dostavka_po_rossii_i_sng => 'Доставка по России и СНГ';
+  String get auto_dostavka_po_rossii_i_sng => 'Надёжный партнёр';
 
   @override
   String get auto_nadzhnyy_partnr => 'Надёжный партнёр';
 
   @override
   String get auto_krupnyy_optovyy_postavschik_s_shiro =>
-      'Крупный оптовый поставщик с широким ассортиментом';
+      'г. Санкт-Петербург, пр. Невский, д. 50';
 
   @override
   String get auto_g_sanktpeterburg_pr_nevskiy_d_50 =>
@@ -2371,11 +2371,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_ooo_ekspress_postavki => 'ООО Экспресс Поставки';
 
   @override
-  String get auto_ekspressdostavka_24_chasa => 'Экспресс-доставка 24 часа';
+  String get auto_ekspressdostavka_24_chasa => 'Быстрая доставка';
 
   @override
   String get auto_spetsializiruemsya_na_bystroy_dosta =>
-      'Специализируемся на быстрой доставке товаров оптом';
+      'г. Екатеринбург, ул. Главная, д. 100';
 
   @override
   String get auto_g_ekaterinburg_ul_glavnaya_d_100 =>
@@ -2385,8 +2385,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_standartnaya_dostavka => 'Стандартная доставка';
 
   @override
-  String get auto_nadzhnyy_postavschik_optovyh_tovaro =>
-      'Надёжный поставщик оптовых товаров';
+  String get auto_nadzhnyy_postavschik_optovyh_tovaro => 'Россия';
 
   @override
   String get auto_rossiya => 'Россия';
@@ -2429,7 +2428,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_v_puti => 'в пути';
 
   @override
-  String get auto_otpravlen => 'отправлен';
+  String get auto_otpravlen => 'отправлено';
 
   @override
   String get auto_otpravleno => 'отправлено';
@@ -2438,22 +2437,22 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_v_puti_1 => 'В пути';
 
   @override
-  String get auto_prinyat => 'Принят';
+  String get auto_prinyat => 'завершено';
 
   @override
-  String get auto_dostavlen => 'доставлен';
+  String get auto_dostavlen => 'завершено';
 
   @override
-  String get auto_polucheno => 'получено';
+  String get auto_polucheno => 'Принято';
 
   @override
-  String get auto_prinyat_1 => 'принят';
+  String get auto_prinyat_1 => 'приняты';
 
   @override
-  String get auto_prinyata => 'принята';
+  String get auto_prinyata => 'приняты';
 
   @override
-  String get auto_prinyato => 'принято';
+  String get auto_prinyato => 'завершено';
 
   @override
   String get auto_prinyaty => 'приняты';
@@ -2462,10 +2461,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_zaversheno => 'завершено';
 
   @override
-  String get auto_otmena => 'отмена';
+  String get auto_otmena => 'Отмена';
 
   @override
-  String get auto_otmenn => 'отменён';
+  String get auto_otmenn => 'отменен';
 
   @override
   String get auto_otmenen => 'отменен';
@@ -2523,7 +2522,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Слишком много попыток, попробуйте позже';
 
   @override
-  String get auto_tovar => 'товар';
+  String get auto_tovar => 'Товар';
 
   @override
   String get auto_tovara => 'товара';
@@ -2535,16 +2534,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_nm => 'өнім';
 
   @override
-  String get auto_oshibka_seti_proverte_podklyuchenie =>
-      'Ошибка сети. Проверьте подключение и попробуйте снова';
+  String auto_oshibka_seti_proverte_podklyuchenie(Object reason) {
+    return 'Не удалось сгенерировать ответ AI: $reason';
+  }
 
   @override
-  String get auto_prevysheno_vremya_ozhidaniya_otveta =>
-      'Превышено время ожидания ответа сервера';
+  String auto_prevysheno_vremya_ozhidaniya_otveta(Object reason) {
+    return 'Не удалось сгенерировать ответ AI: $reason';
+  }
 
   @override
-  String get auto_ne_udalos_razobrat_soobschenie =>
-      'Не удалось разобрать сообщение';
+  String auto_ne_udalos_razobrat_soobschenie(Object reason) {
+    return 'Не удалось сгенерировать ответ AI: $reason';
+  }
 
   @override
   String get auto_zapros_vypolnen => 'Запрос выполнен';
@@ -2702,8 +2704,7 @@ class AppLocalizationsRu extends AppLocalizations {
       '_retryWithBackoff: неожиданное завершение цикла';
 
   @override
-  String get auto_svodka_statistiki_zakeshirovana =>
-      'Сводка статистики закэширована';
+  String get auto_svodka_statistiki_zakeshirovana => 'cache';
 
   @override
   String get auto_oshibka_pri_keshirovanii_svodki =>
@@ -2714,7 +2715,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Ошибка при получении кэша сводки';
 
   @override
-  String get auto_ai_rezyume_zakeshirovano => 'AI резюме закэшировано';
+  String get auto_ai_rezyume_zakeshirovano => 'cache';
 
   @override
   String get auto_oshibka_pri_keshirovanii_ai_rezyume =>
@@ -2725,10 +2726,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Ошибка при получении кэша AI резюме';
 
   @override
-  String get auto_kesh_statistiki_ochischen => 'Кэш статистики очищен';
+  String get auto_kesh_statistiki_ochischen => 'cache';
 
   @override
-  String get auto_oshibka_pri_ochistke_kesha => 'Ошибка при очистке кэша';
+  String get auto_oshibka_pri_ochistke_kesha => 'cache';
 
   @override
   String get auto_ne_udalos_vosstanovit_postavschika =>
@@ -2833,7 +2834,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_loadforcurrentuser_rassoglasovanie =>
-      'loadForCurrentUser: рассогласование авторизации ';
+      '(isRemembered=true, userId=\$userId), кэш пуст';
 
   @override
   String get auto_loadforcurrentuser_ne_udalos_prochi =>
@@ -3119,15 +3120,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_udalit_tovar_za_narushenie => 'Удалить товар за нарушение';
 
   @override
-  String get auto_prichina_udaleniya_dlya_postavschik =>
-      'Причина удаления для поставщика';
+  String get auto_prichina_udaleniya_dlya_postavschik => 'Удалить';
 
   @override
   String get auto_udalit => 'Удалить';
 
   @override
-  String get auto_tovar_udalen_postavschik_uvedomlen =>
-      'Товар удален, поставщик уведомлен';
+  String get auto_tovar_udalen_postavschik_uvedomlen => 'Товар удален';
 
   @override
   String get auto_tovar_udalen => 'Товар удален';
@@ -3165,7 +3164,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_po_vashemu_zaprosu_nichego_ne_nayde =>
-      'По вашему запросу ничего не найдено';
+      'Нет подходящих товаров';
 
   @override
   String get auto_net_podhodyaschih_tovarov => 'Нет подходящих товаров';
@@ -3219,7 +3218,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Coca-Cola - самый популярный газированный напиток в мире. Имеет резкий, но приятный вкус, хорошо утоляет жажду, рекомендуется пить охлажденным.';
 
   @override
-  String get auto_napitki => 'Напитки';
+  String get auto_napitki => 'Товары для дома';
 
   @override
   String get auto_gazirovannye_napitki => 'Газированные напитки';
@@ -3232,10 +3231,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_strana_proizvoditelya => 'Страна производителя';
 
   @override
-  String get auto_kazahstan => 'Казахстан';
+  String get auto_kazahstan => 'Классическая';
 
   @override
-  String get auto_torgovaya_marka => 'Торговая марка';
+  String get auto_torgovaya_marka => 'Классическая';
 
   @override
   String get auto_lineyka => 'Линейка';
@@ -3247,16 +3246,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_sklad_mansa => 'Склад \"Манса\"';
 
   @override
-  String get auto_zavtra => 'завтра';
+  String get auto_zavtra => 'Четверг 17:00';
 
   @override
-  String get auto_dostavka_mezhgorod => 'Доставка межгород';
+  String get auto_dostavka_mezhgorod => 'Четверг 17:00';
 
   @override
   String get auto_chetverg_1700 => 'Четверг 17:00';
 
   @override
-  String get auto_vs_21_sentyabrya => 'Вс 21 сентября';
+  String get auto_vs_21_sentyabrya => 'Сб 23 сентября 12:00';
 
   @override
   String get auto_sb_23_sentyabrya_1200 => 'Сб 23 сентября 12:00';
@@ -3265,7 +3264,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_kakoyto_krutoy_postavschik => 'Какой-то крутой поставщик';
 
   @override
-  String get auto_sb_20_sentyabrya => 'Сб 20 сентября';
+  String get auto_sb_20_sentyabrya => 'Четверг 17:00';
 
   @override
   String get currency_auto_1 => 'Казахский тенге';
@@ -4384,4 +4383,1781 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get util_review_many => 'отзывов';
+
+  @override
+  String get auto_oshibkaZapuska => 'Ошибка запуска';
+
+  @override
+  String get auto_oshibkaZapuskaPrilozhen => 'Ошибка запуска приложения';
+
+  @override
+  String get auto_poprobuytePerezapustitP =>
+      'Попробуйте перезапустить приложение';
+
+  @override
+  String get auto_optovyeZakupki => 'kk';
+
+  @override
+  String get auto_vvediteImya => 'Слишком короткое';
+
+  @override
+  String get auto_slishkomKorotkoe => 'Слишком короткое';
+
+  @override
+  String get auto_vvediteEmail => 'Некорректный email';
+
+  @override
+  String get auto_nekorrektnyyEmail => 'Некорректный email';
+
+  @override
+  String get auto_vvediteTelefon => 'Должен начинаться с 7';
+
+  @override
+  String get auto_nuzhno11Tsifr => 'Должен начинаться с 7';
+
+  @override
+  String get auto_dolzhenNachinatsyaS7 => 'Должен начинаться с 7';
+
+  @override
+  String get auto_vvediteParol => 'Минимум 6 символов';
+
+  @override
+  String get auto_minimum6Simvolov => 'Минимум 6 символов';
+
+  @override
+  String get auto_neUdalosSozdatModerato => 'Не удалось создать модератора';
+
+  @override
+  String get auto_imya_1 => 'Имя';
+
+  @override
+  String get auto_telefon => 'Телефон';
+
+  @override
+  String get auto_skryt => 'Скрыть';
+
+  @override
+  String get auto_neAvtorizovan => 'доступ';
+
+  @override
+  String get auto_dostup => 'доступ';
+
+  @override
+  String get auto_neUdalosZagruzitModera => 'Не удалось загрузить модераторов';
+
+  @override
+  String get auto_moderatorDobavlen => 'Модератор добавлен';
+
+  @override
+  String get auto_moderatorUdalyon => 'Модератор удалён';
+
+  @override
+  String get auto_dobavitModeratora => 'Добавить модератора';
+
+  @override
+  String get auto_dobavit => 'Добавить';
+
+  @override
+  String get auto_poiskPoImeniIliEmail => 'Поиск по имени или email';
+
+  @override
+  String get auto_moderatoryNeNaydeny => 'Ничего не найдено по запросу';
+
+  @override
+  String get auto_nichegoNeNaydenoPoZap => 'Ничего не найдено по запросу';
+
+  @override
+  String get auto_oshibka => 'Ошибка';
+
+  @override
+  String get auto_dostupZapreshchyonVoydi => 'Доступ запрещён. Войдите снова.';
+
+  @override
+  String get auto_bezImeni => 'Без имени';
+
+  @override
+  String get auto_elPochta_1 => 'Эл. почта';
+
+  @override
+  String get auto_neUdalosZagruzitChaty =>
+      'Не удалось загрузить чаты техподдержки';
+
+  @override
+  String get auto_zakryt_1 => 'Закрыт';
+
+  @override
+  String get auto_otkrytye => 'Открытые';
+
+  @override
+  String get auto_istoriya => 'История';
+
+  @override
+  String get auto_zakrytyhChatovPokaNet => 'Открытых чатов сейчас нет';
+
+  @override
+  String get auto_otkrytyhChatovSeychasN => 'Открытых чатов сейчас нет';
+
+  @override
+  String get auto_neUdalosZagruzitSoobsh => 'Не удалось загрузить сообщения';
+
+  @override
+  String get auto_neUdalosOpredelitSotru =>
+      'Не удалось определить сотрудника техподдержки';
+
+  @override
+  String get auto_chatUzheZakryt => 'Чат уже закрыт';
+
+  @override
+  String get auto_vvediteSoobshchenie => 'Введите сообщение';
+
+  @override
+  String get auto_neUdalosOtpravitSoobsh => 'Не удалось Отправить сообщение';
+
+  @override
+  String get auto_prichinaZakrytiyaNeobya => 'Закрыть';
+
+  @override
+  String get auto_chatZakryt => 'Чат закрыт';
+
+  @override
+  String get auto_neUdalosZakrytChat => 'Не удалось закрыть чат';
+
+  @override
+  String get auto_otvetitPolzovatelyu => 'Ответить пользователю';
+
+  @override
+  String get auto_chatOtkryt => 'Чат открыт';
+
+  @override
+  String get auto_zakrytChat => 'Закрыть чат';
+
+  @override
+  String get auto_adresDostavki => 'Адрес доставки';
+
+  @override
+  String get auto_podtverditVybor => 'Подтвердить выбор';
+
+  @override
+  String get auto_adresovPokaNet => 'Адресов пока нет';
+
+  @override
+  String get auto_dobavteAdresChtobyProd =>
+      'Добавьте адрес, чтобы продолжить оформление.';
+
+  @override
+  String get auto_bezAdresa => 'Без адреса';
+
+  @override
+  String get auto_neUdalosSohranitAdres => 'Не удалось сохранить адрес';
+
+  @override
+  String get auto_voyditeChtobyOformitZa => 'Войдите, чтобы оформить заказ';
+
+  @override
+  String get auto_pozitsiya => 'позиция';
+
+  @override
+  String get auto_pozitsii => 'позиции';
+
+  @override
+  String get auto_pozitsiy => 'позиций';
+
+  @override
+  String get auto_ochistitKorzinu => 'Очистить корзину';
+
+  @override
+  String get auto_napit => 'напит';
+
+  @override
+  String get auto_frukt => 'фрукт';
+
+  @override
+  String get auto_pekar => 'пекар';
+
+  @override
+  String get auto_moloch => 'молоч';
+
+  @override
+  String get auto_ptits => 'птиц';
+
+  @override
+  String get auto_katalog => 'Каталог';
+
+  @override
+  String get auto_poiskKategoriy => 'Поиск категорий...';
+
+  @override
+  String get auto_netKategoriy => 'Нет категорий';
+
+  @override
+  String get auto_nichegoNeNaydeno => 'Ничего не найдено';
+
+  @override
+  String get auto_poiskPodkategoriy => 'Поиск подкатегорий...';
+
+  @override
+  String get auto_povtorit => 'Повторить';
+
+  @override
+  String get auto_vEtoyKategoriiPokaNet => 'В этой категории пока нет товаров';
+
+  @override
+  String get auto_barlyy => 'все';
+
+  @override
+  String get auto_skid => 'скид';
+
+  @override
+  String get auto_istoriyaZakazov => 'История заказов';
+
+  @override
+  String get auto_filtr => 'Фильтр';
+
+  @override
+  String get auto_eksportirovatVExcel => 'Экспортировать в .excel';
+
+  @override
+  String get auto_istoriyaPokaPustaya => 'История пока пустая';
+
+  @override
+  String get auto_netTovarov => 'Нет товаров';
+
+  @override
+  String get auto_status => 'Статус';
+
+  @override
+  String get auto_dataZakaza => 'Дата заказа';
+
+  @override
+  String get auto_kolichestvoTovarov => 'Количество товаров';
+
+  @override
+  String get auto_obshcheeKolvo => 'Общее кол-во:';
+
+  @override
+  String get auto_tovaryVZakaze => 'Товары в заказе';
+
+  @override
+  String get auto_polucheno_1 => 'завершено';
+
+  @override
+  String get auto_otmen => 'отмен';
+
+  @override
+  String get auto_trebuetsyaAvtorizatsiya => 'Требуется авторизация';
+
+  @override
+  String get auto_faylZagruzhen => 'Файл загружен';
+
+  @override
+  String get auto_dostavleno => 'доставлено';
+
+  @override
+  String get auto_netVNalichii => 'Нет в наличии';
+
+  @override
+  String get auto_oTovare => 'О товаре';
+
+  @override
+  String get auto_udalitIzIzbrannogo => 'Добавить в избранное';
+
+  @override
+  String get auto_dobavitVIzbrannoe => 'Добавить в избранное';
+
+  @override
+  String get auto_dobavlenoVIzbrannoe => 'Добавлено в избранное';
+
+  @override
+  String get auto_udalenoIzIzbrannogo => 'Удалено из избранного';
+
+  @override
+  String get auto_otzyvovPokaNet =>
+      'Оценить товар можно только после ее покупки';
+
+  @override
+  String get auto_otsenitTovarMozhnoTolk =>
+      'Оценить товар можно только после ее покупки';
+
+  @override
+  String get auto_voprosovPoTovaruEshche => 'Будьте первым!';
+
+  @override
+  String get auto_budtePervym => 'Будьте первым!';
+
+  @override
+  String get auto_zadatVopros => 'Задать вопрос';
+
+  @override
+  String get auto_voprosov => 'вопросов';
+
+  @override
+  String get auto_zakryt => 'Закрыть';
+
+  @override
+  String get auto_harakteristiki => 'Описание';
+
+  @override
+  String get auto_opisanie_1 => 'Описание';
+
+  @override
+  String get auto_netDannyhOTovare => 'Нет данных о товаре';
+
+  @override
+  String get auto_opisanieNeUkazano => 'Описание не указано';
+
+  @override
+  String get auto_bezTeksta => 'Без текста';
+
+  @override
+  String get auto_pereytiKoVsemOtzyvam => 'Перейти ко всем отзывам';
+
+  @override
+  String get auto_pereytiKoVsemVoprosam => 'Перейти ко всем вопросам';
+
+  @override
+  String get auto_voprosyOTovare => 'Вопросы о товаре';
+
+  @override
+  String get auto_netVoprosov => 'Нет вопросов';
+
+  @override
+  String get auto_budtePervymKtoZadastV => 'Будьте первым, кто задаст вопрос!';
+
+  @override
+  String get auto_vyNeAvtorizovany => 'Вы не авторизованы';
+
+  @override
+  String get auto_vashVopros => 'Ваш вопрос';
+
+  @override
+  String get auto_neUdalosZagruzitOtzyvy_1 => 'Не удалось загрузить отзывы';
+
+  @override
+  String get auto_otzyvy => 'Отзывы';
+
+  @override
+  String get auto_pokaNetOtzyvov => 'Пока нет отзывов';
+
+  @override
+  String get auto_zdesPoyavyatsyaOtsenki =>
+      'Здесь появятся оценки и мнения покупателей.';
+
+  @override
+  String get auto_svernut => 'Свернуть';
+
+  @override
+  String get auto_otvetProdavtsa => 'Ответ продавца';
+
+  @override
+  String get auto_vse_1 => 'Все';
+
+  @override
+  String get auto_postavshchikNeNayden =>
+      'Время ожидания истекло. Проверьте соединение и повторите попытку.';
+
+  @override
+  String get auto_vremyaOzhidaniya =>
+      'Время ожидания истекло. Проверьте соединение и повторите попытку.';
+
+  @override
+  String get auto_vremyaOzhidaniyaIsteklo =>
+      'Время ожидания истекло. Проверьте соединение и повторите попытку.';
+
+  @override
+  String get auto_netPodklyucheniyaKInte => 'Нет подключения к интернету';
+
+  @override
+  String get auto_neUdalosZagruzitDannye =>
+      'Не удалось загрузить данные. Попробуйте ещё раз.';
+
+  @override
+  String get auto_netTovarovOtEtogoPost => 'Товары не найдены';
+
+  @override
+  String get auto_tovaryNeNaydeny => 'Товары не найдены';
+
+  @override
+  String get auto_poisk => 'Поиск...';
+
+  @override
+  String get auto_proizoshlaOshibka => 'Произошла ошибка';
+
+  @override
+  String get auto_vernutsya => 'Вернуться';
+
+  @override
+  String get auto_filtry => 'Фильтры';
+
+  @override
+  String get auto_tsenaZaSht => 'Цена за шт.';
+
+  @override
+  String get auto_ot => 'от';
+
+  @override
+  String get auto_do => 'до';
+
+  @override
+  String get auto_sortirovka => 'Сортировка';
+
+  @override
+  String get auto_reyting => 'Рейтинг';
+
+  @override
+  String get auto_poryadok => 'Порядок';
+
+  @override
+  String get auto_poVozrastaniyu => 'По возрастанию';
+
+  @override
+  String get auto_poUbyvaniyu => 'По убыванию';
+
+  @override
+  String get auto_dobavitAdres => 'Добавить адрес';
+
+  @override
+  String get auto_adres => 'АДРЕС';
+
+  @override
+  String get auto_ulitsa => 'УЛИЦА';
+
+  @override
+  String get auto_pochtovyyIndeks => 'ПОЧТОВЫЙ ИНДЕКС';
+
+  @override
+  String get auto_kvartira => 'КВАРТИРА';
+
+  @override
+  String get auto_dom => 'Дом';
+
+  @override
+  String get auto_rabota => 'Работа';
+
+  @override
+  String get auto_drugoe => 'Другое';
+
+  @override
+  String get auto_sohranit => 'СОХРАНИТЬ';
+
+  @override
+  String get auto_sohranitAdres => 'СОХРАНИТЬ АДРЕС';
+
+  @override
+  String get auto_vvediteAdres => 'Введите адрес';
+
+  @override
+  String get auto_adresSlishkomKorotkiy => 'Адрес слишком короткий';
+
+  @override
+  String get auto_ulitsa_1 =>
+      'Поле \"Улица\" не должно превышать \$_streetMaxLength символов';
+
+  @override
+  String get auto_indeksDolzhenSoderzhat =>
+      'Индекс должен содержать только цифры (3-10)';
+
+  @override
+  String get auto_kvartira_1 =>
+      'Поле \"Квартира\" не должно превышать \$_apartmentMaxLength символов';
+
+  @override
+  String get auto_nekorrektnyyFormatKvart => 'Некорректный формат квартиры';
+
+  @override
+  String get auto_vvediteImyaVladeltsaKa => 'Введите имя владельца карты';
+
+  @override
+  String get auto_imyaSlishkomKorotkoe => 'Имя слишком короткое';
+
+  @override
+  String get auto_imyaNeDolzhnoSoderzhat => 'Имя не должно содержать цифры';
+
+  @override
+  String get auto_vvediteNomerKarty => 'Введите номер карты';
+
+  @override
+  String get auto_nomerKartyDolzhenByt1 => 'Номер карты должен быть 16 цифр';
+
+  @override
+  String get auto_nevernyyNomerKarty => 'Неверный номер карты';
+
+  @override
+  String get auto_vvediteSrokDeystviya => 'Введите срок действия';
+
+  @override
+  String get auto_vvediteFormatMmgg => 'Введите формат ММ/ГГ';
+
+  @override
+  String get auto_mesyatsDolzhenByt0112 => 'Месяц должен быть 01-12';
+
+  @override
+  String get auto_srokDeystviyaIstyok => 'Срок действия истёк';
+
+  @override
+  String get auto_vvediteCvc => 'Введите CVC';
+
+  @override
+  String get auto_cvc3Tsifry => 'CVC: 3 цифры';
+
+  @override
+  String get auto_voyditeChtobyDobavitKa => 'Войдите, чтобы добавить карту';
+
+  @override
+  String get auto_proverteVvedyonnyeDanny => 'Проверьте введённые данные';
+
+  @override
+  String get auto_neUdalosSohranitKartu => 'Не удалось сохранить карту';
+
+  @override
+  String get auto_dobavitMetodOplaty => 'Добавить метод оплаты';
+
+  @override
+  String get auto_imyaVladeltsaKarty => 'ИМЯ ВЛАДЕЛЬЦА КАРТЫ';
+
+  @override
+  String get auto_nomerKarty => 'НОМЕР КАРТЫ';
+
+  @override
+  String get auto_srokDeystviya => 'СРОК ДЕЙСТВИЯ';
+
+  @override
+  String get auto_mmgg => 'ММ/ГГ';
+
+  @override
+  String get auto_dobavitMetodOplaty_1 => 'ДОБАВИТЬ МЕТОД ОПЛАТЫ';
+
+  @override
+  String get auto_vvediteTekushchiyParol => 'Введите текущий пароль';
+
+  @override
+  String get auto_vvediteNovyyParol => 'Введите новый пароль';
+
+  @override
+  String get auto_novyyParolDolzhenOtlic =>
+      'Новый пароль должен отличаться от текущего';
+
+  @override
+  String get auto_povtoriteNovyyParol => 'Повторите новый пароль';
+
+  @override
+  String get auto_paroliNeSovpadayut => 'Пароли не совпадают';
+
+  @override
+  String get auto_neUdalosIzmenitParol => 'Не удалось изменить пароль';
+
+  @override
+  String get auto_sessiyaIsteklaVoyditeS => 'Сессия истекла. Войдите снова.';
+
+  @override
+  String get auto_izmenitParol => 'Изменить пароль';
+
+  @override
+  String get auto_tekushchiyParol => 'Текущий пароль';
+
+  @override
+  String get auto_novyyParol => 'Новый пароль';
+
+  @override
+  String get auto_vvediteParolEshchyoRaz => 'Введите пароль ещё раз';
+
+  @override
+  String get auto_parolDolzhenSoderzhatM =>
+      'Пароль должен содержать минимум 6 символов и отличаться от текущего.';
+
+  @override
+  String get auto_sohranitParol => 'СОХРАНИТЬ ПАРОЛЬ';
+
+  @override
+  String get auto_ivanIvanov => 'Иван Иванов';
+
+  @override
+  String get auto_lyublyuSladosti => 'Люблю сладости';
+
+  @override
+  String get auto_sdelatSnimok => 'Сделать снимок';
+
+  @override
+  String get auto_vybratIzGalerei => 'Выбрать из галереи';
+
+  @override
+  String get auto_udalitFoto => 'Удалить фото';
+
+  @override
+  String get auto_razmerFaylaNeDolzhenP =>
+      'Размер файла не должен превышать 5 МБ';
+
+  @override
+  String get auto_redProfil => 'Ред. Профиль';
+
+  @override
+  String get auto_fio => 'ФИО';
+
+  @override
+  String get auto_elPochta => 'ЭЛ. ПОЧТА';
+
+  @override
+  String get auto_nomer => 'НОМЕР';
+
+  @override
+  String get auto_opisanie => 'ОПИСАНИЕ';
+
+  @override
+  String get auto_nomerDolzhenBytVForma =>
+      'Номер должен быть в формате +7-XXX-XXX-XXXX';
+
+  @override
+  String get auto_kakSdelatZakaz => 'Как сделать заказ?';
+
+  @override
+  String get auto_chtobySdelatZakazVyber =>
+      'Чтобы сделать заказ, выберите товары из каталога, добавьте их в корзину и оформите заказ, указав адрес доставки и способ оплаты.';
+
+  @override
+  String get auto_kakieSposobyOplatyDost => 'Какие способы оплаты доступны?';
+
+  @override
+  String get auto_myPrinimaemOplatuNalic =>
+      'Мы принимаем оплату наличными, банковскими картами (Visa, Mastercard), а также через PayPal.';
+
+  @override
+  String get auto_skolkoVremeniZanimaetD =>
+      'Сколько времени занимает доставка?';
+
+  @override
+  String get auto_standartnayaDostavkaZan =>
+      'Стандартная доставка занимает 1-3 рабочих дня. Экспресс-доставка доступна в течение 24 часов.';
+
+  @override
+  String get auto_moguLiYaOtmenitZakaz => 'Могу ли я отменить заказ?';
+
+  @override
+  String get auto_vyMozheteOtmenitZakaz =>
+      'Вы можете отменить заказ в течение 30 минут после оформления. После этого заказ уже будет передан на склад для сборки.';
+
+  @override
+  String get auto_kakIzmenitAdresDostavk => 'Как изменить адрес доставки?';
+
+  @override
+  String get auto_profil =>
+      'Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.';
+
+  @override
+  String get auto_adresa =>
+      'Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.';
+
+  @override
+  String get auto_takzheMozhnoUkazatNov =>
+      'Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.';
+
+  @override
+  String get auto_chtoDelatEsliTovarNe => 'Что делать если товар не подошел?';
+
+  @override
+  String get auto_vyMozheteVernutTovarV =>
+      'Вы можете вернуть товар в течение 14 дней с момента получения. Свяжитесь с нашей службой поддержки для оформления возврата.';
+
+  @override
+  String get auto_kakSvyazatsyaSPodderzh => 'Как связаться с поддержкой?';
+
+  @override
+  String get auto_tehpodderzhka => 'Техподдержка';
+
+  @override
+  String get auto_vPrilozheniiPoElektro =>
+      'Вы можете связаться с нами через раздел \"Техподдержка\" в приложении, по электронной почте или по телефону горячей линии.';
+
+  @override
+  String get auto_estLiMinimalnayaSumma => 'Есть ли минимальная сумма заказа?';
+
+  @override
+  String get auto_minimalnayaSummaZakaza =>
+      'Минимальная сумма заказа составляет 500 ₸. При заказе от 5000 ₸ доставка бесплатная.';
+
+  @override
+  String get auto_voprosyIOtvety => 'Вопросы и ответы';
+
+  @override
+  String get auto_izbrannoe => 'Избранное';
+
+  @override
+  String get auto_vkladkaIzbrannyeTovary => 'Товары';
+
+  @override
+  String get auto_vkladkaIzbrannyeKompani => 'Компании';
+
+  @override
+  String get auto_pokaNetIzbrannyhTovaro => 'Пока нет избранных товаров';
+
+  @override
+  String get auto_netIzbrannyhKompaniy => 'Нет избранных компаний';
+
+  @override
+  String get auto_neUdalosZagruzitAdresa => 'Не удалось загрузить адреса';
+
+  @override
+  String get auto_nuzhnoVoytiVAkkaunt => 'Нужно войти в аккаунт';
+
+  @override
+  String get auto_neUdalosUdalitAdres => 'Не удалось удалить адрес';
+
+  @override
+  String get auto_moiAdresa => 'Мои адреса';
+
+  @override
+  String get auto_dobavteAdresChtobyOfor =>
+      'Добавьте адрес, чтобы оформить заказ быстрее.';
+
+  @override
+  String get auto_redaktirovat => 'Редактировать';
+
+  @override
+  String get auto_udalitAdres => 'Удалить адрес?';
+
+  @override
+  String get auto_kartaDobavlena => 'Карта добавлена';
+
+  @override
+  String get auto_metodOplaty => 'Метод оплаты';
+
+  @override
+  String get auto_nalichnye => 'Наличные';
+
+  @override
+  String get auto_dobavitNovyy => 'Добавить новый';
+
+  @override
+  String get auto_netKartVisa => 'Нет карт Visa';
+
+  @override
+  String get auto_netKartMastercard => 'Нет карт Mastercard';
+
+  @override
+  String get auto_dobavteKartuVisaChtoby =>
+      'Добавьте карту Visa, чтобы выбрать этот способ оплаты.';
+
+  @override
+  String get auto_dobavteKartuMastercard =>
+      'Добавьте карту Mastercard, чтобы выбрать этот способ оплаты.';
+
+  @override
+  String get auto_vashiKartyVisa => 'Ваши карты Visa';
+
+  @override
+  String get auto_vashiKartyMastercard => 'Ваши карты Mastercard';
+
+  @override
+  String get auto_vashiKarty => 'Ваши карты';
+
+  @override
+  String get auto_oplataNalichnymi => 'Оплата наличными';
+
+  @override
+  String get auto_vyVybraliOplatuNalichn =>
+      'Вы выбрали оплату наличными при получении.';
+
+  @override
+  String get auto_podklyucheniePaypalPoka =>
+      'Подключение PayPal пока недоступно.\\nВыберите карту или наличные.';
+
+  @override
+  String get auto_netSposobaOplaty => 'Нет способа оплаты';
+
+  @override
+  String get auto_pozhaluystaVyberiteSpos =>
+      'Пожалуйста, выберите способ\\nоплаты';
+
+  @override
+  String get auto_udalitKartu => 'Удалить карту';
+
+  @override
+  String get auto_kartaUdalena => 'Карта удалена';
+
+  @override
+  String get auto_neUkazano => 'Не указано';
+
+  @override
+  String get auto_vvediteNomerTelefona => 'Введите номер телефона';
+
+  @override
+  String get auto_nomerDolzhenBytVForma_1 =>
+      'Номер должен быть в формате +7-000-000-0000';
+
+  @override
+  String get auto_imyaSohraneno => 'Имя сохранено';
+
+  @override
+  String get auto_emailSohranen => 'Email сохранен';
+
+  @override
+  String get auto_nomerSohranen => 'Номер сохранен';
+
+  @override
+  String get auto_vvediteNazvanieKompanii => 'Введите название компании';
+
+  @override
+  String get auto_nazvanieKompaniiSohrane => 'Название компании сохранено';
+
+  @override
+  String get auto_lichnayaInformatsiya => 'Личная информация';
+
+  @override
+  String get auto_nazvanieKompanii => 'НАЗВАНИЕ КОМПАНИИ';
+
+  @override
+  String get auto_vvediteNovoeZnachenie => 'Введите новое значение';
+
+  @override
+  String get auto_sohranit_1 => 'Сохранить';
+
+  @override
+  String get auto_nastroyki => 'Настройки';
+
+  @override
+  String get auto_vyyti => 'Выйти';
+
+  @override
+  String get auto_moiZakazy => 'Мои заказы';
+
+  @override
+  String get auto_sposobOplaty => 'Способ оплаты';
+
+  @override
+  String get auto_vashiOtzyvy => 'Ваши отзывы';
+
+  @override
+  String get auto_bystrayaDostavka => 'Вежливый курьер';
+
+  @override
+  String get auto_horoshayaTsena => 'Вежливый курьер';
+
+  @override
+  String get auto_kachestvennayaUpakovka => 'Вежливый курьер';
+
+  @override
+  String get auto_svezhiyTovar => 'Вежливый курьер';
+
+  @override
+  String get auto_vezhlivyyKurer => 'Вежливый курьер';
+
+  @override
+  String get auto_voyditeChtobyUvidetOtz => 'Войдите, чтобы увидеть отзывы.';
+
+  @override
+  String get auto_neUdalosZagruzitOtzyvy => 'Не удалось загрузить отзывы.';
+
+  @override
+  String get auto_estPokupkiDlyaOtsenki => 'Все отзывы о покупках';
+
+  @override
+  String get auto_vseOtzyvyOPokupkah => 'Все отзывы о покупках';
+
+  @override
+  String get auto_ozhidayutOtzyvov => 'Оцените покупки - это помогает другим';
+
+  @override
+  String get auto_otsenitePokupkiEtoPomo =>
+      'Оцените покупки - это помогает другим';
+
+  @override
+  String get auto_ostavitOtzyv => 'Оставить отзыв';
+
+  @override
+  String get auto_ostavteOtzyvPoslePriny =>
+      'Оставьте отзыв после принятия заказа - он появится здесь.';
+
+  @override
+  String get auto_tekstOtzyva => 'Текст отзыва';
+
+  @override
+  String get auto_bezTekstaOtzyva => 'Без текста отзыва';
+
+  @override
+  String get auto_otseniteTovar => 'Оцените товар';
+
+  @override
+  String get auto_vashOtzyv => 'Ваш отзыв';
+
+  @override
+  String get auto_podelitesVpechatleniyami => 'Поделитесь впечатлениями';
+
+  @override
+  String get auto_izmenit => 'Изменить';
+
+  @override
+  String get auto_voyditeChtobyRedaktirov =>
+      'Войдите, чтобы редактировать отзыв';
+
+  @override
+  String get auto_otzyvObnovlen => 'Отзыв обновлен';
+
+  @override
+  String get auto_neUdalosSohranitOtzyv => 'Не удалось сохранить отзыв';
+
+  @override
+  String get auto_postavteOtsenku => 'Поставьте оценку';
+
+  @override
+  String get auto_dobavteDetali => 'Добавьте детали';
+
+  @override
+  String get auto_otpravitOtzyv => 'Отправить отзыв';
+
+  @override
+  String get auto_voyditeChtobyOstavitOt => 'Войдите, чтобы оставить отзыв';
+
+  @override
+  String get auto_spasiboZaOtzyv => 'Спасибо за отзыв!';
+
+  @override
+  String get auto_neUdalosOtpravitOtzyv => 'Не удалось Отправить отзыв';
+
+  @override
+  String get auto_voyditeChtobyUdalitOtz => 'Войдите, чтобы удалить отзыв';
+
+  @override
+  String get auto_otzyvUdalen => 'Отзыв удален';
+
+  @override
+  String get auto_neUdalosUdalitOtzyv => 'Не удалось удалить отзыв';
+
+  @override
+  String get auto_udalitOtzyv => 'Удалить отзыв?';
+
+  @override
+  String get auto_etoDeystvieNelzyaOtmen => 'Это действие нельзя отменить.';
+
+  @override
+  String get auto_rezervnyeKodyDvuhfaktor =>
+      'Сохраните их в надёжном месте - каждый код можно использовать только один раз.\\n';
+
+  @override
+  String get auto_sohraniteIhVNadyozhnom =>
+      'Сохраните их в надёжном месте - каждый код можно использовать только один раз.\\n';
+
+  @override
+  String get auto_kodySkopirovanyVBufer => 'Коды скопированы в буфер обмена';
+
+  @override
+  String get auto_faylSKodamiSohranyon => 'Файл с кодами сохранён';
+
+  @override
+  String get auto_rezervnyeKody => 'Резервные коды';
+
+  @override
+  String get auto_rezervnyeKodyDvuhfaktor_1 =>
+      'Резервные коды двухфакторной аутентификации';
+
+  @override
+  String get auto_sohraniteKodyVBezopasn =>
+      'Сохраните коды в безопасном месте — они показываются один раз. Каждый код можно использовать только однократно для входа, если потерян доступ к почте.';
+
+  @override
+  String get auto_gotovo => 'Готово';
+
+  @override
+  String get auto_neUdalosOtpravitKodPo =>
+      'Не удалось Отправить код. Попробуйте ещё раз.';
+
+  @override
+  String get auto_dvuhfaktornayaAutentifik =>
+      'Двухфакторная аутентификация отключена';
+
+  @override
+  String get auto_nevernyyKod => 'Неверный код';
+
+  @override
+  String get auto_oshibkaPodklyucheniyaK => 'Ошибка подключения к серверу';
+
+  @override
+  String get auto_kodOtpravlenPovtorno => 'Код отправлен повторно';
+
+  @override
+  String get auto_neUdalosOtpravitKodPo_1 =>
+      'Не удалось Отправить код повторно';
+
+  @override
+  String get auto_vyklyuchenie2fa => 'Выключение 2FA';
+
+  @override
+  String get auto_podtverzhdeniePoPochte => 'Подтверждение по почте';
+
+  @override
+  String get auto_chtobyVyklyuchitDvuhfak =>
+      'чтобы выключить двухфакторную аутентификацию.';
+
+  @override
+  String get auto_povtoritOtpravku => 'Повторить отправку';
+
+  @override
+  String get auto_srokDeystviyaKodaIstyo =>
+      'Срок действия кода истёк, отправьте повторно';
+
+  @override
+  String get auto_srokIstyok => 'КОД ДЕЙСТВИТЕЛЕН \$_ttlSecondsLeft СЕК';
+
+  @override
+  String get auto_otpravitPovtorno => 'Отправить повторно';
+
+  @override
+  String get auto_vklyuchenie2fa => 'Включение 2FA';
+
+  @override
+  String get auto_chtobyVklyuchitDvuhfakt =>
+      'чтобы включить двухфакторную аутентификацию.';
+
+  @override
+  String get auto_neUdalosZagruzitStatus =>
+      'Не удалось загрузить статус двухфакторной аутентификации';
+
+  @override
+  String get auto_regeneratsiyaBackupkodov => 'Регенерация backup-кодов';
+
+  @override
+  String get auto_chtobyZamenitTekushchie =>
+      'чтобы заменить текущие резервные коды.';
+
+  @override
+  String get auto_neUdalosSgenerirovatNo =>
+      'Не удалось сгенерировать новые коды';
+
+  @override
+  String get auto_otzyvDoverennyhUstroyst => 'Отзыв доверенных устройств';
+
+  @override
+  String get auto_chtobyOtozvatVseRanee =>
+      'чтобы отозвать все ранее запомненные устройства.';
+
+  @override
+  String get auto_doverennyeUstroystvaOto => 'Доверенные устройства отозваны';
+
+  @override
+  String get auto_neUdalosOtozvatUstroys => 'Не удалось отозвать устройства';
+
+  @override
+  String get auto_dvuhfaktornayaAutentifik_1 => 'Двухфакторная аутентификация';
+
+  @override
+  String get auto_ostalosMaloRezervnyhKo =>
+      'Осталось мало резервных кодов, сгенерируйте новые';
+
+  @override
+  String get auto_vklyuchenaPriVhodePotr =>
+      'Выключена. Защитите аккаунт дополнительным кодом.';
+
+  @override
+  String get auto_vyklyuchenaZashchititeA =>
+      'Выключена. Защитите аккаунт дополнительным кодом.';
+
+  @override
+  String get auto_sgenerirovatNovyeBackup => 'Старые коды будут удалены';
+
+  @override
+  String get auto_staryeKodyBudutUdaleny => 'Старые коды будут удалены';
+
+  @override
+  String get auto_otozvatDoverennyeUstroy =>
+      'На всех устройствах потребуется код заново';
+
+  @override
+  String get auto_naVsehUstroystvahPotre =>
+      'На всех устройствах потребуется код заново';
+
+  @override
+  String get auto_neUdalosOpredelitPolzo =>
+      'Не удалось определить пользователя';
+
+  @override
+  String get auto_neUdalosZagruzitChat => 'Не удалось загрузить чат';
+
+  @override
+  String get auto_chatZakrytSozdayteNovo =>
+      'Чат закрыт. Создайте новое обращение.';
+
+  @override
+  String get auto_chatSTehpodderzhkoy => 'Чат с техподдержкой';
+
+  @override
+  String get auto_aktivnogoChataNetSnach => 'Чат не найден.';
+
+  @override
+  String get auto_chatNeNayden => 'Чат не найден.';
+
+  @override
+  String get auto_podderzhka => 'Поддержка';
+
+  @override
+  String get auto_chatOtkrytTehpodderzhka =>
+      'Чат открыт. Техподдержка ответит в этом окне.';
+
+  @override
+  String get auto_operatoryOnlaynObychno =>
+      'Сейчас офлайн. Ответим в рабочее время.';
+
+  @override
+  String get auto_seychasOflaynOtvetimV =>
+      'Сейчас офлайн. Ответим в рабочее время.';
+
+  @override
+  String get auto_opishiteProblemu => 'Другое';
+
+  @override
+  String get auto_problemaSZakazom => 'Другое';
+
+  @override
+  String get auto_problemaSOplatoy => 'Другое';
+
+  @override
+  String get auto_tehnicheskieNepoladki => 'Другое';
+
+  @override
+  String get auto_voprosOTovare => 'Другое';
+
+  @override
+  String get auto_neUdalosZagruzitObrash => 'Не удалось загрузить обращение';
+
+  @override
+  String get auto_obrashchenieOtpravlenoV => 'Сообщение отправлено';
+
+  @override
+  String get auto_soobshchenieOtpravleno => 'Сообщение отправлено';
+
+  @override
+  String get auto_neUdalosOtpravitObrash => 'Не удалось Отправить обращение';
+
+  @override
+  String get auto_svyazhitesSNami => 'Свяжитесь с нами';
+
+  @override
+  String get auto_pnvs09002100Utc5 => 'Пн-Вс: 09:00 - 21:00 (UTC+5)';
+
+  @override
+  String get auto_prodolzhitObrashchenie => 'Отправить обращение';
+
+  @override
+  String get auto_otpravitObrashchenie => 'Отправить обращение';
+
+  @override
+  String get auto_aktivnyyChatOtkryt => 'Активный чат открыт';
+
+  @override
+  String get auto_predydushcheeObrashcheni =>
+      'Предыдущее обращение закрыто. Если вопрос актуален, отправьте новое.';
+
+  @override
+  String get auto_otkrytChatSTehpodderzh => 'Открыть чат с техподдержкой';
+
+  @override
+  String get auto_kategoriyaObrashcheniya => 'Категория обращения';
+
+  @override
+  String get auto_vyberiteKategoriyu => 'Выберите категорию';
+
+  @override
+  String get auto_temaObrashcheniya => 'Тема обращения';
+
+  @override
+  String get auto_vvediteTemu => 'Введите тему';
+
+  @override
+  String get auto_soobshchenie => 'Сообщение';
+
+  @override
+  String get auto_vPuti => 'в пути';
+
+  @override
+  String get auto_sobira => 'собира';
+
+  @override
+  String get auto_dostav => 'достав';
+
+  @override
+  String get auto_oshibkaOperatsii => 'Ошибка операции';
+
+  @override
+  String get auto_tovarSnyatSPublikatsii_1 => 'Товар удалён';
+
+  @override
+  String get auto_tovarUdalyon => 'Товар удалён';
+
+  @override
+  String get auto_minPartiya => 'Мин. партия:';
+
+  @override
+  String get auto_ostatok => 'Остаток';
+
+  @override
+  String get auto_pokaNetTovarov => 'Пока нет товаров';
+
+  @override
+  String get auto_dobavtePervyyTovarIOt =>
+      'Добавьте первый товар и отправьте его на модерацию.';
+
+  @override
+  String get auto_dobavitTovar => 'Добавить товар';
+
+  @override
+  String get auto_ponedelnik_1 => 'Воскресенье';
+
+  @override
+  String get auto_vtornik_1 => 'Воскресенье';
+
+  @override
+  String get auto_sreda_1 => 'Воскресенье';
+
+  @override
+  String get auto_chetverg_1 => 'Воскресенье';
+
+  @override
+  String get auto_pyatnitsa_1 => 'Воскресенье';
+
+  @override
+  String get auto_subbota_1 => 'Воскресенье';
+
+  @override
+  String get auto_voskresene_1 => 'Воскресенье';
+
+  @override
+  String get auto_pn => 'Вс';
+
+  @override
+  String get auto_vt_1 => 'Вс';
+
+  @override
+  String get auto_sr_1 => 'Вс';
+
+  @override
+  String get auto_cht_1 => 'Вс';
+
+  @override
+  String get auto_pt_1 => 'Вс';
+
+  @override
+  String get auto_sb_1 => 'Вс';
+
+  @override
+  String get auto_vs_1 => 'Вс';
+
+  @override
+  String get auto_molochnayaProduktsiya => 'Товары для дома';
+
+  @override
+  String get auto_ovoshchiIFrukty => 'Товары для дома';
+
+  @override
+  String get auto_myasoIPtitsa => 'Товары для дома';
+
+  @override
+  String get auto_bakaleya => 'Товары для дома';
+
+  @override
+  String get auto_hlebIVypechka => 'Товары для дома';
+
+  @override
+  String get auto_zamorozka => 'Товары для дома';
+
+  @override
+  String get auto_sneki => 'Товары для дома';
+
+  @override
+  String get auto_bytovayaHimiya => 'Товары для дома';
+
+  @override
+  String get auto_tovaryDlyaDoma => 'Товары для дома';
+
+  @override
+  String get auto_stranaProizvoditelya => 'Страна производителя';
+
+  @override
+  String get auto_srokGodnosti => 'Срок годности';
+
+  @override
+  String get auto_vvediteNazvanieTovara => 'Введите название товара';
+
+  @override
+  String get auto_ukazhiteSrokGodnosti => 'Укажите срок годности';
+
+  @override
+  String get auto_vyberiteKategoriyuIzSp => 'Выберите категорию из списка';
+
+  @override
+  String get auto_vvediteKorrektnuyuTsenu => 'Введите корректную цену';
+
+  @override
+  String get auto_minimalnoeKolichestvoDo =>
+      'Минимальное количество должно быть больше 0';
+
+  @override
+  String get auto_ukazhiteOstatokNaSklad => 'Укажите остаток на складе';
+
+  @override
+  String get auto_ostatokNeMozhetBytMen =>
+      'Остаток не может быть меньше минимальной партии';
+
+  @override
+  String get auto_vvediteVremyaDostavkiV =>
+      'Введите время доставки в формате ЧЧ:ММ';
+
+  @override
+  String get auto_ukazhiteGrafikDostavki => 'Укажите график доставки';
+
+  @override
+  String get auto_vvediteMinimalnyySrokD => 'Введите минимальный срок доставки';
+
+  @override
+  String get auto_maksimalnyySrokNeMozhe =>
+      'Максимальный срок не может быть меньше минимального';
+
+  @override
+  String get auto_srokDostavkiSlishkomBo => 'Срок доставки слишком большой';
+
+  @override
+  String get auto_vvediteVremyaOtsechkiV =>
+      'Введите время отсечки в формате ЧЧ:ММ';
+
+  @override
+  String get auto_kaloriiDolzhnyBytNeotr =>
+      'Калории должны быть неотрицательным числом';
+
+  @override
+  String get auto_belkiDolzhnyBytNeotrit =>
+      'Белки должны быть неотрицательным числом';
+
+  @override
+  String get auto_zhiryDolzhnyBytNeotrit =>
+      'Жиры должны быть неотрицательным числом';
+
+  @override
+  String get auto_uglevodyDolzhnyBytNeot =>
+      'Углеводы должны быть неотрицательным числом';
+
+  @override
+  String get auto_dobavteHotyaByOdnuFot => 'Добавьте хотя бы одну фотографию';
+
+  @override
+  String get auto_sozdatTovar => 'Создать товар?';
+
+  @override
+  String get auto_izmeneniyaBudutOtpravle => 'Отмена';
+
+  @override
+  String get auto_tovarBudetOtpravlenNa => 'Отмена';
+
+  @override
+  String get auto_sozdat => 'Отмена';
+
+  @override
+  String get auto_redaktirovanieTovara => 'Редактирование товара';
+
+  @override
+  String get auto_osnovnyeDannye => 'Основные данные';
+
+  @override
+  String get auto_zapolniteNazvanieOpisan =>
+      'Заполните название, описание, страну и категорию товара.';
+
+  @override
+  String get auto_nazvanieTovara => 'Название товара';
+
+  @override
+  String get auto_naprimerKazahstan => 'Например, Казахстан';
+
+  @override
+  String get auto_naprimer12Mesyatsev => 'Например, 12 месяцев';
+
+  @override
+  String get auto_tsenaIUsloviya => 'Минимальные количества и доставка.';
+
+  @override
+  String get auto_minimalnyeKolichestvaI =>
+      'Минимальные количества и доставка.';
+
+  @override
+  String get auto_tsenaZaEdinitsu => 'Цена за единицу (₸)';
+
+  @override
+  String get auto_naprimer1450 => 'Например, 1450';
+
+  @override
+  String get auto_minimalnoeKolichestvo => 'Минимальное количество';
+
+  @override
+  String get auto_vsegoKolichestvo => 'Всего количество';
+
+  @override
+  String get auto_naprimer120 => 'Например, 120';
+
+  @override
+  String get auto_sostavIHarakteristiki =>
+      'Необязательные данные: заполняйте только то, что нужно.';
+
+  @override
+  String get auto_neobyazatelnyeDannyeZap =>
+      'Необязательные данные: заполняйте только то, что нужно.';
+
+  @override
+  String get auto_sostav => 'Состав';
+
+  @override
+  String get auto_kaloriiKkal100g => 'Калории (ккал/100г)';
+
+  @override
+  String get auto_belkiG100g => 'Белки (г/100г)';
+
+  @override
+  String get auto_zhiryG100g => 'Жиры (г/100г)';
+
+  @override
+  String get auto_uglevodyG100g => 'Углеводы (г/100г)';
+
+  @override
+  String get auto_harakteristikiTovara => 'Характеристики товара';
+
+  @override
+  String get auto_nazvanie => 'Название';
+
+  @override
+  String get auto_znachenie => 'Значение';
+
+  @override
+  String get auto_udalitHarakteristiku => 'Удалить характеристику';
+
+  @override
+  String get auto_dobavitHarakteristiku => 'Добавить характеристику';
+
+  @override
+  String get auto_fotografiiTovara => 'Добавьте несколько фото';
+
+  @override
+  String get auto_dobavteNeskolkoFoto => 'Добавьте несколько фото';
+
+  @override
+  String get auto_ozhidaemayaDataDostavki => 'Ожидаемая дата доставки';
+
+  @override
+  String get auto_poGrafiku => 'По графику';
+
+  @override
+  String get auto_poSroku => 'По сроку';
+
+  @override
+  String get auto_pokupatelUviditOzhidaem =>
+      'Покупатель увидит ожидаемую дату доставки.';
+
+  @override
+  String get auto_vyberiteDniNedeli => 'Выберите дни недели';
+
+  @override
+  String get auto_bystryyVybor => 'Быстрый выбор';
+
+  @override
+  String get auto_vremyaDostavki => 'Время доставки';
+
+  @override
+  String get auto_formatChchmm => 'Формат: ЧЧ:ММ';
+
+  @override
+  String get auto_nekorrektnoeVremya => 'Некорректное время';
+
+  @override
+  String get auto_minimumDney => 'Минимум дней';
+
+  @override
+  String get auto_maksimumDney => 'Максимум дней';
+
+  @override
+  String get auto_srokPriyomaZakazaNaSe => 'Срок приёма заказа на сегодня';
+
+  @override
+  String get auto_kategorii => 'Категории';
+
+  @override
+  String get auto_poiskKategorii => 'Поиск категории';
+
+  @override
+  String get auto_kategoriiNeNaydeny => 'Категории не найдены';
+
+  @override
+  String get auto_pokazatMenshe => 'Показать меньше';
+
+  @override
+  String get auto_foto => 'Фото';
+
+  @override
+  String get auto_kompaniya => 'Компания';
+
+  @override
+  String get auto_vyNeAvtorizovanyPozhal =>
+      'Вы не авторизованы. Пожалуйста, войдите.';
+
+  @override
+  String get auto_neUdalosZagruzitStatis => 'Не удалось загрузить статистику';
+
+  @override
+  String get auto_neUdalosSformirovatAir => 'Не удалось сформировать AI-резюме';
+
+  @override
+  String get auto_statistika => 'Статистика';
+
+  @override
+  String get auto_analitikaProdazh => 'Аналитика продаж';
+
+  @override
+  String get auto_obnovit => 'Обновить';
+
+  @override
+  String get auto_vseVremya => 'Все время';
+
+  @override
+  String get auto_vybrat => 'Выбрать';
+
+  @override
+  String get auto_obshchayaVyruchka => 'Общая выручка';
+
+  @override
+  String get auto_vyruchkaZaMesyats => 'Выручка за месяц';
+
+  @override
+  String get auto_zaNedelyu => 'За неделю';
+
+  @override
+  String get auto_vsegoZakazov => 'Всего заказов';
+
+  @override
+  String get auto_obzor => 'Обзор';
+
+  @override
+  String get auto_sredniyChek => 'Средний чек';
+
+  @override
+  String get auto_dinamikaVyruchki => 'Динамика выручки';
+
+  @override
+  String get auto_netDannyh => 'Нет данных';
+
+  @override
+  String get auto_dostavleny => 'Доставлены';
+
+  @override
+  String get auto_otpravleny => 'Отправлены';
+
+  @override
+  String get auto_podtverzhdeny => 'Подтверждены';
+
+  @override
+  String get auto_ozhidayut => 'Ожидают';
+
+  @override
+  String get auto_otmeneny => 'Отменены';
+
+  @override
+  String get auto_statusyZakazov => 'Статусы заказов';
+
+  @override
+  String get auto_etotMesyats => 'Этот месяц';
+
+  @override
+  String get auto_proshlyyMesyats => 'Прошлый месяц';
+
+  @override
+  String get auto_srDostavka => 'Ср. доставка';
+
+  @override
+  String get auto_pokupateli => 'Покупатели';
+
+  @override
+  String get auto_vsego => 'Всего';
+
+  @override
+  String get auto_postoyannye => 'Постоянные';
+
+  @override
+  String get auto_novyeMes => 'Новые / мес.';
+
+  @override
+  String get auto_poslednieOtzyvy => 'Последние отзывы';
+
+  @override
+  String get auto_aianaliz => 'AI-анализ';
+
+  @override
+  String get auto_generiruyuAianaliz => 'Генерирую AI-анализ…';
+
+  @override
+  String get auto_appmessagedialogPodderzh =>
+      'AppMessageDialog поддерживает максимум 3 действия';
+
+  @override
+  String get auto_poiskPoPostavshchikam => 'Поиск по поставщикам';
+
+  @override
+  String get auto_neprochitannyhUvedomleni_1 => ')';
+
+  @override
+  String get auto_pishchevayaTsennost => 'Пищевая ценность';
+
+  @override
+  String get auto_v100Grammah => 'В 100 граммах:';
+
+  @override
+  String get auto_kalorii => 'Калории';
+
+  @override
+  String get auto_belki => 'Белки';
+
+  @override
+  String get auto_zhiry => 'Жиры';
+
+  @override
+  String get auto_uglevody => 'Углеводы';
+
+  @override
+  String get auto_dostavka => 'доставка';
+
+  @override
+  String get auto_budni => 'будни';
+
+  @override
+  String get auto_vyhodnye => 'выходные';
+
+  @override
+  String get auto_kazhdyyDen => 'каждый день';
+
+  @override
+  String get auto_pn_1 => 'вс';
+
+  @override
+  String get auto_vt => 'вс';
+
+  @override
+  String get auto_sr => 'вс';
+
+  @override
+  String get auto_cht => 'вс';
+
+  @override
+  String get auto_pt => 'вс';
+
+  @override
+  String get auto_sb => 'вс';
+
+  @override
+  String get auto_vs => 'вс';
+
+  @override
+  String get auto_ponedelnik => 'воскресенье';
+
+  @override
+  String get auto_vtornik => 'воскресенье';
+
+  @override
+  String get auto_sreda => 'воскресенье';
+
+  @override
+  String get auto_chetverg => 'воскресенье';
+
+  @override
+  String get auto_pyatnitsa => 'воскресенье';
+
+  @override
+  String get auto_subbota => 'воскресенье';
+
+  @override
+  String get auto_voskresene => 'воскресенье';
+
+  @override
+  String get auto_sht => 'шт';
+
+  @override
+  String get auto_p_1 => 'П';
+
+  @override
+  String get auto_chitatVse => 'Читать все';
+
+  @override
+  String get auto_pokaNetOtzyvovStanteP =>
+      'Пока нет отзывов. Станьте первым, кто оценит товар.';
+
+  @override
+  String get auto_postavshchika => 'поставщика';
+
+  @override
+  String get auto_izmenitOtvet => 'Изменить ответ';
+
+  @override
+  String get auto_otvetitNaVopros => 'Ответить на вопрос';
+
+  @override
+  String get auto_vopros => 'Вопрос:';
+
+  @override
+  String get auto_vashOtvet => 'Ваш ответ';
+
+  @override
+  String get auto_otvetitNaOtzyv => 'Ответить на отзыв';
+
+  @override
+  String get auto_otzyv => 'Отзыв:';
+
+  @override
+  String get auto_pereezzhal => 'Переезжал';
+
+  @override
+  String get auto_pokazat => 'Показать';
+
+  @override
+  String get auto_otkryt => 'Открыть';
+
+  @override
+  String get auto_ovoshch => 'Овощи';
+
+  @override
+  String get auto_hleb => 'Хлеб';
+
+  @override
+  String get auto_myas => 'Мясо';
+
+  @override
+  String get auto_zaDen => 'За день';
+
+  @override
+  String get auto_nedelya => 'Неделя';
+
+  @override
+  String get auto_mesyats => 'Месяц';
+
+  @override
+  String get auto_kvartal => 'Квартал';
+
+  @override
+  String get auto_redaktirovatAdres => 'Редактировать адрес';
+
+  @override
+  String get auto_otpravlyaem => 'Отправляем...';
+
+  @override
+  String get auto_sohranyaem => 'Сохраняем...';
+
+  @override
+  String get auto_vvediteKodPodtverzhdeni => 'Введите код подтверждения';
+
+  @override
+  String get auto_tovarSnyatSPublikatsii => 'Товар снят с публикации';
+
+  @override
+  String get auto_sohranitIzmeneniya => 'Сохранить изменения';
+
+  @override
+  String get auto_sozdanieTovara => 'Создание товара';
+
+  @override
+  String get auto_neprochitannoeUvedomleni => 'непрочитанное уведомление';
+
+  @override
+  String get auto_neprochitannyhUvedomleni => 'непрочитанных уведомлений';
+
+  @override
+  String get auto_ezhednevno => 'Ежедневно';
+
+  @override
+  String get auto_otvetit => 'Ответить';
 }

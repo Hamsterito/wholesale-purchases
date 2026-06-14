@@ -125,7 +125,7 @@ abstract class AppLocalizations {
   /// Кнопка редактирования
   ///
   /// In ru, this message translates to:
-  /// **'Править'**
+  /// **'Редактировать'**
   String get common_edit;
 
   /// Уведомление о загрузке данных
@@ -161,7 +161,7 @@ abstract class AppLocalizations {
   /// Кнопка повтора действия
   ///
   /// In ru, this message translates to:
-  /// **'Повторение'**
+  /// **'Повторить'**
   String get common_retry;
 
   /// Кнопка отправки данных
@@ -326,7 +326,7 @@ abstract class AppLocalizations {
   /// **'Поиск подкатегорий...'**
   String get catalog_search_subcategories;
 
-  /// Уведомление об отсутствии продуктов
+  /// Уведомление об отсутствии товаров
   ///
   /// In ru, this message translates to:
   /// **'Товары не найдены'**
@@ -353,7 +353,7 @@ abstract class AppLocalizations {
   /// Сообщение в диалоге очистки корзины
   ///
   /// In ru, this message translates to:
-  /// **'Все продукты будут удалены из корзины.'**
+  /// **'Все товары будут удалены из корзины.'**
   String get cart_clear_message;
 
   /// Кнопка очистки корзины
@@ -392,10 +392,10 @@ abstract class AppLocalizations {
   /// **'Нет заказов'**
   String get order_no_orders;
 
-  /// Заголовок страницы сведений о продукте
+  /// Заголовок страницы сведений о товаре
   ///
   /// In ru, this message translates to:
-  /// **'Детали продукта'**
+  /// **'Детали товара'**
   String get product_details;
 
   /// Тема раздела комментариев
@@ -470,10 +470,10 @@ abstract class AppLocalizations {
   /// **'Введите новое значение'**
   String get profile_edit_field_hint;
 
-  /// Заголовок страницы продуктов поставщика
+  /// Заголовок страницы товаров поставщика
   ///
   /// In ru, this message translates to:
-  /// **'Продукты'**
+  /// **'Мои товары'**
   String get supplier_products;
 
   /// Заголовок страницы заказов поставщиков
@@ -488,16 +488,16 @@ abstract class AppLocalizations {
   /// **'Профиль поставщика'**
   String get supplier_profile;
 
-  /// Кнопка Добавить продукт
+  /// Кнопка Добавить товар
   ///
   /// In ru, this message translates to:
-  /// **'Добавление продукта'**
+  /// **'Добавление товара'**
   String get supplier_add_product;
 
-  /// Кнопка редактирования продукта
+  /// Кнопка редактирования товара
   ///
   /// In ru, this message translates to:
-  /// **'Править'**
+  /// **'Редактировать'**
   String get supplier_edit_product;
 
   /// Совет по поиску поставщиков
@@ -518,7 +518,7 @@ abstract class AppLocalizations {
   /// **'Например, 12 месяцев'**
   String get supplier_shelf_life_hint;
 
-  /// Совет по весу продукта
+  /// Совет по весу товара
   ///
   /// In ru, this message translates to:
   /// **'Например, 1450'**
@@ -578,7 +578,7 @@ abstract class AppLocalizations {
   /// **'Поиск по имени или email'**
   String get moderator_search_users;
 
-  /// Причина удаления продукта
+  /// Причина удаления товара
   ///
   /// In ru, this message translates to:
   /// **'Причина удаления для поставщика'**
@@ -734,10 +734,10 @@ abstract class AppLocalizations {
   /// **'#{orderId} заказ доставлен'**
   String message_order_delivered(int orderId);
 
-  /// Образец уведомления о незаработанном продукте
+  /// Образец уведомления о незаработанном товаре
   ///
   /// In ru, this message translates to:
-  /// **'ID {productId} существующий продукт не найден'**
+  /// **'ID {productId} существующий товар не найден'**
   String message_product_not_found(String productId);
 
   /// Шаблон сообщения об ошибке сети
@@ -812,16 +812,16 @@ abstract class AppLocalizations {
   /// **'Сеанс завершен. Войдите снова'**
   String get auth_session_expired;
 
-  /// Тема секции организационных продуктов
+  /// Тема секции организационных товаров
   ///
   /// In ru, this message translates to:
-  /// **'Организационные продукты'**
+  /// **'Похожие товары'**
   String get product_similar;
 
-  /// Ошибка загрузки продуктов
+  /// Ошибка загрузки товаров
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось загрузить продукты'**
+  /// **'Не удалось загрузить товары'**
   String get supplier_error_load_products;
 
   /// Ошибка загрузки заказов
@@ -836,7 +836,7 @@ abstract class AppLocalizations {
   /// **'Необходимо войти в аккаунт'**
   String get supplier_login_required;
 
-  /// Уведомление о отправке продукта на модерацию
+  /// Уведомление о отправке товара на модерацию
   ///
   /// In ru, this message translates to:
   /// **'Товар отправлен на модерацию'**
@@ -848,61 +848,61 @@ abstract class AppLocalizations {
   /// **'Изменения направлены на модерацию'**
   String get supplier_changes_sent_moderation;
 
-  /// Тема диалога удаления продукта
+  /// Тема диалога удаления товара
   ///
   /// In ru, this message translates to:
-  /// **'Удалить продукт?'**
+  /// **'Удалить товар?'**
   String get supplier_delete_product;
 
   /// Наименование субъекта продукции
   ///
   /// In ru, this message translates to:
-  /// **'Продукт'**
+  /// **'Товар'**
   String get supplier_product;
 
   /// Извещение о снятии продукции с публицистики
   ///
   /// In ru, this message translates to:
-  /// **'Продукт взят из публицистики'**
+  /// **'Товар снят с публикации'**
   String get supplier_removed_from_publication;
 
-  /// Уведомление об уничтожении продукта
+  /// Уведомление об уничтожении товара
   ///
   /// In ru, this message translates to:
-  /// **'Продукт уничтожен'**
+  /// **'Товар удален'**
   String get supplier_product_deleted;
 
-  /// Сообщение об ошибке удаления продукта
+  /// Сообщение об ошибке удаления товара
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось удалить продукт'**
+  /// **'Не удалось удалить товар'**
   String get supplier_error_delete_product;
 
-  /// Утвержденный статус продукта
+  /// Утвержденный статус товара
   ///
   /// In ru, this message translates to:
-  /// **'Утверждено'**
+  /// **'Подтверждено'**
   String get supplier_apprved;
 
-  /// Статус продукта без вставки
+  /// Статус товара без вставки
   ///
   /// In ru, this message translates to:
   /// **'Не вставлен'**
   String get supplier_rejected;
 
-  /// Статус продукта в умеренности
+  /// Статус товара в умеренности
   ///
   /// In ru, this message translates to:
-  /// **'В умеренности'**
+  /// **'На модерации'**
   String get supplier_pending;
 
-  /// Текст для безымянного продукта
+  /// Текст для безымянного товара
   ///
   /// In ru, this message translates to:
   /// **'Без названия'**
   String get supplier_no_title;
 
-  /// Текст для продукта без описания
+  /// Текст для товара без описания
   ///
   /// In ru, this message translates to:
   /// **'Без описания'**
@@ -1025,10 +1025,10 @@ abstract class AppLocalizations {
   /// Тема секции продукции на заказ
   ///
   /// In ru, this message translates to:
-  /// **'Продукты на заказ'**
+  /// **'Мои товары на заказ'**
   String get supplier_products_in_order;
 
-  /// Тема секции продуктов группы
+  /// Тема секции товаров группы
   ///
   /// In ru, this message translates to:
   /// **'Популярные товары'**
@@ -1070,7 +1070,7 @@ abstract class AppLocalizations {
   /// **'Качественная упаковка'**
   String get review_quick_quality_packaging;
 
-  /// Тег продукта свежий
+  /// Тег товара свежий
   ///
   /// In ru, this message translates to:
   /// **'Свежий товар'**
@@ -1139,7 +1139,7 @@ abstract class AppLocalizations {
   /// Статус при подготовке заказа
   ///
   /// In ru, this message translates to:
-  /// **'Подготовка идет'**
+  /// **'Собирается'**
   String get supplier_status_assembling;
 
   /// Статус в заказе
@@ -1157,7 +1157,7 @@ abstract class AppLocalizations {
   /// Заказ получен статус
   ///
   /// In ru, this message translates to:
-  /// **'Получено'**
+  /// **'Принято'**
   String get supplier_status_accepted;
 
   /// Заказ отменён статус
@@ -1355,7 +1355,7 @@ abstract class AppLocalizations {
   /// Кнопка повтора подписка
   ///
   /// In ru, this message translates to:
-  /// **'Повторение'**
+  /// **'Повторить'**
   String get qa_retry;
 
   /// Кнопка открывания текста подписывайся
@@ -1433,13 +1433,13 @@ abstract class AppLocalizations {
   /// Тема ожидаемой секции комментариев
   ///
   /// In ru, this message translates to:
-  /// **'Ждите комментариев'**
+  /// **'Ожидают отзыва'**
   String get profile_reviews_pending_title;
 
   /// Подзаголовок секции ожидаемых отзывов
   ///
   /// In ru, this message translates to:
-  /// **'Дайте оценку покупкам-это поможет другим'**
+  /// **'Оцените покупки — это поможет другим'**
   String get profile_reviews_pending_subtitle;
 
   /// Кнопка Оставить комментарий
@@ -1487,7 +1487,7 @@ abstract class AppLocalizations {
   /// Кнопка редактирования
   ///
   /// In ru, this message translates to:
-  /// **'Править'**
+  /// **'Редактировать'**
   String get profile_reviews_edit_button;
 
   /// Кнопка удаления
@@ -1523,7 +1523,7 @@ abstract class AppLocalizations {
   /// Уведомление о необходимости авторизации
   ///
   /// In ru, this message translates to:
-  /// **'Войдите, чтобы отредактировать отзыв'**
+  /// **'Войдите, чтобы Отправить отзыв'**
   String get profile_reviews_login_required;
 
   /// Уведомление о необходимости оценки
@@ -1541,7 +1541,7 @@ abstract class AppLocalizations {
   /// Сообщение об ошибке отправки
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось отправить комментарий'**
+  /// **'Не удалось Отправить комментарий'**
   String get profile_reviews_submit_error;
 
   /// Подтверждение удаления
@@ -1655,7 +1655,7 @@ abstract class AppLocalizations {
   /// Кнопка редактирования
   ///
   /// In ru, this message translates to:
-  /// **'Править'**
+  /// **'Редактировать'**
   String get review_edit_button;
 
   /// Кнопка удаления
@@ -1682,7 +1682,7 @@ abstract class AppLocalizations {
   /// **'Оставить комментарий'**
   String get review_leave_button;
 
-  /// Кнопка отправить комментарий
+  /// Кнопка Отправить комментарий
   ///
   /// In ru, this message translates to:
   /// **'Отправить комментарий'**
@@ -1703,7 +1703,7 @@ abstract class AppLocalizations {
   /// Кнопка редактирования
   ///
   /// In ru, this message translates to:
-  /// **'Править'**
+  /// **'Редактировать'**
   String get review_edit_draft;
 
   /// Кнопка удаления
@@ -1718,7 +1718,7 @@ abstract class AppLocalizations {
   /// **'Оставить комментарий'**
   String get review_leave_draft;
 
-  /// Кнопка отправить комментарий
+  /// Кнопка Отправить комментарий
   ///
   /// In ru, this message translates to:
   /// **'Отправить комментарий'**
@@ -1856,10 +1856,10 @@ abstract class AppLocalizations {
   /// **'Модераторы'**
   String get nav_moderators;
 
-  /// Подтверждение удаления продукта
+  /// Подтверждение удаления товара
   ///
   /// In ru, this message translates to:
-  /// **'Вы уверены, что хотите удалить этот продукт?'**
+  /// **'Вы уверены, что хотите удалить этот товар?'**
   String get supplier_delete_product_confirm;
 
   /// Заголовок профиля поставщика
@@ -1877,7 +1877,7 @@ abstract class AppLocalizations {
   /// Подтверждение замены корзины образцом
   ///
   /// In ru, this message translates to:
-  /// **'Текущая корзина заменяется продуктами из шаблона. Продолжать?'**
+  /// **'Текущая корзина заменяется товарами из шаблона. Продолжать?'**
   String get template_replace_cart_confirm;
 
   /// Заголовок страницы Мои заказы
@@ -1937,73 +1937,73 @@ abstract class AppLocalizations {
   /// Январь месяц
   ///
   /// In ru, this message translates to:
-  /// **'январь'**
+  /// **'января'**
   String get zakazi_month_january;
 
   /// Февраль месяц
   ///
   /// In ru, this message translates to:
-  /// **'февраль'**
+  /// **'февраля'**
   String get zakazi_month_february;
 
   /// Месяц марта
   ///
   /// In ru, this message translates to:
-  /// **'март'**
+  /// **'марта'**
   String get zakazi_month_march;
 
   /// Апрель месяц
   ///
   /// In ru, this message translates to:
-  /// **'апрель'**
+  /// **'апреля'**
   String get zakazi_month_april;
 
   /// Май месяц
   ///
   /// In ru, this message translates to:
-  /// **'май'**
+  /// **'мая'**
   String get zakazi_month_may;
 
   /// Июнь месяц
   ///
   /// In ru, this message translates to:
-  /// **'июнь'**
+  /// **'июня'**
   String get zakazi_month_june;
 
   /// Месяц июля
   ///
   /// In ru, this message translates to:
-  /// **'июль'**
+  /// **'июля'**
   String get zakazi_month_july;
 
   /// Месяц августа
   ///
   /// In ru, this message translates to:
-  /// **'август'**
+  /// **'августа'**
   String get zakazi_month_august;
 
   /// Сентябрь месяц
   ///
   /// In ru, this message translates to:
-  /// **'сентябрь'**
+  /// **'сентября'**
   String get zakazi_month_september;
 
   /// Месяц октября
   ///
   /// In ru, this message translates to:
-  /// **'октябрь'**
+  /// **'октября'**
   String get zakazi_month_october;
 
   /// Ноябрь месяц
   ///
   /// In ru, this message translates to:
-  /// **'ноябрь'**
+  /// **'ноября'**
   String get zakazi_month_november;
 
   /// Месяц декабря
   ///
   /// In ru, this message translates to:
-  /// **'декабрь'**
+  /// **'декабря'**
   String get zakazi_month_december;
 
   /// Сокращение категории
@@ -2012,13 +2012,13 @@ abstract class AppLocalizations {
   /// **'шт.'**
   String get zakazi_quantity_short;
 
-  /// Полученный статус подпишись
+  /// Статус получения заказа
   ///
   /// In ru, this message translates to:
-  /// **'Получено'**
+  /// **'Принято'**
   String get zakazi_accepted_label;
 
-  /// С доставкой подпишись
+  /// С доставкой
   ///
   /// In ru, this message translates to:
   /// **'С доставкой'**
@@ -2027,7 +2027,7 @@ abstract class AppLocalizations {
   /// Уведомление о том, что вы можете получить после доставки
   ///
   /// In ru, this message translates to:
-  /// **'Можно получить после доставки'**
+  /// **'Можно принять товар после доставки'**
   String get zakazi_can_accept_after_delivery;
 
   /// Оставшееся время для отмены
@@ -2321,13 +2321,13 @@ abstract class AppLocalizations {
   /// Когда ни одна продукция в образце не найдена в каталоге
   ///
   /// In ru, this message translates to:
-  /// **'Образец не использовался: ни один продукт не доступен'**
+  /// **'Образец не использовался: ни один товар не доступен'**
   String get cart_template_apply_none;
 
   /// Успешное использование шаблона
   ///
   /// In ru, this message translates to:
-  /// **'Корзина «{name}\"заменено образцом: {added} добавлен продукт'**
+  /// **'Корзина «{name}\"заменено образцом: {added} добавлен товар'**
   String cart_template_apply_success(int name, int added);
 
   /// Часть успеха использования шаблона (пропущенные)
@@ -2342,7 +2342,7 @@ abstract class AppLocalizations {
   /// **', {adjusted} исправлено'**
   String cart_template_apply_adjusted(int adjusted);
 
-  /// Тема списка реализованных продуктов
+  /// Тема списка реализованных товаров
   ///
   /// In ru, this message translates to:
   /// **'{count} {plural} проведено'**
@@ -2516,16 +2516,16 @@ abstract class AppLocalizations {
   /// **'Очистка корзины'**
   String get cart_clear_cart_link;
 
-  /// Название вкладки "Все продукты"
+  /// Название вкладки "Все товары"
   ///
   /// In ru, this message translates to:
   /// **'Всего'**
   String get home_all_tab;
 
-  /// Сообщение об ошибке загрузки продуктов
+  /// Сообщение об ошибке загрузки товаров
   ///
   /// In ru, this message translates to:
-  /// **'Ошибка загрузки продуктов: {error}'**
+  /// **'Ошибка загрузки товаров: {error}'**
   String home_loading_error(int error);
 
   /// Кнопка повтора
@@ -2576,10 +2576,10 @@ abstract class AppLocalizations {
   /// **'Сегодня'**
   String get chat_today;
 
-  /// Уведомление об отсутствии продуктов
+  /// Уведомление об отсутствии товаров
   ///
   /// In ru, this message translates to:
-  /// **'Продукты не найдены'**
+  /// **'Товары не найдены'**
   String get home_no_products;
 
   /// Тема вашей домашней страницы
@@ -2672,7 +2672,7 @@ abstract class AppLocalizations {
   /// **'с'**
   String get filter_rating_from;
 
-  /// Кнопка отображения отфильтрованных продуктов
+  /// Кнопка отображения отфильтрованных товаров
   ///
   /// In ru, this message translates to:
   /// **'Показать {count}'**
@@ -3083,7 +3083,7 @@ abstract class AppLocalizations {
   /// Кнопка редактирования товара
   ///
   /// In ru, this message translates to:
-  /// **'Править'**
+  /// **'Редактировать'**
   String get supplier_products_edit;
 
   /// Кнопка добавить товар
@@ -3689,19 +3689,19 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Проверьте, что почта и пароль заполнены'**
+  /// **'Не удалось выполнить вход. Попробуйте позже.'**
   String get auto_proverte_chto_pochta_i_parol_zapoln;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Неверная почта или пароль'**
+  /// **'Не удалось выполнить вход. Попробуйте позже.'**
   String get auto_nevernaya_pochta_ili_parol;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Доступ запрещён'**
+  /// **'Не удалось выполнить вход. Попробуйте позже.'**
   String get auto_dostup_zapreshchen;
 
   /// Auto-extracted
@@ -3719,7 +3719,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Вход выполнен'**
+  /// **'Добро пожаловать, \$name!'**
   String get auto_vkhod_vypolnen;
 
   /// Auto-extracted
@@ -3797,7 +3797,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось отправить код повторно'**
+  /// **'Не удалось Отправить код повторно'**
   String get auto_ne_udalos_otpravit_kod_povtorno;
 
   /// Auto-extracted
@@ -3839,7 +3839,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Вернуться к коду из почты'**
+  /// **'Использовать backup-код'**
   String get auto_vernutsya_k_kodu_iz_pochty;
 
   /// Auto-extracted
@@ -3989,7 +3989,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Сервер вернул ошибку'**
+  /// **'Не удалось завершить регистрацию'**
   String get auto_server_vernul_oshibku;
 
   /// Auto-extracted
@@ -4007,7 +4007,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Ошибка подключения'**
+  /// **'\$e'**
   String get auto_oshibka_podklyucheniya;
 
   /// Auto-extracted
@@ -4055,7 +4055,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'ОТПРАВИТЬ КОД'**
+  /// **'Отправить КОД'**
   String get auto_otpravit_kod;
 
   /// Auto-extracted
@@ -4325,7 +4325,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'модератор'**
+  /// **'Модератор'**
   String get auto_moderator;
 
   /// Auto-extracted
@@ -4397,7 +4397,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Доставка по России'**
+  /// **'Быстрая доставка'**
   String get auto_dostavka_po_rossii;
 
   /// Auto-extracted
@@ -4409,7 +4409,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Поставщик качественных товаров оптом с 10-летним опытом'**
+  /// **'г. Москва, ул. Примерная, д. 1'**
   String get auto_postavschik_kachestvennyh_tovarov_o;
 
   /// Auto-extracted
@@ -4427,7 +4427,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Доставка по России и СНГ'**
+  /// **'Надёжный партнёр'**
   String get auto_dostavka_po_rossii_i_sng;
 
   /// Auto-extracted
@@ -4439,7 +4439,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Крупный оптовый поставщик с широким ассортиментом'**
+  /// **'г. Санкт-Петербург, пр. Невский, д. 50'**
   String get auto_krupnyy_optovyy_postavschik_s_shiro;
 
   /// Auto-extracted
@@ -4457,13 +4457,13 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Экспресс-доставка 24 часа'**
+  /// **'Быстрая доставка'**
   String get auto_ekspressdostavka_24_chasa;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Специализируемся на быстрой доставке товаров оптом'**
+  /// **'г. Екатеринбург, ул. Главная, д. 100'**
   String get auto_spetsializiruemsya_na_bystroy_dosta;
 
   /// Auto-extracted
@@ -4481,7 +4481,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Надёжный поставщик оптовых товаров'**
+  /// **'Россия'**
   String get auto_nadzhnyy_postavschik_optovyh_tovaro;
 
   /// Auto-extracted
@@ -4565,7 +4565,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'отправлен'**
+  /// **'отправлено'**
   String get auto_otpravlen;
 
   /// Auto-extracted
@@ -4583,37 +4583,37 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Принят'**
+  /// **'завершено'**
   String get auto_prinyat;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'доставлен'**
+  /// **'завершено'**
   String get auto_dostavlen;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'получено'**
+  /// **'Принято'**
   String get auto_polucheno;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'принят'**
+  /// **'приняты'**
   String get auto_prinyat_1;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'принята'**
+  /// **'приняты'**
   String get auto_prinyata;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'принято'**
+  /// **'завершено'**
   String get auto_prinyato;
 
   /// Auto-extracted
@@ -4631,13 +4631,13 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'отмена'**
+  /// **'Отмена'**
   String get auto_otmena;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'отменён'**
+  /// **'отменен'**
   String get auto_otmenn;
 
   /// Auto-extracted
@@ -4733,7 +4733,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'товар'**
+  /// **'Товар'**
   String get auto_tovar;
 
   /// Auto-extracted
@@ -4757,20 +4757,20 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Ошибка сети. Проверьте подключение и попробуйте снова'**
-  String get auto_oshibka_seti_proverte_podklyuchenie;
+  /// **'Не удалось сгенерировать ответ AI: {reason}'**
+  String auto_oshibka_seti_proverte_podklyuchenie(Object reason);
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Превышено время ожидания ответа сервера'**
-  String get auto_prevysheno_vremya_ozhidaniya_otveta;
+  /// **'Не удалось сгенерировать ответ AI: {reason}'**
+  String auto_prevysheno_vremya_ozhidaniya_otveta(Object reason);
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось разобрать сообщение'**
-  String get auto_ne_udalos_razobrat_soobschenie;
+  /// **'Не удалось сгенерировать ответ AI: {reason}'**
+  String auto_ne_udalos_razobrat_soobschenie(Object reason);
 
   /// Auto-extracted
   ///
@@ -5033,7 +5033,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Сводка статистики закэширована'**
+  /// **'cache'**
   String get auto_svodka_statistiki_zakeshirovana;
 
   /// Auto-extracted
@@ -5051,7 +5051,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'AI резюме закэшировано'**
+  /// **'cache'**
   String get auto_ai_rezyume_zakeshirovano;
 
   /// Auto-extracted
@@ -5069,13 +5069,13 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Кэш статистики очищен'**
+  /// **'cache'**
   String get auto_kesh_statistiki_ochischen;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Ошибка при очистке кэша'**
+  /// **'cache'**
   String get auto_oshibka_pri_ochistke_kesha;
 
   /// Auto-extracted
@@ -5237,7 +5237,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'loadForCurrentUser: рассогласование авторизации '**
+  /// **'(isRemembered=true, userId=\$userId), кэш пуст'**
   String get auto_loadforcurrentuser_rassoglasovanie;
 
   /// Auto-extracted
@@ -5783,7 +5783,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Причина удаления для поставщика'**
+  /// **'Удалить'**
   String get auto_prichina_udaleniya_dlya_postavschik;
 
   /// Auto-extracted
@@ -5795,7 +5795,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Товар удален, поставщик уведомлен'**
+  /// **'Товар удален'**
   String get auto_tovar_udalen_postavschik_uvedomlen;
 
   /// Auto-extracted
@@ -5867,7 +5867,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'По вашему запросу ничего не найдено'**
+  /// **'Нет подходящих товаров'**
   String get auto_po_vashemu_zaprosu_nichego_ne_nayde;
 
   /// Auto-extracted
@@ -5963,7 +5963,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Напитки'**
+  /// **'Товары для дома'**
   String get auto_napitki;
 
   /// Auto-extracted
@@ -5987,13 +5987,13 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Казахстан'**
+  /// **'Классическая'**
   String get auto_kazahstan;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Торговая марка'**
+  /// **'Классическая'**
   String get auto_torgovaya_marka;
 
   /// Auto-extracted
@@ -6017,13 +6017,13 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'завтра'**
+  /// **'Четверг 17:00'**
   String get auto_zavtra;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Доставка межгород'**
+  /// **'Четверг 17:00'**
   String get auto_dostavka_mezhgorod;
 
   /// Auto-extracted
@@ -6035,7 +6035,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Вс 21 сентября'**
+  /// **'Сб 23 сентября 12:00'**
   String get auto_vs_21_sentyabrya;
 
   /// Auto-extracted
@@ -6053,7 +6053,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Сб 20 сентября'**
+  /// **'Четверг 17:00'**
   String get auto_sb_20_sentyabrya;
 
   /// Auto-extracted from lib\models\currency.dart
@@ -7919,6 +7919,3396 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'отзывов'**
   String get util_review_many;
+
+  /// No description provided for @auto_oshibkaZapuska.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка запуска'**
+  String get auto_oshibkaZapuska;
+
+  /// No description provided for @auto_oshibkaZapuskaPrilozhen.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка запуска приложения'**
+  String get auto_oshibkaZapuskaPrilozhen;
+
+  /// No description provided for @auto_poprobuytePerezapustitP.
+  ///
+  /// In ru, this message translates to:
+  /// **'Попробуйте перезапустить приложение'**
+  String get auto_poprobuytePerezapustitP;
+
+  /// No description provided for @auto_optovyeZakupki.
+  ///
+  /// In ru, this message translates to:
+  /// **'kk'**
+  String get auto_optovyeZakupki;
+
+  /// No description provided for @auto_vvediteImya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Слишком короткое'**
+  String get auto_vvediteImya;
+
+  /// No description provided for @auto_slishkomKorotkoe.
+  ///
+  /// In ru, this message translates to:
+  /// **'Слишком короткое'**
+  String get auto_slishkomKorotkoe;
+
+  /// No description provided for @auto_vvediteEmail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Некорректный email'**
+  String get auto_vvediteEmail;
+
+  /// No description provided for @auto_nekorrektnyyEmail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Некорректный email'**
+  String get auto_nekorrektnyyEmail;
+
+  /// No description provided for @auto_vvediteTelefon.
+  ///
+  /// In ru, this message translates to:
+  /// **'Должен начинаться с 7'**
+  String get auto_vvediteTelefon;
+
+  /// No description provided for @auto_nuzhno11Tsifr.
+  ///
+  /// In ru, this message translates to:
+  /// **'Должен начинаться с 7'**
+  String get auto_nuzhno11Tsifr;
+
+  /// No description provided for @auto_dolzhenNachinatsyaS7.
+  ///
+  /// In ru, this message translates to:
+  /// **'Должен начинаться с 7'**
+  String get auto_dolzhenNachinatsyaS7;
+
+  /// No description provided for @auto_vvediteParol.
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимум 6 символов'**
+  String get auto_vvediteParol;
+
+  /// No description provided for @auto_minimum6Simvolov.
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимум 6 символов'**
+  String get auto_minimum6Simvolov;
+
+  /// No description provided for @auto_neUdalosSozdatModerato.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось создать модератора'**
+  String get auto_neUdalosSozdatModerato;
+
+  /// No description provided for @auto_imya_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя'**
+  String get auto_imya_1;
+
+  /// No description provided for @auto_telefon.
+  ///
+  /// In ru, this message translates to:
+  /// **'Телефон'**
+  String get auto_telefon;
+
+  /// No description provided for @auto_skryt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Скрыть'**
+  String get auto_skryt;
+
+  /// No description provided for @auto_neAvtorizovan.
+  ///
+  /// In ru, this message translates to:
+  /// **'доступ'**
+  String get auto_neAvtorizovan;
+
+  /// No description provided for @auto_dostup.
+  ///
+  /// In ru, this message translates to:
+  /// **'доступ'**
+  String get auto_dostup;
+
+  /// No description provided for @auto_neUdalosZagruzitModera.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить модераторов'**
+  String get auto_neUdalosZagruzitModera;
+
+  /// No description provided for @auto_moderatorDobavlen.
+  ///
+  /// In ru, this message translates to:
+  /// **'Модератор добавлен'**
+  String get auto_moderatorDobavlen;
+
+  /// No description provided for @auto_moderatorUdalyon.
+  ///
+  /// In ru, this message translates to:
+  /// **'Модератор удалён'**
+  String get auto_moderatorUdalyon;
+
+  /// No description provided for @auto_dobavitModeratora.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить модератора'**
+  String get auto_dobavitModeratora;
+
+  /// No description provided for @auto_dobavit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить'**
+  String get auto_dobavit;
+
+  /// No description provided for @auto_poiskPoImeniIliEmail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск по имени или email'**
+  String get auto_poiskPoImeniIliEmail;
+
+  /// No description provided for @auto_moderatoryNeNaydeny.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ничего не найдено по запросу'**
+  String get auto_moderatoryNeNaydeny;
+
+  /// No description provided for @auto_nichegoNeNaydenoPoZap.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ничего не найдено по запросу'**
+  String get auto_nichegoNeNaydenoPoZap;
+
+  /// No description provided for @auto_oshibka.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка'**
+  String get auto_oshibka;
+
+  /// No description provided for @auto_dostupZapreshchyonVoydi.
+  ///
+  /// In ru, this message translates to:
+  /// **'Доступ запрещён. Войдите снова.'**
+  String get auto_dostupZapreshchyonVoydi;
+
+  /// No description provided for @auto_bezImeni.
+  ///
+  /// In ru, this message translates to:
+  /// **'Без имени'**
+  String get auto_bezImeni;
+
+  /// No description provided for @auto_elPochta_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Эл. почта'**
+  String get auto_elPochta_1;
+
+  /// No description provided for @auto_neUdalosZagruzitChaty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить чаты техподдержки'**
+  String get auto_neUdalosZagruzitChaty;
+
+  /// No description provided for @auto_zakryt_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Закрыт'**
+  String get auto_zakryt_1;
+
+  /// No description provided for @auto_otkrytye.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открытые'**
+  String get auto_otkrytye;
+
+  /// No description provided for @auto_istoriya.
+  ///
+  /// In ru, this message translates to:
+  /// **'История'**
+  String get auto_istoriya;
+
+  /// No description provided for @auto_zakrytyhChatovPokaNet.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открытых чатов сейчас нет'**
+  String get auto_zakrytyhChatovPokaNet;
+
+  /// No description provided for @auto_otkrytyhChatovSeychasN.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открытых чатов сейчас нет'**
+  String get auto_otkrytyhChatovSeychasN;
+
+  /// No description provided for @auto_neUdalosZagruzitSoobsh.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить сообщения'**
+  String get auto_neUdalosZagruzitSoobsh;
+
+  /// No description provided for @auto_neUdalosOpredelitSotru.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось определить сотрудника техподдержки'**
+  String get auto_neUdalosOpredelitSotru;
+
+  /// No description provided for @auto_chatUzheZakryt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Чат уже закрыт'**
+  String get auto_chatUzheZakryt;
+
+  /// No description provided for @auto_vvediteSoobshchenie.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите сообщение'**
+  String get auto_vvediteSoobshchenie;
+
+  /// No description provided for @auto_neUdalosOtpravitSoobsh.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось Отправить сообщение'**
+  String get auto_neUdalosOtpravitSoobsh;
+
+  /// No description provided for @auto_prichinaZakrytiyaNeobya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Закрыть'**
+  String get auto_prichinaZakrytiyaNeobya;
+
+  /// No description provided for @auto_chatZakryt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Чат закрыт'**
+  String get auto_chatZakryt;
+
+  /// No description provided for @auto_neUdalosZakrytChat.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось закрыть чат'**
+  String get auto_neUdalosZakrytChat;
+
+  /// No description provided for @auto_otvetitPolzovatelyu.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ответить пользователю'**
+  String get auto_otvetitPolzovatelyu;
+
+  /// No description provided for @auto_chatOtkryt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Чат открыт'**
+  String get auto_chatOtkryt;
+
+  /// No description provided for @auto_zakrytChat.
+  ///
+  /// In ru, this message translates to:
+  /// **'Закрыть чат'**
+  String get auto_zakrytChat;
+
+  /// No description provided for @auto_adresDostavki.
+  ///
+  /// In ru, this message translates to:
+  /// **'Адрес доставки'**
+  String get auto_adresDostavki;
+
+  /// No description provided for @auto_podtverditVybor.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтвердить выбор'**
+  String get auto_podtverditVybor;
+
+  /// No description provided for @auto_adresovPokaNet.
+  ///
+  /// In ru, this message translates to:
+  /// **'Адресов пока нет'**
+  String get auto_adresovPokaNet;
+
+  /// No description provided for @auto_dobavteAdresChtobyProd.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавьте адрес, чтобы продолжить оформление.'**
+  String get auto_dobavteAdresChtobyProd;
+
+  /// No description provided for @auto_bezAdresa.
+  ///
+  /// In ru, this message translates to:
+  /// **'Без адреса'**
+  String get auto_bezAdresa;
+
+  /// No description provided for @auto_neUdalosSohranitAdres.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось сохранить адрес'**
+  String get auto_neUdalosSohranitAdres;
+
+  /// No description provided for @auto_voyditeChtobyOformitZa.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войдите, чтобы оформить заказ'**
+  String get auto_voyditeChtobyOformitZa;
+
+  /// No description provided for @auto_pozitsiya.
+  ///
+  /// In ru, this message translates to:
+  /// **'позиция'**
+  String get auto_pozitsiya;
+
+  /// No description provided for @auto_pozitsii.
+  ///
+  /// In ru, this message translates to:
+  /// **'позиции'**
+  String get auto_pozitsii;
+
+  /// No description provided for @auto_pozitsiy.
+  ///
+  /// In ru, this message translates to:
+  /// **'позиций'**
+  String get auto_pozitsiy;
+
+  /// No description provided for @auto_ochistitKorzinu.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить корзину'**
+  String get auto_ochistitKorzinu;
+
+  /// No description provided for @auto_napit.
+  ///
+  /// In ru, this message translates to:
+  /// **'напит'**
+  String get auto_napit;
+
+  /// No description provided for @auto_frukt.
+  ///
+  /// In ru, this message translates to:
+  /// **'фрукт'**
+  String get auto_frukt;
+
+  /// No description provided for @auto_pekar.
+  ///
+  /// In ru, this message translates to:
+  /// **'пекар'**
+  String get auto_pekar;
+
+  /// No description provided for @auto_moloch.
+  ///
+  /// In ru, this message translates to:
+  /// **'молоч'**
+  String get auto_moloch;
+
+  /// No description provided for @auto_ptits.
+  ///
+  /// In ru, this message translates to:
+  /// **'птиц'**
+  String get auto_ptits;
+
+  /// No description provided for @auto_katalog.
+  ///
+  /// In ru, this message translates to:
+  /// **'Каталог'**
+  String get auto_katalog;
+
+  /// No description provided for @auto_poiskKategoriy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск категорий...'**
+  String get auto_poiskKategoriy;
+
+  /// No description provided for @auto_netKategoriy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет категорий'**
+  String get auto_netKategoriy;
+
+  /// No description provided for @auto_nichegoNeNaydeno.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ничего не найдено'**
+  String get auto_nichegoNeNaydeno;
+
+  /// No description provided for @auto_poiskPodkategoriy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск подкатегорий...'**
+  String get auto_poiskPodkategoriy;
+
+  /// No description provided for @auto_povtorit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Повторить'**
+  String get auto_povtorit;
+
+  /// No description provided for @auto_vEtoyKategoriiPokaNet.
+  ///
+  /// In ru, this message translates to:
+  /// **'В этой категории пока нет товаров'**
+  String get auto_vEtoyKategoriiPokaNet;
+
+  /// No description provided for @auto_barlyy.
+  ///
+  /// In ru, this message translates to:
+  /// **'все'**
+  String get auto_barlyy;
+
+  /// No description provided for @auto_skid.
+  ///
+  /// In ru, this message translates to:
+  /// **'скид'**
+  String get auto_skid;
+
+  /// No description provided for @auto_istoriyaZakazov.
+  ///
+  /// In ru, this message translates to:
+  /// **'История заказов'**
+  String get auto_istoriyaZakazov;
+
+  /// No description provided for @auto_filtr.
+  ///
+  /// In ru, this message translates to:
+  /// **'Фильтр'**
+  String get auto_filtr;
+
+  /// No description provided for @auto_eksportirovatVExcel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Экспортировать в .excel'**
+  String get auto_eksportirovatVExcel;
+
+  /// No description provided for @auto_istoriyaPokaPustaya.
+  ///
+  /// In ru, this message translates to:
+  /// **'История пока пустая'**
+  String get auto_istoriyaPokaPustaya;
+
+  /// No description provided for @auto_netTovarov.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет товаров'**
+  String get auto_netTovarov;
+
+  /// No description provided for @auto_status.
+  ///
+  /// In ru, this message translates to:
+  /// **'Статус'**
+  String get auto_status;
+
+  /// No description provided for @auto_dataZakaza.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дата заказа'**
+  String get auto_dataZakaza;
+
+  /// No description provided for @auto_kolichestvoTovarov.
+  ///
+  /// In ru, this message translates to:
+  /// **'Количество товаров'**
+  String get auto_kolichestvoTovarov;
+
+  /// No description provided for @auto_obshcheeKolvo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Общее кол-во:'**
+  String get auto_obshcheeKolvo;
+
+  /// No description provided for @auto_tovaryVZakaze.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары в заказе'**
+  String get auto_tovaryVZakaze;
+
+  /// No description provided for @auto_polucheno_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'завершено'**
+  String get auto_polucheno_1;
+
+  /// No description provided for @auto_otmen.
+  ///
+  /// In ru, this message translates to:
+  /// **'отмен'**
+  String get auto_otmen;
+
+  /// No description provided for @auto_trebuetsyaAvtorizatsiya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Требуется авторизация'**
+  String get auto_trebuetsyaAvtorizatsiya;
+
+  /// No description provided for @auto_faylZagruzhen.
+  ///
+  /// In ru, this message translates to:
+  /// **'Файл загружен'**
+  String get auto_faylZagruzhen;
+
+  /// No description provided for @auto_dostavleno.
+  ///
+  /// In ru, this message translates to:
+  /// **'доставлено'**
+  String get auto_dostavleno;
+
+  /// No description provided for @auto_netVNalichii.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет в наличии'**
+  String get auto_netVNalichii;
+
+  /// No description provided for @auto_oTovare.
+  ///
+  /// In ru, this message translates to:
+  /// **'О товаре'**
+  String get auto_oTovare;
+
+  /// No description provided for @auto_udalitIzIzbrannogo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить в избранное'**
+  String get auto_udalitIzIzbrannogo;
+
+  /// No description provided for @auto_dobavitVIzbrannoe.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить в избранное'**
+  String get auto_dobavitVIzbrannoe;
+
+  /// No description provided for @auto_dobavlenoVIzbrannoe.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавлено в избранное'**
+  String get auto_dobavlenoVIzbrannoe;
+
+  /// No description provided for @auto_udalenoIzIzbrannogo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалено из избранного'**
+  String get auto_udalenoIzIzbrannogo;
+
+  /// No description provided for @auto_otzyvovPokaNet.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оценить товар можно только после ее покупки'**
+  String get auto_otzyvovPokaNet;
+
+  /// No description provided for @auto_otsenitTovarMozhnoTolk.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оценить товар можно только после ее покупки'**
+  String get auto_otsenitTovarMozhnoTolk;
+
+  /// No description provided for @auto_voprosovPoTovaruEshche.
+  ///
+  /// In ru, this message translates to:
+  /// **'Будьте первым!'**
+  String get auto_voprosovPoTovaruEshche;
+
+  /// No description provided for @auto_budtePervym.
+  ///
+  /// In ru, this message translates to:
+  /// **'Будьте первым!'**
+  String get auto_budtePervym;
+
+  /// No description provided for @auto_zadatVopros.
+  ///
+  /// In ru, this message translates to:
+  /// **'Задать вопрос'**
+  String get auto_zadatVopros;
+
+  /// No description provided for @auto_voprosov.
+  ///
+  /// In ru, this message translates to:
+  /// **'вопросов'**
+  String get auto_voprosov;
+
+  /// No description provided for @auto_zakryt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Закрыть'**
+  String get auto_zakryt;
+
+  /// No description provided for @auto_harakteristiki.
+  ///
+  /// In ru, this message translates to:
+  /// **'Описание'**
+  String get auto_harakteristiki;
+
+  /// No description provided for @auto_opisanie_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Описание'**
+  String get auto_opisanie_1;
+
+  /// No description provided for @auto_netDannyhOTovare.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет данных о товаре'**
+  String get auto_netDannyhOTovare;
+
+  /// No description provided for @auto_opisanieNeUkazano.
+  ///
+  /// In ru, this message translates to:
+  /// **'Описание не указано'**
+  String get auto_opisanieNeUkazano;
+
+  /// No description provided for @auto_bezTeksta.
+  ///
+  /// In ru, this message translates to:
+  /// **'Без текста'**
+  String get auto_bezTeksta;
+
+  /// No description provided for @auto_pereytiKoVsemOtzyvam.
+  ///
+  /// In ru, this message translates to:
+  /// **'Перейти ко всем отзывам'**
+  String get auto_pereytiKoVsemOtzyvam;
+
+  /// No description provided for @auto_pereytiKoVsemVoprosam.
+  ///
+  /// In ru, this message translates to:
+  /// **'Перейти ко всем вопросам'**
+  String get auto_pereytiKoVsemVoprosam;
+
+  /// No description provided for @auto_voprosyOTovare.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вопросы о товаре'**
+  String get auto_voprosyOTovare;
+
+  /// No description provided for @auto_netVoprosov.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет вопросов'**
+  String get auto_netVoprosov;
+
+  /// No description provided for @auto_budtePervymKtoZadastV.
+  ///
+  /// In ru, this message translates to:
+  /// **'Будьте первым, кто задаст вопрос!'**
+  String get auto_budtePervymKtoZadastV;
+
+  /// No description provided for @auto_vyNeAvtorizovany.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы не авторизованы'**
+  String get auto_vyNeAvtorizovany;
+
+  /// No description provided for @auto_vashVopros.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваш вопрос'**
+  String get auto_vashVopros;
+
+  /// No description provided for @auto_neUdalosZagruzitOtzyvy_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить отзывы'**
+  String get auto_neUdalosZagruzitOtzyvy_1;
+
+  /// No description provided for @auto_otzyvy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отзывы'**
+  String get auto_otzyvy;
+
+  /// No description provided for @auto_pokaNetOtzyvov.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пока нет отзывов'**
+  String get auto_pokaNetOtzyvov;
+
+  /// No description provided for @auto_zdesPoyavyatsyaOtsenki.
+  ///
+  /// In ru, this message translates to:
+  /// **'Здесь появятся оценки и мнения покупателей.'**
+  String get auto_zdesPoyavyatsyaOtsenki;
+
+  /// No description provided for @auto_svernut.
+  ///
+  /// In ru, this message translates to:
+  /// **'Свернуть'**
+  String get auto_svernut;
+
+  /// No description provided for @auto_otvetProdavtsa.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ответ продавца'**
+  String get auto_otvetProdavtsa;
+
+  /// No description provided for @auto_vse_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Все'**
+  String get auto_vse_1;
+
+  /// No description provided for @auto_postavshchikNeNayden.
+  ///
+  /// In ru, this message translates to:
+  /// **'Время ожидания истекло. Проверьте соединение и повторите попытку.'**
+  String get auto_postavshchikNeNayden;
+
+  /// No description provided for @auto_vremyaOzhidaniya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Время ожидания истекло. Проверьте соединение и повторите попытку.'**
+  String get auto_vremyaOzhidaniya;
+
+  /// No description provided for @auto_vremyaOzhidaniyaIsteklo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Время ожидания истекло. Проверьте соединение и повторите попытку.'**
+  String get auto_vremyaOzhidaniyaIsteklo;
+
+  /// No description provided for @auto_netPodklyucheniyaKInte.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет подключения к интернету'**
+  String get auto_netPodklyucheniyaKInte;
+
+  /// No description provided for @auto_neUdalosZagruzitDannye.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить данные. Попробуйте ещё раз.'**
+  String get auto_neUdalosZagruzitDannye;
+
+  /// No description provided for @auto_netTovarovOtEtogoPost.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары не найдены'**
+  String get auto_netTovarovOtEtogoPost;
+
+  /// No description provided for @auto_tovaryNeNaydeny.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары не найдены'**
+  String get auto_tovaryNeNaydeny;
+
+  /// No description provided for @auto_poisk.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск...'**
+  String get auto_poisk;
+
+  /// No description provided for @auto_proizoshlaOshibka.
+  ///
+  /// In ru, this message translates to:
+  /// **'Произошла ошибка'**
+  String get auto_proizoshlaOshibka;
+
+  /// No description provided for @auto_vernutsya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вернуться'**
+  String get auto_vernutsya;
+
+  /// No description provided for @auto_filtry.
+  ///
+  /// In ru, this message translates to:
+  /// **'Фильтры'**
+  String get auto_filtry;
+
+  /// No description provided for @auto_tsenaZaSht.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цена за шт.'**
+  String get auto_tsenaZaSht;
+
+  /// No description provided for @auto_ot.
+  ///
+  /// In ru, this message translates to:
+  /// **'от'**
+  String get auto_ot;
+
+  /// No description provided for @auto_do.
+  ///
+  /// In ru, this message translates to:
+  /// **'до'**
+  String get auto_do;
+
+  /// No description provided for @auto_sortirovka.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сортировка'**
+  String get auto_sortirovka;
+
+  /// No description provided for @auto_reyting.
+  ///
+  /// In ru, this message translates to:
+  /// **'Рейтинг'**
+  String get auto_reyting;
+
+  /// No description provided for @auto_poryadok.
+  ///
+  /// In ru, this message translates to:
+  /// **'Порядок'**
+  String get auto_poryadok;
+
+  /// No description provided for @auto_poVozrastaniyu.
+  ///
+  /// In ru, this message translates to:
+  /// **'По возрастанию'**
+  String get auto_poVozrastaniyu;
+
+  /// No description provided for @auto_poUbyvaniyu.
+  ///
+  /// In ru, this message translates to:
+  /// **'По убыванию'**
+  String get auto_poUbyvaniyu;
+
+  /// No description provided for @auto_dobavitAdres.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить адрес'**
+  String get auto_dobavitAdres;
+
+  /// No description provided for @auto_adres.
+  ///
+  /// In ru, this message translates to:
+  /// **'АДРЕС'**
+  String get auto_adres;
+
+  /// No description provided for @auto_ulitsa.
+  ///
+  /// In ru, this message translates to:
+  /// **'УЛИЦА'**
+  String get auto_ulitsa;
+
+  /// No description provided for @auto_pochtovyyIndeks.
+  ///
+  /// In ru, this message translates to:
+  /// **'ПОЧТОВЫЙ ИНДЕКС'**
+  String get auto_pochtovyyIndeks;
+
+  /// No description provided for @auto_kvartira.
+  ///
+  /// In ru, this message translates to:
+  /// **'КВАРТИРА'**
+  String get auto_kvartira;
+
+  /// No description provided for @auto_dom.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дом'**
+  String get auto_dom;
+
+  /// No description provided for @auto_rabota.
+  ///
+  /// In ru, this message translates to:
+  /// **'Работа'**
+  String get auto_rabota;
+
+  /// No description provided for @auto_drugoe.
+  ///
+  /// In ru, this message translates to:
+  /// **'Другое'**
+  String get auto_drugoe;
+
+  /// No description provided for @auto_sohranit.
+  ///
+  /// In ru, this message translates to:
+  /// **'СОХРАНИТЬ'**
+  String get auto_sohranit;
+
+  /// No description provided for @auto_sohranitAdres.
+  ///
+  /// In ru, this message translates to:
+  /// **'СОХРАНИТЬ АДРЕС'**
+  String get auto_sohranitAdres;
+
+  /// No description provided for @auto_vvediteAdres.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите адрес'**
+  String get auto_vvediteAdres;
+
+  /// No description provided for @auto_adresSlishkomKorotkiy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Адрес слишком короткий'**
+  String get auto_adresSlishkomKorotkiy;
+
+  /// No description provided for @auto_ulitsa_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле \"Улица\" не должно превышать \$_streetMaxLength символов'**
+  String get auto_ulitsa_1;
+
+  /// No description provided for @auto_indeksDolzhenSoderzhat.
+  ///
+  /// In ru, this message translates to:
+  /// **'Индекс должен содержать только цифры (3-10)'**
+  String get auto_indeksDolzhenSoderzhat;
+
+  /// No description provided for @auto_kvartira_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле \"Квартира\" не должно превышать \$_apartmentMaxLength символов'**
+  String get auto_kvartira_1;
+
+  /// No description provided for @auto_nekorrektnyyFormatKvart.
+  ///
+  /// In ru, this message translates to:
+  /// **'Некорректный формат квартиры'**
+  String get auto_nekorrektnyyFormatKvart;
+
+  /// No description provided for @auto_vvediteImyaVladeltsaKa.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите имя владельца карты'**
+  String get auto_vvediteImyaVladeltsaKa;
+
+  /// No description provided for @auto_imyaSlishkomKorotkoe.
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя слишком короткое'**
+  String get auto_imyaSlishkomKorotkoe;
+
+  /// No description provided for @auto_imyaNeDolzhnoSoderzhat.
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя не должно содержать цифры'**
+  String get auto_imyaNeDolzhnoSoderzhat;
+
+  /// No description provided for @auto_vvediteNomerKarty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите номер карты'**
+  String get auto_vvediteNomerKarty;
+
+  /// No description provided for @auto_nomerKartyDolzhenByt1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Номер карты должен быть 16 цифр'**
+  String get auto_nomerKartyDolzhenByt1;
+
+  /// No description provided for @auto_nevernyyNomerKarty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверный номер карты'**
+  String get auto_nevernyyNomerKarty;
+
+  /// No description provided for @auto_vvediteSrokDeystviya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите срок действия'**
+  String get auto_vvediteSrokDeystviya;
+
+  /// No description provided for @auto_vvediteFormatMmgg.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите формат ММ/ГГ'**
+  String get auto_vvediteFormatMmgg;
+
+  /// No description provided for @auto_mesyatsDolzhenByt0112.
+  ///
+  /// In ru, this message translates to:
+  /// **'Месяц должен быть 01-12'**
+  String get auto_mesyatsDolzhenByt0112;
+
+  /// No description provided for @auto_srokDeystviyaIstyok.
+  ///
+  /// In ru, this message translates to:
+  /// **'Срок действия истёк'**
+  String get auto_srokDeystviyaIstyok;
+
+  /// No description provided for @auto_vvediteCvc.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите CVC'**
+  String get auto_vvediteCvc;
+
+  /// No description provided for @auto_cvc3Tsifry.
+  ///
+  /// In ru, this message translates to:
+  /// **'CVC: 3 цифры'**
+  String get auto_cvc3Tsifry;
+
+  /// No description provided for @auto_voyditeChtobyDobavitKa.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войдите, чтобы добавить карту'**
+  String get auto_voyditeChtobyDobavitKa;
+
+  /// No description provided for @auto_proverteVvedyonnyeDanny.
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверьте введённые данные'**
+  String get auto_proverteVvedyonnyeDanny;
+
+  /// No description provided for @auto_neUdalosSohranitKartu.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось сохранить карту'**
+  String get auto_neUdalosSohranitKartu;
+
+  /// No description provided for @auto_dobavitMetodOplaty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить метод оплаты'**
+  String get auto_dobavitMetodOplaty;
+
+  /// No description provided for @auto_imyaVladeltsaKarty.
+  ///
+  /// In ru, this message translates to:
+  /// **'ИМЯ ВЛАДЕЛЬЦА КАРТЫ'**
+  String get auto_imyaVladeltsaKarty;
+
+  /// No description provided for @auto_nomerKarty.
+  ///
+  /// In ru, this message translates to:
+  /// **'НОМЕР КАРТЫ'**
+  String get auto_nomerKarty;
+
+  /// No description provided for @auto_srokDeystviya.
+  ///
+  /// In ru, this message translates to:
+  /// **'СРОК ДЕЙСТВИЯ'**
+  String get auto_srokDeystviya;
+
+  /// No description provided for @auto_mmgg.
+  ///
+  /// In ru, this message translates to:
+  /// **'ММ/ГГ'**
+  String get auto_mmgg;
+
+  /// No description provided for @auto_dobavitMetodOplaty_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'ДОБАВИТЬ МЕТОД ОПЛАТЫ'**
+  String get auto_dobavitMetodOplaty_1;
+
+  /// No description provided for @auto_vvediteTekushchiyParol.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите текущий пароль'**
+  String get auto_vvediteTekushchiyParol;
+
+  /// No description provided for @auto_vvediteNovyyParol.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите новый пароль'**
+  String get auto_vvediteNovyyParol;
+
+  /// No description provided for @auto_novyyParolDolzhenOtlic.
+  ///
+  /// In ru, this message translates to:
+  /// **'Новый пароль должен отличаться от текущего'**
+  String get auto_novyyParolDolzhenOtlic;
+
+  /// No description provided for @auto_povtoriteNovyyParol.
+  ///
+  /// In ru, this message translates to:
+  /// **'Повторите новый пароль'**
+  String get auto_povtoriteNovyyParol;
+
+  /// No description provided for @auto_paroliNeSovpadayut.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пароли не совпадают'**
+  String get auto_paroliNeSovpadayut;
+
+  /// No description provided for @auto_neUdalosIzmenitParol.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось изменить пароль'**
+  String get auto_neUdalosIzmenitParol;
+
+  /// No description provided for @auto_sessiyaIsteklaVoyditeS.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сессия истекла. Войдите снова.'**
+  String get auto_sessiyaIsteklaVoyditeS;
+
+  /// No description provided for @auto_izmenitParol.
+  ///
+  /// In ru, this message translates to:
+  /// **'Изменить пароль'**
+  String get auto_izmenitParol;
+
+  /// No description provided for @auto_tekushchiyParol.
+  ///
+  /// In ru, this message translates to:
+  /// **'Текущий пароль'**
+  String get auto_tekushchiyParol;
+
+  /// No description provided for @auto_novyyParol.
+  ///
+  /// In ru, this message translates to:
+  /// **'Новый пароль'**
+  String get auto_novyyParol;
+
+  /// No description provided for @auto_vvediteParolEshchyoRaz.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите пароль ещё раз'**
+  String get auto_vvediteParolEshchyoRaz;
+
+  /// No description provided for @auto_parolDolzhenSoderzhatM.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пароль должен содержать минимум 6 символов и отличаться от текущего.'**
+  String get auto_parolDolzhenSoderzhatM;
+
+  /// No description provided for @auto_sohranitParol.
+  ///
+  /// In ru, this message translates to:
+  /// **'СОХРАНИТЬ ПАРОЛЬ'**
+  String get auto_sohranitParol;
+
+  /// No description provided for @auto_ivanIvanov.
+  ///
+  /// In ru, this message translates to:
+  /// **'Иван Иванов'**
+  String get auto_ivanIvanov;
+
+  /// No description provided for @auto_lyublyuSladosti.
+  ///
+  /// In ru, this message translates to:
+  /// **'Люблю сладости'**
+  String get auto_lyublyuSladosti;
+
+  /// No description provided for @auto_sdelatSnimok.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сделать снимок'**
+  String get auto_sdelatSnimok;
+
+  /// No description provided for @auto_vybratIzGalerei.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выбрать из галереи'**
+  String get auto_vybratIzGalerei;
+
+  /// No description provided for @auto_udalitFoto.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить фото'**
+  String get auto_udalitFoto;
+
+  /// No description provided for @auto_razmerFaylaNeDolzhenP.
+  ///
+  /// In ru, this message translates to:
+  /// **'Размер файла не должен превышать 5 МБ'**
+  String get auto_razmerFaylaNeDolzhenP;
+
+  /// No description provided for @auto_redProfil.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ред. Профиль'**
+  String get auto_redProfil;
+
+  /// No description provided for @auto_fio.
+  ///
+  /// In ru, this message translates to:
+  /// **'ФИО'**
+  String get auto_fio;
+
+  /// No description provided for @auto_elPochta.
+  ///
+  /// In ru, this message translates to:
+  /// **'ЭЛ. ПОЧТА'**
+  String get auto_elPochta;
+
+  /// No description provided for @auto_nomer.
+  ///
+  /// In ru, this message translates to:
+  /// **'НОМЕР'**
+  String get auto_nomer;
+
+  /// No description provided for @auto_opisanie.
+  ///
+  /// In ru, this message translates to:
+  /// **'ОПИСАНИЕ'**
+  String get auto_opisanie;
+
+  /// No description provided for @auto_nomerDolzhenBytVForma.
+  ///
+  /// In ru, this message translates to:
+  /// **'Номер должен быть в формате +7-XXX-XXX-XXXX'**
+  String get auto_nomerDolzhenBytVForma;
+
+  /// No description provided for @auto_kakSdelatZakaz.
+  ///
+  /// In ru, this message translates to:
+  /// **'Как сделать заказ?'**
+  String get auto_kakSdelatZakaz;
+
+  /// No description provided for @auto_chtobySdelatZakazVyber.
+  ///
+  /// In ru, this message translates to:
+  /// **'Чтобы сделать заказ, выберите товары из каталога, добавьте их в корзину и оформите заказ, указав адрес доставки и способ оплаты.'**
+  String get auto_chtobySdelatZakazVyber;
+
+  /// No description provided for @auto_kakieSposobyOplatyDost.
+  ///
+  /// In ru, this message translates to:
+  /// **'Какие способы оплаты доступны?'**
+  String get auto_kakieSposobyOplatyDost;
+
+  /// No description provided for @auto_myPrinimaemOplatuNalic.
+  ///
+  /// In ru, this message translates to:
+  /// **'Мы принимаем оплату наличными, банковскими картами (Visa, Mastercard), а также через PayPal.'**
+  String get auto_myPrinimaemOplatuNalic;
+
+  /// No description provided for @auto_skolkoVremeniZanimaetD.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сколько времени занимает доставка?'**
+  String get auto_skolkoVremeniZanimaetD;
+
+  /// No description provided for @auto_standartnayaDostavkaZan.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стандартная доставка занимает 1-3 рабочих дня. Экспресс-доставка доступна в течение 24 часов.'**
+  String get auto_standartnayaDostavkaZan;
+
+  /// No description provided for @auto_moguLiYaOtmenitZakaz.
+  ///
+  /// In ru, this message translates to:
+  /// **'Могу ли я отменить заказ?'**
+  String get auto_moguLiYaOtmenitZakaz;
+
+  /// No description provided for @auto_vyMozheteOtmenitZakaz.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы можете отменить заказ в течение 30 минут после оформления. После этого заказ уже будет передан на склад для сборки.'**
+  String get auto_vyMozheteOtmenitZakaz;
+
+  /// No description provided for @auto_kakIzmenitAdresDostavk.
+  ///
+  /// In ru, this message translates to:
+  /// **'Как изменить адрес доставки?'**
+  String get auto_kakIzmenitAdresDostavk;
+
+  /// No description provided for @auto_profil.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.'**
+  String get auto_profil;
+
+  /// No description provided for @auto_adresa.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.'**
+  String get auto_adresa;
+
+  /// No description provided for @auto_takzheMozhnoUkazatNov.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.'**
+  String get auto_takzheMozhnoUkazatNov;
+
+  /// No description provided for @auto_chtoDelatEsliTovarNe.
+  ///
+  /// In ru, this message translates to:
+  /// **'Что делать если товар не подошел?'**
+  String get auto_chtoDelatEsliTovarNe;
+
+  /// No description provided for @auto_vyMozheteVernutTovarV.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы можете вернуть товар в течение 14 дней с момента получения. Свяжитесь с нашей службой поддержки для оформления возврата.'**
+  String get auto_vyMozheteVernutTovarV;
+
+  /// No description provided for @auto_kakSvyazatsyaSPodderzh.
+  ///
+  /// In ru, this message translates to:
+  /// **'Как связаться с поддержкой?'**
+  String get auto_kakSvyazatsyaSPodderzh;
+
+  /// No description provided for @auto_tehpodderzhka.
+  ///
+  /// In ru, this message translates to:
+  /// **'Техподдержка'**
+  String get auto_tehpodderzhka;
+
+  /// No description provided for @auto_vPrilozheniiPoElektro.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы можете связаться с нами через раздел \"Техподдержка\" в приложении, по электронной почте или по телефону горячей линии.'**
+  String get auto_vPrilozheniiPoElektro;
+
+  /// No description provided for @auto_estLiMinimalnayaSumma.
+  ///
+  /// In ru, this message translates to:
+  /// **'Есть ли минимальная сумма заказа?'**
+  String get auto_estLiMinimalnayaSumma;
+
+  /// No description provided for @auto_minimalnayaSummaZakaza.
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимальная сумма заказа составляет 500 ₸. При заказе от 5000 ₸ доставка бесплатная.'**
+  String get auto_minimalnayaSummaZakaza;
+
+  /// No description provided for @auto_voprosyIOtvety.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вопросы и ответы'**
+  String get auto_voprosyIOtvety;
+
+  /// No description provided for @auto_izbrannoe.
+  ///
+  /// In ru, this message translates to:
+  /// **'Избранное'**
+  String get auto_izbrannoe;
+
+  /// No description provided for @auto_vkladkaIzbrannyeTovary.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары'**
+  String get auto_vkladkaIzbrannyeTovary;
+
+  /// No description provided for @auto_vkladkaIzbrannyeKompani.
+  ///
+  /// In ru, this message translates to:
+  /// **'Компании'**
+  String get auto_vkladkaIzbrannyeKompani;
+
+  /// No description provided for @auto_pokaNetIzbrannyhTovaro.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пока нет избранных товаров'**
+  String get auto_pokaNetIzbrannyhTovaro;
+
+  /// No description provided for @auto_netIzbrannyhKompaniy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет избранных компаний'**
+  String get auto_netIzbrannyhKompaniy;
+
+  /// No description provided for @auto_neUdalosZagruzitAdresa.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить адреса'**
+  String get auto_neUdalosZagruzitAdresa;
+
+  /// No description provided for @auto_nuzhnoVoytiVAkkaunt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нужно войти в аккаунт'**
+  String get auto_nuzhnoVoytiVAkkaunt;
+
+  /// No description provided for @auto_neUdalosUdalitAdres.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось удалить адрес'**
+  String get auto_neUdalosUdalitAdres;
+
+  /// No description provided for @auto_moiAdresa.
+  ///
+  /// In ru, this message translates to:
+  /// **'Мои адреса'**
+  String get auto_moiAdresa;
+
+  /// No description provided for @auto_dobavteAdresChtobyOfor.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавьте адрес, чтобы оформить заказ быстрее.'**
+  String get auto_dobavteAdresChtobyOfor;
+
+  /// No description provided for @auto_redaktirovat.
+  ///
+  /// In ru, this message translates to:
+  /// **'Редактировать'**
+  String get auto_redaktirovat;
+
+  /// No description provided for @auto_udalitAdres.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить адрес?'**
+  String get auto_udalitAdres;
+
+  /// No description provided for @auto_kartaDobavlena.
+  ///
+  /// In ru, this message translates to:
+  /// **'Карта добавлена'**
+  String get auto_kartaDobavlena;
+
+  /// No description provided for @auto_metodOplaty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Метод оплаты'**
+  String get auto_metodOplaty;
+
+  /// No description provided for @auto_nalichnye.
+  ///
+  /// In ru, this message translates to:
+  /// **'Наличные'**
+  String get auto_nalichnye;
+
+  /// No description provided for @auto_dobavitNovyy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить новый'**
+  String get auto_dobavitNovyy;
+
+  /// No description provided for @auto_netKartVisa.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет карт Visa'**
+  String get auto_netKartVisa;
+
+  /// No description provided for @auto_netKartMastercard.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет карт Mastercard'**
+  String get auto_netKartMastercard;
+
+  /// No description provided for @auto_dobavteKartuVisaChtoby.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавьте карту Visa, чтобы выбрать этот способ оплаты.'**
+  String get auto_dobavteKartuVisaChtoby;
+
+  /// No description provided for @auto_dobavteKartuMastercard.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавьте карту Mastercard, чтобы выбрать этот способ оплаты.'**
+  String get auto_dobavteKartuMastercard;
+
+  /// No description provided for @auto_vashiKartyVisa.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваши карты Visa'**
+  String get auto_vashiKartyVisa;
+
+  /// No description provided for @auto_vashiKartyMastercard.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваши карты Mastercard'**
+  String get auto_vashiKartyMastercard;
+
+  /// No description provided for @auto_vashiKarty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваши карты'**
+  String get auto_vashiKarty;
+
+  /// No description provided for @auto_oplataNalichnymi.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплата наличными'**
+  String get auto_oplataNalichnymi;
+
+  /// No description provided for @auto_vyVybraliOplatuNalichn.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы выбрали оплату наличными при получении.'**
+  String get auto_vyVybraliOplatuNalichn;
+
+  /// No description provided for @auto_podklyucheniePaypalPoka.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подключение PayPal пока недоступно.\\nВыберите карту или наличные.'**
+  String get auto_podklyucheniePaypalPoka;
+
+  /// No description provided for @auto_netSposobaOplaty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет способа оплаты'**
+  String get auto_netSposobaOplaty;
+
+  /// No description provided for @auto_pozhaluystaVyberiteSpos.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пожалуйста, выберите способ\\nоплаты'**
+  String get auto_pozhaluystaVyberiteSpos;
+
+  /// No description provided for @auto_udalitKartu.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить карту'**
+  String get auto_udalitKartu;
+
+  /// No description provided for @auto_kartaUdalena.
+  ///
+  /// In ru, this message translates to:
+  /// **'Карта удалена'**
+  String get auto_kartaUdalena;
+
+  /// No description provided for @auto_neUkazano.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не указано'**
+  String get auto_neUkazano;
+
+  /// No description provided for @auto_vvediteNomerTelefona.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите номер телефона'**
+  String get auto_vvediteNomerTelefona;
+
+  /// No description provided for @auto_nomerDolzhenBytVForma_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Номер должен быть в формате +7-000-000-0000'**
+  String get auto_nomerDolzhenBytVForma_1;
+
+  /// No description provided for @auto_imyaSohraneno.
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя сохранено'**
+  String get auto_imyaSohraneno;
+
+  /// No description provided for @auto_emailSohranen.
+  ///
+  /// In ru, this message translates to:
+  /// **'Email сохранен'**
+  String get auto_emailSohranen;
+
+  /// No description provided for @auto_nomerSohranen.
+  ///
+  /// In ru, this message translates to:
+  /// **'Номер сохранен'**
+  String get auto_nomerSohranen;
+
+  /// No description provided for @auto_vvediteNazvanieKompanii.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите название компании'**
+  String get auto_vvediteNazvanieKompanii;
+
+  /// No description provided for @auto_nazvanieKompaniiSohrane.
+  ///
+  /// In ru, this message translates to:
+  /// **'Название компании сохранено'**
+  String get auto_nazvanieKompaniiSohrane;
+
+  /// No description provided for @auto_lichnayaInformatsiya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Личная информация'**
+  String get auto_lichnayaInformatsiya;
+
+  /// No description provided for @auto_nazvanieKompanii.
+  ///
+  /// In ru, this message translates to:
+  /// **'НАЗВАНИЕ КОМПАНИИ'**
+  String get auto_nazvanieKompanii;
+
+  /// No description provided for @auto_vvediteNovoeZnachenie.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите новое значение'**
+  String get auto_vvediteNovoeZnachenie;
+
+  /// No description provided for @auto_sohranit_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранить'**
+  String get auto_sohranit_1;
+
+  /// No description provided for @auto_nastroyki.
+  ///
+  /// In ru, this message translates to:
+  /// **'Настройки'**
+  String get auto_nastroyki;
+
+  /// No description provided for @auto_vyyti.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выйти'**
+  String get auto_vyyti;
+
+  /// No description provided for @auto_moiZakazy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Мои заказы'**
+  String get auto_moiZakazy;
+
+  /// No description provided for @auto_sposobOplaty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Способ оплаты'**
+  String get auto_sposobOplaty;
+
+  /// No description provided for @auto_vashiOtzyvy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваши отзывы'**
+  String get auto_vashiOtzyvy;
+
+  /// No description provided for @auto_bystrayaDostavka.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вежливый курьер'**
+  String get auto_bystrayaDostavka;
+
+  /// No description provided for @auto_horoshayaTsena.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вежливый курьер'**
+  String get auto_horoshayaTsena;
+
+  /// No description provided for @auto_kachestvennayaUpakovka.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вежливый курьер'**
+  String get auto_kachestvennayaUpakovka;
+
+  /// No description provided for @auto_svezhiyTovar.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вежливый курьер'**
+  String get auto_svezhiyTovar;
+
+  /// No description provided for @auto_vezhlivyyKurer.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вежливый курьер'**
+  String get auto_vezhlivyyKurer;
+
+  /// No description provided for @auto_voyditeChtobyUvidetOtz.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войдите, чтобы увидеть отзывы.'**
+  String get auto_voyditeChtobyUvidetOtz;
+
+  /// No description provided for @auto_neUdalosZagruzitOtzyvy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить отзывы.'**
+  String get auto_neUdalosZagruzitOtzyvy;
+
+  /// No description provided for @auto_estPokupkiDlyaOtsenki.
+  ///
+  /// In ru, this message translates to:
+  /// **'Все отзывы о покупках'**
+  String get auto_estPokupkiDlyaOtsenki;
+
+  /// No description provided for @auto_vseOtzyvyOPokupkah.
+  ///
+  /// In ru, this message translates to:
+  /// **'Все отзывы о покупках'**
+  String get auto_vseOtzyvyOPokupkah;
+
+  /// No description provided for @auto_ozhidayutOtzyvov.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оцените покупки - это помогает другим'**
+  String get auto_ozhidayutOtzyvov;
+
+  /// No description provided for @auto_otsenitePokupkiEtoPomo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оцените покупки - это помогает другим'**
+  String get auto_otsenitePokupkiEtoPomo;
+
+  /// No description provided for @auto_ostavitOtzyv.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оставить отзыв'**
+  String get auto_ostavitOtzyv;
+
+  /// No description provided for @auto_ostavteOtzyvPoslePriny.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оставьте отзыв после принятия заказа - он появится здесь.'**
+  String get auto_ostavteOtzyvPoslePriny;
+
+  /// No description provided for @auto_tekstOtzyva.
+  ///
+  /// In ru, this message translates to:
+  /// **'Текст отзыва'**
+  String get auto_tekstOtzyva;
+
+  /// No description provided for @auto_bezTekstaOtzyva.
+  ///
+  /// In ru, this message translates to:
+  /// **'Без текста отзыва'**
+  String get auto_bezTekstaOtzyva;
+
+  /// No description provided for @auto_otseniteTovar.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оцените товар'**
+  String get auto_otseniteTovar;
+
+  /// No description provided for @auto_vashOtzyv.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваш отзыв'**
+  String get auto_vashOtzyv;
+
+  /// No description provided for @auto_podelitesVpechatleniyami.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поделитесь впечатлениями'**
+  String get auto_podelitesVpechatleniyami;
+
+  /// No description provided for @auto_izmenit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Изменить'**
+  String get auto_izmenit;
+
+  /// No description provided for @auto_voyditeChtobyRedaktirov.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войдите, чтобы редактировать отзыв'**
+  String get auto_voyditeChtobyRedaktirov;
+
+  /// No description provided for @auto_otzyvObnovlen.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отзыв обновлен'**
+  String get auto_otzyvObnovlen;
+
+  /// No description provided for @auto_neUdalosSohranitOtzyv.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось сохранить отзыв'**
+  String get auto_neUdalosSohranitOtzyv;
+
+  /// No description provided for @auto_postavteOtsenku.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поставьте оценку'**
+  String get auto_postavteOtsenku;
+
+  /// No description provided for @auto_dobavteDetali.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавьте детали'**
+  String get auto_dobavteDetali;
+
+  /// No description provided for @auto_otpravitOtzyv.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить отзыв'**
+  String get auto_otpravitOtzyv;
+
+  /// No description provided for @auto_voyditeChtobyOstavitOt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войдите, чтобы оставить отзыв'**
+  String get auto_voyditeChtobyOstavitOt;
+
+  /// No description provided for @auto_spasiboZaOtzyv.
+  ///
+  /// In ru, this message translates to:
+  /// **'Спасибо за отзыв!'**
+  String get auto_spasiboZaOtzyv;
+
+  /// No description provided for @auto_neUdalosOtpravitOtzyv.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось Отправить отзыв'**
+  String get auto_neUdalosOtpravitOtzyv;
+
+  /// No description provided for @auto_voyditeChtobyUdalitOtz.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войдите, чтобы удалить отзыв'**
+  String get auto_voyditeChtobyUdalitOtz;
+
+  /// No description provided for @auto_otzyvUdalen.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отзыв удален'**
+  String get auto_otzyvUdalen;
+
+  /// No description provided for @auto_neUdalosUdalitOtzyv.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось удалить отзыв'**
+  String get auto_neUdalosUdalitOtzyv;
+
+  /// No description provided for @auto_udalitOtzyv.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить отзыв?'**
+  String get auto_udalitOtzyv;
+
+  /// No description provided for @auto_etoDeystvieNelzyaOtmen.
+  ///
+  /// In ru, this message translates to:
+  /// **'Это действие нельзя отменить.'**
+  String get auto_etoDeystvieNelzyaOtmen;
+
+  /// No description provided for @auto_rezervnyeKodyDvuhfaktor.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохраните их в надёжном месте - каждый код можно использовать только один раз.\\n'**
+  String get auto_rezervnyeKodyDvuhfaktor;
+
+  /// No description provided for @auto_sohraniteIhVNadyozhnom.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохраните их в надёжном месте - каждый код можно использовать только один раз.\\n'**
+  String get auto_sohraniteIhVNadyozhnom;
+
+  /// No description provided for @auto_kodySkopirovanyVBufer.
+  ///
+  /// In ru, this message translates to:
+  /// **'Коды скопированы в буфер обмена'**
+  String get auto_kodySkopirovanyVBufer;
+
+  /// No description provided for @auto_faylSKodamiSohranyon.
+  ///
+  /// In ru, this message translates to:
+  /// **'Файл с кодами сохранён'**
+  String get auto_faylSKodamiSohranyon;
+
+  /// No description provided for @auto_rezervnyeKody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Резервные коды'**
+  String get auto_rezervnyeKody;
+
+  /// No description provided for @auto_rezervnyeKodyDvuhfaktor_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Резервные коды двухфакторной аутентификации'**
+  String get auto_rezervnyeKodyDvuhfaktor_1;
+
+  /// No description provided for @auto_sohraniteKodyVBezopasn.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохраните коды в безопасном месте — они показываются один раз. Каждый код можно использовать только однократно для входа, если потерян доступ к почте.'**
+  String get auto_sohraniteKodyVBezopasn;
+
+  /// No description provided for @auto_gotovo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Готово'**
+  String get auto_gotovo;
+
+  /// No description provided for @auto_neUdalosOtpravitKodPo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось Отправить код. Попробуйте ещё раз.'**
+  String get auto_neUdalosOtpravitKodPo;
+
+  /// No description provided for @auto_dvuhfaktornayaAutentifik.
+  ///
+  /// In ru, this message translates to:
+  /// **'Двухфакторная аутентификация отключена'**
+  String get auto_dvuhfaktornayaAutentifik;
+
+  /// No description provided for @auto_nevernyyKod.
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверный код'**
+  String get auto_nevernyyKod;
+
+  /// No description provided for @auto_oshibkaPodklyucheniyaK.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка подключения к серверу'**
+  String get auto_oshibkaPodklyucheniyaK;
+
+  /// No description provided for @auto_kodOtpravlenPovtorno.
+  ///
+  /// In ru, this message translates to:
+  /// **'Код отправлен повторно'**
+  String get auto_kodOtpravlenPovtorno;
+
+  /// No description provided for @auto_neUdalosOtpravitKodPo_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось Отправить код повторно'**
+  String get auto_neUdalosOtpravitKodPo_1;
+
+  /// No description provided for @auto_vyklyuchenie2fa.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выключение 2FA'**
+  String get auto_vyklyuchenie2fa;
+
+  /// No description provided for @auto_podtverzhdeniePoPochte.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтверждение по почте'**
+  String get auto_podtverzhdeniePoPochte;
+
+  /// No description provided for @auto_chtobyVyklyuchitDvuhfak.
+  ///
+  /// In ru, this message translates to:
+  /// **'чтобы выключить двухфакторную аутентификацию.'**
+  String get auto_chtobyVyklyuchitDvuhfak;
+
+  /// No description provided for @auto_povtoritOtpravku.
+  ///
+  /// In ru, this message translates to:
+  /// **'Повторить отправку'**
+  String get auto_povtoritOtpravku;
+
+  /// No description provided for @auto_srokDeystviyaKodaIstyo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Срок действия кода истёк, отправьте повторно'**
+  String get auto_srokDeystviyaKodaIstyo;
+
+  /// No description provided for @auto_srokIstyok.
+  ///
+  /// In ru, this message translates to:
+  /// **'КОД ДЕЙСТВИТЕЛЕН \$_ttlSecondsLeft СЕК'**
+  String get auto_srokIstyok;
+
+  /// No description provided for @auto_otpravitPovtorno.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить повторно'**
+  String get auto_otpravitPovtorno;
+
+  /// No description provided for @auto_vklyuchenie2fa.
+  ///
+  /// In ru, this message translates to:
+  /// **'Включение 2FA'**
+  String get auto_vklyuchenie2fa;
+
+  /// No description provided for @auto_chtobyVklyuchitDvuhfakt.
+  ///
+  /// In ru, this message translates to:
+  /// **'чтобы включить двухфакторную аутентификацию.'**
+  String get auto_chtobyVklyuchitDvuhfakt;
+
+  /// No description provided for @auto_neUdalosZagruzitStatus.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить статус двухфакторной аутентификации'**
+  String get auto_neUdalosZagruzitStatus;
+
+  /// No description provided for @auto_regeneratsiyaBackupkodov.
+  ///
+  /// In ru, this message translates to:
+  /// **'Регенерация backup-кодов'**
+  String get auto_regeneratsiyaBackupkodov;
+
+  /// No description provided for @auto_chtobyZamenitTekushchie.
+  ///
+  /// In ru, this message translates to:
+  /// **'чтобы заменить текущие резервные коды.'**
+  String get auto_chtobyZamenitTekushchie;
+
+  /// No description provided for @auto_neUdalosSgenerirovatNo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось сгенерировать новые коды'**
+  String get auto_neUdalosSgenerirovatNo;
+
+  /// No description provided for @auto_otzyvDoverennyhUstroyst.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отзыв доверенных устройств'**
+  String get auto_otzyvDoverennyhUstroyst;
+
+  /// No description provided for @auto_chtobyOtozvatVseRanee.
+  ///
+  /// In ru, this message translates to:
+  /// **'чтобы отозвать все ранее запомненные устройства.'**
+  String get auto_chtobyOtozvatVseRanee;
+
+  /// No description provided for @auto_doverennyeUstroystvaOto.
+  ///
+  /// In ru, this message translates to:
+  /// **'Доверенные устройства отозваны'**
+  String get auto_doverennyeUstroystvaOto;
+
+  /// No description provided for @auto_neUdalosOtozvatUstroys.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось отозвать устройства'**
+  String get auto_neUdalosOtozvatUstroys;
+
+  /// No description provided for @auto_dvuhfaktornayaAutentifik_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Двухфакторная аутентификация'**
+  String get auto_dvuhfaktornayaAutentifik_1;
+
+  /// No description provided for @auto_ostalosMaloRezervnyhKo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Осталось мало резервных кодов, сгенерируйте новые'**
+  String get auto_ostalosMaloRezervnyhKo;
+
+  /// No description provided for @auto_vklyuchenaPriVhodePotr.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выключена. Защитите аккаунт дополнительным кодом.'**
+  String get auto_vklyuchenaPriVhodePotr;
+
+  /// No description provided for @auto_vyklyuchenaZashchititeA.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выключена. Защитите аккаунт дополнительным кодом.'**
+  String get auto_vyklyuchenaZashchititeA;
+
+  /// No description provided for @auto_sgenerirovatNovyeBackup.
+  ///
+  /// In ru, this message translates to:
+  /// **'Старые коды будут удалены'**
+  String get auto_sgenerirovatNovyeBackup;
+
+  /// No description provided for @auto_staryeKodyBudutUdaleny.
+  ///
+  /// In ru, this message translates to:
+  /// **'Старые коды будут удалены'**
+  String get auto_staryeKodyBudutUdaleny;
+
+  /// No description provided for @auto_otozvatDoverennyeUstroy.
+  ///
+  /// In ru, this message translates to:
+  /// **'На всех устройствах потребуется код заново'**
+  String get auto_otozvatDoverennyeUstroy;
+
+  /// No description provided for @auto_naVsehUstroystvahPotre.
+  ///
+  /// In ru, this message translates to:
+  /// **'На всех устройствах потребуется код заново'**
+  String get auto_naVsehUstroystvahPotre;
+
+  /// No description provided for @auto_neUdalosOpredelitPolzo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось определить пользователя'**
+  String get auto_neUdalosOpredelitPolzo;
+
+  /// No description provided for @auto_neUdalosZagruzitChat.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить чат'**
+  String get auto_neUdalosZagruzitChat;
+
+  /// No description provided for @auto_chatZakrytSozdayteNovo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Чат закрыт. Создайте новое обращение.'**
+  String get auto_chatZakrytSozdayteNovo;
+
+  /// No description provided for @auto_chatSTehpodderzhkoy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Чат с техподдержкой'**
+  String get auto_chatSTehpodderzhkoy;
+
+  /// No description provided for @auto_aktivnogoChataNetSnach.
+  ///
+  /// In ru, this message translates to:
+  /// **'Чат не найден.'**
+  String get auto_aktivnogoChataNetSnach;
+
+  /// No description provided for @auto_chatNeNayden.
+  ///
+  /// In ru, this message translates to:
+  /// **'Чат не найден.'**
+  String get auto_chatNeNayden;
+
+  /// No description provided for @auto_podderzhka.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поддержка'**
+  String get auto_podderzhka;
+
+  /// No description provided for @auto_chatOtkrytTehpodderzhka.
+  ///
+  /// In ru, this message translates to:
+  /// **'Чат открыт. Техподдержка ответит в этом окне.'**
+  String get auto_chatOtkrytTehpodderzhka;
+
+  /// No description provided for @auto_operatoryOnlaynObychno.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сейчас офлайн. Ответим в рабочее время.'**
+  String get auto_operatoryOnlaynObychno;
+
+  /// No description provided for @auto_seychasOflaynOtvetimV.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сейчас офлайн. Ответим в рабочее время.'**
+  String get auto_seychasOflaynOtvetimV;
+
+  /// No description provided for @auto_opishiteProblemu.
+  ///
+  /// In ru, this message translates to:
+  /// **'Другое'**
+  String get auto_opishiteProblemu;
+
+  /// No description provided for @auto_problemaSZakazom.
+  ///
+  /// In ru, this message translates to:
+  /// **'Другое'**
+  String get auto_problemaSZakazom;
+
+  /// No description provided for @auto_problemaSOplatoy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Другое'**
+  String get auto_problemaSOplatoy;
+
+  /// No description provided for @auto_tehnicheskieNepoladki.
+  ///
+  /// In ru, this message translates to:
+  /// **'Другое'**
+  String get auto_tehnicheskieNepoladki;
+
+  /// No description provided for @auto_voprosOTovare.
+  ///
+  /// In ru, this message translates to:
+  /// **'Другое'**
+  String get auto_voprosOTovare;
+
+  /// No description provided for @auto_neUdalosZagruzitObrash.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить обращение'**
+  String get auto_neUdalosZagruzitObrash;
+
+  /// No description provided for @auto_obrashchenieOtpravlenoV.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сообщение отправлено'**
+  String get auto_obrashchenieOtpravlenoV;
+
+  /// No description provided for @auto_soobshchenieOtpravleno.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сообщение отправлено'**
+  String get auto_soobshchenieOtpravleno;
+
+  /// No description provided for @auto_neUdalosOtpravitObrash.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось Отправить обращение'**
+  String get auto_neUdalosOtpravitObrash;
+
+  /// No description provided for @auto_svyazhitesSNami.
+  ///
+  /// In ru, this message translates to:
+  /// **'Свяжитесь с нами'**
+  String get auto_svyazhitesSNami;
+
+  /// No description provided for @auto_pnvs09002100Utc5.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пн-Вс: 09:00 - 21:00 (UTC+5)'**
+  String get auto_pnvs09002100Utc5;
+
+  /// No description provided for @auto_prodolzhitObrashchenie.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить обращение'**
+  String get auto_prodolzhitObrashchenie;
+
+  /// No description provided for @auto_otpravitObrashchenie.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить обращение'**
+  String get auto_otpravitObrashchenie;
+
+  /// No description provided for @auto_aktivnyyChatOtkryt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Активный чат открыт'**
+  String get auto_aktivnyyChatOtkryt;
+
+  /// No description provided for @auto_predydushcheeObrashcheni.
+  ///
+  /// In ru, this message translates to:
+  /// **'Предыдущее обращение закрыто. Если вопрос актуален, отправьте новое.'**
+  String get auto_predydushcheeObrashcheni;
+
+  /// No description provided for @auto_otkrytChatSTehpodderzh.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыть чат с техподдержкой'**
+  String get auto_otkrytChatSTehpodderzh;
+
+  /// No description provided for @auto_kategoriyaObrashcheniya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Категория обращения'**
+  String get auto_kategoriyaObrashcheniya;
+
+  /// No description provided for @auto_vyberiteKategoriyu.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите категорию'**
+  String get auto_vyberiteKategoriyu;
+
+  /// No description provided for @auto_temaObrashcheniya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Тема обращения'**
+  String get auto_temaObrashcheniya;
+
+  /// No description provided for @auto_vvediteTemu.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите тему'**
+  String get auto_vvediteTemu;
+
+  /// No description provided for @auto_soobshchenie.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сообщение'**
+  String get auto_soobshchenie;
+
+  /// No description provided for @auto_vPuti.
+  ///
+  /// In ru, this message translates to:
+  /// **'в пути'**
+  String get auto_vPuti;
+
+  /// No description provided for @auto_sobira.
+  ///
+  /// In ru, this message translates to:
+  /// **'собира'**
+  String get auto_sobira;
+
+  /// No description provided for @auto_dostav.
+  ///
+  /// In ru, this message translates to:
+  /// **'достав'**
+  String get auto_dostav;
+
+  /// No description provided for @auto_oshibkaOperatsii.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка операции'**
+  String get auto_oshibkaOperatsii;
+
+  /// No description provided for @auto_tovarSnyatSPublikatsii_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар удалён'**
+  String get auto_tovarSnyatSPublikatsii_1;
+
+  /// No description provided for @auto_tovarUdalyon.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар удалён'**
+  String get auto_tovarUdalyon;
+
+  /// No description provided for @auto_minPartiya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Мин. партия:'**
+  String get auto_minPartiya;
+
+  /// No description provided for @auto_ostatok.
+  ///
+  /// In ru, this message translates to:
+  /// **'Остаток'**
+  String get auto_ostatok;
+
+  /// No description provided for @auto_pokaNetTovarov.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пока нет товаров'**
+  String get auto_pokaNetTovarov;
+
+  /// No description provided for @auto_dobavtePervyyTovarIOt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавьте первый товар и отправьте его на модерацию.'**
+  String get auto_dobavtePervyyTovarIOt;
+
+  /// No description provided for @auto_dobavitTovar.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить товар'**
+  String get auto_dobavitTovar;
+
+  /// No description provided for @auto_ponedelnik_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Воскресенье'**
+  String get auto_ponedelnik_1;
+
+  /// No description provided for @auto_vtornik_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Воскресенье'**
+  String get auto_vtornik_1;
+
+  /// No description provided for @auto_sreda_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Воскресенье'**
+  String get auto_sreda_1;
+
+  /// No description provided for @auto_chetverg_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Воскресенье'**
+  String get auto_chetverg_1;
+
+  /// No description provided for @auto_pyatnitsa_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Воскресенье'**
+  String get auto_pyatnitsa_1;
+
+  /// No description provided for @auto_subbota_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Воскресенье'**
+  String get auto_subbota_1;
+
+  /// No description provided for @auto_voskresene_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Воскресенье'**
+  String get auto_voskresene_1;
+
+  /// No description provided for @auto_pn.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вс'**
+  String get auto_pn;
+
+  /// No description provided for @auto_vt_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вс'**
+  String get auto_vt_1;
+
+  /// No description provided for @auto_sr_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вс'**
+  String get auto_sr_1;
+
+  /// No description provided for @auto_cht_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вс'**
+  String get auto_cht_1;
+
+  /// No description provided for @auto_pt_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вс'**
+  String get auto_pt_1;
+
+  /// No description provided for @auto_sb_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вс'**
+  String get auto_sb_1;
+
+  /// No description provided for @auto_vs_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вс'**
+  String get auto_vs_1;
+
+  /// No description provided for @auto_molochnayaProduktsiya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары для дома'**
+  String get auto_molochnayaProduktsiya;
+
+  /// No description provided for @auto_ovoshchiIFrukty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары для дома'**
+  String get auto_ovoshchiIFrukty;
+
+  /// No description provided for @auto_myasoIPtitsa.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары для дома'**
+  String get auto_myasoIPtitsa;
+
+  /// No description provided for @auto_bakaleya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары для дома'**
+  String get auto_bakaleya;
+
+  /// No description provided for @auto_hlebIVypechka.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары для дома'**
+  String get auto_hlebIVypechka;
+
+  /// No description provided for @auto_zamorozka.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары для дома'**
+  String get auto_zamorozka;
+
+  /// No description provided for @auto_sneki.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары для дома'**
+  String get auto_sneki;
+
+  /// No description provided for @auto_bytovayaHimiya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары для дома'**
+  String get auto_bytovayaHimiya;
+
+  /// No description provided for @auto_tovaryDlyaDoma.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товары для дома'**
+  String get auto_tovaryDlyaDoma;
+
+  /// No description provided for @auto_stranaProizvoditelya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Страна производителя'**
+  String get auto_stranaProizvoditelya;
+
+  /// No description provided for @auto_srokGodnosti.
+  ///
+  /// In ru, this message translates to:
+  /// **'Срок годности'**
+  String get auto_srokGodnosti;
+
+  /// No description provided for @auto_vvediteNazvanieTovara.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите название товара'**
+  String get auto_vvediteNazvanieTovara;
+
+  /// No description provided for @auto_ukazhiteSrokGodnosti.
+  ///
+  /// In ru, this message translates to:
+  /// **'Укажите срок годности'**
+  String get auto_ukazhiteSrokGodnosti;
+
+  /// No description provided for @auto_vyberiteKategoriyuIzSp.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите категорию из списка'**
+  String get auto_vyberiteKategoriyuIzSp;
+
+  /// No description provided for @auto_vvediteKorrektnuyuTsenu.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите корректную цену'**
+  String get auto_vvediteKorrektnuyuTsenu;
+
+  /// No description provided for @auto_minimalnoeKolichestvoDo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимальное количество должно быть больше 0'**
+  String get auto_minimalnoeKolichestvoDo;
+
+  /// No description provided for @auto_ukazhiteOstatokNaSklad.
+  ///
+  /// In ru, this message translates to:
+  /// **'Укажите остаток на складе'**
+  String get auto_ukazhiteOstatokNaSklad;
+
+  /// No description provided for @auto_ostatokNeMozhetBytMen.
+  ///
+  /// In ru, this message translates to:
+  /// **'Остаток не может быть меньше минимальной партии'**
+  String get auto_ostatokNeMozhetBytMen;
+
+  /// No description provided for @auto_vvediteVremyaDostavkiV.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите время доставки в формате ЧЧ:ММ'**
+  String get auto_vvediteVremyaDostavkiV;
+
+  /// No description provided for @auto_ukazhiteGrafikDostavki.
+  ///
+  /// In ru, this message translates to:
+  /// **'Укажите график доставки'**
+  String get auto_ukazhiteGrafikDostavki;
+
+  /// No description provided for @auto_vvediteMinimalnyySrokD.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите минимальный срок доставки'**
+  String get auto_vvediteMinimalnyySrokD;
+
+  /// No description provided for @auto_maksimalnyySrokNeMozhe.
+  ///
+  /// In ru, this message translates to:
+  /// **'Максимальный срок не может быть меньше минимального'**
+  String get auto_maksimalnyySrokNeMozhe;
+
+  /// No description provided for @auto_srokDostavkiSlishkomBo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Срок доставки слишком большой'**
+  String get auto_srokDostavkiSlishkomBo;
+
+  /// No description provided for @auto_vvediteVremyaOtsechkiV.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите время отсечки в формате ЧЧ:ММ'**
+  String get auto_vvediteVremyaOtsechkiV;
+
+  /// No description provided for @auto_kaloriiDolzhnyBytNeotr.
+  ///
+  /// In ru, this message translates to:
+  /// **'Калории должны быть неотрицательным числом'**
+  String get auto_kaloriiDolzhnyBytNeotr;
+
+  /// No description provided for @auto_belkiDolzhnyBytNeotrit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Белки должны быть неотрицательным числом'**
+  String get auto_belkiDolzhnyBytNeotrit;
+
+  /// No description provided for @auto_zhiryDolzhnyBytNeotrit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Жиры должны быть неотрицательным числом'**
+  String get auto_zhiryDolzhnyBytNeotrit;
+
+  /// No description provided for @auto_uglevodyDolzhnyBytNeot.
+  ///
+  /// In ru, this message translates to:
+  /// **'Углеводы должны быть неотрицательным числом'**
+  String get auto_uglevodyDolzhnyBytNeot;
+
+  /// No description provided for @auto_dobavteHotyaByOdnuFot.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавьте хотя бы одну фотографию'**
+  String get auto_dobavteHotyaByOdnuFot;
+
+  /// No description provided for @auto_sozdatTovar.
+  ///
+  /// In ru, this message translates to:
+  /// **'Создать товар?'**
+  String get auto_sozdatTovar;
+
+  /// No description provided for @auto_izmeneniyaBudutOtpravle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отмена'**
+  String get auto_izmeneniyaBudutOtpravle;
+
+  /// No description provided for @auto_tovarBudetOtpravlenNa.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отмена'**
+  String get auto_tovarBudetOtpravlenNa;
+
+  /// No description provided for @auto_sozdat.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отмена'**
+  String get auto_sozdat;
+
+  /// No description provided for @auto_redaktirovanieTovara.
+  ///
+  /// In ru, this message translates to:
+  /// **'Редактирование товара'**
+  String get auto_redaktirovanieTovara;
+
+  /// No description provided for @auto_osnovnyeDannye.
+  ///
+  /// In ru, this message translates to:
+  /// **'Основные данные'**
+  String get auto_osnovnyeDannye;
+
+  /// No description provided for @auto_zapolniteNazvanieOpisan.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заполните название, описание, страну и категорию товара.'**
+  String get auto_zapolniteNazvanieOpisan;
+
+  /// No description provided for @auto_nazvanieTovara.
+  ///
+  /// In ru, this message translates to:
+  /// **'Название товара'**
+  String get auto_nazvanieTovara;
+
+  /// No description provided for @auto_naprimerKazahstan.
+  ///
+  /// In ru, this message translates to:
+  /// **'Например, Казахстан'**
+  String get auto_naprimerKazahstan;
+
+  /// No description provided for @auto_naprimer12Mesyatsev.
+  ///
+  /// In ru, this message translates to:
+  /// **'Например, 12 месяцев'**
+  String get auto_naprimer12Mesyatsev;
+
+  /// No description provided for @auto_tsenaIUsloviya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимальные количества и доставка.'**
+  String get auto_tsenaIUsloviya;
+
+  /// No description provided for @auto_minimalnyeKolichestvaI.
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимальные количества и доставка.'**
+  String get auto_minimalnyeKolichestvaI;
+
+  /// No description provided for @auto_tsenaZaEdinitsu.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цена за единицу (₸)'**
+  String get auto_tsenaZaEdinitsu;
+
+  /// No description provided for @auto_naprimer1450.
+  ///
+  /// In ru, this message translates to:
+  /// **'Например, 1450'**
+  String get auto_naprimer1450;
+
+  /// No description provided for @auto_minimalnoeKolichestvo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимальное количество'**
+  String get auto_minimalnoeKolichestvo;
+
+  /// No description provided for @auto_vsegoKolichestvo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Всего количество'**
+  String get auto_vsegoKolichestvo;
+
+  /// No description provided for @auto_naprimer120.
+  ///
+  /// In ru, this message translates to:
+  /// **'Например, 120'**
+  String get auto_naprimer120;
+
+  /// No description provided for @auto_sostavIHarakteristiki.
+  ///
+  /// In ru, this message translates to:
+  /// **'Необязательные данные: заполняйте только то, что нужно.'**
+  String get auto_sostavIHarakteristiki;
+
+  /// No description provided for @auto_neobyazatelnyeDannyeZap.
+  ///
+  /// In ru, this message translates to:
+  /// **'Необязательные данные: заполняйте только то, что нужно.'**
+  String get auto_neobyazatelnyeDannyeZap;
+
+  /// No description provided for @auto_sostav.
+  ///
+  /// In ru, this message translates to:
+  /// **'Состав'**
+  String get auto_sostav;
+
+  /// No description provided for @auto_kaloriiKkal100g.
+  ///
+  /// In ru, this message translates to:
+  /// **'Калории (ккал/100г)'**
+  String get auto_kaloriiKkal100g;
+
+  /// No description provided for @auto_belkiG100g.
+  ///
+  /// In ru, this message translates to:
+  /// **'Белки (г/100г)'**
+  String get auto_belkiG100g;
+
+  /// No description provided for @auto_zhiryG100g.
+  ///
+  /// In ru, this message translates to:
+  /// **'Жиры (г/100г)'**
+  String get auto_zhiryG100g;
+
+  /// No description provided for @auto_uglevodyG100g.
+  ///
+  /// In ru, this message translates to:
+  /// **'Углеводы (г/100г)'**
+  String get auto_uglevodyG100g;
+
+  /// No description provided for @auto_harakteristikiTovara.
+  ///
+  /// In ru, this message translates to:
+  /// **'Характеристики товара'**
+  String get auto_harakteristikiTovara;
+
+  /// No description provided for @auto_nazvanie.
+  ///
+  /// In ru, this message translates to:
+  /// **'Название'**
+  String get auto_nazvanie;
+
+  /// No description provided for @auto_znachenie.
+  ///
+  /// In ru, this message translates to:
+  /// **'Значение'**
+  String get auto_znachenie;
+
+  /// No description provided for @auto_udalitHarakteristiku.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить характеристику'**
+  String get auto_udalitHarakteristiku;
+
+  /// No description provided for @auto_dobavitHarakteristiku.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить характеристику'**
+  String get auto_dobavitHarakteristiku;
+
+  /// No description provided for @auto_fotografiiTovara.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавьте несколько фото'**
+  String get auto_fotografiiTovara;
+
+  /// No description provided for @auto_dobavteNeskolkoFoto.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавьте несколько фото'**
+  String get auto_dobavteNeskolkoFoto;
+
+  /// No description provided for @auto_ozhidaemayaDataDostavki.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ожидаемая дата доставки'**
+  String get auto_ozhidaemayaDataDostavki;
+
+  /// No description provided for @auto_poGrafiku.
+  ///
+  /// In ru, this message translates to:
+  /// **'По графику'**
+  String get auto_poGrafiku;
+
+  /// No description provided for @auto_poSroku.
+  ///
+  /// In ru, this message translates to:
+  /// **'По сроку'**
+  String get auto_poSroku;
+
+  /// No description provided for @auto_pokupatelUviditOzhidaem.
+  ///
+  /// In ru, this message translates to:
+  /// **'Покупатель увидит ожидаемую дату доставки.'**
+  String get auto_pokupatelUviditOzhidaem;
+
+  /// No description provided for @auto_vyberiteDniNedeli.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите дни недели'**
+  String get auto_vyberiteDniNedeli;
+
+  /// No description provided for @auto_bystryyVybor.
+  ///
+  /// In ru, this message translates to:
+  /// **'Быстрый выбор'**
+  String get auto_bystryyVybor;
+
+  /// No description provided for @auto_vremyaDostavki.
+  ///
+  /// In ru, this message translates to:
+  /// **'Время доставки'**
+  String get auto_vremyaDostavki;
+
+  /// No description provided for @auto_formatChchmm.
+  ///
+  /// In ru, this message translates to:
+  /// **'Формат: ЧЧ:ММ'**
+  String get auto_formatChchmm;
+
+  /// No description provided for @auto_nekorrektnoeVremya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Некорректное время'**
+  String get auto_nekorrektnoeVremya;
+
+  /// No description provided for @auto_minimumDney.
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимум дней'**
+  String get auto_minimumDney;
+
+  /// No description provided for @auto_maksimumDney.
+  ///
+  /// In ru, this message translates to:
+  /// **'Максимум дней'**
+  String get auto_maksimumDney;
+
+  /// No description provided for @auto_srokPriyomaZakazaNaSe.
+  ///
+  /// In ru, this message translates to:
+  /// **'Срок приёма заказа на сегодня'**
+  String get auto_srokPriyomaZakazaNaSe;
+
+  /// No description provided for @auto_kategorii.
+  ///
+  /// In ru, this message translates to:
+  /// **'Категории'**
+  String get auto_kategorii;
+
+  /// No description provided for @auto_poiskKategorii.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск категории'**
+  String get auto_poiskKategorii;
+
+  /// No description provided for @auto_kategoriiNeNaydeny.
+  ///
+  /// In ru, this message translates to:
+  /// **'Категории не найдены'**
+  String get auto_kategoriiNeNaydeny;
+
+  /// No description provided for @auto_pokazatMenshe.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать меньше'**
+  String get auto_pokazatMenshe;
+
+  /// No description provided for @auto_foto.
+  ///
+  /// In ru, this message translates to:
+  /// **'Фото'**
+  String get auto_foto;
+
+  /// No description provided for @auto_kompaniya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Компания'**
+  String get auto_kompaniya;
+
+  /// No description provided for @auto_vyNeAvtorizovanyPozhal.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы не авторизованы. Пожалуйста, войдите.'**
+  String get auto_vyNeAvtorizovanyPozhal;
+
+  /// No description provided for @auto_neUdalosZagruzitStatis.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить статистику'**
+  String get auto_neUdalosZagruzitStatis;
+
+  /// No description provided for @auto_neUdalosSformirovatAir.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось сформировать AI-резюме'**
+  String get auto_neUdalosSformirovatAir;
+
+  /// No description provided for @auto_statistika.
+  ///
+  /// In ru, this message translates to:
+  /// **'Статистика'**
+  String get auto_statistika;
+
+  /// No description provided for @auto_analitikaProdazh.
+  ///
+  /// In ru, this message translates to:
+  /// **'Аналитика продаж'**
+  String get auto_analitikaProdazh;
+
+  /// No description provided for @auto_obnovit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обновить'**
+  String get auto_obnovit;
+
+  /// No description provided for @auto_vseVremya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Все время'**
+  String get auto_vseVremya;
+
+  /// No description provided for @auto_vybrat.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выбрать'**
+  String get auto_vybrat;
+
+  /// No description provided for @auto_obshchayaVyruchka.
+  ///
+  /// In ru, this message translates to:
+  /// **'Общая выручка'**
+  String get auto_obshchayaVyruchka;
+
+  /// No description provided for @auto_vyruchkaZaMesyats.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выручка за месяц'**
+  String get auto_vyruchkaZaMesyats;
+
+  /// No description provided for @auto_zaNedelyu.
+  ///
+  /// In ru, this message translates to:
+  /// **'За неделю'**
+  String get auto_zaNedelyu;
+
+  /// No description provided for @auto_vsegoZakazov.
+  ///
+  /// In ru, this message translates to:
+  /// **'Всего заказов'**
+  String get auto_vsegoZakazov;
+
+  /// No description provided for @auto_obzor.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обзор'**
+  String get auto_obzor;
+
+  /// No description provided for @auto_sredniyChek.
+  ///
+  /// In ru, this message translates to:
+  /// **'Средний чек'**
+  String get auto_sredniyChek;
+
+  /// No description provided for @auto_dinamikaVyruchki.
+  ///
+  /// In ru, this message translates to:
+  /// **'Динамика выручки'**
+  String get auto_dinamikaVyruchki;
+
+  /// No description provided for @auto_netDannyh.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет данных'**
+  String get auto_netDannyh;
+
+  /// No description provided for @auto_dostavleny.
+  ///
+  /// In ru, this message translates to:
+  /// **'Доставлены'**
+  String get auto_dostavleny;
+
+  /// No description provided for @auto_otpravleny.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправлены'**
+  String get auto_otpravleny;
+
+  /// No description provided for @auto_podtverzhdeny.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтверждены'**
+  String get auto_podtverzhdeny;
+
+  /// No description provided for @auto_ozhidayut.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ожидают'**
+  String get auto_ozhidayut;
+
+  /// No description provided for @auto_otmeneny.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отменены'**
+  String get auto_otmeneny;
+
+  /// No description provided for @auto_statusyZakazov.
+  ///
+  /// In ru, this message translates to:
+  /// **'Статусы заказов'**
+  String get auto_statusyZakazov;
+
+  /// No description provided for @auto_etotMesyats.
+  ///
+  /// In ru, this message translates to:
+  /// **'Этот месяц'**
+  String get auto_etotMesyats;
+
+  /// No description provided for @auto_proshlyyMesyats.
+  ///
+  /// In ru, this message translates to:
+  /// **'Прошлый месяц'**
+  String get auto_proshlyyMesyats;
+
+  /// No description provided for @auto_srDostavka.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ср. доставка'**
+  String get auto_srDostavka;
+
+  /// No description provided for @auto_pokupateli.
+  ///
+  /// In ru, this message translates to:
+  /// **'Покупатели'**
+  String get auto_pokupateli;
+
+  /// No description provided for @auto_vsego.
+  ///
+  /// In ru, this message translates to:
+  /// **'Всего'**
+  String get auto_vsego;
+
+  /// No description provided for @auto_postoyannye.
+  ///
+  /// In ru, this message translates to:
+  /// **'Постоянные'**
+  String get auto_postoyannye;
+
+  /// No description provided for @auto_novyeMes.
+  ///
+  /// In ru, this message translates to:
+  /// **'Новые / мес.'**
+  String get auto_novyeMes;
+
+  /// No description provided for @auto_poslednieOtzyvy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Последние отзывы'**
+  String get auto_poslednieOtzyvy;
+
+  /// No description provided for @auto_aianaliz.
+  ///
+  /// In ru, this message translates to:
+  /// **'AI-анализ'**
+  String get auto_aianaliz;
+
+  /// No description provided for @auto_generiruyuAianaliz.
+  ///
+  /// In ru, this message translates to:
+  /// **'Генерирую AI-анализ…'**
+  String get auto_generiruyuAianaliz;
+
+  /// No description provided for @auto_appmessagedialogPodderzh.
+  ///
+  /// In ru, this message translates to:
+  /// **'AppMessageDialog поддерживает максимум 3 действия'**
+  String get auto_appmessagedialogPodderzh;
+
+  /// No description provided for @auto_poiskPoPostavshchikam.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск по поставщикам'**
+  String get auto_poiskPoPostavshchikam;
+
+  /// No description provided for @auto_neprochitannyhUvedomleni_1.
+  ///
+  /// In ru, this message translates to:
+  /// **')}'**
+  String get auto_neprochitannyhUvedomleni_1;
+
+  /// No description provided for @auto_pishchevayaTsennost.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пищевая ценность'**
+  String get auto_pishchevayaTsennost;
+
+  /// No description provided for @auto_v100Grammah.
+  ///
+  /// In ru, this message translates to:
+  /// **'В 100 граммах:'**
+  String get auto_v100Grammah;
+
+  /// No description provided for @auto_kalorii.
+  ///
+  /// In ru, this message translates to:
+  /// **'Калории'**
+  String get auto_kalorii;
+
+  /// No description provided for @auto_belki.
+  ///
+  /// In ru, this message translates to:
+  /// **'Белки'**
+  String get auto_belki;
+
+  /// No description provided for @auto_zhiry.
+  ///
+  /// In ru, this message translates to:
+  /// **'Жиры'**
+  String get auto_zhiry;
+
+  /// No description provided for @auto_uglevody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Углеводы'**
+  String get auto_uglevody;
+
+  /// No description provided for @auto_dostavka.
+  ///
+  /// In ru, this message translates to:
+  /// **'доставка'**
+  String get auto_dostavka;
+
+  /// No description provided for @auto_budni.
+  ///
+  /// In ru, this message translates to:
+  /// **'будни'**
+  String get auto_budni;
+
+  /// No description provided for @auto_vyhodnye.
+  ///
+  /// In ru, this message translates to:
+  /// **'выходные'**
+  String get auto_vyhodnye;
+
+  /// No description provided for @auto_kazhdyyDen.
+  ///
+  /// In ru, this message translates to:
+  /// **'каждый день'**
+  String get auto_kazhdyyDen;
+
+  /// No description provided for @auto_pn_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'вс'**
+  String get auto_pn_1;
+
+  /// No description provided for @auto_vt.
+  ///
+  /// In ru, this message translates to:
+  /// **'вс'**
+  String get auto_vt;
+
+  /// No description provided for @auto_sr.
+  ///
+  /// In ru, this message translates to:
+  /// **'вс'**
+  String get auto_sr;
+
+  /// No description provided for @auto_cht.
+  ///
+  /// In ru, this message translates to:
+  /// **'вс'**
+  String get auto_cht;
+
+  /// No description provided for @auto_pt.
+  ///
+  /// In ru, this message translates to:
+  /// **'вс'**
+  String get auto_pt;
+
+  /// No description provided for @auto_sb.
+  ///
+  /// In ru, this message translates to:
+  /// **'вс'**
+  String get auto_sb;
+
+  /// No description provided for @auto_vs.
+  ///
+  /// In ru, this message translates to:
+  /// **'вс'**
+  String get auto_vs;
+
+  /// No description provided for @auto_ponedelnik.
+  ///
+  /// In ru, this message translates to:
+  /// **'воскресенье'**
+  String get auto_ponedelnik;
+
+  /// No description provided for @auto_vtornik.
+  ///
+  /// In ru, this message translates to:
+  /// **'воскресенье'**
+  String get auto_vtornik;
+
+  /// No description provided for @auto_sreda.
+  ///
+  /// In ru, this message translates to:
+  /// **'воскресенье'**
+  String get auto_sreda;
+
+  /// No description provided for @auto_chetverg.
+  ///
+  /// In ru, this message translates to:
+  /// **'воскресенье'**
+  String get auto_chetverg;
+
+  /// No description provided for @auto_pyatnitsa.
+  ///
+  /// In ru, this message translates to:
+  /// **'воскресенье'**
+  String get auto_pyatnitsa;
+
+  /// No description provided for @auto_subbota.
+  ///
+  /// In ru, this message translates to:
+  /// **'воскресенье'**
+  String get auto_subbota;
+
+  /// No description provided for @auto_voskresene.
+  ///
+  /// In ru, this message translates to:
+  /// **'воскресенье'**
+  String get auto_voskresene;
+
+  /// No description provided for @auto_sht.
+  ///
+  /// In ru, this message translates to:
+  /// **'шт'**
+  String get auto_sht;
+
+  /// No description provided for @auto_p_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'П'**
+  String get auto_p_1;
+
+  /// No description provided for @auto_chitatVse.
+  ///
+  /// In ru, this message translates to:
+  /// **'Читать все'**
+  String get auto_chitatVse;
+
+  /// No description provided for @auto_pokaNetOtzyvovStanteP.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пока нет отзывов. Станьте первым, кто оценит товар.'**
+  String get auto_pokaNetOtzyvovStanteP;
+
+  /// No description provided for @auto_postavshchika.
+  ///
+  /// In ru, this message translates to:
+  /// **'поставщика'**
+  String get auto_postavshchika;
+
+  /// No description provided for @auto_izmenitOtvet.
+  ///
+  /// In ru, this message translates to:
+  /// **'Изменить ответ'**
+  String get auto_izmenitOtvet;
+
+  /// No description provided for @auto_otvetitNaVopros.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ответить на вопрос'**
+  String get auto_otvetitNaVopros;
+
+  /// No description provided for @auto_vopros.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вопрос:'**
+  String get auto_vopros;
+
+  /// No description provided for @auto_vashOtvet.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваш ответ'**
+  String get auto_vashOtvet;
+
+  /// No description provided for @auto_otvetitNaOtzyv.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ответить на отзыв'**
+  String get auto_otvetitNaOtzyv;
+
+  /// No description provided for @auto_otzyv.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отзыв:'**
+  String get auto_otzyv;
+
+  /// No description provided for @auto_pereezzhal.
+  ///
+  /// In ru, this message translates to:
+  /// **'Переезжал'**
+  String get auto_pereezzhal;
+
+  /// No description provided for @auto_pokazat.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать'**
+  String get auto_pokazat;
+
+  /// No description provided for @auto_otkryt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыть'**
+  String get auto_otkryt;
+
+  /// No description provided for @auto_ovoshch.
+  ///
+  /// In ru, this message translates to:
+  /// **'Овощи'**
+  String get auto_ovoshch;
+
+  /// No description provided for @auto_hleb.
+  ///
+  /// In ru, this message translates to:
+  /// **'Хлеб'**
+  String get auto_hleb;
+
+  /// No description provided for @auto_myas.
+  ///
+  /// In ru, this message translates to:
+  /// **'Мясо'**
+  String get auto_myas;
+
+  /// No description provided for @auto_zaDen.
+  ///
+  /// In ru, this message translates to:
+  /// **'За день'**
+  String get auto_zaDen;
+
+  /// No description provided for @auto_nedelya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Неделя'**
+  String get auto_nedelya;
+
+  /// No description provided for @auto_mesyats.
+  ///
+  /// In ru, this message translates to:
+  /// **'Месяц'**
+  String get auto_mesyats;
+
+  /// No description provided for @auto_kvartal.
+  ///
+  /// In ru, this message translates to:
+  /// **'Квартал'**
+  String get auto_kvartal;
+
+  /// No description provided for @auto_redaktirovatAdres.
+  ///
+  /// In ru, this message translates to:
+  /// **'Редактировать адрес'**
+  String get auto_redaktirovatAdres;
+
+  /// No description provided for @auto_otpravlyaem.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправляем...'**
+  String get auto_otpravlyaem;
+
+  /// No description provided for @auto_sohranyaem.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохраняем...'**
+  String get auto_sohranyaem;
+
+  /// No description provided for @auto_vvediteKodPodtverzhdeni.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите код подтверждения'**
+  String get auto_vvediteKodPodtverzhdeni;
+
+  /// No description provided for @auto_tovarSnyatSPublikatsii.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар снят с публикации'**
+  String get auto_tovarSnyatSPublikatsii;
+
+  /// No description provided for @auto_sohranitIzmeneniya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранить изменения'**
+  String get auto_sohranitIzmeneniya;
+
+  /// No description provided for @auto_sozdanieTovara.
+  ///
+  /// In ru, this message translates to:
+  /// **'Создание товара'**
+  String get auto_sozdanieTovara;
+
+  /// No description provided for @auto_neprochitannoeUvedomleni.
+  ///
+  /// In ru, this message translates to:
+  /// **'непрочитанное уведомление'**
+  String get auto_neprochitannoeUvedomleni;
+
+  /// No description provided for @auto_neprochitannyhUvedomleni.
+  ///
+  /// In ru, this message translates to:
+  /// **'непрочитанных уведомлений'**
+  String get auto_neprochitannyhUvedomleni;
+
+  /// No description provided for @auto_ezhednevno.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ежедневно'**
+  String get auto_ezhednevno;
+
+  /// No description provided for @auto_otvetit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ответить'**
+  String get auto_otvetit;
 }
 
 class _AppLocalizationsDelegate
