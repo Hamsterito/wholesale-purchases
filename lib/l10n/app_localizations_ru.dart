@@ -3307,20 +3307,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get user_address_auto_13 => 'Другое';
 
   @override
-  String get moderation_page_auto_14 =>
-      'РЈРґР°Р»РёС‚СЊ Р·Р° РЅР°СЂСѓС€РµРЅРёРµ';
+  String get moderation_page_auto_14 => 'Удалить за нарушение';
 
   @override
-  String get moderation_page_auto_15 => 'РћС‚РєР»РѕРЅРёС‚СЊ';
+  String get moderation_page_auto_15 => 'Отклонить';
 
   @override
-  String get moderation_page_auto_16 => 'Рћ С‚РѕРІР°СЂРµ';
+  String get moderation_page_auto_16 => 'О товаре';
 
   @override
-  String get moderation_page_auto_17 => 'РџРѕРґСЂРѕР±РЅРµРµ';
+  String get moderation_page_auto_17 => 'Подробнее';
 
   @override
-  String get moderation_page_auto_18 => ' В· ';
+  String get moderation_page_auto_18 => ' · ';
 
   @override
   String get ai_service_auto_19 => 'Ошибка конфигурации API';
@@ -3479,6 +3478,258 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get month_year_parser_auto_65 => 'окт';
+
+  @override
+  String supplier_orders_order_number(String orderId) {
+    return 'Заказ №$orderId';
+  }
+
+  @override
+  String supplier_orders_items_count(int count) {
+    return '$count поз.';
+  }
+
+  @override
+  String reviews_count_prefix(Object count) {
+    return 'Оценок: $count';
+  }
+
+  @override
+  String questions_error_loading(Object error) {
+    return 'Ошибка загрузки вопросов: $error';
+  }
+
+  @override
+  String questions_total_count(Object count) {
+    return '$count всего';
+  }
+
+  @override
+  String questions_min_chars_error(Object current, Object minLength) {
+    return 'Минимум $minLength символов ($current/$minLength)';
+  }
+
+  @override
+  String questions_enter_prompt(Object minLength) {
+    return 'Введите ваш вопрос (минимум $minLength символов)';
+  }
+
+  @override
+  String product_added_to_cart(Object name) {
+    return 'Добавлено в корзину: $name';
+  }
+
+  @override
+  String product_removed_from_cart(Object name) {
+    return 'Удалено из корзины: $name';
+  }
+
+  @override
+  String product_tab_reviews(Object count) {
+    return 'Оценки ($count)';
+  }
+
+  @override
+  String product_tab_questions(Object count) {
+    return 'Вопросы ($count)';
+  }
+
+  @override
+  String product_price_per_unit(Object price) {
+    return '$price ₸/шт';
+  }
+
+  @override
+  String product_in_stock(Object count) {
+    return 'В наличии: $count шт.';
+  }
+
+  @override
+  String product_reviews_label(Object count) {
+    return '$count оценок';
+  }
+
+  @override
+  String order_history_order_number(Object id) {
+    return 'Заказ №$id';
+  }
+
+  @override
+  String order_history_items_count(Object count) {
+    return '$count шт.';
+  }
+
+  @override
+  String order_history_units_count(Object count) {
+    return '$count ед.';
+  }
+
+  @override
+  String order_history_received_items(Object received, Object total) {
+    return '$received/$total шт.';
+  }
+
+  @override
+  String order_history_supplier_name(Object name) {
+    return 'Поставщик: $name';
+  }
+
+  @override
+  String order_history_export_error(Object error) {
+    return 'Ошибка экспорта: $error';
+  }
+
+  @override
+  String error_loading_products(Object error) {
+    return 'Ошибка загрузки товаров: $error';
+  }
+
+  @override
+  String faqs_address_change_info(
+    Object addresses,
+    Object also,
+    Object profile,
+  ) {
+    return 'Вы можете изменить адрес доставки в разделе $profile -> $addresses. $also';
+  }
+
+  @override
+  String faqs_support_contact_info(Object inApp, Object support) {
+    return 'Вы можете связаться с нами через раздел $support $inApp';
+  }
+
+  @override
+  String my_addresses_delete_confirmation(Object title) {
+    return 'Адрес \"$title\" будет удален без возможности восстановления.';
+  }
+
+  @override
+  String reviews_total_count(Object count) {
+    return '$count всего';
+  }
+
+  @override
+  String reviews_total_count_prefix(Object count) {
+    return 'Всего: $count';
+  }
+
+  @override
+  String reviews_order_label(Object id) {
+    return 'Заказ $id';
+  }
+
+  @override
+  String support_close_reason(Object reason) {
+    return 'Причина закрытия: $reason';
+  }
+
+  @override
+  String get support_chat_closed => 'Чат закрыт';
+
+  @override
+  String support_chat_closed_reason(Object reason) {
+    return 'Чат закрыт. Причина: $reason';
+  }
+
+  @override
+  String zakazi_quantity(Object count) {
+    return '$count шт.';
+  }
+
+  @override
+  String zakazi_hours_minutes(Object hours, Object minutes) {
+    return '$hours ч $minutes мин';
+  }
+
+  @override
+  String zakazi_minutes(Object minutes) {
+    return '$minutes мин';
+  }
+
+  @override
+  String personal_info_save_error(Object error) {
+    return 'Не удалось сохранить: $error';
+  }
+
+  @override
+  String payment_method_delete_confirmation(Object last4) {
+    return 'Вы уверены, что хотите удалить карту **** $last4?';
+  }
+
+  @override
+  String address_field_max_length(Object field, Object max) {
+    return 'Поле $field не должно превышать $max символов';
+  }
+
+  @override
+  String address_zip_max_length(Object max) {
+    return 'Индекс не должен превышать $max символов';
+  }
+
+  @override
+  String two_factor_enter_code(Object length) {
+    return 'Введите $length-значный код';
+  }
+
+  @override
+  String two_factor_code_valid(Object seconds) {
+    return 'КОД ДЕЙСТВИТЕЛЕН $seconds СЕК';
+  }
+
+  @override
+  String two_factor_file_save_error(Object error) {
+    return 'Не удалось сохранить файл: $error';
+  }
+
+  @override
+  String moderator_remove_confirmation(Object email, Object name) {
+    return '$name ($email) больше не сможет модерировать товары.';
+  }
+
+  @override
+  String moderator_user_label(Object id) {
+    return 'Пользователь #$id';
+  }
+
+  @override
+  String moderation_from_min_qty(Object min) {
+    return 'От $min шт.';
+  }
+
+  @override
+  String moderation_qty_range(Object max, Object min) {
+    return '$min-$max шт.';
+  }
+
+  @override
+  String moderation_summary_time(Object summary, Object time) {
+    return '$summary · $time';
+  }
+
+  @override
+  String moderation_stock_quantity(Object count) {
+    return 'Остаток: $count шт.';
+  }
+
+  @override
+  String moderation_price_per_unit(Object price) {
+    return '$price ₸ за единицу';
+  }
+
+  @override
+  String moderation_comment_prefix(Object comment) {
+    return 'Комментарий модерации: $comment';
+  }
+
+  @override
+  String moderation_characteristic_format(Object key, Object value) {
+    return '$key — $value';
+  }
+
+  @override
+  String moderator_two_factor_remove_warning(Object name, Object warning) {
+    return 'Это удалит все backup-коды и доверенные устройства пользователя $name. $warning';
+  }
 
   @override
   String get month_year_parser_auto_66 => 'ноя';
@@ -4118,15 +4369,5 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String supplier_products_min_quantity(int count) {
     return '$count шт.';
-  }
-
-  @override
-  String supplier_orders_order_number(String orderId) {
-    return 'Заказ №$orderId';
-  }
-
-  @override
-  String supplier_orders_items_count(int count) {
-    return '$count поз.';
   }
 }

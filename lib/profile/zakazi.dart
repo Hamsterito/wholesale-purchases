@@ -643,7 +643,7 @@ Widget _buildOrderCard(Order order) {
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  '${item.quantity} шт.',
+                  context.l10n.zakaziQuantity(item.quantity),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
@@ -878,8 +878,8 @@ Widget _buildOrderCard(Order order) {
     final hours = remaining.inHours;
     final minutes = remaining.inMinutes % 60;
     final timeLabel = hours > 0
-        ? '$hours ч ${(minutes).toString().padLeft(2, '0')} ${context.l10n.getString('auto_min')}'
-        : '${remaining.inMinutes} мин';
+        ? context.l10n.zakaziHoursMinutes(hours, (minutes).toString().padLeft(2, '0'))
+        : context.l10n.zakaziMinutes(remaining.inMinutes);
 
     return Row(
       children: [

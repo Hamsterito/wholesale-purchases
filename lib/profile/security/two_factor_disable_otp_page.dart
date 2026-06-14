@@ -166,7 +166,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
     final code = _pinController.text.trim();
     if (code.length != _otpLength) {
       _errorController.add(ErrorAnimationType.shake);
-      setState(() => _inlineError = 'Введите $_otpLength-значный код');
+      setState(() => _inlineError = context.l10n.twoFactorEnterCode(_otpLength));
       return;
     }
 
@@ -439,7 +439,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
           child: Text(
             _ttlExpired
                 ? context.l10n.getString('auto_srokIstyok')
-                : 'КОД ДЕЙСТВИТЕЛЕН $_ttlSecondsLeft СЕК',
+                : context.l10n.twoFactorCodeValid(_ttlSecondsLeft),
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 12,

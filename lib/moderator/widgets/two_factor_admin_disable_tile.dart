@@ -91,7 +91,7 @@ class _TwoFactorAdminDisableTileState extends State<TwoFactorAdminDisableTile> {
     if (_busy) return;
     final name = widget.targetUserName?.trim();
     final confirmText = (name != null && name.isNotEmpty)
-        ? 'Это удалит все backup-коды и доверенные устройства пользователя $name. ${AppLocalizations.current.getString('auto_deystvie_nelzya_otmenit')}'
+        ? context.l10n.moderatorTwoFactorRemoveWarning(name, AppLocalizations.current.getString('auto_deystvie_nelzya_otmenit'))
         : '${AppLocalizations.current.getString('auto_eto_udalit_vse_backupkody_i_doveren')} ${AppLocalizations.current.getString('auto_deystvie_nelzya_otmenit')}';
 
     final confirmed = await showDialog<bool>(

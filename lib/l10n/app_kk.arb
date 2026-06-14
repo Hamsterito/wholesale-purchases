@@ -4022,23 +4022,23 @@
   "@user_address_auto_13": {
     "description": "Auto-extracted from lib\\models\\user_address.dart"
   },
-  "moderation_page_auto_14": "Rjrґr°r \" RES ' sњ R * R° RSR°Cђsѓs€Rµrsrer",
+  "moderation_page_auto_14": "Ереже бұзғаны үшін өшіру",
   "@moderation_page_auto_14": {
     "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
   },
-  "moderation_page_auto_15": "Rћs ' Rєr \"Рѕрѕрес' СЊ",
+  "moderation_page_auto_15": "Қабылдамау",
   "@moderation_page_auto_15": {
     "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
   },
-  "moderation_page_auto_16": "Рћ С ' Рѕрир°СЂР.",
+  "moderation_page_auto_16": "Тауар туралы",
   "@moderation_page_auto_16": {
     "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
   },
-  "moderation_page_auto_17": "Рџрѕрґсђrsr±Рѕрµр",
+  "moderation_page_auto_17": "Толығырақ",
   "@moderation_page_auto_17": {
     "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
   },
-  "moderation_page_auto_18": " В· ",
+  "moderation_page_auto_18": " · ",
   "@moderation_page_auto_18": {
     "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
   },
@@ -4910,5 +4910,35 @@
   "order_history_received_items": "{received}/{total} поз.",
   "order_history_supplier_name": "Жеткізуші: {name}",
   "order_history_export_error": "Экспорттау қатесі: {error}",
-  "error_loading_products": "Тауарларды жүктеу қатесі: {error}"
+  "error_loading_products": "Тауарларды жүктеу қатесі: {error}",
+  
+  "faqs_address_change_info": "Жеткізу мекенжайын {profile} -> {addresses} бөлімінде өзгерте аласыз. {also}",
+  "faqs_support_contact_info": "Бізбен {support} бөлімі арқылы байланыса аласыз {inApp}",
+  "my_addresses_delete_confirmation": "\"{title}\" мекенжайы қайтарымсыз жойылады.",
+  "reviews_total_count": "Барлығы {count}",
+  "reviews_total_count_prefix": "Барлығы: {count}",
+  "reviews_order_label": "Тапсырыс {id}",
+  "support_close_reason": "Жабылу себебі: {reason}",
+  "support_chat_closed": "Чат жабық",
+  "support_chat_closed_reason": "Чат жабық. Себебі: {reason}",
+  "zakazi_quantity": "{count} дана",
+  "zakazi_hours_minutes": "{hours} сағ {minutes} мин",
+  "zakazi_minutes": "{minutes} мин",
+  "personal_info_save_error": "Сақтау мүмкін болмады: {error}",
+  "payment_method_delete_confirmation": "**** {last4} картасын жойғыңыз келетініне сенімдісіз бе?",
+  "address_field_max_length": "{field} өрісі {max} таңбадан аспауы керек",
+  "address_zip_max_length": "Индекс {max} таңбадан аспауы керек",
+  "two_factor_enter_code": "{length} таңбалы кодты енгізіңіз",
+  "two_factor_code_valid": "КОД {seconds} СЕКУНД ЖАРАМДЫ",
+  "two_factor_file_save_error": "Файлды сақтау мүмкін болмады: {error}",
+  "moderator_remove_confirmation": "{name} ({email}) бұдан былай тауарларды тексере алмайды.",
+  "moderator_user_label": "Пайдаланушы #{id}",
+  "moderation_from_min_qty": "{min} данадан бастап",
+  "moderation_qty_range": "{min}-{max} дана",
+  "moderation_summary_time": "{summary} · {time}",
+  "moderation_stock_quantity": "Қалдық: {count} дана",
+  "moderation_price_per_unit": "Бірлігі үшін {price} ₸",
+  "moderation_comment_prefix": "Модерация пікірі: {comment}",
+  "moderation_characteristic_format": "{key} — {value}",
+  "moderator_two_factor_remove_warning": "Бұл {name} пайдаланушысының барлық резервтік кодтарын және сенімді құрылғыларын жояды. {warning}"
 }

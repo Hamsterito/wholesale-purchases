@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
@@ -313,7 +313,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
       padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
       child: Text(
         closed
-            ? 'Чат закрыт${reason.isEmpty ? '' : '. Причина: $reason'}'
+            ? (reason.isEmpty ? context.l10n.supportChatClosed : context.l10n.supportChatClosedReason(reason))
             : context.l10n.getString('auto_chatOtkrytTehpodderzhka'),
         style: TextStyle(
           color: closed

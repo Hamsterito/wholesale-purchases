@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
@@ -199,7 +199,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 borderRadius: BorderRadius.circular(999),
               ),
               child: Text(
-                '${_reviews.length} всего',
+                context.l10n.reviewsTotalCountWith(_reviews.length),
                 style: TextStyle(
                   color: context.colorPalette.accentDark,
                   fontSize: 12,
@@ -249,7 +249,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
           title: context.l10n.getString('auto_vashiOtzyvy'),
           subtitle: _reviews.isEmpty
               ? context.l10n.getString('auto_pokaNetOtzyvov')
-              : 'Всего: ${_reviews.length}',
+              : context.l10n.reviewsSectionSubtitleTotal(_reviews.length),
         ),
       ),
     );
@@ -442,7 +442,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         ),
                         _buildMetaPill(
                           icon: Icons.receipt_long_outlined,
-                          label: 'Заказ ${item.orderId}',
+                          label: context.l10n.reviewsOrderLabelWith(item.orderId),
                         ),
                       ],
                     ),
@@ -638,7 +638,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         if (review.orderId.isNotEmpty) ...[
                           _buildMetaPill(
                             icon: Icons.receipt_long_outlined,
-                            label: 'Заказ ${review.orderId}',
+                            label: context.l10n.reviewsOrderLabelWith(review.orderId),
                           ),
                         ],
                       ],

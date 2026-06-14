@@ -4295,23 +4295,23 @@
   "@user_address_auto_13": {
     "description": "Auto-extracted from lib\\models\\user_address.dart"
   },
-  "moderation_page_auto_14": "РЈРґР°Р»РёС‚СЊ Р·Р° РЅР°СЂСѓС€РµРЅРёРµ",
+  "moderation_page_auto_14": "Удалить за нарушение",
   "@moderation_page_auto_14": {
     "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
   },
-  "moderation_page_auto_15": "РћС‚РєР»РѕРЅРёС‚СЊ",
+  "moderation_page_auto_15": "Отклонить",
   "@moderation_page_auto_15": {
     "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
   },
-  "moderation_page_auto_16": "Рћ С‚РѕРІР°СЂРµ",
+  "moderation_page_auto_16": "О товаре",
   "@moderation_page_auto_16": {
     "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
   },
-  "moderation_page_auto_17": "РџРѕРґСЂРѕР±РЅРµРµ",
+  "moderation_page_auto_17": "Подробнее",
   "@moderation_page_auto_17": {
     "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
   },
-  "moderation_page_auto_18": " В· ",
+  "moderation_page_auto_18": " · ",
   "@moderation_page_auto_18": {
     "description": "Auto-extracted from lib\\moderator\\moderation_page.dart"
   },
@@ -4524,6 +4524,35 @@
   "order_history_supplier_name": "Поставщик: {name}",
   "order_history_export_error": "Ошибка экспорта: {error}",
   "error_loading_products": "Ошибка загрузки товаров: {error}",
+  "faqs_address_change_info": "Вы можете изменить адрес доставки в разделе {profile} -> {addresses}. {also}",
+  "faqs_support_contact_info": "Вы можете связаться с нами через раздел {support} {inApp}",
+  "my_addresses_delete_confirmation": "Адрес \"{title}\" будет удален без возможности восстановления.",
+  "reviews_total_count": "{count} всего",
+  "reviews_total_count_prefix": "Всего: {count}",
+  "reviews_order_label": "Заказ {id}",
+  "support_close_reason": "Причина закрытия: {reason}",
+  "support_chat_closed": "Чат закрыт",
+  "support_chat_closed_reason": "Чат закрыт. Причина: {reason}",
+  "zakazi_quantity": "{count} шт.",
+  "zakazi_hours_minutes": "{hours} ч {minutes} мин",
+  "zakazi_minutes": "{minutes} мин",
+  "personal_info_save_error": "Не удалось сохранить: {error}",
+  "payment_method_delete_confirmation": "Вы уверены, что хотите удалить карту **** {last4}?",
+  "address_field_max_length": "Поле {field} не должно превышать {max} символов",
+  "address_zip_max_length": "Индекс не должен превышать {max} символов",
+  "two_factor_enter_code": "Введите {length}-значный код",
+  "two_factor_code_valid": "КОД ДЕЙСТВИТЕЛЕН {seconds} СЕК",
+  "two_factor_file_save_error": "Не удалось сохранить файл: {error}",
+  "moderator_remove_confirmation": "{name} ({email}) больше не сможет модерировать товары.",
+  "moderator_user_label": "Пользователь #{id}",
+  "moderation_from_min_qty": "От {min} шт.",
+  "moderation_qty_range": "{min}-{max} шт.",
+  "moderation_summary_time": "{summary} · {time}",
+  "moderation_stock_quantity": "Остаток: {count} шт.",
+  "moderation_price_per_unit": "{price} ₸ за единицу",
+  "moderation_comment_prefix": "Комментарий модерации: {comment}",
+  "moderation_characteristic_format": "{key} — {value}",
+  "moderator_two_factor_remove_warning": "Это удалит все backup-коды и доверенные устройства пользователя {name}. {warning}",
   "month_year_parser_auto_66": "ноя",
   "@month_year_parser_auto_66": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"

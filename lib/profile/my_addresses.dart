@@ -537,7 +537,7 @@ class _DeleteAddressDialog extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Адрес "$title" будет удален без возможности восстановления.',
+                context.l10n.myAddressesDeleteConfirmation(title),
                 style: TextStyle(color: bodyColor, fontSize: 13, height: 1.4),
               ),
               const SizedBox(height: 16),

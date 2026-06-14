@@ -610,7 +610,7 @@ class _OtpInputDialogState extends State<_OtpInputDialog> {
     final code = _pinController.text.trim();
     if (code.length != widget.otpLength) {
       _errorController.add(ErrorAnimationType.shake);
-      setState(() => _inlineError = 'Введите ${widget.otpLength}-значный код');
+      setState(() => _inlineError = context.l10n.twoFactorEnterCode(widget.otpLength));
       return;
     }
     Navigator.of(context).pop(code);
@@ -666,7 +666,7 @@ class _OtpInputDialogState extends State<_OtpInputDialog> {
               Text(
                 _ttlExpired
                     ? context.l10n.getString('auto_srokIstyok')
-                    : 'КОД ДЕЙСТВИТЕЛЕН $_ttlSecondsLeft СЕК',
+                    : context.l10n.twoFactorCodeValid(_ttlSecondsLeft),
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,

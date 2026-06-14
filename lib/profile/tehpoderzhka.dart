@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
@@ -441,7 +441,7 @@ class _SupportPageState extends State<SupportPage> {
                         _chat!.closeReason.trim().isNotEmpty) ...[
                       const SizedBox(height: 8),
                       Text(
-                        'Причина закрытия: ${_chat!.closeReason}',
+                        context.l10n.supportCloseReason(_chat!.closeReason),
                         style: TextStyle(
                           color: textMuted,
                           fontWeight: FontWeight.w500,

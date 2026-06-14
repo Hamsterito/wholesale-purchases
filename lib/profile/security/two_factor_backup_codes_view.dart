@@ -64,7 +64,7 @@ class TwoFactorBackupCodesView extends StatelessWidget {
       if (!context.mounted) return;
       showTopMessage(
         context,
-        'Не удалось сохранить файл: $e',
+        context.l10n.twoFactorFileSaveError(e.toString()),
         backgroundColor: palette.error,
       );
     }

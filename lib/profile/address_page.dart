@@ -344,7 +344,7 @@ class _AddressPageState extends State<AddressPage> {
   String? _validateStreet(String value) {
     final street = _normalizeOptionalText(value);
     if (street != null && street.length > _streetMaxLength) {
-      return 'Поле ${context.l10n.getString('auto_ulitsa_1')} не должно превышать $_streetMaxLength символов';
+      return context.l10n.addressFieldMaxLength(context.l10n.getString('auto_ulitsa_1'), _streetMaxLength);
     }
     return null;
   }
@@ -352,7 +352,7 @@ class _AddressPageState extends State<AddressPage> {
   String? _validateZip(String value) {
     final zip = value.trim();
     if (zip.length > _zipMaxLength) {
-      return 'Индекс не должен превышать $_zipMaxLength символов';
+      return context.l10n.addressZipMaxLength(_zipMaxLength);
     }
     if (zip.isNotEmpty && !_zipPattern.hasMatch(zip)) {
       return context.l10n.getString('auto_indeksDolzhenSoderzhat');
@@ -363,7 +363,7 @@ class _AddressPageState extends State<AddressPage> {
   String? _validateApartment(String value) {
     final apartment = value.trim();
     if (apartment.length > _apartmentMaxLength) {
-      return 'Поле ${context.l10n.getString('auto_kvartira_1')} не должно превышать $_apartmentMaxLength символов';
+      return context.l10n.addressFieldMaxLength(context.l10n.getString('auto_kvartira_1'), _apartmentMaxLength);
     }
     if (apartment.isNotEmpty && !_apartmentPattern.hasMatch(apartment)) {
       return context.l10n.getString('auto_nekorrektnyyFormatKvart');

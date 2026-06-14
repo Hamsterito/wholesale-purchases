@@ -499,7 +499,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
       builder: (context) => AlertDialog(
         title: Text(context.l10n.paymentCardDeleteTitle),
         content: Text(
-          'Вы уверены, что хотите удалить карту **** ${card.last4}?',
+          context.l10n.paymentMethodDeleteConfirmation(card.last4),
         ),
         actions: [
           TextButton(

@@ -578,4 +578,32 @@ String supplierProfilePreviewShow(int count) => getString('supplier_profile_prev
   String orderHistorySupplierName(String name) => getString('order_history_supplier_name', params: {'name': name});
   String orderHistoryExportError(String error) => getString('order_history_export_error', params: {'error': error});
   String errorLoadingProducts(String error) => getString('error_loading_products', params: {'error': error});
+  
+  // Profile & Moderator
+  String faqsAddressChangeInfo(String profile, String addresses, String also) => getString('faqs_address_change_info', params: {'profile': profile, 'addresses': addresses, 'also': also});
+  String faqsSupportContactInfo(String support, String inApp) => getString('faqs_support_contact_info', params: {'support': support, 'inApp': inApp});
+  String myAddressesDeleteConfirmation(String title) => getString('my_addresses_delete_confirmation', params: {'title': title});
+  String supportCloseReason(String reason) => getString('support_close_reason', params: {'reason': reason});
+  String get supportChatClosed => getString('support_chat_closed');
+  String supportChatClosedReason(String reason) => getString('support_chat_closed_reason', params: {'reason': reason});
+  String zakaziQuantity(int count) => getString('zakazi_quantity', params: {'count': count});
+  String zakaziHoursMinutes(int hours, String minutes) => getString('zakazi_hours_minutes', params: {'hours': hours, 'minutes': minutes});
+  String zakaziMinutes(int minutes) => getString('zakazi_minutes', params: {'minutes': minutes});
+  String personalInfoSaveError(String error) => getString('personal_info_save_error', params: {'error': error});
+  String paymentMethodDeleteConfirmation(String last4) => getString('payment_method_delete_confirmation', params: {'last4': last4});
+  String addressFieldMaxLength(String field, int max) => getString('address_field_max_length', params: {'field': field, 'max': max});
+  String addressZipMaxLength(int max) => getString('address_zip_max_length', params: {'max': max});
+  String twoFactorEnterCode(int length) => getString('two_factor_enter_code', params: {'length': length});
+  String twoFactorCodeValid(int seconds) => getString('two_factor_code_valid', params: {'seconds': seconds});
+  String twoFactorFileSaveError(String error) => getString('two_factor_file_save_error', params: {'error': error});
+  String moderatorRemoveConfirmation(String name, String email) => getString('moderator_remove_confirmation', params: {'name': name, 'email': email});
+  String moderatorUserLabel(String id) => getString('moderator_user_label', params: {'id': id});
+  String moderationFromMinQty(int min) => getString('moderation_from_min_qty', params: {'min': min});
+  String moderationQtyRange(int min, int max) => getString('moderation_qty_range', params: {'min': min, 'max': max});
+  String moderationSummaryTime(String summary, String time) => getString('moderation_summary_time', params: {'summary': summary, 'time': time});
+  String moderationStockQuantity(int count) => getString('moderation_stock_quantity', params: {'count': count});
+  String moderationPricePerUnit(String price) => getString('moderation_price_per_unit', params: {'price': price});
+  String moderationCommentPrefix(String comment) => getString('moderation_comment_prefix', params: {'comment': comment});
+  String moderationCharacteristicFormat(String key, String value) => getString('moderation_characteristic_format', params: {'key': key, 'value': value});
+  String moderatorTwoFactorRemoveWarning(String name, String warning) => getString('moderator_two_factor_remove_warning', params: {'name': name, 'warning': warning});
 }

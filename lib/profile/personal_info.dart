@@ -285,7 +285,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
       _showSnack(successMessage);
     } catch (e) {
       _showSnack(
-        'Не удалось сохранить: ${_errorMessage(e)}',
+        context.l10n.personalInfoSaveError(_errorMessage(e)),
         severity: MessageSeverity.error,
       );
     } finally {

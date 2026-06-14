@@ -147,7 +147,7 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
           backgroundColor: palette.card,
           title: Text(context.l10n.moderatorDeleteTitle),
           content: Text(
-            '${m.name} (${m.email}) больше не сможет модерировать товары.',
+            context.l10n.moderatorRemoveConfirmation(m.name, m.email),
           ),
           actions: [
             TextButton(

@@ -6137,31 +6137,31 @@ abstract class AppLocalizations {
   /// Auto-extracted from lib\moderator\moderation_page.dart
   ///
   /// In ru, this message translates to:
-  /// **'РЈРґР°Р»РёС‚СЊ Р·Р° РЅР°СЂСѓС€РµРЅРёРµ'**
+  /// **'Удалить за нарушение'**
   String get moderation_page_auto_14;
 
   /// Auto-extracted from lib\moderator\moderation_page.dart
   ///
   /// In ru, this message translates to:
-  /// **'РћС‚РєР»РѕРЅРёС‚СЊ'**
+  /// **'Отклонить'**
   String get moderation_page_auto_15;
 
   /// Auto-extracted from lib\moderator\moderation_page.dart
   ///
   /// In ru, this message translates to:
-  /// **'Рћ С‚РѕРІР°СЂРµ'**
+  /// **'О товаре'**
   String get moderation_page_auto_16;
 
   /// Auto-extracted from lib\moderator\moderation_page.dart
   ///
   /// In ru, this message translates to:
-  /// **'РџРѕРґСЂРѕР±РЅРµРµ'**
+  /// **'Подробнее'**
   String get moderation_page_auto_17;
 
   /// Auto-extracted from lib\moderator\moderation_page.dart
   ///
   /// In ru, this message translates to:
-  /// **' В· '**
+  /// **' · '**
   String get moderation_page_auto_18;
 
   /// Auto-extracted from lib\services\api\ai_service.dart
@@ -6445,6 +6445,310 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'окт'**
   String get month_year_parser_auto_65;
+
+  /// No description provided for @supplier_orders_order_number.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ №{orderId}'**
+  String supplier_orders_order_number(String orderId);
+
+  /// No description provided for @supplier_orders_items_count.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} поз.'**
+  String supplier_orders_items_count(int count);
+
+  /// No description provided for @reviews_count_prefix.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оценок: {count}'**
+  String reviews_count_prefix(Object count);
+
+  /// No description provided for @questions_error_loading.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка загрузки вопросов: {error}'**
+  String questions_error_loading(Object error);
+
+  /// No description provided for @questions_total_count.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} всего'**
+  String questions_total_count(Object count);
+
+  /// No description provided for @questions_min_chars_error.
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимум {minLength} символов ({current}/{minLength})'**
+  String questions_min_chars_error(Object current, Object minLength);
+
+  /// No description provided for @questions_enter_prompt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите ваш вопрос (минимум {minLength} символов)'**
+  String questions_enter_prompt(Object minLength);
+
+  /// No description provided for @product_added_to_cart.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавлено в корзину: {name}'**
+  String product_added_to_cart(Object name);
+
+  /// No description provided for @product_removed_from_cart.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалено из корзины: {name}'**
+  String product_removed_from_cart(Object name);
+
+  /// No description provided for @product_tab_reviews.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оценки ({count})'**
+  String product_tab_reviews(Object count);
+
+  /// No description provided for @product_tab_questions.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вопросы ({count})'**
+  String product_tab_questions(Object count);
+
+  /// No description provided for @product_price_per_unit.
+  ///
+  /// In ru, this message translates to:
+  /// **'{price} ₸/шт'**
+  String product_price_per_unit(Object price);
+
+  /// No description provided for @product_in_stock.
+  ///
+  /// In ru, this message translates to:
+  /// **'В наличии: {count} шт.'**
+  String product_in_stock(Object count);
+
+  /// No description provided for @product_reviews_label.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} оценок'**
+  String product_reviews_label(Object count);
+
+  /// No description provided for @order_history_order_number.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ №{id}'**
+  String order_history_order_number(Object id);
+
+  /// No description provided for @order_history_items_count.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} шт.'**
+  String order_history_items_count(Object count);
+
+  /// No description provided for @order_history_units_count.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} ед.'**
+  String order_history_units_count(Object count);
+
+  /// No description provided for @order_history_received_items.
+  ///
+  /// In ru, this message translates to:
+  /// **'{received}/{total} шт.'**
+  String order_history_received_items(Object received, Object total);
+
+  /// No description provided for @order_history_supplier_name.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поставщик: {name}'**
+  String order_history_supplier_name(Object name);
+
+  /// No description provided for @order_history_export_error.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка экспорта: {error}'**
+  String order_history_export_error(Object error);
+
+  /// No description provided for @error_loading_products.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка загрузки товаров: {error}'**
+  String error_loading_products(Object error);
+
+  /// No description provided for @faqs_address_change_info.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы можете изменить адрес доставки в разделе {profile} -> {addresses}. {also}'**
+  String faqs_address_change_info(
+    Object addresses,
+    Object also,
+    Object profile,
+  );
+
+  /// No description provided for @faqs_support_contact_info.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы можете связаться с нами через раздел {support} {inApp}'**
+  String faqs_support_contact_info(Object inApp, Object support);
+
+  /// No description provided for @my_addresses_delete_confirmation.
+  ///
+  /// In ru, this message translates to:
+  /// **'Адрес \"{title}\" будет удален без возможности восстановления.'**
+  String my_addresses_delete_confirmation(Object title);
+
+  /// No description provided for @reviews_total_count.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} всего'**
+  String reviews_total_count(Object count);
+
+  /// No description provided for @reviews_total_count_prefix.
+  ///
+  /// In ru, this message translates to:
+  /// **'Всего: {count}'**
+  String reviews_total_count_prefix(Object count);
+
+  /// No description provided for @reviews_order_label.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заказ {id}'**
+  String reviews_order_label(Object id);
+
+  /// No description provided for @support_close_reason.
+  ///
+  /// In ru, this message translates to:
+  /// **'Причина закрытия: {reason}'**
+  String support_close_reason(Object reason);
+
+  /// No description provided for @support_chat_closed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Чат закрыт'**
+  String get support_chat_closed;
+
+  /// No description provided for @support_chat_closed_reason.
+  ///
+  /// In ru, this message translates to:
+  /// **'Чат закрыт. Причина: {reason}'**
+  String support_chat_closed_reason(Object reason);
+
+  /// No description provided for @zakazi_quantity.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count} шт.'**
+  String zakazi_quantity(Object count);
+
+  /// No description provided for @zakazi_hours_minutes.
+  ///
+  /// In ru, this message translates to:
+  /// **'{hours} ч {minutes} мин'**
+  String zakazi_hours_minutes(Object hours, Object minutes);
+
+  /// No description provided for @zakazi_minutes.
+  ///
+  /// In ru, this message translates to:
+  /// **'{minutes} мин'**
+  String zakazi_minutes(Object minutes);
+
+  /// No description provided for @personal_info_save_error.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось сохранить: {error}'**
+  String personal_info_save_error(Object error);
+
+  /// No description provided for @payment_method_delete_confirmation.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы уверены, что хотите удалить карту **** {last4}?'**
+  String payment_method_delete_confirmation(Object last4);
+
+  /// No description provided for @address_field_max_length.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поле {field} не должно превышать {max} символов'**
+  String address_field_max_length(Object field, Object max);
+
+  /// No description provided for @address_zip_max_length.
+  ///
+  /// In ru, this message translates to:
+  /// **'Индекс не должен превышать {max} символов'**
+  String address_zip_max_length(Object max);
+
+  /// No description provided for @two_factor_enter_code.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите {length}-значный код'**
+  String two_factor_enter_code(Object length);
+
+  /// No description provided for @two_factor_code_valid.
+  ///
+  /// In ru, this message translates to:
+  /// **'КОД ДЕЙСТВИТЕЛЕН {seconds} СЕК'**
+  String two_factor_code_valid(Object seconds);
+
+  /// No description provided for @two_factor_file_save_error.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось сохранить файл: {error}'**
+  String two_factor_file_save_error(Object error);
+
+  /// No description provided for @moderator_remove_confirmation.
+  ///
+  /// In ru, this message translates to:
+  /// **'{name} ({email}) больше не сможет модерировать товары.'**
+  String moderator_remove_confirmation(Object email, Object name);
+
+  /// No description provided for @moderator_user_label.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пользователь #{id}'**
+  String moderator_user_label(Object id);
+
+  /// No description provided for @moderation_from_min_qty.
+  ///
+  /// In ru, this message translates to:
+  /// **'От {min} шт.'**
+  String moderation_from_min_qty(Object min);
+
+  /// No description provided for @moderation_qty_range.
+  ///
+  /// In ru, this message translates to:
+  /// **'{min}-{max} шт.'**
+  String moderation_qty_range(Object max, Object min);
+
+  /// No description provided for @moderation_summary_time.
+  ///
+  /// In ru, this message translates to:
+  /// **'{summary} · {time}'**
+  String moderation_summary_time(Object summary, Object time);
+
+  /// No description provided for @moderation_stock_quantity.
+  ///
+  /// In ru, this message translates to:
+  /// **'Остаток: {count} шт.'**
+  String moderation_stock_quantity(Object count);
+
+  /// No description provided for @moderation_price_per_unit.
+  ///
+  /// In ru, this message translates to:
+  /// **'{price} ₸ за единицу'**
+  String moderation_price_per_unit(Object price);
+
+  /// No description provided for @moderation_comment_prefix.
+  ///
+  /// In ru, this message translates to:
+  /// **'Комментарий модерации: {comment}'**
+  String moderation_comment_prefix(Object comment);
+
+  /// No description provided for @moderation_characteristic_format.
+  ///
+  /// In ru, this message translates to:
+  /// **'{key} — {value}'**
+  String moderation_characteristic_format(Object key, Object value);
+
+  /// No description provided for @moderator_two_factor_remove_warning.
+  ///
+  /// In ru, this message translates to:
+  /// **'Это удалит все backup-коды и доверенные устройства пользователя {name}. {warning}'**
+  String moderator_two_factor_remove_warning(Object name, Object warning);
 
   /// Auto-extracted from lib\utils\month_year_parser.dart
   ///
@@ -7591,18 +7895,6 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'{count} шт.'**
   String supplier_products_min_quantity(int count);
-
-  /// No description provided for @supplier_orders_order_number.
-  ///
-  /// In ru, this message translates to:
-  /// **'Заказ №{orderId}'**
-  String supplier_orders_order_number(String orderId);
-
-  /// No description provided for @supplier_orders_items_count.
-  ///
-  /// In ru, this message translates to:
-  /// **'{count} поз.'**
-  String supplier_orders_items_count(int count);
 }
 
 class _AppLocalizationsDelegate

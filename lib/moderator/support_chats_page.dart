@@ -116,7 +116,7 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
   String _displayName(SupportChatSummary chat) {
     final base = chat.userName.trim();
     if (base.isNotEmpty) return base;
-    return 'Пользователь #${chat.userId}';
+    return context.l10n.moderatorUserLabel(chat.userId.toString());
   }
 
   String _formatTime(DateTime dateTime) {
@@ -620,7 +620,7 @@ title: Text(context.l10n.closeChatTitle),
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final userName = widget.chat.userName.trim().isEmpty
-        ? 'Пользователь #${widget.chat.userId}'
+        ? context.l10n.moderatorUserLabel(widget.chat.userId.toString())
         : widget.chat.userName;
     final userEmail = widget.chat.userEmail.trim();
     final moderatorId = AuthStorage.userId ?? 0;
@@ -708,7 +708,7 @@ title: Text(context.l10n.closeChatTitle),
               color: context.colorPalette.error.withValues(alpha: 0.08),
               padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
               child: Text(
-                'Причина закрытия: ${_chat!.closeReason}',
+                context.l10n.supportCloseReason(_chat!.closeReason),
                 style: TextStyle(
                   color: context.colorPalette.error,
                   fontWeight: FontWeight.w600,

@@ -314,12 +314,12 @@ class _ModerationPageState extends State<ModerationPage> {
   String _quantityLabel(SupplierProduct product) {
     final maxQuantity = product.maxQuantity;
     if (maxQuantity == null || maxQuantity <= product.minQuantity) {
-      return 'РѕС‚ ${product.minQuantity} С€С‚.';
+      return context.l10n.moderationFromMinQty(product.minQuantity);
     }
-    return '${product.minQuantity}-$maxQuantity С€С‚.';
+    return context.l10n.moderationQtyRange(product.minQuantity, maxQuantity);
   }
 
-  // schedule:РџРЅ,Р’С‚,РџС‚ 14:00 в†’ В«РџРЅ, Р’С‚, РџС‚ В· 14:00В», legacy-СЃС‚СЂРѕРєРё РѕС‚РґР°С‘Рј РєР°Рє РµСЃС‚СЊ.
+  // schedule:Пн,Вт,Пт 14:00 → «Пн, Вт, Пт · 14:00», legacy-строки отдаем как есть.
   String _deliveryDisplay(SupplierProduct product) {
     final raw = product.deliveryBadge.trim().isNotEmpty
         ? product.deliveryBadge.trim()
@@ -330,7 +330,7 @@ class _ModerationPageState extends State<ModerationPage> {
     final summary = formatScheduleSummary(schedule);
     final time = formatDeliveryTimeShort(schedule);
     if (time == null || time.isEmpty) return summary;
-    return '$summary В· $time';
+    return context.l10n.moderationSummaryTime(summary, time);
   }
 
   void _openAboutSheet(SupplierProduct product) {
@@ -341,7 +341,7 @@ class _ModerationPageState extends State<ModerationPage> {
     );
   }
 
-  // РљР°Р¶РґР°СЏ РєР°С‚РµРіРѕСЂРёСЏ - СЃРІРѕР№ С‡РёРї. РРєРѕРЅРєР° С‚РѕР»СЊРєРѕ Сѓ РїРµСЂРІРѕРіРѕ, С‡С‚РѕР±С‹ Р»РµРЅС‚Р° РЅРµ РїРµСЃС‚СЂРёР»Р°.
+  // Каждая категория - свой чип. Иконка только у первого, чтобы лента не пестрила.
   List<Widget> _buildCategoryPills(SupplierProduct product) {
     if (product.categories.isEmpty) {
       return [
@@ -397,8 +397,8 @@ class _ModerationPageState extends State<ModerationPage> {
         .toList();
   }
 
-  // Р”РµР±Р°СѓРЅСЃРёРј РІРІРѕРґ 300РјСЃ - РёРЅР°С‡Рµ setState Рё РїРµСЂРµСЃС‡С‘С‚ С„РёР»СЊС‚СЂР° РґС‘СЂРіР°СЋС‚СЃСЏ РЅР° РєР°Р¶РґС‹Р№
-  // СЃРёРјРІРѕР» РїСЂРё Р±С‹СЃС‚СЂРѕРј РЅР°Р±РѕСЂРµ.
+  // Дебаунсим ввод 300мс - иначе setState и пересчет фильтра дергаются на каждый
+  // символ при быстром наборе.
   void _onSearchChanged(String value) {
     _searchDebounce?.cancel();
     _searchDebounce = Timer(_searchDebounceDuration, () {
@@ -754,7 +754,7 @@ class _ModerationPageState extends State<ModerationPage> {
                                             _ModerationInfoPill(
                                               icon: Icons.inventory_2_outlined,
                                               text:
-                                                  'РћСЃС‚Р°С‚РѕРє: ${product.stockQuantity} С€С‚.',
+                                                  context.l10n.moderationStockQuantity(product.stockQuantity),
                                             ),
                                             if (product.deliveryBadge
                                                     .trim()
@@ -788,7 +788,7 @@ class _ModerationPageState extends State<ModerationPage> {
                                               _ModerationMetricRow(
                                                 label: AppLocalizations.current.getString('auto_tsena'),
                                                 value:
-                                                    '${product.pricePerUnit} в‚ё Р·Р° РµРґРёРЅРёС†Сѓ',
+                                                    context.l10n.moderationPricePerUnit(product.pricePerUnit.toString()),
                                               ),
                                               const SizedBox(height: 8),
                                               _ModerationMetricRow(
@@ -830,7 +830,7 @@ class _ModerationPageState extends State<ModerationPage> {
                                               ),
                                             ),
                                             child: Text(
-                                              'РљРѕРјРјРµРЅС‚Р°СЂРёР№ РјРѕРґРµСЂР°С†РёРё: ${product.moderationComment}',
+                                              context.l10n.moderationCommentPrefix(product.moderationComment),
                                               style: TextStyle(
                                                 color: colorScheme
                                                     .onSurfaceVariant,
@@ -879,10 +879,10 @@ class _ModerationPageState extends State<ModerationPage> {
                                               ),
                                             );
 
-                                            // РќР° СЌС‚Р°РїРµ pending РєРЅРѕРїРєСѓ В«РЈРґР°Р»РёС‚СЊ Р·Р° РЅР°СЂСѓС€РµРЅРёРµВ»
-                                            // РЅРµ РїРѕРєР°Р·С‹РІР°РµРј - РґР»СЏ РѕС‚РєР°Р·Р° РµСЃС‚СЊ В«РћС‚РєР»РѕРЅРёС‚СЊВ»,
-                                            // СѓРґР°Р»РµРЅРёРµ РёРјРµРµС‚ СЃРјС‹СЃР» С‚РѕР»СЊРєРѕ РґР»СЏ СѓР¶Рµ РѕРїСѓР±Р»РёРєРѕРІР°РЅРЅС‹С…
-                                            // РёР»Рё СЂР°РЅРµРµ РѕС‚РєР»РѕРЅС‘РЅРЅС‹С… С‚РѕРІР°СЂРѕРІ.
+                                            // На этапе pending кнопку «Удалить за нарушение»
+                                            // не показываем - для отказа есть «Отклонить»,
+                                            // удаление имеет смысл только для уже опубликованных
+                                            // или ранее отклоненных товаров.
                                             if (product.moderationStatus !=
                                                 'pending') {
                                               return SizedBox(
@@ -1101,7 +1101,7 @@ class _ModerationMetricRow extends StatelessWidget {
   }
 }
 
-// РџР»Р°С€РєР°-РІС…РѕРґ РІ bottom sheet СЃ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєР°РјРё Рё РѕРїРёСЃР°РЅРёРµРј.
+// Плашка-вход в bottom sheet с характеристиками и описанием.
 class _ModerationAboutTile extends StatelessWidget {
   const _ModerationAboutTile({required this.product, required this.onTap});
 
@@ -1112,7 +1112,7 @@ class _ModerationAboutTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.colorPalette;
     final colorScheme = Theme.of(context).colorScheme;
-    final preview = _aboutPreview(product);
+    final preview = _aboutPreview(context, product);
 
     return InkWell(
       onTap: onTap,
@@ -1171,7 +1171,7 @@ class _ModerationAboutTile extends StatelessWidget {
     );
   }
 
-  String _aboutPreview(SupplierProduct product) {
+  String _aboutPreview(BuildContext context, SupplierProduct product) {
     final sections = buildSupplierProductSections(product);
     final parts = <String>[];
     outer:
@@ -1180,7 +1180,7 @@ class _ModerationAboutTile extends StatelessWidget {
         if (item.key.trim().isEmpty) {
           parts.add(item.value);
         } else {
-          parts.add('${item.key} вЂ” ${item.value}');
+          parts.add(context.l10n.moderationCharacteristicFormat(item.key, item.value));
         }
         if (parts.length >= 3) break outer;
       }

@@ -49,7 +49,11 @@ class _FAQsPageState extends State<FAQsPage> {
     {
       'question': context.l10n.getString('auto_kakIzmenitAdresDostavk'),
       'answer':
-          'Вы можете изменить адрес доставки в разделе ${context.l10n.getString('auto_profil')} -> ${context.l10n.getString('auto_adresa')}. ${context.l10n.getString('auto_takzheMozhnoUkazatNov')}',
+          context.l10n.faqsAddressChangeInfo(
+            context.l10n.getString('auto_profil'),
+            context.l10n.getString('auto_adresa'),
+            context.l10n.getString('auto_takzheMozhnoUkazatNov'),
+          ),
     },
     {
       'question': context.l10n.getString('auto_chtoDelatEsliTovarNe'),
@@ -59,7 +63,10 @@ class _FAQsPageState extends State<FAQsPage> {
     {
       'question': context.l10n.getString('auto_kakSvyazatsyaSPodderzh'),
       'answer':
-          'Вы можете связаться с нами через раздел ${context.l10n.getString('auto_tehpodderzhka')} ${context.l10n.getString('auto_vPrilozheniiPoElektro')}',
+          context.l10n.faqsSupportContactInfo(
+            context.l10n.getString('auto_tehpodderzhka'),
+            context.l10n.getString('auto_vPrilozheniiPoElektro'),
+          ),
     },
     {
       'question': context.l10n.getString('auto_estLiMinimalnayaSumma'),
