@@ -13,7 +13,6 @@ import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/phone_input_formatter.dart';
 import '../widgets/profile/user_avatar.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
-import '../core/ui/theme/app_dimensions.dart';
 
 class EditProfilePage extends StatefulWidget {
   final String title;
@@ -113,7 +112,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ),
       builder: (sheetContext) {
         return SafeArea(
-          minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

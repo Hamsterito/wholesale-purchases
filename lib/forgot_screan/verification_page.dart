@@ -10,7 +10,6 @@ import '../services/api/api_config.dart';
 import '../services/api/app_http_client.dart';
 import '../services/app_logger.dart';
 import '../services/storage/otp_cooldown_store.dart';
-import '../core/ui/theme/app_dimensions.dart';
 import '../core/ui/widgets/thumb_zone_builder.dart';
 class VerificationPage extends StatefulWidget {
   final String email;
@@ -281,7 +280,6 @@ class _VerificationPageState extends State<VerificationPage> {
               ),
               child: SafeArea(
                 top: false,
-                minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
                 child: Padding(
                   padding: const EdgeInsets.all(32),
                   child: Column(

@@ -11,7 +11,6 @@ import '../services/api/app_http_client.dart';
 import '../services/app_logger.dart';
 import '../services/storage/otp_cooldown_store.dart';
 import '../utils/api_response_parser.dart';
-import '../core/ui/theme/app_dimensions.dart';
 import '../core/ui/widgets/thumb_zone_builder.dart';
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -202,7 +201,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
               child: SafeArea(
                 top: false,
-                minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(32),

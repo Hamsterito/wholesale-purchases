@@ -24,7 +24,6 @@ import '../widgets/pages/templates_sheet.dart';
 import '../widgets/messages/top_message.dart';
 import '../services/localization/app_localizations.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
-import '../core/ui/theme/app_dimensions.dart';
 import '../core/ui/widgets/thumb_zone_builder.dart';
 const double _buttonRadius = 18;
 
@@ -421,7 +420,6 @@ class _CartPageState extends State<CartPage> {
                 : l10n.getString('cart_payment_method_card_none');
             return SafeArea(
               top: false,
-              minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
               child: Container(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
                 decoration: BoxDecoration(
@@ -842,7 +840,6 @@ class _CartPageState extends State<CartPage> {
             final selectedAddress = _findAddressById(addresses, selectedId);
             return SafeArea(
               top: false,
-              minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
               child: Container(
                 constraints: BoxConstraints(maxHeight: maxHeight),
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
@@ -1325,7 +1322,7 @@ try {
               _buildHeader(context),
               Expanded(
                 child: ListView(
-                  padding: const EdgeInsets.fromLTRB(16, 10, 16, 160),
+                  padding: const EdgeInsets.fromLTRB(16, 10, 16, 100),
                   children: [
                     _buildSummaryCard(),
                     ..._cartItemsBySupplier.entries.map((entry) {
@@ -1756,7 +1753,6 @@ try {
       color: Colors.transparent,
       child: SafeArea(
         top: false,
-        minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
           child: Column(

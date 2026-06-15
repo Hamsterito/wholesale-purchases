@@ -136,7 +136,7 @@
   "@auth_logout": {
     "description": "Кнопка выхода из аккаунта"
   },
-  "catalog_title": "Каталог",
+  "catalog_title": "�������",
   "@catalog_title": {
     "description": "Заголовок страницы каталога"
   },
@@ -156,7 +156,7 @@
   "@catalog_no_products": {
     "description": "Уведомление об отсутствии товаров"
   },
-  "cart_title": "Себет",
+  "cart_title": "�����",
   "@cart_title": {
     "description": "Тема страницы корзины"
   },
@@ -184,7 +184,7 @@
   "@cart_payment_button": {
     "description": "Кнопка оплаты Заказа"
   },
-  "order_title": "Тапсырыстар",
+  "order_title": "�����������",
   "@order_title": {
     "description": "Заголовок страницы заказов"
   },
@@ -220,7 +220,7 @@
   "@product_review_share": {
     "description": "Совет поля мнений"
   },
-  "profile_title": "Профиль",
+  "profile_title": "�������",
   "@profile_title": {
     "description": "Заголовок страницы профиля"
   },
@@ -248,7 +248,7 @@
   "@profile_edit_field_hint": {
     "description": "Совет поля редактирования профиля"
   },
-  "supplier_products": "Өнімдер",
+  "supplier_products": "����? ����������",
   "@supplier_products": {
     "description": "Заголовок страницы товаров поставщика"
   },
@@ -1222,23 +1222,23 @@
   "@settings_app_version": {
     "description": "Значок версии приложения"
   },
-  "nav_home": "Басты бет",
+  "nav_home": "�����",
   "@nav_home": {
     "description": "Навигация: Домашняя страница"
   },
-  "nav_statistics": "Статистика",
+  "nav_statistics": "����������",
   "@nav_statistics": {
     "description": "Навигация: статистика"
   },
-  "nav_moderation": "Модерациялау",
+  "nav_moderation": "���������",
   "@nav_moderation": {
     "description": "Навигация: модерация"
   },
-  "nav_chats": "Чаттар",
+  "nav_chats": "������",
   "@nav_chats": {
     "description": "Навигация: чаты поддержки"
   },
-  "nav_moderators": "Модераторлар",
+  "nav_moderators": "������������",
   "@nav_moderators": {
     "description": "Навигация: список модераторов"
   },
@@ -5731,7 +5731,7 @@
   "@auto_proverteVvedyonnyeDanny": {},
   "auto_neUdalosSohranitKartu": "Картаны сақтау мүмкін болмады",
   "@auto_neUdalosSohranitKartu": {},
-  "auto_dobavitMetodOplaty": "Төлем әдісін қосыңыз",
+  "auto_dobavitMetodOplaty": "Төлем тәсілін қосыңыз",
   "@auto_dobavitMetodOplaty": {},
   "auto_imyaVladeltsaKarty": "КАРТА ИЕСІНІҢ АТЫ",
   "@auto_imyaVladeltsaKarty": {},
@@ -5741,7 +5741,7 @@
   "@auto_srokDeystviya": {},
   "auto_mmgg": "ММ / ЖЖ",
   "@auto_mmgg": {},
-  "auto_dobavitMetodOplaty_1": "ТӨЛЕМ ӘДІСІН ҚОСЫҢЫЗ",
+  "auto_dobavitMetodOplaty_1": "ТӨЛЕМ ТӘСІЛІН ҚОСЫҢЫЗ",
   "@auto_dobavitMetodOplaty_1": {},
   "auto_vvediteTekushchiyParol": "Ағымдағы құпия сөзді енгізіңіз",
   "@auto_vvediteTekushchiyParol": {},
@@ -5811,11 +5811,11 @@
   "@auto_vyMozheteOtmenitZakaz": {},
   "auto_kakIzmenitAdresDostavk": "Жеткізу мекенжайын қалай өзгертуге болады?",
   "@auto_kakIzmenitAdresDostavk": {},
-  "auto_profil": "Жеткізу мекенжайын Профиль - > мекенжайлар астында өзгертуге болады. Тапсырысты рәсімдеу кезінде жаңа мекенжайды да көрсетуге болады.",
+  "auto_profil": "�������",
   "@auto_profil": {},
-  "auto_adresa": "Жеткізу мекенжайын Профиль - > мекенжайлар астында өзгертуге болады. Тапсырысты рәсімдеу кезінде жаңа мекенжайды да көрсетуге болады.",
+  "auto_adresa": "�����������",
   "@auto_adresa": {},
-  "auto_takzheMozhnoUkazatNov": "Жеткізу мекенжайын Профиль - > мекенжайлар астында өзгертуге болады. Тапсырысты рәсімдеу кезінде жаңа мекенжайды да көрсетуге болады.",
+  "auto_takzheMozhnoUkazatNov": "���������� �?����� ������ ��?� ���������� �� �?������� ������.",
   "@auto_takzheMozhnoUkazatNov": {},
   "auto_chtoDelatEsliTovarNe": "Егер Өнім сәйкес келмесе не істеу керек?",
   "@auto_chtoDelatEsliTovarNe": {},
@@ -5859,7 +5859,7 @@
   "@auto_udalitAdres": {},
   "auto_kartaDobavlena": "Карта қосылды",
   "@auto_kartaDobavlena": {},
-  "auto_metodOplaty": "Төлем әдісі",
+  "auto_metodOplaty": "Төлем тәсілі",
   "@auto_metodOplaty": {},
   "auto_nalichnye": "Қолма-қол ақша",
   "@auto_nalichnye": {},
@@ -5923,7 +5923,7 @@
   "@auto_vyyti": {},
   "auto_moiZakazy": "Менің тапсырыстарым",
   "@auto_moiZakazy": {},
-  "auto_sposobOplaty": "Төлем әдісі",
+  "auto_sposobOplaty": "Төлем тәсілі",
   "@auto_sposobOplaty": {},
   "auto_vashiOtzyvy": "Сіздің пікірлеріңіз",
   "@auto_vashiOtzyvy": {},
@@ -6136,7 +6136,7 @@
   "@auto_vPuti": {},
   "auto_sobira": "жинаушы",
   "@auto_sobira": {},
-  "auto_dostav": "delivered",
+  "auto_dostav": "Жеткізілді",
   "@auto_dostav": {},
   "auto_oshibkaOperatsii": "Операция қатесі",
   "@auto_oshibkaOperatsii": {},

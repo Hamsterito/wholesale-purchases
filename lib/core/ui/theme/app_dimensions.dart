@@ -11,7 +11,7 @@ class AppDimensions {
 
   /// Минимальный безопасный отступ снизу (например, для системной навигации).
   /// Равен 48.0 dp, чтобы контент не перекрывался подбородком.
-  static const double minBottomSafePadding = 48.0;
+  static const double minBottomSafePadding = 0.0;
 
   /// Базовая ширина логического экрана, на которую ориентирован дизайн.
   static const double logicalWidth = 360.0;

@@ -11,7 +11,6 @@ import '../services/api/app_http_client.dart';
 import '../services/app_logger.dart';
 import '../services/storage/otp_cooldown_store.dart';
 import '../utils/api_response_parser.dart';
-import '../core/ui/theme/app_dimensions.dart';
 import '../core/ui/widgets/thumb_zone_builder.dart';
 import 'reset_password_page.dart';
 
@@ -301,7 +300,6 @@ class _ForgotPasswordVerificationPageState
               ),
               child: SafeArea(
                 top: false,
-                minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
                 child: Padding(
                   padding: const EdgeInsets.all(32),
                   child: Column(

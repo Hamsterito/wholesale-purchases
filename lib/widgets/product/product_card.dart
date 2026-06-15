@@ -932,9 +932,13 @@ class _ProductCardState extends State<ProductCard> {
           emptyColor: _mutedText.withValues(alpha: 0.7),
         ),
         const SizedBox(width: 4),
-        Text(
-          reviewsLabel(product.reviewCount),
-          style: TextStyle(fontSize: compact ? 10 : 11, color: _mutedText),
+        Expanded(
+          child: Text(
+            reviewsLabel(product.reviewCount),
+            style: TextStyle(fontSize: compact ? 10 : 11, color: _mutedText),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );

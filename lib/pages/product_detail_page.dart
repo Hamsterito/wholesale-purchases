@@ -11,7 +11,6 @@ import '../services/store/favorites_store.dart';
 import '../services/store/supplier_stats_store.dart';
 import '../widgets/pages/category_tags.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
-import '../core/ui/theme/app_dimensions.dart';
 import '../core/ui/widgets/thumb_zone_builder.dart';
 import '../widgets/pages/product_image_carousel.dart';
 import '../widgets/pages/rating_section.dart';
@@ -1674,7 +1673,6 @@ class _AboutProductSheetState extends State<_AboutProductSheet>
 
     return SafeArea(
       top: false,
-      minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
       child: Column(

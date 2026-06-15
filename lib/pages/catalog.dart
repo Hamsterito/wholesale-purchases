@@ -315,7 +315,6 @@ class _CatalogPageState extends State<CatalogPage> {
       backgroundColor: _pageBg,
       body: SafeArea(
         bottom: false,
-        minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
         child: Column(
           children: [
             _buildHeader(),

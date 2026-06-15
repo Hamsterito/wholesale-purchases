@@ -1301,7 +1301,7 @@ abstract class AppLocalizations {
   /// Сообщение об отсутствии комментариев
   ///
   /// In ru, this message translates to:
-  /// **'Нет комментариев'**
+  /// **'Нет отзывов'**
   String get qa_no_reviews;
 
   /// Текст пустого поля по умолчанию
@@ -1415,13 +1415,13 @@ abstract class AppLocalizations {
   /// Заголовок страницы комментариев
   ///
   /// In ru, this message translates to:
-  /// **'Ваши комментарии'**
+  /// **'Ваши отзывы'**
   String get profile_reviews_title;
 
   /// Сообщение об отсутствии комментариев
   ///
   /// In ru, this message translates to:
-  /// **'пока нет комментариев'**
+  /// **'пока нет отзывов'**
   String get profile_reviews_empty;
 
   /// Тема ожидаемой секции комментариев
@@ -1439,7 +1439,7 @@ abstract class AppLocalizations {
   /// Кнопка Оставить комментарий
   ///
   /// In ru, this message translates to:
-  /// **'Оставить комментарий'**
+  /// **'Оставить отзыв'**
   String get profile_reviews_leave_review;
 
   /// Расчет отзывов
@@ -1451,7 +1451,7 @@ abstract class AppLocalizations {
   /// Тема секции комментариев
   ///
   /// In ru, this message translates to:
-  /// **'Ваши комментарии'**
+  /// **'Ваши отзывы'**
   String get profile_reviews_section_title;
 
   /// Комментарии к разделу пустые подзаголовки
@@ -1505,13 +1505,13 @@ abstract class AppLocalizations {
   /// Сообщение об успешном сохранении
   ///
   /// In ru, this message translates to:
-  /// **'Комментарий обновлен'**
+  /// **'Отзыв обновлен'**
   String get profile_reviews_saved_success;
 
   /// Сообщение об ошибке сохранения
   ///
   /// In ru, this message translates to:
-  /// **'Комментарий не удалось сохранить'**
+  /// **'Отзыв не удалось сохранить'**
   String get profile_reviews_save_error;
 
   /// Уведомление о необходимости авторизации
@@ -1535,7 +1535,7 @@ abstract class AppLocalizations {
   /// Сообщение об ошибке отправки
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось Отправить комментарий'**
+  /// **'Не удалось Отправить отзыв'**
   String get profile_reviews_submit_error;
 
   /// Подтверждение удаления
@@ -1547,13 +1547,13 @@ abstract class AppLocalizations {
   /// Сообщение об успешном удалении
   ///
   /// In ru, this message translates to:
-  /// **'Комментарий удален'**
+  /// **'Отзыв удален'**
   String get profile_reviews_delete_success;
 
   /// Сообщение об ошибке удаления
   ///
   /// In ru, this message translates to:
-  /// **'Удалить комментарий не удалось'**
+  /// **'Удалить отзыв не удалось'**
   String get profile_reviews_delete_error;
 
   /// Кнопка закрытия диалога
@@ -1685,7 +1685,7 @@ abstract class AppLocalizations {
   /// Подтверждение удаления
   ///
   /// In ru, this message translates to:
-  /// **'Удалить комментарий?'**
+  /// **'Удалить отзыв?'**
   String get review_delete_confirm;
 
   /// Кнопка закрытия диалога
@@ -1709,25 +1709,25 @@ abstract class AppLocalizations {
   /// Кнопка Оставить комментарий
   ///
   /// In ru, this message translates to:
-  /// **'Оставить комментарий'**
+  /// **'Оставить отзыв'**
   String get review_leave_draft;
 
   /// Кнопка Отправить комментарий
   ///
   /// In ru, this message translates to:
-  /// **'Отправить комментарий'**
+  /// **'Отправить отзыв'**
   String get review_submit_draft;
 
   /// Сообщение Спасибо за комментарий
   ///
   /// In ru, this message translates to:
-  /// **'Спасибо за комментарий!'**
+  /// **'Спасибо за отзыв!'**
   String get review_thank_you;
 
   /// Сообщение об отсутствии комментариев
   ///
   /// In ru, this message translates to:
-  /// **'пока нет комментариев'**
+  /// **'пока нет отзывов'**
   String get review_no_questions_empty;
 
   /// Удалить кнопка подтверждения
@@ -3647,7 +3647,7 @@ abstract class AppLocalizations {
   /// Auto-added missing key
   ///
   /// In ru, this message translates to:
-  /// **'Комментарий'**
+  /// **'Отзыв'**
   String get moderation_comment_hint;
 
   /// Auto-added missing key
@@ -5819,7 +5819,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Комментарий'**
+  /// **'Отзыв'**
   String get auto_kommentariy;
 
   /// Auto-extracted
@@ -6729,7 +6729,7 @@ abstract class AppLocalizations {
   /// No description provided for @moderation_comment_prefix.
   ///
   /// In ru, this message translates to:
-  /// **'Комментарий модерации: {comment}'**
+  /// **'Отзыв модерации: {comment}'**
   String moderation_comment_prefix(Object comment);
 
   /// No description provided for @moderation_characteristic_format.
@@ -8937,7 +8937,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_dobavitMetodOplaty.
   ///
   /// In ru, this message translates to:
-  /// **'Добавить метод оплаты'**
+  /// **'Добавить способ оплаты'**
   String get auto_dobavitMetodOplaty;
 
   /// No description provided for @auto_imyaVladeltsaKarty.
@@ -8967,7 +8967,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_dobavitMetodOplaty_1.
   ///
   /// In ru, this message translates to:
-  /// **'ДОБАВИТЬ МЕТОД ОПЛАТЫ'**
+  /// **'ДОБАВИТЬ СПОСОБ ОПЛАТЫ'**
   String get auto_dobavitMetodOplaty_1;
 
   /// No description provided for @auto_vvediteTekushchiyParol.
@@ -9177,19 +9177,19 @@ abstract class AppLocalizations {
   /// No description provided for @auto_profil.
   ///
   /// In ru, this message translates to:
-  /// **'Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.'**
+  /// **'�������'**
   String get auto_profil;
 
   /// No description provided for @auto_adresa.
   ///
   /// In ru, this message translates to:
-  /// **'Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.'**
+  /// **'������'**
   String get auto_adresa;
 
   /// No description provided for @auto_takzheMozhnoUkazatNov.
   ///
   /// In ru, this message translates to:
-  /// **'Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.'**
+  /// **'����� ����� ������� ����� ����� ��� ���������� ������.'**
   String get auto_takzheMozhnoUkazatNov;
 
   /// No description provided for @auto_chtoDelatEsliTovarNe.
@@ -9321,7 +9321,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_metodOplaty.
   ///
   /// In ru, this message translates to:
-  /// **'Метод оплаты'**
+  /// **'Способ оплаты'**
   String get auto_metodOplaty;
 
   /// No description provided for @auto_nalichnye.
@@ -10155,7 +10155,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_dostav.
   ///
   /// In ru, this message translates to:
-  /// **'достав'**
+  /// **'Доставлен'**
   String get auto_dostav;
 
   /// No description provided for @auto_oshibkaOperatsii.

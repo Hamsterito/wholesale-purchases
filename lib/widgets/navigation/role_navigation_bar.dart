@@ -8,7 +8,6 @@ import 'nav_colors.dart';
 import 'nav_helpers.dart';
 import 'nav_role.dart';
 import 'notification_badge.dart';
-import '../../core/ui/theme/app_dimensions.dart';
 
 /// Универсальная нижняя навигация, управляемая списком вкладок.
 ///
@@ -52,7 +51,6 @@ class RoleNavigationBar extends StatelessWidget {
         ],
       ),
       child: SafeArea(
-        minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(

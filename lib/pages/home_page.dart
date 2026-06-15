@@ -241,7 +241,6 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
       backgroundColor: _pageBg,
       body: SafeArea(
         bottom: false,
-        minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
         child: Column(
           children: [
             _buildHeader(),

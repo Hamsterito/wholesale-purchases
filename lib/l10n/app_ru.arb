@@ -849,7 +849,7 @@
   "@qa_no_questions": {
     "description": "Уведомление об отсутствии вопросов"
   },
-  "qa_no_reviews": "Нет комментариев",
+  "qa_no_reviews": "Нет отзывов",
   "@qa_no_reviews": {
     "description": "Сообщение об отсутствии комментариев"
   },
@@ -930,11 +930,11 @@
   "@unknown_error": {
     "description": "Неизвестное сообщение об ошибке"
   },
-  "profile_reviews_title": "Ваши комментарии",
+  "profile_reviews_title": "Ваши отзывы",
   "@profile_reviews_title": {
     "description": "Заголовок страницы комментариев"
   },
-  "profile_reviews_empty": "пока нет комментариев",
+  "profile_reviews_empty": "пока нет отзывов",
   "@profile_reviews_empty": {
     "description": "Сообщение об отсутствии комментариев"
   },
@@ -946,7 +946,7 @@
   "@profile_reviews_pending_subtitle": {
     "description": "Подзаголовок секции ожидаемых отзывов"
   },
-  "profile_reviews_leave_review": "Оставить комментарий",
+  "profile_reviews_leave_review": "Оставить отзыв",
   "@profile_reviews_leave_review": {
     "description": "Кнопка Оставить комментарий"
   },
@@ -959,7 +959,7 @@
       }
     }
   },
-  "profile_reviews_section_title": "Ваши комментарии",
+  "profile_reviews_section_title": "Ваши отзывы",
   "@profile_reviews_section_title": {
     "description": "Тема секции комментариев"
   },
@@ -1000,11 +1000,11 @@
   "@profile_reviews_save_button": {
     "description": "Кнопка сохранения"
   },
-  "profile_reviews_saved_success": "Комментарий обновлен",
+  "profile_reviews_saved_success": "Отзыв обновлен",
   "@profile_reviews_saved_success": {
     "description": "Сообщение об успешном сохранении"
   },
-  "profile_reviews_save_error": "Комментарий не удалось сохранить",
+  "profile_reviews_save_error": "Отзыв не удалось сохранить",
   "@profile_reviews_save_error": {
     "description": "Сообщение об ошибке сохранения"
   },
@@ -1020,7 +1020,7 @@
   "@profile_reviews_submit_success": {
     "description": "Успешное отправление сообщения"
   },
-  "profile_reviews_submit_error": "Не удалось Отправить комментарий",
+  "profile_reviews_submit_error": "Не удалось Отправить отзыв",
   "@profile_reviews_submit_error": {
     "description": "Сообщение об ошибке отправки"
   },
@@ -1028,11 +1028,11 @@
   "@profile_reviews_delete_confirm": {
     "description": "Подтверждение удаления"
   },
-  "profile_reviews_delete_success": "Комментарий удален",
+  "profile_reviews_delete_success": "Отзыв удален",
   "@profile_reviews_delete_success": {
     "description": "Сообщение об успешном удалении"
   },
-  "profile_reviews_delete_error": "Удалить комментарий не удалось",
+  "profile_reviews_delete_error": "Удалить отзыв не удалось",
   "@profile_reviews_delete_error": {
     "description": "Сообщение об ошибке удаления"
   },
@@ -1125,7 +1125,7 @@
   "@review_submit_button": {
     "description": "Кнопка Отправить комментарий"
   },
-  "review_delete_confirm": "Удалить комментарий?",
+  "review_delete_confirm": "Удалить отзыв?",
   "@review_delete_confirm": {
     "description": "Подтверждение удаления"
   },
@@ -1141,19 +1141,19 @@
   "@review_delete_draft": {
     "description": "Кнопка удаления"
   },
-  "review_leave_draft": "Оставить комментарий",
+  "review_leave_draft": "Оставить отзыв",
   "@review_leave_draft": {
     "description": "Кнопка Оставить комментарий"
   },
-  "review_submit_draft": "Отправить комментарий",
+  "review_submit_draft": "Отправить отзыв",
   "@review_submit_draft": {
     "description": "Кнопка Отправить комментарий"
   },
-  "review_thank_you": "Спасибо за комментарий!",
+  "review_thank_you": "Спасибо за отзыв!",
   "@review_thank_you": {
     "description": "Сообщение Спасибо за комментарий"
   },
-  "review_no_questions_empty": "пока нет комментариев",
+  "review_no_questions_empty": "пока нет отзывов",
   "@review_no_questions_empty": {
     "description": "Сообщение об отсутствии комментариев"
   },
@@ -2605,7 +2605,7 @@
   "@moderation_reject_hint": {
     "description": "Auto-added missing key"
   },
-  "moderation_comment_hint": "Комментарий",
+  "moderation_comment_hint": "Отзыв",
   "@moderation_comment_hint": {
     "description": "Auto-added missing key"
   },
@@ -4123,7 +4123,7 @@
   "@auto_prichina_otkloneniya": {
     "description": "Auto-extracted"
   },
-  "auto_kommentariy": "Комментарий",
+  "auto_kommentariy": "Отзыв",
   "@auto_kommentariy": {
     "description": "Auto-extracted"
   },
@@ -4623,7 +4623,7 @@
   "moderation_summary_time": "{summary} · {time}",
   "moderation_stock_quantity": "Остаток: {count} шт.",
   "moderation_price_per_unit": "{price} ₸ за единицу",
-  "moderation_comment_prefix": "Комментарий модерации: {comment}",
+  "moderation_comment_prefix": "Отзыв модерации: {comment}",
   "moderation_characteristic_format": "{key} — {value}",
   "moderator_two_factor_remove_warning": "Это удалит все backup-коды и доверенные устройства пользователя {name}. {warning}",
   "month_year_parser_auto_66": "ноя",
@@ -5731,7 +5731,7 @@
   "@auto_proverteVvedyonnyeDanny": {},
   "auto_neUdalosSohranitKartu": "Не удалось сохранить карту",
   "@auto_neUdalosSohranitKartu": {},
-  "auto_dobavitMetodOplaty": "Добавить метод оплаты",
+  "auto_dobavitMetodOplaty": "Добавить способ оплаты",
   "@auto_dobavitMetodOplaty": {},
   "auto_imyaVladeltsaKarty": "ИМЯ ВЛАДЕЛЬЦА КАРТЫ",
   "@auto_imyaVladeltsaKarty": {},
@@ -5741,7 +5741,7 @@
   "@auto_srokDeystviya": {},
   "auto_mmgg": "ММ/ГГ",
   "@auto_mmgg": {},
-  "auto_dobavitMetodOplaty_1": "ДОБАВИТЬ МЕТОД ОПЛАТЫ",
+  "auto_dobavitMetodOplaty_1": "ДОБАВИТЬ СПОСОБ ОПЛАТЫ",
   "@auto_dobavitMetodOplaty_1": {},
   "auto_vvediteTekushchiyParol": "Введите текущий пароль",
   "@auto_vvediteTekushchiyParol": {},
@@ -5811,11 +5811,11 @@
   "@auto_vyMozheteOtmenitZakaz": {},
   "auto_kakIzmenitAdresDostavk": "Как изменить адрес доставки?",
   "@auto_kakIzmenitAdresDostavk": {},
-  "auto_profil": "Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.",
+  "auto_profil": "�������",
   "@auto_profil": {},
-  "auto_adresa": "Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.",
+  "auto_adresa": "������",
   "@auto_adresa": {},
-  "auto_takzheMozhnoUkazatNov": "Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.",
+  "auto_takzheMozhnoUkazatNov": "����� ����� ������� ����� ����� ��� ���������� ������.",
   "@auto_takzheMozhnoUkazatNov": {},
   "auto_chtoDelatEsliTovarNe": "Что делать если товар не подошел?",
   "@auto_chtoDelatEsliTovarNe": {},
@@ -5859,7 +5859,7 @@
   "@auto_udalitAdres": {},
   "auto_kartaDobavlena": "Карта добавлена",
   "@auto_kartaDobavlena": {},
-  "auto_metodOplaty": "Метод оплаты",
+  "auto_metodOplaty": "Способ оплаты",
   "@auto_metodOplaty": {},
   "auto_nalichnye": "Наличные",
   "@auto_nalichnye": {},
@@ -6136,7 +6136,7 @@
   "@auto_vPuti": {},
   "auto_sobira": "собира",
   "@auto_sobira": {},
-  "auto_dostav": "достав",
+  "auto_dostav": "Доставлен",
   "@auto_dostav": {},
   "auto_oshibkaOperatsii": "Ошибка операции",
   "@auto_oshibkaOperatsii": {},

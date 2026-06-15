@@ -111,7 +111,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auth_logout => 'Шығу';
 
   @override
-  String get catalog_title => 'Каталог';
+  String get catalog_title => '�������';
 
   @override
   String get catalog_search_hint => 'Іздеу...';
@@ -126,7 +126,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get catalog_no_products => 'Тауарлар табылған жоқ';
 
   @override
-  String get cart_title => 'Себет';
+  String get cart_title => '�����';
 
   @override
   String get cart_empty => 'Сіздің себетіңіз бос';
@@ -147,7 +147,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get cart_payment_button => 'Төлеу';
 
   @override
-  String get order_title => 'Тапсырыстар';
+  String get order_title => '�����������';
 
   @override
   String get order_history => 'Тапсырыс тарихы';
@@ -174,7 +174,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get product_review_share => 'Өз әсерлеріңізбен бөлісіңіз';
 
   @override
-  String get profile_title => 'Профиль';
+  String get profile_title => '�������';
 
   @override
   String get profile_settings => 'Параметрлер';
@@ -195,7 +195,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get profile_edit_field_hint => 'Жаңа мәнді енгізіңіз';
 
   @override
-  String get supplier_products => 'Өнімдер';
+  String get supplier_products => '����? ����������';
 
   @override
   String get supplier_orders => 'Тапсырыстар';
@@ -912,19 +912,19 @@ class AppLocalizationsKk extends AppLocalizations {
   String get settings_app_version => 'Қолданба нұсқасы';
 
   @override
-  String get nav_home => 'Басты бет';
+  String get nav_home => '�����';
 
   @override
-  String get nav_statistics => 'Статистика';
+  String get nav_statistics => '����������';
 
   @override
-  String get nav_moderation => 'Модерациялау';
+  String get nav_moderation => '���������';
 
   @override
-  String get nav_chats => 'Чаттар';
+  String get nav_chats => '������';
 
   @override
-  String get nav_moderators => 'Модераторлар';
+  String get nav_moderators => '������������';
 
   @override
   String get supplier_delete_product_confirm =>
@@ -4911,7 +4911,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_neUdalosSohranitKartu => 'Картаны сақтау мүмкін болмады';
 
   @override
-  String get auto_dobavitMetodOplaty => 'Төлем әдісін қосыңыз';
+  String get auto_dobavitMetodOplaty => 'Төлем тәсілін қосыңыз';
 
   @override
   String get auto_imyaVladeltsaKarty => 'КАРТА ИЕСІНІҢ АТЫ';
@@ -4926,7 +4926,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_mmgg => 'ММ / ЖЖ';
 
   @override
-  String get auto_dobavitMetodOplaty_1 => 'ТӨЛЕМ ӘДІСІН ҚОСЫҢЫЗ';
+  String get auto_dobavitMetodOplaty_1 => 'ТӨЛЕМ ТӘСІЛІН ҚОСЫҢЫЗ';
 
   @override
   String get auto_vvediteTekushchiyParol => 'Ағымдағы құпия сөзді енгізіңіз';
@@ -5039,16 +5039,14 @@ class AppLocalizationsKk extends AppLocalizations {
       'Жеткізу мекенжайын қалай өзгертуге болады?';
 
   @override
-  String get auto_profil =>
-      'Жеткізу мекенжайын Профиль - > мекенжайлар астында өзгертуге болады. Тапсырысты рәсімдеу кезінде жаңа мекенжайды да көрсетуге болады.';
+  String get auto_profil => '�������';
 
   @override
-  String get auto_adresa =>
-      'Жеткізу мекенжайын Профиль - > мекенжайлар астында өзгертуге болады. Тапсырысты рәсімдеу кезінде жаңа мекенжайды да көрсетуге болады.';
+  String get auto_adresa => '�����������';
 
   @override
   String get auto_takzheMozhnoUkazatNov =>
-      'Жеткізу мекенжайын Профиль - > мекенжайлар астында өзгертуге болады. Тапсырысты рәсімдеу кезінде жаңа мекенжайды да көрсетуге болады.';
+      '���������� �?����� ������ ��?� ���������� �� �?������� ������.';
 
   @override
   String get auto_chtoDelatEsliTovarNe =>
@@ -5121,7 +5119,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_kartaDobavlena => 'Карта қосылды';
 
   @override
-  String get auto_metodOplaty => 'Төлем әдісі';
+  String get auto_metodOplaty => 'Төлем тәсілі';
 
   @override
   String get auto_nalichnye => 'Қолма-қол ақша';
@@ -5222,7 +5220,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_moiZakazy => 'Менің тапсырыстарым';
 
   @override
-  String get auto_sposobOplaty => 'Төлем әдісі';
+  String get auto_sposobOplaty => 'Төлем тәсілі';
 
   @override
   String get auto_vashiOtzyvy => 'Сіздің пікірлеріңіз';
@@ -5574,7 +5572,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_sobira => 'жинаушы';
 
   @override
-  String get auto_dostav => 'delivered';
+  String get auto_dostav => 'Жеткізілді';
 
   @override
   String get auto_oshibkaOperatsii => 'Операция қатесі';

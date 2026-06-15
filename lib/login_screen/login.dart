@@ -17,7 +17,6 @@ import '../widgets/messages/top_message.dart';
 import '../widgets/navigation/navigation_shell.dart';
 import '../forgot_screan/verification_page.dart';
 import 'two_factor_challenge_page.dart';
-import '../core/ui/theme/app_dimensions.dart';
 import '../core/ui/widgets/thumb_zone_builder.dart';
 
 class LoginPage extends StatefulWidget {
@@ -360,7 +359,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
               child: SafeArea(
                 top: false,
-                minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(32),

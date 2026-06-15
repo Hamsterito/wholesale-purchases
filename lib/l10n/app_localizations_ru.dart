@@ -638,7 +638,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get qa_no_questions => 'Нет вопросов';
 
   @override
-  String get qa_no_reviews => 'Нет комментариев';
+  String get qa_no_reviews => 'Нет отзывов';
 
   @override
   String get qa_no_text => 'Без текста';
@@ -697,10 +697,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get unknown_error => 'Неизвестная ошибка';
 
   @override
-  String get profile_reviews_title => 'Ваши комментарии';
+  String get profile_reviews_title => 'Ваши отзывы';
 
   @override
-  String get profile_reviews_empty => 'пока нет комментариев';
+  String get profile_reviews_empty => 'пока нет отзывов';
 
   @override
   String get profile_reviews_pending_title => 'Ожидают отзыва';
@@ -710,7 +710,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Оцените покупки — это поможет другим';
 
   @override
-  String get profile_reviews_leave_review => 'Оставить комментарий';
+  String get profile_reviews_leave_review => 'Оставить отзыв';
 
   @override
   String profile_reviews_total_count(int count) {
@@ -718,7 +718,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get profile_reviews_section_title => 'Ваши комментарии';
+  String get profile_reviews_section_title => 'Ваши отзывы';
 
   @override
   String get profile_reviews_section_subtitle_empty =>
@@ -748,10 +748,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profile_reviews_save_button => 'Сохранить';
 
   @override
-  String get profile_reviews_saved_success => 'Комментарий обновлен';
+  String get profile_reviews_saved_success => 'Отзыв обновлен';
 
   @override
-  String get profile_reviews_save_error => 'Комментарий не удалось сохранить';
+  String get profile_reviews_save_error => 'Отзыв не удалось сохранить';
 
   @override
   String get profile_reviews_login_required => 'Войдите, чтобы Отправить отзыв';
@@ -763,16 +763,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profile_reviews_submit_success => 'Спасибо за отзыв!';
 
   @override
-  String get profile_reviews_submit_error => 'Не удалось Отправить комментарий';
+  String get profile_reviews_submit_error => 'Не удалось Отправить отзыв';
 
   @override
   String get profile_reviews_delete_confirm => 'Удалить отзыв?';
 
   @override
-  String get profile_reviews_delete_success => 'Комментарий удален';
+  String get profile_reviews_delete_success => 'Отзыв удален';
 
   @override
-  String get profile_reviews_delete_error => 'Удалить комментарий не удалось';
+  String get profile_reviews_delete_error => 'Удалить отзыв не удалось';
 
   @override
   String get profile_reviews_close_dialog => 'Закрыть';
@@ -840,7 +840,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get review_submit_button => 'Отправить отзыв';
 
   @override
-  String get review_delete_confirm => 'Удалить комментарий?';
+  String get review_delete_confirm => 'Удалить отзыв?';
 
   @override
   String get review_close_dialog => 'Закрыть';
@@ -852,16 +852,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get review_delete_draft => 'Удалить';
 
   @override
-  String get review_leave_draft => 'Оставить комментарий';
+  String get review_leave_draft => 'Оставить отзыв';
 
   @override
-  String get review_submit_draft => 'Отправить комментарий';
+  String get review_submit_draft => 'Отправить отзыв';
 
   @override
-  String get review_thank_you => 'Спасибо за комментарий!';
+  String get review_thank_you => 'Спасибо за отзыв!';
 
   @override
-  String get review_no_questions_empty => 'пока нет комментариев';
+  String get review_no_questions_empty => 'пока нет отзывов';
 
   @override
   String get confirm_delete => 'Удалить';
@@ -1902,7 +1902,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get moderation_reject_hint => 'Причина отклонения';
 
   @override
-  String get moderation_comment_hint => 'Комментарий';
+  String get moderation_comment_hint => 'Отзыв';
 
   @override
   String get moderation_product_approved => 'Товар одобрен';
@@ -3148,7 +3148,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_prichina_otkloneniya => 'Причина отклонения';
 
   @override
-  String get auto_kommentariy => 'Комментарий';
+  String get auto_kommentariy => 'Отзыв';
 
   @override
   String get auto_bez_kategorii => 'Без категории';
@@ -3724,7 +3724,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String moderation_comment_prefix(Object comment) {
-    return 'Комментарий модерации: $comment';
+    return 'Отзыв модерации: $comment';
   }
 
   @override
@@ -4917,7 +4917,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_neUdalosSohranitKartu => 'Не удалось сохранить карту';
 
   @override
-  String get auto_dobavitMetodOplaty => 'Добавить метод оплаты';
+  String get auto_dobavitMetodOplaty => 'Добавить способ оплаты';
 
   @override
   String get auto_imyaVladeltsaKarty => 'ИМЯ ВЛАДЕЛЬЦА КАРТЫ';
@@ -4932,7 +4932,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_mmgg => 'ММ/ГГ';
 
   @override
-  String get auto_dobavitMetodOplaty_1 => 'ДОБАВИТЬ МЕТОД ОПЛАТЫ';
+  String get auto_dobavitMetodOplaty_1 => 'ДОБАВИТЬ СПОСОБ ОПЛАТЫ';
 
   @override
   String get auto_vvediteTekushchiyParol => 'Введите текущий пароль';
@@ -5046,16 +5046,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_kakIzmenitAdresDostavk => 'Как изменить адрес доставки?';
 
   @override
-  String get auto_profil =>
-      'Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.';
+  String get auto_profil => '�������';
 
   @override
-  String get auto_adresa =>
-      'Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.';
+  String get auto_adresa => '������';
 
   @override
   String get auto_takzheMozhnoUkazatNov =>
-      'Вы можете изменить адрес доставки в разделе \"Профиль\" -> \"Адреса\". Также можно указать новый адрес при оформлении заказа.';
+      '����� ����� ������� ����� ����� ��� ���������� ������.';
 
   @override
   String get auto_chtoDelatEsliTovarNe => 'Что делать если товар не подошел?';
@@ -5125,7 +5123,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_kartaDobavlena => 'Карта добавлена';
 
   @override
-  String get auto_metodOplaty => 'Метод оплаты';
+  String get auto_metodOplaty => 'Способ оплаты';
 
   @override
   String get auto_nalichnye => 'Наличные';
@@ -5578,7 +5576,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_sobira => 'собира';
 
   @override
-  String get auto_dostav => 'достав';
+  String get auto_dostav => 'Доставлен';
 
   @override
   String get auto_oshibkaOperatsii => 'Ошибка операции';
