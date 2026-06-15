@@ -2638,15 +2638,15 @@
   "@auto_server_ne_vernul_challenge_dlya_2fa": {
     "description": "Auto-extracted"
   },
-  "auto_proverte_chto_pochta_i_parol_zapoln": "Не удалось выполнить вход. Попробуйте позже.",
+  "auto_proverte_chto_pochta_i_parol_zapoln": "Проверьте, что почта и пароль заполнены",
   "@auto_proverte_chto_pochta_i_parol_zapoln": {
     "description": "Auto-extracted"
   },
-  "auto_nevernaya_pochta_ili_parol": "Не удалось выполнить вход. Попробуйте позже.",
+  "auto_nevernaya_pochta_ili_parol": "Неверная почта или пароль",
   "@auto_nevernaya_pochta_ili_parol": {
     "description": "Auto-extracted"
   },
-  "auto_dostup_zapreshchen": "Не удалось выполнить вход. Попробуйте позже.",
+  "auto_dostup_zapreshchen": "Доступ запрещен",
   "@auto_dostup_zapreshchen": {
     "description": "Auto-extracted"
   },
@@ -3123,7 +3123,7 @@
   "@auto_bystraya_dostavka": {
     "description": "Auto-extracted"
   },
-  "auto_postavschik_kachestvennyh_tovarov_o": "г. Москва, ул. Примерная, д. 1",
+  "auto_postavschik_kachestvennyh_tovarov_o": "Поставщик качественных товаров оптом",
   "@auto_postavschik_kachestvennyh_tovarov_o": {
     "description": "Auto-extracted"
   },
@@ -3135,7 +3135,7 @@
   "@auto_ooo_torgovyy_dom": {
     "description": "Auto-extracted"
   },
-  "auto_dostavka_po_rossii_i_sng": "Надёжный партнёр",
+  "auto_dostavka_po_rossii_i_sng": "Доставка по России и СНГ",
   "@auto_dostavka_po_rossii_i_sng": {
     "description": "Auto-extracted"
   },
@@ -3143,7 +3143,7 @@
   "@auto_nadzhnyy_partnr": {
     "description": "Auto-extracted"
   },
-  "auto_krupnyy_optovyy_postavschik_s_shiro": "г. Санкт-Петербург, пр. Невский, д. 50",
+  "auto_krupnyy_optovyy_postavschik_s_shiro": "Крупный оптовый поставщик с широким ассортиментом",
   "@auto_krupnyy_optovyy_postavschik_s_shiro": {
     "description": "Auto-extracted"
   },
@@ -3159,7 +3159,7 @@
   "@auto_ekspressdostavka_24_chasa": {
     "description": "Auto-extracted"
   },
-  "auto_spetsializiruemsya_na_bystroy_dosta": "г. Екатеринбург, ул. Главная, д. 100",
+  "auto_spetsializiruemsya_na_bystroy_dosta": "Специализируемся на быстрой доставке",
   "@auto_spetsializiruemsya_na_bystroy_dosta": {
     "description": "Auto-extracted"
   },
@@ -3171,7 +3171,7 @@
   "@auto_standartnaya_dostavka": {
     "description": "Auto-extracted"
   },
-  "auto_nadzhnyy_postavschik_optovyh_tovaro": "Россия",
+  "auto_nadzhnyy_postavschik_optovyh_tovaro": "Надёжный поставщик оптовых товаров",
   "@auto_nadzhnyy_postavschik_optovyh_tovaro": {
     "description": "Auto-extracted"
   },
@@ -3239,11 +3239,11 @@
   "@auto_v_puti_1": {
     "description": "Auto-extracted"
   },
-  "auto_prinyat": "завершено",
+  "auto_prinyat": "Принят",
   "@auto_prinyat": {
     "description": "Auto-extracted"
   },
-  "auto_dostavlen": "завершено",
+  "auto_dostavlen": "Доставлен",
   "@auto_dostavlen": {
     "description": "Auto-extracted"
   },
@@ -3251,19 +3251,19 @@
   "@auto_polucheno": {
     "description": "Auto-extracted"
   },
-  "auto_prinyat_1": "приняты",
+  "auto_prinyat_1": "Принят",
   "@auto_prinyat_1": {
     "description": "Auto-extracted"
   },
-  "auto_prinyata": "приняты",
+  "auto_prinyata": "Принята",
   "@auto_prinyata": {
     "description": "Auto-extracted"
   },
-  "auto_prinyato": "завершено",
+  "auto_prinyato": "Принято",
   "@auto_prinyato": {
     "description": "Auto-extracted"
   },
-  "auto_prinyaty": "приняты",
+  "auto_prinyaty": "Приняты",
   "@auto_prinyaty": {
     "description": "Auto-extracted"
   },
@@ -3355,15 +3355,15 @@
   "@auto_nm": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_seti_proverte_podklyuchenie": "Не удалось сгенерировать ответ AI: {reason}",
+  "auto_oshibka_seti_proverte_podklyuchenie": "Ошибка сети. Проверьте подключение: {reason}",
   "@auto_oshibka_seti_proverte_podklyuchenie": {
     "description": "Auto-extracted"
   },
-  "auto_prevysheno_vremya_ozhidaniya_otveta": "Не удалось сгенерировать ответ AI: {reason}",
+  "auto_prevysheno_vremya_ozhidaniya_otveta": "Превышено время ожидания ответа: {reason}",
   "@auto_prevysheno_vremya_ozhidaniya_otveta": {
     "description": "Auto-extracted"
   },
-  "auto_ne_udalos_razobrat_soobschenie": "Не удалось сгенерировать ответ AI: {reason}",
+  "auto_ne_udalos_razobrat_soobschenie": "Не удалось разобрать сообщение: {reason}",
   "@auto_ne_udalos_razobrat_soobschenie": {
     "description": "Auto-extracted"
   },
@@ -4179,7 +4179,7 @@
   "@auto_cocacola_samyy_populyarnyy_gazirova": {
     "description": "Auto-extracted"
   },
-  "auto_napitki": "Товары для дома",
+  "auto_napitki": "Напитки",
   "@auto_napitki": {
     "description": "Auto-extracted"
   },
@@ -4195,11 +4195,11 @@
   "@auto_strana_proizvoditelya": {
     "description": "Auto-extracted"
   },
-  "auto_kazahstan": "Классическая",
+  "auto_kazahstan": "Казахстан",
   "@auto_kazahstan": {
     "description": "Auto-extracted"
   },
-  "auto_torgovaya_marka": "Классическая",
+  "auto_torgovaya_marka": "Торговая марка",
   "@auto_torgovaya_marka": {
     "description": "Auto-extracted"
   },
@@ -4215,11 +4215,11 @@
   "@auto_sklad_mansa": {
     "description": "Auto-extracted"
   },
-  "auto_zavtra": "Четверг 17:00",
+  "auto_zavtra": "Завтра",
   "@auto_zavtra": {
     "description": "Auto-extracted"
   },
-  "auto_dostavka_mezhgorod": "Четверг 17:00",
+  "auto_dostavka_mezhgorod": "Доставка межгород",
   "@auto_dostavka_mezhgorod": {
     "description": "Auto-extracted"
   },
@@ -5492,21 +5492,21 @@
   "@auto_poprobuytePerezapustitP": {},
   "auto_optovyeZakupki": "kk",
   "@auto_optovyeZakupki": {},
-  "auto_vvediteImya": "Слишком короткое",
+  "auto_vvediteImya": "Введите имя",
   "@auto_vvediteImya": {},
   "auto_slishkomKorotkoe": "Слишком короткое",
   "@auto_slishkomKorotkoe": {},
-  "auto_vvediteEmail": "Некорректный email",
+  "auto_vvediteEmail": "Введите email",
   "@auto_vvediteEmail": {},
   "auto_nekorrektnyyEmail": "Некорректный email",
   "@auto_nekorrektnyyEmail": {},
-  "auto_vvediteTelefon": "Должен начинаться с 7",
+  "auto_vvediteTelefon": "Введите телефон",
   "@auto_vvediteTelefon": {},
-  "auto_nuzhno11Tsifr": "Должен начинаться с 7",
+  "auto_nuzhno11Tsifr": "Нужно 11 цифр",
   "@auto_nuzhno11Tsifr": {},
   "auto_dolzhenNachinatsyaS7": "Должен начинаться с 7",
   "@auto_dolzhenNachinatsyaS7": {},
-  "auto_vvediteParol": "Минимум 6 символов",
+  "auto_vvediteParol": "Введите пароль",
   "@auto_vvediteParol": {},
   "auto_minimum6Simvolov": "Минимум 6 символов",
   "@auto_minimum6Simvolov": {},
@@ -5518,7 +5518,7 @@
   "@auto_telefon": {},
   "auto_skryt": "Скрыть",
   "@auto_skryt": {},
-  "auto_neAvtorizovan": "доступ",
+  "auto_neAvtorizovan": "Не авторизован",
   "@auto_neAvtorizovan": {},
   "auto_dostup": "доступ",
   "@auto_dostup": {},
@@ -5534,7 +5534,7 @@
   "@auto_dobavit": {},
   "auto_poiskPoImeniIliEmail": "Поиск по имени или email",
   "@auto_poiskPoImeniIliEmail": {},
-  "auto_moderatoryNeNaydeny": "Ничего не найдено по запросу",
+  "auto_moderatoryNeNaydeny": "Модераторы не найдены",
   "@auto_moderatoryNeNaydeny": {},
   "auto_nichegoNeNaydenoPoZap": "Ничего не найдено по запросу",
   "@auto_nichegoNeNaydenoPoZap": {},
@@ -5554,7 +5554,7 @@
   "@auto_otkrytye": {},
   "auto_istoriya": "История",
   "@auto_istoriya": {},
-  "auto_zakrytyhChatovPokaNet": "Открытых чатов сейчас нет",
+  "auto_zakrytyhChatovPokaNet": "Закрытых чатов пока нет",
   "@auto_zakrytyhChatovPokaNet": {},
   "auto_otkrytyhChatovSeychasN": "Открытых чатов сейчас нет",
   "@auto_otkrytyhChatovSeychasN": {},
@@ -5650,7 +5650,7 @@
   "@auto_obshcheeKolvo": {},
   "auto_tovaryVZakaze": "Товары в заказе",
   "@auto_tovaryVZakaze": {},
-  "auto_polucheno_1": "завершено",
+  "auto_polucheno_1": "Получено",
   "@auto_polucheno_1": {},
   "auto_otmen": "отмен",
   "@auto_otmen": {},
@@ -5664,7 +5664,7 @@
   "@auto_netVNalichii": {},
   "auto_oTovare": "О товаре",
   "@auto_oTovare": {},
-  "auto_udalitIzIzbrannogo": "Добавить в избранное",
+  "auto_udalitIzIzbrannogo": "Удалить из избранного",
   "@auto_udalitIzIzbrannogo": {},
   "auto_dobavitVIzbrannoe": "Добавить в избранное",
   "@auto_dobavitVIzbrannoe": {},
@@ -5672,11 +5672,11 @@
   "@auto_dobavlenoVIzbrannoe": {},
   "auto_udalenoIzIzbrannogo": "Удалено из избранного",
   "@auto_udalenoIzIzbrannogo": {},
-  "auto_otzyvovPokaNet": "Оценить товар можно только после ее покупки",
+  "auto_otzyvovPokaNet": "Отзывов пока нет",
   "@auto_otzyvovPokaNet": {},
   "auto_otsenitTovarMozhnoTolk": "Оценить товар можно только после ее покупки",
   "@auto_otsenitTovarMozhnoTolk": {},
-  "auto_voprosovPoTovaruEshche": "Будьте первым!",
+  "auto_voprosovPoTovaruEshche": "Вопросов по товару еще нет",
   "@auto_voprosovPoTovaruEshche": {},
   "auto_budtePervym": "Будьте первым!",
   "@auto_budtePervym": {},
@@ -5686,7 +5686,7 @@
   "@auto_voprosov": {},
   "auto_zakryt": "Закрыть",
   "@auto_zakryt": {},
-  "auto_harakteristiki": "Описание",
+  "auto_harakteristiki": "Характеристики",
   "@auto_harakteristiki": {},
   "auto_opisanie_1": "Описание",
   "@auto_opisanie_1": {},
@@ -6034,11 +6034,11 @@
   "@auto_voyditeChtobyUvidetOtz": {},
   "auto_neUdalosZagruzitOtzyvy": "Не удалось загрузить отзывы.",
   "@auto_neUdalosZagruzitOtzyvy": {},
-  "auto_estPokupkiDlyaOtsenki": "Все отзывы о покупках",
+  "auto_estPokupkiDlyaOtsenki": "Есть покупки для оценки",
   "@auto_estPokupkiDlyaOtsenki": {},
   "auto_vseOtzyvyOPokupkah": "Все отзывы о покупках",
   "@auto_vseOtzyvyOPokupkah": {},
-  "auto_ozhidayutOtzyvov": "Оцените покупки - это помогает другим",
+  "auto_ozhidayutOtzyvov": "Ожидают отзывов",
   "@auto_ozhidayutOtzyvov": {},
   "auto_otsenitePokupkiEtoPomo": "Оцените покупки - это помогает другим",
   "@auto_otsenitePokupkiEtoPomo": {},
@@ -6086,7 +6086,7 @@
   "@auto_udalitOtzyv": {},
   "auto_etoDeystvieNelzyaOtmen": "Это действие нельзя отменить.",
   "@auto_etoDeystvieNelzyaOtmen": {},
-  "auto_rezervnyeKodyDvuhfaktor": "Сохраните их в надёжном месте - каждый код можно использовать только один раз.\\n",
+  "auto_rezervnyeKodyDvuhfaktor": "Резервные коды двухфакторной аутентификации",
   "@auto_rezervnyeKodyDvuhfaktor": {},
   "auto_sohraniteIhVNadyozhnom": "Сохраните их в надёжном месте - каждый код можно использовать только один раз.\\n",
   "@auto_sohraniteIhVNadyozhnom": {},
@@ -6152,15 +6152,15 @@
   "@auto_dvuhfaktornayaAutentifik_1": {},
   "auto_ostalosMaloRezervnyhKo": "Осталось мало резервных кодов, сгенерируйте новые",
   "@auto_ostalosMaloRezervnyhKo": {},
-  "auto_vklyuchenaPriVhodePotr": "Выключена. Защитите аккаунт дополнительным кодом.",
+  "auto_vklyuchenaPriVhodePotr": "Включена. При входе потребуется код.",
   "@auto_vklyuchenaPriVhodePotr": {},
   "auto_vyklyuchenaZashchititeA": "Выключена. Защитите аккаунт дополнительным кодом.",
   "@auto_vyklyuchenaZashchititeA": {},
-  "auto_sgenerirovatNovyeBackup": "Старые коды будут удалены",
+  "auto_sgenerirovatNovyeBackup": "Сгенерировать новые backup коды",
   "@auto_sgenerirovatNovyeBackup": {},
   "auto_staryeKodyBudutUdaleny": "Старые коды будут удалены",
   "@auto_staryeKodyBudutUdaleny": {},
-  "auto_otozvatDoverennyeUstroy": "На всех устройствах потребуется код заново",
+  "auto_otozvatDoverennyeUstroy": "Отозвать доверенные устройства",
   "@auto_otozvatDoverennyeUstroy": {},
   "auto_naVsehUstroystvahPotre": "На всех устройствах потребуется код заново",
   "@auto_naVsehUstroystvahPotre": {},
@@ -6172,7 +6172,7 @@
   "@auto_chatZakrytSozdayteNovo": {},
   "auto_chatSTehpodderzhkoy": "Чат с техподдержкой",
   "@auto_chatSTehpodderzhkoy": {},
-  "auto_aktivnogoChataNetSnach": "Чат не найден.",
+  "auto_aktivnogoChataNetSnach": "Активного чата нет. Сначала начните диалог.",
   "@auto_aktivnogoChataNetSnach": {},
   "auto_chatNeNayden": "Чат не найден.",
   "@auto_chatNeNayden": {},
@@ -6180,7 +6180,7 @@
   "@auto_podderzhka": {},
   "auto_chatOtkrytTehpodderzhka": "Чат открыт. Техподдержка ответит в этом окне.",
   "@auto_chatOtkrytTehpodderzhka": {},
-  "auto_operatoryOnlaynObychno": "Сейчас офлайн. Ответим в рабочее время.",
+  "auto_operatoryOnlaynObychno": "Операторы онлайн. Обычно отвечают быстро.",
   "@auto_operatoryOnlaynObychno": {},
   "auto_seychasOflaynOtvetimV": "Сейчас офлайн. Ответим в рабочее время.",
   "@auto_seychasOflaynOtvetimV": {},
@@ -6196,7 +6196,7 @@
   "@auto_voprosOTovare": {},
   "auto_neUdalosZagruzitObrash": "Не удалось загрузить обращение",
   "@auto_neUdalosZagruzitObrash": {},
-  "auto_obrashchenieOtpravlenoV": "Сообщение отправлено",
+  "auto_obrashchenieOtpravlenoV": "Обращение отправлено в поддержку",
   "@auto_obrashchenieOtpravlenoV": {},
   "auto_soobshchenieOtpravleno": "Сообщение отправлено",
   "@auto_soobshchenieOtpravleno": {},
@@ -6206,7 +6206,7 @@
   "@auto_svyazhitesSNami": {},
   "auto_pnvs09002100Utc5": "Пн-Вс: 09:00 - 21:00 (UTC+5)",
   "@auto_pnvs09002100Utc5": {},
-  "auto_prodolzhitObrashchenie": "Отправить обращение",
+  "auto_prodolzhitObrashchenie": "Продолжить обращение",
   "@auto_prodolzhitObrashchenie": {},
   "auto_otpravitObrashchenie": "Отправить обращение",
   "@auto_otpravitObrashchenie": {},
@@ -6248,17 +6248,17 @@
   "@auto_dobavtePervyyTovarIOt": {},
   "auto_dobavitTovar": "Добавить товар",
   "@auto_dobavitTovar": {},
-  "auto_ponedelnik_1": "Воскресенье",
+  "auto_ponedelnik_1": "Понедельник",
   "@auto_ponedelnik_1": {},
-  "auto_vtornik_1": "Воскресенье",
+  "auto_vtornik_1": "Вторник",
   "@auto_vtornik_1": {},
-  "auto_sreda_1": "Воскресенье",
+  "auto_sreda_1": "Среда",
   "@auto_sreda_1": {},
-  "auto_chetverg_1": "Воскресенье",
+  "auto_chetverg_1": "Четверг",
   "@auto_chetverg_1": {},
-  "auto_pyatnitsa_1": "Воскресенье",
+  "auto_pyatnitsa_1": "Пятница",
   "@auto_pyatnitsa_1": {},
-  "auto_subbota_1": "Воскресенье",
+  "auto_subbota_1": "Суббота",
   "@auto_subbota_1": {},
   "auto_voskresene_1": "Воскресенье",
   "@auto_voskresene_1": {},
@@ -6276,21 +6276,21 @@
   "@auto_sb_1": {},
   "auto_vs_1": "Вс",
   "@auto_vs_1": {},
-  "auto_molochnayaProduktsiya": "Товары для дома",
+  "auto_molochnayaProduktsiya": "Молочная продукция",
   "@auto_molochnayaProduktsiya": {},
-  "auto_ovoshchiIFrukty": "Товары для дома",
+  "auto_ovoshchiIFrukty": "Овощи и фрукты",
   "@auto_ovoshchiIFrukty": {},
-  "auto_myasoIPtitsa": "Товары для дома",
+  "auto_myasoIPtitsa": "Мясо и птица",
   "@auto_myasoIPtitsa": {},
-  "auto_bakaleya": "Товары для дома",
+  "auto_bakaleya": "Бакалея",
   "@auto_bakaleya": {},
-  "auto_hlebIVypechka": "Товары для дома",
+  "auto_hlebIVypechka": "Хлеб и выпечка",
   "@auto_hlebIVypechka": {},
-  "auto_zamorozka": "Товары для дома",
+  "auto_zamorozka": "Заморозка",
   "@auto_zamorozka": {},
-  "auto_sneki": "Товары для дома",
+  "auto_sneki": "Снеки",
   "@auto_sneki": {},
-  "auto_bytovayaHimiya": "Товары для дома",
+  "auto_bytovayaHimiya": "Бытовая химия",
   "@auto_bytovayaHimiya": {},
   "auto_tovaryDlyaDoma": "Товары для дома",
   "@auto_tovaryDlyaDoma": {},
@@ -6354,7 +6354,7 @@
   "@auto_naprimerKazahstan": {},
   "auto_naprimer12Mesyatsev": "Например, 12 месяцев",
   "@auto_naprimer12Mesyatsev": {},
-  "auto_tsenaIUsloviya": "Минимальные количества и доставка.",
+  "auto_tsenaIUsloviya": "Цена и условия",
   "@auto_tsenaIUsloviya": {},
   "auto_minimalnyeKolichestvaI": "Минимальные количества и доставка.",
   "@auto_minimalnyeKolichestvaI": {},
@@ -6368,7 +6368,7 @@
   "@auto_vsegoKolichestvo": {},
   "auto_naprimer120": "Например, 120",
   "@auto_naprimer120": {},
-  "auto_sostavIHarakteristiki": "Необязательные данные: заполняйте только то, что нужно.",
+  "auto_sostavIHarakteristiki": "Состав и характеристики",
   "@auto_sostavIHarakteristiki": {},
   "auto_neobyazatelnyeDannyeZap": "Необязательные данные: заполняйте только то, что нужно.",
   "@auto_neobyazatelnyeDannyeZap": {},
@@ -6392,7 +6392,7 @@
   "@auto_udalitHarakteristiku": {},
   "auto_dobavitHarakteristiku": "Добавить характеристику",
   "@auto_dobavitHarakteristiku": {},
-  "auto_fotografiiTovara": "Добавьте несколько фото",
+  "auto_fotografiiTovara": "Фотографии товара",
   "@auto_fotografiiTovara": {},
   "auto_dobavteNeskolkoFoto": "Добавьте несколько фото",
   "@auto_dobavteNeskolkoFoto": {},

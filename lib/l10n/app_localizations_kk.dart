@@ -1929,15 +1929,13 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get auto_proverte_chto_pochta_i_parol_zapoln =>
-      'Кіру сәтсіз аяқталды. Кейінірек көріңіз.';
+      'Пошта мен құпиясөз толтырылғанын тексеріңіз';
 
   @override
-  String get auto_nevernaya_pochta_ili_parol =>
-      'Кіру сәтсіз аяқталды. Кейінірек көріңіз.';
+  String get auto_nevernaya_pochta_ili_parol => 'Қате пошта немесе құпиясөз';
 
   @override
-  String get auto_dostup_zapreshchen =>
-      'Кіру сәтсіз аяқталды. Кейінірек көріңіз.';
+  String get auto_dostup_zapreshchen => 'Қолжетімділікке тыйым салынған';
 
   @override
   String get auto_ne_udalos_vypolnit_vkhod_poprobuyte =>
@@ -2338,7 +2336,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get auto_postavschik_kachestvennyh_tovarov_o =>
-      'Мәскеу қ., Приморная к-сі, 1-үй';
+      'Көтерме сападағы тауарлар жеткізушісі';
 
   @override
   String get auto_g_moskva_ul_primernaya_d_1 =>
@@ -2348,14 +2346,14 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_ooo_torgovyy_dom => 'Сауда үйі ЖШҚ';
 
   @override
-  String get auto_dostavka_po_rossii_i_sng => 'Сенімді серіктес';
+  String get auto_dostavka_po_rossii_i_sng => 'Ресей және ТМД бойынша жеткізу';
 
   @override
   String get auto_nadzhnyy_partnr => 'Сенімді серіктес';
 
   @override
   String get auto_krupnyy_optovyy_postavschik_s_shiro =>
-      'Санкт-Петербург қаласы, Невский даңғылы, 50-үй';
+      'Кең ассортиментті ірі көтерме жеткізуші';
 
   @override
   String get auto_g_sanktpeterburg_pr_nevskiy_d_50 =>
@@ -2369,7 +2367,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get auto_spetsializiruemsya_na_bystroy_dosta =>
-      'Екатеринбург қ., Главная к-сі, 100-үй';
+      'Жылдам жеткізуге машықтанғанбыз';
 
   @override
   String get auto_g_ekaterinburg_ul_glavnaya_d_100 =>
@@ -2379,7 +2377,8 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_standartnaya_dostavka => 'Стандартты жеткізу';
 
   @override
-  String get auto_nadzhnyy_postavschik_optovyh_tovaro => 'Ресей';
+  String get auto_nadzhnyy_postavschik_optovyh_tovaro =>
+      'Сенімді көтерме тауарлар жеткізушісі';
 
   @override
   String get auto_rossiya => 'Ресей';
@@ -2431,25 +2430,25 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_v_puti_1 => 'Жолда';
 
   @override
-  String get auto_prinyat => 'аяқталды';
+  String get auto_prinyat => 'Қабылданды';
 
   @override
-  String get auto_dostavlen => 'аяқталды';
+  String get auto_dostavlen => 'Жеткізілді';
 
   @override
   String get auto_polucheno => 'Алынды';
 
   @override
-  String get auto_prinyat_1 => 'қабылданды';
+  String get auto_prinyat_1 => 'Қабылданды';
 
   @override
-  String get auto_prinyata => 'қабылданды';
+  String get auto_prinyata => 'Қабылданды';
 
   @override
-  String get auto_prinyato => 'аяқталды';
+  String get auto_prinyato => 'Қабылданды';
 
   @override
-  String get auto_prinyaty => 'қабылданды';
+  String get auto_prinyaty => 'Қабылданды';
 
   @override
   String get auto_zaversheno => 'аяқталды';
@@ -2528,17 +2527,17 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String auto_oshibka_seti_proverte_podklyuchenie(Object reason) {
-    return 'Ai жауабын жасау мүмкін болмады: $reason';
+    return 'Желі қатесі. Қосылымды тексеріңіз: $reason';
   }
 
   @override
   String auto_prevysheno_vremya_ozhidaniya_otveta(Object reason) {
-    return 'Ai жауабын жасау мүмкін болмады: $reason';
+    return 'Жауап күту уақыты асып кетті: $reason';
   }
 
   @override
   String auto_ne_udalos_razobrat_soobschenie(Object reason) {
-    return 'Ai жауабын жасау мүмкін болмады: $reason';
+    return 'Хабарламаны талдау мүмкін болмады: $reason';
   }
 
   @override
@@ -3209,7 +3208,7 @@ class AppLocalizationsKk extends AppLocalizations {
       'Coca - Cola-әлемдегі ең танымал газдалған сусын. Оның өткір, бірақ жағымды дәмі бар, шөлді жақсы басады, салқындатылған ішу ұсынылады.';
 
   @override
-  String get auto_napitki => 'Үйге арналған тауарлар';
+  String get auto_napitki => 'Сусындар';
 
   @override
   String get auto_gazirovannye_napitki => 'Газдалған сусындар';
@@ -3222,10 +3221,10 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_strana_proizvoditelya => 'Өндіруші ел';
 
   @override
-  String get auto_kazahstan => 'Классикалық';
+  String get auto_kazahstan => 'Қазақстан';
 
   @override
-  String get auto_torgovaya_marka => 'Классикалық';
+  String get auto_torgovaya_marka => 'Сауда белгісі';
 
   @override
   String get auto_lineyka => 'Сызғыш';
@@ -3237,10 +3236,10 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_sklad_mansa => '\"Манса\" Қоймасы';
 
   @override
-  String get auto_zavtra => 'Бейсенбі 17: 00';
+  String get auto_zavtra => 'Ертең';
 
   @override
-  String get auto_dostavka_mezhgorod => 'Бейсенбі 17: 00';
+  String get auto_dostavka_mezhgorod => 'Қалааралық жеткізу';
 
   @override
   String get auto_chetverg_1700 => 'Бейсенбі 17: 00';
@@ -4390,28 +4389,28 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_optovyeZakupki => 'kk';
 
   @override
-  String get auto_vvediteImya => 'Тым қысқа';
+  String get auto_vvediteImya => 'Атыңызды енгізіңіз';
 
   @override
   String get auto_slishkomKorotkoe => 'Тым қысқа';
 
   @override
-  String get auto_vvediteEmail => 'Қате электрондық пошта';
+  String get auto_vvediteEmail => 'Email енгізіңіз';
 
   @override
   String get auto_nekorrektnyyEmail => 'Қате электрондық пошта';
 
   @override
-  String get auto_vvediteTelefon => '7-ден басталуы керек';
+  String get auto_vvediteTelefon => 'Телефонды енгізіңіз';
 
   @override
-  String get auto_nuzhno11Tsifr => '7-ден басталуы керек';
+  String get auto_nuzhno11Tsifr => '11 сан қажет';
 
   @override
   String get auto_dolzhenNachinatsyaS7 => '7-ден басталуы керек';
 
   @override
-  String get auto_vvediteParol => 'Кем дегенде 6 таңба';
+  String get auto_vvediteParol => 'Құпиясөзді енгізіңіз';
 
   @override
   String get auto_minimum6Simvolov => 'Кем дегенде 6 таңба';
@@ -4429,7 +4428,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_skryt => 'Жасыру';
 
   @override
-  String get auto_neAvtorizovan => 'қол жеткізу';
+  String get auto_neAvtorizovan => 'Авторизациядан өтпеген';
 
   @override
   String get auto_dostup => 'қол жеткізу';
@@ -4454,7 +4453,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_poiskPoImeniIliEmail => 'Аты немесе email бойынша іздеу';
 
   @override
-  String get auto_moderatoryNeNaydeny => 'Сұраныс бойынша ештеңе табылмады';
+  String get auto_moderatoryNeNaydeny => 'Модераторлар табылмады';
 
   @override
   String get auto_nichegoNeNaydenoPoZap => 'Сұраныс бойынша ештеңе табылмады';
@@ -4486,7 +4485,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_istoriya => 'Тарих';
 
   @override
-  String get auto_zakrytyhChatovPokaNet => 'Қазір ашық чаттар жоқ';
+  String get auto_zakrytyhChatovPokaNet => 'Жабық чаттар әзірге жоқ';
 
   @override
   String get auto_otkrytyhChatovSeychasN => 'Қазір ашық чаттар жоқ';
@@ -4633,7 +4632,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_tovaryVZakaze => 'Тапсырыстағы тауарлар';
 
   @override
-  String get auto_polucheno_1 => 'аяқталды';
+  String get auto_polucheno_1 => 'Алынды';
 
   @override
   String get auto_otmen => 'бас тарту';
@@ -4654,7 +4653,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_oTovare => 'Өнім туралы';
 
   @override
-  String get auto_udalitIzIzbrannogo => 'Таңдаулыларға қосу';
+  String get auto_udalitIzIzbrannogo => 'Таңдаулылардан өшіру';
 
   @override
   String get auto_dobavitVIzbrannoe => 'Таңдаулыларға қосу';
@@ -4666,15 +4665,14 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_udalenoIzIzbrannogo => 'Таңдаулылардан жойылды';
 
   @override
-  String get auto_otzyvovPokaNet =>
-      'Сіз өнімді сатып алғаннан кейін ғана бағалай аласыз';
+  String get auto_otzyvovPokaNet => 'Әзірге пікірлер жоқ';
 
   @override
   String get auto_otsenitTovarMozhnoTolk =>
       'Сіз өнімді сатып алғаннан кейін ғана бағалай аласыз';
 
   @override
-  String get auto_voprosovPoTovaruEshche => 'Бірінші бол!';
+  String get auto_voprosovPoTovaruEshche => 'Тауар бойынша сұрақтар әлі жоқ';
 
   @override
   String get auto_budtePervym => 'Бірінші бол!';
@@ -4689,7 +4687,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_zakryt => 'Жабу';
 
   @override
-  String get auto_harakteristiki => 'Сипаттама';
+  String get auto_harakteristiki => 'Сипаттамалар';
 
   @override
   String get auto_opisanie_1 => 'Сипаттама';
@@ -5245,14 +5243,13 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_neUdalosZagruzitOtzyvy => 'Пікірлерді жүктеу мүмкін болмады.';
 
   @override
-  String get auto_estPokupkiDlyaOtsenki => 'Барлық сатып алу шолулары';
+  String get auto_estPokupkiDlyaOtsenki => 'Бағалау үшін сатып алулар бар';
 
   @override
   String get auto_vseOtzyvyOPokupkah => 'Барлық сатып алу шолулары';
 
   @override
-  String get auto_ozhidayutOtzyvov =>
-      'Сатып алуды бағалаңыз-бұл басқаларға көмектеседі';
+  String get auto_ozhidayutOtzyvov => 'Пікір күтуде';
 
   @override
   String get auto_otsenitePokupkiEtoPomo =>
@@ -5328,7 +5325,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get auto_rezervnyeKodyDvuhfaktor =>
-      'Оларды қауіпсіз жерде сақтаңыз-әр кодты тек бір рет пайдалануға болады.\\n';
+      'Екі факторлы аутентификацияның резервтік кодтары';
 
   @override
   String get auto_sohraniteIhVNadyozhnom =>
@@ -5442,22 +5439,20 @@ class AppLocalizationsKk extends AppLocalizations {
       'Сақтық көшірме кодтары аз, жаңаларын жасаңыз';
 
   @override
-  String get auto_vklyuchenaPriVhodePotr =>
-      'Өшірулі. Есептік жазбаны қосымша кодпен қорғаңыз.';
+  String get auto_vklyuchenaPriVhodePotr => 'Қосылған. Кіру кезінде код қажет.';
 
   @override
   String get auto_vyklyuchenaZashchititeA =>
       'Өшірулі. Есептік жазбаны қосымша кодпен қорғаңыз.';
 
   @override
-  String get auto_sgenerirovatNovyeBackup => 'Ескі кодтар жойылады';
+  String get auto_sgenerirovatNovyeBackup => 'Жаңа backup кодтар жасау';
 
   @override
   String get auto_staryeKodyBudutUdaleny => 'Ескі кодтар жойылады';
 
   @override
-  String get auto_otozvatDoverennyeUstroy =>
-      'Барлық құрылғыларда код қайтадан қажет болады';
+  String get auto_otozvatDoverennyeUstroy => 'Сенімді құрылғыларды қайтару';
 
   @override
   String get auto_naVsehUstroystvahPotre =>
@@ -5477,7 +5472,8 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_chatSTehpodderzhkoy => 'Техникалық қолдау чаты';
 
   @override
-  String get auto_aktivnogoChataNetSnach => 'Чат табылмады.';
+  String get auto_aktivnogoChataNetSnach =>
+      'Белсенді чат жоқ. Алдымен диалогты бастаңыз.';
 
   @override
   String get auto_chatNeNayden => 'Чат табылмады.';
@@ -5491,7 +5487,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get auto_operatoryOnlaynObychno =>
-      'Қазір офлайн. Жұмыс уақытында жауап берейік.';
+      'Операторлар желіде. Әдетте жылдам жауап береді.';
 
   @override
   String get auto_seychasOflaynOtvetimV =>
@@ -5516,7 +5512,8 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_neUdalosZagruzitObrash => 'Өтінішті жүктеу мүмкін болмады';
 
   @override
-  String get auto_obrashchenieOtpravlenoV => 'Хабарлама жіберілді';
+  String get auto_obrashchenieOtpravlenoV =>
+      'Өтініш қолдау қызметіне жіберілді';
 
   @override
   String get auto_soobshchenieOtpravleno => 'Хабарлама жіберілді';
@@ -5531,7 +5528,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_pnvs09002100Utc5 => 'Дүйсенбі-күн: 09:00 - 21: 00 (UTC+5)';
 
   @override
-  String get auto_prodolzhitObrashchenie => 'Өтініш жіберу';
+  String get auto_prodolzhitObrashchenie => 'Өтінішті жалғастыру';
 
   @override
   String get auto_otpravitObrashchenie => 'Өтініш жіберу';
@@ -5596,22 +5593,22 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_dobavitTovar => 'Элементті қосыңыз';
 
   @override
-  String get auto_ponedelnik_1 => 'Жексенбі';
+  String get auto_ponedelnik_1 => 'Дүйсенбі';
 
   @override
-  String get auto_vtornik_1 => 'Жексенбі';
+  String get auto_vtornik_1 => 'Сейсенбі';
 
   @override
-  String get auto_sreda_1 => 'Жексенбі';
+  String get auto_sreda_1 => 'Сәрсенбі';
 
   @override
-  String get auto_chetverg_1 => 'Жексенбі';
+  String get auto_chetverg_1 => 'Бейсенбі';
 
   @override
-  String get auto_pyatnitsa_1 => 'Жексенбі';
+  String get auto_pyatnitsa_1 => 'Жұма';
 
   @override
-  String get auto_subbota_1 => 'Жексенбі';
+  String get auto_subbota_1 => 'Сенбі';
 
   @override
   String get auto_voskresene_1 => 'Жексенбі';
@@ -5638,28 +5635,28 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_vs_1 => 'Күн';
 
   @override
-  String get auto_molochnayaProduktsiya => 'Үйге арналған тауарлар';
+  String get auto_molochnayaProduktsiya => 'Сүт өнімдері';
 
   @override
-  String get auto_ovoshchiIFrukty => 'Үйге арналған тауарлар';
+  String get auto_ovoshchiIFrukty => 'Көкөністер мен жемістер';
 
   @override
-  String get auto_myasoIPtitsa => 'Үйге арналған тауарлар';
+  String get auto_myasoIPtitsa => 'Ет және құс';
 
   @override
-  String get auto_bakaleya => 'Үйге арналған тауарлар';
+  String get auto_bakaleya => 'Азық-түлік';
 
   @override
-  String get auto_hlebIVypechka => 'Үйге арналған тауарлар';
+  String get auto_hlebIVypechka => 'Нан және тоқаш';
 
   @override
-  String get auto_zamorozka => 'Үйге арналған тауарлар';
+  String get auto_zamorozka => 'Мұздатылған өнімдер';
 
   @override
-  String get auto_sneki => 'Үйге арналған тауарлар';
+  String get auto_sneki => 'Снектер';
 
   @override
-  String get auto_bytovayaHimiya => 'Үйге арналған тауарлар';
+  String get auto_bytovayaHimiya => 'Тұрмыстық химия';
 
   @override
   String get auto_tovaryDlyaDoma => 'Үйге арналған тауарлар';
@@ -5766,7 +5763,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_naprimer12Mesyatsev => 'Мысалы, 12 ай';
 
   @override
-  String get auto_tsenaIUsloviya => 'Минималды мөлшер және жеткізу.';
+  String get auto_tsenaIUsloviya => 'Бағасы мен шарттары';
 
   @override
   String get auto_minimalnyeKolichestvaI => 'Минималды мөлшер және жеткізу.';
@@ -5787,8 +5784,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_naprimer120 => 'Мысалы, 120';
 
   @override
-  String get auto_sostavIHarakteristiki =>
-      'Қосымша деректер: тек қажет нәрсені толтырыңыз.';
+  String get auto_sostavIHarakteristiki => 'Құрамы мен сипаттамалары';
 
   @override
   String get auto_neobyazatelnyeDannyeZap =>
@@ -5825,7 +5821,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_dobavitHarakteristiku => 'Сипаттама қосу';
 
   @override
-  String get auto_fotografiiTovara => 'Бірнеше фотосурет қосыңыз';
+  String get auto_fotografiiTovara => 'Тауар фотосуреттері';
 
   @override
   String get auto_dobavteNeskolkoFoto => 'Бірнеше фотосурет қосыңыз';
@@ -6063,7 +6059,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_subbota => 'жексенбі';
 
   @override
-  String get auto_voskresene => 'жексенбі';
+  String get auto_voskresene => 'Жексенбі';
 
   @override
   String get auto_sht => 'дана';

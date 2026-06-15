@@ -3689,19 +3689,19 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось выполнить вход. Попробуйте позже.'**
+  /// **'Проверьте, что почта и пароль заполнены'**
   String get auto_proverte_chto_pochta_i_parol_zapoln;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось выполнить вход. Попробуйте позже.'**
+  /// **'Неверная почта или пароль'**
   String get auto_nevernaya_pochta_ili_parol;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось выполнить вход. Попробуйте позже.'**
+  /// **'Доступ запрещен'**
   String get auto_dostup_zapreshchen;
 
   /// Auto-extracted
@@ -4409,7 +4409,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'г. Москва, ул. Примерная, д. 1'**
+  /// **'Поставщик качественных товаров оптом'**
   String get auto_postavschik_kachestvennyh_tovarov_o;
 
   /// Auto-extracted
@@ -4427,7 +4427,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Надёжный партнёр'**
+  /// **'Доставка по России и СНГ'**
   String get auto_dostavka_po_rossii_i_sng;
 
   /// Auto-extracted
@@ -4439,7 +4439,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'г. Санкт-Петербург, пр. Невский, д. 50'**
+  /// **'Крупный оптовый поставщик с широким ассортиментом'**
   String get auto_krupnyy_optovyy_postavschik_s_shiro;
 
   /// Auto-extracted
@@ -4463,7 +4463,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'г. Екатеринбург, ул. Главная, д. 100'**
+  /// **'Специализируемся на быстрой доставке'**
   String get auto_spetsializiruemsya_na_bystroy_dosta;
 
   /// Auto-extracted
@@ -4481,7 +4481,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Россия'**
+  /// **'Надёжный поставщик оптовых товаров'**
   String get auto_nadzhnyy_postavschik_optovyh_tovaro;
 
   /// Auto-extracted
@@ -4583,13 +4583,13 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'завершено'**
+  /// **'Принят'**
   String get auto_prinyat;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'завершено'**
+  /// **'Доставлен'**
   String get auto_dostavlen;
 
   /// Auto-extracted
@@ -4601,25 +4601,25 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'приняты'**
+  /// **'Принят'**
   String get auto_prinyat_1;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'приняты'**
+  /// **'Принята'**
   String get auto_prinyata;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'завершено'**
+  /// **'Принято'**
   String get auto_prinyato;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'приняты'**
+  /// **'Приняты'**
   String get auto_prinyaty;
 
   /// Auto-extracted
@@ -4757,19 +4757,19 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось сгенерировать ответ AI: {reason}'**
+  /// **'Ошибка сети. Проверьте подключение: {reason}'**
   String auto_oshibka_seti_proverte_podklyuchenie(Object reason);
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось сгенерировать ответ AI: {reason}'**
+  /// **'Превышено время ожидания ответа: {reason}'**
   String auto_prevysheno_vremya_ozhidaniya_otveta(Object reason);
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось сгенерировать ответ AI: {reason}'**
+  /// **'Не удалось разобрать сообщение: {reason}'**
   String auto_ne_udalos_razobrat_soobschenie(Object reason);
 
   /// Auto-extracted
@@ -5963,7 +5963,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Товары для дома'**
+  /// **'Напитки'**
   String get auto_napitki;
 
   /// Auto-extracted
@@ -5987,13 +5987,13 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Классическая'**
+  /// **'Казахстан'**
   String get auto_kazahstan;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Классическая'**
+  /// **'Торговая марка'**
   String get auto_torgovaya_marka;
 
   /// Auto-extracted
@@ -6017,13 +6017,13 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Четверг 17:00'**
+  /// **'Завтра'**
   String get auto_zavtra;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Четверг 17:00'**
+  /// **'Доставка межгород'**
   String get auto_dostavka_mezhgorod;
 
   /// Auto-extracted
@@ -7947,7 +7947,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_vvediteImya.
   ///
   /// In ru, this message translates to:
-  /// **'Слишком короткое'**
+  /// **'Введите имя'**
   String get auto_vvediteImya;
 
   /// No description provided for @auto_slishkomKorotkoe.
@@ -7959,7 +7959,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_vvediteEmail.
   ///
   /// In ru, this message translates to:
-  /// **'Некорректный email'**
+  /// **'Введите email'**
   String get auto_vvediteEmail;
 
   /// No description provided for @auto_nekorrektnyyEmail.
@@ -7971,13 +7971,13 @@ abstract class AppLocalizations {
   /// No description provided for @auto_vvediteTelefon.
   ///
   /// In ru, this message translates to:
-  /// **'Должен начинаться с 7'**
+  /// **'Введите телефон'**
   String get auto_vvediteTelefon;
 
   /// No description provided for @auto_nuzhno11Tsifr.
   ///
   /// In ru, this message translates to:
-  /// **'Должен начинаться с 7'**
+  /// **'Нужно 11 цифр'**
   String get auto_nuzhno11Tsifr;
 
   /// No description provided for @auto_dolzhenNachinatsyaS7.
@@ -7989,7 +7989,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_vvediteParol.
   ///
   /// In ru, this message translates to:
-  /// **'Минимум 6 символов'**
+  /// **'Введите пароль'**
   String get auto_vvediteParol;
 
   /// No description provided for @auto_minimum6Simvolov.
@@ -8025,7 +8025,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_neAvtorizovan.
   ///
   /// In ru, this message translates to:
-  /// **'доступ'**
+  /// **'Не авторизован'**
   String get auto_neAvtorizovan;
 
   /// No description provided for @auto_dostup.
@@ -8073,7 +8073,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_moderatoryNeNaydeny.
   ///
   /// In ru, this message translates to:
-  /// **'Ничего не найдено по запросу'**
+  /// **'Модераторы не найдены'**
   String get auto_moderatoryNeNaydeny;
 
   /// No description provided for @auto_nichegoNeNaydenoPoZap.
@@ -8133,7 +8133,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_zakrytyhChatovPokaNet.
   ///
   /// In ru, this message translates to:
-  /// **'Открытых чатов сейчас нет'**
+  /// **'Закрытых чатов пока нет'**
   String get auto_zakrytyhChatovPokaNet;
 
   /// No description provided for @auto_otkrytyhChatovSeychasN.
@@ -8421,7 +8421,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_polucheno_1.
   ///
   /// In ru, this message translates to:
-  /// **'завершено'**
+  /// **'Получено'**
   String get auto_polucheno_1;
 
   /// No description provided for @auto_otmen.
@@ -8463,7 +8463,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_udalitIzIzbrannogo.
   ///
   /// In ru, this message translates to:
-  /// **'Добавить в избранное'**
+  /// **'Удалить из избранного'**
   String get auto_udalitIzIzbrannogo;
 
   /// No description provided for @auto_dobavitVIzbrannoe.
@@ -8487,7 +8487,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_otzyvovPokaNet.
   ///
   /// In ru, this message translates to:
-  /// **'Оценить товар можно только после ее покупки'**
+  /// **'Отзывов пока нет'**
   String get auto_otzyvovPokaNet;
 
   /// No description provided for @auto_otsenitTovarMozhnoTolk.
@@ -8499,7 +8499,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_voprosovPoTovaruEshche.
   ///
   /// In ru, this message translates to:
-  /// **'Будьте первым!'**
+  /// **'Вопросов по товару еще нет'**
   String get auto_voprosovPoTovaruEshche;
 
   /// No description provided for @auto_budtePervym.
@@ -8529,7 +8529,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_harakteristiki.
   ///
   /// In ru, this message translates to:
-  /// **'Описание'**
+  /// **'Характеристики'**
   String get auto_harakteristiki;
 
   /// No description provided for @auto_opisanie_1.
@@ -9573,7 +9573,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_estPokupkiDlyaOtsenki.
   ///
   /// In ru, this message translates to:
-  /// **'Все отзывы о покупках'**
+  /// **'Есть покупки для оценки'**
   String get auto_estPokupkiDlyaOtsenki;
 
   /// No description provided for @auto_vseOtzyvyOPokupkah.
@@ -9585,7 +9585,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_ozhidayutOtzyvov.
   ///
   /// In ru, this message translates to:
-  /// **'Оцените покупки - это помогает другим'**
+  /// **'Ожидают отзывов'**
   String get auto_ozhidayutOtzyvov;
 
   /// No description provided for @auto_otsenitePokupkiEtoPomo.
@@ -9729,7 +9729,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_rezervnyeKodyDvuhfaktor.
   ///
   /// In ru, this message translates to:
-  /// **'Сохраните их в надёжном месте - каждый код можно использовать только один раз.\\n'**
+  /// **'Резервные коды двухфакторной аутентификации'**
   String get auto_rezervnyeKodyDvuhfaktor;
 
   /// No description provided for @auto_sohraniteIhVNadyozhnom.
@@ -9927,7 +9927,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_vklyuchenaPriVhodePotr.
   ///
   /// In ru, this message translates to:
-  /// **'Выключена. Защитите аккаунт дополнительным кодом.'**
+  /// **'Включена. При входе потребуется код.'**
   String get auto_vklyuchenaPriVhodePotr;
 
   /// No description provided for @auto_vyklyuchenaZashchititeA.
@@ -9939,7 +9939,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_sgenerirovatNovyeBackup.
   ///
   /// In ru, this message translates to:
-  /// **'Старые коды будут удалены'**
+  /// **'Сгенерировать новые backup коды'**
   String get auto_sgenerirovatNovyeBackup;
 
   /// No description provided for @auto_staryeKodyBudutUdaleny.
@@ -9951,7 +9951,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_otozvatDoverennyeUstroy.
   ///
   /// In ru, this message translates to:
-  /// **'На всех устройствах потребуется код заново'**
+  /// **'Отозвать доверенные устройства'**
   String get auto_otozvatDoverennyeUstroy;
 
   /// No description provided for @auto_naVsehUstroystvahPotre.
@@ -9987,7 +9987,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_aktivnogoChataNetSnach.
   ///
   /// In ru, this message translates to:
-  /// **'Чат не найден.'**
+  /// **'Активного чата нет. Сначала начните диалог.'**
   String get auto_aktivnogoChataNetSnach;
 
   /// No description provided for @auto_chatNeNayden.
@@ -10011,7 +10011,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_operatoryOnlaynObychno.
   ///
   /// In ru, this message translates to:
-  /// **'Сейчас офлайн. Ответим в рабочее время.'**
+  /// **'Операторы онлайн. Обычно отвечают быстро.'**
   String get auto_operatoryOnlaynObychno;
 
   /// No description provided for @auto_seychasOflaynOtvetimV.
@@ -10059,7 +10059,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_obrashchenieOtpravlenoV.
   ///
   /// In ru, this message translates to:
-  /// **'Сообщение отправлено'**
+  /// **'Обращение отправлено в поддержку'**
   String get auto_obrashchenieOtpravlenoV;
 
   /// No description provided for @auto_soobshchenieOtpravleno.
@@ -10089,7 +10089,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_prodolzhitObrashchenie.
   ///
   /// In ru, this message translates to:
-  /// **'Отправить обращение'**
+  /// **'Продолжить обращение'**
   String get auto_prodolzhitObrashchenie;
 
   /// No description provided for @auto_otpravitObrashchenie.
@@ -10215,37 +10215,37 @@ abstract class AppLocalizations {
   /// No description provided for @auto_ponedelnik_1.
   ///
   /// In ru, this message translates to:
-  /// **'Воскресенье'**
+  /// **'Понедельник'**
   String get auto_ponedelnik_1;
 
   /// No description provided for @auto_vtornik_1.
   ///
   /// In ru, this message translates to:
-  /// **'Воскресенье'**
+  /// **'Вторник'**
   String get auto_vtornik_1;
 
   /// No description provided for @auto_sreda_1.
   ///
   /// In ru, this message translates to:
-  /// **'Воскресенье'**
+  /// **'Среда'**
   String get auto_sreda_1;
 
   /// No description provided for @auto_chetverg_1.
   ///
   /// In ru, this message translates to:
-  /// **'Воскресенье'**
+  /// **'Четверг'**
   String get auto_chetverg_1;
 
   /// No description provided for @auto_pyatnitsa_1.
   ///
   /// In ru, this message translates to:
-  /// **'Воскресенье'**
+  /// **'Пятница'**
   String get auto_pyatnitsa_1;
 
   /// No description provided for @auto_subbota_1.
   ///
   /// In ru, this message translates to:
-  /// **'Воскресенье'**
+  /// **'Суббота'**
   String get auto_subbota_1;
 
   /// No description provided for @auto_voskresene_1.
@@ -10299,49 +10299,49 @@ abstract class AppLocalizations {
   /// No description provided for @auto_molochnayaProduktsiya.
   ///
   /// In ru, this message translates to:
-  /// **'Товары для дома'**
+  /// **'Молочная продукция'**
   String get auto_molochnayaProduktsiya;
 
   /// No description provided for @auto_ovoshchiIFrukty.
   ///
   /// In ru, this message translates to:
-  /// **'Товары для дома'**
+  /// **'Овощи и фрукты'**
   String get auto_ovoshchiIFrukty;
 
   /// No description provided for @auto_myasoIPtitsa.
   ///
   /// In ru, this message translates to:
-  /// **'Товары для дома'**
+  /// **'Мясо и птица'**
   String get auto_myasoIPtitsa;
 
   /// No description provided for @auto_bakaleya.
   ///
   /// In ru, this message translates to:
-  /// **'Товары для дома'**
+  /// **'Бакалея'**
   String get auto_bakaleya;
 
   /// No description provided for @auto_hlebIVypechka.
   ///
   /// In ru, this message translates to:
-  /// **'Товары для дома'**
+  /// **'Хлеб и выпечка'**
   String get auto_hlebIVypechka;
 
   /// No description provided for @auto_zamorozka.
   ///
   /// In ru, this message translates to:
-  /// **'Товары для дома'**
+  /// **'Заморозка'**
   String get auto_zamorozka;
 
   /// No description provided for @auto_sneki.
   ///
   /// In ru, this message translates to:
-  /// **'Товары для дома'**
+  /// **'Снеки'**
   String get auto_sneki;
 
   /// No description provided for @auto_bytovayaHimiya.
   ///
   /// In ru, this message translates to:
-  /// **'Товары для дома'**
+  /// **'Бытовая химия'**
   String get auto_bytovayaHimiya;
 
   /// No description provided for @auto_tovaryDlyaDoma.
@@ -10533,7 +10533,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_tsenaIUsloviya.
   ///
   /// In ru, this message translates to:
-  /// **'Минимальные количества и доставка.'**
+  /// **'Цена и условия'**
   String get auto_tsenaIUsloviya;
 
   /// No description provided for @auto_minimalnyeKolichestvaI.
@@ -10575,7 +10575,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_sostavIHarakteristiki.
   ///
   /// In ru, this message translates to:
-  /// **'Необязательные данные: заполняйте только то, что нужно.'**
+  /// **'Состав и характеристики'**
   String get auto_sostavIHarakteristiki;
 
   /// No description provided for @auto_neobyazatelnyeDannyeZap.
@@ -10647,7 +10647,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_fotografiiTovara.
   ///
   /// In ru, this message translates to:
-  /// **'Добавьте несколько фото'**
+  /// **'Фотографии товара'**
   String get auto_fotografiiTovara;
 
   /// No description provided for @auto_dobavteNeskolkoFoto.

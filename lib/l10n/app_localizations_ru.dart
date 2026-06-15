@@ -1925,15 +1925,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_proverte_chto_pochta_i_parol_zapoln =>
-      'Не удалось выполнить вход. Попробуйте позже.';
+      'Проверьте, что почта и пароль заполнены';
 
   @override
-  String get auto_nevernaya_pochta_ili_parol =>
-      'Не удалось выполнить вход. Попробуйте позже.';
+  String get auto_nevernaya_pochta_ili_parol => 'Неверная почта или пароль';
 
   @override
-  String get auto_dostup_zapreshchen =>
-      'Не удалось выполнить вход. Попробуйте позже.';
+  String get auto_dostup_zapreshchen => 'Доступ запрещен';
 
   @override
   String get auto_ne_udalos_vypolnit_vkhod_poprobuyte =>
@@ -2345,7 +2343,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_postavschik_kachestvennyh_tovarov_o =>
-      'г. Москва, ул. Примерная, д. 1';
+      'Поставщик качественных товаров оптом';
 
   @override
   String get auto_g_moskva_ul_primernaya_d_1 =>
@@ -2355,14 +2353,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_ooo_torgovyy_dom => 'ООО Торговый Дом';
 
   @override
-  String get auto_dostavka_po_rossii_i_sng => 'Надёжный партнёр';
+  String get auto_dostavka_po_rossii_i_sng => 'Доставка по России и СНГ';
 
   @override
   String get auto_nadzhnyy_partnr => 'Надёжный партнёр';
 
   @override
   String get auto_krupnyy_optovyy_postavschik_s_shiro =>
-      'г. Санкт-Петербург, пр. Невский, д. 50';
+      'Крупный оптовый поставщик с широким ассортиментом';
 
   @override
   String get auto_g_sanktpeterburg_pr_nevskiy_d_50 =>
@@ -2376,7 +2374,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_spetsializiruemsya_na_bystroy_dosta =>
-      'г. Екатеринбург, ул. Главная, д. 100';
+      'Специализируемся на быстрой доставке';
 
   @override
   String get auto_g_ekaterinburg_ul_glavnaya_d_100 =>
@@ -2386,7 +2384,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_standartnaya_dostavka => 'Стандартная доставка';
 
   @override
-  String get auto_nadzhnyy_postavschik_optovyh_tovaro => 'Россия';
+  String get auto_nadzhnyy_postavschik_optovyh_tovaro =>
+      'Надёжный поставщик оптовых товаров';
 
   @override
   String get auto_rossiya => 'Россия';
@@ -2438,25 +2437,25 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_v_puti_1 => 'В пути';
 
   @override
-  String get auto_prinyat => 'завершено';
+  String get auto_prinyat => 'Принят';
 
   @override
-  String get auto_dostavlen => 'завершено';
+  String get auto_dostavlen => 'Доставлен';
 
   @override
   String get auto_polucheno => 'Принято';
 
   @override
-  String get auto_prinyat_1 => 'приняты';
+  String get auto_prinyat_1 => 'Принят';
 
   @override
-  String get auto_prinyata => 'приняты';
+  String get auto_prinyata => 'Принята';
 
   @override
-  String get auto_prinyato => 'завершено';
+  String get auto_prinyato => 'Принято';
 
   @override
-  String get auto_prinyaty => 'приняты';
+  String get auto_prinyaty => 'Приняты';
 
   @override
   String get auto_zaversheno => 'завершено';
@@ -2536,17 +2535,17 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String auto_oshibka_seti_proverte_podklyuchenie(Object reason) {
-    return 'Не удалось сгенерировать ответ AI: $reason';
+    return 'Ошибка сети. Проверьте подключение: $reason';
   }
 
   @override
   String auto_prevysheno_vremya_ozhidaniya_otveta(Object reason) {
-    return 'Не удалось сгенерировать ответ AI: $reason';
+    return 'Превышено время ожидания ответа: $reason';
   }
 
   @override
   String auto_ne_udalos_razobrat_soobschenie(Object reason) {
-    return 'Не удалось сгенерировать ответ AI: $reason';
+    return 'Не удалось разобрать сообщение: $reason';
   }
 
   @override
@@ -3219,7 +3218,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Coca-Cola - самый популярный газированный напиток в мире. Имеет резкий, но приятный вкус, хорошо утоляет жажду, рекомендуется пить охлажденным.';
 
   @override
-  String get auto_napitki => 'Товары для дома';
+  String get auto_napitki => 'Напитки';
 
   @override
   String get auto_gazirovannye_napitki => 'Газированные напитки';
@@ -3232,10 +3231,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_strana_proizvoditelya => 'Страна производителя';
 
   @override
-  String get auto_kazahstan => 'Классическая';
+  String get auto_kazahstan => 'Казахстан';
 
   @override
-  String get auto_torgovaya_marka => 'Классическая';
+  String get auto_torgovaya_marka => 'Торговая марка';
 
   @override
   String get auto_lineyka => 'Линейка';
@@ -3247,10 +3246,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_sklad_mansa => 'Склад \"Манса\"';
 
   @override
-  String get auto_zavtra => 'Четверг 17:00';
+  String get auto_zavtra => 'Завтра';
 
   @override
-  String get auto_dostavka_mezhgorod => 'Четверг 17:00';
+  String get auto_dostavka_mezhgorod => 'Доставка межгород';
 
   @override
   String get auto_chetverg_1700 => 'Четверг 17:00';
@@ -4399,28 +4398,28 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_optovyeZakupki => 'kk';
 
   @override
-  String get auto_vvediteImya => 'Слишком короткое';
+  String get auto_vvediteImya => 'Введите имя';
 
   @override
   String get auto_slishkomKorotkoe => 'Слишком короткое';
 
   @override
-  String get auto_vvediteEmail => 'Некорректный email';
+  String get auto_vvediteEmail => 'Введите email';
 
   @override
   String get auto_nekorrektnyyEmail => 'Некорректный email';
 
   @override
-  String get auto_vvediteTelefon => 'Должен начинаться с 7';
+  String get auto_vvediteTelefon => 'Введите телефон';
 
   @override
-  String get auto_nuzhno11Tsifr => 'Должен начинаться с 7';
+  String get auto_nuzhno11Tsifr => 'Нужно 11 цифр';
 
   @override
   String get auto_dolzhenNachinatsyaS7 => 'Должен начинаться с 7';
 
   @override
-  String get auto_vvediteParol => 'Минимум 6 символов';
+  String get auto_vvediteParol => 'Введите пароль';
 
   @override
   String get auto_minimum6Simvolov => 'Минимум 6 символов';
@@ -4438,7 +4437,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_skryt => 'Скрыть';
 
   @override
-  String get auto_neAvtorizovan => 'доступ';
+  String get auto_neAvtorizovan => 'Не авторизован';
 
   @override
   String get auto_dostup => 'доступ';
@@ -4462,7 +4461,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_poiskPoImeniIliEmail => 'Поиск по имени или email';
 
   @override
-  String get auto_moderatoryNeNaydeny => 'Ничего не найдено по запросу';
+  String get auto_moderatoryNeNaydeny => 'Модераторы не найдены';
 
   @override
   String get auto_nichegoNeNaydenoPoZap => 'Ничего не найдено по запросу';
@@ -4493,7 +4492,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_istoriya => 'История';
 
   @override
-  String get auto_zakrytyhChatovPokaNet => 'Открытых чатов сейчас нет';
+  String get auto_zakrytyhChatovPokaNet => 'Закрытых чатов пока нет';
 
   @override
   String get auto_otkrytyhChatovSeychasN => 'Открытых чатов сейчас нет';
@@ -4639,7 +4638,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_tovaryVZakaze => 'Товары в заказе';
 
   @override
-  String get auto_polucheno_1 => 'завершено';
+  String get auto_polucheno_1 => 'Получено';
 
   @override
   String get auto_otmen => 'отмен';
@@ -4660,7 +4659,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_oTovare => 'О товаре';
 
   @override
-  String get auto_udalitIzIzbrannogo => 'Добавить в избранное';
+  String get auto_udalitIzIzbrannogo => 'Удалить из избранного';
 
   @override
   String get auto_dobavitVIzbrannoe => 'Добавить в избранное';
@@ -4672,15 +4671,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_udalenoIzIzbrannogo => 'Удалено из избранного';
 
   @override
-  String get auto_otzyvovPokaNet =>
-      'Оценить товар можно только после ее покупки';
+  String get auto_otzyvovPokaNet => 'Отзывов пока нет';
 
   @override
   String get auto_otsenitTovarMozhnoTolk =>
       'Оценить товар можно только после ее покупки';
 
   @override
-  String get auto_voprosovPoTovaruEshche => 'Будьте первым!';
+  String get auto_voprosovPoTovaruEshche => 'Вопросов по товару еще нет';
 
   @override
   String get auto_budtePervym => 'Будьте первым!';
@@ -4695,7 +4693,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_zakryt => 'Закрыть';
 
   @override
-  String get auto_harakteristiki => 'Описание';
+  String get auto_harakteristiki => 'Характеристики';
 
   @override
   String get auto_opisanie_1 => 'Описание';
@@ -5247,13 +5245,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_neUdalosZagruzitOtzyvy => 'Не удалось загрузить отзывы.';
 
   @override
-  String get auto_estPokupkiDlyaOtsenki => 'Все отзывы о покупках';
+  String get auto_estPokupkiDlyaOtsenki => 'Есть покупки для оценки';
 
   @override
   String get auto_vseOtzyvyOPokupkah => 'Все отзывы о покупках';
 
   @override
-  String get auto_ozhidayutOtzyvov => 'Оцените покупки - это помогает другим';
+  String get auto_ozhidayutOtzyvov => 'Ожидают отзывов';
 
   @override
   String get auto_otsenitePokupkiEtoPomo =>
@@ -5329,7 +5327,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_rezervnyeKodyDvuhfaktor =>
-      'Сохраните их в надёжном месте - каждый код можно использовать только один раз.\\n';
+      'Резервные коды двухфакторной аутентификации';
 
   @override
   String get auto_sohraniteIhVNadyozhnom =>
@@ -5443,21 +5441,20 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_vklyuchenaPriVhodePotr =>
-      'Выключена. Защитите аккаунт дополнительным кодом.';
+      'Включена. При входе потребуется код.';
 
   @override
   String get auto_vyklyuchenaZashchititeA =>
       'Выключена. Защитите аккаунт дополнительным кодом.';
 
   @override
-  String get auto_sgenerirovatNovyeBackup => 'Старые коды будут удалены';
+  String get auto_sgenerirovatNovyeBackup => 'Сгенерировать новые backup коды';
 
   @override
   String get auto_staryeKodyBudutUdaleny => 'Старые коды будут удалены';
 
   @override
-  String get auto_otozvatDoverennyeUstroy =>
-      'На всех устройствах потребуется код заново';
+  String get auto_otozvatDoverennyeUstroy => 'Отозвать доверенные устройства';
 
   @override
   String get auto_naVsehUstroystvahPotre =>
@@ -5478,7 +5475,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_chatSTehpodderzhkoy => 'Чат с техподдержкой';
 
   @override
-  String get auto_aktivnogoChataNetSnach => 'Чат не найден.';
+  String get auto_aktivnogoChataNetSnach =>
+      'Активного чата нет. Сначала начните диалог.';
 
   @override
   String get auto_chatNeNayden => 'Чат не найден.';
@@ -5492,7 +5490,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_operatoryOnlaynObychno =>
-      'Сейчас офлайн. Ответим в рабочее время.';
+      'Операторы онлайн. Обычно отвечают быстро.';
 
   @override
   String get auto_seychasOflaynOtvetimV =>
@@ -5517,7 +5515,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_neUdalosZagruzitObrash => 'Не удалось загрузить обращение';
 
   @override
-  String get auto_obrashchenieOtpravlenoV => 'Сообщение отправлено';
+  String get auto_obrashchenieOtpravlenoV => 'Обращение отправлено в поддержку';
 
   @override
   String get auto_soobshchenieOtpravleno => 'Сообщение отправлено';
@@ -5532,7 +5530,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_pnvs09002100Utc5 => 'Пн-Вс: 09:00 - 21:00 (UTC+5)';
 
   @override
-  String get auto_prodolzhitObrashchenie => 'Отправить обращение';
+  String get auto_prodolzhitObrashchenie => 'Продолжить обращение';
 
   @override
   String get auto_otpravitObrashchenie => 'Отправить обращение';
@@ -5597,22 +5595,22 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_dobavitTovar => 'Добавить товар';
 
   @override
-  String get auto_ponedelnik_1 => 'Воскресенье';
+  String get auto_ponedelnik_1 => 'Понедельник';
 
   @override
-  String get auto_vtornik_1 => 'Воскресенье';
+  String get auto_vtornik_1 => 'Вторник';
 
   @override
-  String get auto_sreda_1 => 'Воскресенье';
+  String get auto_sreda_1 => 'Среда';
 
   @override
-  String get auto_chetverg_1 => 'Воскресенье';
+  String get auto_chetverg_1 => 'Четверг';
 
   @override
-  String get auto_pyatnitsa_1 => 'Воскресенье';
+  String get auto_pyatnitsa_1 => 'Пятница';
 
   @override
-  String get auto_subbota_1 => 'Воскресенье';
+  String get auto_subbota_1 => 'Суббота';
 
   @override
   String get auto_voskresene_1 => 'Воскресенье';
@@ -5639,28 +5637,28 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_vs_1 => 'Вс';
 
   @override
-  String get auto_molochnayaProduktsiya => 'Товары для дома';
+  String get auto_molochnayaProduktsiya => 'Молочная продукция';
 
   @override
-  String get auto_ovoshchiIFrukty => 'Товары для дома';
+  String get auto_ovoshchiIFrukty => 'Овощи и фрукты';
 
   @override
-  String get auto_myasoIPtitsa => 'Товары для дома';
+  String get auto_myasoIPtitsa => 'Мясо и птица';
 
   @override
-  String get auto_bakaleya => 'Товары для дома';
+  String get auto_bakaleya => 'Бакалея';
 
   @override
-  String get auto_hlebIVypechka => 'Товары для дома';
+  String get auto_hlebIVypechka => 'Хлеб и выпечка';
 
   @override
-  String get auto_zamorozka => 'Товары для дома';
+  String get auto_zamorozka => 'Заморозка';
 
   @override
-  String get auto_sneki => 'Товары для дома';
+  String get auto_sneki => 'Снеки';
 
   @override
-  String get auto_bytovayaHimiya => 'Товары для дома';
+  String get auto_bytovayaHimiya => 'Бытовая химия';
 
   @override
   String get auto_tovaryDlyaDoma => 'Товары для дома';
@@ -5767,7 +5765,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_naprimer12Mesyatsev => 'Например, 12 месяцев';
 
   @override
-  String get auto_tsenaIUsloviya => 'Минимальные количества и доставка.';
+  String get auto_tsenaIUsloviya => 'Цена и условия';
 
   @override
   String get auto_minimalnyeKolichestvaI =>
@@ -5789,8 +5787,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_naprimer120 => 'Например, 120';
 
   @override
-  String get auto_sostavIHarakteristiki =>
-      'Необязательные данные: заполняйте только то, что нужно.';
+  String get auto_sostavIHarakteristiki => 'Состав и характеристики';
 
   @override
   String get auto_neobyazatelnyeDannyeZap =>
@@ -5827,7 +5824,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_dobavitHarakteristiku => 'Добавить характеристику';
 
   @override
-  String get auto_fotografiiTovara => 'Добавьте несколько фото';
+  String get auto_fotografiiTovara => 'Фотографии товара';
 
   @override
   String get auto_dobavteNeskolkoFoto => 'Добавьте несколько фото';
