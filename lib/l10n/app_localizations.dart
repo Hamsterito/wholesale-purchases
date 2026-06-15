@@ -263,7 +263,7 @@ abstract class AppLocalizations {
   /// Совет поля ввода названия компании-поставщика
   ///
   /// In ru, this message translates to:
-  /// **'Например, ООО Манса склад'**
+  /// **'Например, ТОО Ромашка'**
   String get auth_supplier_name_hint;
 
   /// Совет по вводу нового пароля
@@ -569,7 +569,7 @@ abstract class AppLocalizations {
   /// Совет по поиску в умеренности
   ///
   /// In ru, this message translates to:
-  /// **'Поиск: товар, поставщик, категория'**
+  /// **'Поиск по товарам, поставщикам, категориям'**
   String get moderator_search_hint;
 
   /// Совет по поиску пользователей
@@ -593,7 +593,7 @@ abstract class AppLocalizations {
   /// Заголовок страницы чата поддержки
   ///
   /// In ru, this message translates to:
-  /// **'Поддерживающие чаты'**
+  /// **'Чаты поддержки'**
   String get moderator_support_chats;
 
   /// Совет по выбору категории заявки
@@ -605,7 +605,7 @@ abstract class AppLocalizations {
   /// Консультация по теме обращения
   ///
   /// In ru, this message translates to:
-  /// **'Введите тему'**
+  /// **'Введите тему обращения'**
   String get support_subject_hint;
 
   /// Тема диалога сохранения шаблона
@@ -767,13 +767,13 @@ abstract class AppLocalizations {
   /// Шаблон сообщения об ошибке анализа
   ///
   /// In ru, this message translates to:
-  /// **'Сообщение не может быть проанализировано'**
+  /// **'Ошибка обработки сообщения'**
   String get message_parse_error;
 
   /// Шаблон сообщения об ошибке генерации AI
   ///
   /// In ru, this message translates to:
-  /// **'Невозможно построить ответ AI: {reason}'**
+  /// **'Не удалось сгенерировать ответ ИИ: {reason}'**
   String message_ai_generation_failed(int reason);
 
   /// Формат отображения даты и времени
@@ -845,7 +845,7 @@ abstract class AppLocalizations {
   /// Уведомление о внесении изменений в модерацию
   ///
   /// In ru, this message translates to:
-  /// **'Изменения направлены на модерацию'**
+  /// **'Изменения отправлены на модерацию'**
   String get supplier_changes_sent_moderation;
 
   /// Тема диалога удаления товара
@@ -881,13 +881,13 @@ abstract class AppLocalizations {
   /// Утвержденный статус товара
   ///
   /// In ru, this message translates to:
-  /// **'Подтверждено'**
+  /// **'Одобрен'**
   String get supplier_apprved;
 
   /// Статус товара без вставки
   ///
   /// In ru, this message translates to:
-  /// **'Не вставлен'**
+  /// **'Отклонён'**
   String get supplier_rejected;
 
   /// Статус товара в умеренности
@@ -935,7 +935,7 @@ abstract class AppLocalizations {
   /// Сообщение об ошибке изменения статуса
   ///
   /// In ru, this message translates to:
-  /// **'Невозможно пройти в выбранном статусе'**
+  /// **'Невозможно перейти в этот статус'**
   String get supplier_status_change_step;
 
   /// Уведомление об обновлении статуса
@@ -1001,7 +1001,7 @@ abstract class AppLocalizations {
   /// Имя вкладки "активные заказы"
   ///
   /// In ru, this message translates to:
-  /// **'Активный'**
+  /// **'Активные'**
   String get supplier_active_orders_tab;
 
   /// Название вкладки история заказов
@@ -1091,7 +1091,7 @@ abstract class AppLocalizations {
   /// подписка на обязательность поля
   ///
   /// In ru, this message translates to:
-  /// **'не обязательно'**
+  /// **'необязательно'**
   String get wizard_optional;
 
   /// Совет по времени закрытия заказов
@@ -1151,13 +1151,13 @@ abstract class AppLocalizations {
   /// Заказ доставлен статус
   ///
   /// In ru, this message translates to:
-  /// **'Доставлено'**
+  /// **'Доставлен'**
   String get supplier_status_delivered;
 
   /// Заказ получен статус
   ///
   /// In ru, this message translates to:
-  /// **'Принято'**
+  /// **'Принят'**
   String get supplier_status_accepted;
 
   /// Заказ отменён статус
@@ -1379,13 +1379,13 @@ abstract class AppLocalizations {
   /// Уведомление о том, что товарные знаки не задали вопрос
   ///
   /// In ru, this message translates to:
-  /// **'Товаришки еще не задавали вопросов'**
+  /// **'Покупатели ещё не задавали вопросов'**
   String get qa_customers_no_questions;
 
   /// Сообщение о том, что товар не оставил отзыв
   ///
   /// In ru, this message translates to:
-  /// **'Товаришки пока не оставили отзывов'**
+  /// **'Покупатели пока не оставили отзывов'**
   String get qa_customers_no_reviews;
 
   /// Когда нет ответа
@@ -1475,7 +1475,7 @@ abstract class AppLocalizations {
   /// Ценообразование товара подписывайся
   ///
   /// In ru, this message translates to:
-  /// **'Дайте товару оценку'**
+  /// **'Оцените товар'**
   String get profile_reviews_rate_product;
 
   /// Т қосу добавить записи подписка
@@ -1535,7 +1535,7 @@ abstract class AppLocalizations {
   /// Успешное отправление сообщения
   ///
   /// In ru, this message translates to:
-  /// **'Спасибо за комментарий!'**
+  /// **'Спасибо за отзыв!'**
   String get profile_reviews_submit_success;
 
   /// Сообщение об ошибке отправки
@@ -1547,7 +1547,7 @@ abstract class AppLocalizations {
   /// Подтверждение удаления
   ///
   /// In ru, this message translates to:
-  /// **'Удалить комментарий?'**
+  /// **'Удалить отзыв?'**
   String get profile_reviews_delete_confirm;
 
   /// Сообщение об успешном удалении
@@ -1607,7 +1607,7 @@ abstract class AppLocalizations {
   /// Оценка товара
   ///
   /// In ru, this message translates to:
-  /// **'Дайте товару оценку'**
+  /// **'Оцените товар'**
   String get review_rate_product;
 
   /// Добавить детали
@@ -1679,13 +1679,13 @@ abstract class AppLocalizations {
   /// Кнопка Оставить комментарий
   ///
   /// In ru, this message translates to:
-  /// **'Оставить комментарий'**
+  /// **'Оставить отзыв'**
   String get review_leave_button;
 
   /// Кнопка Отправить комментарий
   ///
   /// In ru, this message translates to:
-  /// **'Отправить комментарий'**
+  /// **'Отправить отзыв'**
   String get review_submit_button;
 
   /// Подтверждение удаления
@@ -2081,7 +2081,7 @@ abstract class AppLocalizations {
   /// Сумма заказа
   ///
   /// In ru, this message translates to:
-  /// **'Заказ {orderId} {amount}  в сумме ₸ '**
+  /// **'Заказ {orderId} - на сумму {amount} ₸'**
   String zakazi_order_amount(int orderId, int amount);
 
   /// Тема диалога удаления заказа
@@ -2093,7 +2093,7 @@ abstract class AppLocalizations {
   /// Уведомление об отмене заказа
   ///
   /// In ru, this message translates to:
-  /// **'Заказ отменяется, а товары возвращаются на склад.'**
+  /// **'Заказ будет отменён, а товары возвращены на склад.'**
   String get zakazi_cancel_order_message;
 
   /// Нет ответ
@@ -2117,19 +2117,19 @@ abstract class AppLocalizations {
   /// Уведомление о получении заказа
   ///
   /// In ru, this message translates to:
-  /// **'Заказ получен.'**
+  /// **'Заказ принят.'**
   String get zakazi_order_accepted;
 
   /// Ошибка получения заказа
   ///
   /// In ru, this message translates to:
-  /// **'Получить заказ не удалось. Повторить.'**
+  /// **'Не удалось принять заказ. Повторите попытку.'**
   String get zakazi_accept_failed;
 
   /// Ошибка отмены заказа
   ///
   /// In ru, this message translates to:
-  /// **'Отменить заказ не удалось. Повторить.'**
+  /// **'Не удалось отменить заказ. Повторите попытку.'**
   String get zakazi_cancel_failed;
 
   /// Уведомление об отмене заказа
@@ -2177,7 +2177,7 @@ abstract class AppLocalizations {
   /// Способ оплаты наличными
   ///
   /// In ru, this message translates to:
-  /// **'Наличность при получении'**
+  /// **'Наличными при получении'**
   String get cart_payment_method_cash;
 
   /// Способ оплаты картой
@@ -2189,7 +2189,7 @@ abstract class AppLocalizations {
   /// Уведомление об отсутствии подключенной карты
   ///
   /// In ru, this message translates to:
-  /// **'Карта не включена'**
+  /// **'Карта не привязана'**
   String get cart_payment_method_card_none;
 
   /// Кнопка подтверждения способа оплаты
@@ -2255,7 +2255,7 @@ abstract class AppLocalizations {
   /// Совет при отсутствии адреса
   ///
   /// In ru, this message translates to:
-  /// **'Добавьте адрес, чтобы продолжить оформление.'**
+  /// **'Добавьте адрес доставки, чтобы продолжить.'**
   String get cart_address_empty_subtitle;
 
   /// Признак отсутствия адреса
@@ -2321,13 +2321,13 @@ abstract class AppLocalizations {
   /// Когда ни одна продукция в образце не найдена в каталоге
   ///
   /// In ru, this message translates to:
-  /// **'Образец не использовался: ни один товар не доступен'**
+  /// **'Шаблон не применён: товары недоступны'**
   String get cart_template_apply_none;
 
   /// Успешное использование шаблона
   ///
   /// In ru, this message translates to:
-  /// **'Корзина «{name}\"заменено образцом: {added} добавлен товар'**
+  /// **'Корзина заменена шаблоном «{name}»: добавлено {added} шт.'**
   String cart_template_apply_success(int name, int added);
 
   /// Часть успеха использования шаблона (пропущенные)
@@ -2345,7 +2345,7 @@ abstract class AppLocalizations {
   /// Тема списка реализованных товаров
   ///
   /// In ru, this message translates to:
-  /// **'{count} {plural} проведено'**
+  /// **'Пропущено {count} товаров'**
   String cart_template_skipped_title(int count, int plural);
 
   /// Ошибка сети при оформлении заказа
@@ -2375,13 +2375,13 @@ abstract class AppLocalizations {
   /// Причина непредставления товара поставщиком
   ///
   /// In ru, this message translates to:
-  /// **'Поставщик не предлагает этот товар'**
+  /// **'Поставщик больше не предлагает этот товар'**
   String get cart_template_skip_supplier_missing;
 
   /// Удачное переименование шаблона
   ///
   /// In ru, this message translates to:
-  /// **'Модель переименована'**
+  /// **'Шаблон переименован'**
   String get cart_template_rename_success;
 
   /// Тема диалога удаления шаблона
@@ -2399,19 +2399,19 @@ abstract class AppLocalizations {
   /// Примечание о лимите позиций типа
   ///
   /// In ru, this message translates to:
-  /// **'В образце должно быть не более 100 позиций.'**
+  /// **'В шаблоне должно быть не более 100 позиций.'**
   String get cart_template_limit_items;
 
   /// Примечание о лимите количества образцов
   ///
   /// In ru, this message translates to:
-  /// **'Достиг предела образцов: 20. удалите ненужный образец.'**
+  /// **'Достигнут лимит шаблонов (20). Удалите ненужные.'**
   String get cart_template_limit_templates;
 
   /// Успешное сохранение образца
   ///
   /// In ru, this message translates to:
-  /// **'Образец сохранился'**
+  /// **'Шаблон сохранён'**
   String get cart_template_save_success;
 
   /// Кнопка для оформления всех заказов
@@ -2435,7 +2435,7 @@ abstract class AppLocalizations {
   /// Сумма количества товаров и позиций
   ///
   /// In ru, this message translates to:
-  /// **'Шт.: {units} Позиция: {positions}'**
+  /// **'{units} шт - {positions} позиций'**
   String cart_total_summary(int units, int positions);
 
   /// Уведомление о дополнительных товарах в корзине
@@ -2447,7 +2447,7 @@ abstract class AppLocalizations {
   /// Итоговая сумма по поставщику тема
   ///
   /// In ru, this message translates to:
-  /// **'Комплект по поставщику'**
+  /// **'Итого по поставщику'**
   String get cart_supplier_total_title;
 
   /// Кнопка оформления заказа по поставщику
@@ -2459,7 +2459,7 @@ abstract class AppLocalizations {
   /// Информация о количестве товаров и позиций поставщика
   ///
   /// In ru, this message translates to:
-  /// **'Шт.: {units} * Позиция: {positions}'**
+  /// **'{units} шт - {positions} позиций'**
   String cart_supplier_info(int units, int positions);
 
   /// Знак даты поставки товара
@@ -2567,7 +2567,7 @@ abstract class AppLocalizations {
   /// Совет в пустом чате
   ///
   /// In ru, this message translates to:
-  /// **'Напишите предыдущее сообщение{postfix}'**
+  /// **'Напишите сообщение...'**
   String chat_empty_hint(int postfix);
 
   /// Подпис сегодняшнего дня в чате
@@ -3113,7 +3113,7 @@ abstract class AppLocalizations {
   /// Кнопка крепления
   ///
   /// In ru, this message translates to:
-  /// **'Утверждение'**
+  /// **'Одобрить'**
   String get moderation_approve_button;
 
   /// Тема диалога отключения 2FA
@@ -3173,7 +3173,7 @@ abstract class AppLocalizations {
   /// Кнопка сброса фильтров
   ///
   /// In ru, this message translates to:
-  /// **'Восстановление'**
+  /// **'Сбросить'**
   String get supplier_profile_reset;
 
   /// Превью показать кнопка
@@ -3185,7 +3185,7 @@ abstract class AppLocalizations {
   /// Тема диалога создания чата
   ///
   /// In ru, this message translates to:
-  /// **'Создать Чат?'**
+  /// **'Создать чат?'**
   String get create_chat_title;
 
   /// Тема диалога закрытия чата
@@ -3233,7 +3233,7 @@ abstract class AppLocalizations {
   /// Кнопка получения заказа
   ///
   /// In ru, this message translates to:
-  /// **'Получить'**
+  /// **'Принять'**
   String get accept_order_button;
 
   /// Уведомление об отсутствии поставщиков
@@ -3245,13 +3245,13 @@ abstract class AppLocalizations {
   /// Кнопка закрытия чата
   ///
   /// In ru, this message translates to:
-  /// **'Закрытие'**
+  /// **'Закрыть'**
   String get close_chat_button;
 
   /// Кнопка обновления чата
   ///
   /// In ru, this message translates to:
-  /// **'Обновление'**
+  /// **'Создать'**
   String get create_chat_confirm;
 
   /// Тема профиля модератора
@@ -3275,31 +3275,31 @@ abstract class AppLocalizations {
   /// Сообщение об ошибке открытия чата
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось открыть чат с поставщиком'**
+  /// **'Не удалось открыть чат'**
   String get chat_open_failed;
 
   /// Сообщение об ошибке чата
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось пообщаться с поставщиком'**
+  /// **'Не удалось создать чат'**
   String get chat_create_failed;
 
   /// Сообщение об отсутствии результатов поиска
   ///
   /// In ru, this message translates to:
-  /// **'Запрос не был предоставлен без четверостишия'**
+  /// **'По вашему запросу ничего не найдено'**
   String get search_no_results;
 
   /// Нет результатов поиска для запроса
   ///
   /// In ru, this message translates to:
-  /// **'К запросам «{query}\"без саответа не дано'**
+  /// **'По запросу «{query}» ничего не найдено'**
   String search_no_results_for(int query);
 
   /// No description provided for @suppliers_catalog_access_denied.
   ///
   /// In ru, this message translates to:
-  /// **'Каталог поставщиков доступен только модераторам и основным администраторам.'**
+  /// **'Каталог поставщиков доступен только модераторам и администраторам.'**
   String get suppliers_catalog_access_denied;
 
   /// Title for nutritional info
@@ -3635,7 +3635,7 @@ abstract class AppLocalizations {
   /// Auto-added missing key
   ///
   /// In ru, this message translates to:
-  /// **'Одобрить товар'**
+  /// **'Одобрить'**
   String get moderation_approve_product;
 
   /// Auto-added missing key
@@ -10023,31 +10023,31 @@ abstract class AppLocalizations {
   /// No description provided for @auto_opishiteProblemu.
   ///
   /// In ru, this message translates to:
-  /// **'Другое'**
+  /// **'Опишите проблему'**
   String get auto_opishiteProblemu;
 
   /// No description provided for @auto_problemaSZakazom.
   ///
   /// In ru, this message translates to:
-  /// **'Другое'**
+  /// **'Проблема с заказом'**
   String get auto_problemaSZakazom;
 
   /// No description provided for @auto_problemaSOplatoy.
   ///
   /// In ru, this message translates to:
-  /// **'Другое'**
+  /// **'Проблема с оплатой'**
   String get auto_problemaSOplatoy;
 
   /// No description provided for @auto_tehnicheskieNepoladki.
   ///
   /// In ru, this message translates to:
-  /// **'Другое'**
+  /// **'Технические неполадки'**
   String get auto_tehnicheskieNepoladki;
 
   /// No description provided for @auto_voprosOTovare.
   ///
   /// In ru, this message translates to:
-  /// **'Другое'**
+  /// **'Вопрос о товаре'**
   String get auto_voprosOTovare;
 
   /// No description provided for @auto_neUdalosZagruzitObrash.
@@ -10479,19 +10479,19 @@ abstract class AppLocalizations {
   /// No description provided for @auto_izmeneniyaBudutOtpravle.
   ///
   /// In ru, this message translates to:
-  /// **'Отмена'**
+  /// **'Изменения будут отправлены на модерацию'**
   String get auto_izmeneniyaBudutOtpravle;
 
   /// No description provided for @auto_tovarBudetOtpravlenNa.
   ///
   /// In ru, this message translates to:
-  /// **'Отмена'**
+  /// **'Товар будет отправлен на модерацию'**
   String get auto_tovarBudetOtpravlenNa;
 
   /// No description provided for @auto_sozdat.
   ///
   /// In ru, this message translates to:
-  /// **'Отмена'**
+  /// **'Создать'**
   String get auto_sozdat;
 
   /// No description provided for @auto_redaktirovanieTovara.
@@ -10971,7 +10971,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_neprochitannyhUvedomleni_1.
   ///
   /// In ru, this message translates to:
-  /// **')}'**
+  /// **'непрочитанных уведомлений'**
   String get auto_neprochitannyhUvedomleni_1;
 
   /// No description provided for @auto_pishchevayaTsennost.
@@ -11037,97 +11037,97 @@ abstract class AppLocalizations {
   /// No description provided for @auto_pn_1.
   ///
   /// In ru, this message translates to:
-  /// **'вс'**
+  /// **'Пн'**
   String get auto_pn_1;
 
   /// No description provided for @auto_vt.
   ///
   /// In ru, this message translates to:
-  /// **'вс'**
+  /// **'Вт'**
   String get auto_vt;
 
   /// No description provided for @auto_sr.
   ///
   /// In ru, this message translates to:
-  /// **'вс'**
+  /// **'Ср'**
   String get auto_sr;
 
   /// No description provided for @auto_cht.
   ///
   /// In ru, this message translates to:
-  /// **'вс'**
+  /// **'Чт'**
   String get auto_cht;
 
   /// No description provided for @auto_pt.
   ///
   /// In ru, this message translates to:
-  /// **'вс'**
+  /// **'Пт'**
   String get auto_pt;
 
   /// No description provided for @auto_sb.
   ///
   /// In ru, this message translates to:
-  /// **'вс'**
+  /// **'Сб'**
   String get auto_sb;
 
   /// No description provided for @auto_vs.
   ///
   /// In ru, this message translates to:
-  /// **'вс'**
+  /// **'Вс'**
   String get auto_vs;
 
   /// No description provided for @auto_ponedelnik.
   ///
   /// In ru, this message translates to:
-  /// **'воскресенье'**
+  /// **'Понедельник'**
   String get auto_ponedelnik;
 
   /// No description provided for @auto_vtornik.
   ///
   /// In ru, this message translates to:
-  /// **'воскресенье'**
+  /// **'Вторник'**
   String get auto_vtornik;
 
   /// No description provided for @auto_sreda.
   ///
   /// In ru, this message translates to:
-  /// **'воскресенье'**
+  /// **'Среда'**
   String get auto_sreda;
 
   /// No description provided for @auto_chetverg.
   ///
   /// In ru, this message translates to:
-  /// **'воскресенье'**
+  /// **'Четверг'**
   String get auto_chetverg;
 
   /// No description provided for @auto_pyatnitsa.
   ///
   /// In ru, this message translates to:
-  /// **'воскресенье'**
+  /// **'Пятница'**
   String get auto_pyatnitsa;
 
   /// No description provided for @auto_subbota.
   ///
   /// In ru, this message translates to:
-  /// **'воскресенье'**
+  /// **'Суббота'**
   String get auto_subbota;
 
   /// No description provided for @auto_voskresene.
   ///
   /// In ru, this message translates to:
-  /// **'воскресенье'**
+  /// **'Воскресенье'**
   String get auto_voskresene;
 
   /// No description provided for @auto_sht.
   ///
   /// In ru, this message translates to:
-  /// **'шт'**
+  /// **'шт.'**
   String get auto_sht;
 
   /// No description provided for @auto_p_1.
   ///
   /// In ru, this message translates to:
-  /// **'П'**
+  /// **'Пн'**
   String get auto_p_1;
 
   /// No description provided for @auto_chitatVse.

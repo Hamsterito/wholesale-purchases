@@ -1051,7 +1051,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String zakazi_order_amount(int orderId, int amount) {
-    return 'Тапсырыс $orderId $amount  сомасы ';
+    return 'Тапсырыс $orderId - сомасы $amount ₸';
   }
 
   @override
@@ -5498,19 +5498,19 @@ class AppLocalizationsKk extends AppLocalizations {
       'Қазір офлайн. Жұмыс уақытында жауап берейік.';
 
   @override
-  String get auto_opishiteProblemu => 'Басқа';
+  String get auto_opishiteProblemu => 'Мәселені сипаттаңыз';
 
   @override
-  String get auto_problemaSZakazom => 'Басқа';
+  String get auto_problemaSZakazom => 'Тапсырыс мәселесі';
 
   @override
-  String get auto_problemaSOplatoy => 'Басқа';
+  String get auto_problemaSOplatoy => 'Төлем мәселесі';
 
   @override
-  String get auto_tehnicheskieNepoladki => 'Басқа';
+  String get auto_tehnicheskieNepoladki => 'Техникалық ақаулар';
 
   @override
-  String get auto_voprosOTovare => 'Басқа';
+  String get auto_voprosOTovare => 'Тауар туралы сұрақ';
 
   @override
   String get auto_neUdalosZagruzitObrash => 'Өтінішті жүктеу мүмкін болмады';

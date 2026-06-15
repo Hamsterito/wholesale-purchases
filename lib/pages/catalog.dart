@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
@@ -415,7 +415,7 @@ class _CatalogPageState extends State<CatalogPage> {
         crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
-        childAspectRatio: 1.08,
+        childAspectRatio: 1,
       ),
       itemBuilder: (context, index) => _buildMainCategoryCard(visible[index]),
     );
@@ -423,11 +423,8 @@ class _CatalogPageState extends State<CatalogPage> {
 
   Widget _buildMainCategoryCard(_MainCategoryData data) {
     final radius = BorderRadius.circular(14);
-    final overlayBase = _isDark
-        ? Color.lerp(data.tint, Colors.black, 0.35)!
-        : Color.lerp(data.tint, Colors.black, 0.7)!;
-    final overlayStart = overlayBase.withValues(alpha: _isDark ? 0.45 : 0.6);
-    final overlayMid = overlayBase.withValues(alpha: _isDark ? 0.28 : 0.35);
+    final overlayStart = Colors.black.withValues(alpha: _isDark ? 0.7 : 0.6);
+    final overlayMid = Colors.black.withValues(alpha: _isDark ? 0.3 : 0.2);
 
     return Material(
       color: Colors.transparent,
@@ -454,10 +451,10 @@ class _CatalogPageState extends State<CatalogPage> {
                 child: Image.asset(
                   data.imagePath,
                   fit: BoxFit.cover,
-                  alignment: Alignment.centerRight,
+                  alignment: Alignment.center,
                   filterQuality: FilterQuality.high,
-                  cacheWidth: 240,
-                  cacheHeight: 200,
+                  cacheWidth: 800,
+                  cacheHeight: 600,
                 ),
               ),
             ),
@@ -465,10 +462,10 @@ class _CatalogPageState extends State<CatalogPage> {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                     colors: [overlayStart, overlayMid, Colors.transparent],
-                    stops: const [0.0, 0.6, 1.0],
+                    stops: const [0.0, 0.45, 1.0],
                   ),
                 ),
               ),
@@ -682,8 +679,8 @@ class _SubcategoriesPageState extends State<_SubcategoriesPage> {
                   child: Image.asset(
                     data.imagePath,
                     fit: BoxFit.cover,
-                    cacheWidth: 200,
-                    cacheHeight: 160,
+                    cacheWidth: 400,
+                    cacheHeight: 320,
                   ),
                 ),
               ),

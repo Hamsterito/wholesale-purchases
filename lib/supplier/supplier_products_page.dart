@@ -799,11 +799,11 @@ class _ExpandableDescription extends StatelessWidget {
         final reservedTextHeight =
             lineHeightPainter.height * _collapsedMaxLines;
 
-final actionPainter = TextPainter(
-           text: TextSpan(text: context.l10n.moreLabel, style: actionStyle),
-           textDirection: direction,
-         )..layout();
-         final actionHeight = actionPainter.height;
+        final actionPainter = TextPainter(
+          text: TextSpan(text: context.l10n.getString('auto_podrobnee'), style: actionStyle),
+          textDirection: direction,
+        )..layout();
+        final actionHeight = actionPainter.height;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -826,16 +826,18 @@ final actionPainter = TextPainter(
                 ),
               ),
             ),
-            const SizedBox(height: 2),
             // Слот фиксированной высоты: кнопка «Подробнее» либо пустота той же высоты.
             SizedBox(
-              height: actionHeight,
+              height: actionHeight + 4,
               child: hasOverflow
                   ? GestureDetector(
                       onTap: onToggle,
-                      child: Text(
-                        isExpanded ? context.l10n.lessLabel : context.l10n.moreLabel,
-                        style: actionStyle,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 2),
+                        child: Text(
+                          isExpanded ? context.l10n.getString('auto_svernut') : context.l10n.getString('auto_podrobnee'),
+                          style: actionStyle,
+                        ),
                       ),
                     )
                   : const SizedBox.shrink(),

@@ -17,6 +17,7 @@ import 'suppliers_directory_page.dart';
 import '../services/api/api_service.dart';
 import '../services/localization/localization_extension.dart';
 import '../services/storage/auth_storage.dart';
+import '../widgets/expandable_text_block.dart';
 import '../widgets/smart_image.dart';
 
 class ModerationPage extends StatefulWidget {
@@ -731,14 +732,13 @@ class _ModerationPageState extends State<ModerationPage> {
                                             .trim()
                                             .isNotEmpty) ...[
                                           const SizedBox(height: 10),
-                                          Text(
+                                          ExpandableTextBlock(
                                             product.description.trim(),
-                                            maxLines: 3,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color:
-                                                  colorScheme.onSurfaceVariant,
+                                            collapsedMaxLines: 3,
+                                            textStyle: TextStyle(
+                                              color: colorScheme.onSurfaceVariant,
                                             ),
+                                            actionColor: context.colorPalette.accent,
                                           ),
                                         ],
                                         const SizedBox(height: 12),

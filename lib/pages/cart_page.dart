@@ -690,6 +690,17 @@ class _CartPageState extends State<CartPage> {
     return raw;
   }
 
+  String _buildDeliveryText(String deliveryDate) {
+    final l10n = AppLocalizations.of(context);
+    final prefix = l10n.getString('auto_dostavka').toLowerCase();
+    if (deliveryDate.toLowerCase().startsWith(prefix) || 
+        deliveryDate.toLowerCase().startsWith('доставка') ||
+        deliveryDate.toLowerCase().startsWith('жеткізу')) {
+      return deliveryDate;
+    }
+    return l10n.getString('cart_delivery_date', params: {'date': deliveryDate});
+  }
+
   String _resolveCartImage(CartItem item) {
     for (final rawPath in item.product.imageUrls) {
       final imagePath = rawPath.trim();
@@ -2238,7 +2249,7 @@ Widget _buildSupplierSummaryCard({
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          l10n.getString('cart_delivery_date', params: {'date': _resolveDeliveryDateText(item.supplier)}),
+                          _buildDeliveryText(_resolveDeliveryDateText(item.supplier)),
                           style: TextStyle(fontSize: 12, color: _mutedText),
                         ),
                         const SizedBox(height: 4),

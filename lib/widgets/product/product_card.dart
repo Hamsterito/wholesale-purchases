@@ -1246,7 +1246,7 @@ Text(
                        ),
                      ),
 Text(
-                        '${context.l10n.productMinQuantity(widget.minQuantity)}: ${widget.minQuantity} ${context.l10n.productQuantity(0)}',
+                        '${context.l10n.productMinQuantity(widget.minQuantity)}: ${context.l10n.productQuantity(widget.minQuantity)}',
                        style: TextStyle(
                          fontSize: 14,
                          height: 0.85,

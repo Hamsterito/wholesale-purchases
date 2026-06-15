@@ -90,7 +90,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auth_name_hint => 'Введите свое имя';
 
   @override
-  String get auth_supplier_name_hint => 'Например, ООО Манса склад';
+  String get auth_supplier_name_hint => 'Например, ТОО Ромашка';
 
   @override
   String get auth_password_hint => 'Введите новый пароль';
@@ -243,7 +243,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get moderator_title => 'Модерация';
 
   @override
-  String get moderator_search_hint => 'Поиск: товар, поставщик, категория';
+  String get moderator_search_hint =>
+      'Поиск по товарам, поставщикам, категориям';
 
   @override
   String get moderator_search_users => 'Поиск по имени или email';
@@ -255,13 +256,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get moderator_close_reason => 'Причина закрытия (необязательно)';
 
   @override
-  String get moderator_support_chats => 'Поддерживающие чаты';
+  String get moderator_support_chats => 'Чаты поддержки';
 
   @override
   String get support_category_hint => 'Выберите категорию';
 
   @override
-  String get support_subject_hint => 'Введите тему';
+  String get support_subject_hint => 'Введите тему обращения';
 
   @override
   String get template_save_title => 'Сохранить как шаблон';
@@ -354,11 +355,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get message_auth_required => 'Требуется Авторизация';
 
   @override
-  String get message_parse_error => 'Сообщение не может быть проанализировано';
+  String get message_parse_error => 'Ошибка обработки сообщения';
 
   @override
   String message_ai_generation_failed(int reason) {
-    return 'Невозможно построить ответ AI: $reason';
+    return 'Не удалось сгенерировать ответ ИИ: $reason';
   }
 
   @override
@@ -396,7 +397,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get supplier_changes_sent_moderation =>
-      'Изменения направлены на модерацию';
+      'Изменения отправлены на модерацию';
 
   @override
   String get supplier_delete_product => 'Удалить товар?';
@@ -414,10 +415,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get supplier_error_delete_product => 'Не удалось удалить товар';
 
   @override
-  String get supplier_apprved => 'Подтверждено';
+  String get supplier_apprved => 'Одобрен';
 
   @override
-  String get supplier_rejected => 'Не вставлен';
+  String get supplier_rejected => 'Отклонён';
 
   @override
   String get supplier_pending => 'На модерации';
@@ -441,8 +442,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get supplier_orders_empty_period => 'Нет заказов на выбранный период';
 
   @override
-  String get supplier_status_change_step =>
-      'Невозможно пройти в выбранном статусе';
+  String get supplier_status_change_step => 'Невозможно перейти в этот статус';
 
   @override
   String get supplier_status_updated => 'Обновлен статус заказа';
@@ -476,7 +476,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get supplier_period_quarter => 'Квартал';
 
   @override
-  String get supplier_active_orders_tab => 'Активный';
+  String get supplier_active_orders_tab => 'Активные';
 
   @override
   String get supplier_history_orders_tab => 'История';
@@ -523,7 +523,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get review_no_text => 'Без текста';
 
   @override
-  String get wizard_optional => 'не обязательно';
+  String get wizard_optional => 'необязательно';
 
   @override
   String get wizard_orders_cutoff_time =>
@@ -554,10 +554,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get supplier_status_in_transit => 'В пути';
 
   @override
-  String get supplier_status_delivered => 'Доставлено';
+  String get supplier_status_delivered => 'Доставлен';
 
   @override
-  String get supplier_status_accepted => 'Принято';
+  String get supplier_status_accepted => 'Принят';
 
   @override
   String get supplier_status_cancelled => 'Отменён';
@@ -675,10 +675,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get qa_respond => 'Ответить';
 
   @override
-  String get qa_customers_no_questions => 'Товаришки еще не задавали вопросов';
+  String get qa_customers_no_questions => 'Покупатели ещё не задавали вопросов';
 
   @override
-  String get qa_customers_no_reviews => 'Товаришки пока не оставили отзывов';
+  String get qa_customers_no_reviews => 'Покупатели пока не оставили отзывов';
 
   @override
   String get qa_no_answer => 'Нет ответа';
@@ -731,7 +731,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get profile_reviews_rate_product => 'Дайте товару оценку';
+  String get profile_reviews_rate_product => 'Оцените товар';
 
   @override
   String get profile_reviews_add_details => 'Добавить детали';
@@ -761,13 +761,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profile_reviews_rating_required => 'Дайте товару оценку';
 
   @override
-  String get profile_reviews_submit_success => 'Спасибо за комментарий!';
+  String get profile_reviews_submit_success => 'Спасибо за отзыв!';
 
   @override
   String get profile_reviews_submit_error => 'Не удалось Отправить комментарий';
 
   @override
-  String get profile_reviews_delete_confirm => 'Удалить комментарий?';
+  String get profile_reviews_delete_confirm => 'Удалить отзыв?';
 
   @override
   String get profile_reviews_delete_success => 'Комментарий удален';
@@ -799,7 +799,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get review_your_text => 'Ваше мнение';
 
   @override
-  String get review_rate_product => 'Дайте товару оценку';
+  String get review_rate_product => 'Оцените товар';
 
   @override
   String get review_add_details => 'Добавить детали';
@@ -835,10 +835,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get review_change_button => 'Изменить';
 
   @override
-  String get review_leave_button => 'Оставить комментарий';
+  String get review_leave_button => 'Оставить отзыв';
 
   @override
-  String get review_submit_button => 'Отправить комментарий';
+  String get review_submit_button => 'Отправить отзыв';
 
   @override
   String get review_delete_confirm => 'Удалить комментарий?';
@@ -1050,7 +1050,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String zakazi_order_amount(int orderId, int amount) {
-    return 'Заказ $orderId $amount  в сумме ₸ ';
+    return 'Заказ $orderId - на сумму $amount ₸';
   }
 
   @override
@@ -1058,7 +1058,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get zakazi_cancel_order_message =>
-      'Заказ отменяется, а товары возвращаются на склад.';
+      'Заказ будет отменён, а товары возвращены на склад.';
 
   @override
   String get zakazi_no => 'Нет';
@@ -1070,13 +1070,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get zakazi_cancelling => 'Отмена';
 
   @override
-  String get zakazi_order_accepted => 'Заказ получен.';
+  String get zakazi_order_accepted => 'Заказ принят.';
 
   @override
-  String get zakazi_accept_failed => 'Получить заказ не удалось. Повторить.';
+  String get zakazi_accept_failed =>
+      'Не удалось принять заказ. Повторите попытку.';
 
   @override
-  String get zakazi_cancel_failed => 'Отменить заказ не удалось. Повторить.';
+  String get zakazi_cancel_failed =>
+      'Не удалось отменить заказ. Повторите попытку.';
 
   @override
   String get zakazi_order_cancelled => 'Заказ отменён.';
@@ -1100,13 +1102,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cart_confirm_row_payment => 'Оплата';
 
   @override
-  String get cart_payment_method_cash => 'Наличность при получении';
+  String get cart_payment_method_cash => 'Наличными при получении';
 
   @override
   String get cart_payment_method_card => 'Карта';
 
   @override
-  String get cart_payment_method_card_none => 'Карта не включена';
+  String get cart_payment_method_card_none => 'Карта не привязана';
 
   @override
   String get cart_payment_confirm_choice => 'Подтверждение выбора';
@@ -1145,7 +1147,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get cart_address_empty_subtitle =>
-      'Добавьте адрес, чтобы продолжить оформление.';
+      'Добавьте адрес доставки, чтобы продолжить.';
 
   @override
   String get cart_address_none => 'Без адреса';
@@ -1182,11 +1184,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get cart_template_apply_none =>
-      'Образец не использовался: ни один товар не доступен';
+      'Шаблон не применён: товары недоступны';
 
   @override
   String cart_template_apply_success(int name, int added) {
-    return 'Корзина «$name\"заменено образцом: $added добавлен товар';
+    return 'Корзина заменена шаблоном «$name»: добавлено $added шт.';
   }
 
   @override
@@ -1201,7 +1203,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String cart_template_skipped_title(int count, int plural) {
-    return '$count $plural проведено';
+    return 'Пропущено $count товаров';
   }
 
   @override
@@ -1218,10 +1220,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get cart_template_skip_supplier_missing =>
-      'Поставщик не предлагает этот товар';
+      'Поставщик больше не предлагает этот товар';
 
   @override
-  String get cart_template_rename_success => 'Модель переименована';
+  String get cart_template_rename_success => 'Шаблон переименован';
 
   @override
   String cart_template_delete_title(int name) {
@@ -1233,14 +1235,14 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get cart_template_limit_items =>
-      'В образце должно быть не более 100 позиций.';
+      'В шаблоне должно быть не более 100 позиций.';
 
   @override
   String get cart_template_limit_templates =>
-      'Достиг предела образцов: 20. удалите ненужный образец.';
+      'Достигнут лимит шаблонов (20). Удалите ненужные.';
 
   @override
-  String get cart_template_save_success => 'Образец сохранился';
+  String get cart_template_save_success => 'Шаблон сохранён';
 
   @override
   String get cart_checkout_all_orders => 'Оформление всех заказов';
@@ -1253,7 +1255,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String cart_total_summary(int units, int positions) {
-    return 'Шт.: $units Позиция: $positions';
+    return '$units шт - $positions позиций';
   }
 
   @override
@@ -1262,14 +1264,14 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get cart_supplier_total_title => 'Комплект по поставщику';
+  String get cart_supplier_total_title => 'Итого по поставщику';
 
   @override
   String get cart_checkout_order => 'Оформление заказа';
 
   @override
   String cart_supplier_info(int units, int positions) {
-    return 'Шт.: $units * Позиция: $positions';
+    return '$units шт - $positions позиций';
   }
 
   @override
@@ -1339,7 +1341,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String chat_empty_hint(int postfix) {
-    return 'Напишите предыдущее сообщение$postfix';
+    return 'Напишите сообщение...';
   }
 
   @override
@@ -1618,7 +1620,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get address_add_button => 'Добавить адрес';
 
   @override
-  String get moderation_approve_button => 'Утверждение';
+  String get moderation_approve_button => 'Одобрить';
 
   @override
   String get two_factor_disable_title => 'Отключить 2FA?';
@@ -1648,7 +1650,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get add_moderator_title => 'Добавить модератора';
 
   @override
-  String get supplier_profile_reset => 'Восстановление';
+  String get supplier_profile_reset => 'Сбросить';
 
   @override
   String supplier_profile_preview_show(int count) {
@@ -1656,7 +1658,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get create_chat_title => 'Создать Чат?';
+  String get create_chat_title => 'Создать чат?';
 
   @override
   String get close_chat_title => 'Закрыть чат';
@@ -1681,16 +1683,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cancel_order_button => 'Отменить';
 
   @override
-  String get accept_order_button => 'Получить';
+  String get accept_order_button => 'Принять';
 
   @override
   String get suppliers_not_found => 'Поставщики не найдены';
 
   @override
-  String get close_chat_button => 'Закрытие';
+  String get close_chat_button => 'Закрыть';
 
   @override
-  String get create_chat_confirm => 'Обновление';
+  String get create_chat_confirm => 'Создать';
 
   @override
   String get moderator_title_profile => 'Профиль модератора';
@@ -1702,23 +1704,22 @@ class AppLocalizationsRu extends AppLocalizations {
   String get session_expired_login_again => 'Сеанс завершен, войдите снова';
 
   @override
-  String get chat_open_failed => 'Не удалось открыть чат с поставщиком';
+  String get chat_open_failed => 'Не удалось открыть чат';
 
   @override
-  String get chat_create_failed => 'Не удалось пообщаться с поставщиком';
+  String get chat_create_failed => 'Не удалось создать чат';
 
   @override
-  String get search_no_results =>
-      'Запрос не был предоставлен без четверостишия';
+  String get search_no_results => 'По вашему запросу ничего не найдено';
 
   @override
   String search_no_results_for(int query) {
-    return 'К запросам «$query\"без саответа не дано';
+    return 'По запросу «$query» ничего не найдено';
   }
 
   @override
   String get suppliers_catalog_access_denied =>
-      'Каталог поставщиков доступен только модераторам и основным администраторам.';
+      'Каталог поставщиков доступен только модераторам и администраторам.';
 
   @override
   String get product_nutritional_info => 'Пищевая ценность';
@@ -1895,7 +1896,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get create_chat_button => 'Создать чат';
 
   @override
-  String get moderation_approve_product => 'Одобрить товар';
+  String get moderation_approve_product => 'Одобрить';
 
   @override
   String get moderation_reject_product => 'Отклонить товар';
@@ -5498,19 +5499,19 @@ class AppLocalizationsRu extends AppLocalizations {
       'Сейчас офлайн. Ответим в рабочее время.';
 
   @override
-  String get auto_opishiteProblemu => 'Другое';
+  String get auto_opishiteProblemu => 'Опишите проблему';
 
   @override
-  String get auto_problemaSZakazom => 'Другое';
+  String get auto_problemaSZakazom => 'Проблема с заказом';
 
   @override
-  String get auto_problemaSOplatoy => 'Другое';
+  String get auto_problemaSOplatoy => 'Проблема с оплатой';
 
   @override
-  String get auto_tehnicheskieNepoladki => 'Другое';
+  String get auto_tehnicheskieNepoladki => 'Технические неполадки';
 
   @override
-  String get auto_voprosOTovare => 'Другое';
+  String get auto_voprosOTovare => 'Вопрос о товаре';
 
   @override
   String get auto_neUdalosZagruzitObrash => 'Не удалось загрузить обращение';
@@ -5737,13 +5738,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_sozdatTovar => 'Создать товар?';
 
   @override
-  String get auto_izmeneniyaBudutOtpravle => 'Отмена';
+  String get auto_izmeneniyaBudutOtpravle =>
+      'Изменения будут отправлены на модерацию';
 
   @override
-  String get auto_tovarBudetOtpravlenNa => 'Отмена';
+  String get auto_tovarBudetOtpravlenNa => 'Товар будет отправлен на модерацию';
 
   @override
-  String get auto_sozdat => 'Отмена';
+  String get auto_sozdat => 'Создать';
 
   @override
   String get auto_redaktirovanieTovara => 'Редактирование товара';
@@ -5990,7 +5992,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_poiskPoPostavshchikam => 'Поиск по поставщикам';
 
   @override
-  String get auto_neprochitannyhUvedomleni_1 => ')';
+  String get auto_neprochitannyhUvedomleni_1 => 'непрочитанных уведомлений';
 
   @override
   String get auto_pishchevayaTsennost => 'Пищевая ценность';
@@ -6023,52 +6025,52 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_kazhdyyDen => 'каждый день';
 
   @override
-  String get auto_pn_1 => 'вс';
+  String get auto_pn_1 => 'Пн';
 
   @override
-  String get auto_vt => 'вс';
+  String get auto_vt => 'Вт';
 
   @override
-  String get auto_sr => 'вс';
+  String get auto_sr => 'Ср';
 
   @override
-  String get auto_cht => 'вс';
+  String get auto_cht => 'Чт';
 
   @override
-  String get auto_pt => 'вс';
+  String get auto_pt => 'Пт';
 
   @override
-  String get auto_sb => 'вс';
+  String get auto_sb => 'Сб';
 
   @override
-  String get auto_vs => 'вс';
+  String get auto_vs => 'Вс';
 
   @override
-  String get auto_ponedelnik => 'воскресенье';
+  String get auto_ponedelnik => 'Понедельник';
 
   @override
-  String get auto_vtornik => 'воскресенье';
+  String get auto_vtornik => 'Вторник';
 
   @override
-  String get auto_sreda => 'воскресенье';
+  String get auto_sreda => 'Среда';
 
   @override
-  String get auto_chetverg => 'воскресенье';
+  String get auto_chetverg => 'Четверг';
 
   @override
-  String get auto_pyatnitsa => 'воскресенье';
+  String get auto_pyatnitsa => 'Пятница';
 
   @override
-  String get auto_subbota => 'воскресенье';
+  String get auto_subbota => 'Суббота';
 
   @override
-  String get auto_voskresene => 'воскресенье';
+  String get auto_voskresene => 'Воскресенье';
 
   @override
-  String get auto_sht => 'шт';
+  String get auto_sht => 'шт.';
 
   @override
-  String get auto_p_1 => 'П';
+  String get auto_p_1 => 'Пн';
 
   @override
   String get auto_chitatVse => 'Читать все';

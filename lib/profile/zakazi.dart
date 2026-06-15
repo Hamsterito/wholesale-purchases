@@ -268,44 +268,56 @@ title: Text(
     final normalized = _normalizeStatus(status);
     return normalized == 'pending' ||
         normalized == 'new' ||
-        normalized == context.l10n.getString('auto_novyy') ||
-        normalized == context.l10n.getString('auto_ozhidaet');
+        normalized == 'новый' ||
+        normalized == 'ожидает' ||
+        normalized == context.l10n.getString('auto_novyy').toLowerCase() ||
+        normalized == context.l10n.getString('auto_ozhidaet').toLowerCase();
   }
 
   bool _isDeliveredStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized == context.l10n.getString('auto_dostavlen') ||
-        normalized == context.l10n.getString('auto_dostavleno') ||
+    return normalized == context.l10n.getString('auto_dostavlen').toLowerCase() ||
+        normalized == context.l10n.getString('auto_dostavlen_1').toLowerCase() ||
+        normalized == context.l10n.getString('supplier_status_delivered').toLowerCase() ||
+        normalized == context.l10n.getString('auto_dostavleno').toLowerCase() ||
+        normalized == 'доставлен' ||
+        normalized == 'доставлено' ||
         normalized == 'delivered';
   }
 
   bool _isInTransitStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized.contains(context.l10n.getString('auto_vPuti')) ||
+    return normalized.contains(context.l10n.getString('auto_vPuti').toLowerCase()) ||
+        normalized.contains('в пути') ||
         normalized == 'in transit' ||
         normalized == 'on the way';
   }
 
   bool _isProcessingStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized.contains(context.l10n.getString('auto_sobira')) ||
+    return normalized.contains(context.l10n.getString('auto_sobira').toLowerCase()) ||
+        normalized.contains('собира') ||
+        normalized.contains('подготовка') ||
         normalized == 'processing' ||
         normalized == 'assembling';
   }
 
   bool _isAcceptedStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized == context.l10n.getString('auto_prinyat') ||
-        normalized == context.l10n.getString('auto_prinyata') ||
-        normalized == context.l10n.getString('auto_prinyato') ||
-        normalized == context.l10n.getString('auto_prinyaty') ||
+    return normalized == context.l10n.getString('auto_prinyat').toLowerCase() ||
+        normalized == context.l10n.getString('auto_prinyata').toLowerCase() ||
+        normalized == context.l10n.getString('auto_prinyato').toLowerCase() ||
+        normalized == context.l10n.getString('auto_prinyaty').toLowerCase() ||
+        normalized.contains('принят') ||
+        normalized.contains('завершен') ||
         normalized == 'accepted' ||
         normalized == 'received';
   }
 
   bool _isCancelledStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized.contains(context.l10n.getString('auto_otmen')) ||
+    return normalized.contains(context.l10n.getString('auto_otmen').toLowerCase()) ||
+        normalized.contains('отмен') ||
         normalized == 'cancelled' ||
         normalized == 'canceled';
   }
@@ -359,7 +371,17 @@ title: Text(
     return base.withValues(alpha: _isDark ? 0.22 : 0.12);
   }
 
-Widget _buildOrderCard(Order order) {
+  String _statusLabel(String status) {
+    final l10n = context.l10n;
+    if (_isProcessingStatus(status)) return l10n.statusAssembling;
+    if (_isInTransitStatus(status)) return l10n.statusInTransit;
+    if (_isDeliveredStatus(status)) return l10n.statusDelivered;
+    if (_isAcceptedStatus(status)) return l10n.statusAccepted;
+    if (_isCancelledStatus(status)) return l10n.statusCancelled;
+    return status;
+  }
+
+  Widget _buildOrderCard(Order order) {
     final l10n = AppLocalizations.of(context);
     final totalAmount = _formatMoney(order.totalAmount);
     final isAccepting = _acceptingOrders.contains(order.id);
@@ -415,7 +437,7 @@ Widget _buildOrderCard(Order order) {
                     borderRadius: BorderRadius.circular(999),
                   ),
                   child: Text(
-                    order.status,
+                    _statusLabel(order.status),
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
@@ -558,72 +580,79 @@ Widget _buildOrderCard(Order order) {
 
           const SizedBox(width: 8),
 
-          // Чекбокс подтверждения
+          // Чекбокс подтверждения или бейдж блокировки
           SizedBox(
             width: 118,
-            child: Column(
-              children: [
-                Transform.scale(
-                  scale: 1.3,
-                  child: Checkbox(
-                    value: item.isReceived,
-                    onChanged: canReceive
-                        ? (bool? value) {
-                            setState(() {
-                              item.isReceived = value ?? false;
-                            });
-                          }
-                        : null,
-                    activeColor: context.colorPalette.accent,
-                    checkColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    side: BorderSide(color: _borderColor),
-                    visualDensity: VisualDensity.comfortable,
-                    materialTapTargetSize: MaterialTapTargetSize.padded,
-                    fillColor: WidgetStateProperty.resolveWith((states) {
-                      if (states.contains(WidgetState.disabled)) {
-                        return _borderColor;
-                      }
-                      if (states.contains(WidgetState.selected)) {
-                        return context.colorPalette.accent;
-                      }
-                      return Colors.transparent;
-                    }),
-                  ),
-                ),
-                Text(
-                  l10n.getString('zakazi_accepted_label'),
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: canReceive ? _colorScheme.onSurface : _mutedText,
-                  ),
-                ),
-                if (!canReceive)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.lock_outline, size: 15, color: _mutedText),
-                        const SizedBox(width: 4),
-                        Flexible(
-                          child: Text(
-                            l10n.getString('zakazi_after_delivery'),
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: _mutedText,
-                              height: 1.1,
-                            ),
-                            textAlign: TextAlign.center,
+            child: canReceive || item.isReceived || _isAcceptedStatus(orderStatus)
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Transform.scale(
+                        scale: 1.3,
+                        child: Checkbox(
+                          value: _isAcceptedStatus(orderStatus) ? true : item.isReceived,
+                          onChanged: canReceive
+                              ? (bool? value) {
+                                  setState(() {
+                                    item.isReceived = value ?? false;
+                                  });
+                                }
+                              : null,
+                          activeColor: context.colorPalette.accent,
+                          checkColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
                           ),
+                          side: BorderSide(color: _borderColor),
+                          visualDensity: VisualDensity.comfortable,
+                          materialTapTargetSize: MaterialTapTargetSize.padded,
+                          fillColor: WidgetStateProperty.resolveWith((states) {
+                            if (states.contains(WidgetState.disabled)) {
+                              return _borderColor;
+                            }
+                            if (states.contains(WidgetState.selected)) {
+                              return context.colorPalette.accent;
+                            }
+                            return Colors.transparent;
+                          }),
                         ),
-                      ],
-                    ),
+                      ),
+                      Text(
+                        l10n.getString('zakazi_accepted_label'),
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: canReceive ? _colorScheme.onSurface : _mutedText,
+                        ),
+                      ),
+                    ],
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: _colorScheme.surfaceContainerHighest,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              l10n.getString('zakazi_accepted_label'),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: _mutedText,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Icon(Icons.lock_outline, size: 14, color: _mutedText),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-              ],
-            ),
           ),
         ],
       ),

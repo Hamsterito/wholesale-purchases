@@ -1321,7 +1321,7 @@
   "@zakazi_confirm_acceptance": {
     "description": "Қабылдауды растау диалогының тақырыбы"
   },
-  "zakazi_order_amount": "Тапсырыс {orderId} {amount}  сомасы ",
+  "zakazi_order_amount": "Тапсырыс {orderId} - сомасы {amount} ₸",
   "@zakazi_order_amount": {
     "description": "Тапсырыс сомасы"
   },
@@ -5296,11 +5296,11 @@
   "auto_chatOtkrytTehpodderzhka": "Чат ашық. Техникалық қолдау осы терезеде жауап береді.",
   "auto_operatoryOnlaynObychno": "Қазір офлайн. Жұмыс уақытында жауап берейік.",
   "auto_seychasOflaynOtvetimV": "Қазір офлайн. Жұмыс уақытында жауап берейік.",
-  "auto_opishiteProblemu": "Басқа",
-  "auto_problemaSZakazom": "Басқа",
-  "auto_problemaSOplatoy": "Басқа",
-  "auto_tehnicheskieNepoladki": "Басқа",
-  "auto_voprosOTovare": "Басқа",
+  "auto_opishiteProblemu": "Мәселені сипаттаңыз",
+  "auto_problemaSZakazom": "Тапсырыс мәселесі",
+  "auto_problemaSOplatoy": "Төлем мәселесі",
+  "auto_tehnicheskieNepoladki": "Техникалық ақаулар",
+  "auto_voprosOTovare": "Тауар туралы сұрақ",
   "auto_neUdalosZagruzitObrash": "Өтінішті жүктеу мүмкін болмады",
   "auto_obrashchenieOtpravlenoV": "Хабарлама жіберілді",
   "auto_soobshchenieOtpravleno": "Хабарлама жіберілді",

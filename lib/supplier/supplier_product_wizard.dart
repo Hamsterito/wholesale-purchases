@@ -2007,71 +2007,75 @@ class _StepHeader extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Row(
+          Stack(
             children: [
-              for (var index = 0; index < totalSteps; index++) ...[
-                _StepCircle(
-                  index: index,
-                  isActive: index <= step,
-                  onTap: onStepTap == null ? null : () => onStepTap!(index),
-                ),
-                if (index != totalSteps - 1)
-                  Expanded(
-                    child: Container(
-                      height: 2,
-                      margin: const EdgeInsets.symmetric(horizontal: 6),
-                      color: index < step
-                          ? colorScheme.primary
-                          : colorScheme.surfaceContainerHighest,
-                    ),
-                  ),
-              ],
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: List.generate(totalSteps, (index) {
-              final isActive = index <= step;
-              final isFirst = index == 0;
-              final isLast = index == totalSteps - 1;
-              final alignment = isFirst
-                  ? Alignment.centerLeft
-                  : (isLast ? Alignment.centerRight : Alignment.center);
-              final textAlign = isFirst
-                  ? TextAlign.left
-                  : (isLast ? TextAlign.right : TextAlign.center);
-              final label = Text(
-                labels[index],
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: textAlign,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: isActive
-                      ? colorScheme.onSurface
-                      : colorScheme.onSurfaceVariant,
-                ),
-              );
-              return Expanded(
-                child: Align(
-                  alignment: alignment,
-                  child: onStepTap == null
-                      ? label
-                      : InkWell(
-                          onTap: () => onStepTap!(index),
-                          borderRadius: BorderRadius.circular(6),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 4,
-                              vertical: 2,
-                            ),
-                            child: label,
-                          ),
+              Positioned(
+                top: 12,
+                left: 0,
+                right: 0,
+                child: Row(
+                  children: [
+                    const Expanded(flex: 1, child: SizedBox()),
+                    for (var index = 0; index < totalSteps - 1; index++)
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          height: 2,
+                          color: index < step
+                              ? colorScheme.primary
+                              : colorScheme.surfaceContainerHighest,
                         ),
+                      ),
+                    const Expanded(flex: 1, child: SizedBox()),
+                  ],
                 ),
-              );
-            }),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (var index = 0; index < totalSteps; index++)
+                    Expanded(
+                      flex: 2,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _StepCircle(
+                            index: index,
+                            isActive: index <= step,
+                            onTap: onStepTap == null ? null : () => onStepTap!(index),
+                          ),
+                          const SizedBox(height: 8),
+                          () {
+                            final isActive = index <= step;
+                            final label = Text(
+                              labels[index],
+                              maxLines: 1,
+                              overflow: TextOverflow.visible,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: isActive
+                                    ? colorScheme.onSurface
+                                    : colorScheme.onSurfaceVariant,
+                              ),
+                            );
+                            if (onStepTap == null) return label;
+                            return InkWell(
+                              onTap: () => onStepTap!(index),
+                              borderRadius: BorderRadius.circular(6),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                                child: label,
+                              ),
+                            );
+                          }(),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+            ],
           ),
         ],
       ),

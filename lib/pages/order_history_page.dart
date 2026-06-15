@@ -803,11 +803,15 @@ if (order.items.isEmpty)
 
   bool _isAcceptedStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized == context.l10n.getString('auto_dostavlen') ||
-        normalized == context.l10n.getString('auto_polucheno_1') ||
-        normalized == context.l10n.getString('auto_prinyato') ||
-        normalized == context.l10n.getString('auto_prinyat') ||
-        normalized == context.l10n.getString('auto_zaversheno') ||
+    return normalized == context.l10n.getString('auto_dostavlen').toLowerCase() ||
+        normalized == context.l10n.getString('auto_polucheno_1').toLowerCase() ||
+        normalized == context.l10n.getString('auto_prinyato').toLowerCase() ||
+        normalized == context.l10n.getString('auto_prinyat').toLowerCase() ||
+        normalized == context.l10n.getString('auto_prinyata').toLowerCase() ||
+        normalized == context.l10n.getString('auto_prinyaty').toLowerCase() ||
+        normalized == context.l10n.getString('auto_zaversheno').toLowerCase() ||
+        normalized.contains('принят') ||
+        normalized.contains('завершен') ||
         normalized == 'accepted' ||
         normalized == 'received';
   }
@@ -816,7 +820,8 @@ if (order.items.isEmpty)
     final normalized = _normalizeStatus(status);
     // Корень context.l10n.getString('auto_otmen') покрывает и существительное «отмена», и причастия
     // «отменён»/«отменен»/«отменено»/«отменена» - без зависимости от буквы ё/е.
-    return normalized.contains(context.l10n.getString('auto_otmen')) ||
+    return normalized.contains(context.l10n.getString('auto_otmen').toLowerCase()) ||
+        normalized.contains('отмен') ||
         normalized == 'cancelled' ||
         normalized == 'canceled';
   }

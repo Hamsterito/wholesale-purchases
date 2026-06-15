@@ -26,9 +26,9 @@ class SupplierOrdersPage extends StatefulWidget {
 class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     with AutoRefreshMixin<SupplierOrdersPage> {
   static const List<String> _supplierFlowStatuses = [
-    'assembling',
-    'in_transit',
-    'delivered',
+    'Собирается',
+    'В пути',
+    'Доставлен',
   ];
 
   static const _periodDay = 'day';
@@ -134,6 +134,8 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
   bool _isAssemblingStatus(String status) {
     final normalized = _normalizeStatus(status);
     return normalized.contains(context.l10n.getString('auto_sobira')) ||
+        normalized.contains('подготовка') ||
+        normalized == 'собирается' ||
         normalized == 'assembling' ||
         normalized == 'processing';
   }
@@ -141,6 +143,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
   bool _isInTransitStatus(String status) {
     final normalized = _normalizeStatus(status);
     return normalized.contains(context.l10n.getString('auto_vPuti')) ||
+        normalized == 'в пути' ||
         normalized == 'in transit' ||
         normalized == 'in_transit' ||
         normalized == 'on the way';
@@ -148,7 +151,9 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
 
   bool _isDeliveredStatus(String status) {
     final normalized = _normalizeStatus(status);
-    return normalized.contains(context.l10n.getString('auto_dostav')) || normalized == 'delivered';
+    return normalized.contains(context.l10n.getString('auto_dostav')) || 
+           normalized == 'доставлен' || 
+           normalized == 'delivered';
   }
 
   bool _isAcceptedStatus(String status) {
@@ -157,6 +162,8 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
         normalized == context.l10n.getString('auto_prinyata') ||
         normalized == context.l10n.getString('auto_prinyato') ||
         normalized == context.l10n.getString('auto_prinyaty') ||
+        normalized.contains('принят') ||
+        normalized.contains('завершен') ||
         normalized == 'accepted' ||
         normalized == 'received';
   }
@@ -164,6 +171,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
   bool _isCancelledStatus(String status) {
     final normalized = _normalizeStatus(status);
     return normalized.contains(context.l10n.getString('auto_otmen')) ||
+        normalized.contains('отмен') ||
         normalized == 'cancelled' ||
         normalized == 'canceled';
   }

@@ -109,7 +109,7 @@
   "@auth_name_hint": {
     "description": "Совет поля ввода имени"
   },
-  "auth_supplier_name_hint": "Например, ООО Манса склад",
+  "auth_supplier_name_hint": "Например, ТОО Ромашка",
   "@auth_supplier_name_hint": {
     "description": "Совет поля ввода названия компании-поставщика"
   },
@@ -313,7 +313,7 @@
   "@moderator_title": {
     "description": "Тема профиля модератора"
   },
-  "moderator_search_hint": "Поиск: товар, поставщик, категория",
+  "moderator_search_hint": "Поиск по товарам, поставщикам, категориям",
   "@moderator_search_hint": {
     "description": "Совет по поиску в умеренности"
   },
@@ -329,7 +329,7 @@
   "@moderator_close_reason": {
     "description": "Причина закрытия чата"
   },
-  "moderator_support_chats": "Поддерживающие чаты",
+  "moderator_support_chats": "Чаты поддержки",
   "@moderator_support_chats": {
     "description": "Заголовок страницы чата поддержки"
   },
@@ -337,7 +337,7 @@
   "@support_category_hint": {
     "description": "Совет по выбору категории заявки"
   },
-  "support_subject_hint": "Введите тему",
+  "support_subject_hint": "Введите тему обращения",
   "@support_subject_hint": {
     "description": "Консультация по теме обращения"
   },
@@ -470,11 +470,11 @@
   "@message_auth_required": {
     "description": "Образец уведомления о необходимости авторизации"
   },
-  "message_parse_error": "Сообщение не может быть проанализировано",
+  "message_parse_error": "Ошибка обработки сообщения",
   "@message_parse_error": {
     "description": "Шаблон сообщения об ошибке анализа"
   },
-  "message_ai_generation_failed": "Невозможно построить ответ AI: {reason}",
+  "message_ai_generation_failed": "Не удалось сгенерировать ответ ИИ: {reason}",
   "@message_ai_generation_failed": {
     "description": "Шаблон сообщения об ошибке генерации AI",
     "placeholders": {
@@ -527,7 +527,7 @@
   "@supplier_product_sent_moderation": {
     "description": "Уведомление о отправке товара на модерацию"
   },
-  "supplier_changes_sent_moderation": "Изменения направлены на модерацию",
+  "supplier_changes_sent_moderation": "Изменения отправлены на модерацию",
   "@supplier_changes_sent_moderation": {
     "description": "Уведомление о внесении изменений в модерацию"
   },
@@ -551,11 +551,11 @@
   "@supplier_error_delete_product": {
     "description": "Сообщение об ошибке удаления товара"
   },
-  "supplier_apprved": "Подтверждено",
+  "supplier_apprved": "Одобрен",
   "@supplier_apprved": {
     "description": "Утвержденный статус товара"
   },
-  "supplier_rejected": "Не вставлен",
+  "supplier_rejected": "Отклонён",
   "@supplier_rejected": {
     "description": "Статус товара без вставки"
   },
@@ -587,7 +587,7 @@
   "@supplier_orders_empty_period": {
     "description": "Уведомление об отсутствии заказов на период"
   },
-  "supplier_status_change_step": "Невозможно пройти в выбранном статусе",
+  "supplier_status_change_step": "Невозможно перейти в этот статус",
   "@supplier_status_change_step": {
     "description": "Сообщение об ошибке изменения статуса"
   },
@@ -631,7 +631,7 @@
   "@supplier_period_quarter": {
     "description": "Подпис периода девяноста"
   },
-  "supplier_active_orders_tab": "Активный",
+  "supplier_active_orders_tab": "Активные",
   "@supplier_active_orders_tab": {
     "description": "Имя вкладки \"активные заказы\""
   },
@@ -696,7 +696,7 @@
   "@review_no_text": {
     "description": "Текст пустого поля по умолчанию"
   },
-  "wizard_optional": "не обязательно",
+  "wizard_optional": "необязательно",
   "@wizard_optional": {
     "description": "подписка на обязательность поля"
   },
@@ -736,11 +736,11 @@
   "@supplier_status_in_transit": {
     "description": "Статус в заказе"
   },
-  "supplier_status_delivered": "Доставлено",
+  "supplier_status_delivered": "Доставлен",
   "@supplier_status_delivered": {
     "description": "Заказ доставлен статус"
   },
-  "supplier_status_accepted": "Принято",
+  "supplier_status_accepted": "Принят",
   "@supplier_status_accepted": {
     "description": "Заказ получен статус"
   },
@@ -898,11 +898,11 @@
   "@qa_respond": {
     "description": "Кнопка ответа подписывайся"
   },
-  "qa_customers_no_questions": "Товаришки еще не задавали вопросов",
+  "qa_customers_no_questions": "Покупатели ещё не задавали вопросов",
   "@qa_customers_no_questions": {
     "description": "Уведомление о том, что товарные знаки не задали вопрос"
   },
-  "qa_customers_no_reviews": "Товаришки пока не оставили отзывов",
+  "qa_customers_no_reviews": "Покупатели пока не оставили отзывов",
   "@qa_customers_no_reviews": {
     "description": "Сообщение о том, что товар не оставил отзыв"
   },
@@ -977,7 +977,7 @@
       }
     }
   },
-  "profile_reviews_rate_product": "Дайте товару оценку",
+  "profile_reviews_rate_product": "Оцените товар",
   "@profile_reviews_rate_product": {
     "description": "Ценообразование товара подписывайся"
   },
@@ -1017,7 +1017,7 @@
   "@profile_reviews_rating_required": {
     "description": "Уведомление о необходимости оценки"
   },
-  "profile_reviews_submit_success": "Спасибо за комментарий!",
+  "profile_reviews_submit_success": "Спасибо за отзыв!",
   "@profile_reviews_submit_success": {
     "description": "Успешное отправление сообщения"
   },
@@ -1025,7 +1025,7 @@
   "@profile_reviews_submit_error": {
     "description": "Сообщение об ошибке отправки"
   },
-  "profile_reviews_delete_confirm": "Удалить комментарий?",
+  "profile_reviews_delete_confirm": "Удалить отзыв?",
   "@profile_reviews_delete_confirm": {
     "description": "Подтверждение удаления"
   },
@@ -1070,7 +1070,7 @@
   "@review_your_text": {
     "description": "Заголовок поля комментариев"
   },
-  "review_rate_product": "Дайте товару оценку",
+  "review_rate_product": "Оцените товар",
   "@review_rate_product": {
     "description": "Оценка товара"
   },
@@ -1118,11 +1118,11 @@
   "@review_change_button": {
     "description": "Кнопка переключения"
   },
-  "review_leave_button": "Оставить комментарий",
+  "review_leave_button": "Оставить отзыв",
   "@review_leave_button": {
     "description": "Кнопка Оставить комментарий"
   },
-  "review_submit_button": "Отправить комментарий",
+  "review_submit_button": "Отправить отзыв",
   "@review_submit_button": {
     "description": "Кнопка Отправить комментарий"
   },
@@ -1406,7 +1406,7 @@
   "@zakazi_confirm_acceptance": {
     "description": "Тема диалога подтверждения получения"
   },
-  "zakazi_order_amount": "Заказ {orderId} {amount}  в сумме ₸ ",
+  "zakazi_order_amount": "Заказ {orderId} - на сумму {amount} ₸",
   "@zakazi_order_amount": {
     "description": "Сумма заказа",
     "placeholders": {
@@ -1422,7 +1422,7 @@
   "@zakazi_cancel_order_title": {
     "description": "Тема диалога удаления заказа"
   },
-  "zakazi_cancel_order_message": "Заказ отменяется, а товары возвращаются на склад.",
+  "zakazi_cancel_order_message": "Заказ будет отменён, а товары возвращены на склад.",
   "@zakazi_cancel_order_message": {
     "description": "Уведомление об отмене заказа"
   },
@@ -1438,15 +1438,15 @@
   "@zakazi_cancelling": {
     "description": "Процесс отмены заказа"
   },
-  "zakazi_order_accepted": "Заказ получен.",
+  "zakazi_order_accepted": "Заказ принят.",
   "@zakazi_order_accepted": {
     "description": "Уведомление о получении заказа"
   },
-  "zakazi_accept_failed": "Получить заказ не удалось. Повторить.",
+  "zakazi_accept_failed": "Не удалось принять заказ. Повторите попытку.",
   "@zakazi_accept_failed": {
     "description": "Ошибка получения заказа"
   },
-  "zakazi_cancel_failed": "Отменить заказ не удалось. Повторить.",
+  "zakazi_cancel_failed": "Не удалось отменить заказ. Повторите попытку.",
   "@zakazi_cancel_failed": {
     "description": "Ошибка отмены заказа"
   },
@@ -1478,7 +1478,7 @@
   "@cart_confirm_row_payment": {
     "description": "Символ способа оплаты в диалоге оплаты"
   },
-  "cart_payment_method_cash": "Наличность при получении",
+  "cart_payment_method_cash": "Наличными при получении",
   "@cart_payment_method_cash": {
     "description": "Способ оплаты наличными"
   },
@@ -1486,7 +1486,7 @@
   "@cart_payment_method_card": {
     "description": "Способ оплаты картой"
   },
-  "cart_payment_method_card_none": "Карта не включена",
+  "cart_payment_method_card_none": "Карта не привязана",
   "@cart_payment_method_card_none": {
     "description": "Уведомление об отсутствии подключенной карты"
   },
@@ -1538,7 +1538,7 @@
   "@cart_address_empty_title": {
     "description": "Заголовок списка пустых адресов"
   },
-  "cart_address_empty_subtitle": "Добавьте адрес, чтобы продолжить оформление.",
+  "cart_address_empty_subtitle": "Добавьте адрес доставки, чтобы продолжить.",
   "@cart_address_empty_subtitle": {
     "description": "Совет при отсутствии адреса"
   },
@@ -1590,11 +1590,11 @@
   "@cart_template_apply_error": {
     "description": "Ошибка использования шаблона"
   },
-  "cart_template_apply_none": "Образец не использовался: ни один товар не доступен",
+  "cart_template_apply_none": "Шаблон не применён: товары недоступны",
   "@cart_template_apply_none": {
     "description": "Когда ни одна продукция в образце не найдена в каталоге"
   },
-  "cart_template_apply_success": "Корзина «{name}\"заменено образцом: {added} добавлен товар",
+  "cart_template_apply_success": "Корзина заменена шаблоном «{name}»: добавлено {added} шт.",
   "@cart_template_apply_success": {
     "description": "Успешное использование шаблона",
     "placeholders": {
@@ -1624,7 +1624,7 @@
       }
     }
   },
-  "cart_template_skipped_title": "{count} {plural} проведено",
+  "cart_template_skipped_title": "Пропущено {count} товаров",
   "@cart_template_skipped_title": {
     "description": "Тема списка реализованных товаров",
     "placeholders": {
@@ -1652,11 +1652,11 @@
   "@cart_template_skip_product_missing": {
     "description": "Причина недоступности товара"
   },
-  "cart_template_skip_supplier_missing": "Поставщик не предлагает этот товар",
+  "cart_template_skip_supplier_missing": "Поставщик больше не предлагает этот товар",
   "@cart_template_skip_supplier_missing": {
     "description": "Причина непредставления товара поставщиком"
   },
-  "cart_template_rename_success": "Модель переименована",
+  "cart_template_rename_success": "Шаблон переименован",
   "@cart_template_rename_success": {
     "description": "Удачное переименование шаблона"
   },
@@ -1673,15 +1673,15 @@
   "@cart_template_delete_success": {
     "description": "Успешное удаление шаблона"
   },
-  "cart_template_limit_items": "В образце должно быть не более 100 позиций.",
+  "cart_template_limit_items": "В шаблоне должно быть не более 100 позиций.",
   "@cart_template_limit_items": {
     "description": "Примечание о лимите позиций типа"
   },
-  "cart_template_limit_templates": "Достиг предела образцов: 20. удалите ненужный образец.",
+  "cart_template_limit_templates": "Достигнут лимит шаблонов (20). Удалите ненужные.",
   "@cart_template_limit_templates": {
     "description": "Примечание о лимите количества образцов"
   },
-  "cart_template_save_success": "Образец сохранился",
+  "cart_template_save_success": "Шаблон сохранён",
   "@cart_template_save_success": {
     "description": "Успешное сохранение образца"
   },
@@ -1697,7 +1697,7 @@
   "@cart_total_amount_title": {
     "description": "Тема общей суммы заказа"
   },
-  "cart_total_summary": "Шт.: {units} Позиция: {positions}",
+  "cart_total_summary": "{units} шт - {positions} позиций",
   "@cart_total_summary": {
     "description": "Сумма количества товаров и позиций",
     "placeholders": {
@@ -1718,7 +1718,7 @@
       }
     }
   },
-  "cart_supplier_total_title": "Комплект по поставщику",
+  "cart_supplier_total_title": "Итого по поставщику",
   "@cart_supplier_total_title": {
     "description": "Итоговая сумма по поставщику тема"
   },
@@ -1726,7 +1726,7 @@
   "@cart_checkout_order": {
     "description": "Кнопка оформления заказа по поставщику"
   },
-  "cart_supplier_info": "Шт.: {units} * Позиция: {positions}",
+  "cart_supplier_info": "{units} шт - {positions} позиций",
   "@cart_supplier_info": {
     "description": "Информация о количестве товаров и позиций поставщика",
     "placeholders": {
@@ -1844,7 +1844,7 @@
   "@chat_no_review_text": {
     "description": "Текст комментария по умолчанию"
   },
-  "chat_empty_hint": "Напишите предыдущее сообщение{postfix}",
+  "chat_empty_hint": "Напишите сообщение...",
   "@chat_empty_hint": {
     "description": "Совет в пустом чате",
     "placeholders": {
@@ -2223,7 +2223,7 @@
   "@address_add_button": {
     "description": "Кнопка Добавить адрес"
   },
-  "moderation_approve_button": "Утверждение",
+  "moderation_approve_button": "Одобрить",
   "@moderation_approve_button": {
     "description": "Кнопка крепления"
   },
@@ -2263,7 +2263,7 @@
   "@add_moderator_title": {
     "description": "Тема диалога добавления модератора"
   },
-  "supplier_profile_reset": "Восстановление",
+  "supplier_profile_reset": "Сбросить",
   "@supplier_profile_reset": {
     "description": "Кнопка сброса фильтров"
   },
@@ -2276,7 +2276,7 @@
       }
     }
   },
-  "create_chat_title": "Создать Чат?",
+  "create_chat_title": "Создать чат?",
   "@create_chat_title": {
     "description": "Тема диалога создания чата"
   },
@@ -2308,7 +2308,7 @@
   "@cancel_order_button": {
     "description": "Кнопка отмены заказа"
   },
-  "accept_order_button": "Получить",
+  "accept_order_button": "Принять",
   "@accept_order_button": {
     "description": "Кнопка получения заказа"
   },
@@ -2316,11 +2316,11 @@
   "@suppliers_not_found": {
     "description": "Уведомление об отсутствии поставщиков"
   },
-  "close_chat_button": "Закрытие",
+  "close_chat_button": "Закрыть",
   "@close_chat_button": {
     "description": "Кнопка закрытия чата"
   },
-  "create_chat_confirm": "Обновление",
+  "create_chat_confirm": "Создать",
   "@create_chat_confirm": {
     "description": "Кнопка обновления чата"
   },
@@ -2336,19 +2336,19 @@
   "@session_expired_login_again": {
     "description": "Уведомление о необходимости повторного входа"
   },
-  "chat_open_failed": "Не удалось открыть чат с поставщиком",
+  "chat_open_failed": "Не удалось открыть чат",
   "@chat_open_failed": {
     "description": "Сообщение об ошибке открытия чата"
   },
-  "chat_create_failed": "Не удалось пообщаться с поставщиком",
+  "chat_create_failed": "Не удалось создать чат",
   "@chat_create_failed": {
     "description": "Сообщение об ошибке чата"
   },
-  "search_no_results": "Запрос не был предоставлен без четверостишия",
+  "search_no_results": "По вашему запросу ничего не найдено",
   "@search_no_results": {
     "description": "Сообщение об отсутствии результатов поиска"
   },
-  "search_no_results_for": "К запросам «{query}\"без саответа не дано",
+  "search_no_results_for": "По запросу «{query}» ничего не найдено",
   "@search_no_results_for": {
     "description": "Нет результатов поиска для запроса",
     "placeholders": {
@@ -2357,7 +2357,7 @@
       }
     }
   },
-  "suppliers_catalog_access_denied": "Каталог поставщиков доступен только модераторам и основным администраторам.",
+  "suppliers_catalog_access_denied": "Каталог поставщиков доступен только модераторам и администраторам.",
   "@suppliers_catalog_access_denied": {},
   "product_nutritional_info": "Пищевая ценность",
   "@product_nutritional_info": {
@@ -2602,7 +2602,7 @@
   "@create_chat_button": {
     "description": "Auto-added missing key"
   },
-  "moderation_approve_product": "Одобрить товар",
+  "moderation_approve_product": "Одобрить",
   "@moderation_approve_product": {
     "description": "Auto-added missing key"
   },
@@ -6184,15 +6184,15 @@
   "@auto_operatoryOnlaynObychno": {},
   "auto_seychasOflaynOtvetimV": "Сейчас офлайн. Ответим в рабочее время.",
   "@auto_seychasOflaynOtvetimV": {},
-  "auto_opishiteProblemu": "Другое",
+  "auto_opishiteProblemu": "Опишите проблему",
   "@auto_opishiteProblemu": {},
-  "auto_problemaSZakazom": "Другое",
+  "auto_problemaSZakazom": "Проблема с заказом",
   "@auto_problemaSZakazom": {},
-  "auto_problemaSOplatoy": "Другое",
+  "auto_problemaSOplatoy": "Проблема с оплатой",
   "@auto_problemaSOplatoy": {},
-  "auto_tehnicheskieNepoladki": "Другое",
+  "auto_tehnicheskieNepoladki": "Технические неполадки",
   "@auto_tehnicheskieNepoladki": {},
-  "auto_voprosOTovare": "Другое",
+  "auto_voprosOTovare": "Вопрос о товаре",
   "@auto_voprosOTovare": {},
   "auto_neUdalosZagruzitObrash": "Не удалось загрузить обращение",
   "@auto_neUdalosZagruzitObrash": {},
@@ -6336,11 +6336,11 @@
   "@auto_dobavteHotyaByOdnuFot": {},
   "auto_sozdatTovar": "Создать товар?",
   "@auto_sozdatTovar": {},
-  "auto_izmeneniyaBudutOtpravle": "Отмена",
+  "auto_izmeneniyaBudutOtpravle": "Изменения будут отправлены на модерацию",
   "@auto_izmeneniyaBudutOtpravle": {},
-  "auto_tovarBudetOtpravlenNa": "Отмена",
+  "auto_tovarBudetOtpravlenNa": "Товар будет отправлен на модерацию",
   "@auto_tovarBudetOtpravlenNa": {},
-  "auto_sozdat": "Отмена",
+  "auto_sozdat": "Создать",
   "@auto_sozdat": {},
   "auto_redaktirovanieTovara": "Редактирование товара",
   "@auto_redaktirovanieTovara": {},
@@ -6500,7 +6500,7 @@
   "@auto_appmessagedialogPodderzh": {},
   "auto_poiskPoPostavshchikam": "Поиск по поставщикам",
   "@auto_poiskPoPostavshchikam": {},
-  "auto_neprochitannyhUvedomleni_1": ")}",
+  "auto_neprochitannyhUvedomleni_1": "непрочитанных уведомлений",
   "@auto_neprochitannyhUvedomleni_1": {},
   "auto_pishchevayaTsennost": "Пищевая ценность",
   "@auto_pishchevayaTsennost": {},
@@ -6522,37 +6522,37 @@
   "@auto_vyhodnye": {},
   "auto_kazhdyyDen": "каждый день",
   "@auto_kazhdyyDen": {},
-  "auto_pn_1": "вс",
+  "auto_pn_1": "Пн",
   "@auto_pn_1": {},
-  "auto_vt": "вс",
+  "auto_vt": "Вт",
   "@auto_vt": {},
-  "auto_sr": "вс",
+  "auto_sr": "Ср",
   "@auto_sr": {},
-  "auto_cht": "вс",
+  "auto_cht": "Чт",
   "@auto_cht": {},
-  "auto_pt": "вс",
+  "auto_pt": "Пт",
   "@auto_pt": {},
-  "auto_sb": "вс",
+  "auto_sb": "Сб",
   "@auto_sb": {},
-  "auto_vs": "вс",
+  "auto_vs": "Вс",
   "@auto_vs": {},
-  "auto_ponedelnik": "воскресенье",
+  "auto_ponedelnik": "Понедельник",
   "@auto_ponedelnik": {},
-  "auto_vtornik": "воскресенье",
+  "auto_vtornik": "Вторник",
   "@auto_vtornik": {},
-  "auto_sreda": "воскресенье",
+  "auto_sreda": "Среда",
   "@auto_sreda": {},
-  "auto_chetverg": "воскресенье",
+  "auto_chetverg": "Четверг",
   "@auto_chetverg": {},
-  "auto_pyatnitsa": "воскресенье",
+  "auto_pyatnitsa": "Пятница",
   "@auto_pyatnitsa": {},
-  "auto_subbota": "воскресенье",
+  "auto_subbota": "Суббота",
   "@auto_subbota": {},
-  "auto_voskresene": "воскресенье",
+  "auto_voskresene": "Воскресенье",
   "@auto_voskresene": {},
-  "auto_sht": "шт",
+  "auto_sht": "шт.",
   "@auto_sht": {},
-  "auto_p_1": "П",
+  "auto_p_1": "Пн",
   "@auto_p_1": {},
   "auto_chitatVse": "Читать все",
   "@auto_chitatVse": {},

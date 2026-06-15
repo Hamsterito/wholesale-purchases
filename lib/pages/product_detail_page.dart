@@ -594,6 +594,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                       icon: _isFavorite
                           ? Icons.favorite
                           : Icons.favorite_border,
+                      iconColor: _isFavorite ? _palette.error : null,
                       onTap: () {
                         final added = _favoritesStore.toggle(widget.product);
                         setState(() {
@@ -640,10 +641,11 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     VoidCallback? onTap,
     Color? iconColor,
   }) {
-    final resolvedColor = iconColor ?? context.colorPalette.accent;
+    final palette = context.colorPalette;
+    final resolvedColor = iconColor ?? palette.accent;
 
     return Material(
-      color: Colors.transparent,
+      color: palette.card,
       shape: const CircleBorder(),
       child: InkWell(
         customBorder: const CircleBorder(),
