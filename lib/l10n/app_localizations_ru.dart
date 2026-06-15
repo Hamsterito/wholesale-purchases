@@ -5226,16 +5226,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_vashiOtzyvy => 'Ваши отзывы';
 
   @override
-  String get auto_bystrayaDostavka => 'Вежливый курьер';
+  String get auto_bystrayaDostavka => 'Быстрая доставка';
 
   @override
-  String get auto_horoshayaTsena => 'Вежливый курьер';
+  String get auto_horoshayaTsena => 'Хорошая цена';
 
   @override
-  String get auto_kachestvennayaUpakovka => 'Вежливый курьер';
+  String get auto_kachestvennayaUpakovka => 'Качественная упаковка';
 
   @override
-  String get auto_svezhiyTovar => 'Вежливый курьер';
+  String get auto_svezhiyTovar => 'Свежий товар';
 
   @override
   String get auto_vezhlivyyKurer => 'Вежливый курьер';

@@ -9,10 +9,12 @@ import '../../services/store/favorites_store.dart';
 import '../../theme/app_color_palette.dart';
 import '../../utils/delivery_schedule.dart';
 import '../../utils/ru_plural.dart';
+import 'dart:math' as math;
 import '../smart_image.dart';
 import 'rating_stars.dart';
 import '../smooth_sheet.dart';
 import '../messages/top_message.dart';
+import '../../core/ui/theme/app_dimensions.dart';
 
 class ProductCard extends StatefulWidget {
   final Product product;
@@ -1214,7 +1216,7 @@ class _QuantityPickerSheetState extends State<_QuantityPickerSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.paddingOf(context).bottom;
+    final bottomInset = math.max(MediaQuery.paddingOf(context).bottom, AppDimensions.minBottomSafePadding);
     return Padding(
       padding: EdgeInsets.fromLTRB(12, 8, 12, 10 + bottomInset),
       child: Column(

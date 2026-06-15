@@ -15,6 +15,7 @@ import '../widgets/smooth_sheet.dart';
 import '../widgets/messages/top_message.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import 'product_detail_page.dart';
+import '../core/ui/theme/app_dimensions.dart';
 
 enum _SortField { price, rating }
 
@@ -781,7 +782,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
             ).length;
             final priceMin = _priceMinBound;
             final priceMax = _priceMaxBound;
-            final bottomInset = MediaQuery.paddingOf(context).bottom;
+            final bottomInset = max(MediaQuery.paddingOf(context).bottom, AppDimensions.minBottomSafePadding);
 
             return Padding(
               padding: EdgeInsets.fromLTRB(16, 8, 16, 16 + bottomInset),

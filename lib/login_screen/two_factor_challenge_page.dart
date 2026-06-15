@@ -8,6 +8,8 @@ import '../services/api/two_factor_api.dart';
 import '../services/app_logger.dart';
 import '../theme/app_color_palette.dart';
 import '../widgets/messages/top_message.dart';
+import '../core/ui/theme/app_dimensions.dart';
+import '../core/ui/widgets/thumb_zone_builder.dart';
 
 /// Сигнатура верификации 2FA-кода - в проде TwoFactorApi.verifyLogin, в тестах фейк.
 typedef TwoFactorVerifyLoginFn =
@@ -364,6 +366,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
               ),
               child: SafeArea(
                 top: false,
+                minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(32, 24, 32, 32),
@@ -610,10 +613,11 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
 
   Widget _buildSubmitButton() {
     final bg = _isDark ? _colorScheme.primary : context.colorPalette.ink;
-    return SizedBox(
-      width: double.infinity,
-      height: 50,
-      child: ElevatedButton(
+    return ThumbZoneBuilder(
+      child: SizedBox(
+        width: double.infinity,
+        height: 50,
+        child: ElevatedButton(
         onPressed: _isSubmitting ? null : _submit,
         style: ElevatedButton.styleFrom(
           backgroundColor: bg,
@@ -640,7 +644,8 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
                 ),
               ),
       ),
-    );
+    ),
+  );
   }
 }
 

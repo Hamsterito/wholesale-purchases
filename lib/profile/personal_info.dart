@@ -13,6 +13,7 @@ import '../models/message.dart';
 import '../models/user_profile.dart';
 import '../widgets/profile/user_avatar.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
+import '../core/ui/theme/app_dimensions.dart';
 
 // Лимит размера аватарки совпадает с серверным - чтобы не гонять сетевой
 // запрос ради 413.
@@ -387,6 +388,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
       ),
       builder: (sheetContext) {
         return SafeArea(
+          minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

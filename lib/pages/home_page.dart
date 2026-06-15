@@ -11,6 +11,7 @@ import 'package:flutter_project/services/localization/localization_extension.dar
 import '../utils/search_normalizer.dart';
 import '../utils/auto_refresh.dart';
 import 'product_detail_page.dart';
+import '../core/ui/theme/app_dimensions.dart';
 
 enum SortField { price, rating }
 
@@ -239,6 +240,8 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
     return Scaffold(
       backgroundColor: _pageBg,
       body: SafeArea(
+        bottom: false,
+        minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
         child: Column(
           children: [
             _buildHeader(),
@@ -775,7 +778,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
             ).length;
             final priceMin = _priceMinBound;
             final priceMax = _priceMaxBound;
-            final bottomInset = MediaQuery.paddingOf(context).bottom;
+            final bottomInset = max(MediaQuery.paddingOf(context).bottom, AppDimensions.minBottomSafePadding);
 
             return Padding(
               padding: EdgeInsets.fromLTRB(16, 8, 16, 16 + bottomInset),

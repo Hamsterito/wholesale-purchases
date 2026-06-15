@@ -24,7 +24,8 @@ import '../widgets/pages/templates_sheet.dart';
 import '../widgets/messages/top_message.dart';
 import '../services/localization/app_localizations.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
-
+import '../core/ui/theme/app_dimensions.dart';
+import '../core/ui/widgets/thumb_zone_builder.dart';
 const double _buttonRadius = 18;
 
 class CartPage extends StatefulWidget {
@@ -412,7 +413,6 @@ class _CartPageState extends State<CartPage> {
       builder: (context) {
         final l10n = AppLocalizations.of(context);
         final colorScheme = Theme.of(context).colorScheme;
-        final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
         return StatefulBuilder(
           builder: (context, setModalState) {
             final hasCard = selectedCard != null;
@@ -421,8 +421,9 @@ class _CartPageState extends State<CartPage> {
                 : l10n.getString('cart_payment_method_card_none');
             return SafeArea(
               top: false,
+              minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
               child: Container(
-                padding: EdgeInsets.fromLTRB(16, 12, 16, 12 + bottomInset),
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
                 decoration: BoxDecoration(
                   color: context.colorPalette.card,
                   borderRadius: const BorderRadius.vertical(
@@ -835,16 +836,16 @@ class _CartPageState extends State<CartPage> {
       builder: (context) {
         final colorScheme = Theme.of(context).colorScheme;
         final maxHeight = MediaQuery.sizeOf(context).height * 0.7;
-        final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
         return StatefulBuilder(
           builder: (context, setModalState) {
             final l10n = AppLocalizations.of(context);
             final selectedAddress = _findAddressById(addresses, selectedId);
             return SafeArea(
               top: false,
+              minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
               child: Container(
                 constraints: BoxConstraints(maxHeight: maxHeight),
-                padding: EdgeInsets.fromLTRB(16, 12, 16, 12 + bottomInset),
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
                 decoration: BoxDecoration(
                   color: context.colorPalette.card,
                   borderRadius: const BorderRadius.vertical(
@@ -1755,14 +1756,16 @@ try {
       color: Colors.transparent,
       child: SafeArea(
         top: false,
+        minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
+              ThumbZoneBuilder(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
                   onPressed: canCheckout ? _placeAllOrders : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _isDark
@@ -1839,7 +1842,8 @@ try {
                   ),
                 ),
               ),
-              if (hasItems) ...[
+            ),
+            if (hasItems) ...[
                 const SizedBox(height: 6),
                 _ClearCartLink(onTap: _confirmClearCart),
               ],

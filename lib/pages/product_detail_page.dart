@@ -11,6 +11,8 @@ import '../services/store/favorites_store.dart';
 import '../services/store/supplier_stats_store.dart';
 import '../widgets/pages/category_tags.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
+import '../core/ui/theme/app_dimensions.dart';
+import '../core/ui/widgets/thumb_zone_builder.dart';
 import '../widgets/pages/product_image_carousel.dart';
 import '../widgets/pages/rating_section.dart';
 import '../theme/app_color_palette.dart';
@@ -1176,8 +1178,9 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     final barColor = !isAvailable ? _palette.muted : _palette.accent;
     final accentColor = barColor;
 
-    return Container(
-      decoration: BoxDecoration(
+    return ThumbZoneBuilder(
+      child: Container(
+        decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
             color: _shadowColor,
@@ -1336,7 +1339,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           ),
         ),
       ),
-    );
+    ));
   }
 
   List<T> _randomPreview<T>(List<T> source, int count) {
@@ -1669,8 +1672,11 @@ class _AboutProductSheetState extends State<_AboutProductSheet>
     final description = widget.product.description;
     final hasContent = sections.isNotEmpty || description.trim().isNotEmpty;
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+    return SafeArea(
+      top: false,
+      minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -1771,7 +1777,7 @@ class _AboutProductSheetState extends State<_AboutProductSheet>
           ),
         ],
       ),
-    );
+    ));
   }
 }
 

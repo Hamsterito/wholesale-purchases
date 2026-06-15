@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import '../core/ui/theme/app_dimensions.dart';
 import '../models/supplier_product.dart';
 import '../services/api/api_service.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
@@ -736,7 +737,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       ),
       bottomNavigationBar: SafeArea(
         top: false,
-        minimum: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+        minimum: EdgeInsets.fromLTRB(16, 8, 16, AppDimensions.minBottomSafePadding),
         child: Material(
           type: MaterialType.transparency,
           child: Row(

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import '../../models/review_entry.dart';
 import '../../models/product.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
+import 'dart:math' as math;
 import '../../theme/app_color_palette.dart';
+import '../../core/ui/theme/app_dimensions.dart';
 import '../smart_image.dart';
 
 class SupplierQAResponseModal extends StatefulWidget {
@@ -113,7 +115,7 @@ class _SupplierQAResponseModalState extends State<SupplierQAResponseModal> {
       ),
       child: Padding(
         padding: EdgeInsets.only(
-          bottom: MediaQuery.viewInsetsOf(context).bottom,
+          bottom: math.max(MediaQuery.viewInsetsOf(context).bottom, AppDimensions.minBottomSafePadding),
         ),
         child: SingleChildScrollView(
           child: Column(

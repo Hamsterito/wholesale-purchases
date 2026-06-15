@@ -5223,16 +5223,16 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_vashiOtzyvy => 'Сіздің пікірлеріңіз';
 
   @override
-  String get auto_bystrayaDostavka => 'Сыпайы курьер';
+  String get auto_bystrayaDostavka => 'Жылдам жеткізу';
 
   @override
-  String get auto_horoshayaTsena => 'Сыпайы курьер';
+  String get auto_horoshayaTsena => 'Жақсы баға';
 
   @override
-  String get auto_kachestvennayaUpakovka => 'Сыпайы курьер';
+  String get auto_kachestvennayaUpakovka => 'Сапалы қаптама';
 
   @override
-  String get auto_svezhiyTovar => 'Сыпайы курьер';
+  String get auto_svezhiyTovar => 'Жаңа тауар';
 
   @override
   String get auto_vezhlivyyKurer => 'Сыпайы курьер';

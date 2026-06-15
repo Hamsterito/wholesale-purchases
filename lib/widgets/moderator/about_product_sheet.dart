@@ -4,6 +4,7 @@ import '../../services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../../utils/characteristic_sections.dart';
 import '../smooth_sheet.dart';
+import '../../core/ui/theme/app_dimensions.dart';
 
 /// Bottom sheet «О товаре»: табы «Характеристики»/«Описание» с прокруткой
 /// по якорям. Принимает готовые секции - подходит и покупателю, и модератору.
@@ -100,8 +101,11 @@ class _AboutProductSheetState extends State<AboutProductSheet>
     final hasContent =
         widget.sections.isNotEmpty || widget.description.trim().isNotEmpty;
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+    return SafeArea(
+      top: false,
+      minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -202,7 +206,7 @@ class _AboutProductSheetState extends State<AboutProductSheet>
           ),
         ],
       ),
-    );
+    ));
   }
 }
 

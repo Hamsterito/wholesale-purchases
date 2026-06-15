@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+import 'dart:math' as math;
 import '../../theme/app_color_palette.dart';
+import '../../core/ui/theme/app_dimensions.dart';
 
 /// Корневой Overlay для top-message. Живёт выше Navigator, монтируется в MaterialApp.builder.
 final GlobalKey<OverlayState> rootMessageOverlayKey = GlobalKey<OverlayState>();
@@ -106,7 +108,7 @@ void showTopMessage(
       final resolvedBackground = backgroundColor ?? palette.accent;
       final mediaPadding = MediaQuery.paddingOf(context);
       final resolvedBottom = showAtBottom
-          ? mediaPadding.bottom + 8 + bottomOffset
+          ? math.max(mediaPadding.bottom, AppDimensions.minBottomSafePadding) + 8 + bottomOffset
           : null;
       return Positioned(
         top: showAtBottom ? null : mediaPadding.top + 8,

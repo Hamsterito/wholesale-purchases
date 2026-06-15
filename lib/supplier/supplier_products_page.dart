@@ -7,12 +7,12 @@ import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/smart_image.dart';
 import '../widgets/messages/top_message.dart';
+import '../core/ui/theme/app_dimensions.dart';
 import 'supplier_product_wizard.dart';
 import 'supplier_qa_page.dart';
 
 class SupplierProductsPage extends StatefulWidget {
   const SupplierProductsPage({super.key});
-
   @override
   State<SupplierProductsPage> createState() => _SupplierProductsPageState();
 }
@@ -626,16 +626,19 @@ Expanded(
                       },
                     ),
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _isSubmitting || _deletingIds.isNotEmpty
-            ? null
-            : () => _openProductWizard(),
-        tooltip: context.l10n.getString('auto_dobavitTovar'),
-        backgroundColor: _isDark
-            ? AppColorPalette.of(context).accentMist
-            : AppColorPalette.of(context).accent,
-        foregroundColor: Colors.white,
-        child: const Icon(Icons.add_rounded),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
+        child: FloatingActionButton(
+          onPressed: _isSubmitting || _deletingIds.isNotEmpty
+              ? null
+              : () => _openProductWizard(),
+          tooltip: context.l10n.getString('auto_dobavitTovar'),
+          backgroundColor: _isDark
+              ? AppColorPalette.of(context).accentMist
+              : AppColorPalette.of(context).accent,
+          foregroundColor: Colors.white,
+          child: const Icon(Icons.add_rounded),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

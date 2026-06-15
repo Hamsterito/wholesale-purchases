@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../services/store/templates_store.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
+import '../../core/ui/theme/app_dimensions.dart';
 import '../smart_image.dart';
 import '../smooth_sheet.dart';
 
@@ -77,6 +78,7 @@ class _TemplatesSheetState extends State<TemplatesSheet> {
       maxScaleFactor: 2.0,
       child: SafeArea(
         top: false,
+        minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
         child: FractionallySizedBox(
           heightFactor: 0.85,
           child: Column(

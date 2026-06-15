@@ -9,6 +9,7 @@ import '../theme/app_color_palette.dart';
 import '../widgets/moderator/moderator_empty_state.dart';
 import '../widgets/phone_input_formatter.dart';
 import '../widgets/messages/top_message.dart';
+import '../core/ui/theme/app_dimensions.dart';
 import 'add_moderator_dialog.dart';
 import 'moderator_filter.dart';
 import 'widgets/two_factor_admin_disable_tile.dart';
@@ -219,15 +220,18 @@ class _ModeratorManagementPageState extends State<ModeratorManagementPage> {
             ),
       floatingActionButton: _accessDenied
           ? null
-          : FloatingActionButton.extended(
-              onPressed: _isLoading ? null : _openAddDialog,
-              backgroundColor: palette.primary,
-              foregroundColor: Colors.white,
-              elevation: 2,
-              icon: const Icon(Icons.add),
-              label: Text(
-                context.l10n.getString('auto_dobavit'),
-                style: TextStyle(fontWeight: FontWeight.w600),
+          : Padding(
+              padding: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
+              child: FloatingActionButton.extended(
+                onPressed: _isLoading ? null : _openAddDialog,
+                backgroundColor: palette.primary,
+                foregroundColor: Colors.white,
+                elevation: 2,
+                icon: const Icon(Icons.add),
+                label: Text(
+                  context.l10n.getString('auto_dobavit'),
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
               ),
             ),
     );

@@ -10,7 +10,8 @@ import '../services/api/api_config.dart';
 import '../services/api/app_http_client.dart';
 import '../services/app_logger.dart';
 import '../services/storage/otp_cooldown_store.dart';
-
+import '../core/ui/theme/app_dimensions.dart';
+import '../core/ui/widgets/thumb_zone_builder.dart';
 class VerificationPage extends StatefulWidget {
   final String email;
 
@@ -280,6 +281,7 @@ class _VerificationPageState extends State<VerificationPage> {
               ),
               child: SafeArea(
                 top: false,
+                minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
                 child: Padding(
                   padding: const EdgeInsets.all(32),
                   child: Column(
@@ -401,10 +403,11 @@ class _VerificationPageState extends State<VerificationPage> {
                       SizedBox(height: 32),
 
                       // КНОПКА ПОДТВЕРЖДЕНИЯ
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
+                      ThumbZoneBuilder(
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
                           onPressed: _confirmCode,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: _isDark
@@ -421,6 +424,7 @@ class _VerificationPageState extends State<VerificationPage> {
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
                             ),
+                          ),
                           ),
                         ),
                       ),

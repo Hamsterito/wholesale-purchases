@@ -14,6 +14,8 @@ import '../models/message.dart';
 import '../models/review_entry.dart';
 import '../utils/date_formatter.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
+import 'dart:math' as math;
+import '../core/ui/theme/app_dimensions.dart';
 
 class ReviewsPage extends StatefulWidget {
   const ReviewsPage({super.key});
@@ -829,7 +831,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
         int rating = review.rating;
         return StatefulBuilder(
           builder: (context, setModalState) {
-            final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
+            final bottomInset = math.max(MediaQuery.viewInsetsOf(context).bottom, AppDimensions.minBottomSafePadding);
             return Padding(
               padding: EdgeInsets.only(bottom: bottomInset),
               child: Container(
@@ -1142,7 +1144,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
         final selectedTags = <String>{};
         return StatefulBuilder(
           builder: (context, setModalState) {
-            final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
+            final bottomInset = math.max(MediaQuery.viewInsetsOf(context).bottom, AppDimensions.minBottomSafePadding);
             return Padding(
               padding: EdgeInsets.only(bottom: bottomInset),
               child: Container(

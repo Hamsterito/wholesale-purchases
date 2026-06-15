@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../models/message.dart';
 import '../../services/store/app_settings.dart';
 import '../../theme/app_color_palette.dart';
+import '../../core/ui/theme/app_dimensions.dart';
 
 /// Унифицированный SnackBar поверх Message_System.
 /// Solid-filled стиль с метриками top_message: сплошной фон по severity,
@@ -82,9 +83,11 @@ class AppMessageMetrics {
     horizontal: 14,
     vertical: 10,
   );
-  static const EdgeInsets outerMargin = EdgeInsets.symmetric(
-    horizontal: 16,
-    vertical: 8,
+  static const EdgeInsets outerMargin = EdgeInsets.fromLTRB(
+    16,
+    8,
+    16,
+    8 + AppDimensions.minBottomSafePadding,
   );
 
   /// Расчёт max-width: 90% ширины экрана, не больше 600 px.

@@ -9531,25 +9531,25 @@ abstract class AppLocalizations {
   /// No description provided for @auto_bystrayaDostavka.
   ///
   /// In ru, this message translates to:
-  /// **'Вежливый курьер'**
+  /// **'Быстрая доставка'**
   String get auto_bystrayaDostavka;
 
   /// No description provided for @auto_horoshayaTsena.
   ///
   /// In ru, this message translates to:
-  /// **'Вежливый курьер'**
+  /// **'Хорошая цена'**
   String get auto_horoshayaTsena;
 
   /// No description provided for @auto_kachestvennayaUpakovka.
   ///
   /// In ru, this message translates to:
-  /// **'Вежливый курьер'**
+  /// **'Качественная упаковка'**
   String get auto_kachestvennayaUpakovka;
 
   /// No description provided for @auto_svezhiyTovar.
   ///
   /// In ru, this message translates to:
-  /// **'Вежливый курьер'**
+  /// **'Свежий товар'**
   String get auto_svezhiyTovar;
 
   /// No description provided for @auto_vezhlivyyKurer.

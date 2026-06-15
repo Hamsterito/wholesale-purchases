@@ -5,6 +5,7 @@ import '../models/user_address.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:geolocator/geolocator.dart';
+import '../core/ui/theme/app_dimensions.dart';
 
 class AddressPage extends StatefulWidget {
   const AddressPage({super.key, this.initial});
@@ -246,7 +247,7 @@ class _AddressPageState extends State<AddressPage> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 16 + AppDimensions.minBottomSafePadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

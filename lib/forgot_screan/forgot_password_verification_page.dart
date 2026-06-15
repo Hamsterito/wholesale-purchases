@@ -11,6 +11,8 @@ import '../services/api/app_http_client.dart';
 import '../services/app_logger.dart';
 import '../services/storage/otp_cooldown_store.dart';
 import '../utils/api_response_parser.dart';
+import '../core/ui/theme/app_dimensions.dart';
+import '../core/ui/widgets/thumb_zone_builder.dart';
 import 'reset_password_page.dart';
 
 class ForgotPasswordVerificationPage extends StatefulWidget {
@@ -299,6 +301,7 @@ class _ForgotPasswordVerificationPageState
               ),
               child: SafeArea(
                 top: false,
+                minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
                 child: Padding(
                   padding: const EdgeInsets.all(32),
                   child: Column(
@@ -418,31 +421,33 @@ class _ForgotPasswordVerificationPageState
                       SizedBox(height: 32),
 
                       // КНОПКА ПОДТВЕРЖДЕНИЯ
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: _isLoading ? null : _verifyCode,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: _isDark
-                                ? _colorScheme.primary
-                                : context.colorPalette.ink,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                      ThumbZoneBuilder(
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: _isLoading ? null : _verifyCode,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: _isDark
+                                  ? _colorScheme.primary
+                                  : context.colorPalette.ink,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                             ),
-                          ),
-                          child: _isLoading
-                              ? const CircularProgressIndicator(
-                                  color: Colors.white,
-                                )
-                              : Text(
-                                  AppLocalizations.current.getString('auto_prodolzhit'),
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
+                            child: _isLoading
+                                ? const CircularProgressIndicator(
                                     color: Colors.white,
+                                  )
+                                : Text(
+                                    AppLocalizations.current.getString('auto_prodolzhit'),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                ),
+                          ),
                         ),
                       ),
                     ],

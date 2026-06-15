@@ -13,6 +13,7 @@ import '../forgot_screan/verification_page.dart';
 import '../widgets/messages/top_message.dart';
 import '../widgets/phone_input_formatter.dart';
 import '../widgets/animated_select_field.dart';
+import '../core/ui/theme/app_dimensions.dart';
 
 // Один общий RegExp для удаления нецифровых символов в валидации телефона.
 // Top-level final - чтобы не пересоздавать на каждое нажатие клавиши.
@@ -974,6 +975,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 child: SafeArea(
                   top: false,
+                  minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
                   child: Padding(
                     padding: formPadding,
                     child: Column(

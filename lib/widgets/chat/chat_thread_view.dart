@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
+import '../../core/ui/theme/app_dimensions.dart';
 import '../profile/user_avatar.dart';
 
 /// Состояние доставки пузыря в чат-ленте.
@@ -292,6 +293,7 @@ class _ChatThreadViewState extends State<ChatThreadView> {
 
     return SafeArea(
       top: false,
+      minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
       child: Container(
         padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
         decoration: BoxDecoration(

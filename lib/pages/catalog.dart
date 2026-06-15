@@ -5,6 +5,7 @@ import '../theme/app_color_palette.dart';
 import '../services/api/api_service.dart';
 import 'category_products_page.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
+import '../core/ui/theme/app_dimensions.dart';
 
 // RegExp вызываются на каждом keystroke в поиске и при парсинге keywords
 // при загрузке категорий - выносим в top-level final, чтобы не пересоздавать.
@@ -313,6 +314,8 @@ class _CatalogPageState extends State<CatalogPage> {
     return Scaffold(
       backgroundColor: _pageBg,
       body: SafeArea(
+        bottom: false,
+        minimum: const EdgeInsets.only(bottom: AppDimensions.minBottomSafePadding),
         child: Column(
           children: [
             _buildHeader(),
@@ -643,7 +646,7 @@ class _SubcategoriesPageState extends State<_SubcategoriesPage> {
                     ),
                   )
                 : ListView.separated(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16 + AppDimensions.minBottomSafePadding),
                     itemCount: subcategories.length,
                     separatorBuilder: (_, __) => const SizedBox(height: 10),
                     itemBuilder: (context, index) {
