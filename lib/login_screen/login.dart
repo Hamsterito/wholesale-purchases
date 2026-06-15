@@ -244,7 +244,7 @@ class _LoginPageState extends State<LoginPage> {
         stackTrace: st,
       );
       if (!mounted) return;
-      _showMessage(AppLocalizations.current.getString('auto_oshibka_podklyucheniya_k_serveru_e'), MessageSeverity.error);
+      _showMessage(AppLocalizations.current.getString('auto_oshibka_podklyucheniya_k_serveru_e', params: {'e': e.toString()}), MessageSeverity.error);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -293,7 +293,7 @@ class _LoginPageState extends State<LoginPage> {
     _showMessage(
       name == null || name.isEmpty
           ? AppLocalizations.current.getString('auto_vkhod_vypolnen')
-          : AppLocalizations.current.getString('auto_dobro_pozhalovat_name'),
+          : AppLocalizations.current.getString('auto_dobro_pozhalovat_name', params: {'name': name}),
       MessageSeverity.info,
     );
 

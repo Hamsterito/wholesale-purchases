@@ -1938,14 +1938,19 @@ class AppLocalizationsRu extends AppLocalizations {
       'Не удалось выполнить вход. Попробуйте позже.';
 
   @override
-  String get auto_oshibka_podklyucheniya_k_serveru_e =>
-      'Ошибка подключения к серверу: \$e';
+  String auto_oshibka_podklyucheniya_k_serveru_e(String e) {
+    return 'Ошибка подключения к серверу: $e';
+  }
 
   @override
-  String get auto_vkhod_vypolnen => 'Добро пожаловать, \$name!';
+  String auto_vkhod_vypolnen(String name) {
+    return 'Добро пожаловать, $name!';
+  }
 
   @override
-  String get auto_dobro_pozhalovat_name => 'Добро пожаловать, \$name!';
+  String auto_dobro_pozhalovat_name(String name) {
+    return 'Добро пожаловать, $name!';
+  }
 
   @override
   String get auto_zaydite_ili_zaregistriruytes =>
@@ -1968,8 +1973,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Введите 10-символьный backup-код';
 
   @override
-  String get auto_vvedite_emailotplength_znachnyy_kod =>
-      'Введите \$_emailOtpLength-значный код';
+  String auto_vvedite_emailotplength_znachnyy_kod(String emailOtpLength) {
+    return 'Введите $emailOtpLength-значный код';
+  }
 
   @override
   String get auto_nevernyy_kod => 'Неверный код';
@@ -2105,7 +2111,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Сервер вернул ошибку. Попробуйте снова.';
 
   @override
-  String get auto_oshibka_podklyucheniya => '\$e';
+  String auto_oshibka_podklyucheniya(String e) {
+    return '$e';
+  }
 
   @override
   String get auto_zaregistriruytes_chtoby_nachat =>
@@ -2531,7 +2539,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_tovarov => 'товаров';
 
   @override
-  String get auto_nm => 'өнім';
+  String get auto_nm => 'Товар';
 
   @override
   String auto_oshibka_seti_proverte_podklyuchenie(Object reason) {
@@ -2704,7 +2712,8 @@ class AppLocalizationsRu extends AppLocalizations {
       '_retryWithBackoff: неожиданное завершение цикла';
 
   @override
-  String get auto_svodka_statistiki_zakeshirovana => 'cache';
+  String get auto_svodka_statistiki_zakeshirovana =>
+      'Сводка статистики кэширована';
 
   @override
   String get auto_oshibka_pri_keshirovanii_svodki =>
@@ -2715,7 +2724,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Ошибка при получении кэша сводки';
 
   @override
-  String get auto_ai_rezyume_zakeshirovano => 'cache';
+  String get auto_ai_rezyume_zakeshirovano => 'AI-резюме кэшировано';
 
   @override
   String get auto_oshibka_pri_keshirovanii_ai_rezyume =>
@@ -2726,10 +2735,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Ошибка при получении кэша AI резюме';
 
   @override
-  String get auto_kesh_statistiki_ochischen => 'cache';
+  String get auto_kesh_statistiki_ochischen => 'Кэш статистики очищен';
 
   @override
-  String get auto_oshibka_pri_ochistke_kesha => 'cache';
+  String get auto_oshibka_pri_ochistke_kesha => 'Ошибка при очистке кэша';
 
   @override
   String get auto_ne_udalos_vosstanovit_postavschika =>
@@ -2833,8 +2842,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_nikomu => 'никому';
 
   @override
-  String get auto_loadforcurrentuser_rassoglasovanie =>
-      '(isRemembered=true, userId=\$userId), кэш пуст';
+  String auto_loadforcurrentuser_rassoglasovanie(String userId) {
+    return '(isRemembered=true, userId=$userId), кэш пуст';
+  }
 
   @override
   String get auto_loadforcurrentuser_ne_udalos_prochi =>
@@ -4395,7 +4405,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Попробуйте перезапустить приложение';
 
   @override
-  String get auto_optovyeZakupki => 'kk';
+  String get auto_optovyeZakupki => 'Оптовые закупки';
 
   @override
   String get auto_vvediteImya => 'Введите имя';
@@ -4848,16 +4858,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_adresSlishkomKorotkiy => 'Адрес слишком короткий';
 
   @override
-  String get auto_ulitsa_1 =>
-      'Поле \"Улица\" не должно превышать \$_streetMaxLength символов';
+  String auto_ulitsa_1(String streetMaxLength) {
+    return 'Поле \"Улица\" не должно превышать $streetMaxLength символов';
+  }
 
   @override
   String get auto_indeksDolzhenSoderzhat =>
       'Индекс должен содержать только цифры (3-10)';
 
   @override
-  String get auto_kvartira_1 =>
-      'Поле \"Квартира\" не должно превышать \$_apartmentMaxLength символов';
+  String auto_kvartira_1(String apartmentMaxLength) {
+    return 'Поле \"Квартира\" не должно превышать $apartmentMaxLength символов';
+  }
 
   @override
   String get auto_nekorrektnyyFormatKvart => 'Некорректный формат квартиры';
@@ -5392,7 +5404,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Срок действия кода истёк, отправьте повторно';
 
   @override
-  String get auto_srokIstyok => 'КОД ДЕЙСТВИТЕЛЕН \$_ttlSecondsLeft СЕК';
+  String auto_srokIstyok(String ttlSecondsLeft) {
+    return 'КОД ДЕЙСТВИТЕЛЕН $ttlSecondsLeft СЕК';
+  }
 
   @override
   String get auto_otpravitPovtorno => 'Отправить повторно';

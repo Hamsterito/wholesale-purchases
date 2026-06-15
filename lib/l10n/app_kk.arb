@@ -1,6 +1,4 @@
 {
-  "@@locale": "kk",
-  "@@context": "Wholesale Purchases App",
   "common_ok": "Жарайды",
   "@common_ok": {
     "description": "Диалогтардағы растау түймесі"
@@ -309,7 +307,7 @@
   "@supplier_schedule_daily": {
     "description": "Күнделікті кесте белгісі"
   },
-  "moderator_title": "Модерация",
+  "moderator_title": "Модерациялау",
   "@moderator_title": {
     "description": "Модератор профилінің тақырыбы"
   },
@@ -415,19 +413,39 @@
   },
   "message_order_not_found": "ID {orderId} қолданыстағы Тапсырыс табылмады",
   "@message_order_not_found": {
-    "description": "Табылмаған тапсырыс туралы хабарлама үлгісі"
+    "description": "Табылмаған тапсырыс туралы хабарлама үлгісі",
+    "placeholders": {
+      "orderId": {
+        "type": "int"
+      }
+    }
   },
   "message_order_confirmed": "Сіздің #{orderId} Тапсырыс расталды",
   "@message_order_confirmed": {
-    "description": "Тапсырысты растау туралы хабарлама үлгісі"
+    "description": "Тапсырысты растау туралы хабарлама үлгісі",
+    "placeholders": {
+      "orderId": {
+        "type": "int"
+      }
+    }
   },
   "message_order_delivered": "#{orderId} Тапсырыс жеткізілді",
   "@message_order_delivered": {
-    "description": "Тапсырысты жеткізу туралы хабарлама үлгісі"
+    "description": "Тапсырысты жеткізу туралы хабарлама үлгісі",
+    "placeholders": {
+      "orderId": {
+        "type": "int"
+      }
+    }
   },
   "message_product_not_found": "ID {productId} қолданыстағы өнім табылмады",
   "@message_product_not_found": {
-    "description": "Алынбаған өнім туралы хабарлама үлгісі"
+    "description": "Алынбаған өнім туралы хабарлама үлгісі",
+    "placeholders": {
+      "productId": {
+        "type": "String"
+      }
+    }
   },
   "message_network_error": "Желі қатесі. Байланысты тексеріп, қайталап көріңіз",
   "@message_network_error": {
@@ -439,7 +457,12 @@
   },
   "message_validation_error": "Растау қатесі: {details}",
   "@message_validation_error": {
-    "description": "Растау қатесі туралы хабарлама үлгісі"
+    "description": "Растау қатесі туралы хабарлама үлгісі",
+    "placeholders": {
+      "details": {
+        "type": "int"
+      }
+    }
   },
   "message_auth_required": "Авторизация Қажет",
   "@message_auth_required": {
@@ -451,7 +474,12 @@
   },
   "message_ai_generation_failed": "Ai жауабын құру мүмкін емес: {reason}",
   "@message_ai_generation_failed": {
-    "description": "Ai генерациялау қатесі туралы хабарлама үлгісі"
+    "description": "Ai генерациялау қатесі туралы хабарлама үлгісі",
+    "placeholders": {
+      "reason": {
+        "type": "int"
+      }
+    }
   },
   "format_date_pattern": "DD.MM.YYYY HH:mm",
   "@format_date_pattern": {
@@ -631,7 +659,12 @@
   },
   "supplier_unanswered_questions": "Жауапсыз сұрақтар: {count}",
   "@supplier_unanswered_questions": {
-    "description": "Жауапсыз сұрақтарды есептеу"
+    "description": "Жауапсыз сұрақтарды есептеу",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "template_add_to_cart": "Себетке қосу",
   "@template_add_to_cart": {
@@ -719,7 +752,12 @@
   },
   "supplier_current_status": "Ағымдағы мәртебе: {status}",
   "@supplier_current_status": {
-    "description": "Ағымдағы жазылым күйі"
+    "description": "Ағымдағы жазылым күйі",
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
   },
   "supplier_order_confirmed_by_buyer": "Тапсырысты сатып алушы растайды",
   "@supplier_order_confirmed_by_buyer": {
@@ -733,7 +771,7 @@
   "@units_count_short": {
     "description": "Санат фрагментін қысқарту"
   },
-  "items_count_short": "поз.",
+  "items_count_short": "дана",
   "@items_count_short": {
     "description": "Позициялар санын азайту"
   },
@@ -747,7 +785,12 @@
   },
   "supplier_export_error": "Экспорттау қатесі: {error}",
   "@supplier_export_error": {
-    "description": "Экспорттау қатесі туралы хабарлама"
+    "description": "Экспорттау қатесі туралы хабарлама",
+    "placeholders": {
+      "error": {
+        "type": "int"
+      }
+    }
   },
   "answered_label": "Жауап берілді",
   "@answered_label": {
@@ -867,7 +910,12 @@
   },
   "qa_error_with_details": "Қате: {details}",
   "@qa_error_with_details": {
-    "description": "Егжей-тегжейлі қате туралы хабар"
+    "description": "Егжей-тегжейлі қате туралы хабар",
+    "placeholders": {
+      "details": {
+        "type": "int"
+      }
+    }
   },
   "qa_answer_updated": "Жауап жаңартылды",
   "@qa_answer_updated": {
@@ -903,7 +951,12 @@
   },
   "profile_reviews_total_count": "{count} барлығы",
   "@profile_reviews_total_count": {
-    "description": "Пікірлерді есептеу"
+    "description": "Пікірлерді есептеу",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "profile_reviews_section_title": "Сіздің пікірлеріңіз",
   "@profile_reviews_section_title": {
@@ -915,7 +968,12 @@
   },
   "profile_reviews_section_subtitle_total": "Барлығы: {count}",
   "@profile_reviews_section_subtitle_total": {
-    "description": "Субтитрдегі пікірлерді есептеу"
+    "description": "Субтитрдегі пікірлерді есептеу",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "profile_reviews_rate_product": "Өнімге баға беріңіз",
   "@profile_reviews_rate_product": {
@@ -991,7 +1049,12 @@
   },
   "profile_reviews_order_label": "Тапсырыс {orderId}",
   "@profile_reviews_order_label": {
-    "description": "Тапсырыс белгісі"
+    "description": "Тапсырыс белгісі",
+    "placeholders": {
+      "orderId": {
+        "type": "int"
+      }
+    }
   },
   "profile_review_hint": "Түсініктеме мәтіні",
   "@profile_review_hint": {
@@ -1131,7 +1194,12 @@
   },
   "settings_currency_name": "{code}",
   "@settings_currency_name": {
-    "description": "Коды бойынша валютаның атауы"
+    "description": "Коды бойынша валютаның атауы",
+    "placeholders": {
+      "code": {
+        "type": "int"
+      }
+    }
   },
   "settings_security": "Қауіпсіздік",
   "@settings_security": {
@@ -1161,7 +1229,7 @@
   "@nav_statistics": {
     "description": "Навигация: статистика"
   },
-  "nav_moderation": "Модерация",
+  "nav_moderation": "Модерациялау",
   "@nav_moderation": {
     "description": "Навигация: модерация"
   },
@@ -1203,11 +1271,21 @@
   },
   "zakazi_history_button_count": "Тапсырыс тарихы ({count})",
   "@zakazi_history_button_count": {
-    "description": "Сандардағы Тапсырыс тарихы түймесі"
+    "description": "Сандардағы Тапсырыс тарихы түймесі",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "zakazi_order_label": "Тапсырыс {orderId}",
   "@zakazi_order_label": {
-    "description": "Тапсырыс белгісі"
+    "description": "Тапсырыс белгісі",
+    "placeholders": {
+      "orderId": {
+        "type": "int"
+      }
+    }
   },
   "zakazi_total_amount_label": "Жалпы сомасы:",
   "@zakazi_total_amount_label": {
@@ -1291,7 +1369,12 @@
   },
   "zakazi_cancel_available": "Бас тарту әлі де қол жетімді {time}",
   "@zakazi_cancel_available": {
-    "description": "Бас тартудың қалған уақыты"
+    "description": "Бас тартудың қалған уақыты",
+    "placeholders": {
+      "time": {
+        "type": "int"
+      }
+    }
   },
   "zakazi_cancel_only_first_hour": "Жою тек бірінші сағат ішінде мүмкін болады",
   "@zakazi_cancel_only_first_hour": {
@@ -1323,7 +1406,15 @@
   },
   "zakazi_order_amount": "Тапсырыс {orderId} - сомасы {amount} ₸",
   "@zakazi_order_amount": {
-    "description": "Тапсырыс сомасы"
+    "description": "Тапсырыс сомасы",
+    "placeholders": {
+      "orderId": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "int"
+      }
+    }
   },
   "zakazi_cancel_order_title": "Тапсырыстан бас тарту керек пе?",
   "@zakazi_cancel_order_title": {
@@ -1411,7 +1502,15 @@
   },
   "cart_payment_banner_card": "Картамен төлеу {brand} {number}",
   "@cart_payment_banner_card": {
-    "description": "Нақты картамен төлем баннері"
+    "description": "Нақты картамен төлем баннері",
+    "placeholders": {
+      "brand": {
+        "type": "int"
+      },
+      "number": {
+        "type": "int"
+      }
+    }
   },
   "cart_checkout_login_required": "Төлемді таңдау үшін жүйеге кіріңіз",
   "@cart_checkout_login_required": {
@@ -1459,7 +1558,15 @@
   },
   "cart_checkout_partial_success": "Безендірілген: {success}, қатемен: {fail}",
   "@cart_checkout_partial_success": {
-    "description": "Тапсырыстарды рәсімдеудің ішінара табыстылығы"
+    "description": "Тапсырыстарды рәсімдеудің ішінара табыстылығы",
+    "placeholders": {
+      "success": {
+        "type": "int"
+      },
+      "fail": {
+        "type": "int"
+      }
+    }
   },
   "cart_checkout_all_failed": "Тапсырыстарды рәсімдеу мүмкін болмады",
   "@cart_checkout_all_failed": {
@@ -1487,19 +1594,45 @@
   },
   "cart_template_apply_success": "Себет \"{name}\"үлгімен ауыстырылды: {added} өнім қосылды",
   "@cart_template_apply_success": {
-    "description": "Үлгіні сәтті пайдалану"
+    "description": "Үлгіні сәтті пайдалану",
+    "placeholders": {
+      "name": {
+        "type": "int"
+      },
+      "added": {
+        "type": "int"
+      }
+    }
   },
   "cart_template_apply_skipped": ", {skipped} өткізілді",
   "@cart_template_apply_skipped": {
-    "description": "Үлгіні қолданудың сәтті бөлігі (өткізіп алған)"
+    "description": "Үлгіні қолданудың сәтті бөлігі (өткізіп алған)",
+    "placeholders": {
+      "skipped": {
+        "type": "int"
+      }
+    }
   },
   "cart_template_apply_adjusted": ", {adjusted} түзетілді",
   "@cart_template_apply_adjusted": {
-    "description": "Үлгіні қолданудың сәтті бөлігі (түзетілген)"
+    "description": "Үлгіні қолданудың сәтті бөлігі (түзетілген)",
+    "placeholders": {
+      "adjusted": {
+        "type": "int"
+      }
+    }
   },
   "cart_template_skipped_title": "{count} {plural} өткізілді",
   "@cart_template_skipped_title": {
-    "description": "Сатылған өнімдер тізімінің тақырыбы"
+    "description": "Сатылған өнімдер тізімінің тақырыбы",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "plural": {
+        "type": "int"
+      }
+    }
   },
   "cart_checkout_error_network": "Сервермен байланыс жоқ",
   "@cart_checkout_error_network": {
@@ -1527,7 +1660,12 @@
   },
   "cart_template_delete_title": "Үлгіні жою {name}?",
   "@cart_template_delete_title": {
-    "description": "Үлгіні жою диалогының тақырыбы"
+    "description": "Үлгіні жою диалогының тақырыбы",
+    "placeholders": {
+      "name": {
+        "type": "int"
+      }
+    }
   },
   "cart_template_delete_success": "Үлгі жойылды",
   "@cart_template_delete_success": {
@@ -1559,11 +1697,24 @@
   },
   "cart_total_summary": "Дана.: {units} Позиция: {positions}",
   "@cart_total_summary": {
-    "description": "Тауарлар мен позициялар санының сомасы"
+    "description": "Тауарлар мен позициялар санының сомасы",
+    "placeholders": {
+      "units": {
+        "type": "int"
+      },
+      "positions": {
+        "type": "int"
+      }
+    }
   },
   "cart_summary_more_items": "тағы +себетте{count}",
   "@cart_summary_more_items": {
-    "description": "Себеттегі қосымша заттар туралы хабарлама"
+    "description": "Себеттегі қосымша заттар туралы хабарлама",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "cart_supplier_total_title": "Жеткізуші бойынша жинақ",
   "@cart_supplier_total_title": {
@@ -1575,31 +1726,72 @@
   },
   "cart_supplier_info": "Дана.: {units} * Позиция: {positions}",
   "@cart_supplier_info": {
-    "description": "Тауарлардың саны және жеткізушінің позициялары туралы ақпарат"
+    "description": "Тауарлардың саны және жеткізушінің позициялары туралы ақпарат",
+    "placeholders": {
+      "units": {
+        "type": "int"
+      },
+      "positions": {
+        "type": "int"
+      }
+    }
   },
   "cart_delivery_date": "Жеткізу күні: {date}",
   "@cart_delivery_date": {
-    "description": "Тауарды жеткізу күнінің белгісі"
+    "description": "Тауарды жеткізу күнінің белгісі",
+    "placeholders": {
+      "date": {
+        "type": "int"
+      }
+    }
   },
   "cart_min_quantity": "Минимум: {count} дана.",
   "@cart_min_quantity": {
-    "description": "Тапсырыс берілген тауардың ең аз саны"
+    "description": "Тапсырыс берілген тауардың ең аз саны",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "cart_quantity_suffix": "{count} дана.",
   "@cart_quantity_suffix": {
-    "description": "Тауар санының жұрнағы"
+    "description": "Тауар санының жұрнағы",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "cart_pay_all_details": "· {units} дана.",
   "@cart_pay_all_details": {
-    "description": "Барлық тапсырысты рәсімдеу батырмасындағы саны"
+    "description": "Барлық тапсырысты рәсімдеу батырмасындағы саны",
+    "placeholders": {
+      "units": {
+        "type": "int"
+      }
+    }
   },
   "cart_summary_item": "{name} - {quantity} дана.",
   "@cart_summary_item": {
-    "description": "Себеттер жиынтығындағы тауар жолы"
+    "description": "Себеттер жиынтығындағы тауар жолы",
+    "placeholders": {
+      "name": {
+        "type": "int"
+      },
+      "quantity": {
+        "type": "int"
+      }
+    }
   },
   "cart_template_default_name": "{date} күн үлгісі",
   "@cart_template_default_name": {
-    "description": "Әдепкі шаблон атауы"
+    "description": "Әдепкі шаблон атауы",
+    "placeholders": {
+      "date": {
+        "type": "int"
+      }
+    }
   },
   "common_more_details": "Толығырақ",
   "@common_more_details": {
@@ -1619,7 +1811,12 @@
   },
   "home_loading_error": "Өнімді жүктеу қатесі: {error}",
   "@home_loading_error": {
-    "description": "Өнімді жүктеу қатесі туралы хабарлама"
+    "description": "Өнімді жүктеу қатесі туралы хабарлама",
+    "placeholders": {
+      "error": {
+        "type": "int"
+      }
+    }
   },
   "home_retry_button": "Қайталау",
   "@home_retry_button": {
@@ -1647,7 +1844,12 @@
   },
   "chat_empty_hint": "Алдыңғы хабарламаны жазыңыз{postfix}",
   "@chat_empty_hint": {
-    "description": "Бос чаттағы кеңес"
+    "description": "Бос чаттағы кеңес",
+    "placeholders": {
+      "postfix": {
+        "type": "int"
+      }
+    }
   },
   "chat_today": "Бүгін",
   "@chat_today": {
@@ -1677,7 +1879,7 @@
   "@filter_price_title": {
     "description": "Баға сүзгісі бөлімі"
   },
-  "filter_price_from": "с",
+  "filter_price_from": "бастап",
   "@filter_price_from": {
     "description": "Баға минимумы"
   },
@@ -1713,13 +1915,18 @@
   "@filter_rating_title": {
     "description": "Рейтинг сүзгісі бөлімі"
   },
-  "filter_rating_from": "с",
+  "filter_rating_from": "бастап",
   "@filter_rating_from": {
     "description": "Рейтинг минимум"
   },
   "filter_show_button": "Көрсету {count}",
   "@filter_show_button": {
-    "description": "Сүзілген өнімдерді көрсету түймесі"
+    "description": "Сүзілген өнімдерді көрсету түймесі",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "filter_discounted": "Жеңілдікпен тауарлар",
   "@filter_discounted": {
@@ -1833,7 +2040,7 @@
   "@templates_sheet_add_to_cart": {
     "description": "Үлгіні Себетке қосу түймесі"
   },
-  "templates_sheet_position_short": "поз.",
+  "templates_sheet_position_short": "дана",
   "@templates_sheet_position_short": {
     "description": "Позицияны қысқарту"
   },
@@ -1847,7 +2054,12 @@
   },
   "product_card_quantity": "{count} дана.",
   "@product_card_quantity": {
-    "description": "Тауарлар саны"
+    "description": "Тауарлар саны",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "product_card_added_to_favorites": "Таңдалған",
   "@product_card_added_to_favorites": {
@@ -1869,7 +2081,7 @@
   "@product_card_quantity_title": {
     "description": "Диалог тақырыбы саны"
   },
-  "product_card_min_quantity": "Минимум",
+  "product_card_min_quantity": "Ең аз",
   "@product_card_min_quantity": {
     "description": "Ең аз саны"
   },
@@ -1937,7 +2149,7 @@
   "@weekday_tue_short": {
     "description": "Қысқартылған сейсенбі"
   },
-  "weekday_wed_short": "Ср",
+  "weekday_wed_short": "Сәр",
   "@weekday_wed_short": {
     "description": "Қысқартылған орта"
   },
@@ -1949,7 +2161,7 @@
   "@weekday_fri_short": {
     "description": "Қысқартылған жұма"
   },
-  "weekday_sat_short": "Сб",
+  "weekday_sat_short": "Сен",
   "@weekday_sat_short": {
     "description": "Қысқартылған сенбі"
   },
@@ -2055,7 +2267,12 @@
   },
   "supplier_profile_preview_show": "Көрсету {count}",
   "@supplier_profile_preview_show": {
-    "description": "Алдын ала қарау көрсету батырмасы"
+    "description": "Алдын ала қарау көрсету батырмасы",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "create_chat_title": "Чат Құру Керек Пе?",
   "@create_chat_title": {
@@ -2131,7 +2348,12 @@
   },
   "search_no_results_for": "Сұрауларға \"{query}\"саответсіз берілмейді",
   "@search_no_results_for": {
-    "description": "Сұрау үшін іздеу нәтижелері жоқ"
+    "description": "Сұрау үшін іздеу нәтижелері жоқ",
+    "placeholders": {
+      "query": {
+        "type": "int"
+      }
+    }
   },
   "suppliers_catalog_access_denied": "Жеткізушілер каталогы тек модераторлар мен негізгі әкімшілерге қол жетімді.",
   "product_nutritional_info": "Тағамдық құндылығы",
@@ -2168,7 +2390,12 @@
   },
   "product_qa_answer_from": "Жауап {name}",
   "@product_qa_answer_from": {
-    "description": "Prefix for supplier answer"
+    "description": "Prefix for supplier answer",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "qa_edit_answer": "Жауапты өзгерту",
   "@qa_edit_answer": {
@@ -2176,7 +2403,15 @@
   },
   "product_added_to_cart_msg": "Себетке қосылды: {name} -{qty} дана.",
   "@product_added_to_cart_msg": {
-    "description": "Toast message for cart"
+    "description": "Toast message for cart",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "qty": {
+        "type": "int"
+      }
+    }
   },
   "product_added_to_favorites": "Таңдаулыларға қосылды",
   "@product_added_to_favorites": {
@@ -2188,7 +2423,12 @@
   },
   "rating_count_format": "Бағалау ({count})",
   "@rating_count_format": {
-    "description": "Rating count with parentheses"
+    "description": "Rating count with parentheses",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "rating_read_all": "Барлығын оқыңыз",
   "@rating_read_all": {
@@ -2196,7 +2436,12 @@
   },
   "rating_count_label": "Бағалау: {count}",
   "@rating_count_label": {
-    "description": "Rating count with colon"
+    "description": "Rating count with colon",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "rating_no_reviews": "Әзірге пікірлер жоқ. Өнімді бірінші болып бағалаңыз.",
   "@rating_no_reviews": {
@@ -2406,17 +2651,32 @@
   "@auto_ne_udalos_vypolnit_vkhod_poprobuyte": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_podklyucheniya_k_serveru_e": "Серверге қосылу қатесі: $e",
+  "auto_oshibka_podklyucheniya_k_serveru_e": "Серверге қосылу қатесі: {e}",
   "@auto_oshibka_podklyucheniya_k_serveru_e": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "e": {
+        "type": "String"
+      }
+    }
   },
-  "auto_vkhod_vypolnen": "$Name қош келдіңіз!",
+  "auto_vkhod_vypolnen": "{name} қош келдіңіз!",
   "@auto_vkhod_vypolnen": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
-  "auto_dobro_pozhalovat_name": "$Name қош келдіңіз!",
+  "auto_dobro_pozhalovat_name": "{name} қош келдіңіз!",
   "@auto_dobro_pozhalovat_name": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "auto_zaydite_ili_zaregistriruytes": "Тоқтаңыз немесе тіркеліңіз",
   "@auto_zaydite_ili_zaregistriruytes": {
@@ -2442,9 +2702,14 @@
   "@auto_vvedite_10_simvolnyy_backup_kod": {
     "description": "Auto-extracted"
   },
-  "auto_vvedite_emailotplength_znachnyy_kod": "$_emailotplength-таңбалы кодты енгізіңіз",
+  "auto_vvedite_emailotplength_znachnyy_kod": "{emailOtpLength}-таңбалы кодты енгізіңіз",
   "@auto_vvedite_emailotplength_znachnyy_kod": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "emailOtpLength": {
+        "type": "String"
+      }
+    }
   },
   "auto_nevernyy_kod": "Қате код",
   "@auto_nevernyy_kod": {
@@ -2584,7 +2849,12 @@
   },
   "auto_shag_visiblestep_1_iz_2": "Қадам {step} 2-ден",
   "@auto_shag_visiblestep_1_iz_2": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "step": {
+        "type": "String"
+      }
+    }
   },
   "auto_registratsiya_proshla_uspeshno": "Тіркеу сәтті өтті",
   "@auto_registratsiya_proshla_uspeshno": {
@@ -2602,9 +2872,14 @@
   "@auto_server_vernul_oshibku_poprobuyte_sn": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_podklyucheniya": "$e",
+  "auto_oshibka_podklyucheniya": "{e}",
   "@auto_oshibka_podklyucheniya": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "e": {
+        "type": "String"
+      }
+    }
   },
   "auto_zaregistriruytes_chtoby_nachat": "Бастау үшін тіркеліңіз",
   "@auto_zaregistriruytes_chtoby_nachat": {
@@ -3098,7 +3373,7 @@
   "@auto_tovarov": {
     "description": "Auto-extracted"
   },
-  "auto_nm": "өнім",
+  "auto_nm": "Өнім",
   "@auto_nm": {
     "description": "Auto-extracted"
   },
@@ -3286,7 +3561,7 @@
   "@auto_retrywithbackoff_neozhidannoe_zaver": {
     "description": "Auto-extracted"
   },
-  "auto_svodka_statistiki_zakeshirovana": "cache",
+  "auto_svodka_statistiki_zakeshirovana": "Статистика жиынтығы кэштелді",
   "@auto_svodka_statistiki_zakeshirovana": {
     "description": "Auto-extracted"
   },
@@ -3298,7 +3573,7 @@
   "@auto_oshibka_pri_poluchenii_kesha_svodki": {
     "description": "Auto-extracted"
   },
-  "auto_ai_rezyume_zakeshirovano": "cache",
+  "auto_ai_rezyume_zakeshirovano": "AI-түйіндеме кэштелді",
   "@auto_ai_rezyume_zakeshirovano": {
     "description": "Auto-extracted"
   },
@@ -3310,11 +3585,11 @@
   "@auto_oshibka_pri_poluchenii_kesha_ai_rez": {
     "description": "Auto-extracted"
   },
-  "auto_kesh_statistiki_ochischen": "cache",
+  "auto_kesh_statistiki_ochischen": "Статистика кэші тазартылды",
   "@auto_kesh_statistiki_ochischen": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_pri_ochistke_kesha": "cache",
+  "auto_oshibka_pri_ochistke_kesha": "Кэшті тазарту қатесі",
   "@auto_oshibka_pri_ochistke_kesha": {
     "description": "Auto-extracted"
   },
@@ -3330,11 +3605,11 @@
   "@auto_oshibka_sohraneniya_izbrannogo_v_hr": {
     "description": "Auto-extracted"
   },
-  "auto_purchasetemplateid_nevaliden": "PurchaseTemplate.id невалиден",
+  "auto_purchasetemplateid_nevaliden": "PurchaseTemplate.id жарамсыз",
   "@auto_purchasetemplateid_nevaliden": {
     "description": "Auto-extracted"
   },
-  "auto_purchasetemplatename_nevaliden": "PurchaseTemplate.name невалиден",
+  "auto_purchasetemplatename_nevaliden": "PurchaseTemplate.name жарамсыз",
   "@auto_purchasetemplatename_nevaliden": {
     "description": "Auto-extracted"
   },
@@ -3424,7 +3699,12 @@
   },
   "auto_loadforcurrentuser_rassoglasovanie": "(isRemembered=true, userId=us userId), кэш бос",
   "@auto_loadforcurrentuser_rassoglasovanie": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "userId": {
+        "type": "String"
+      }
+    }
   },
   "auto_loadforcurrentuser_ne_udalos_prochi": "loadForCurrentUser: SharedPreferences оқи алмады",
   "@auto_loadforcurrentuser_ne_udalos_prochi": {
@@ -3560,19 +3840,39 @@
   },
   "util_delivery_at": "Тасымалдау {time}",
   "@util_delivery_at": {
-    "description": "Уақытпен тасымалдау мәтіні"
+    "description": "Уақытпен тасымалдау мәтіні",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
   },
   "util_orders_before": "Дейін тапсырыстар {time} бүгін кетіңіз",
   "@util_orders_before": {
-    "description": "Үзіліс уақытына дейін тапсырыстар"
+    "description": "Үзіліс уақытына дейін тапсырыстар",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
   },
   "util_delivery_date": "Жеткізу {date}",
   "@util_delivery_date": {
-    "description": "Күні бар жеткізу"
+    "description": "Күні бар жеткізу",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "util_delivery_range": "Жеткізу {range}",
   "@util_delivery_range": {
-    "description": "Күндер ауқымымен жеткізу"
+    "description": "Күндер ауқымымен жеткізу",
+    "placeholders": {
+      "range": {
+        "type": "String"
+      }
+    }
   },
   "util_weekday_mon": "Дүйсенбі",
   "@util_weekday_mon": {
@@ -3582,7 +3882,7 @@
   "@util_weekday_tue": {
     "description": "Авто-утилиталар"
   },
-  "util_weekday_wed": "Ср",
+  "util_weekday_wed": "Сәр",
   "@util_weekday_wed": {
     "description": "Авто-утилиталар"
   },
@@ -3594,7 +3894,7 @@
   "@util_weekday_fri": {
     "description": "Авто-утилиталар"
   },
-  "util_weekday_sat": "Сб",
+  "util_weekday_sat": "Сен",
   "@util_weekday_sat": {
     "description": "Авто-утилиталар"
   },
@@ -4154,7 +4454,7 @@
   "@month_year_parser_auto_46": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_47": "Наурыз",
+  "month_year_parser_auto_47": "наурыз",
   "@month_year_parser_auto_47": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
@@ -4194,44 +4494,44 @@
   "@month_year_parser_auto_56": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_57": "қаңтар",
+  "month_year_parser_auto_57": "қаң",
   "@month_year_parser_auto_57": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_58": "ақпан",
+  "month_year_parser_auto_58": "ақп",
   "@month_year_parser_auto_58": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_59": "мар",
+  "month_year_parser_auto_59": "нау",
   "@month_year_parser_auto_59": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_60": "сәуір",
+  "month_year_parser_auto_60": "сәу",
   "@month_year_parser_auto_60": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_61": "маусым",
+  "month_year_parser_auto_61": "мау",
   "@month_year_parser_auto_61": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_62": "шілде",
+  "month_year_parser_auto_62": "шіл",
   "@month_year_parser_auto_62": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_63": "тамыз",
+  "month_year_parser_auto_63": "там",
   "@month_year_parser_auto_63": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_64": "сен",
+  "month_year_parser_auto_64": "қыр",
   "@month_year_parser_auto_64": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_65": "Окта",
+  "month_year_parser_auto_65": "қаз",
   "@month_year_parser_auto_65": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
   "supplier_orders_order_number": "Тапсырыс №{orderId}",
-  "supplier_orders_items_count": "{count} поз.",
+  "supplier_orders_items_count": "{count} дана",
   "reviews_count_prefix": "Бағалау: {count}",
   "questions_error_loading": "Сұрақтарды жүктеу қатесі: {error}",
   "questions_total_count": "{count} барлығы",
@@ -4280,59 +4580,59 @@
   "moderation_comment_prefix": "Модерация туралы түсініктеме: {comment}",
   "moderation_characteristic_format": "{key} — {value}",
   "moderator_two_factor_remove_warning": "Бұл барлық сақтық көшірме кодтарын және пайдаланушының сенімді құрылғыларын жояды {name}. {warning}",
-  "month_year_parser_auto_66": "Нұх",
+  "month_year_parser_auto_66": "қар",
   "@month_year_parser_auto_66": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_67": "дек",
+  "month_year_parser_auto_67": "жел",
   "@month_year_parser_auto_67": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_68": "қаңтар.",
+  "month_year_parser_auto_68": "қаң.",
   "@month_year_parser_auto_68": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_69": "ақпан.",
+  "month_year_parser_auto_69": "ақп.",
   "@month_year_parser_auto_69": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_70": "мар.",
+  "month_year_parser_auto_70": "нау.",
   "@month_year_parser_auto_70": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_71": "сәуір.",
+  "month_year_parser_auto_71": "сәу.",
   "@month_year_parser_auto_71": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_72": "мамыр.",
+  "month_year_parser_auto_72": "мам.",
   "@month_year_parser_auto_72": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_73": "маусым.",
+  "month_year_parser_auto_73": "мау.",
   "@month_year_parser_auto_73": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_74": "шілде.",
+  "month_year_parser_auto_74": "шіл.",
   "@month_year_parser_auto_74": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_75": "тамыз.",
+  "month_year_parser_auto_75": "там.",
   "@month_year_parser_auto_75": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_76": "сен.",
+  "month_year_parser_auto_76": "қыр.",
   "@month_year_parser_auto_76": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_77": "қазан.",
+  "month_year_parser_auto_77": "қаз.",
   "@month_year_parser_auto_77": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_78": "Нұх.",
+  "month_year_parser_auto_78": "қар.",
   "@month_year_parser_auto_78": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
-  "month_year_parser_auto_79": "желтоқсан.",
+  "month_year_parser_auto_79": "жел.",
   "@month_year_parser_auto_79": {
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
@@ -4923,7 +5223,7 @@
   "templates_sheet_rename_template": "Үлгінің атын өзгерту {name}",
   "templates_sheet_delete_template": "Үлгіні жою {name}",
   "templates_sheet_add_to_cart_template": "Себетке шаблон {name}",
-  "supplier_stats_days": "{days} дн.",
+  "supplier_stats_days": "{days} күн",
   "supplier_stats_units_sold": "{count} дана сатылды",
   "supplier_stats_repeat_buyers": "{percentage}% тұрақты",
   "supplier_stats_reviews": "{count} Пікірлер",
@@ -4941,7 +5241,12 @@
   "supplier_products_min_quantity": "{count} дана.",
   "util_seconds_left": "{count} секундтар",
   "@util_seconds_left": {
-    "description": "Remaining seconds"
+    "description": "Remaining seconds",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
   },
   "util_review_one": "шолу",
   "util_review_few": "кері байланыс",
@@ -4949,7 +5254,7 @@
   "auto_oshibkaZapuska": "Іске қосу қатесі",
   "auto_oshibkaZapuskaPrilozhen": "Қолданбаны іске қосу қатесі",
   "auto_poprobuytePerezapustitP": "Қолданбаны қайта іске қосып көріңіз",
-  "auto_optovyeZakupki": "kk",
+  "auto_optovyeZakupki": "Көтерме сатып алулар",
   "auto_vvediteImya": "Атыңызды енгізіңіз",
   "auto_slishkomKorotkoe": "Тым қысқа",
   "auto_vvediteEmail": "Email енгізіңіз",
@@ -5099,7 +5404,14 @@
   "auto_adresSlishkomKorotkiy": "Мекенжай тым қысқа",
   "auto_ulitsa_1": "\"Көше\" өрісі превыш _streetmaxlength таңбаларынан аспауы керек",
   "auto_indeksDolzhenSoderzhat": "Индексте тек сандар болуы керек (3-10)",
-  "auto_kvartira_1": "\"Пәтер\" өрісі $_apartmentmaxlength таңбаларынан аспауы керек",
+  "auto_kvartira_1": "\"Пәтер\" өрісі {apartmentMaxLength} таңбаларынан аспауы керек",
+  "@auto_kvartira_1": {
+    "placeholders": {
+      "apartmentMaxLength": {
+        "type": "String"
+      }
+    }
+  },
   "auto_nekorrektnyyFormatKvart": "Пәтердің дұрыс емес форматы",
   "auto_vvediteImyaVladeltsaKa": "Карта иесінің атын енгізіңіз",
   "auto_imyaSlishkomKorotkoe": "Аты тым қысқа",
@@ -5141,7 +5453,7 @@
   "auto_vybratIzGalerei": "Галереядан таңдаңыз",
   "auto_udalitFoto": "Фотосуретті жою",
   "auto_razmerFaylaNeDolzhenP": "Файл өлшемі 5 МБ тан аспауы керек",
-  "auto_redProfil": "Ред. Профиль",
+  "auto_redProfil": "Профильді өңдеу",
   "auto_fio": "ТАӘ",
   "auto_elPochta": "Ал. Пошта",
   "auto_nomer": "Нөмірі",
@@ -5162,7 +5474,7 @@
   "auto_chtoDelatEsliTovarNe": "Егер Өнім сәйкес келмесе не істеу керек?",
   "auto_vyMozheteVernutTovarV": "Сіз затты алғаннан кейін 14 күн ішінде қайтара аласыз. Қайтаруды тіркеу үшін біздің қолдау қызметіне хабарласыңыз.",
   "auto_kakSvyazatsyaSPodderzh": "Қолдаумен қалай байланысуға болады?",
-  "auto_tehpodderzhka": "Бізбен қолданбадағы \"техникалық қолдау\" бөлімі, Электрондық пошта немесе сенім телефоны арқылы байланыса аласыз.",
+  "auto_tehpodderzhka": "Техникалық қолдау",
   "auto_vPrilozheniiPoElektro": "Бізбен қолданбадағы \"техникалық қолдау\" бөлімі, Электрондық пошта немесе сенім телефоны арқылы байланыса аласыз.",
   "auto_estLiMinimalnayaSumma": "Тапсырыстың ең аз мөлшері бар ма?",
   "auto_minimalnayaSummaZakaza": "Тапсырыстың ең аз сомасы - 500 т. Тапсырыс беру кезінде 5000 теңгеден бастап жеткізу тегін.",
@@ -5266,7 +5578,14 @@
   "auto_chtobyVyklyuchitDvuhfak": "екі факторлы аутентификацияны өшіру үшін.",
   "auto_povtoritOtpravku": "Жіберуді қайталаңыз",
   "auto_srokDeystviyaKodaIstyo": "Кодтың мерзімі аяқталды, қайта жіберіңіз",
-  "auto_srokIstyok": "КОД жарамды $_ttlSecondsLeft СЕК",
+  "auto_srokIstyok": "КОД жарамды {ttlSecondsLeft} СЕК",
+  "@auto_srokIstyok": {
+    "placeholders": {
+      "ttlSecondsLeft": {
+        "type": "String"
+      }
+    }
+  },
   "auto_otpravitPovtorno": "Қайта жіберу",
   "auto_vklyuchenie2fa": "2FA қосу",
   "auto_chtobyVklyuchitDvuhfakt": "екі факторлы аутентификацияны қосу үшін.",
@@ -5372,13 +5691,13 @@
   "auto_uglevodyDolzhnyBytNeot": "Көмірсулар теріс емес сан болуы керек",
   "auto_dobavteHotyaByOdnuFot": "Кем дегенде бір фотосурет қосыңыз",
   "auto_sozdatTovar": "Өнім жасау керек пе?",
-  "auto_izmeneniyaBudutOtpravle": "Бас тарту",
-  "auto_tovarBudetOtpravlenNa": "Бас тарту",
-  "auto_sozdat": "Бас тарту",
+  "auto_izmeneniyaBudutOtpravle": "Өзгерістер модерацияға жіберіледі",
+  "auto_tovarBudetOtpravlenNa": "Тауар модерацияға жіберіледі",
+  "auto_sozdat": "Жасау",
   "auto_redaktirovanieTovara": "Өнімді өңдеу",
-  "auto_osnovnyeDannye": "Тауардың атын, сипаттамасын, елін және санатын толтырыңыз.",
+  "auto_osnovnyeDannye": "Негізгі деректер",
   "auto_zapolniteNazvanieOpisan": "Тауардың атын, сипаттамасын, елін және санатын толтырыңыз.",
-  "auto_nazvanieTovara": "Сипаттама",
+  "auto_nazvanieTovara": "Тауар атауы",
   "auto_naprimerKazahstan": "Мысалы, Қазақстан",
   "auto_naprimer12Mesyatsev": "Мысалы, 12 ай",
   "auto_tsenaIUsloviya": "Бағасы мен шарттары",
@@ -5436,11 +5755,11 @@
   "auto_sredniyChek": "Орташа чек",
   "auto_dinamikaVyruchki": "Табыс динамикасы",
   "auto_netDannyh": "Деректер жоқ",
-  "auto_dostavleny": "Жойылды",
-  "auto_otpravleny": "Жойылды",
-  "auto_podtverzhdeny": "Жойылды",
-  "auto_ozhidayut": "Жойылды",
-  "auto_otmeneny": "Жойылды",
+  "auto_dostavleny": "Жеткізілді",
+  "auto_otpravleny": "Жіберілді",
+  "auto_podtverzhdeny": "Расталды",
+  "auto_ozhidayut": "Күтуде",
+  "auto_otmeneny": "Бас тартылды",
   "auto_statusyZakazov": "Тапсырыс күйлері",
   "auto_etotMesyats": "Бұл ай",
   "auto_proshlyyMesyats": "Өткен ай",

@@ -1,6 +1,4 @@
 {
-  "@@locale": "ru",
-  "@@context": "Wholesale Purchases App",
   "common_ok": "Хорошо",
   "@common_ok": {
     "description": "Кнопка подтверждения в диалогах"
@@ -2654,17 +2652,32 @@
   "@auto_ne_udalos_vypolnit_vkhod_poprobuyte": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_podklyucheniya_k_serveru_e": "Ошибка подключения к серверу: $e",
+  "auto_oshibka_podklyucheniya_k_serveru_e": "Ошибка подключения к серверу: {e}",
   "@auto_oshibka_podklyucheniya_k_serveru_e": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "e": {
+        "type": "String"
+      }
+    }
   },
-  "auto_vkhod_vypolnen": "Добро пожаловать, $name!",
+  "auto_vkhod_vypolnen": "Добро пожаловать, {name}!",
   "@auto_vkhod_vypolnen": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
-  "auto_dobro_pozhalovat_name": "Добро пожаловать, $name!",
+  "auto_dobro_pozhalovat_name": "Добро пожаловать, {name}!",
   "@auto_dobro_pozhalovat_name": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "auto_zaydite_ili_zaregistriruytes": "Зайдите или зарегистрируйтесь",
   "@auto_zaydite_ili_zaregistriruytes": {
@@ -2690,9 +2703,14 @@
   "@auto_vvedite_10_simvolnyy_backup_kod": {
     "description": "Auto-extracted"
   },
-  "auto_vvedite_emailotplength_znachnyy_kod": "Введите $_emailOtpLength-значный код",
+  "auto_vvedite_emailotplength_znachnyy_kod": "Введите {emailOtpLength}-значный код",
   "@auto_vvedite_emailotplength_znachnyy_kod": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "emailOtpLength": {
+        "type": "String"
+      }
+    }
   },
   "auto_nevernyy_kod": "Неверный код",
   "@auto_nevernyy_kod": {
@@ -2855,9 +2873,14 @@
   "@auto_server_vernul_oshibku_poprobuyte_sn": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_podklyucheniya": "$e",
+  "auto_oshibka_podklyucheniya": "{e}",
   "@auto_oshibka_podklyucheniya": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "e": {
+        "type": "String"
+      }
+    }
   },
   "auto_zaregistriruytes_chtoby_nachat": "Зарегистрируйтесь чтобы начать",
   "@auto_zaregistriruytes_chtoby_nachat": {
@@ -3351,7 +3374,7 @@
   "@auto_tovarov": {
     "description": "Auto-extracted"
   },
-  "auto_nm": "өнім",
+  "auto_nm": "Товар",
   "@auto_nm": {
     "description": "Auto-extracted"
   },
@@ -3539,7 +3562,7 @@
   "@auto_retrywithbackoff_neozhidannoe_zaver": {
     "description": "Auto-extracted"
   },
-  "auto_svodka_statistiki_zakeshirovana": "cache",
+  "auto_svodka_statistiki_zakeshirovana": "Сводка статистики кэширована",
   "@auto_svodka_statistiki_zakeshirovana": {
     "description": "Auto-extracted"
   },
@@ -3551,7 +3574,7 @@
   "@auto_oshibka_pri_poluchenii_kesha_svodki": {
     "description": "Auto-extracted"
   },
-  "auto_ai_rezyume_zakeshirovano": "cache",
+  "auto_ai_rezyume_zakeshirovano": "AI-резюме кэшировано",
   "@auto_ai_rezyume_zakeshirovano": {
     "description": "Auto-extracted"
   },
@@ -3563,11 +3586,11 @@
   "@auto_oshibka_pri_poluchenii_kesha_ai_rez": {
     "description": "Auto-extracted"
   },
-  "auto_kesh_statistiki_ochischen": "cache",
+  "auto_kesh_statistiki_ochischen": "Кэш статистики очищен",
   "@auto_kesh_statistiki_ochischen": {
     "description": "Auto-extracted"
   },
-  "auto_oshibka_pri_ochistke_kesha": "cache",
+  "auto_oshibka_pri_ochistke_kesha": "Ошибка при очистке кэша",
   "@auto_oshibka_pri_ochistke_kesha": {
     "description": "Auto-extracted"
   },
@@ -3675,9 +3698,14 @@
   "@auto_nikomu": {
     "description": "Auto-extracted"
   },
-  "auto_loadforcurrentuser_rassoglasovanie": "(isRemembered=true, userId=$userId), кэш пуст",
+  "auto_loadforcurrentuser_rassoglasovanie": "(isRemembered=true, userId={userId}), кэш пуст",
   "@auto_loadforcurrentuser_rassoglasovanie": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "userId": {
+        "type": "String"
+      }
+    }
   },
   "auto_loadforcurrentuser_ne_udalos_prochi": "loadForCurrentUser: не удалось прочитать SharedPreferences",
   "@auto_loadforcurrentuser_ne_udalos_prochi": {
@@ -4504,7 +4532,21 @@
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
   "supplier_orders_order_number": "Заказ №{orderId}",
+  "@supplier_orders_order_number": {
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
+  },
   "supplier_orders_items_count": "{count} поз.",
+  "@supplier_orders_items_count": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reviews_count_prefix": "Оценок: {count}",
   "questions_error_loading": "Ошибка загрузки вопросов: {error}",
   "questions_total_count": "{count} всего",
@@ -5458,20 +5500,6 @@
       }
     }
   },
-  "@supplier_orders_order_number": {
-    "placeholders": {
-      "orderId": {
-        "type": "String"
-      }
-    }
-  },
-  "@supplier_orders_items_count": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "util_seconds_left": "{count} секунд",
   "@util_seconds_left": {
     "description": "Remaining seconds",
@@ -5490,7 +5518,7 @@
   "@auto_oshibkaZapuskaPrilozhen": {},
   "auto_poprobuytePerezapustitP": "Попробуйте перезапустить приложение",
   "@auto_poprobuytePerezapustitP": {},
-  "auto_optovyeZakupki": "kk",
+  "auto_optovyeZakupki": "Оптовые закупки",
   "@auto_optovyeZakupki": {},
   "auto_vvediteImya": "Введите имя",
   "@auto_vvediteImya": {},
@@ -5786,12 +5814,24 @@
   "@auto_vvediteAdres": {},
   "auto_adresSlishkomKorotkiy": "Адрес слишком короткий",
   "@auto_adresSlishkomKorotkiy": {},
-  "auto_ulitsa_1": "Поле \"Улица\" не должно превышать $_streetMaxLength символов",
-  "@auto_ulitsa_1": {},
+  "auto_ulitsa_1": "Поле \"Улица\" не должно превышать {streetMaxLength} символов",
+  "@auto_ulitsa_1": {
+    "placeholders": {
+      "streetMaxLength": {
+        "type": "String"
+      }
+    }
+  },
   "auto_indeksDolzhenSoderzhat": "Индекс должен содержать только цифры (3-10)",
   "@auto_indeksDolzhenSoderzhat": {},
-  "auto_kvartira_1": "Поле \"Квартира\" не должно превышать $_apartmentMaxLength символов",
-  "@auto_kvartira_1": {},
+  "auto_kvartira_1": "Поле \"Квартира\" не должно превышать {apartmentMaxLength} символов",
+  "@auto_kvartira_1": {
+    "placeholders": {
+      "apartmentMaxLength": {
+        "type": "String"
+      }
+    }
+  },
   "auto_nekorrektnyyFormatKvart": "Некорректный формат квартиры",
   "@auto_nekorrektnyyFormatKvart": {},
   "auto_vvediteImyaVladeltsaKa": "Введите имя владельца карты",
@@ -6124,8 +6164,14 @@
   "@auto_povtoritOtpravku": {},
   "auto_srokDeystviyaKodaIstyo": "Срок действия кода истёк, отправьте повторно",
   "@auto_srokDeystviyaKodaIstyo": {},
-  "auto_srokIstyok": "КОД ДЕЙСТВИТЕЛЕН $_ttlSecondsLeft СЕК",
-  "@auto_srokIstyok": {},
+  "auto_srokIstyok": "КОД ДЕЙСТВИТЕЛЕН {ttlSecondsLeft} СЕК",
+  "@auto_srokIstyok": {
+    "placeholders": {
+      "ttlSecondsLeft": {
+        "type": "String"
+      }
+    }
+  },
   "auto_otpravitPovtorno": "Отправить повторно",
   "@auto_otpravitPovtorno": {},
   "auto_vklyuchenie2fa": "Включение 2FA",

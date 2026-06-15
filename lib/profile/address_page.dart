@@ -498,7 +498,7 @@ class _AddressPageState extends State<AddressPage> {
   String? _validateStreet(String value) {
     final street = _normalizeOptionalText(value);
     if (street != null && street.length > _streetMaxLength) {
-      return context.l10n.addressFieldMaxLength(context.l10n.getString('auto_ulitsa_1'), _streetMaxLength);
+      return context.l10n.getString('auto_ulitsa_1', params: {'streetMaxLength': _streetMaxLength.toString()});
     }
     return null;
   }
@@ -517,7 +517,7 @@ class _AddressPageState extends State<AddressPage> {
   String? _validateApartment(String value) {
     final apartment = value.trim();
     if (apartment.length > _apartmentMaxLength) {
-      return context.l10n.addressFieldMaxLength(context.l10n.getString('auto_kvartira_1'), _apartmentMaxLength);
+      return context.l10n.getString('auto_kvartira_1', params: {'apartmentMaxLength': _apartmentMaxLength.toString()});
     }
     if (apartment.isNotEmpty && !_apartmentPattern.hasMatch(apartment)) {
       return context.l10n.getString('auto_nekorrektnyyFormatKvart');

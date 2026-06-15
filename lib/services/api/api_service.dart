@@ -23,7 +23,7 @@ import '../message/message_store.dart';
 import '../message/message_pretty_printer.dart';
 import '../message/message_service_adapters.dart';
 
-final http = AppHttpClient.instance;
+http_package.Client get http => AppHttpClient.instance;
 
 // Разделители для строкового представления списка ключевых слов
 // (когда сервер отдаёт keywords строкой, а не массивом).

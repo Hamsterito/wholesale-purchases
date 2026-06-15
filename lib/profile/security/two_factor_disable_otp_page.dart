@@ -438,7 +438,7 @@ class _TwoFactorDisableOtpPageState extends State<TwoFactorDisableOtpPage> {
         Flexible(
           child: Text(
             _ttlExpired
-                ? context.l10n.getString('auto_srokIstyok')
+                ? context.l10n.getString('auto_srokIstyok', params: {'ttlSecondsLeft': _ttlSecondsLeft.toString()})
                 : context.l10n.twoFactorCodeValid(_ttlSecondsLeft),
             overflow: TextOverflow.ellipsis,
             style: TextStyle(

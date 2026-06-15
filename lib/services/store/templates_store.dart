@@ -481,7 +481,7 @@ class TemplatesStore extends ChangeNotifier {
 
     if (remembered && (userId == null || userId <= 0)) {
       AppLogger.warning(
-        "${AppLocalizations.current.getString('auto_loadforcurrentuser_rassoglasovanie')}"
+        "${AppLocalizations.current.getString('auto_loadforcurrentuser_rassoglasovanie', params: {'userId': userId})}"
         "(isRemembered=true, userId=$userId), кэш пуст",
         scope: _logScope,
       );

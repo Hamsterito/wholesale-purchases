@@ -665,7 +665,7 @@ class _OtpInputDialogState extends State<_OtpInputDialog> {
               const SizedBox(height: 12),
               Text(
                 _ttlExpired
-                    ? context.l10n.getString('auto_srokIstyok')
+                    ? context.l10n.getString('auto_srokIstyok', params: {'ttlSecondsLeft': _ttlSecondsLeft.toString()})
                     : context.l10n.twoFactorCodeValid(_ttlSecondsLeft),
                 style: TextStyle(
                   fontSize: 12,

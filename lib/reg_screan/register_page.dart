@@ -830,7 +830,7 @@ class _RegisterPageState extends State<RegisterPage> {
         stackTrace: st,
       );
       if (mounted) {
-        _showTopError(AppLocalizations.current.getString('auto_oshibka_podklyucheniya'), ['$e']);
+        _showTopError(AppLocalizations.current.getString('auto_oshibka_podklyucheniya', params: {'e': e.toString()}), []);
       }
     } finally {
       if (mounted) {

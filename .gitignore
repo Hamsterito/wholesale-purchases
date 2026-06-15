@@ -55,3 +55,4 @@ backend/uploads/
 kilo.json
 .mcp-plugins/
 .spec-workflow/
+integration_test/

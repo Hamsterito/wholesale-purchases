@@ -3713,20 +3713,20 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Ошибка подключения к серверу: \$e'**
-  String get auto_oshibka_podklyucheniya_k_serveru_e;
+  /// **'Ошибка подключения к серверу: {e}'**
+  String auto_oshibka_podklyucheniya_k_serveru_e(String e);
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Добро пожаловать, \$name!'**
-  String get auto_vkhod_vypolnen;
+  /// **'Добро пожаловать, {name}!'**
+  String auto_vkhod_vypolnen(String name);
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Добро пожаловать, \$name!'**
-  String get auto_dobro_pozhalovat_name;
+  /// **'Добро пожаловать, {name}!'**
+  String auto_dobro_pozhalovat_name(String name);
 
   /// Auto-extracted
   ///
@@ -3767,8 +3767,8 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Введите \$_emailOtpLength-значный код'**
-  String get auto_vvedite_emailotplength_znachnyy_kod;
+  /// **'Введите {emailOtpLength}-значный код'**
+  String auto_vvedite_emailotplength_znachnyy_kod(String emailOtpLength);
 
   /// Auto-extracted
   ///
@@ -4007,8 +4007,8 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'\$e'**
-  String get auto_oshibka_podklyucheniya;
+  /// **'{e}'**
+  String auto_oshibka_podklyucheniya(String e);
 
   /// Auto-extracted
   ///
@@ -4751,7 +4751,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'өнім'**
+  /// **'Товар'**
   String get auto_nm;
 
   /// Auto-extracted
@@ -5033,7 +5033,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'cache'**
+  /// **'Сводка статистики кэширована'**
   String get auto_svodka_statistiki_zakeshirovana;
 
   /// Auto-extracted
@@ -5051,7 +5051,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'cache'**
+  /// **'AI-резюме кэшировано'**
   String get auto_ai_rezyume_zakeshirovano;
 
   /// Auto-extracted
@@ -5069,13 +5069,13 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'cache'**
+  /// **'Кэш статистики очищен'**
   String get auto_kesh_statistiki_ochischen;
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'cache'**
+  /// **'Ошибка при очистке кэша'**
   String get auto_oshibka_pri_ochistke_kesha;
 
   /// Auto-extracted
@@ -5237,8 +5237,8 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'(isRemembered=true, userId=\$userId), кэш пуст'**
-  String get auto_loadforcurrentuser_rassoglasovanie;
+  /// **'(isRemembered=true, userId={userId}), кэш пуст'**
+  String auto_loadforcurrentuser_rassoglasovanie(String userId);
 
   /// Auto-extracted
   ///
@@ -7941,7 +7941,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_optovyeZakupki.
   ///
   /// In ru, this message translates to:
-  /// **'kk'**
+  /// **'Оптовые закупки'**
   String get auto_optovyeZakupki;
 
   /// No description provided for @auto_vvediteImya.
@@ -8829,8 +8829,8 @@ abstract class AppLocalizations {
   /// No description provided for @auto_ulitsa_1.
   ///
   /// In ru, this message translates to:
-  /// **'Поле \"Улица\" не должно превышать \$_streetMaxLength символов'**
-  String get auto_ulitsa_1;
+  /// **'Поле \"Улица\" не должно превышать {streetMaxLength} символов'**
+  String auto_ulitsa_1(String streetMaxLength);
 
   /// No description provided for @auto_indeksDolzhenSoderzhat.
   ///
@@ -8841,8 +8841,8 @@ abstract class AppLocalizations {
   /// No description provided for @auto_kvartira_1.
   ///
   /// In ru, this message translates to:
-  /// **'Поле \"Квартира\" не должно превышать \$_apartmentMaxLength символов'**
-  String get auto_kvartira_1;
+  /// **'Поле \"Квартира\" не должно превышать {apartmentMaxLength} символов'**
+  String auto_kvartira_1(String apartmentMaxLength);
 
   /// No description provided for @auto_nekorrektnyyFormatKvart.
   ///
@@ -9843,8 +9843,8 @@ abstract class AppLocalizations {
   /// No description provided for @auto_srokIstyok.
   ///
   /// In ru, this message translates to:
-  /// **'КОД ДЕЙСТВИТЕЛЕН \$_ttlSecondsLeft СЕК'**
-  String get auto_srokIstyok;
+  /// **'КОД ДЕЙСТВИТЕЛЕН {ttlSecondsLeft} СЕК'**
+  String auto_srokIstyok(String ttlSecondsLeft);
 
   /// No description provided for @auto_otpravitPovtorno.
   ///

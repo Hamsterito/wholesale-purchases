@@ -144,7 +144,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
     } else {
       final raw = _pinController.text.trim();
       if (raw.length != _emailOtpLength) {
-        setState(() => _inlineError = AppLocalizations.current.getString('auto_vvedite_emailotplength_znachnyy_kod'));
+        setState(() => _inlineError = AppLocalizations.current.getString('auto_vvedite_emailotplength_znachnyy_kod', params: {'emailOtpLength': _emailOtpLength.toString()}));
         _errorController.add(ErrorAnimationType.shake);
         return;
       }
