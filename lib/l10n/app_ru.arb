@@ -1,4 +1,5 @@
 {
+  "@@locale": "ru",
   "common_ok": "Хорошо",
   "@common_ok": {
     "description": "Кнопка подтверждения в диалогах"
@@ -481,6 +482,14 @@
       }
     }
   },
+  "supplier_status_transition": "из \"{fromStatus}\" в \"{toStatus}\"",
+  "@supplier_status_transition": {
+    "description": "Transition between statuses",
+    "placeholders": {
+      "fromStatus": {},
+      "toStatus": {}
+    }
+  },
   "format_date_pattern": "DD.MM.YYYY HH:mm",
   "@format_date_pattern": {
     "description": "Формат отображения даты и времени"
@@ -604,14 +613,6 @@
   "supplier_order_prefix": "Заказ",
   "@supplier_order_prefix": {
     "description": "Префикс для номера заказа"
-  },
-  "supplier_from": "из",
-  "@supplier_from": {
-    "description": "Предлог статуса (иске)"
-  },
-  "supplier_to": "в",
-  "@supplier_to": {
-    "description": "Предлог статуса (я)"
   },
   "supplier_period_day": "День",
   "@supplier_period_day": {
@@ -1628,9 +1629,6 @@
     "placeholders": {
       "count": {
         "type": "int"
-      },
-      "plural": {
-        "type": "int"
       }
     }
   },
@@ -1844,12 +1842,7 @@
   },
   "chat_empty_hint": "Напишите сообщение...",
   "@chat_empty_hint": {
-    "description": "Совет в пустом чате",
-    "placeholders": {
-      "postfix": {
-        "type": "int"
-      }
-    }
+    "description": "Совет в пустом чате"
   },
   "chat_today": "Сегодня",
   "@chat_today": {
@@ -3380,15 +3373,30 @@
   },
   "auto_oshibka_seti_proverte_podklyuchenie": "Ошибка сети. Проверьте подключение: {reason}",
   "@auto_oshibka_seti_proverte_podklyuchenie": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
   },
   "auto_prevysheno_vremya_ozhidaniya_otveta": "Превышено время ожидания ответа: {reason}",
   "@auto_prevysheno_vremya_ozhidaniya_otveta": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
   },
   "auto_ne_udalos_razobrat_soobschenie": "Не удалось разобрать сообщение: {reason}",
   "@auto_ne_udalos_razobrat_soobschenie": {
-    "description": "Auto-extracted"
+    "description": "Auto-extracted",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
   },
   "auto_zapros_vypolnen": "Запрос выполнен",
   "@auto_zapros_vypolnen": {
@@ -4417,27 +4425,57 @@
   },
   "message_localization_auto_37": "Заказ с ID {orderId} не найден",
   "@message_localization_auto_37": {
-    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart",
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
   },
   "message_localization_auto_38": "Ваш заказ #{orderId} подтверждён",
   "@message_localization_auto_38": {
-    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart",
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
   },
   "message_localization_auto_39": "Заказ #{orderId} доставлен",
   "@message_localization_auto_39": {
-    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart",
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
   },
   "message_localization_auto_40": "Товар с ID {productId} не найден",
   "@message_localization_auto_40": {
-    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart",
+    "placeholders": {
+      "productId": {
+        "type": "String"
+      }
+    }
   },
   "message_localization_auto_41": "Ошибка валидации: {details}",
   "@message_localization_auto_41": {
-    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart",
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
   },
   "message_localization_auto_42": "Не удалось сгенерировать ответ AI: {reason}",
   "@message_localization_auto_42": {
-    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart"
+    "description": "Auto-extracted from lib\\services\\message\\message_localization.dart",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
   },
   "custom_characteristic_validation_auto_43": "Заполните название и значение характеристики",
   "@custom_characteristic_validation_auto_43": {
@@ -4532,13 +4570,6 @@
     "description": "Auto-extracted from lib\\utils\\month_year_parser.dart"
   },
   "supplier_orders_order_number": "Заказ №{orderId}",
-  "@supplier_orders_order_number": {
-    "placeholders": {
-      "orderId": {
-        "type": "String"
-      }
-    }
-  },
   "supplier_orders_items_count": "{count} поз.",
   "@supplier_orders_items_count": {
     "placeholders": {
@@ -5231,13 +5262,6 @@
     }
   },
   "product_card_delivery": "Доставка: {date}",
-  "@product_card_delivery": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
   "product_card_days_per_week": "{count} дн./нед {time}",
   "@product_card_days_per_week": {
     "placeholders": {
@@ -5250,29 +5274,8 @@
     }
   },
   "product_card_today": "сегодня {time}",
-  "@product_card_today": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
   "product_card_tomorrow": "завтра {time}",
-  "@product_card_tomorrow": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
   "supplier_qa_review_card_reply_from": "Ответ от {name}",
-  "@supplier_qa_review_card_reply_from": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "validation_empty_or_too_long": "Заполните название и значение характеристики",
   "validation_duplicate": "Такая характеристика уже добавлена",
   "qa_minimum_characters": "Минимум {minLength} символов ({currentLength}/{minLength})",
@@ -5295,24 +5298,7 @@
     }
   },
   "avatar_load_error": "Не удалось загрузить аватарку: {url} ({error})",
-  "@avatar_load_error": {
-    "placeholders": {
-      "url": {
-        "type": "String"
-      },
-      "error": {
-        "type": "String"
-      }
-    }
-  },
   "qa_answer_from_supplier": "Ответ от {supplierName}",
-  "@qa_answer_from_supplier": {
-    "placeholders": {
-      "supplierName": {
-        "type": "String"
-      }
-    }
-  },
   "ratings_count_parentheses": "Оценок ({count})",
   "@ratings_count_parentheses": {
     "placeholders": {
@@ -5330,53 +5316,11 @@
     }
   },
   "nutrition_calories_unit": "{value} к",
-  "@nutrition_calories_unit": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
   "nutrition_grams_unit": "{value} г",
-  "@nutrition_grams_unit": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
   "templates_sheet_rename_template": "Переименовать шаблон {name}",
-  "@templates_sheet_rename_template": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "templates_sheet_delete_template": "Удалить шаблон {name}",
-  "@templates_sheet_delete_template": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "templates_sheet_add_to_cart_template": "В корзину шаблон {name}",
-  "@templates_sheet_add_to_cart_template": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "supplier_stats_days": "{days} дн.",
-  "@supplier_stats_days": {
-    "placeholders": {
-      "days": {
-        "type": "String"
-      }
-    }
-  },
   "supplier_stats_units_sold": "{count} шт. продано",
   "@supplier_stats_units_sold": {
     "placeholders": {
@@ -5386,13 +5330,6 @@
     }
   },
   "supplier_stats_repeat_buyers": "{percentage}% постоянных",
-  "@supplier_stats_repeat_buyers": {
-    "placeholders": {
-      "percentage": {
-        "type": "String"
-      }
-    }
-  },
   "supplier_stats_reviews": "{count} отзывов",
   "@supplier_stats_reviews": {
     "placeholders": {
@@ -5402,69 +5339,13 @@
     }
   },
   "supplier_stats_order_prefix": "Заказ #{orderId}",
-  "@supplier_stats_order_prefix": {
-    "placeholders": {
-      "orderId": {
-        "type": "String"
-      }
-    }
-  },
   "wizard_error_price_max": "Цена не должна превышать {max}",
-  "@wizard_error_price_max": {
-    "placeholders": {
-      "max": {
-        "type": "String"
-      }
-    }
-  },
   "wizard_error_min_quantity_max": "Минимальное количество не должно превышать {max}",
-  "@wizard_error_min_quantity_max": {
-    "placeholders": {
-      "max": {
-        "type": "String"
-      }
-    }
-  },
   "wizard_error_stock_max": "Остаток на складе не должен превышать {max}",
-  "@wizard_error_stock_max": {
-    "placeholders": {
-      "max": {
-        "type": "String"
-      }
-    }
-  },
   "wizard_error_calories_max": "Калории не должны превышать {max} (ограничение NUMERIC(10,2))",
-  "@wizard_error_calories_max": {
-    "placeholders": {
-      "max": {
-        "type": "String"
-      }
-    }
-  },
   "wizard_error_protein_max": "Белки не должны превышать {max} (ограничение NUMERIC(10,2))",
-  "@wizard_error_protein_max": {
-    "placeholders": {
-      "max": {
-        "type": "String"
-      }
-    }
-  },
   "wizard_error_fat_max": "Жиры не должны превышать {max} (ограничение NUMERIC(10,2))",
-  "@wizard_error_fat_max": {
-    "placeholders": {
-      "max": {
-        "type": "String"
-      }
-    }
-  },
   "wizard_error_carbs_max": "Углеводы не должны превышать {max} (ограничение NUMERIC(10,2))",
-  "@wizard_error_carbs_max": {
-    "placeholders": {
-      "max": {
-        "type": "String"
-      }
-    }
-  },
   "wizard_show_all_categories": "Показать все ({count})",
   "@wizard_show_all_categories": {
     "placeholders": {
@@ -5815,23 +5696,9 @@
   "auto_adresSlishkomKorotkiy": "Адрес слишком короткий",
   "@auto_adresSlishkomKorotkiy": {},
   "auto_ulitsa_1": "Поле \"Улица\" не должно превышать {streetMaxLength} символов",
-  "@auto_ulitsa_1": {
-    "placeholders": {
-      "streetMaxLength": {
-        "type": "String"
-      }
-    }
-  },
   "auto_indeksDolzhenSoderzhat": "Индекс должен содержать только цифры (3-10)",
   "@auto_indeksDolzhenSoderzhat": {},
   "auto_kvartira_1": "Поле \"Квартира\" не должно превышать {apartmentMaxLength} символов",
-  "@auto_kvartira_1": {
-    "placeholders": {
-      "apartmentMaxLength": {
-        "type": "String"
-      }
-    }
-  },
   "auto_nekorrektnyyFormatKvart": "Некорректный формат квартиры",
   "@auto_nekorrektnyyFormatKvart": {},
   "auto_vvediteImyaVladeltsaKa": "Введите имя владельца карты",
@@ -6165,13 +6032,6 @@
   "auto_srokDeystviyaKodaIstyo": "Срок действия кода истёк, отправьте повторно",
   "@auto_srokDeystviyaKodaIstyo": {},
   "auto_srokIstyok": "КОД ДЕЙСТВИТЕЛЕН {ttlSecondsLeft} СЕК",
-  "@auto_srokIstyok": {
-    "placeholders": {
-      "ttlSecondsLeft": {
-        "type": "String"
-      }
-    }
-  },
   "auto_otpravitPovtorno": "Отправить повторно",
   "@auto_otpravitPovtorno": {},
   "auto_vklyuchenie2fa": "Включение 2FA",
@@ -6308,20 +6168,6 @@
   "@auto_subbota_1": {},
   "auto_voskresene_1": "Воскресенье",
   "@auto_voskresene_1": {},
-  "auto_pn": "Вс",
-  "@auto_pn": {},
-  "auto_vt_1": "Вс",
-  "@auto_vt_1": {},
-  "auto_sr_1": "Вс",
-  "@auto_sr_1": {},
-  "auto_cht_1": "Вс",
-  "@auto_cht_1": {},
-  "auto_pt_1": "Вс",
-  "@auto_pt_1": {},
-  "auto_sb_1": "Вс",
-  "@auto_sb_1": {},
-  "auto_vs_1": "Вс",
-  "@auto_vs_1": {},
   "auto_molochnayaProduktsiya": "Молочная продукция",
   "@auto_molochnayaProduktsiya": {},
   "auto_ovoshchiIFrukty": "Овощи и фрукты",
@@ -6582,24 +6428,8 @@
   "@auto_sb": {},
   "auto_vs": "Вс",
   "@auto_vs": {},
-  "auto_ponedelnik": "Понедельник",
-  "@auto_ponedelnik": {},
-  "auto_vtornik": "Вторник",
-  "@auto_vtornik": {},
-  "auto_sreda": "Среда",
-  "@auto_sreda": {},
-  "auto_chetverg": "Четверг",
-  "@auto_chetverg": {},
-  "auto_pyatnitsa": "Пятница",
-  "@auto_pyatnitsa": {},
-  "auto_subbota": "Суббота",
-  "@auto_subbota": {},
-  "auto_voskresene": "Воскресенье",
-  "@auto_voskresene": {},
   "auto_sht": "шт.",
   "@auto_sht": {},
-  "auto_p_1": "Пн",
-  "@auto_p_1": {},
   "auto_chitatVse": "Читать все",
   "@auto_chitatVse": {},
   "auto_pokaNetOtzyvovStanteP": "Пока нет отзывов. Станьте первым, кто оценит товар.",

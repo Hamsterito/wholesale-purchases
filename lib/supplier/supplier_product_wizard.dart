@@ -85,13 +85,13 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   };
   
   Map<int, String> get _weekdaysShort => <int, String>{
-    DateTime.monday: context.l10n.getString('auto_pn'),
-    DateTime.tuesday: context.l10n.getString('auto_vt_1'),
-    DateTime.wednesday: context.l10n.getString('auto_sr_1'),
-    DateTime.thursday: context.l10n.getString('auto_cht_1'),
-    DateTime.friday: context.l10n.getString('auto_pt_1'),
-    DateTime.saturday: context.l10n.getString('auto_sb_1'),
-    DateTime.sunday: context.l10n.getString('auto_vs_1'),
+    DateTime.monday: context.l10n.getString('auto_pn_1'),
+    DateTime.tuesday: context.l10n.getString('auto_vt'),
+    DateTime.wednesday: context.l10n.getString('auto_sr'),
+    DateTime.thursday: context.l10n.getString('auto_cht'),
+    DateTime.friday: context.l10n.getString('auto_pt'),
+    DateTime.saturday: context.l10n.getString('auto_sb'),
+    DateTime.sunday: context.l10n.getString('auto_vs'),
   };
   static const List<int> _weekdayOrder = <int>[
     DateTime.monday,
@@ -1518,7 +1518,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   Widget _buildDeliveryWeekdayChip(int weekday) {
     final colorScheme = Theme.of(context).colorScheme;
     final selected = _deliveryWeekdays.contains(weekday);
-    final label = _weekdaysShort[weekday] ?? _weekdaysFull[weekday] ?? context.l10n.getString('auto_pn');
+    final label = _weekdaysShort[weekday] ?? _weekdaysFull[weekday] ?? context.l10n.getString('auto_pn_1');
 
     return FilterChip(
       label: Text(label),

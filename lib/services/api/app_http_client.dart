@@ -5,9 +5,7 @@ import '../app_logger.dart';
 class AppHttpClient {
   AppHttpClient._();
 
-  static http.Client _instance = create();
-  static http.Client get instance => _instance;
-  static set instance(http.Client client) => _instance = client;
+  static http.Client instance = create();
 
   static http.Client create() {
     return _LoggingHttpClient();

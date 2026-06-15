@@ -778,8 +778,8 @@ class _ProductCardState extends State<ProductCard> {
         return null;
       }
     }
-    final start = _weekdaysShort[sortedWeekdays.first] ?? context.l10n.getString('auto_pn');
-    final end = _weekdaysShort[sortedWeekdays.last] ?? context.l10n.getString('auto_pn');
+    final start = _weekdaysShort[sortedWeekdays.first] ?? context.l10n.getString('auto_pn_1');
+    final end = _weekdaysShort[sortedWeekdays.last] ?? context.l10n.getString('auto_pn_1');
     return '$start-$end';
   }
 
@@ -858,25 +858,25 @@ class _ProductCardState extends State<ProductCard> {
 
   int? _parseWeekdayShort(String? value) {
     final normalized = value?.replaceAll('.', '').trim().toLowerCase();
-    if (normalized == context.l10n.getString('auto_pn_1')) return DateTime.monday;
-    if (normalized == context.l10n.getString('auto_vt')) return DateTime.tuesday;
-    if (normalized == context.l10n.getString('auto_sr')) return DateTime.wednesday;
-    if (normalized == context.l10n.getString('auto_cht')) return DateTime.thursday;
-    if (normalized == context.l10n.getString('auto_pt')) return DateTime.friday;
-    if (normalized == context.l10n.getString('auto_sb')) return DateTime.saturday;
-    if (normalized == context.l10n.getString('auto_vs')) return DateTime.sunday;
+    if (normalized == context.l10n.getString('auto_pn_1').toLowerCase()) return DateTime.monday;
+    if (normalized == context.l10n.getString('auto_vt').toLowerCase()) return DateTime.tuesday;
+    if (normalized == context.l10n.getString('auto_sr').toLowerCase()) return DateTime.wednesday;
+    if (normalized == context.l10n.getString('auto_cht').toLowerCase()) return DateTime.thursday;
+    if (normalized == context.l10n.getString('auto_pt').toLowerCase()) return DateTime.friday;
+    if (normalized == context.l10n.getString('auto_sb').toLowerCase()) return DateTime.saturday;
+    if (normalized == context.l10n.getString('auto_vs').toLowerCase()) return DateTime.sunday;
     return null;
   }
 
   int? _parseWeekdayFull(String? value) {
     final normalized = value?.replaceAll('.', '').trim().toLowerCase();
-    if (normalized == context.l10n.getString('auto_ponedelnik')) return DateTime.monday;
-    if (normalized == context.l10n.getString('auto_vtornik')) return DateTime.tuesday;
-    if (normalized == context.l10n.getString('auto_sreda')) return DateTime.wednesday;
-    if (normalized == context.l10n.getString('auto_chetverg')) return DateTime.thursday;
-    if (normalized == context.l10n.getString('auto_pyatnitsa')) return DateTime.friday;
-    if (normalized == context.l10n.getString('auto_subbota')) return DateTime.saturday;
-    if (normalized == context.l10n.getString('auto_voskresene')) return DateTime.sunday;
+    if (normalized == context.l10n.getString('auto_ponedelnik_1').toLowerCase()) return DateTime.monday;
+    if (normalized == context.l10n.getString('auto_vtornik_1').toLowerCase()) return DateTime.tuesday;
+    if (normalized == context.l10n.getString('auto_sreda_1').toLowerCase()) return DateTime.wednesday;
+    if (normalized == context.l10n.getString('auto_chetverg_1').toLowerCase()) return DateTime.thursday;
+    if (normalized == context.l10n.getString('auto_pyatnitsa_1').toLowerCase()) return DateTime.friday;
+    if (normalized == context.l10n.getString('auto_subbota_1').toLowerCase()) return DateTime.saturday;
+    if (normalized == context.l10n.getString('auto_voskresene_1').toLowerCase()) return DateTime.sunday;
     return null;
   }
 

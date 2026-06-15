@@ -363,6 +363,11 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String supplier_status_transition(Object fromStatus, Object toStatus) {
+    return 'из \"$fromStatus\" в \"$toStatus\"';
+  }
+
+  @override
   String get format_date_pattern => 'DD.MM.YYYY HH:mm';
 
   @override
@@ -456,12 +461,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get supplier_order_prefix => 'Заказ';
-
-  @override
-  String get supplier_from => 'из';
-
-  @override
-  String get supplier_to => 'в';
 
   @override
   String get supplier_period_day => 'День';
@@ -1202,7 +1201,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String cart_template_skipped_title(int count, int plural) {
+  String cart_template_skipped_title(int count) {
     return 'Пропущено $count товаров';
   }
 
@@ -1340,9 +1339,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get chat_no_review_text => 'Нет текста комментария';
 
   @override
-  String chat_empty_hint(int postfix) {
-    return 'Напишите сообщение...';
-  }
+  String get chat_empty_hint => 'Напишите сообщение...';
 
   @override
   String get chat_today => 'Сегодня';
@@ -2542,17 +2539,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_nm => 'Товар';
 
   @override
-  String auto_oshibka_seti_proverte_podklyuchenie(Object reason) {
+  String auto_oshibka_seti_proverte_podklyuchenie(String reason) {
     return 'Ошибка сети. Проверьте подключение: $reason';
   }
 
   @override
-  String auto_prevysheno_vremya_ozhidaniya_otveta(Object reason) {
+  String auto_prevysheno_vremya_ozhidaniya_otveta(String reason) {
     return 'Превышено время ожидания ответа: $reason';
   }
 
   @override
-  String auto_ne_udalos_razobrat_soobschenie(Object reason) {
+  String auto_ne_udalos_razobrat_soobschenie(String reason) {
     return 'Не удалось разобрать сообщение: $reason';
   }
 
@@ -3388,32 +3385,32 @@ class AppLocalizationsRu extends AppLocalizations {
   String get ai_service_auto_36 => 'Ошибка при обработке ответа';
 
   @override
-  String message_localization_auto_37(Object orderId) {
+  String message_localization_auto_37(String orderId) {
     return 'Заказ с ID $orderId не найден';
   }
 
   @override
-  String message_localization_auto_38(Object orderId) {
+  String message_localization_auto_38(String orderId) {
     return 'Ваш заказ #$orderId подтверждён';
   }
 
   @override
-  String message_localization_auto_39(Object orderId) {
+  String message_localization_auto_39(String orderId) {
     return 'Заказ #$orderId доставлен';
   }
 
   @override
-  String message_localization_auto_40(Object productId) {
+  String message_localization_auto_40(String productId) {
     return 'Товар с ID $productId не найден';
   }
 
   @override
-  String message_localization_auto_41(Object details) {
+  String message_localization_auto_41(String details) {
     return 'Ошибка валидации: $details';
   }
 
   @override
-  String message_localization_auto_42(Object reason) {
+  String message_localization_auto_42(String reason) {
     return 'Не удалось сгенерировать ответ AI: $reason';
   }
 
@@ -3489,7 +3486,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get month_year_parser_auto_65 => 'окт';
 
   @override
-  String supplier_orders_order_number(String orderId) {
+  String supplier_orders_order_number(Object orderId) {
     return 'Заказ №$orderId';
   }
 
@@ -4214,7 +4211,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String product_card_delivery(String date) {
+  String product_card_delivery(Object date) {
     return 'Доставка: $date';
   }
 
@@ -4224,17 +4221,17 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String product_card_today(String time) {
+  String product_card_today(Object time) {
     return 'сегодня $time';
   }
 
   @override
-  String product_card_tomorrow(String time) {
+  String product_card_tomorrow(Object time) {
     return 'завтра $time';
   }
 
   @override
-  String supplier_qa_review_card_reply_from(String name) {
+  String supplier_qa_review_card_reply_from(Object name) {
     return 'Ответ от $name';
   }
 
@@ -4256,12 +4253,12 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String avatar_load_error(String url, String error) {
+  String avatar_load_error(Object error, Object url) {
     return 'Не удалось загрузить аватарку: $url ($error)';
   }
 
   @override
-  String qa_answer_from_supplier(String supplierName) {
+  String qa_answer_from_supplier(Object supplierName) {
     return 'Ответ от $supplierName';
   }
 
@@ -4276,32 +4273,32 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String nutrition_calories_unit(String value) {
+  String nutrition_calories_unit(Object value) {
     return '$value к';
   }
 
   @override
-  String nutrition_grams_unit(String value) {
+  String nutrition_grams_unit(Object value) {
     return '$value г';
   }
 
   @override
-  String templates_sheet_rename_template(String name) {
+  String templates_sheet_rename_template(Object name) {
     return 'Переименовать шаблон $name';
   }
 
   @override
-  String templates_sheet_delete_template(String name) {
+  String templates_sheet_delete_template(Object name) {
     return 'Удалить шаблон $name';
   }
 
   @override
-  String templates_sheet_add_to_cart_template(String name) {
+  String templates_sheet_add_to_cart_template(Object name) {
     return 'В корзину шаблон $name';
   }
 
   @override
-  String supplier_stats_days(String days) {
+  String supplier_stats_days(Object days) {
     return '$days дн.';
   }
 
@@ -4311,7 +4308,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String supplier_stats_repeat_buyers(String percentage) {
+  String supplier_stats_repeat_buyers(Object percentage) {
     return '$percentage% постоянных';
   }
 
@@ -4321,42 +4318,42 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String supplier_stats_order_prefix(String orderId) {
+  String supplier_stats_order_prefix(Object orderId) {
     return 'Заказ #$orderId';
   }
 
   @override
-  String wizard_error_price_max(String max) {
+  String wizard_error_price_max(Object max) {
     return 'Цена не должна превышать $max';
   }
 
   @override
-  String wizard_error_min_quantity_max(String max) {
+  String wizard_error_min_quantity_max(Object max) {
     return 'Минимальное количество не должно превышать $max';
   }
 
   @override
-  String wizard_error_stock_max(String max) {
+  String wizard_error_stock_max(Object max) {
     return 'Остаток на складе не должен превышать $max';
   }
 
   @override
-  String wizard_error_calories_max(String max) {
+  String wizard_error_calories_max(Object max) {
     return 'Калории не должны превышать $max (ограничение NUMERIC(10,2))';
   }
 
   @override
-  String wizard_error_protein_max(String max) {
+  String wizard_error_protein_max(Object max) {
     return 'Белки не должны превышать $max (ограничение NUMERIC(10,2))';
   }
 
   @override
-  String wizard_error_fat_max(String max) {
+  String wizard_error_fat_max(Object max) {
     return 'Жиры не должны превышать $max (ограничение NUMERIC(10,2))';
   }
 
   @override
-  String wizard_error_carbs_max(String max) {
+  String wizard_error_carbs_max(Object max) {
     return 'Углеводы не должны превышать $max (ограничение NUMERIC(10,2))';
   }
 
@@ -4858,7 +4855,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_adresSlishkomKorotkiy => 'Адрес слишком короткий';
 
   @override
-  String auto_ulitsa_1(String streetMaxLength) {
+  String auto_ulitsa_1(Object streetMaxLength) {
     return 'Поле \"Улица\" не должно превышать $streetMaxLength символов';
   }
 
@@ -4867,7 +4864,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Индекс должен содержать только цифры (3-10)';
 
   @override
-  String auto_kvartira_1(String apartmentMaxLength) {
+  String auto_kvartira_1(Object apartmentMaxLength) {
     return 'Поле \"Квартира\" не должно превышать $apartmentMaxLength символов';
   }
 
@@ -5404,7 +5401,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Срок действия кода истёк, отправьте повторно';
 
   @override
-  String auto_srokIstyok(String ttlSecondsLeft) {
+  String auto_srokIstyok(Object ttlSecondsLeft) {
     return 'КОД ДЕЙСТВИТЕЛЕН $ttlSecondsLeft СЕК';
   }
 
@@ -5628,27 +5625,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_voskresene_1 => 'Воскресенье';
-
-  @override
-  String get auto_pn => 'Вс';
-
-  @override
-  String get auto_vt_1 => 'Вс';
-
-  @override
-  String get auto_sr_1 => 'Вс';
-
-  @override
-  String get auto_cht_1 => 'Вс';
-
-  @override
-  String get auto_pt_1 => 'Вс';
-
-  @override
-  String get auto_sb_1 => 'Вс';
-
-  @override
-  String get auto_vs_1 => 'Вс';
 
   @override
   String get auto_molochnayaProduktsiya => 'Молочная продукция';
@@ -6057,31 +6033,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_vs => 'Вс';
 
   @override
-  String get auto_ponedelnik => 'Понедельник';
-
-  @override
-  String get auto_vtornik => 'Вторник';
-
-  @override
-  String get auto_sreda => 'Среда';
-
-  @override
-  String get auto_chetverg => 'Четверг';
-
-  @override
-  String get auto_pyatnitsa => 'Пятница';
-
-  @override
-  String get auto_subbota => 'Суббота';
-
-  @override
-  String get auto_voskresene => 'Воскресенье';
-
-  @override
   String get auto_sht => 'шт.';
-
-  @override
-  String get auto_p_1 => 'Пн';
 
   @override
   String get auto_chitatVse => 'Читать все';

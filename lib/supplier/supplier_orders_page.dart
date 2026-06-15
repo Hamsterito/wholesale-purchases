@@ -357,7 +357,7 @@ Future<void> _updateOrderStatus(SupplierOrder order, String status) async {
           title: Text(context.l10n.statusConfirmChange),
           content: Text(
             '${context.l10n.orderPrefix}${order.id}\n'
-            '${context.l10n.from} "${_statusLabel(order.status)}" ${context.l10n.to} "${_statusLabel(nextStatus)}"?',
+            '${context.l10n.statusTransition(_statusLabel(order.status), _statusLabel(nextStatus))}?',
           ),
           actions: [
             TextButton(

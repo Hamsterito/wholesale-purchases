@@ -114,21 +114,20 @@ void main() async {
     if (key.startsWith('@@')) {
       kkData[key] = (key == '@@locale') ? 'kk' : value;
     } else if (key.startsWith('@')) {
-      if (translatedDescMap.containsKey(key)) {
-        kkData[key] = {'description': translatedDescMap[key]};
+      if (value is Map) {
+        final copiedMeta = Map<String, dynamic>.from(value);
+        if (translatedDescMap.containsKey(key)) {
+          copiedMeta['description'] = translatedDescMap[key];
+        }
+        kkData[key] = copiedMeta;
+      } else {
+        kkData[key] = value;
       }
     } else {
       final idx = keysToTranslate.indexOf(key);
       kkData[key] = (idx < translatedTexts.length && translatedTexts[idx].isNotEmpty)
           ? translatedTexts[idx]
           : value;
-      
-      final metaKey = '@$key';
-      if (ruData.containsKey(metaKey)) {
-        if (translatedDescMap.containsKey(metaKey)) {
-          kkData[metaKey] = {'description': translatedDescMap[metaKey]};
-        }
-      }
     }
   }
 

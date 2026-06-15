@@ -117,7 +117,7 @@ class _RatingsBreakdownState extends State<RatingsBreakdown> {
   String _initial(String value) {
     final normalized = value.trim();
     if (normalized.isEmpty) {
-      return context.l10n.getString('auto_p_1');
+      return context.l10n.getString('auto_pokupatel').characters.first.toUpperCase();
     }
     return normalized.characters.first.toUpperCase();
   }

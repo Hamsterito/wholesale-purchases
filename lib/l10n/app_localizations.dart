@@ -776,6 +776,12 @@ abstract class AppLocalizations {
   /// **'Не удалось сгенерировать ответ ИИ: {reason}'**
   String message_ai_generation_failed(int reason);
 
+  /// Transition between statuses
+  ///
+  /// In ru, this message translates to:
+  /// **'из \"{fromStatus}\" в \"{toStatus}\"'**
+  String supplier_status_transition(Object fromStatus, Object toStatus);
+
   /// Формат отображения даты и времени
   ///
   /// In ru, this message translates to:
@@ -961,18 +967,6 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Заказ'**
   String get supplier_order_prefix;
-
-  /// Предлог статуса (иске)
-  ///
-  /// In ru, this message translates to:
-  /// **'из'**
-  String get supplier_from;
-
-  /// Предлог статуса (я)
-  ///
-  /// In ru, this message translates to:
-  /// **'в'**
-  String get supplier_to;
 
   /// Подпис солнечного периода
   ///
@@ -2346,7 +2340,7 @@ abstract class AppLocalizations {
   ///
   /// In ru, this message translates to:
   /// **'Пропущено {count} товаров'**
-  String cart_template_skipped_title(int count, int plural);
+  String cart_template_skipped_title(int count);
 
   /// Ошибка сети при оформлении заказа
   ///
@@ -2568,7 +2562,7 @@ abstract class AppLocalizations {
   ///
   /// In ru, this message translates to:
   /// **'Напишите сообщение...'**
-  String chat_empty_hint(int postfix);
+  String get chat_empty_hint;
 
   /// Подпис сегодняшнего дня в чате
   ///
@@ -4758,19 +4752,19 @@ abstract class AppLocalizations {
   ///
   /// In ru, this message translates to:
   /// **'Ошибка сети. Проверьте подключение: {reason}'**
-  String auto_oshibka_seti_proverte_podklyuchenie(Object reason);
+  String auto_oshibka_seti_proverte_podklyuchenie(String reason);
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
   /// **'Превышено время ожидания ответа: {reason}'**
-  String auto_prevysheno_vremya_ozhidaniya_otveta(Object reason);
+  String auto_prevysheno_vremya_ozhidaniya_otveta(String reason);
 
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
   /// **'Не удалось разобрать сообщение: {reason}'**
-  String auto_ne_udalos_razobrat_soobschenie(Object reason);
+  String auto_ne_udalos_razobrat_soobschenie(String reason);
 
   /// Auto-extracted
   ///
@@ -6276,37 +6270,37 @@ abstract class AppLocalizations {
   ///
   /// In ru, this message translates to:
   /// **'Заказ с ID {orderId} не найден'**
-  String message_localization_auto_37(Object orderId);
+  String message_localization_auto_37(String orderId);
 
   /// Auto-extracted from lib\services\message\message_localization.dart
   ///
   /// In ru, this message translates to:
   /// **'Ваш заказ #{orderId} подтверждён'**
-  String message_localization_auto_38(Object orderId);
+  String message_localization_auto_38(String orderId);
 
   /// Auto-extracted from lib\services\message\message_localization.dart
   ///
   /// In ru, this message translates to:
   /// **'Заказ #{orderId} доставлен'**
-  String message_localization_auto_39(Object orderId);
+  String message_localization_auto_39(String orderId);
 
   /// Auto-extracted from lib\services\message\message_localization.dart
   ///
   /// In ru, this message translates to:
   /// **'Товар с ID {productId} не найден'**
-  String message_localization_auto_40(Object productId);
+  String message_localization_auto_40(String productId);
 
   /// Auto-extracted from lib\services\message\message_localization.dart
   ///
   /// In ru, this message translates to:
   /// **'Ошибка валидации: {details}'**
-  String message_localization_auto_41(Object details);
+  String message_localization_auto_41(String details);
 
   /// Auto-extracted from lib\services\message\message_localization.dart
   ///
   /// In ru, this message translates to:
   /// **'Не удалось сгенерировать ответ AI: {reason}'**
-  String message_localization_auto_42(Object reason);
+  String message_localization_auto_42(String reason);
 
   /// Auto-extracted from lib\utils\custom_characteristic_validation.dart
   ///
@@ -6450,7 +6444,7 @@ abstract class AppLocalizations {
   ///
   /// In ru, this message translates to:
   /// **'Заказ №{orderId}'**
-  String supplier_orders_order_number(String orderId);
+  String supplier_orders_order_number(Object orderId);
 
   /// No description provided for @supplier_orders_items_count.
   ///
@@ -7696,7 +7690,7 @@ abstract class AppLocalizations {
   ///
   /// In ru, this message translates to:
   /// **'Доставка: {date}'**
-  String product_card_delivery(String date);
+  String product_card_delivery(Object date);
 
   /// No description provided for @product_card_days_per_week.
   ///
@@ -7708,19 +7702,19 @@ abstract class AppLocalizations {
   ///
   /// In ru, this message translates to:
   /// **'сегодня {time}'**
-  String product_card_today(String time);
+  String product_card_today(Object time);
 
   /// No description provided for @product_card_tomorrow.
   ///
   /// In ru, this message translates to:
   /// **'завтра {time}'**
-  String product_card_tomorrow(String time);
+  String product_card_tomorrow(Object time);
 
   /// No description provided for @supplier_qa_review_card_reply_from.
   ///
   /// In ru, this message translates to:
   /// **'Ответ от {name}'**
-  String supplier_qa_review_card_reply_from(String name);
+  String supplier_qa_review_card_reply_from(Object name);
 
   /// No description provided for @validation_empty_or_too_long.
   ///
@@ -7750,13 +7744,13 @@ abstract class AppLocalizations {
   ///
   /// In ru, this message translates to:
   /// **'Не удалось загрузить аватарку: {url} ({error})'**
-  String avatar_load_error(String url, String error);
+  String avatar_load_error(Object error, Object url);
 
   /// No description provided for @qa_answer_from_supplier.
   ///
   /// In ru, this message translates to:
   /// **'Ответ от {supplierName}'**
-  String qa_answer_from_supplier(String supplierName);
+  String qa_answer_from_supplier(Object supplierName);
 
   /// No description provided for @ratings_count_parentheses.
   ///
@@ -7774,37 +7768,37 @@ abstract class AppLocalizations {
   ///
   /// In ru, this message translates to:
   /// **'{value} к'**
-  String nutrition_calories_unit(String value);
+  String nutrition_calories_unit(Object value);
 
   /// No description provided for @nutrition_grams_unit.
   ///
   /// In ru, this message translates to:
   /// **'{value} г'**
-  String nutrition_grams_unit(String value);
+  String nutrition_grams_unit(Object value);
 
   /// No description provided for @templates_sheet_rename_template.
   ///
   /// In ru, this message translates to:
   /// **'Переименовать шаблон {name}'**
-  String templates_sheet_rename_template(String name);
+  String templates_sheet_rename_template(Object name);
 
   /// No description provided for @templates_sheet_delete_template.
   ///
   /// In ru, this message translates to:
   /// **'Удалить шаблон {name}'**
-  String templates_sheet_delete_template(String name);
+  String templates_sheet_delete_template(Object name);
 
   /// No description provided for @templates_sheet_add_to_cart_template.
   ///
   /// In ru, this message translates to:
   /// **'В корзину шаблон {name}'**
-  String templates_sheet_add_to_cart_template(String name);
+  String templates_sheet_add_to_cart_template(Object name);
 
   /// No description provided for @supplier_stats_days.
   ///
   /// In ru, this message translates to:
   /// **'{days} дн.'**
-  String supplier_stats_days(String days);
+  String supplier_stats_days(Object days);
 
   /// No description provided for @supplier_stats_units_sold.
   ///
@@ -7816,7 +7810,7 @@ abstract class AppLocalizations {
   ///
   /// In ru, this message translates to:
   /// **'{percentage}% постоянных'**
-  String supplier_stats_repeat_buyers(String percentage);
+  String supplier_stats_repeat_buyers(Object percentage);
 
   /// No description provided for @supplier_stats_reviews.
   ///
@@ -7828,49 +7822,49 @@ abstract class AppLocalizations {
   ///
   /// In ru, this message translates to:
   /// **'Заказ #{orderId}'**
-  String supplier_stats_order_prefix(String orderId);
+  String supplier_stats_order_prefix(Object orderId);
 
   /// No description provided for @wizard_error_price_max.
   ///
   /// In ru, this message translates to:
   /// **'Цена не должна превышать {max}'**
-  String wizard_error_price_max(String max);
+  String wizard_error_price_max(Object max);
 
   /// No description provided for @wizard_error_min_quantity_max.
   ///
   /// In ru, this message translates to:
   /// **'Минимальное количество не должно превышать {max}'**
-  String wizard_error_min_quantity_max(String max);
+  String wizard_error_min_quantity_max(Object max);
 
   /// No description provided for @wizard_error_stock_max.
   ///
   /// In ru, this message translates to:
   /// **'Остаток на складе не должен превышать {max}'**
-  String wizard_error_stock_max(String max);
+  String wizard_error_stock_max(Object max);
 
   /// No description provided for @wizard_error_calories_max.
   ///
   /// In ru, this message translates to:
   /// **'Калории не должны превышать {max} (ограничение NUMERIC(10,2))'**
-  String wizard_error_calories_max(String max);
+  String wizard_error_calories_max(Object max);
 
   /// No description provided for @wizard_error_protein_max.
   ///
   /// In ru, this message translates to:
   /// **'Белки не должны превышать {max} (ограничение NUMERIC(10,2))'**
-  String wizard_error_protein_max(String max);
+  String wizard_error_protein_max(Object max);
 
   /// No description provided for @wizard_error_fat_max.
   ///
   /// In ru, this message translates to:
   /// **'Жиры не должны превышать {max} (ограничение NUMERIC(10,2))'**
-  String wizard_error_fat_max(String max);
+  String wizard_error_fat_max(Object max);
 
   /// No description provided for @wizard_error_carbs_max.
   ///
   /// In ru, this message translates to:
   /// **'Углеводы не должны превышать {max} (ограничение NUMERIC(10,2))'**
-  String wizard_error_carbs_max(String max);
+  String wizard_error_carbs_max(Object max);
 
   /// No description provided for @wizard_show_all_categories.
   ///
@@ -8830,7 +8824,7 @@ abstract class AppLocalizations {
   ///
   /// In ru, this message translates to:
   /// **'Поле \"Улица\" не должно превышать {streetMaxLength} символов'**
-  String auto_ulitsa_1(String streetMaxLength);
+  String auto_ulitsa_1(Object streetMaxLength);
 
   /// No description provided for @auto_indeksDolzhenSoderzhat.
   ///
@@ -8842,7 +8836,7 @@ abstract class AppLocalizations {
   ///
   /// In ru, this message translates to:
   /// **'Поле \"Квартира\" не должно превышать {apartmentMaxLength} символов'**
-  String auto_kvartira_1(String apartmentMaxLength);
+  String auto_kvartira_1(Object apartmentMaxLength);
 
   /// No description provided for @auto_nekorrektnyyFormatKvart.
   ///
@@ -9844,7 +9838,7 @@ abstract class AppLocalizations {
   ///
   /// In ru, this message translates to:
   /// **'КОД ДЕЙСТВИТЕЛЕН {ttlSecondsLeft} СЕК'**
-  String auto_srokIstyok(String ttlSecondsLeft);
+  String auto_srokIstyok(Object ttlSecondsLeft);
 
   /// No description provided for @auto_otpravitPovtorno.
   ///
@@ -10253,48 +10247,6 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Воскресенье'**
   String get auto_voskresene_1;
-
-  /// No description provided for @auto_pn.
-  ///
-  /// In ru, this message translates to:
-  /// **'Вс'**
-  String get auto_pn;
-
-  /// No description provided for @auto_vt_1.
-  ///
-  /// In ru, this message translates to:
-  /// **'Вс'**
-  String get auto_vt_1;
-
-  /// No description provided for @auto_sr_1.
-  ///
-  /// In ru, this message translates to:
-  /// **'Вс'**
-  String get auto_sr_1;
-
-  /// No description provided for @auto_cht_1.
-  ///
-  /// In ru, this message translates to:
-  /// **'Вс'**
-  String get auto_cht_1;
-
-  /// No description provided for @auto_pt_1.
-  ///
-  /// In ru, this message translates to:
-  /// **'Вс'**
-  String get auto_pt_1;
-
-  /// No description provided for @auto_sb_1.
-  ///
-  /// In ru, this message translates to:
-  /// **'Вс'**
-  String get auto_sb_1;
-
-  /// No description provided for @auto_vs_1.
-  ///
-  /// In ru, this message translates to:
-  /// **'Вс'**
-  String get auto_vs_1;
 
   /// No description provided for @auto_molochnayaProduktsiya.
   ///
@@ -11076,59 +11028,11 @@ abstract class AppLocalizations {
   /// **'Вс'**
   String get auto_vs;
 
-  /// No description provided for @auto_ponedelnik.
-  ///
-  /// In ru, this message translates to:
-  /// **'Понедельник'**
-  String get auto_ponedelnik;
-
-  /// No description provided for @auto_vtornik.
-  ///
-  /// In ru, this message translates to:
-  /// **'Вторник'**
-  String get auto_vtornik;
-
-  /// No description provided for @auto_sreda.
-  ///
-  /// In ru, this message translates to:
-  /// **'Среда'**
-  String get auto_sreda;
-
-  /// No description provided for @auto_chetverg.
-  ///
-  /// In ru, this message translates to:
-  /// **'Четверг'**
-  String get auto_chetverg;
-
-  /// No description provided for @auto_pyatnitsa.
-  ///
-  /// In ru, this message translates to:
-  /// **'Пятница'**
-  String get auto_pyatnitsa;
-
-  /// No description provided for @auto_subbota.
-  ///
-  /// In ru, this message translates to:
-  /// **'Суббота'**
-  String get auto_subbota;
-
-  /// No description provided for @auto_voskresene.
-  ///
-  /// In ru, this message translates to:
-  /// **'Воскресенье'**
-  String get auto_voskresene;
-
   /// No description provided for @auto_sht.
   ///
   /// In ru, this message translates to:
   /// **'шт.'**
   String get auto_sht;
-
-  /// No description provided for @auto_p_1.
-  ///
-  /// In ru, this message translates to:
-  /// **'Пн'**
-  String get auto_p_1;
 
   /// No description provided for @auto_chitatVse.
   ///

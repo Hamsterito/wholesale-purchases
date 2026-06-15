@@ -195,8 +195,12 @@ String get noData => getString('common_no_data');
   String get statusUpdateFailed => getString('supplier_status_update_failed');
   String get statusConfirmChange => getString('supplier_status_confirm_change');
   String get orderPrefix => getString('supplier_order_prefix');
-  String get from => getString('supplier_from');
-  String get to => getString('supplier_to');
+  String statusTransition(String from, String to) {
+    return getString('supplier_status_transition', params: {
+      'fromStatus': from,
+      'toStatus': to,
+    });
+  }
 
   // Periods
   String get periodDay => getString('supplier_period_day');
