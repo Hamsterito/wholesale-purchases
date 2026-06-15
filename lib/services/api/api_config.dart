@@ -41,7 +41,7 @@ class ApiConfig {
     if (envEndpoint.isNotEmpty) {
       return envEndpoint;
     }
-    return 'https://openrouter.ai/api/v1';
+    return 'https://generativelanguage.googleapis.com/v1beta/openai';
   }
 
   static String get aiModel {
@@ -49,6 +49,6 @@ class ApiConfig {
     if (envModel.isNotEmpty) {
       return envModel;
     }
-    return 'google/gemma-4-31b-it:free';
+    return 'gemini-1.5-flash';
   }
 }

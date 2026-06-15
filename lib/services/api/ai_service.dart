@@ -59,16 +59,9 @@ class AiService {
 
   // Список моделей для fallback (пробуем по очереди при ошибках лимита)
   static const List<String> _fallbackModels = [
-    'google/gemma-4-31b-it:free',
-    'deepseek/deepseek-v4-flash:free',
-    'nvidia/nemotron-3-super-120b-a12b:free',
-    'openai/gpt-oss-120b:free',
-    'openai/gpt-oss-20b:free',
-    'z-ai/glm-4.5-air:free',
-    'nvidia/nemotron-3-nano-30b-a3b:free',
-    'arcee-ai/trinity-large-thinking:free',
-    'minimax/minimax-m2.5:free',
-    'baidu/cobuddy:free',
+    'gemini-2.0-flash',
+    'gemini-1.5-flash-8b',
+    'gemini-1.5-pro',
   ];
 
   /// Генерирует AI-резюме по статистике поставщика - 3-5 предложений на русском.
@@ -137,8 +130,6 @@ class AiService {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Authorization': 'Bearer $apiKey',
-                'HTTP-Referer': 'https://github.com/yourusername/wholesale-app',
-                'X-Title': 'Wholesale App',
               },
               body: jsonEncode({
                 'model': model,
@@ -244,7 +235,7 @@ class AiService {
     }
 
     if (response.statusCode != 200) {
-      // Пробуем распарсить OpenRouter error body
+      // Пробуем распарсить error body
       try {
         final body = jsonDecode(response.body) as Map<String, dynamic>;
         final error = body['error'];
@@ -274,7 +265,7 @@ class AiService {
       final responseBody = utf8.decode(response.bodyBytes);
       final jsonResponse = jsonDecode(responseBody) as Map<String, dynamic>;
 
-      // OpenRouter использует стандартный формат OpenAI
+      // Использует стандартный формат OpenAI
       final choices = jsonResponse['choices'] as List<dynamic>?;
       if (choices == null || choices.isEmpty) {
         throw AiException(
@@ -346,7 +337,7 @@ class AiService {
   @visibleForTesting
   static bool shouldRetry(String message) {
     // Повторяем для транзиентных ошибок (429, 5xx)
-    // OpenRouter free иногда временно возвращает 429
+    // API иногда временно возвращает 429
     return message.contains('Server error') || message.contains('Rate limit');
   }
 
