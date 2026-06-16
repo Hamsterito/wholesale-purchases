@@ -69,6 +69,23 @@ docker compose down
 docker compose down -v
 ```
 
+### Импорт и экспорт данных базы данных
+
+```bash
+# Экспорт (дамп) локальной БД в файл (запуск на хосте)
+# Укажите путь к pg_dump.exe, если он не прописан в PATH, например:
+# & "C:\Program Files\PostgreSQL\17\bin\pg_dump.exe" -U postgres -h localhost -p 5432 -d shop_db -f shop_db_backup.sql
+pg_dump -U postgres -h localhost -p 5432 -d shop_db -f shop_db_backup.sql
+
+# Импорт дампа из файла в Docker-контейнер (запуск на хосте)
+# Для PowerShell:
+Get-Content shop_db_backup.sql | docker exec -i shop_postgres_db psql -U postgres -d shop_db
+
+# Для классической CMD (командной строки):
+cmd /c "docker exec -i shop_postgres_db psql -U postgres -d shop_db < shop_db_backup.sql"
+```
+
+
 ---
 
 ## Запуск и управление Flutter
