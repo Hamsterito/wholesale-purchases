@@ -56,3 +56,6 @@ kilo.json
 .mcp-plugins/
 .spec-workflow/
 integration_test/
+
+# Резервные копии и дампы БД
+*.sql
