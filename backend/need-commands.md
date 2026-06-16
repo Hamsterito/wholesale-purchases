@@ -1,4 +1,4 @@
-# Команды для настройки Android Emulator
+# Команды для настройки Android Emulator, Docker и Flutter
 
 ## Принимаем лицензии (автоматически)
 
@@ -31,4 +31,86 @@ emulator -avd Tecno_Pova_5
 
 emulator -avd Tecno_Pova_5 -gpu host -memory 4096 -no-snapshot-load
 ```
+
 ---
+
+## Запуск и управление Docker
+
+### Сборка и запуск контейнеров (БД + Бэкенд)
+
+```bash
+# Запуск контейнеров в фоновом режиме
+docker compose up -d
+
+# Сборка образов и запуск контейнеров
+docker compose up --build
+
+# Запуск контейнеров с выводом логов в терминал
+docker compose up
+```
+
+### Просмотр состояния и логов
+
+```bash
+# Просмотр запущенных контейнеров
+docker compose ps
+
+# Просмотр логов всех контейнеров в реальном времени
+docker compose logs -f
+```
+
+### Остановка и очистка
+
+```bash
+# Остановка и удаление контейнеров
+docker compose down
+
+# Остановка с удалением всех данных базы данных (очистка volume)
+docker compose down -v
+```
+
+---
+
+## Запуск и управление Flutter
+
+### Управление зависимостями и генерация кода
+
+```bash
+# Получение зависимостей Flutter
+flutter pub get
+
+# Очистка кэша сборки (полезно при сбоях сборки)
+flutter clean
+
+# Принудительная генерация файлов локализации l10n
+flutter gen-l10n
+```
+
+### Запуск приложения
+
+```bash
+# Просмотр списка доступных устройств
+flutter devices
+
+# Запуск приложения на устройстве по умолчанию
+flutter run
+
+# Запуск приложения на конкретном устройстве (например, эмуляторе)
+flutter run -d <имя_устройства_или_id>
+
+# Запуск в режиме отладки с очисткой кэша ассетов
+flutter run --clear-asset-cache
+```
+
+### Сборка приложения
+
+```bash
+# Сборка установочного APK для Android (release-версия)
+flutter build apk --release
+
+# Сборка Android App Bundle (AAB) для публикации в Google Play
+flutter build appbundle --release
+
+# Сборка веб-версии приложения
+flutter build web --release
+```

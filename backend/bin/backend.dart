@@ -40,19 +40,38 @@ part 'routes/support_routes.dart';
 part 'routes/avatar_routes.dart';
 part 'routes/static_routes.dart';
 
-// Главная функция приложения
 void main() async {
-  // Подключение к базе данных PostgreSQL
-  final connection = await Connection.open(
-    Endpoint(
-      host: 'localhost',
-      port: 5432,
-      database: 'shop_db',
-      username: 'postgres',
-      password: '1234',
-    ),
-    settings: const ConnectionSettings(sslMode: SslMode.disable),
-  );
+  // Подключение к базе данных PostgreSQL с поддержкой переменных окружения и повторными попытками
+  final dbHost = env['DB_HOST'] ?? Platform.environment['DB_HOST'] ?? 'localhost';
+  final dbPort = int.tryParse(env['DB_PORT'] ?? Platform.environment['DB_PORT'] ?? '') ?? 5432;
+  final dbName = env['DB_NAME'] ?? Platform.environment['DB_NAME'] ?? 'shop_db';
+  final dbUser = env['DB_USER'] ?? Platform.environment['DB_USER'] ?? 'postgres';
+  final dbPass = env['DB_PASS'] ?? Platform.environment['DB_PASS'] ?? '1234';
+
+  late final Connection connection;
+  var retries = 5;
+  while (retries > 0) {
+    try {
+      connection = await Connection.open(
+        Endpoint(
+          host: dbHost,
+          port: dbPort,
+          database: dbName,
+          username: dbUser,
+          password: dbPass,
+        ),
+        settings: const ConnectionSettings(sslMode: SslMode.disable),
+      );
+      break;
+    } catch (e) {
+      retries--;
+      print('Не удалось подключиться к базе данных. Оставшиеся попытки: $retries. Ошибка: $e');
+      if (retries == 0) {
+        rethrow;
+      }
+      await Future<void>.delayed(const Duration(seconds: 3));
+    }
+  }
 
   print('Подключение к PostgreSQL выполнено.');
 
