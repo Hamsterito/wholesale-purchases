@@ -1280,10 +1280,10 @@ abstract class AppLocalizations {
   /// **'Отзывы'**
   String get qa_reviews_tab;
 
-  /// Тема секции вопросов с ответами
+  /// Тема секции вопросов без ответов
   ///
   /// In ru, this message translates to:
-  /// **'Вопросы, на которые уже даны ответы'**
+  /// **'Вопросы без ответа'**
   String get qa_questions_without_answers;
 
   /// Ответы на вопросы подписывайтесь
@@ -1319,19 +1319,19 @@ abstract class AppLocalizations {
   /// Метка вопроса без ответа
   ///
   /// In ru, this message translates to:
-  /// **'Нет ответа'**
+  /// **'Без ответа'**
   String get qa_without_answer;
 
   /// Уведомление о моменте отправки ответа
   ///
   /// In ru, this message translates to:
-  /// **'Ответ отправлен успешно'**
+  /// **'Ответ успешно отправлен'**
   String get qa_answer_sent_success;
 
   /// Ответ уведомление о моменте обновления
   ///
   /// In ru, this message translates to:
-  /// **'Ответ был успешно обновлен'**
+  /// **'Ответ успешно обновлен'**
   String get qa_answer_updated_success;
 
   /// Сообщение о неавторизованном пользователе
@@ -2297,7 +2297,7 @@ abstract class AppLocalizations {
   /// Заголовок списка шаблонов
   ///
   /// In ru, this message translates to:
-  /// **'Образцы'**
+  /// **'Шаблоны'**
   String get cart_template_title;
 
   /// Требование авторизации для использования шаблонов
@@ -2309,7 +2309,7 @@ abstract class AppLocalizations {
   /// Ошибка использования шаблона
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось применить образец'**
+  /// **'Не удалось применить шаблон'**
   String get cart_template_apply_error;
 
   /// Когда ни одна продукция в образце не найдена в каталоге
@@ -2387,7 +2387,7 @@ abstract class AppLocalizations {
   /// Успешное удаление шаблона
   ///
   /// In ru, this message translates to:
-  /// **'Образец удален'**
+  /// **'Шаблон удален'**
   String get cart_template_delete_success;
 
   /// Примечание о лимите позиций типа
@@ -2597,7 +2597,7 @@ abstract class AppLocalizations {
   /// Кнопка сброса фильтров
   ///
   /// In ru, this message translates to:
-  /// **'Восстановление'**
+  /// **'Сбросить'**
   String get filters_reset_button;
 
   /// Секция фильтра ценообразования
@@ -2639,13 +2639,13 @@ abstract class AppLocalizations {
   /// Секция последовательности сортировки
   ///
   /// In ru, this message translates to:
-  /// **'Последовательность'**
+  /// **'Порядок'**
   String get filter_order_title;
 
   /// От меньшего до большего
   ///
   /// In ru, this message translates to:
-  /// **'Заданный'**
+  /// **'От меньшего к большему'**
   String get filter_order_asc;
 
   /// От большего к меньшему
@@ -3071,7 +3071,7 @@ abstract class AppLocalizations {
   /// Кнопка сброса
   ///
   /// In ru, this message translates to:
-  /// **'Восстановление'**
+  /// **'Сбросить'**
   String get supplier_reset_button;
 
   /// Кнопка редактирования товара
@@ -7272,95 +7272,119 @@ abstract class AppLocalizations {
   /// **'дж'**
   String get search_normalizer_auto_153;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_kakSdelatZakaz.
   ///
   /// In ru, this message translates to:
-  /// **'ё'**
-  String get search_normalizer_auto_154;
+  /// **'Как сделать заказ?'**
+  String get auto_kakSdelatZakaz;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_chtobySdelatZakazVyber.
   ///
   /// In ru, this message translates to:
-  /// **'й'**
-  String get search_normalizer_auto_155;
+  /// **'Чтобы сделать заказ, выберите товары из каталога, добавьте их в корзину и оформите заказ, указав адрес доставки и способ оплаты.'**
+  String get auto_chtobySdelatZakazVyber;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_kakieSposobyOplatyDost.
   ///
   /// In ru, this message translates to:
-  /// **'ц'**
-  String get search_normalizer_auto_156;
+  /// **'Какие способы оплаты доступны?'**
+  String get auto_kakieSposobyOplatyDost;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_myPrinimaemOplatuNalic.
   ///
   /// In ru, this message translates to:
-  /// **'у'**
-  String get search_normalizer_auto_157;
+  /// **'Мы принимаем оплату наличными, банковскими картами (Visa, Mastercard), а также через PayPal.'**
+  String get auto_myPrinimaemOplatuNalic;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_skolkoVremeniZanimaetD.
   ///
   /// In ru, this message translates to:
-  /// **'к'**
-  String get search_normalizer_auto_158;
+  /// **'Сколько времени занимает доставка?'**
+  String get auto_skolkoVremeniZanimaetD;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_standartnayaDostavkaZan.
   ///
   /// In ru, this message translates to:
-  /// **'е'**
-  String get search_normalizer_auto_159;
+  /// **'Стандартная доставка занимает 1-3 рабочих дня. Экспресс-доставка доступна в течение 24 часов.'**
+  String get auto_standartnayaDostavkaZan;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_moguLiYaOtmenitZakaz.
   ///
   /// In ru, this message translates to:
-  /// **'н'**
-  String get search_normalizer_auto_160;
+  /// **'Могу ли я отменить заказ?'**
+  String get auto_moguLiYaOtmenitZakaz;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_vyMozheteOtmenitZakaz.
   ///
   /// In ru, this message translates to:
-  /// **'г'**
-  String get search_normalizer_auto_161;
+  /// **'Вы можете отменить заказ в течение 30 минут после оформления. После этого заказ уже будет передан на склад для сборки.'**
+  String get auto_vyMozheteOtmenitZakaz;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_kakIzmenitAdresDostavk.
   ///
   /// In ru, this message translates to:
-  /// **'ш'**
-  String get search_normalizer_auto_162;
+  /// **'Как изменить адрес доставки?'**
+  String get auto_kakIzmenitAdresDostavk;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_profil.
   ///
   /// In ru, this message translates to:
-  /// **'щ'**
-  String get search_normalizer_auto_163;
+  /// **'�������'**
+  String get auto_profil;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_adresa.
   ///
   /// In ru, this message translates to:
-  /// **'з'**
-  String get search_normalizer_auto_164;
+  /// **'������'**
+  String get auto_adresa;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_takzheMozhnoUkazatNov.
   ///
   /// In ru, this message translates to:
-  /// **'х'**
-  String get search_normalizer_auto_165;
+  /// **'����� ����� ������� ����� ����� ��� ���������� ������.'**
+  String get auto_takzheMozhnoUkazatNov;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_chtoDelatEsliTovarNe.
   ///
   /// In ru, this message translates to:
-  /// **'ъ'**
-  String get search_normalizer_auto_166;
+  /// **'Что делать если товар не подошел?'**
+  String get auto_chtoDelatEsliTovarNe;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_vyMozheteVernutTovarV.
   ///
   /// In ru, this message translates to:
-  /// **'ф'**
-  String get search_normalizer_auto_167;
+  /// **'Вы можете вернуть товар в течение 14 дней с момента получения. Свяжитесь с нашей службой поддержки для оформления возврата.'**
+  String get auto_vyMozheteVernutTovarV;
 
-  /// Auto-extracted from lib\utils\search_normalizer.dart
+  /// No description provided for @auto_kakSvyazatsyaSPodderzh.
   ///
   /// In ru, this message translates to:
-  /// **'ы'**
-  String get search_normalizer_auto_168;
+  /// **'Как связаться с поддержкой?'**
+  String get auto_kakSvyazatsyaSPodderzh;
+
+  /// No description provided for @auto_tehpodderzhka.
+  ///
+  /// In ru, this message translates to:
+  /// **'Техподдержка'**
+  String get auto_tehpodderzhka;
+
+  /// No description provided for @auto_vPrilozheniiPoElektro.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы можете связаться с нами через раздел \"Техподдержка\" в приложении, по электронной почте или по телефону горячей линии.'**
+  String get auto_vPrilozheniiPoElektro;
+
+  /// No description provided for @auto_estLiMinimalnayaSumma.
+  ///
+  /// In ru, this message translates to:
+  /// **'Есть ли минимальная сумма заказа?'**
+  String get auto_estLiMinimalnayaSumma;
+
+  /// No description provided for @auto_minimalnayaSummaZakaza.
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимальная сумма заказа составляет 500 ₸. При заказе от 5000 ₸ доставка бесплатная.'**
+  String get auto_minimalnayaSummaZakaza;
 
   /// Auto-extracted from lib\utils\search_normalizer.dart
   ///
@@ -9119,120 +9143,6 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Номер должен быть в формате +7-XXX-XXX-XXXX'**
   String get auto_nomerDolzhenBytVForma;
-
-  /// No description provided for @auto_kakSdelatZakaz.
-  ///
-  /// In ru, this message translates to:
-  /// **'Как сделать заказ?'**
-  String get auto_kakSdelatZakaz;
-
-  /// No description provided for @auto_chtobySdelatZakazVyber.
-  ///
-  /// In ru, this message translates to:
-  /// **'Чтобы сделать заказ, выберите товары из каталога, добавьте их в корзину и оформите заказ, указав адрес доставки и способ оплаты.'**
-  String get auto_chtobySdelatZakazVyber;
-
-  /// No description provided for @auto_kakieSposobyOplatyDost.
-  ///
-  /// In ru, this message translates to:
-  /// **'Какие способы оплаты доступны?'**
-  String get auto_kakieSposobyOplatyDost;
-
-  /// No description provided for @auto_myPrinimaemOplatuNalic.
-  ///
-  /// In ru, this message translates to:
-  /// **'Мы принимаем оплату наличными, банковскими картами (Visa, Mastercard), а также через PayPal.'**
-  String get auto_myPrinimaemOplatuNalic;
-
-  /// No description provided for @auto_skolkoVremeniZanimaetD.
-  ///
-  /// In ru, this message translates to:
-  /// **'Сколько времени занимает доставка?'**
-  String get auto_skolkoVremeniZanimaetD;
-
-  /// No description provided for @auto_standartnayaDostavkaZan.
-  ///
-  /// In ru, this message translates to:
-  /// **'Стандартная доставка занимает 1-3 рабочих дня. Экспресс-доставка доступна в течение 24 часов.'**
-  String get auto_standartnayaDostavkaZan;
-
-  /// No description provided for @auto_moguLiYaOtmenitZakaz.
-  ///
-  /// In ru, this message translates to:
-  /// **'Могу ли я отменить заказ?'**
-  String get auto_moguLiYaOtmenitZakaz;
-
-  /// No description provided for @auto_vyMozheteOtmenitZakaz.
-  ///
-  /// In ru, this message translates to:
-  /// **'Вы можете отменить заказ в течение 30 минут после оформления. После этого заказ уже будет передан на склад для сборки.'**
-  String get auto_vyMozheteOtmenitZakaz;
-
-  /// No description provided for @auto_kakIzmenitAdresDostavk.
-  ///
-  /// In ru, this message translates to:
-  /// **'Как изменить адрес доставки?'**
-  String get auto_kakIzmenitAdresDostavk;
-
-  /// No description provided for @auto_profil.
-  ///
-  /// In ru, this message translates to:
-  /// **'�������'**
-  String get auto_profil;
-
-  /// No description provided for @auto_adresa.
-  ///
-  /// In ru, this message translates to:
-  /// **'������'**
-  String get auto_adresa;
-
-  /// No description provided for @auto_takzheMozhnoUkazatNov.
-  ///
-  /// In ru, this message translates to:
-  /// **'����� ����� ������� ����� ����� ��� ���������� ������.'**
-  String get auto_takzheMozhnoUkazatNov;
-
-  /// No description provided for @auto_chtoDelatEsliTovarNe.
-  ///
-  /// In ru, this message translates to:
-  /// **'Что делать если товар не подошел?'**
-  String get auto_chtoDelatEsliTovarNe;
-
-  /// No description provided for @auto_vyMozheteVernutTovarV.
-  ///
-  /// In ru, this message translates to:
-  /// **'Вы можете вернуть товар в течение 14 дней с момента получения. Свяжитесь с нашей службой поддержки для оформления возврата.'**
-  String get auto_vyMozheteVernutTovarV;
-
-  /// No description provided for @auto_kakSvyazatsyaSPodderzh.
-  ///
-  /// In ru, this message translates to:
-  /// **'Как связаться с поддержкой?'**
-  String get auto_kakSvyazatsyaSPodderzh;
-
-  /// No description provided for @auto_tehpodderzhka.
-  ///
-  /// In ru, this message translates to:
-  /// **'Техподдержка'**
-  String get auto_tehpodderzhka;
-
-  /// No description provided for @auto_vPrilozheniiPoElektro.
-  ///
-  /// In ru, this message translates to:
-  /// **'Вы можете связаться с нами через раздел \"Техподдержка\" в приложении, по электронной почте или по телефону горячей линии.'**
-  String get auto_vPrilozheniiPoElektro;
-
-  /// No description provided for @auto_estLiMinimalnayaSumma.
-  ///
-  /// In ru, this message translates to:
-  /// **'Есть ли минимальная сумма заказа?'**
-  String get auto_estLiMinimalnayaSumma;
-
-  /// No description provided for @auto_minimalnayaSummaZakaza.
-  ///
-  /// In ru, this message translates to:
-  /// **'Минимальная сумма заказа составляет 500 ₸. При заказе от 5000 ₸ доставка бесплатная.'**
-  String get auto_minimalnayaSummaZakaza;
 
   /// No description provided for @auto_voprosyIOtvety.
   ///

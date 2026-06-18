@@ -837,9 +837,9 @@
   "@qa_reviews_tab": {
     "description": "Название вкладки комментариев"
   },
-  "qa_questions_without_answers": "Вопросы, на которые уже даны ответы",
+  "qa_questions_without_answers": "Вопросы без ответа",
   "@qa_questions_without_answers": {
-    "description": "Тема секции вопросов с ответами"
+    "description": "Тема секции вопросов без ответов"
   },
   "qa_answered_questions": "Вопросы с ответами",
   "@qa_answered_questions": {
@@ -861,15 +861,15 @@
   "@qa_seller_answer": {
     "description": "Поставщик ответ подписка"
   },
-  "qa_without_answer": "Нет ответа",
+  "qa_without_answer": "Без ответа",
   "@qa_without_answer": {
     "description": "Метка вопроса без ответа"
   },
-  "qa_answer_sent_success": "Ответ отправлен успешно",
+  "qa_answer_sent_success": "Ответ успешно отправлен",
   "@qa_answer_sent_success": {
     "description": "Уведомление о моменте отправки ответа"
   },
-  "qa_answer_updated_success": "Ответ был успешно обновлен",
+  "qa_answer_updated_success": "Ответ успешно обновлен",
   "@qa_answer_updated_success": {
     "description": "Ответ уведомление о моменте обновления"
   },
@@ -1577,7 +1577,7 @@
   "@cart_template_save": {
     "description": "Кнопка Сохранить корзину как шаблон"
   },
-  "cart_template_title": "Образцы",
+  "cart_template_title": "Шаблоны",
   "@cart_template_title": {
     "description": "Заголовок списка шаблонов"
   },
@@ -1585,7 +1585,7 @@
   "@cart_template_login_required": {
     "description": "Требование авторизации для использования шаблонов"
   },
-  "cart_template_apply_error": "Не удалось применить образец",
+  "cart_template_apply_error": "Не удалось применить шаблон",
   "@cart_template_apply_error": {
     "description": "Ошибка использования шаблона"
   },
@@ -1665,7 +1665,7 @@
       }
     }
   },
-  "cart_template_delete_success": "Образец удален",
+  "cart_template_delete_success": "Шаблон удален",
   "@cart_template_delete_success": {
     "description": "Успешное удаление шаблона"
   },
@@ -1864,7 +1864,7 @@
   "@filters_sheet_title": {
     "description": "Зеленая тема фильтров"
   },
-  "filters_reset_button": "Восстановление",
+  "filters_reset_button": "Сбросить",
   "@filters_reset_button": {
     "description": "Кнопка сброса фильтров"
   },
@@ -1892,11 +1892,11 @@
   "@filter_sort_rating": {
     "description": "Сортировка по рейтингу"
   },
-  "filter_order_title": "Последовательность",
+  "filter_order_title": "Порядок",
   "@filter_order_title": {
     "description": "Секция последовательности сортировки"
   },
-  "filter_order_asc": "Заданный",
+  "filter_order_asc": "От меньшего к большему",
   "@filter_order_asc": {
     "description": "От меньшего до большего"
   },
@@ -2190,7 +2190,7 @@
   "@support_chat_title": {
     "description": "Тема чата техподдержки"
   },
-  "supplier_reset_button": "Восстановление",
+  "supplier_reset_button": "Сбросить",
   "@supplier_reset_button": {
     "description": "Кнопка сброса"
   },
@@ -4978,66 +4978,44 @@
   "@search_normalizer_auto_153": {
     "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
   },
-  "search_normalizer_auto_154": "ё",
-  "@search_normalizer_auto_154": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
-  "search_normalizer_auto_155": "й",
-  "@search_normalizer_auto_155": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
-  "search_normalizer_auto_156": "ц",
-  "@search_normalizer_auto_156": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
-  "search_normalizer_auto_157": "у",
-  "@search_normalizer_auto_157": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
-  "search_normalizer_auto_158": "к",
-  "@search_normalizer_auto_158": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
-  "search_normalizer_auto_159": "е",
-  "@search_normalizer_auto_159": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
-  "search_normalizer_auto_160": "н",
-  "@search_normalizer_auto_160": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
-  "search_normalizer_auto_161": "г",
-  "@search_normalizer_auto_161": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
-  "search_normalizer_auto_162": "ш",
-  "@search_normalizer_auto_162": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
-  "search_normalizer_auto_163": "щ",
-  "@search_normalizer_auto_163": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
-  "search_normalizer_auto_164": "з",
-  "@search_normalizer_auto_164": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
-  "search_normalizer_auto_165": "х",
-  "@search_normalizer_auto_165": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
-  "search_normalizer_auto_166": "ъ",
-  "@search_normalizer_auto_166": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
-  "search_normalizer_auto_167": "ф",
-  "@search_normalizer_auto_167": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
-  "search_normalizer_auto_168": "ы",
-  "@search_normalizer_auto_168": {
-    "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
-  },
+  "auto_kakSdelatZakaz": "Как сделать заказ?",
+  "@auto_kakSdelatZakaz": {},
+  "auto_chtobySdelatZakazVyber": "Чтобы сделать заказ, выберите товары из каталога, укажите необходимое количество (с учетом ограничений поставщика), добавьте их в корзину и подтвердите покупку.",
+  "@auto_chtobySdelatZakazVyber": {},
+  "auto_kakieSposobyOplatyDost": "Какие способы оплаты доступны?",
+  "@auto_kakieSposobyOplatyDost": {},
+  "auto_myPrinimaemOplatuNalic": "Мы принимаем оплату банковскими картами (Visa, Mastercard), а также наличными при получении заказа.",
+  "@auto_myPrinimaemOplatuNalic": {},
+  "auto_skolkoVremeniZanimaetD": "Сколько времени занимает доставка?",
+  "@auto_skolkoVremeniZanimaetD": {},
+  "auto_standartnayaDostavkaZan": "Сроки доставки определяются каждым поставщиком индивидуально. Вы можете увидеть ожидаемую дату доставки для каждого товара на его карточке или в корзине при оформлении заказа.",
+  "@auto_standartnayaDostavkaZan": {},
+  "auto_moguLiYaOtmenitZakaz": "Могу ли я отменить заказ?",
+  "@auto_moguLiYaOtmenitZakaz": {},
+  "auto_vyMozheteOtmenitZakaz": "Вы можете отменить заказ в течение 1 часа (60 минут) после оформления прямо из приложения, если поставщик еще не принял его в работу.",
+  "@auto_vyMozheteOtmenitZakaz": {},
+  "auto_kakIzmenitAdresDostavk": "Как изменить адрес доставки?",
+  "@auto_kakIzmenitAdresDostavk": {},
+  "auto_profil": "Профиль",
+  "@auto_profil": {},
+  "auto_adresa": "Адреса",
+  "@auto_adresa": {},
+  "auto_takzheMozhnoUkazatNov": "Также вы можете добавить или выбрать новый адрес прямо во время оформления заказа в корзине.",
+  "@auto_takzheMozhnoUkazatNov": {},
+  "auto_chtoDelatEsliTovarNe": "Что делать если товар не подошел?",
+  "@auto_chtoDelatEsliTovarNe": {},
+  "auto_vyMozheteVernutTovarV": "Если товар поврежден, имеет брак или не соответствует заказу, пожалуйста, свяжитесь с нашей службой поддержки в течение 14 дней для оформления возврата или замены.",
+  "@auto_vyMozheteVernutTovarV": {},
+  "auto_kakSvyazatsyaSPodderzh": "Как связаться с поддержкой?",
+  "@auto_kakSvyazatsyaSPodderzh": {},
+  "auto_tehpodderzhka": "Техподдержка",
+  "@auto_tehpodderzhka": {},
+  "auto_vPrilozheniiPoElektro": "в приложении (вкладка чата), а также по электронной почте или телефону горячей линии.",
+  "@auto_vPrilozheniiPoElektro": {},
+  "auto_estLiMinimalnayaSumma": "Есть ли минимальная сумма заказа?",
+  "@auto_estLiMinimalnayaSumma": {},
+  "auto_minimalnayaSummaZakaza": "Минимальная сумма общего заказа не ограничена, однако для большинства товаров поставщиками установлено минимальное количество для заказа (указано на карточке товара).",
+  "@auto_minimalnayaSummaZakaza": {},
   "search_normalizer_auto_169": "в",
   "@search_normalizer_auto_169": {
     "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"

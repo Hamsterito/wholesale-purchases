@@ -4,7 +4,6 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import '../core/ui/theme/app_dimensions.dart';
 import '../models/supplier_product.dart';
 import '../services/api/api_service.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
@@ -83,7 +82,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     DateTime.saturday: context.l10n.getString('auto_subbota_1'),
     DateTime.sunday: context.l10n.getString('auto_voskresene_1'),
   };
-  
+
   Map<int, String> get _weekdaysShort => <int, String>{
     DateTime.monday: context.l10n.getString('auto_pn_1'),
     DateTime.tuesday: context.l10n.getString('auto_vt'),
@@ -737,7 +736,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       ),
       bottomNavigationBar: SafeArea(
         top: false,
-        minimum: EdgeInsets.fromLTRB(16, 8, 16, AppDimensions.minBottomSafePadding),
+        minimum: const EdgeInsets.fromLTRB(16, 8, 16, 16),
         child: Material(
           type: MaterialType.transparency,
           child: Row(

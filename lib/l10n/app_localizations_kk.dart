@@ -628,7 +628,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get qa_reviews_tab => 'Пікірлер';
 
   @override
-  String get qa_questions_without_answers => 'Жауаптар берілген сұрақтар';
+  String get qa_questions_without_answers => 'Жауап берілмеген сұрақтар';
 
   @override
   String get qa_answered_questions => 'Жауаптары бар сұрақтар';
@@ -646,7 +646,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get qa_seller_answer => 'Жеткізушінің жауабы';
 
   @override
-  String get qa_without_answer => 'Жауап жоқ';
+  String get qa_without_answer => 'Жауап берілмеген';
 
   @override
   String get qa_answer_sent_success => 'Жауап сәтті жіберілді';
@@ -1382,10 +1382,10 @@ class AppLocalizationsKk extends AppLocalizations {
   String get filter_sort_rating => 'Рейтинг';
 
   @override
-  String get filter_order_title => 'Реттілік';
+  String get filter_order_title => 'Сұрыптау реті';
 
   @override
-  String get filter_order_asc => 'Берілген';
+  String get filter_order_asc => 'Кішіден үлкенге дейін';
 
   @override
   String get filter_order_desc => 'Үлкеннен кішіге дейін';
@@ -3992,49 +3992,72 @@ class AppLocalizationsKk extends AppLocalizations {
   String get search_normalizer_auto_153 => 'дж';
 
   @override
-  String get search_normalizer_auto_154 => 'е';
+  String get auto_kakSdelatZakaz => 'Қалай тапсырыс беруге болады?';
 
   @override
-  String get search_normalizer_auto_155 => 'ж';
+  String get auto_chtobySdelatZakazVyber =>
+      'Тапсырыс беру үшін каталогтан тауарларды таңдап, олардың қажетті санын көрсетіңіз (жеткізушінің ең аз тапсырыс көлемін ескере отырып), себетке қосып, сатып алуды растаңыз.';
 
   @override
-  String get search_normalizer_auto_156 => 'о';
+  String get auto_kakieSposobyOplatyDost => 'Қандай төлем әдістері бар?';
 
   @override
-  String get search_normalizer_auto_157 => 'у';
+  String get auto_myPrinimaemOplatuNalic =>
+      'Біз төлемді банктік карталармен (Visa, Mastercard), сондай-ақ тапсырысты алған кезде қолма-қол ақшамен қабылдаймыз.';
 
   @override
-  String get search_normalizer_auto_158 => 'к';
+  String get auto_skolkoVremeniZanimaetD => 'Жеткізу қанша уақытты алады?';
 
   @override
-  String get search_normalizer_auto_159 => 'е';
+  String get auto_standartnayaDostavkaZan =>
+      'Жеткізу мерзімдері әр жеткізушімен жеке анықталады. Күтілетін жеткізу күнін әр тауардың карточкасынан немесе себетте тапсырысты ресімдеу кезінде көре аласыз.';
 
   @override
-  String get search_normalizer_auto_160 => 'н';
+  String get auto_moguLiYaOtmenitZakaz => 'Тапсырыстан бас тарта аламын ба?';
 
   @override
-  String get search_normalizer_auto_161 => 'г';
+  String get auto_vyMozheteOtmenitZakaz =>
+      'Тапсырысты ресімдегеннен кейін 1 сағат (60 минут) ішінде, егер жеткізуші оны әлі жұмысқа қабылдамаса, одан тікелей қолданба арқылы бас тарта аласыз.';
 
   @override
-  String get search_normalizer_auto_162 => 'ш';
+  String get auto_kakIzmenitAdresDostavk =>
+      'Жеткізу мекенжайын қалай өзгертуге болады?';
 
   @override
-  String get search_normalizer_auto_163 => 'Ш';
+  String get auto_profil => 'Профиль';
 
   @override
-  String get search_normalizer_auto_164 => 'з';
+  String get auto_adresa => 'Мекенжайлар';
 
   @override
-  String get search_normalizer_auto_165 => 'х';
+  String get auto_takzheMozhnoUkazatNov =>
+      'Сондай-ақ тапсырысты ресімдеу кезінде себетте жаңа мекенжайды қосуға немесе таңдауға болады.';
 
   @override
-  String get search_normalizer_auto_166 => 'Коммерсант';
+  String get auto_chtoDelatEsliTovarNe =>
+      'Егер Өнім сәйкес келмесе не істеу керек?';
 
   @override
-  String get search_normalizer_auto_167 => 'ф';
+  String get auto_vyMozheteVernutTovarV =>
+      'Егер тауар зақымдалған, ақаулы болса немесе тапсырысқа сәйкес келмесе, қайтаруды немесе ауыстыруды рәсімдеу үшін 14 күн ішінде біздің қолдау қызметіне хабарласыңыз.';
 
   @override
-  String get search_normalizer_auto_168 => 'лар';
+  String get auto_kakSvyazatsyaSPodderzh =>
+      'Қолдаумен қалай байланысуға болады?';
+
+  @override
+  String get auto_tehpodderzhka => 'Техникалық қолдау';
+
+  @override
+  String get auto_vPrilozheniiPoElektro =>
+      'қолданбада (чат вкладкасы), сондай-ақ электрондық пошта немесе жедел желі телефоны арқылы.';
+
+  @override
+  String get auto_estLiMinimalnayaSumma => 'Тапсырыстың ең аз мөлшері бар ма?';
+
+  @override
+  String get auto_minimalnayaSummaZakaza =>
+      'Жалпы тапсырыстың ең аз сомасы шектелмеген, бірақ көптеген тауарлар үшін жеткізушілер тапсырыс берудің ең аз санын белгілеген (тауар карточкасында көрсетілген).';
 
   @override
   String get search_normalizer_auto_169 => 'в';
@@ -5005,74 +5028,6 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String get auto_nomerDolzhenBytVForma =>
       'Нөмір +7-XXX-XXX-XXXX форматында болуы керек';
-
-  @override
-  String get auto_kakSdelatZakaz => 'Қалай тапсырыс беруге болады?';
-
-  @override
-  String get auto_chtobySdelatZakazVyber =>
-      'Тапсырыс беру үшін каталогтан элементтерді таңдап, оларды себетке қосыңыз және жеткізу мекенжайы мен төлем әдісін көрсету арқылы тапсырыс беріңіз.';
-
-  @override
-  String get auto_kakieSposobyOplatyDost => 'Қандай төлем әдістері бар?';
-
-  @override
-  String get auto_myPrinimaemOplatuNalic =>
-      'Біз төлемді қолма-қол ақшамен, банктік карталармен (Visa, Mastercard), сондай-ақ PayPal арқылы қабылдаймыз.';
-
-  @override
-  String get auto_skolkoVremeniZanimaetD => 'Жеткізу қанша уақытты алады?';
-
-  @override
-  String get auto_standartnayaDostavkaZan =>
-      'Стандартты жеткізу 1-3 жұмыс күнін алады. Жедел жеткізу 24 сағат ішінде қол жетімді.';
-
-  @override
-  String get auto_moguLiYaOtmenitZakaz => 'Тапсырыстан бас тарта аламын ба?';
-
-  @override
-  String get auto_vyMozheteOtmenitZakaz =>
-      'Тапсырыстан кейін 30 минут ішінде бас тартуға болады. Осыдан кейін тапсырыс жинау үшін қоймаға жіберіледі.';
-
-  @override
-  String get auto_kakIzmenitAdresDostavk =>
-      'Жеткізу мекенжайын қалай өзгертуге болады?';
-
-  @override
-  String get auto_profil => '�������';
-
-  @override
-  String get auto_adresa => '�����������';
-
-  @override
-  String get auto_takzheMozhnoUkazatNov =>
-      '���������� �?����� ������ ��?� ���������� �� �?������� ������.';
-
-  @override
-  String get auto_chtoDelatEsliTovarNe =>
-      'Егер Өнім сәйкес келмесе не істеу керек?';
-
-  @override
-  String get auto_vyMozheteVernutTovarV =>
-      'Сіз затты алғаннан кейін 14 күн ішінде қайтара аласыз. Қайтаруды тіркеу үшін біздің қолдау қызметіне хабарласыңыз.';
-
-  @override
-  String get auto_kakSvyazatsyaSPodderzh =>
-      'Қолдаумен қалай байланысуға болады?';
-
-  @override
-  String get auto_tehpodderzhka => 'Техникалық қолдау';
-
-  @override
-  String get auto_vPrilozheniiPoElektro =>
-      'Бізбен қолданбадағы \"техникалық қолдау\" бөлімі, Электрондық пошта немесе сенім телефоны арқылы байланыса аласыз.';
-
-  @override
-  String get auto_estLiMinimalnayaSumma => 'Тапсырыстың ең аз мөлшері бар ма?';
-
-  @override
-  String get auto_minimalnayaSummaZakaza =>
-      'Тапсырыстың ең аз сомасы - 500 т. Тапсырыс беру кезінде 5000 теңгеден бастап жеткізу тегін.';
 
   @override
   String get auto_voprosyIOtvety => 'Сұрақтар мен жауаптар';

@@ -837,9 +837,9 @@
   "@qa_reviews_tab": {
     "description": "Название вкладки комментариев"
   },
-  "qa_questions_without_answers": "Жауаптар берілген сұрақтар",
+  "qa_questions_without_answers": "Жауап берілмеген сұрақтар",
   "@qa_questions_without_answers": {
-    "description": "Тема секции вопросов с ответами"
+    "description": "Тема секции вопросов без ответов"
   },
   "qa_answered_questions": "Жауаптары бар сұрақтар",
   "@qa_answered_questions": {
@@ -861,7 +861,7 @@
   "@qa_seller_answer": {
     "description": "Поставщик ответ подписка"
   },
-  "qa_without_answer": "Жауап жоқ",
+  "qa_without_answer": "Жауап берілмеген",
   "@qa_without_answer": {
     "description": "Метка вопроса без ответа"
   },
@@ -1892,11 +1892,11 @@
   "@filter_sort_rating": {
     "description": "Сортировка по рейтингу"
   },
-  "filter_order_title": "Реттілік",
+  "filter_order_title": "Сұрыптау реті",
   "@filter_order_title": {
     "description": "Секция последовательности сортировки"
   },
-  "filter_order_asc": "Берілген",
+  "filter_order_asc": "Кішіден үлкенге дейін",
   "@filter_order_asc": {
     "description": "От меньшего до большего"
   },
@@ -5795,41 +5795,41 @@
   "@auto_nomerDolzhenBytVForma": {},
   "auto_kakSdelatZakaz": "Қалай тапсырыс беруге болады?",
   "@auto_kakSdelatZakaz": {},
-  "auto_chtobySdelatZakazVyber": "Тапсырыс беру үшін каталогтан элементтерді таңдап, оларды себетке қосыңыз және жеткізу мекенжайы мен төлем әдісін көрсету арқылы тапсырыс беріңіз.",
+  "auto_chtobySdelatZakazVyber": "Тапсырыс беру үшін каталогтан тауарларды таңдап, олардың қажетті санын көрсетіңіз (жеткізушінің ең аз тапсырыс көлемін ескере отырып), себетке қосып, сатып алуды растаңыз.",
   "@auto_chtobySdelatZakazVyber": {},
   "auto_kakieSposobyOplatyDost": "Қандай төлем әдістері бар?",
   "@auto_kakieSposobyOplatyDost": {},
-  "auto_myPrinimaemOplatuNalic": "Біз төлемді қолма-қол ақшамен, банктік карталармен (Visa, Mastercard), сондай-ақ PayPal арқылы қабылдаймыз.",
+  "auto_myPrinimaemOplatuNalic": "Біз төлемді банктік карталармен (Visa, Mastercard), сондай-ақ тапсырысты алған кезде қолма-қол ақшамен қабылдаймыз.",
   "@auto_myPrinimaemOplatuNalic": {},
   "auto_skolkoVremeniZanimaetD": "Жеткізу қанша уақытты алады?",
   "@auto_skolkoVremeniZanimaetD": {},
-  "auto_standartnayaDostavkaZan": "Стандартты жеткізу 1-3 жұмыс күнін алады. Жедел жеткізу 24 сағат ішінде қол жетімді.",
+  "auto_standartnayaDostavkaZan": "Жеткізу мерзімдері әр жеткізушімен жеке анықталады. Күтілетін жеткізу күнін әр тауардың карточкасынан немесе себетте тапсырысты ресімдеу кезінде көре аласыз.",
   "@auto_standartnayaDostavkaZan": {},
   "auto_moguLiYaOtmenitZakaz": "Тапсырыстан бас тарта аламын ба?",
   "@auto_moguLiYaOtmenitZakaz": {},
-  "auto_vyMozheteOtmenitZakaz": "Тапсырыстан кейін 30 минут ішінде бас тартуға болады. Осыдан кейін тапсырыс жинау үшін қоймаға жіберіледі.",
+  "auto_vyMozheteOtmenitZakaz": "Тапсырысты ресімдегеннен кейін 1 сағат (60 минут) ішінде, егер жеткізуші оны әлі жұмысқа қабылдамаса, одан тікелей қолданба арқылы бас тарта аласыз.",
   "@auto_vyMozheteOtmenitZakaz": {},
   "auto_kakIzmenitAdresDostavk": "Жеткізу мекенжайын қалай өзгертуге болады?",
   "@auto_kakIzmenitAdresDostavk": {},
-  "auto_profil": "�������",
+  "auto_profil": "Профиль",
   "@auto_profil": {},
-  "auto_adresa": "�����������",
+  "auto_adresa": "Мекенжайлар",
   "@auto_adresa": {},
-  "auto_takzheMozhnoUkazatNov": "���������� �?����� ������ ��?� ���������� �� �?������� ������.",
+  "auto_takzheMozhnoUkazatNov": "Сондай-ақ тапсырысты ресімдеу кезінде себетте жаңа мекенжайды қосуға немесе таңдауға болады.",
   "@auto_takzheMozhnoUkazatNov": {},
   "auto_chtoDelatEsliTovarNe": "Егер Өнім сәйкес келмесе не істеу керек?",
   "@auto_chtoDelatEsliTovarNe": {},
-  "auto_vyMozheteVernutTovarV": "Сіз затты алғаннан кейін 14 күн ішінде қайтара аласыз. Қайтаруды тіркеу үшін біздің қолдау қызметіне хабарласыңыз.",
+  "auto_vyMozheteVernutTovarV": "Егер тауар зақымдалған, ақаулы болса немесе тапсырысқа сәйкес келмесе, қайтаруды немесе ауыстыруды рәсімдеу үшін 14 күн ішінде біздің қолдау қызметіне хабарласыңыз.",
   "@auto_vyMozheteVernutTovarV": {},
   "auto_kakSvyazatsyaSPodderzh": "Қолдаумен қалай байланысуға болады?",
   "@auto_kakSvyazatsyaSPodderzh": {},
   "auto_tehpodderzhka": "Техникалық қолдау",
   "@auto_tehpodderzhka": {},
-  "auto_vPrilozheniiPoElektro": "Бізбен қолданбадағы \"техникалық қолдау\" бөлімі, Электрондық пошта немесе сенім телефоны арқылы байланыса аласыз.",
+  "auto_vPrilozheniiPoElektro": "қолданбада (чат вкладкасы), сондай-ақ электрондық пошта немесе жедел желі телефоны арқылы.",
   "@auto_vPrilozheniiPoElektro": {},
   "auto_estLiMinimalnayaSumma": "Тапсырыстың ең аз мөлшері бар ма?",
   "@auto_estLiMinimalnayaSumma": {},
-  "auto_minimalnayaSummaZakaza": "Тапсырыстың ең аз сомасы - 500 т. Тапсырыс беру кезінде 5000 теңгеден бастап жеткізу тегін.",
+  "auto_minimalnayaSummaZakaza": "Жалпы тапсырыстың ең аз сомасы шектелмеген, бірақ көптеген тауарлар үшін жеткізушілер тапсырыс берудің ең аз санын белгілеген (тауар карточкасында көрсетілген).",
   "@auto_minimalnayaSummaZakaza": {},
   "auto_voprosyIOtvety": "Сұрақтар мен жауаптар",
   "@auto_voprosyIOtvety": {},

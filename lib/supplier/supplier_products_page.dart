@@ -368,7 +368,7 @@ Expanded(
                                 ? const SizedBox(
                                     width: 20,
                                     height: 20,
-                                    child: CircularProgressIndicator(
+                                    child: CircularProgressIndicator(strokeCap: StrokeCap.round, 
                                       strokeWidth: 2,
                                     ),
                                   )
@@ -447,7 +447,8 @@ Expanded(
               ],
             ),
 
-            if (product.moderationComment.isNotEmpty) ...[
+            if (product.moderationStatus == 'rejected' &&
+                product.moderationComment.isNotEmpty) ...[
               const SizedBox(height: 12),
               Container(
                 width: double.infinity,
@@ -552,7 +553,7 @@ Expanded(
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.myProducts)),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator(strokeCap: StrokeCap.round))
           : _error != null
           ? Center(
               child: Padding(
