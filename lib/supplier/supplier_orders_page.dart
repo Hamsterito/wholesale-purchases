@@ -525,7 +525,7 @@ Future<void> _updateOrderStatus(SupplierOrder order, String status) async {
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.buyerOrders)),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator(strokeCap: StrokeCap.round))
           : _error != null
           ? Center(child: Text(_error!))
           : Column(
@@ -590,7 +590,7 @@ Future<void> _updateOrderStatus(SupplierOrder order, String status) async {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            context.l10n.filterLabel,
+            context.l10n.getString('auto_filtr'),
             style: TextStyle(
               fontSize: 14,
               color: colorScheme.onSurface,
@@ -612,9 +612,9 @@ Future<void> _updateOrderStatus(SupplierOrder order, String status) async {
                   Expanded(
                     child: Text(
                       rangeLabel,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -641,23 +641,24 @@ Future<void> _updateOrderStatus(SupplierOrder order, String status) async {
                 ),
                 elevation: 0,
               ),
-child: _isExportingHistory
-                   ? const SizedBox(
-                       width: 18,
-                       height: 18,
-                       child: CircularProgressIndicator(
-                         strokeWidth: 2,
-                         color: Colors.white,
-                       ),
-                     )
-                   : Text(
-                       context.l10n.exportToExcel,
-                       style: TextStyle(
-                         fontSize: 15,
-                         fontWeight: FontWeight.w500,
-                         color: Colors.white,
-                       ),
-                     ),
+              child: _isExportingHistory
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                        strokeCap: StrokeCap.round,
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                  : Text(
+                      context.l10n.getString('auto_eksportirovatVExcel'),
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    ),
             ),
           ),
         ],
