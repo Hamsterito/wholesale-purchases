@@ -131,9 +131,11 @@ Future<void> _cleanupExpiredPasswordResets(Connection connection) async {
 
 // Отправка email с кодом подтверждения
 Future<void> _sendVerificationEmail(String toEmail, String code) async {
-  // Получаем учетные данные SMTP из переменных окружения
-  final smtpUser = env['SMTP_USERNAME'];
-  final smtpPass = env['SMTP_PASSWORD'];
+  // Сначала читаем из .env файла, при его отсутствии (Docker) - из переменных процесса
+  final smtpUser =
+      env['SMTP_USERNAME'] ?? Platform.environment['SMTP_USERNAME'];
+  final smtpPass =
+      env['SMTP_PASSWORD'] ?? Platform.environment['SMTP_PASSWORD'];
   if (smtpUser == null || smtpPass == null) {
     print(
       'SMTP учетные данные не настроены в переменных окружения. Пропускаем отправку email.',
@@ -166,8 +168,11 @@ Future<void> _sendVerificationEmail(String toEmail, String code) async {
 // SMTP не пробрасываем - вызывающий код всё равно дёргает функцию из
 // Future.microtask и не должен падать из-за сбоя почты.
 Future<void> _sendAdminDisableEmail(String toEmail) async {
-  final smtpUser = env['SMTP_USERNAME'];
-  final smtpPass = env['SMTP_PASSWORD'];
+  // Сначала читаем из .env файла, при его отсутствии (Docker) - из переменных процесса
+  final smtpUser =
+      env['SMTP_USERNAME'] ?? Platform.environment['SMTP_USERNAME'];
+  final smtpPass =
+      env['SMTP_PASSWORD'] ?? Platform.environment['SMTP_PASSWORD'];
   if (smtpUser == null || smtpPass == null) {
     print(
       'SMTP учетные данные не настроены в переменных окружения. '
