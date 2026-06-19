@@ -112,7 +112,7 @@ Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  '${supplier.pricePerUnit} \u20B8',
+                  context.formatCurrency(supplier.pricePerUnit.toDouble(), decimalDigits: 0),
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -133,7 +133,7 @@ Row(
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    '$totalPrice \u20B8',
+                    context.formatCurrency(totalPrice.toDouble(), decimalDigits: 0),
                     style: TextStyle(
                       fontSize: 11,
                       color: palette.accent,

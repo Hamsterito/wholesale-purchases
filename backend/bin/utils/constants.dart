@@ -2,7 +2,7 @@ part of '../backend.dart';
 
 // Глобальные константы, регэкспы и shared-инстансы (env, support events).
 
-final env = DotEnv()..load([File('${Directory.current.path}/.env').path]);
+final env = DotEnv(includePlatformEnvironment: true, quiet: true)..load([File('${Directory.current.path}/.env').path]);
 
 // Роль пользователя по умолчанию
 const String _defaultRole = 'buyer';

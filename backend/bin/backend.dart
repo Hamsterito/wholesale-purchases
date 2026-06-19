@@ -25,6 +25,7 @@ part 'utils/order_helpers.dart';
 part 'utils/address_helpers.dart';
 part 'utils/product_helpers.dart';
 part 'utils/avatar_helpers.dart';
+part 'utils/exchange_rate_helper.dart';
 
 part 'schema_tables.dart';
 part 'crud_operations.dart';
@@ -88,6 +89,9 @@ void main() async {
   // Дефолтный поставщик dima@gmail.com / 123456 - удобный аккаунт для разработки.
   await _ensureDefaultSupplierUser(connection);
 
+  // Проверка и обновление курсов валют при запуске
+  await checkAndUpdateExchangeRates(connection);
+
   final router = Router();
 
   // Read-роуты (GET) и POST /login
@@ -130,6 +134,11 @@ void main() async {
     await _cleanupExpiredPasswordResets(connection);
     await _cleanupExpiredTwoFactorPendingSessions(connection);
     await _cleanupExpiredTrustedDevices(connection);
+  });
+
+  // Запуск периодической проверки курсов валют (каждый час)
+  Timer.periodic(const Duration(hours: 1), (_) async {
+    await checkAndUpdateExchangeRates(connection);
   });
 
   // Запуск HTTP сервера на порту 8081

@@ -1,4 +1,4 @@
-﻿part of 'backend.dart';
+part of 'backend.dart';
 
 const List<Map<String, Object?>> _catalogHierarchySeed = [
   {
@@ -154,6 +154,25 @@ Future<void> _ensureDatabaseSchema(Connection connection) async {
   await _ensureSupportSchema(connection);
   await _dropLegacyChatsSchema(connection);
   await _ensureQuestionsSchema(connection);
+  await _ensureExchangeRatesSchema(connection);
+}
+
+/// Создание таблицы курсов валют и заполнение начальных значений.
+Future<void> _ensureExchangeRatesSchema(Connection connection) async {
+  await connection.execute('''
+    CREATE TABLE IF NOT EXISTS public.exchange_rates (
+      currency_code VARCHAR(10) PRIMARY KEY,
+      rate NUMERIC(10, 6) NOT NULL,
+      updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+    );
+  ''');
+
+  // Добавление дефолтного значения для рубля при первой инициализации
+  await connection.execute('''
+    INSERT INTO public.exchange_rates (currency_code, rate, updated_at)
+    VALUES ('RUB', 0.1, NOW())
+    ON CONFLICT (currency_code) DO NOTHING;
+  ''');
 }
 
 Future<void> _ensureUserSchema(Connection connection) async {

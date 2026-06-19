@@ -17,10 +17,11 @@ extension LocalizationExtension on BuildContext {
   /// Получает текущую валюту
   CurrencyCode get currentCurrency => AppSettings.currency.value.code;
 
-  /// Форматирует сумму в текущей валюте
+  /// Форматирует сумму в текущей валюте (автоматическая конвертация из KZT)
   String formatCurrency(double amount, {int decimalDigits = 2}) {
-    return CurrencyFormatter.formatAmount(
+    return CurrencyFormatter.convertAndFormat(
       amount,
+      CurrencyCode.kzt,
       currentCurrency,
       decimalDigits: decimalDigits,
       language: currentLanguage,

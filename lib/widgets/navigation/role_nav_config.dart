@@ -79,6 +79,7 @@ List<RoleNavTab> tabsForRole(NavRole role, BuildContext context) {
           icon: 'assets/icons/profile.svg',
           activeIcon: 'assets/icons/profile_active.svg',
           pageBuilder: (_) => const ProfilePage(),
+          badgeCount: notifications.unreadMessagesCount,
         ),
       ];
 

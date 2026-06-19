@@ -1830,7 +1830,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
       buf.write(s[i]);
       count++;
     }
-    return '${buf.toString().split('').reversed.join()} ₸';
+    return context.formatCurrency(amount.toDouble(), decimalDigits: 0);
   }
 
   String _fmtDate(DateTime date) {

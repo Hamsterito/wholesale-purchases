@@ -383,7 +383,6 @@ title: Text(
 
   Widget _buildOrderCard(Order order) {
     final l10n = AppLocalizations.of(context);
-    final totalAmount = _formatMoney(order.totalAmount);
     final isAccepting = _acceptingOrders.contains(order.id);
     final isCancelling = _cancelingOrders.contains(order.id);
 
@@ -488,7 +487,7 @@ title: Text(
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  '$totalAmount ₸',
+                  context.formatCurrency(order.totalAmount.toDouble(), decimalDigits: 0),
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
@@ -510,7 +509,6 @@ title: Text(
     required AppLocalizations l10n,
   }) {
     final canReceive = _isDeliveredStatus(orderStatus) && !isAccepting;
-    final priceLabel = _formatMoney(item.price);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
@@ -547,7 +545,7 @@ title: Text(
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
-                      '$priceLabel ₸',
+                      context.formatCurrency(item.price.toDouble(), decimalDigits: 0),
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
@@ -981,7 +979,6 @@ title: Text(
 
   Future<bool> _showAcceptDialog(Order order) async {
     final l10n = AppLocalizations.of(context);
-    final totalAmount = _formatMoney(order.totalAmount);
     final result = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
@@ -1007,7 +1004,7 @@ title: Text(
                 Text(
                   l10n.getString('zakazi_order_amount', params: {
                     'orderId': order.id,
-                    'amount': totalAmount,
+                    'amount': context.formatCurrency(order.totalAmount.toDouble(), decimalDigits: 0),
                   }),
                   style: TextStyle(fontSize: 14, color: _mutedText),
                   textAlign: TextAlign.center,
@@ -1206,16 +1203,5 @@ Future<void> _acceptOrder(Order order) async {
     }
   }
 
-  String _formatMoney(int value) {
-    final digits = value.toString();
-    final buffer = StringBuffer();
-    for (int i = 0; i < digits.length; i++) {
-      final positionFromEnd = digits.length - i;
-      buffer.write(digits[i]);
-      if (positionFromEnd > 1 && positionFromEnd % 3 == 1) {
-        buffer.write(' ');
-      }
-    }
-    return buffer.toString();
-  }
+
 }

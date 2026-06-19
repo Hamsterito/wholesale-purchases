@@ -136,7 +136,7 @@
   "@auth_logout": {
     "description": "Кнопка выхода из аккаунта"
   },
-  "catalog_title": "�������",
+  "catalog_title": "Каталог",
   "@catalog_title": {
     "description": "Заголовок страницы каталога"
   },
@@ -156,7 +156,7 @@
   "@catalog_no_products": {
     "description": "Уведомление об отсутствии товаров"
   },
-  "cart_title": "�����",
+  "cart_title": "Себет",
   "@cart_title": {
     "description": "Тема страницы корзины"
   },
@@ -184,7 +184,7 @@
   "@cart_payment_button": {
     "description": "Кнопка оплаты Заказа"
   },
-  "order_title": "�����������",
+  "order_title": "Тапсырыстар",
   "@order_title": {
     "description": "Заголовок страницы заказов"
   },
@@ -220,7 +220,7 @@
   "@product_review_share": {
     "description": "Совет поля мнений"
   },
-  "profile_title": "�������",
+  "profile_title": "Профиль",
   "@profile_title": {
     "description": "Заголовок страницы профиля"
   },
@@ -248,7 +248,7 @@
   "@profile_edit_field_hint": {
     "description": "Совет поля редактирования профиля"
   },
-  "supplier_products": "����? ����������",
+  "supplier_products": "Өнімдер",
   "@supplier_products": {
     "description": "Заголовок страницы товаров поставщика"
   },
@@ -1222,23 +1222,23 @@
   "@settings_app_version": {
     "description": "Значок версии приложения"
   },
-  "nav_home": "�����",
+  "nav_home": "Басты бет",
   "@nav_home": {
     "description": "Навигация: Домашняя страница"
   },
-  "nav_statistics": "����������",
+  "nav_statistics": "Статистика",
   "@nav_statistics": {
     "description": "Навигация: статистика"
   },
-  "nav_moderation": "���������",
+  "nav_moderation": "Модерациялау",
   "@nav_moderation": {
     "description": "Навигация: модерация"
   },
-  "nav_chats": "������",
+  "nav_chats": "Чаттар",
   "@nav_chats": {
     "description": "Навигация: чаты поддержки"
   },
-  "nav_moderators": "������������",
+  "nav_moderators": "Модераторлар",
   "@nav_moderators": {
     "description": "Навигация: список модераторов"
   },
@@ -1405,7 +1405,7 @@
   "@zakazi_confirm_acceptance": {
     "description": "Тема диалога подтверждения получения"
   },
-  "zakazi_order_amount": "Тапсырыс {orderId} - сомасы {amount} ₸",
+  "zakazi_order_amount": "Тапсырыс {orderId} - сомасы {amount}",
   "@zakazi_order_amount": {
     "description": "Сумма заказа",
     "placeholders": {
@@ -4095,7 +4095,7 @@
   "@auto_udalit_tovar_za_narushenie": {
     "description": "Auto-extracted"
   },
-  "auto_prichina_udaleniya_dlya_postavschik": "Жою",
+  "auto_prichina_udaleniya_dlya_postavschik": "Жою себебін енгізіңіз (жеткізушіге көрінеді)",
   "@auto_prichina_udaleniya_dlya_postavschik": {
     "description": "Auto-extracted"
   },
@@ -4587,7 +4587,7 @@
   "product_removed_from_cart": "Себеттен алынып тасталды: {name}",
   "product_tab_reviews": "Бағалау ({count})",
   "product_tab_questions": "Сұрақтар ({count})",
-  "product_price_per_unit": "{price} ₸ / дана",
+  "product_price_per_unit": "{price} / дана",
   "product_in_stock": "Қолда бар: {count} дана.",
   "product_reviews_label": "{count} бағалау",
   "order_history_order_number": "Тапсырыс №{id}",
@@ -6250,7 +6250,7 @@
   "@auto_tsenaIUsloviya": {},
   "auto_minimalnyeKolichestvaI": "Минималды мөлшер және жеткізу.",
   "@auto_minimalnyeKolichestvaI": {},
-  "auto_tsenaZaEdinitsu": "Бір бірліктің бағасы (₸)",
+  "auto_tsenaZaEdinitsu": "Бір бірліктің бағасы",
   "@auto_tsenaZaEdinitsu": {},
   "auto_naprimer1450": "Мысалы, 1450",
   "@auto_naprimer1450": {},

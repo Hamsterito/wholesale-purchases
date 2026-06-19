@@ -7,6 +7,7 @@ import '../services/api/api_service.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../services/store/favorites_store.dart';
 import '../services/store/supplier_stats_store.dart';
+import '../services/store/app_settings.dart';
 import '../theme/app_color_palette.dart';
 import '../utils/rating_format.dart';
 import '../utils/search_normalizer.dart';
@@ -902,8 +903,8 @@ TextButton(
                     },
                     activeColor: context.colorPalette.accent,
                     labels: RangeLabels(
-                      '${priceRange.start.toInt()} ₸',
-                      maxUnlimited ? '∞' : '${priceRange.end.toInt()} ₸',
+                      context.formatCurrency(priceRange.start.toDouble(), decimalDigits: 0),
+                      maxUnlimited ? '\u221e' : context.formatCurrency(priceRange.end.toDouble(), decimalDigits: 0),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -1208,9 +1209,9 @@ TextButton(
               ),
             ),
             const SizedBox(width: 6),
-            const Text(
-              '₸',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            Text(
+              AppSettings.currency.value.symbol,
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ],
         ),

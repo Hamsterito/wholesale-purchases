@@ -2175,3 +2175,38 @@ void _registerBuyerReadRoutes(Router router, Connection connection) {
     }
   });
 }
+
+/// Регистрация роута для получения курсов валют.
+void _registerExchangeRatesRoutes(Router router, Connection connection) {
+  router.get('/exchange-rates', (Request request) async {
+    try {
+      final result = await connection.execute(
+        'SELECT currency_code, rate FROM public.exchange_rates;'
+      );
+      
+      final rates = <String, double>{
+        'KZT': 1.0, // Базовая валюта приложения
+      };
+
+      for (final row in result) {
+        final map = row.toColumnMap();
+        final code = map['currency_code']?.toString() ?? '';
+        final rateVal = double.tryParse(map['rate']?.toString() ?? '') ?? 0.0;
+        if (code.isNotEmpty && rateVal > 0) {
+          rates[code] = rateVal;
+        }
+      }
+
+      return Response.ok(
+        jsonEncode(rates),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Ошибка при обработке запроса курсов валют: $e\n$st');
+      return Response.internalServerError(
+        body: 'Внутренняя ошибка сервера при получении курсов валют',
+        headers: {'content-type': 'text/plain; charset=utf-8'},
+      );
+    }
+  });
+}

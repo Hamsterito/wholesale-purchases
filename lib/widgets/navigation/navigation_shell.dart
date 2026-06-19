@@ -6,6 +6,9 @@ import 'package:flutter_project/widgets/messages/top_message.dart';
 import 'nav_role.dart';
 import 'role_nav_config.dart';
 import 'role_navigation_bar.dart';
+import 'package:flutter_project/services/moderation_alert_service.dart';
+import 'package:flutter_project/widgets/messages/moderation_alert_banner.dart';
+import 'package:flutter_project/profile/support_chat_page.dart';
 
 /// Корневой контейнер навигации. Читает роль один раз при монтировании,
 /// строит набор вкладок и хостит их страницы в IndexedStack.
@@ -34,6 +37,10 @@ class _NavigationShellState extends State<NavigationShell>
     _role = resolveNavRole(AuthStorage.role);
     _currentIndex = widget.initialIndex;
     WidgetsBinding.instance.addObserver(this);
+    
+    if (_role == NavRole.supplier) {
+      ModerationAlertService().checkNewAlerts();
+    }
   }
 
   @override
@@ -78,10 +85,37 @@ class _NavigationShellState extends State<NavigationShell>
     }
 
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
+      body: Column(
         children: [
-          for (final tab in _tabs) tab.pageBuilder(context),
+          Expanded(
+            child: IndexedStack(
+              index: _currentIndex,
+              children: [
+                for (final tab in _tabs) tab.pageBuilder(context),
+              ],
+            ),
+          ),
+          if (_role == NavRole.supplier)
+            ListenableBuilder(
+              listenable: ModerationAlertService(),
+              builder: (context, _) {
+                final service = ModerationAlertService();
+                return ModerationAlertBanner(
+                  alerts: service.pendingAlerts
+                      .map((msg) => ModerationAlertService.parseMessageText(msg.text))
+                      .toList(),
+                  onDismiss: () => service.dismissAllAlerts(),
+                  onContactSupport: () {
+                    service.dismissAllAlerts();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const UserSupportChatPage(),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
         ],
       ),
       bottomNavigationBar: RoleNavigationBar(

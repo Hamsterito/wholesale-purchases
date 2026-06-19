@@ -68,4 +68,7 @@ void _registerReadRoutes(Router router, Connection connection) {
 
   // Логин
   _registerLoginRoute(router, connection);
+
+  // Курсы валют
+  _registerExchangeRatesRoutes(router, connection);
 }

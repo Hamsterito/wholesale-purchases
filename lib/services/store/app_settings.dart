@@ -5,6 +5,7 @@ import '../../models/currency.dart';
 import '../storage/shared_prefs_provider.dart';
 import '../localization/app_localizations.dart';
 import '../message/message_localization.dart';
+import '../api/api_service.dart';
 
 class AppSettings {
   AppSettings._();
@@ -50,6 +51,15 @@ class AppSettings {
       final selectedCurr =
           currCode != null ? Currency.fromCode(currCode) : null;
       currency.value = selectedCurr ?? Currency.defaultCurrency;
+
+      // Загрузка актуального курса валют
+      try {
+        final rates = await ApiService.getExchangeRates();
+        Currency.updateRates(rates);
+      } catch (e) {
+        // При ошибке ловим исключение и продолжаем инициализацию приложения с дефолтными курсами
+        debugPrint('Не удалось обновить курсы валют: $e');
+      }
     } catch (e) {
       // В случае ошибки инициализации используем значения по умолчанию
       themeMode.value = ThemeMode.light;

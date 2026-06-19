@@ -327,16 +327,7 @@ class _TemplateCard extends StatelessWidget {
     );
   }
 
-  static String _formatPrice(int amount) {
-    final str = amount.toString();
-    final buf = StringBuffer();
-    for (var i = 0; i < str.length; i++) {
-      final remaining = str.length - i;
-      buf.write(str[i]);
-      if (remaining > 1 && remaining % 3 == 1) buf.write(' ');
-    }
-    return buf.toString();
-  }
+
 
   Widget _buildMenu(BuildContext context) {
     return PopupMenuButton<_TemplateAction>(
@@ -419,8 +410,8 @@ Widget _buildItemsList() {
   String _summaryLine(BuildContext context) {
     final positions = template.items.length;
     final units = _totalUnits;
-    final amount = _formatPrice(_totalAmount);
-    return '$positions ${context.l10n.templatesSheetPositionShort} · $units ${context.l10n.templatesSheetUnitShort} · $amount ₸';
+    final amount = _totalAmount;
+    return '$positions ${context.l10n.templatesSheetPositionShort} \u00b7 $units ${context.l10n.templatesSheetUnitShort} \u00b7 ${context.formatCurrency(amount.toDouble(), decimalDigits: 0)}';
   }
 
   Widget _buildApplyButton(BuildContext context) {
@@ -501,8 +492,8 @@ class _TemplateItemRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4),
-Text(
-                   '${_TemplateCard._formatPrice(item.pricePerUnit)} ₸ · ${item.quantity} ${context.l10n.templatesSheetUnitShort}',
+                Text(
+                   '${context.formatCurrency(item.pricePerUnit.toDouble(), decimalDigits: 0)} \u00b7 ${item.quantity} ${context.l10n.templatesSheetUnitShort}',
                    style: TextStyle(
                      fontSize: 12,
                      fontWeight: FontWeight.w500,

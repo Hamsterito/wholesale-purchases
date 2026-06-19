@@ -113,19 +113,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
     return '$day.$month.${date.year}';
   }
 
-  String _formatMoney(int value) {
-    final digits = value.abs().toString();
-    final buffer = StringBuffer();
-    for (int i = 0; i < digits.length; i++) {
-      final positionFromEnd = digits.length - i;
-      buffer.write(digits[i]);
-      if (positionFromEnd > 1 && positionFromEnd % 3 == 1) {
-        buffer.write(' ');
-      }
-    }
-    final formatted = buffer.toString();
-    return value < 0 ? '-$formatted' : formatted;
-  }
+
 
   String _normalizeStatus(String status) {
     return status.trim().toLowerCase();
@@ -978,7 +966,7 @@ _buildMetaBadge(
   }
 
   Widget _buildHistoryTitle(SupplierOrder order) {
-    final amountText = '${_formatMoney(order.totalAmount)} ₸';
+    final amountText = context.formatCurrency(order.totalAmount.toDouble(), decimalDigits: 0);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1260,7 +1248,7 @@ child: Column(
                          ),
                          const SizedBox(width: 12),
                          Text(
-                           '${item.quantity} × ${_formatMoney(item.price)} ₸',
+                           '${item.quantity} \u00d7 ${context.formatCurrency(item.price.toDouble(), decimalDigits: 0)}',
                            style: TextStyle(
                              color: colorScheme.onSurfaceVariant,
                              fontWeight: FontWeight.w500,
@@ -1272,7 +1260,7 @@ child: Column(
                      Align(
                        alignment: Alignment.centerRight,
                        child: Text(
-                         '${_formatMoney(lineTotal)} ₸',
+                         context.formatCurrency(lineTotal.toDouble(), decimalDigits: 0),
                          style: const TextStyle(fontWeight: FontWeight.w700),
                        ),
                      ),
@@ -1311,7 +1299,7 @@ child: Column(
                    ),
                  ),
                  Text(
-                   '${_formatMoney(order.totalAmount)} ₸',
+                   context.formatCurrency(order.totalAmount.toDouble(), decimalDigits: 0),
                    style: const TextStyle(
                      fontSize: 16,
                      fontWeight: FontWeight.w800,
@@ -1389,7 +1377,7 @@ if (order.items.isEmpty)
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '${_formatMoney(lineTotal)} ₸',
+                          context.formatCurrency(lineTotal.toDouble(), decimalDigits: 0),
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w800,

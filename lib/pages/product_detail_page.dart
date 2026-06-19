@@ -1211,7 +1211,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '${supplier.pricePerUnit} \u20B8/\u0448\u0442',
+                      '${context.formatCurrency(supplier.pricePerUnit.toDouble(), decimalDigits: 0)}/\u0448\u0442',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -1310,7 +1310,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              '$totalPrice \u20B8',
+                              context.formatCurrency(totalPrice.toDouble(), decimalDigits: 0),
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,

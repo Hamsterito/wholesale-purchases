@@ -394,10 +394,10 @@ class AiService {
 Ты опытный бизнес-аналитик оптовой торговой площадки. Проанализируй показатели работы поставщика и подготовь короткое, конкретное и полезное резюме на русском языке.
 
 Показатели поставщика:
-• Общая выручка: $totalRevenue ₸
-• Выручка за месяц: $monthlyRevenue ₸
+• Общая выручка: $totalRevenue
+• Выручка за месяц: $monthlyRevenue
 • Всего заказов: $totalOrders
-• Средний чек: $averageOrderValue ₸
+• Средний чек: $averageOrderValue
 • Рейтинг покупателей: $averageRating из 5.0 (отзывов: $totalReviews)
 • Доля повторных покупателей: $repeatBuyersPercentage%
 • Новых покупателей за месяц: $newBuyersThisMonth

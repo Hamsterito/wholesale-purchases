@@ -75,10 +75,19 @@ class Currency {
 
   /// Курсы обмена относительно базовой валюты (KZT = 1.0)
   /// Статические курсы. 1 KZT = 0.1 RUB примерно
-  static const Map<String, double> exchangeRates = {
+  static Map<String, double> exchangeRates = {
     'KZT': 1.0,
     'RUB': 0.1, // 1 KZT ≈ 0.1 RUB
   };
+
+  /// Обновляет курсы валют.
+  static void updateRates(Map<String, double> newRates) {
+    newRates.forEach((key, value) {
+      if (exchangeRates.containsKey(key)) {
+        exchangeRates[key] = value;
+      }
+    });
+  }
 
   /// Конвертирует сумму из одной валюты в другую
   static double convert(

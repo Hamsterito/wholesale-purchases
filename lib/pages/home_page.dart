@@ -11,6 +11,7 @@ import 'package:flutter_project/services/localization/localization_extension.dar
 import '../utils/search_normalizer.dart';
 import '../utils/auto_refresh.dart';
 import 'product_detail_page.dart';
+import '../services/store/app_settings.dart';
 import '../core/ui/theme/app_dimensions.dart';
 
 enum SortField { price, rating }
@@ -898,10 +899,10 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
                     },
                     activeColor: context.colorPalette.accent,
                     labels: RangeLabels(
-                      '${priceRange.start.toInt()} \u20B8',
+                      context.formatCurrency(priceRange.start, decimalDigits: 0),
                       maxUnlimited
                           ? '\u221E'
-                          : '${priceRange.end.toInt()} \u20B8',
+                          : context.formatCurrency(priceRange.end, decimalDigits: 0),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -1224,9 +1225,9 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
               ),
             ),
             const SizedBox(width: 6),
-            const Text(
-              '\u20B8',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            Text(
+              AppSettings.currency.value.symbol,
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ],
         ),

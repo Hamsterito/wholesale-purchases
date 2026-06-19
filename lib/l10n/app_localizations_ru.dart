@@ -1048,7 +1048,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String zakazi_order_amount(int orderId, int amount) {
-    return 'Заказ $orderId - на сумму $amount ₸';
+    return 'Заказ $orderId - на сумму $amount';
   }
 
   @override
@@ -3126,7 +3126,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_udalit_tovar_za_narushenie => 'Удалить товар за нарушение';
 
   @override
-  String get auto_prichina_udaleniya_dlya_postavschik => 'Удалить';
+  String get auto_prichina_udaleniya_dlya_postavschik =>
+      'Введите причину удаления (будет видна поставщику)';
 
   @override
   String get auto_udalit => 'Удалить';
@@ -3541,7 +3542,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String product_price_per_unit(Object price) {
-    return '$price ₸/шт';
+    return '$price/шт';
   }
 
   @override
@@ -3718,7 +3719,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String moderation_price_per_unit(Object price) {
-    return '$price ₸ за единицу';
+    return '$price за единицу';
   }
 
   @override
@@ -3999,72 +4000,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get search_normalizer_auto_153 => 'дж';
-
-  @override
-  String get auto_kakSdelatZakaz => 'Как сделать заказ?';
-
-  @override
-  String get auto_chtobySdelatZakazVyber =>
-      'Чтобы сделать заказ, выберите товары из каталога, добавьте их в корзину и оформите заказ, указав адрес доставки и способ оплаты.';
-
-  @override
-  String get auto_kakieSposobyOplatyDost => 'Какие способы оплаты доступны?';
-
-  @override
-  String get auto_myPrinimaemOplatuNalic =>
-      'Мы принимаем оплату наличными, банковскими картами (Visa, Mastercard), а также через PayPal.';
-
-  @override
-  String get auto_skolkoVremeniZanimaetD =>
-      'Сколько времени занимает доставка?';
-
-  @override
-  String get auto_standartnayaDostavkaZan =>
-      'Стандартная доставка занимает 1-3 рабочих дня. Экспресс-доставка доступна в течение 24 часов.';
-
-  @override
-  String get auto_moguLiYaOtmenitZakaz => 'Могу ли я отменить заказ?';
-
-  @override
-  String get auto_vyMozheteOtmenitZakaz =>
-      'Вы можете отменить заказ в течение 30 минут после оформления. После этого заказ уже будет передан на склад для сборки.';
-
-  @override
-  String get auto_kakIzmenitAdresDostavk => 'Как изменить адрес доставки?';
-
-  @override
-  String get auto_profil => '�������';
-
-  @override
-  String get auto_adresa => '������';
-
-  @override
-  String get auto_takzheMozhnoUkazatNov =>
-      '����� ����� ������� ����� ����� ��� ���������� ������.';
-
-  @override
-  String get auto_chtoDelatEsliTovarNe => 'Что делать если товар не подошел?';
-
-  @override
-  String get auto_vyMozheteVernutTovarV =>
-      'Вы можете вернуть товар в течение 14 дней с момента получения. Свяжитесь с нашей службой поддержки для оформления возврата.';
-
-  @override
-  String get auto_kakSvyazatsyaSPodderzh => 'Как связаться с поддержкой?';
-
-  @override
-  String get auto_tehpodderzhka => 'Техподдержка';
-
-  @override
-  String get auto_vPrilozheniiPoElektro =>
-      'Вы можете связаться с нами через раздел \"Техподдержка\" в приложении, по электронной почте или по телефону горячей линии.';
-
-  @override
-  String get auto_estLiMinimalnayaSumma => 'Есть ли минимальная сумма заказа?';
-
-  @override
-  String get auto_minimalnayaSummaZakaza =>
-      'Минимальная сумма заказа составляет 500 ₸. При заказе от 5000 ₸ доставка бесплатная.';
 
   @override
   String get search_normalizer_auto_169 => 'в';
@@ -5034,6 +4969,72 @@ class AppLocalizationsRu extends AppLocalizations {
       'Номер должен быть в формате +7-XXX-XXX-XXXX';
 
   @override
+  String get auto_kakSdelatZakaz => 'Как сделать заказ?';
+
+  @override
+  String get auto_chtobySdelatZakazVyber =>
+      'Чтобы сделать заказ, выберите товары из каталога, добавьте их в корзину и оформите заказ, указав адрес доставки и способ оплаты.';
+
+  @override
+  String get auto_kakieSposobyOplatyDost => 'Какие способы оплаты доступны?';
+
+  @override
+  String get auto_myPrinimaemOplatuNalic =>
+      'Мы принимаем оплату наличными, банковскими картами (Visa, Mastercard), а также через PayPal.';
+
+  @override
+  String get auto_skolkoVremeniZanimaetD =>
+      'Сколько времени занимает доставка?';
+
+  @override
+  String get auto_standartnayaDostavkaZan =>
+      'Стандартная доставка занимает 1-3 рабочих дня. Экспресс-доставка доступна в течение 24 часов.';
+
+  @override
+  String get auto_moguLiYaOtmenitZakaz => 'Могу ли я отменить заказ?';
+
+  @override
+  String get auto_vyMozheteOtmenitZakaz =>
+      'Вы можете отменить заказ в течение 30 минут после оформления. После этого заказ уже будет передан на склад для сборки.';
+
+  @override
+  String get auto_kakIzmenitAdresDostavk => 'Как изменить адрес доставки?';
+
+  @override
+  String get auto_profil => 'Профиль';
+
+  @override
+  String get auto_adresa => 'Адреса';
+
+  @override
+  String get auto_takzheMozhnoUkazatNov =>
+      'Также можно указать новый адрес при оформлении заказа.';
+
+  @override
+  String get auto_chtoDelatEsliTovarNe => 'Что делать если товар не подошел?';
+
+  @override
+  String get auto_vyMozheteVernutTovarV =>
+      'Вы можете вернуть товар в течение 14 дней с момента получения. Свяжитесь с нашей службой поддержки для оформления возврата.';
+
+  @override
+  String get auto_kakSvyazatsyaSPodderzh => 'Как связаться с поддержкой?';
+
+  @override
+  String get auto_tehpodderzhka => 'Техподдержка';
+
+  @override
+  String get auto_vPrilozheniiPoElektro =>
+      'Вы можете связаться с нами через раздел \"Техподдержка\" в приложении, по электронной почте или по телефону горячей линии.';
+
+  @override
+  String get auto_estLiMinimalnayaSumma => 'Есть ли минимальная сумма заказа?';
+
+  @override
+  String get auto_minimalnayaSummaZakaza =>
+      'Минимальная сумма заказа составляет 500. При заказе от 5000 доставка бесплатная.';
+
+  @override
   String get auto_voprosyIOtvety => 'Вопросы и ответы';
 
   @override
@@ -5714,7 +5715,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Минимальные количества и доставка.';
 
   @override
-  String get auto_tsenaZaEdinitsu => 'Цена за единицу (₸)';
+  String get auto_tsenaZaEdinitsu => 'Цена за единицу';
 
   @override
   String get auto_naprimer1450 => 'Например, 1450';

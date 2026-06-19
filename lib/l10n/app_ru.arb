@@ -1,4 +1,4 @@
-{
+﻿{
   "@@locale": "ru",
   "common_ok": "Хорошо",
   "@common_ok": {
@@ -1405,7 +1405,7 @@
   "@zakazi_confirm_acceptance": {
     "description": "Тема диалога подтверждения получения"
   },
-  "zakazi_order_amount": "Заказ {orderId} - на сумму {amount} ₸",
+  "zakazi_order_amount": "Заказ {orderId} - на сумму {amount}",
   "@zakazi_order_amount": {
     "description": "Сумма заказа",
     "placeholders": {
@@ -4095,7 +4095,7 @@
   "@auto_udalit_tovar_za_narushenie": {
     "description": "Auto-extracted"
   },
-  "auto_prichina_udaleniya_dlya_postavschik": "Удалить",
+  "auto_prichina_udaleniya_dlya_postavschik": "Введите причину удаления (будет видна поставщику)",
   "@auto_prichina_udaleniya_dlya_postavschik": {
     "description": "Auto-extracted"
   },
@@ -4587,7 +4587,7 @@
   "product_removed_from_cart": "Удалено из корзины: {name}",
   "product_tab_reviews": "Оценки ({count})",
   "product_tab_questions": "Вопросы ({count})",
-  "product_price_per_unit": "{price} ₸/шт",
+  "product_price_per_unit": "{price}/шт",
   "product_in_stock": "В наличии: {count} шт.",
   "product_reviews_label": "{count} оценок",
   "order_history_order_number": "Заказ №{id}",
@@ -4622,7 +4622,7 @@
   "moderation_qty_range": "{min}-{max} шт.",
   "moderation_summary_time": "{summary} · {time}",
   "moderation_stock_quantity": "Остаток: {count} шт.",
-  "moderation_price_per_unit": "{price} ₸ за единицу",
+  "moderation_price_per_unit": "{price} за единицу",
   "moderation_comment_prefix": "Отзыв модерации: {comment}",
   "moderation_characteristic_format": "{key} — {value}",
   "moderator_two_factor_remove_warning": "Это удалит все backup-коды и доверенные устройства пользователя {name}. {warning}",
@@ -4978,44 +4978,6 @@
   "@search_normalizer_auto_153": {
     "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
   },
-  "auto_kakSdelatZakaz": "Как сделать заказ?",
-  "@auto_kakSdelatZakaz": {},
-  "auto_chtobySdelatZakazVyber": "Чтобы сделать заказ, выберите товары из каталога, укажите необходимое количество (с учетом ограничений поставщика), добавьте их в корзину и подтвердите покупку.",
-  "@auto_chtobySdelatZakazVyber": {},
-  "auto_kakieSposobyOplatyDost": "Какие способы оплаты доступны?",
-  "@auto_kakieSposobyOplatyDost": {},
-  "auto_myPrinimaemOplatuNalic": "Мы принимаем оплату банковскими картами (Visa, Mastercard), а также наличными при получении заказа.",
-  "@auto_myPrinimaemOplatuNalic": {},
-  "auto_skolkoVremeniZanimaetD": "Сколько времени занимает доставка?",
-  "@auto_skolkoVremeniZanimaetD": {},
-  "auto_standartnayaDostavkaZan": "Сроки доставки определяются каждым поставщиком индивидуально. Вы можете увидеть ожидаемую дату доставки для каждого товара на его карточке или в корзине при оформлении заказа.",
-  "@auto_standartnayaDostavkaZan": {},
-  "auto_moguLiYaOtmenitZakaz": "Могу ли я отменить заказ?",
-  "@auto_moguLiYaOtmenitZakaz": {},
-  "auto_vyMozheteOtmenitZakaz": "Вы можете отменить заказ в течение 1 часа (60 минут) после оформления прямо из приложения, если поставщик еще не принял его в работу.",
-  "@auto_vyMozheteOtmenitZakaz": {},
-  "auto_kakIzmenitAdresDostavk": "Как изменить адрес доставки?",
-  "@auto_kakIzmenitAdresDostavk": {},
-  "auto_profil": "Профиль",
-  "@auto_profil": {},
-  "auto_adresa": "Адреса",
-  "@auto_adresa": {},
-  "auto_takzheMozhnoUkazatNov": "Также вы можете добавить или выбрать новый адрес прямо во время оформления заказа в корзине.",
-  "@auto_takzheMozhnoUkazatNov": {},
-  "auto_chtoDelatEsliTovarNe": "Что делать если товар не подошел?",
-  "@auto_chtoDelatEsliTovarNe": {},
-  "auto_vyMozheteVernutTovarV": "Если товар поврежден, имеет брак или не соответствует заказу, пожалуйста, свяжитесь с нашей службой поддержки в течение 14 дней для оформления возврата или замены.",
-  "@auto_vyMozheteVernutTovarV": {},
-  "auto_kakSvyazatsyaSPodderzh": "Как связаться с поддержкой?",
-  "@auto_kakSvyazatsyaSPodderzh": {},
-  "auto_tehpodderzhka": "Техподдержка",
-  "@auto_tehpodderzhka": {},
-  "auto_vPrilozheniiPoElektro": "в приложении (вкладка чата), а также по электронной почте или телефону горячей линии.",
-  "@auto_vPrilozheniiPoElektro": {},
-  "auto_estLiMinimalnayaSumma": "Есть ли минимальная сумма заказа?",
-  "@auto_estLiMinimalnayaSumma": {},
-  "auto_minimalnayaSummaZakaza": "Минимальная сумма общего заказа не ограничена, однако для большинства товаров поставщиками установлено минимальное количество для заказа (указано на карточке товара).",
-  "@auto_minimalnayaSummaZakaza": {},
   "search_normalizer_auto_169": "в",
   "@search_normalizer_auto_169": {
     "description": "Auto-extracted from lib\\utils\\search_normalizer.dart"
@@ -5789,11 +5751,11 @@
   "@auto_vyMozheteOtmenitZakaz": {},
   "auto_kakIzmenitAdresDostavk": "Как изменить адрес доставки?",
   "@auto_kakIzmenitAdresDostavk": {},
-  "auto_profil": "�������",
+  "auto_profil": "Профиль",
   "@auto_profil": {},
-  "auto_adresa": "������",
+  "auto_adresa": "Адреса",
   "@auto_adresa": {},
-  "auto_takzheMozhnoUkazatNov": "����� ����� ������� ����� ����� ��� ���������� ������.",
+  "auto_takzheMozhnoUkazatNov": "Также можно указать новый адрес при оформлении заказа.",
   "@auto_takzheMozhnoUkazatNov": {},
   "auto_chtoDelatEsliTovarNe": "Что делать если товар не подошел?",
   "@auto_chtoDelatEsliTovarNe": {},
@@ -5807,7 +5769,7 @@
   "@auto_vPrilozheniiPoElektro": {},
   "auto_estLiMinimalnayaSumma": "Есть ли минимальная сумма заказа?",
   "@auto_estLiMinimalnayaSumma": {},
-  "auto_minimalnayaSummaZakaza": "Минимальная сумма заказа составляет 500 ₸. При заказе от 5000 ₸ доставка бесплатная.",
+  "auto_minimalnayaSummaZakaza": "Минимальная сумма заказа составляет 500. При заказе от 5000 доставка бесплатная.",
   "@auto_minimalnayaSummaZakaza": {},
   "auto_voprosyIOtvety": "Вопросы и ответы",
   "@auto_voprosyIOtvety": {},
@@ -6228,7 +6190,7 @@
   "@auto_tsenaIUsloviya": {},
   "auto_minimalnyeKolichestvaI": "Минимальные количества и доставка.",
   "@auto_minimalnyeKolichestvaI": {},
-  "auto_tsenaZaEdinitsu": "Цена за единицу (₸)",
+  "auto_tsenaZaEdinitsu": "Цена за единицу",
   "@auto_tsenaZaEdinitsu": {},
   "auto_naprimer1450": "Например, 1450",
   "@auto_naprimer1450": {},

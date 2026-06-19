@@ -425,7 +425,7 @@ Expanded(
                   child: _MetricTile(
                     icon: Icons.payments_outlined,
                     label: context.l10n.getString('auto_tsena'),
-                    value: '${product.pricePerUnit} \u20B8',
+                    value: context.formatCurrency(product.pricePerUnit.toDouble(), decimalDigits: 0),
                   ),
                 ),
                 const SizedBox(width: 8),

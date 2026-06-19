@@ -1,43 +1,33 @@
 part of '../backend.dart';
 
-// Хелперы аутентификации: генерация и хеширование OTP/паролей,
-// замена кода подтверждения, периодическая очистка истекших кодов,
-// отправка email с кодом подтверждения.
+// Хелперы аутентификации: OTP, пароли, очистка кодов и отправка писем.
 
-// Длина OTP - 6 знаков. Экспортируется как debugOtpCodeLength для PBT.
+// Длина OTP. debug-версия нужна для PBT.
 const int debugOtpCodeLength = 6;
 
-// Генерация 6-значного OTP кода
 String _generateOtpCode() {
   final rnd = Random.secure();
   return List<int>.generate(debugOtpCodeLength, (_) => rnd.nextInt(10)).join();
 }
 
-// Хеширование пароля с солью
 String _hashPassword(String password) =>
     BCrypt.hashpw(password, BCrypt.gensalt());
 
-// Проверка пароля с хешем
 bool _checkPassword(String password, String hashed) =>
     BCrypt.checkpw(password, hashed);
 
-// Хеширование OTP кода с солью
 String _hashOtp(String otp) => BCrypt.hashpw(otp, BCrypt.gensalt());
 
-// Проверка OTP кода с хешем
 bool _checkOtp(String otp, String hashed) => BCrypt.checkpw(otp, hashed);
 
-// Публичные обёртки для property-тестов: _hashOtp и _checkOtp приватные,
-// а тестам нужен прямой доступ, чтобы валидировать инвариант
-// «правильный код проходит, любой другой - нет» без БД и моков.
+// Публичные обертки для property-тестов.
 String debugHashOtp(String otp) => _hashOtp(otp);
 bool debugCheckOtp(String otp, String hashed) => _checkOtp(otp, hashed);
 
-// Тестовая обёртка вокруг _generateOtpCode - используется PBT энтропии OTP.
+// Тестовая обертка для PBT энтропии.
 String debugGenerateOtpCode() => _generateOtpCode();
 
-// Замена ожидающего кода подтверждения email
-// Деактивирует старые коды пользователя и создает новый
+// Деактивирует старые коды верификации и создает новый.
 Future<void> _replacePendingEmailVerificationCode(
   Session session, {
   required int userId,
@@ -45,7 +35,6 @@ Future<void> _replacePendingEmailVerificationCode(
   required DateTime expiresAt,
   String? purpose,
 }) async {
-  // Помечаем старые неиспользованные коды как использованные
   await session.execute(
     Sql.named('''
       UPDATE public.email_verifications
@@ -55,7 +44,6 @@ Future<void> _replacePendingEmailVerificationCode(
     parameters: {'user_id': userId},
   );
 
-  // Удаляем истекшие коды
   final expiredResult = await session.execute(
     Sql.named('''
       DELETE FROM public.email_verifications
@@ -66,7 +54,6 @@ Future<void> _replacePendingEmailVerificationCode(
     print('Очищено ${expiredResult.affectedRows} истекших кодов при замене');
   }
 
-  // Создаем новый код верификации
   await session.execute(
     Sql.named('''
       INSERT INTO public.email_verifications (user_id, code_hash, expires_at, used, purpose, created_at)
@@ -81,8 +68,7 @@ Future<void> _replacePendingEmailVerificationCode(
   );
 }
 
-// Периодическая очистка истекших кодов подтверждения email
-// Запускается каждые 10 минут в main()
+// Периодическая очистка истекших кодов подтверждения email (раз в 10 минут).
 Future<void> _cleanupExpiredEmailVerifications(Connection connection) async {
   print('Запуск очистки истекших кодов подтверждения email...');
   try {
@@ -105,8 +91,7 @@ Future<void> _cleanupExpiredEmailVerifications(Connection connection) async {
   }
 }
 
-// Периодическая очистка истекших кодов сброса пароля
-// Запускается каждые 10 минут вместе с очисткой email верификаций
+// Периодическая очистка кодов сброса пароля (раз в 10 минут).
 Future<void> _cleanupExpiredPasswordResets(Connection connection) async {
   print('Запуск очистки истекших кодов сброса пароля...');
   try {
@@ -129,9 +114,8 @@ Future<void> _cleanupExpiredPasswordResets(Connection connection) async {
   }
 }
 
-// Отправка email с кодом подтверждения
 Future<void> _sendVerificationEmail(String toEmail, String code) async {
-  // Сначала читаем из .env файла, при его отсутствии (Docker) - из переменных процесса
+  // Читаем из .env или переменных окружения.
   final smtpUser =
       env['SMTP_USERNAME'] ?? Platform.environment['SMTP_USERNAME'];
   final smtpPass =
@@ -143,10 +127,8 @@ Future<void> _sendVerificationEmail(String toEmail, String code) async {
     return;
   }
 
-  // Настраиваем SMTP сервер Gmail
   final smtpServer = gmail(smtpUser, smtpPass);
 
-  // Создаем сообщение
   final message = Message()
     ..from = Address(smtpUser, 'Wholesale Purchases')
     ..recipients.add(toEmail)
@@ -162,13 +144,10 @@ Future<void> _sendVerificationEmail(String toEmail, String code) async {
   }
 }
 
-// Уведомление пользователю о принудительном отключении 2FA модератором.
-// Использует ту же SMTP-инфраструктуру, что и _sendVerificationEmail:
-// при отсутствии SMTP-кредов в env молча пропускаем отправку, исключения
-// SMTP не пробрасываем - вызывающий код всё равно дёргает функцию из
-// Future.microtask и не должен падать из-за сбоя почты.
+// Уведомление об отключении 2FA модератором. Не пробрасывает ошибки SMTP,
+// так как вызывается в Future.microtask и не должно ронять поток.
 Future<void> _sendAdminDisableEmail(String toEmail) async {
-  // Сначала читаем из .env файла, при его отсутствии (Docker) - из переменных процесса
+  // Читаем из .env или переменных окружения.
   final smtpUser =
       env['SMTP_USERNAME'] ?? Platform.environment['SMTP_USERNAME'];
   final smtpPass =

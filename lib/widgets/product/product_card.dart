@@ -953,7 +953,7 @@ class _ProductCardState extends State<ProductCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${supplier.pricePerUnit} \u20B8',
+              context.formatCurrency(supplier.pricePerUnit.toDouble(), decimalDigits: 0),
               style: TextStyle(
                 fontSize: compact ? 15 : 16,
                 fontWeight: FontWeight.w700,
@@ -967,7 +967,7 @@ class _ProductCardState extends State<ProductCard> {
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Text(
-                isAvailable ? '$totalPrice \u20B8' : context.l10n.productOutOfStock,
+                isAvailable ? context.formatCurrency(totalPrice.toDouble(), decimalDigits: 0) : context.l10n.productOutOfStock,
                 style: TextStyle(
                   fontSize: compact ? 10 : 11,
                   color: isAvailable ? _palette.accent : _palette.error,

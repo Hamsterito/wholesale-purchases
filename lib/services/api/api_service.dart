@@ -127,6 +127,28 @@ class ApiService {
     }
   }
 
+  /// Загружает актуальные курсы валют с бэкенда.
+  static Future<Map<String, double>> getExchangeRates() async {
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/exchange-rates'));
+
+      await _logApiResponse(response, endpoint: '/exchange-rates', method: 'GET');
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        final decoded = jsonDecode(body);
+        if (decoded is Map<String, dynamic>) {
+          return decoded.map((key, value) => MapEntry(key, (value as num).toDouble()));
+        }
+      }
+      throw Exception('Не удалось загрузить курсы валют: ${response.statusCode}');
+    } catch (e, stack) {
+      await _logApiError(e, stack, endpoint: '/exchange-rates', method: 'GET');
+      debugPrint('Ошибка при загрузке курсов валют: $e');
+      rethrow;
+    }
+  }
+
   static Future<List<Product>> getProducts() async {
     try {
       final response = await http.get(Uri.parse('$baseUrl/products'));

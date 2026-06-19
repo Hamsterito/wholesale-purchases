@@ -429,7 +429,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
   }
 
   Widget _buildHistoryTitle(Order order) {
-    final amountText = '${_formatMoney(order.totalAmount)} ₸';
+    final amountText = context.formatCurrency(order.totalAmount.toDouble(), decimalDigits: 0);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -732,7 +732,7 @@ if (order.items.isEmpty)
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '${_formatMoney(lineTotal)} ₸',
+                          context.formatCurrency(lineTotal.toDouble(), decimalDigits: 0),
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w800,
@@ -923,20 +923,6 @@ if (order.items.isEmpty)
       return palette.statusDelivered;
     }
     return palette.statusPending;
-  }
-
-  String _formatMoney(int value) {
-    final digits = value.abs().toString();
-    final buffer = StringBuffer();
-    for (int i = 0; i < digits.length; i++) {
-      final positionFromEnd = digits.length - i;
-      buffer.write(digits[i]);
-      if (positionFromEnd > 1 && positionFromEnd % 3 == 1) {
-        buffer.write(' ');
-      }
-    }
-    final formatted = buffer.toString();
-    return value < 0 ? '-$formatted' : formatted;
   }
 
   String _formatShortDate(DateTime date) {

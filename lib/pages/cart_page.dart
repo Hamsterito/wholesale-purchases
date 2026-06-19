@@ -239,7 +239,6 @@ class _CartPageState extends State<CartPage> {
   }) async {
     if (!mounted) return false;
     final l10n = AppLocalizations.of(context);
-    final formattedAmount = _formatMoney(amount);
     final result = await showDialog<bool>(
       context: context,
       builder: (context) {
@@ -259,7 +258,7 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ),
               if (title.isNotEmpty) const SizedBox(height: 8),
-              _buildConfirmRow(l10n.getString('cart_confirm_row_amount'), '$formattedAmount ₸'),
+              _buildConfirmRow(l10n.getString('cart_confirm_row_amount'), context.formatCurrency(amount.toDouble(), decimalDigits: 0)),
               const SizedBox(height: 6),
               _buildConfirmRow(l10n.getString('cart_confirm_row_units'), '$units'),
               if (paymentLabel != null && paymentLabel.trim().isNotEmpty) ...[
@@ -660,18 +659,7 @@ class _CartPageState extends State<CartPage> {
     return null;
   }
 
-  String _formatMoney(int value) {
-    final digits = value.toString();
-    final buffer = StringBuffer();
-    for (int i = 0; i < digits.length; i++) {
-      final positionFromEnd = digits.length - i;
-      buffer.write(digits[i]);
-      if (positionFromEnd > 1 && positionFromEnd % 3 == 1) {
-        buffer.write(' ');
-      }
-    }
-    return buffer.toString();
-  }
+
 
   String _formatSupplierName(String name) {
     return name.trim();
@@ -1810,7 +1798,7 @@ try {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     _buildAnimatedValueText(
-                                      '${_formatMoney(_totalAmount)} ₸',
+                                      context.formatCurrency(_totalAmount.toDouble(), decimalDigits: 0),
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
@@ -1874,7 +1862,7 @@ try {
           ),
           const SizedBox(height: 4),
           _buildAnimatedValueText(
-            '${_formatMoney(_totalAmount)} ₸',
+            context.formatCurrency(_totalAmount.toDouble(), decimalDigits: 0),
             style: const TextStyle(
               fontSize: 22,
               color: Colors.white,
@@ -2085,7 +2073,7 @@ Widget _buildSupplierSummaryCard({
                 ),
                 const SizedBox(height: 4),
                 _buildAnimatedValueText(
-                  '${_formatMoney(supplierTotal)} ₸',
+                  context.formatCurrency(supplierTotal.toDouble(), decimalDigits: 0),
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
@@ -2348,7 +2336,7 @@ Widget _buildSupplierSummaryCard({
             mainAxisSize: MainAxisSize.min,
             children: [
               _buildAnimatedValueText(
-                '${_formatMoney(totalPrice)} ₸',
+                context.formatCurrency(totalPrice.toDouble(), decimalDigits: 0),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 12,
