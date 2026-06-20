@@ -57,11 +57,14 @@ class AiService {
     multiLine: true,
   );
 
-  // Список моделей для fallback (пробуем по очереди при ошибках лимита)
+  // Список моделей для fallback (пробуем по очереди при ошибках лимита).
+  // Только модели с уверенной поддержкой русского языка.
   static const List<String> _fallbackModels = [
-    'models/gemini-2.0-flash',
-    'models/gemini-2.0-flash-lite',
-    'models/gemini-2.5-flash-lite',
+    'google/gemma-4-31b-it:free',
+    'deepseek/deepseek-v4-flash:free',
+    'openai/gpt-oss-120b:free',
+    'openai/gpt-oss-20b:free',
+    'nvidia/nemotron-3-super-120b-a12b:free',
   ];
 
   /// Генерирует AI-резюме по статистике поставщика - 3-5 предложений на русском.
@@ -130,6 +133,8 @@ class AiService {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Authorization': 'Bearer $apiKey',
+                'HTTP-Referer': 'https://github.com/yourusername/wholesale-app',
+                'X-Title': 'Wholesale App',
               },
               body: jsonEncode({
                 'model': model,

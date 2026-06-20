@@ -41,7 +41,7 @@ class ApiConfig {
     if (envEndpoint.isNotEmpty) {
       return envEndpoint;
     }
-    return 'https://generativelanguage.googleapis.com/v1beta/openai';
+    return 'https://openrouter.ai/api/v1';
   }
 
   static String get aiModel {
@@ -49,7 +49,6 @@ class ApiConfig {
     if (envModel.isNotEmpty) {
       return envModel;
     }
-    // Gemini OpenAI Compatibility endpoint требует полный ID: models/<name>
-    return 'models/gemini-2.0-flash';
+    return 'google/gemma-4-31b-it:free';
   }
 }
