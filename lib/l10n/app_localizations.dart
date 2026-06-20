@@ -2639,7 +2639,7 @@ abstract class AppLocalizations {
   /// Секция последовательности сортировки
   ///
   /// In ru, this message translates to:
-  /// **'Порядок'**
+  /// **'Порядок сортировки'**
   String get filter_order_title;
 
   /// От меньшего до большего
@@ -2873,7 +2873,7 @@ abstract class AppLocalizations {
   /// Уведомление об удалении
   ///
   /// In ru, this message translates to:
-  /// **'Удалить'**
+  /// **'Удалено из избранного'**
   String get product_card_removed_from_favorites;
 
   /// Добавить сообщение в корзину
@@ -8643,7 +8643,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_poryadok.
   ///
   /// In ru, this message translates to:
-  /// **'Порядок'**
+  /// **'Порядок сортировки'**
   String get auto_poryadok;
 
   /// No description provided for @auto_poVozrastaniyu.
@@ -11123,6 +11123,60 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Ответить'**
   String get auto_otvetit;
+
+  /// No description provided for @moderation_alert_one_product_deleted.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар «{productName}» удалён модератором'**
+  String moderation_alert_one_product_deleted(String productName);
+
+  /// No description provided for @moderation_alert_multiple_products_deleted.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалено товаров модератором: {count}'**
+  String moderation_alert_multiple_products_deleted(int count);
+
+  /// No description provided for @moderation_alert_more_details.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подробнее'**
+  String get moderation_alert_more_details;
+
+  /// No description provided for @moderation_dialog_title_multiple.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваши товары были удалены'**
+  String get moderation_dialog_title_multiple;
+
+  /// No description provided for @moderation_dialog_title_single.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваш товар удалён'**
+  String get moderation_dialog_title_single;
+
+  /// No description provided for @moderation_dialog_description.
+  ///
+  /// In ru, this message translates to:
+  /// **'Модератор скрыл следующие товары за нарушение правил площадки:'**
+  String get moderation_dialog_description;
+
+  /// No description provided for @moderation_dialog_reason_prefix.
+  ///
+  /// In ru, this message translates to:
+  /// **'Причина: {reason}'**
+  String moderation_dialog_reason_prefix(String reason);
+
+  /// No description provided for @moderation_dialog_ok_button.
+  ///
+  /// In ru, this message translates to:
+  /// **'Понятно'**
+  String get moderation_dialog_ok_button;
+
+  /// No description provided for @moderation_dialog_appeal_button.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не согласен, написать в поддержку'**
+  String get moderation_dialog_appeal_button;
 }
 
 class _AppLocalizationsDelegate

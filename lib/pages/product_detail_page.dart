@@ -604,7 +604,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                         if (added) {
                           showTopMessage(
                             context,
-                            '\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e \u0432 \u0438\u0437\u0431\u0440\u0430\u043d\u043d\u043e\u0435',
+                            context.l10n.getString('auto_dobavlenoVIzbrannoe'),
                             backgroundColor: _palette.accent,
                             showAtBottom: true,
                             bottomOffset: _bottomMessageOffset,
@@ -612,7 +612,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                         } else {
                           showTopMessage(
                             context,
-                            '\u0423\u0434\u0430\u043b\u0435\u043d\u043e \u0438\u0437 \u0438\u0437\u0431\u0440\u0430\u043d\u043d\u043e\u0433\u043e',
+                            context.l10n.getString('auto_udalenoIzIzbrannogo'),
                             backgroundColor: _palette.error,
                             showAtBottom: true,
                             duration: const Duration(seconds: 3),
@@ -1211,7 +1211,12 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '${context.formatCurrency(supplier.pricePerUnit.toDouble(), decimalDigits: 0)}/\u0448\u0442',
+                      context.l10n.productPricePerUnit(
+                        context.formatCurrency(
+                          supplier.pricePerUnit.toDouble(),
+                          decimalDigits: 0,
+                        ),
+                      ),
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -1221,8 +1226,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                     const SizedBox(height: 2),
                     Text(
                       isAvailable
-                          ? '\u041c\u0438\u043d\u0438\u043c\u0443\u043c: ${supplier.minQuantity} \u0448\u0442.'
-                          : '\u041d\u0435\u0442 \u0432 \u043d\u0430\u043b\u0438\u0447\u0438\u0438',
+                          ? context.l10n.getString('cart_min_quantity', params: {'count': supplier.minQuantity})
+                          : context.l10n.getString('auto_netVNalichii'),
                       style: TextStyle(
                         fontSize: 11,
                         color: Colors.white.withValues(alpha: 0.8),
@@ -1271,14 +1276,14 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                               color: Colors.white,
                             ),
                           )
-                        : const SizedBox(
+                        : SizedBox(
                             width: outOfStockButtonWidth,
                             height: outOfStockButtonHeight,
                             child: Center(
                               child: Text(
-                                '\u041d\u0435\u0442 \u0432 \u043d\u0430\u043b\u0438\u0447\u0438\u0438',
+                                context.l10n.getString('auto_netVNalichii'),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
@@ -1319,7 +1324,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              '$quantity \u0448\u0442.',
+                              context.l10n.getString('cart_quantity_suffix', params: {'count': quantity}),
                               style: TextStyle(fontSize: 13, color: _mutedText),
                             ),
                           ],

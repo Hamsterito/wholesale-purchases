@@ -174,7 +174,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get product_review_share => 'Өз әсерлеріңізбен бөлісіңіз';
 
   @override
-  String get profile_title => 'Профиль';
+  String get profile_title => 'Жеке кабинет';
 
   @override
   String get profile_settings => 'Параметрлер';
@@ -201,7 +201,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get supplier_orders => 'Тапсырыстар';
 
   @override
-  String get supplier_profile => 'Жеткізуші профилі';
+  String get supplier_profile => 'Жеткізушінің жеке кабинеті';
 
   @override
   String get supplier_add_product => 'Өнімді қосу';
@@ -931,7 +931,7 @@ class AppLocalizationsKk extends AppLocalizations {
       'Сіз бұл өнімді жойғыңыз келетініне сенімдісіз бе?';
 
   @override
-  String get supplier_profile_title => 'Жеткізуші профилі';
+  String get supplier_profile_title => 'Жеткізушінің жеке кабинеті';
 
   @override
   String get template_replace_cart => 'Себетті ауыстыру';
@@ -1503,7 +1503,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get product_card_added_to_favorites => 'Таңдалған';
 
   @override
-  String get product_card_removed_from_favorites => 'Жою';
+  String get product_card_removed_from_favorites => 'Таңдаулылардан жойылды';
 
   @override
   String get product_card_add_to_cart => 'Себетке қосу';
@@ -1696,7 +1696,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get create_chat_confirm => 'Жаңарту';
 
   @override
-  String get moderator_title_profile => 'Модератор профилі';
+  String get moderator_title_profile => 'Модератордың жеке кабинеті';
 
   @override
   String get suppliers_load_failed => 'Жеткізушілерді жүктеу мүмкін болмады';
@@ -4285,22 +4285,22 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String wizard_error_calories_max(Object max) {
-    return 'Калориялар аспауы керек $max (numeric шегі(10.2))';
+    return 'Калориялар $max-дан аспауы керек';
   }
 
   @override
   String wizard_error_protein_max(Object max) {
-    return 'Ақуыздар аспауы керек $max (numeric шегі(10.2))';
+    return 'Ақуыздар $max-дан аспауы керек';
   }
 
   @override
   String wizard_error_fat_max(Object max) {
-    return 'Майлар аспауы керек $max (numeric шегі(10.2))';
+    return 'Майлар $max-дан аспауы керек';
   }
 
   @override
   String wizard_error_carbs_max(Object max) {
-    return 'Көмірсулар аспауы керек $max (numeric шегі(10.2))';
+    return 'Көмірсулар $max-дан аспауы керек';
   }
 
   @override
@@ -4310,7 +4310,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String wizard_step_indicator(int current, int total) {
-    return 'Қадам $current туралы $total';
+    return '$current / $total қадам';
   }
 
   @override
@@ -4760,7 +4760,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_reyting => 'Рейтинг';
 
   @override
-  String get auto_poryadok => 'Тәртіп';
+  String get auto_poryadok => 'Сұрыптау реті';
 
   @override
   String get auto_poVozrastaniyu => 'Өсу бойынша';
@@ -4944,7 +4944,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_razmerFaylaNeDolzhenP => 'Файл өлшемі 5 МБ тан аспауы керек';
 
   @override
-  String get auto_redProfil => 'Профильді өңдеу';
+  String get auto_redProfil => 'Жеке кабинетті өңдеу';
 
   @override
   String get auto_fio => 'ТАӘ';
@@ -4995,7 +4995,7 @@ class AppLocalizationsKk extends AppLocalizations {
       'Жеткізу мекенжайын қалай өзгертуге болады?';
 
   @override
-  String get auto_profil => 'Профиль';
+  String get auto_profil => 'Жеке кабинет';
 
   @override
   String get auto_adresa => 'Мекенжайлар';
@@ -5550,10 +5550,10 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get auto_dobavtePervyyTovarIOt =>
-      'Бірінші элементті қосып, оны модерацияға жіберіңіз.';
+      'Бірінші тауарды қосып, оны модерацияға жіберіңіз.';
 
   @override
-  String get auto_dobavitTovar => 'Элементті қосыңыз';
+  String get auto_dobavitTovar => 'Тауар қосу';
 
   @override
   String get auto_ponedelnik_1 => 'Дүйсенбі';
@@ -5604,13 +5604,13 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_tovaryDlyaDoma => 'Үйге арналған тауарлар';
 
   @override
-  String get auto_stranaProizvoditelya => '] ?? ';
+  String get auto_stranaProizvoditelya => 'Өндіруші ел';
 
   @override
-  String get auto_srokGodnosti => '] ?? ';
+  String get auto_srokGodnosti => 'Жарамдылық мерзімі';
 
   @override
-  String get auto_vvediteNazvanieTovara => 'Элемент атауын енгізіңіз';
+  String get auto_vvediteNazvanieTovara => 'Тауар атауын енгізіңіз';
 
   @override
   String get auto_ukazhiteSrokGodnosti => 'Жарамдылық мерзімін көрсетіңіз';
@@ -5623,7 +5623,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get auto_minimalnoeKolichestvoDo =>
-      'Минималды сома 0 ден көп болуы керек';
+      'Минималды саны 0-ден көп болуы керек';
 
   @override
   String get auto_ukazhiteOstatokNaSklad => 'Қоймадағы қалдықты көрсетіңіз';
@@ -5673,7 +5673,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_dobavteHotyaByOdnuFot => 'Кем дегенде бір фотосурет қосыңыз';
 
   @override
-  String get auto_sozdatTovar => 'Өнім жасау керек пе?';
+  String get auto_sozdatTovar => 'Тауар қосу';
 
   @override
   String get auto_izmeneniyaBudutOtpravle =>
@@ -5686,7 +5686,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_sozdat => 'Жасау';
 
   @override
-  String get auto_redaktirovanieTovara => 'Өнімді өңдеу';
+  String get auto_redaktirovanieTovara => 'Тауарды өңдеу';
 
   @override
   String get auto_osnovnyeDannye => 'Негізгі деректер';
@@ -5720,7 +5720,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_minimalnoeKolichestvo => 'Ең аз саны';
 
   @override
-  String get auto_vsegoKolichestvo => 'Барлығы саны';
+  String get auto_vsegoKolichestvo => 'Қоймадағы қалдық';
 
   @override
   String get auto_naprimer120 => 'Мысалы, 120';
@@ -5748,13 +5748,13 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_uglevodyG100g => 'Көмірсулар (г/100г)';
 
   @override
-  String get auto_harakteristikiTovara => 'Өнімнің сипаттамалары';
+  String get auto_harakteristikiTovara => 'Тауар сипаттамалары';
 
   @override
   String get auto_nazvanie => 'Атауы';
 
   @override
-  String get auto_znachenie => 'Мағынасы';
+  String get auto_znachenie => 'Мәні';
 
   @override
   String get auto_udalitHarakteristiku => 'Сипаттаманы жою';
@@ -5791,16 +5791,16 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_vremyaDostavki => 'Жеткізу уақыты';
 
   @override
-  String get auto_formatChchmm => 'Пішім: сағ: ММ';
+  String get auto_formatChchmm => 'Формат: СС:ММ';
 
   @override
   String get auto_nekorrektnoeVremya => 'Дұрыс емес уақыт';
 
   @override
-  String get auto_minimumDney => 'Кем дегенде күндер';
+  String get auto_minimumDney => 'Минималды күн саны';
 
   @override
-  String get auto_maksimumDney => 'Ең көп күн';
+  String get auto_maksimumDney => 'Максималды күн саны';
 
   @override
   String get auto_srokPriyomaZakazaNaSe => 'Тапсырысты қабылдау мерзімі бүгін';
@@ -5950,7 +5950,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_uglevody => 'Көмірсулар';
 
   @override
-  String get auto_dostavka => 'жеткізу';
+  String get auto_dostavka => 'Жеткізу';
 
   @override
   String get auto_budni => 'жұмыс күндері';
@@ -6062,7 +6062,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_sohranitIzmeneniya => 'Өзгерістерді сақтау';
 
   @override
-  String get auto_sozdanieTovara => 'Тауар жасау';
+  String get auto_sozdanieTovara => 'Тауар қосу';
 
   @override
   String get auto_neprochitannoeUvedomleni => 'оқылмаған хабарлама';
@@ -6075,4 +6075,39 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get auto_otvetit => 'Жауап беру';
+
+  @override
+  String moderation_alert_one_product_deleted(String productName) {
+    return '«$productName» тауарын модератор өшірді';
+  }
+
+  @override
+  String moderation_alert_multiple_products_deleted(int count) {
+    return 'Модератор өшірген тауарлар саны: $count';
+  }
+
+  @override
+  String get moderation_alert_more_details => 'Толығырақ';
+
+  @override
+  String get moderation_dialog_title_multiple => 'Тауарларыңыз өшірілді';
+
+  @override
+  String get moderation_dialog_title_single => 'Тауарыңыз өшірілді';
+
+  @override
+  String get moderation_dialog_description =>
+      'Модератор платформа ережелерін бұзғаны үшін келесі тауарларды жасырды:';
+
+  @override
+  String moderation_dialog_reason_prefix(String reason) {
+    return 'Себебі: $reason';
+  }
+
+  @override
+  String get moderation_dialog_ok_button => 'Түсінікті';
+
+  @override
+  String get moderation_dialog_appeal_button =>
+      'Келіспеймін, қолдау қызметіне жазу';
 }

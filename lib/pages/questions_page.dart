@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/question.dart';
 import 'dart:math' as math;
 import '../core/ui/theme/app_dimensions.dart';
@@ -165,8 +166,14 @@ class _QuestionsPageState extends State<QuestionsPage> {
         ? theme.scaffoldBackgroundColor
         : palette.bgTop;
 
-    return Scaffold(
-      backgroundColor: pageBackground,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+        statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+      ),
+      child: Scaffold(
+        backgroundColor: pageBackground,
       body: Stack(
         children: [
           if (isDark)
@@ -202,8 +209,9 @@ floatingActionButton: FloatingActionButton.extended(
        ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: const RoleInternalNavBar(currentIndex: null),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildHeader(BuildContext context, AppColorPalette palette) {
     return Container(

@@ -49,6 +49,7 @@ class ApiConfig {
     if (envModel.isNotEmpty) {
       return envModel;
     }
-    return 'gemini-1.5-flash';
+    // Gemini OpenAI Compatibility endpoint требует полный ID: models/<name>
+    return 'models/gemini-2.0-flash';
   }
 }

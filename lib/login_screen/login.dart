@@ -308,6 +308,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
     final gradientColors = _isDark
         ? [context.colorPalette.bgBottom, context.colorPalette.bgTop]
         : [context.colorPalette.accent, context.colorPalette.accentDark];
@@ -323,13 +324,15 @@ class _LoginPageState extends State<LoginPage> {
         ),
         child: Column(
           children: [
-            Expanded(
-              child: Center(
-                child: Column(
+            if (!isKeyboardVisible)
+              Expanded(
+                child: Center(
+                  child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       AppLocalizations.current.getString('auto_voyti'),
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
@@ -339,19 +342,22 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: 12),
                     Text(
                       AppLocalizations.current.getString('auto_zaydite_ili_zaregistriruytes'),
+                      textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                     Text(
                       AppLocalizations.current.getString('auto_v_svoy_akkaunt'),
+                      textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ],
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: _cardBg,
+            Flexible(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _cardBg,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),
@@ -434,8 +440,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
@@ -470,14 +476,23 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ],
                             ),
-                            TextButton(
-                              onPressed: _navigateToForgotPassword,
-                              child: Text(
-                                AppLocalizations.current.getString('auto_zabyli_parol'),
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: _colorScheme.onSurface,
-                                  fontWeight: FontWeight.w500,
+                            SizedBox(height: 12),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 28),
+                              child: TextButton(
+                                onPressed: _navigateToForgotPassword,
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: Size.zero,
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: Text(
+                                  AppLocalizations.current.getString('auto_zabyli_parol'),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: _colorScheme.onSurface,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
@@ -549,6 +564,7 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
+                ),
                 ),
               ),
             ),

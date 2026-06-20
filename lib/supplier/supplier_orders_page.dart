@@ -928,12 +928,14 @@ Future<void> _updateOrderStatus(SupplierOrder order, String status) async {
             color: textColor ?? colorScheme.onSurfaceVariant,
           ),
           const SizedBox(width: 6),
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: textColor ?? colorScheme.onSurfaceVariant,
+          Flexible(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: textColor ?? colorScheme.onSurfaceVariant,
+              ),
             ),
           ),
         ],
@@ -1133,11 +1135,19 @@ _buildHistoryDetailRow(
     }
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(icon, size: 16, color: colorScheme.onSurfaceVariant),
         const SizedBox(width: 6),
         Expanded(child: Text(label, style: labelStyle)),
-        Text(value, style: valueStyle),
+        const SizedBox(width: 8),
+        Flexible(
+          child: Text(
+            value,
+            textAlign: TextAlign.end,
+            style: valueStyle,
+          ),
+        ),
       ],
     );
   }
@@ -1539,13 +1549,16 @@ Text(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(_statusIcon(order.status), size: 18, color: statusColor),
             const SizedBox(width: 6),
-Text(
-               context.l10n.getCurrentStatus(_statusLabel(order.status)),
-               style: TextStyle(color: statusColor, fontWeight: FontWeight.w700),
-             ),
+            Expanded(
+              child: Text(
+                 context.l10n.getCurrentStatus(_statusLabel(order.status)),
+                 style: TextStyle(color: statusColor, fontWeight: FontWeight.w700),
+               ),
+            ),
           ],
         ),
         const SizedBox(height: 10),

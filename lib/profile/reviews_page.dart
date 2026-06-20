@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_project/widgets/messages/app_message_snackbar.dart';
 import 'package:uuid/uuid.dart';
 import '../theme/app_color_palette.dart';
@@ -98,8 +99,14 @@ class _ReviewsPageState extends State<ReviewsPage> {
         ? theme.scaffoldBackgroundColor
         : context.colorPalette.bgTop;
 
-    return Scaffold(
-      backgroundColor: pageBackground,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+        statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+      ),
+      child: Scaffold(
+        backgroundColor: pageBackground,
       body: Stack(
         children: [
           if (isDark)
@@ -131,8 +138,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
         ],
       ),
       bottomNavigationBar: RoleInternalNavBar(currentIndex: 3),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildHeader(BuildContext context) {
     return Container(
@@ -171,7 +179,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '\u0412\u0430\u0448\u0438 \u043e\u0442\u0437\u044b\u0432\u044b',
+                  context.l10n.getString('auto_vashiOtzyvy'),
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,

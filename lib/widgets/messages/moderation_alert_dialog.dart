@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/theme/app_color_palette.dart';
 import 'package:flutter_project/services/moderation_alert_service.dart';
+import 'package:flutter_project/services/localization/app_localizations.dart';
 
 class ModerationAlertDialog extends StatelessWidget {
   final List<ModerationAlertInfo> alerts;
@@ -31,6 +32,7 @@ class ModerationAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.colorPalette;
+    final l10n = AppLocalizations.of(context);
     
     return Container(
       decoration: BoxDecoration(
@@ -75,8 +77,8 @@ class ModerationAlertDialog extends StatelessWidget {
           ),
           Text(
             alerts.length > 1
-                ? 'Ваши товары были удалены'
-                : 'Ваш товар удалён',
+                ? l10n.getString('moderation_dialog_title_multiple')
+                : l10n.getString('moderation_dialog_title_single'),
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
@@ -85,7 +87,7 @@ class ModerationAlertDialog extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Модератор скрыл следующие товары за нарушение правил площадки:',
+            l10n.getString('moderation_dialog_description'),
             style: TextStyle(
               fontSize: 15,
               color: palette.muted,
@@ -130,7 +132,7 @@ class ModerationAlertDialog extends StatelessWidget {
                             const SizedBox(width: 4),
                             Flexible(
                               child: Text(
-                                'Причина: ${alert.reason}',
+                                l10n.getString('moderation_dialog_reason_prefix', params: {'reason': alert.reason}),
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: palette.error,
@@ -159,9 +161,9 @@ class ModerationAlertDialog extends StatelessWidget {
               ),
               padding: const EdgeInsets.symmetric(vertical: 16),
             ),
-            child: const Text(
-              'Понятно',
-              style: TextStyle(
+            child: Text(
+              l10n.getString('moderation_dialog_ok_button'),
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
@@ -180,9 +182,9 @@ class ModerationAlertDialog extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            child: const Text(
-              'Не согласен, написать в поддержку',
-              style: TextStyle(
+            child: Text(
+              l10n.getString('moderation_dialog_appeal_button'),
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),

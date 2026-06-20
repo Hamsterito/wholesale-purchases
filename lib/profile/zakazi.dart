@@ -408,39 +408,46 @@ title: Text(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.getString('zakazi_order_label', params: {'orderId': order.id}),
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.getString('zakazi_order_label', params: {'orderId': order.id}),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      _formatDate(order.date),
-                      style: TextStyle(fontSize: 14, color: _mutedText),
-                    ),
-                  ],
+                      const SizedBox(height: 4),
+                      Text(
+                        _formatDate(order.date),
+                        style: TextStyle(fontSize: 14, color: _mutedText),
+                      ),
+                    ],
+                  ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: _statusBackgroundColor(order.status),
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Text(
-                    _statusLabel(order.status),
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: _statusTextColor(order.status),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: _statusBackgroundColor(order.status),
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Text(
+                      _statusLabel(order.status),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: _statusTextColor(order.status),
+                      ),
                     ),
                   ),
                 ),

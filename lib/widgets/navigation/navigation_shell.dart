@@ -28,7 +28,6 @@ class _NavigationShellState extends State<NavigationShell>
     with WidgetsBindingObserver {
   late NavRole _role;
   List<RoleNavTab> _tabs = [];
-  bool _tabsInitialized = false;
   int _currentIndex = 0;
 
   @override
@@ -74,14 +73,13 @@ class _NavigationShellState extends State<NavigationShell>
 
   @override
   Widget build(BuildContext context) {
-    // Инициализируем вкладки с контекстом для локализации
-    if (!_tabsInitialized) {
-      _tabs = tabsForRole(_role, context);
-      _tabsInitialized = true;
-      // Зажимаем initialIndex в границы набора вкладок
-      if (_currentIndex < 0 || _currentIndex >= _tabs.length) {
-        _currentIndex = 0;
-      }
+    // Обновляем вкладки на каждый build, чтобы реагировать на смену языка.
+    // Роль при этом не меняется, но переводы (l10n) могут измениться.
+    _tabs = tabsForRole(_role, context);
+    
+    // Зажимаем initialIndex в границы набора вкладок
+    if (_currentIndex < 0 || _currentIndex >= _tabs.length) {
+      _currentIndex = 0;
     }
 
     return Scaffold(

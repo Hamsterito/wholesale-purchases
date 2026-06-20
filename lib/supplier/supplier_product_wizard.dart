@@ -1011,7 +1011,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       child: LayoutBuilder(
         builder: (context, constraints) {
           const spacing = 12.0;
-          const minPreviewWidth = 156.0;
+          const minPreviewWidth = 110.0;
           const maxPreviewWidth = 188.0;
           final availableWidth = constraints.maxWidth.isFinite
               ? constraints.maxWidth

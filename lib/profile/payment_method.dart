@@ -217,30 +217,35 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
         child: Column(
           children: [
             // Варианты оплаты
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildPaymentOption(
-                  iconPath: 'assets/icons/cash.svg',
-                  label: context.l10n.getString('auto_nalichnye'),
-                  value: 'Cash',
-                ),
-                _buildPaymentOption(
-                  iconPath: 'assets/icons/visa.svg',
-                  label: 'Visa',
-                  value: 'Visa',
-                ),
-                _buildPaymentOption(
-                  iconPath: 'assets/icons/mastercard.svg',
-                  label: 'Mastercard',
-                  value: 'Mastercard',
-                ),
-                _buildPaymentOption(
-                  iconPath: 'assets/icons/paypal.svg',
-                  label: 'PayPal',
-                  value: 'Paypal',
-                ),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  _buildPaymentOption(
+                    iconPath: 'assets/icons/cash.svg',
+                    label: context.l10n.getString('auto_nalichnye'),
+                    value: 'Cash',
+                  ),
+                  const SizedBox(width: 12),
+                  _buildPaymentOption(
+                    iconPath: 'assets/icons/visa.svg',
+                    label: 'Visa',
+                    value: 'Visa',
+                  ),
+                  const SizedBox(width: 12),
+                  _buildPaymentOption(
+                    iconPath: 'assets/icons/mastercard.svg',
+                    label: 'Mastercard',
+                    value: 'Mastercard',
+                  ),
+                  const SizedBox(width: 12),
+                  _buildPaymentOption(
+                    iconPath: 'assets/icons/paypal.svg',
+                    label: 'PayPal',
+                    value: 'Paypal',
+                  ),
+                ],
+              ),
             ),
 
             const SizedBox(height: 24),

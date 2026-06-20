@@ -220,7 +220,7 @@
   "@product_review_share": {
     "description": "Совет поля мнений"
   },
-  "profile_title": "Профиль",
+  "profile_title": "Жеке кабинет",
   "@profile_title": {
     "description": "Заголовок страницы профиля"
   },
@@ -256,7 +256,7 @@
   "@supplier_orders": {
     "description": "Заголовок страницы заказов поставщиков"
   },
-  "supplier_profile": "Жеткізуші профилі",
+  "supplier_profile": "Жеткізушінің жеке кабинеті",
   "@supplier_profile": {
     "description": "Заголовок профиля поставщика"
   },
@@ -1246,7 +1246,7 @@
   "@supplier_delete_product_confirm": {
     "description": "Подтверждение удаления товара"
   },
-  "supplier_profile_title": "Жеткізуші профилі",
+  "supplier_profile_title": "Жеткізушінің жеке кабинеті",
   "@supplier_profile_title": {
     "description": "Заголовок профиля поставщика"
   },
@@ -2058,7 +2058,7 @@
   "@product_card_added_to_favorites": {
     "description": "Уведомление об избрании"
   },
-  "product_card_removed_from_favorites": "Жою",
+  "product_card_removed_from_favorites": "Таңдаулылардан жойылды",
   "@product_card_removed_from_favorites": {
     "description": "Уведомление об удалении"
   },
@@ -2315,7 +2315,7 @@
   "@create_chat_confirm": {
     "description": "Кнопка обновления чата"
   },
-  "moderator_title_profile": "Модератор профилі",
+  "moderator_title_profile": "Модератордың жеке кабинеті",
   "@moderator_title_profile": {
     "description": "Тема профиля модератора"
   },
@@ -5342,10 +5342,10 @@
   "wizard_error_price_max": "Бағасы аспауы керек {max}",
   "wizard_error_min_quantity_max": "Минималды мөлшерден аспауы керек {max}",
   "wizard_error_stock_max": "Қоймадағы қалдық аспауы керек {max}",
-  "wizard_error_calories_max": "Калориялар аспауы керек {max} (numeric шегі(10.2))",
-  "wizard_error_protein_max": "Ақуыздар аспауы керек {max} (numeric шегі(10.2))",
-  "wizard_error_fat_max": "Майлар аспауы керек {max} (numeric шегі(10.2))",
-  "wizard_error_carbs_max": "Көмірсулар аспауы керек {max} (numeric шегі(10.2))",
+  "wizard_error_calories_max": "Калориялар {max}-дан аспауы керек",
+  "wizard_error_protein_max": "Ақуыздар {max}-дан аспауы керек",
+  "wizard_error_fat_max": "Майлар {max}-дан аспауы керек",
+  "wizard_error_carbs_max": "Көмірсулар {max}-дан аспауы керек",
   "wizard_show_all_categories": "Барлығын көрсету ({count})",
   "@wizard_show_all_categories": {
     "placeholders": {
@@ -5354,7 +5354,7 @@
       }
     }
   },
-  "wizard_step_indicator": "Қадам {current} туралы {total}",
+  "wizard_step_indicator": "{current} / {total} қадам",
   "@wizard_step_indicator": {
     "placeholders": {
       "current": {
@@ -5665,7 +5665,7 @@
   "@auto_sortirovka": {},
   "auto_reyting": "Рейтинг",
   "@auto_reyting": {},
-  "auto_poryadok": "Тәртіп",
+  "auto_poryadok": "Сұрыптау реті",
   "@auto_poryadok": {},
   "auto_poVozrastaniyu": "Өсу бойынша",
   "@auto_poVozrastaniyu": {},
@@ -5781,7 +5781,7 @@
   "@auto_udalitFoto": {},
   "auto_razmerFaylaNeDolzhenP": "Файл өлшемі 5 МБ тан аспауы керек",
   "@auto_razmerFaylaNeDolzhenP": {},
-  "auto_redProfil": "Профильді өңдеу",
+  "auto_redProfil": "Жеке кабинетті өңдеу",
   "@auto_redProfil": {},
   "auto_fio": "ТАӘ",
   "@auto_fio": {},
@@ -5811,7 +5811,7 @@
   "@auto_vyMozheteOtmenitZakaz": {},
   "auto_kakIzmenitAdresDostavk": "Жеткізу мекенжайын қалай өзгертуге болады?",
   "@auto_kakIzmenitAdresDostavk": {},
-  "auto_profil": "Профиль",
+  "auto_profil": "Жеке кабинет",
   "@auto_profil": {},
   "auto_adresa": "Мекенжайлар",
   "@auto_adresa": {},
@@ -6150,9 +6150,9 @@
   "@auto_ostatok": {},
   "auto_pokaNetTovarov": "Әзірге тауарлар жоқ",
   "@auto_pokaNetTovarov": {},
-  "auto_dobavtePervyyTovarIOt": "Бірінші элементті қосып, оны модерацияға жіберіңіз.",
+  "auto_dobavtePervyyTovarIOt": "Бірінші тауарды қосып, оны модерацияға жіберіңіз.",
   "@auto_dobavtePervyyTovarIOt": {},
-  "auto_dobavitTovar": "Элементті қосыңыз",
+  "auto_dobavitTovar": "Тауар қосу",
   "@auto_dobavitTovar": {},
   "auto_ponedelnik_1": "Дүйсенбі",
   "@auto_ponedelnik_1": {},
@@ -6186,11 +6186,11 @@
   "@auto_bytovayaHimiya": {},
   "auto_tovaryDlyaDoma": "Үйге арналған тауарлар",
   "@auto_tovaryDlyaDoma": {},
-  "auto_stranaProizvoditelya": "] ?? ",
+  "auto_stranaProizvoditelya": "Өндіруші ел",
   "@auto_stranaProizvoditelya": {},
-  "auto_srokGodnosti": "] ?? ",
+  "auto_srokGodnosti": "Жарамдылық мерзімі",
   "@auto_srokGodnosti": {},
-  "auto_vvediteNazvanieTovara": "Элемент атауын енгізіңіз",
+  "auto_vvediteNazvanieTovara": "Тауар атауын енгізіңіз",
   "@auto_vvediteNazvanieTovara": {},
   "auto_ukazhiteSrokGodnosti": "Жарамдылық мерзімін көрсетіңіз",
   "@auto_ukazhiteSrokGodnosti": {},
@@ -6198,7 +6198,7 @@
   "@auto_vyberiteKategoriyuIzSp": {},
   "auto_vvediteKorrektnuyuTsenu": "Дұрыс бағаны енгізіңіз",
   "@auto_vvediteKorrektnuyuTsenu": {},
-  "auto_minimalnoeKolichestvoDo": "Минималды сома 0 ден көп болуы керек",
+  "auto_minimalnoeKolichestvoDo": "Минималды саны 0-ден көп болуы керек",
   "@auto_minimalnoeKolichestvoDo": {},
   "auto_ukazhiteOstatokNaSklad": "Қоймадағы қалдықты көрсетіңіз",
   "@auto_ukazhiteOstatokNaSklad": {},
@@ -6226,7 +6226,7 @@
   "@auto_uglevodyDolzhnyBytNeot": {},
   "auto_dobavteHotyaByOdnuFot": "Кем дегенде бір фотосурет қосыңыз",
   "@auto_dobavteHotyaByOdnuFot": {},
-  "auto_sozdatTovar": "Өнім жасау керек пе?",
+  "auto_sozdatTovar": "Тауар қосу",
   "@auto_sozdatTovar": {},
   "auto_izmeneniyaBudutOtpravle": "Өзгерістер модерацияға жіберіледі",
   "@auto_izmeneniyaBudutOtpravle": {},
@@ -6234,7 +6234,7 @@
   "@auto_tovarBudetOtpravlenNa": {},
   "auto_sozdat": "Жасау",
   "@auto_sozdat": {},
-  "auto_redaktirovanieTovara": "Өнімді өңдеу",
+  "auto_redaktirovanieTovara": "Тауарды өңдеу",
   "@auto_redaktirovanieTovara": {},
   "auto_osnovnyeDannye": "Негізгі деректер",
   "@auto_osnovnyeDannye": {},
@@ -6256,7 +6256,7 @@
   "@auto_naprimer1450": {},
   "auto_minimalnoeKolichestvo": "Ең аз саны",
   "@auto_minimalnoeKolichestvo": {},
-  "auto_vsegoKolichestvo": "Барлығы саны",
+  "auto_vsegoKolichestvo": "Қоймадағы қалдық",
   "@auto_vsegoKolichestvo": {},
   "auto_naprimer120": "Мысалы, 120",
   "@auto_naprimer120": {},
@@ -6274,11 +6274,11 @@
   "@auto_zhiryG100g": {},
   "auto_uglevodyG100g": "Көмірсулар (г/100г)",
   "@auto_uglevodyG100g": {},
-  "auto_harakteristikiTovara": "Өнімнің сипаттамалары",
+  "auto_harakteristikiTovara": "Тауар сипаттамалары",
   "@auto_harakteristikiTovara": {},
   "auto_nazvanie": "Атауы",
   "@auto_nazvanie": {},
-  "auto_znachenie": "Мағынасы",
+  "auto_znachenie": "Мәні",
   "@auto_znachenie": {},
   "auto_udalitHarakteristiku": "Сипаттаманы жою",
   "@auto_udalitHarakteristiku": {},
@@ -6302,13 +6302,13 @@
   "@auto_bystryyVybor": {},
   "auto_vremyaDostavki": "Жеткізу уақыты",
   "@auto_vremyaDostavki": {},
-  "auto_formatChchmm": "Пішім: сағ: ММ",
+  "auto_formatChchmm": "Формат: СС:ММ",
   "@auto_formatChchmm": {},
   "auto_nekorrektnoeVremya": "Дұрыс емес уақыт",
   "@auto_nekorrektnoeVremya": {},
-  "auto_minimumDney": "Кем дегенде күндер",
+  "auto_minimumDney": "Минималды күн саны",
   "@auto_minimumDney": {},
-  "auto_maksimumDney": "Ең көп күн",
+  "auto_maksimumDney": "Максималды күн саны",
   "@auto_maksimumDney": {},
   "auto_srokPriyomaZakazaNaSe": "Тапсырысты қабылдау мерзімі бүгін",
   "@auto_srokPriyomaZakazaNaSe": {},
@@ -6406,7 +6406,7 @@
   "@auto_zhiry": {},
   "auto_uglevody": "Көмірсулар",
   "@auto_uglevody": {},
-  "auto_dostavka": "жеткізу",
+  "auto_dostavka": "Жеткізу",
   "@auto_dostavka": {},
   "auto_budni": "жұмыс күндері",
   "@auto_budni": {},
@@ -6480,7 +6480,7 @@
   "@auto_tovarSnyatSPublikatsii": {},
   "auto_sohranitIzmeneniya": "Өзгерістерді сақтау",
   "@auto_sohranitIzmeneniya": {},
-  "auto_sozdanieTovara": "Тауар жасау",
+  "auto_sozdanieTovara": "Тауар қосу",
   "@auto_sozdanieTovara": {},
   "auto_neprochitannoeUvedomleni": "оқылмаған хабарлама",
   "@auto_neprochitannoeUvedomleni": {},
@@ -6489,5 +6489,41 @@
   "auto_ezhednevno": "Күнделікті",
   "@auto_ezhednevno": {},
   "auto_otvetit": "Жауап беру",
-  "@auto_otvetit": {}
+  "@auto_otvetit": {},
+  "moderation_alert_one_product_deleted": "«{productName}» тауарын модератор өшірді",
+  "@moderation_alert_one_product_deleted": {
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "moderation_alert_multiple_products_deleted": "Модератор өшірген тауарлар саны: {count}",
+  "@moderation_alert_multiple_products_deleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "moderation_alert_more_details": "Толығырақ",
+  "@moderation_alert_more_details": {},
+  "moderation_dialog_title_multiple": "Тауарларыңыз өшірілді",
+  "@moderation_dialog_title_multiple": {},
+  "moderation_dialog_title_single": "Тауарыңыз өшірілді",
+  "@moderation_dialog_title_single": {},
+  "moderation_dialog_description": "Модератор платформа ережелерін бұзғаны үшін келесі тауарларды жасырды:",
+  "@moderation_dialog_description": {},
+  "moderation_dialog_reason_prefix": "Себебі: {reason}",
+  "@moderation_dialog_reason_prefix": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "moderation_dialog_ok_button": "Түсінікті",
+  "@moderation_dialog_ok_button": {},
+  "moderation_dialog_appeal_button": "Келіспеймін, қолдау қызметіне жазу",
+  "@moderation_dialog_appeal_button": {}
 }

@@ -266,6 +266,7 @@ class _AddressPageState extends State<AddressPage> {
             Row(
               children: [
                 Expanded(
+                  flex: 2,
                   child: _buildTextField(
                     label: context.l10n.getString('auto_ulitsa'),
                     controller: _streetController,
@@ -278,6 +279,7 @@ class _AddressPageState extends State<AddressPage> {
                 ),
                 const SizedBox(width: 12),
                 Expanded(
+                  flex: 1,
                   child: _buildTextField(
                     label: context.l10n.getString('auto_pochtovyyIndeks'),
                     controller: _zipController,

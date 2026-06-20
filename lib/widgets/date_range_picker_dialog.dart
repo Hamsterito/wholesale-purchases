@@ -34,7 +34,7 @@ class _QuickFilterButton extends StatelessWidget {
         splashColor: primaryColor.withValues(alpha: 0.2),
         highlightColor: primaryColor.withValues(alpha: 0.1),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
           decoration: BoxDecoration(
             border: Border.all(
               color: primaryColor.withValues(alpha: 0.5),
@@ -42,21 +42,21 @@ class _QuickFilterButton extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(20),
           ),
-child: Text(
-             label,
-             style: TextStyle(
-               fontSize: 14,
-               fontWeight: FontWeight.w500,
-               color: primaryColor,
-             ),
-           ),
-         ),
-       ),
-     );
-   }
- }
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: primaryColor,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
- enum _QuickFilterType { today, week, month, quarter }
+enum _QuickFilterType { today, week, month, quarter }
 
 class _CustomDateRangePickerDialogState
     extends State<CustomDateRangePickerDialog> {
@@ -96,7 +96,7 @@ class _CustomDateRangePickerDialogState
     });
   }
 
-void _applyQuickFilter(_QuickFilterType filter) {
+  void _applyQuickFilter(_QuickFilterType filter) {
     final now = DateTime.now();
     DateTime start;
     DateTime end;
@@ -156,7 +156,7 @@ void _applyQuickFilter(_QuickFilterType filter) {
     return '$start - $end';
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
     final palette = AppColorPalette.of(context);
     return Dialog(
@@ -169,172 +169,187 @@ void _applyQuickFilter(_QuickFilterType filter) {
           color: palette.card,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              context.l10n.dateRangePickerTitle,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: palette.accent,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                context.l10n.dateRangePickerTitle,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: palette.accent,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            // Быстрые фильтры
-Row(
-               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-               children: [
-                 _QuickFilterButton(
-                   label: context.l10n.dateRangePickerToday,
-                   onTap: () => _applyQuickFilter(_QuickFilterType.today),
-                   primaryColor: palette.accent,
-                 ),
-                 _QuickFilterButton(
-                   label: context.l10n.dateRangePickerWeek,
-                   onTap: () => _applyQuickFilter(_QuickFilterType.week),
-                   primaryColor: palette.accent,
-                 ),
-                 _QuickFilterButton(
-                   label: context.l10n.dateRangePickerMonth,
-                   onTap: () => _applyQuickFilter(_QuickFilterType.month),
-                   primaryColor: palette.accent,
-                 ),
-                 _QuickFilterButton(
-                   label: context.l10n.dateRangePickerQuarter,
-                   onTap: () => _applyQuickFilter(_QuickFilterType.quarter),
-                   primaryColor: palette.accent,
-                 ),
-               ],
-             ),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: 380,
-              child: SfDateRangePicker(
-                controller: _controller,
-                selectionMode: DateRangePickerSelectionMode.range,
-                initialSelectedRange: _selectedRange,
-                onSelectionChanged: _onSelectionChanged,
-                maxDate: DateTime.now(),
-                showNavigationArrow: true,
-                navigationMode: DateRangePickerNavigationMode.snap,
-                backgroundColor: palette.card,
-                headerStyle: DateRangePickerHeaderStyle(
+              const SizedBox(height: 16),
+              // Быстрые фильтры
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _QuickFilterButton(
+                      label: context.l10n.dateRangePickerToday,
+                      onTap: () => _applyQuickFilter(_QuickFilterType.today),
+                      primaryColor: palette.accent,
+                    ),
+                    const SizedBox(width: 8),
+                    _QuickFilterButton(
+                      label: context.l10n.dateRangePickerWeek,
+                      onTap: () => _applyQuickFilter(_QuickFilterType.week),
+                      primaryColor: palette.accent,
+                    ),
+                    const SizedBox(width: 8),
+                    _QuickFilterButton(
+                      label: context.l10n.dateRangePickerMonth,
+                      onTap: () => _applyQuickFilter(_QuickFilterType.month),
+                      primaryColor: palette.accent,
+                    ),
+                    const SizedBox(width: 8),
+                    _QuickFilterButton(
+                      label: context.l10n.dateRangePickerQuarter,
+                      onTap: () => _applyQuickFilter(_QuickFilterType.quarter),
+                      primaryColor: palette.accent,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                height: 380,
+                child: SfDateRangePicker(
+                  controller: _controller,
+                  selectionMode: DateRangePickerSelectionMode.range,
+                  initialSelectedRange: _selectedRange,
+                  onSelectionChanged: _onSelectionChanged,
+                  maxDate: DateTime.now(),
+                  showNavigationArrow: true,
+                  navigationMode: DateRangePickerNavigationMode.snap,
                   backgroundColor: palette.card,
-                  textStyle: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: palette.accent,
-                  ),
-                ),
-                monthCellStyle: DateRangePickerMonthCellStyle(
-                  textStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: palette.ink,
-                  ),
-                  todayTextStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: palette.accent,
-                  ),
-                  disabledDatesTextStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: palette.muted.withValues(alpha: 0.5),
-                  ),
-                ),
-                yearCellStyle: DateRangePickerYearCellStyle(
-                  textStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: palette.ink,
-                  ),
-                  todayTextStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: palette.accent,
-                  ),
-                ),
-                selectionTextStyle: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: palette.card,
-                ),
-                rangeTextStyle: TextStyle(fontSize: 16, color: palette.ink),
-                selectionColor: palette.accent,
-                startRangeSelectionColor: palette.accent,
-                endRangeSelectionColor: palette.accent,
-                rangeSelectionColor: palette.accentMist,
-                todayHighlightColor: palette.accent,
-                monthViewSettings: DateRangePickerMonthViewSettings(
-                  viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                  headerStyle: DateRangePickerHeaderStyle(
+                    backgroundColor: palette.card,
                     textStyle: TextStyle(
-                      fontSize: 14,
+                      fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: palette.muted,
+                      color: palette.accent,
                     ),
                   ),
-                  enableSwipeSelection: false,
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: palette.accentMist,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.calendar_today, color: palette.accent),
-                  const SizedBox(width: 8),
-                  Text(
-                    _getSelectedRangeText(),
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                  monthCellStyle: DateRangePickerMonthCellStyle(
+                    textStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
                       color: palette.ink,
                     ),
+                    todayTextStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: palette.accent,
+                    ),
+                    disabledDatesTextStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: palette.muted.withValues(alpha: 0.5),
+                    ),
+                  ),
+                  yearCellStyle: DateRangePickerYearCellStyle(
+                    textStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: palette.ink,
+                    ),
+                    todayTextStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: palette.accent,
+                    ),
+                  ),
+                  selectionTextStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: palette.card,
+                  ),
+                  rangeTextStyle: TextStyle(fontSize: 16, color: palette.ink),
+                  selectionColor: palette.accent,
+                  startRangeSelectionColor: palette.accent,
+                  endRangeSelectionColor: palette.accent,
+                  rangeSelectionColor: palette.accentMist,
+                  todayHighlightColor: palette.accent,
+                  monthViewSettings: DateRangePickerMonthViewSettings(
+                    viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                      textStyle: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: palette.muted,
+                      ),
+                    ),
+                    enableSwipeSelection: false,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: palette.accentMist,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.calendar_today, color: palette.accent),
+                    const SizedBox(width: 8),
+                    Text(
+                      _getSelectedRangeText(),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: palette.ink,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              Wrap(
+                spacing: 12,
+                runSpacing: 8,
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: _clearSelection,
+                    child: Text(
+                      context.l10n.dateRangePickerClear,
+                      style: TextStyle(color: palette.accent),
+                    ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: Text(
+                          context.l10n.cancel,
+                          style: TextStyle(color: palette.accent),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      ElevatedButton(
+                        onPressed: _saveSelection,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: palette.accent,
+                          foregroundColor: palette.card,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                        ),
+                        child: Text(context.l10n.save),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                TextButton(
-                  onPressed: _clearSelection,
-                  child: Text(
-                    context.l10n.dateRangePickerClear,
-                    style: TextStyle(color: palette.accent),
-                  ),
-                ),
-                const Spacer(),
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text(
-                    context.l10n.cancel,
-                    style: TextStyle(color: palette.accent),
-                  ),
-                ),
-                const SizedBox(width: 12),
-               ElevatedButton(
-                   onPressed: _saveSelection,
-                   style: ElevatedButton.styleFrom(
-                     backgroundColor: palette.accent,
-                     foregroundColor: palette.card,
-                     padding: const EdgeInsets.symmetric(
-                       horizontal: 16,
-                       vertical: 12,
-                     ),
-                   ),
-                   child: Text(context.l10n.save),
-                 ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1310,7 +1310,8 @@ try {
               _buildHeader(context),
               Expanded(
                 child: ListView(
-                  padding: const EdgeInsets.fromLTRB(16, 10, 16, 100),
+                  // Увеличен отступ снизу до 180, чтобы под плавающей кнопкой покупки оставалось место
+                  padding: const EdgeInsets.fromLTRB(16, 10, 16, 180),
                   children: [
                     _buildSummaryCard(),
                     ..._cartItemsBySupplier.entries.map((entry) {

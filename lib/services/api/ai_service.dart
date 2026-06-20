@@ -59,9 +59,9 @@ class AiService {
 
   // Список моделей для fallback (пробуем по очереди при ошибках лимита)
   static const List<String> _fallbackModels = [
-    'gemini-2.0-flash',
-    'gemini-1.5-flash-8b',
-    'gemini-1.5-pro',
+    'models/gemini-2.0-flash',
+    'models/gemini-2.0-flash-lite',
+    'models/gemini-2.5-flash-lite',
   ];
 
   /// Генерирует AI-резюме по статистике поставщика - 3-5 предложений на русском.

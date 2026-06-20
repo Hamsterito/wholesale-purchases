@@ -696,13 +696,13 @@ class _ProductCardState extends State<ProductCard> {
       return const <int>{};
     }
 
-    if (normalized == context.l10n.getString('auto_budni')) {
+    if (normalized == context.l10n.getString('auto_budni') || normalized == 'будни') {
       return _workdaysPreset.toSet();
     }
-    if (normalized == context.l10n.getString('auto_vyhodnye')) {
+    if (normalized == context.l10n.getString('auto_vyhodnye') || normalized == 'выходные') {
       return _weekendPreset.toSet();
     }
-    if (normalized == context.l10n.getString('auto_ezhednevno') || normalized == context.l10n.getString('auto_kazhdyyDen')) {
+    if (normalized == context.l10n.getString('auto_ezhednevno') || normalized == context.l10n.getString('auto_kazhdyyDen') || normalized == 'ежедневно' || normalized == 'каждый день') {
       return _weekdayOrder.toSet();
     }
 
@@ -865,6 +865,10 @@ class _ProductCardState extends State<ProductCard> {
     if (normalized == context.l10n.getString('auto_pt').toLowerCase()) return DateTime.friday;
     if (normalized == context.l10n.getString('auto_sb').toLowerCase()) return DateTime.saturday;
     if (normalized == context.l10n.getString('auto_vs').toLowerCase()) return DateTime.sunday;
+    
+    const ruShort = {'пн': 1, 'вт': 2, 'ср': 3, 'чт': 4, 'пт': 5, 'сб': 6, 'вс': 7};
+    if (ruShort.containsKey(normalized)) return ruShort[normalized];
+    
     return null;
   }
 
@@ -877,6 +881,10 @@ class _ProductCardState extends State<ProductCard> {
     if (normalized == context.l10n.getString('auto_pyatnitsa_1').toLowerCase()) return DateTime.friday;
     if (normalized == context.l10n.getString('auto_subbota_1').toLowerCase()) return DateTime.saturday;
     if (normalized == context.l10n.getString('auto_voskresene_1').toLowerCase()) return DateTime.sunday;
+    
+    const ruFull = {'понедельник': 1, 'вторник': 2, 'среда': 3, 'четверг': 4, 'пятница': 5, 'суббота': 6, 'воскресенье': 7};
+    if (ruFull.containsKey(normalized)) return ruFull[normalized];
+    
     return null;
   }
 
@@ -919,15 +927,15 @@ class _ProductCardState extends State<ProductCard> {
         Text(
           product.rating.toStringAsFixed(1),
           style: TextStyle(
-            fontSize: compact ? 11 : 12,
+            fontSize: compact ? 10 : 11,
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(width: 4),
+        const SizedBox(width: 2),
         RatingStars(
           rating: product.rating,
-          size: compact ? 11 : 12,
-          spacing: 0.5,
+          size: compact ? 10 : 10,
+          spacing: 0.0,
           filledColor: _palette.star,
           emptyColor: _mutedText.withValues(alpha: 0.7),
         ),
@@ -935,7 +943,7 @@ class _ProductCardState extends State<ProductCard> {
         Expanded(
           child: Text(
             reviewsLabel(product.reviewCount),
-            style: TextStyle(fontSize: compact ? 10 : 11, color: _mutedText),
+            style: TextStyle(fontSize: compact ? 9 : 10, color: _mutedText),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

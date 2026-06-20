@@ -1,4 +1,4 @@
-﻿{
+{
   "@@locale": "ru",
   "common_ok": "Хорошо",
   "@common_ok": {
@@ -1892,7 +1892,7 @@
   "@filter_sort_rating": {
     "description": "Сортировка по рейтингу"
   },
-  "filter_order_title": "Порядок",
+  "filter_order_title": "Порядок сортировки",
   "@filter_order_title": {
     "description": "Секция последовательности сортировки"
   },
@@ -2058,7 +2058,7 @@
   "@product_card_added_to_favorites": {
     "description": "Уведомление об избрании"
   },
-  "product_card_removed_from_favorites": "Удалить",
+  "product_card_removed_from_favorites": "Удалено из избранного",
   "@product_card_removed_from_favorites": {
     "description": "Уведомление об удалении"
   },
@@ -5605,7 +5605,7 @@
   "@auto_sortirovka": {},
   "auto_reyting": "Рейтинг",
   "@auto_reyting": {},
-  "auto_poryadok": "Порядок",
+  "auto_poryadok": "Порядок сортировки",
   "@auto_poryadok": {},
   "auto_poVozrastaniyu": "По возрастанию",
   "@auto_poVozrastaniyu": {},
@@ -6429,5 +6429,41 @@
   "auto_ezhednevno": "Ежедневно",
   "@auto_ezhednevno": {},
   "auto_otvetit": "Ответить",
-  "@auto_otvetit": {}
+  "@auto_otvetit": {},
+  "moderation_alert_one_product_deleted": "Товар «{productName}» удалён модератором",
+  "@moderation_alert_one_product_deleted": {
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "moderation_alert_multiple_products_deleted": "Удалено товаров модератором: {count}",
+  "@moderation_alert_multiple_products_deleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "moderation_alert_more_details": "Подробнее",
+  "@moderation_alert_more_details": {},
+  "moderation_dialog_title_multiple": "Ваши товары были удалены",
+  "@moderation_dialog_title_multiple": {},
+  "moderation_dialog_title_single": "Ваш товар удалён",
+  "@moderation_dialog_title_single": {},
+  "moderation_dialog_description": "Модератор скрыл следующие товары за нарушение правил площадки:",
+  "@moderation_dialog_description": {},
+  "moderation_dialog_reason_prefix": "Причина: {reason}",
+  "@moderation_dialog_reason_prefix": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "moderation_dialog_ok_button": "Понятно",
+  "@moderation_dialog_ok_button": {},
+  "moderation_dialog_appeal_button": "Не согласен, написать в поддержку",
+  "@moderation_dialog_appeal_button": {}
 }

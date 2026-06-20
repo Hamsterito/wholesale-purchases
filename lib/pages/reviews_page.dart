@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../models/product.dart';
 import '../models/review_entry.dart';
@@ -106,9 +107,16 @@ class _ReviewsPageState extends State<ReviewsPage> {
   @override
   Widget build(BuildContext context) {
     final palette = context.colorPalette;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      backgroundColor: palette.bgTop,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+        statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+      ),
+      child: Scaffold(
+        backgroundColor: palette.bgTop,
       body: Stack(
         children: [
           Positioned.fill(
@@ -142,8 +150,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
         ],
       ),
       bottomNavigationBar: const RoleInternalNavBar(currentIndex: null),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildHeader(BuildContext context) {
     final palette = context.colorPalette;

@@ -730,7 +730,7 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
     return _matchesSearchTokens(product, SearchNormalizer.tokenizeQuery(query));
   }
 
-  bool _matchesSearchTokens(Product product, List<String> tokens) {
+  bool _matchesSearchTokens(Product product, List<List<String>> tokens) {
     if (tokens.isEmpty) return true;
     final haystack =
         _searchIndex[product.id] ?? _buildProductSearchText(product);

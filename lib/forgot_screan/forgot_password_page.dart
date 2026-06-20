@@ -129,6 +129,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
     final gradientColors = _isDark
         ? [context.colorPalette.bgBottom, context.colorPalette.bgTop]
         : [context.colorPalette.accent, context.colorPalette.accentDark];
@@ -169,13 +170,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 ),
               ),
             ),
-            Expanded(
-              child: Center(
-                child: Column(
+            if (!isKeyboardVisible)
+              Expanded(
+                child: Center(
+                  child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       AppLocalizations.current.getString('auto_zabyli_parol_1'),
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
@@ -185,15 +188,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     SizedBox(height: 12),
                     Text(
                       AppLocalizations.current.getString('auto_napishi_svoyu_pochtu'),
+                      textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ],
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: _cardBg,
+            Flexible(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _cardBg,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),
@@ -268,6 +273,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       ],
                     ),
                   ),
+                ),
                 ),
               ),
             ),

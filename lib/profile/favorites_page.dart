@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/product.dart';
 import '../pages/product_detail_page.dart';
 import '../pages/supplier_profile_page.dart';
@@ -42,19 +43,26 @@ class _FavoritesPageState extends State<FavoritesPage>
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: theme.colorScheme.surface,
+        backgroundColor: palette.card,
         elevation: 0,
+        scrolledUnderElevation: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: theme.brightness == Brightness.dark ? Brightness.light : Brightness.dark,
+          statusBarBrightness: theme.brightness == Brightness.dark ? Brightness.dark : Brightness.light,
+        ),
+        shape: Border(bottom: BorderSide(color: palette.line)),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: theme.colorScheme.onSurface),
+          icon: Icon(Icons.arrow_back, color: palette.ink),
           onPressed: () => Navigator.pop(context),
           tooltip: context.l10n.getString('auto_nazad'),
         ),
         title: Text(
           context.l10n.getString('auto_izbrannoe'),
           style: TextStyle(
-            color: theme.colorScheme.onSurface,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
+            color: palette.ink,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
           ),
         ),
         // TabBar встроен в AppBar для правильного порядка навигации

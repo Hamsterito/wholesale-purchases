@@ -641,7 +641,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 1.65,
+            childAspectRatio: 1.4,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
           ),
@@ -700,6 +700,8 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                   color: textColor.withValues(alpha: 0.65),
                   fontWeight: FontWeight.w500,
                 ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 1),
               Text(

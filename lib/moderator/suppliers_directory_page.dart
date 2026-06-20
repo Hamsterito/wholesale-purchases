@@ -53,7 +53,7 @@ class _SuppliersDirectoryPageState extends State<SuppliersDirectoryPage> {
   // Сырой текст поля для эхо в empty-state, без нормализации.
   String _rawQuery = '';
   // Токены активного запроса для клиентского фоллбэка.
-  List<String> _queryTokens = const [];
+  List<List<String>> _queryTokens = const [];
 
   Timer? _skeletonTimer;
   Timer? _searchDebounceTimer;

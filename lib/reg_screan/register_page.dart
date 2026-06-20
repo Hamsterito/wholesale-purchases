@@ -840,6 +840,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
     final gradientColors = _isDark
         ? [context.colorPalette.bgBottom, context.colorPalette.bgTop]
         : [context.colorPalette.accent, context.colorPalette.accentDark];
@@ -936,14 +937,16 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
-            Expanded(
-              flex: headerFlex,
-              child: Center(
-                child: Column(
+            if (!isKeyboardVisible)
+              Expanded(
+                flex: headerFlex,
+                child: Center(
+                  child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       AppLocalizations.current.getString('auto_registratsiya'),
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: headerTitleSize,
                         fontWeight: FontWeight.bold,
@@ -953,6 +956,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     SizedBox(height: sectionGap),
                     Text(
                       AppLocalizations.current.getString('auto_zaregistriruytes_chtoby_nachat'),
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: headerSubtitleSize,
                         color: Colors.white,

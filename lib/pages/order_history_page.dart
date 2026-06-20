@@ -527,12 +527,14 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
         children: [
           Icon(icon, size: 14, color: textColor ?? _mutedText),
           const SizedBox(width: 6),
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: textColor ?? _mutedText,
+          Flexible(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: textColor ?? _mutedText,
+              ),
             ),
           ),
         ],
@@ -650,11 +652,19 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     }
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(icon, size: 16, color: _mutedText),
         const SizedBox(width: 6),
         Expanded(child: Text(label, style: labelStyle)),
-        Text(value, style: valueStyle),
+        const SizedBox(width: 8),
+        Flexible(
+          child: Text(
+            value,
+            textAlign: TextAlign.end,
+            style: valueStyle,
+          ),
+        ),
       ],
     );
   }

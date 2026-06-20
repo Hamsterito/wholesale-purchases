@@ -265,6 +265,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
     final palette = context.colorPalette;
     final gradientColors = _isDark
         ? [palette.bgBottom, palette.bgTop]
@@ -318,9 +319,10 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
                 ),
               ),
             ),
-            Expanded(
-              child: Center(
-                child: Padding(
+            if (!isKeyboardVisible)
+              Expanded(
+                child: Center(
+                  child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -355,9 +357,10 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: _cardBg,
+            Flexible(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _cardBg,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),
@@ -397,6 +400,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
                       ],
                     ),
                   ),
+                ),
                 ),
               ),
             ),

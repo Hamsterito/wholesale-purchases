@@ -40,9 +40,19 @@ class WeeklyDeliverySchedule extends DeliverySchedule {
 
   @override
   String encode() {
+    // ALWAYS use ru short weekdays for backend storage backward compatibility!
+    const ruShortWeekday = {
+      DateTime.monday: 'Пн',
+      DateTime.tuesday: 'Вт',
+      DateTime.wednesday: 'Ср',
+      DateTime.thursday: 'Чт',
+      DateTime.friday: 'Пт',
+      DateTime.saturday: 'Сб',
+      DateTime.sunday: 'Вс',
+    };
     final days = _sortWeekdays(
       weekdays,
-    ).map((w) => _shortWeekday[w] ?? AppLocalizations.current.getString('util_weekday_mon')).join(',');
+    ).map((w) => ruShortWeekday[w]!).join(',');
     return 'schedule:$days ${_formatHm(hour, minute)}';
   }
 }
@@ -282,10 +292,11 @@ LeadTimeDeliverySchedule? _decodeLeadTime(String raw) {
 Set<int> _parseWeekdaysPart(String raw) {
   final lowered = raw.toLowerCase().trim();
   if (lowered.isEmpty) return const <int>{};
-  if (lowered == AppLocalizations.current.getString('util_weekday_keyword_weekdays')) return _workdayPreset.toSet();
-  if (lowered == AppLocalizations.current.getString('util_weekday_keyword_weekends')) return _weekendPreset.toSet();
+  if (lowered == AppLocalizations.current.getString('util_weekday_keyword_weekdays') || lowered == 'будни' || lowered == 'weekdays') return _workdayPreset.toSet();
+  if (lowered == AppLocalizations.current.getString('util_weekday_keyword_weekends') || lowered == 'выходные' || lowered == 'weekends') return _weekendPreset.toSet();
   if (lowered == AppLocalizations.current.getString('util_weekday_keyword_daily') ||
-      lowered == AppLocalizations.current.getString('util_weekday_keyword_every_day')) {
+      lowered == AppLocalizations.current.getString('util_weekday_keyword_every_day') ||
+      lowered == 'ежедневно' || lowered == 'каждый день' || lowered == 'daily') {
     return _weekdayOrder.toSet();
   }
 
@@ -326,6 +337,17 @@ int? _parseWeekday(String value) {
   for (final entry in _fullWeekdayNominative.entries) {
     if (entry.value.toLowerCase() == v) return entry.key;
   }
+
+  // Fallbacks to Russian/English to parse data saved in other locales
+  const ruShort = {'пн': 1, 'вт': 2, 'ср': 3, 'чт': 4, 'пт': 5, 'сб': 6, 'вс': 7};
+  if (ruShort.containsKey(v)) return ruShort[v];
+
+  const ruFull = {'понедельник': 1, 'вторник': 2, 'среда': 3, 'четверг': 4, 'пятница': 5, 'суббота': 6, 'воскресенье': 7};
+  if (ruFull.containsKey(v)) return ruFull[v];
+
+  const enShort = {'mon': 1, 'tue': 2, 'wed': 3, 'thu': 4, 'fri': 5, 'sat': 6, 'sun': 7};
+  if (enShort.containsKey(v)) return enShort[v];
+
   return null;
 }
 

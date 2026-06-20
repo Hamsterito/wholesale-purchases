@@ -356,7 +356,7 @@ Expanded(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w700,
                               ),
-                              maxLines: 1,
+                              maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),

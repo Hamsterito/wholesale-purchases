@@ -1377,7 +1377,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get filter_sort_rating => 'Рейтинг';
 
   @override
-  String get filter_order_title => 'Порядок';
+  String get filter_order_title => 'Порядок сортировки';
 
   @override
   String get filter_order_asc => 'От меньшего к большему';
@@ -1498,7 +1498,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get product_card_added_to_favorites => 'Выбрано';
 
   @override
-  String get product_card_removed_from_favorites => 'Удалить';
+  String get product_card_removed_from_favorites => 'Удалено из избранного';
 
   @override
   String get product_card_add_to_cart => 'Добавить в корзину';
@@ -4765,7 +4765,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_reyting => 'Рейтинг';
 
   @override
-  String get auto_poryadok => 'Порядок';
+  String get auto_poryadok => 'Порядок сортировки';
 
   @override
   String get auto_poVozrastaniyu => 'По возрастанию';
@@ -6078,4 +6078,39 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_otvetit => 'Ответить';
+
+  @override
+  String moderation_alert_one_product_deleted(String productName) {
+    return 'Товар «$productName» удалён модератором';
+  }
+
+  @override
+  String moderation_alert_multiple_products_deleted(int count) {
+    return 'Удалено товаров модератором: $count';
+  }
+
+  @override
+  String get moderation_alert_more_details => 'Подробнее';
+
+  @override
+  String get moderation_dialog_title_multiple => 'Ваши товары были удалены';
+
+  @override
+  String get moderation_dialog_title_single => 'Ваш товар удалён';
+
+  @override
+  String get moderation_dialog_description =>
+      'Модератор скрыл следующие товары за нарушение правил площадки:';
+
+  @override
+  String moderation_dialog_reason_prefix(String reason) {
+    return 'Причина: $reason';
+  }
+
+  @override
+  String get moderation_dialog_ok_button => 'Понятно';
+
+  @override
+  String get moderation_dialog_appeal_button =>
+      'Не согласен, написать в поддержку';
 }

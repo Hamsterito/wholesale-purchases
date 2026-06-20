@@ -39,6 +39,34 @@ class RoleNavigationBar extends StatelessWidget {
         : Colors.black.withValues(alpha: 0.05);
     final navColors = NavColors.of(context);
 
+    // Вычисляем максимальную длину названия вкладки, чтобы выбрать единый размер шрифта для всех элементов
+    // (иначе соседние вкладки при масштабировании будут иметь разный размер букв).
+    int maxLabelLength = 0;
+    for (final tab in tabs) {
+      if (tab.label.length > maxLabelLength) {
+        maxLabelLength = tab.label.length;
+      }
+    }
+
+    final double fontSize;
+    if (tabs.length >= 4) {
+      if (maxLabelLength > 10) {
+        fontSize = 11.0;
+      } else if (maxLabelLength > 8) {
+        fontSize = 12.0;
+      } else {
+        fontSize = 13.0;
+      }
+    } else {
+      if (maxLabelLength > 12) {
+        fontSize = 11.0;
+      } else if (maxLabelLength > 10) {
+        fontSize = 12.0;
+      } else {
+        fontSize = 13.0;
+      }
+    }
+
     return Container(
       decoration: BoxDecoration(
         color: navColors.background,
@@ -56,7 +84,7 @@ class RoleNavigationBar extends StatelessWidget {
           child: Row(
             children: [
               for (var i = 0; i < tabs.length; i++)
-                _buildNavItem(context, tabs[i], i),
+                _buildNavItem(context, tabs[i], i, fontSize),
             ],
           ),
         ),
@@ -64,7 +92,12 @@ class RoleNavigationBar extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItem(BuildContext context, RoleNavTab tab, int index) {
+  Widget _buildNavItem(
+    BuildContext context,
+    RoleNavTab tab,
+    int index,
+    double fontSize,
+  ) {
     final isActive = isTabActive(currentIndex, index, tabs.length);
     final navColors = NavColors.of(context);
     final activeColor = navColors.foreground;
@@ -102,17 +135,23 @@ class RoleNavigationBar extends StatelessWidget {
                   children: [
                     _buildIcon(tab, isActive, activeColor, inactiveColor),
                     const SizedBox(height: 4),
-                    Text(
-                      tab.label,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: isActive ? activeColor : inactiveColor,
-                        fontWeight: isActive
-                            ? FontWeight.w600
-                            : FontWeight.w400,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      // Масштабируем длинный текст вниз, чтобы он не обрезался на узких экранах и в казахской локализации.
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          tab.label,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: fontSize,
+                            color: isActive ? activeColor : inactiveColor,
+                            fontWeight: isActive
+                                ? FontWeight.w600
+                                : FontWeight.w400,
+                          ),
+                        ),
                       ),
                     ),
                   ],

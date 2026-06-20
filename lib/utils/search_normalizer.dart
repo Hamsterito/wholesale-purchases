@@ -13,63 +13,81 @@ class SearchNormalizer {
   static final RegExp _whitespaceRegExp = RegExp(r'\s+');
 
   static String buildSearchText(String input) {
-    final base = _normalizeBase(input);
-    if (base.isEmpty) return '';
+    var preNormalized = TextNormalizer.normalize(input);
+    preNormalized = preNormalized.toLowerCase();
+    preNormalized = preNormalized.replaceAll('ё', 'е');
+    preNormalized = preNormalized.replaceAll(_softSignsRegExp, '');
+
+    if (preNormalized.trim().isEmpty) return '';
+
     final variants = <String>{
-      base,
-      _normalizeBase(_transliterateCyrToLat(base)),
-      _normalizeBase(_transliterateLatToCyr(base)),
-      _normalizeBase(_swapLayoutCyrToLat(base)),
-      _normalizeBase(_swapLayoutLatToCyr(base)),
-    }..removeWhere((value) => value.isEmpty);
-    return variants.join(' ');
+      preNormalized,
+      _transliterateCyrToLat(preNormalized),
+      _transliterateLatToCyr(preNormalized),
+      _swapLayoutCyrToLat(preNormalized),
+      _swapLayoutLatToCyr(preNormalized),
+    };
+
+    final result = <String>{};
+    for (final variant in variants) {
+      final cleaned = variant
+          .replaceAll(_nonAlphaNumericRegExp, ' ')
+          .replaceAll(_whitespaceRegExp, ' ')
+          .trim();
+      if (cleaned.isNotEmpty) {
+        result.add(cleaned);
+      }
+    }
+    return result.join(' ');
   }
 
-  static List<String> tokenizeQuery(String query) {
-    final base = _normalizeBase(query);
-    if (base.isEmpty) return const [];
-    return base.split(' ');
+  static List<List<String>> tokenizeQuery(String query) {
+    var preNormalized = TextNormalizer.normalize(query);
+    preNormalized = preNormalized.toLowerCase();
+    preNormalized = preNormalized.replaceAll('ё', 'е');
+    preNormalized = preNormalized.replaceAll(_softSignsRegExp, '');
+
+    if (preNormalized.trim().isEmpty) return const [];
+
+    final variants = <String>{
+      preNormalized,
+      _transliterateCyrToLat(preNormalized),
+      _transliterateLatToCyr(preNormalized),
+      _swapLayoutCyrToLat(preNormalized),
+      _swapLayoutLatToCyr(preNormalized),
+    };
+
+    final result = <List<String>>[];
+    for (final variant in variants) {
+      final cleaned = variant
+          .replaceAll(_nonAlphaNumericRegExp, ' ')
+          .replaceAll(_whitespaceRegExp, ' ')
+          .trim();
+      if (cleaned.isNotEmpty) {
+        result.add(cleaned.split(' '));
+      }
+    }
+    return result;
   }
 
-  static bool matchesTokens(String haystack, List<String> tokens) {
-    if (tokens.isEmpty) return true;
+  static bool matchesTokens(String haystack, List<List<String>> tokensVariants) {
+    if (tokensVariants.isEmpty) return true;
     if (haystack.isEmpty) return false;
 
-    for (final token in tokens) {
-      if (token.isEmpty) continue;
-      final variants = _expandToken(token);
-      var matched = false;
-      for (final variant in variants) {
-        if (haystack.contains(variant)) {
-          matched = true;
+    for (final tokens in tokensVariants) {
+      var matched = true;
+      for (final token in tokens) {
+        if (!haystack.contains(token)) {
+          matched = false;
           break;
         }
       }
-      if (!matched) return false;
+      if (matched) return true;
     }
-    return true;
+    return false;
   }
 
-  static List<String> _expandToken(String token) {
-    final variants = <String>{
-      token,
-      _normalizeBase(_transliterateCyrToLat(token)),
-      _normalizeBase(_transliterateLatToCyr(token)),
-      _normalizeBase(_swapLayoutCyrToLat(token)),
-      _normalizeBase(_swapLayoutLatToCyr(token)),
-    }..removeWhere((value) => value.isEmpty);
-    return variants.toList();
-  }
 
-  static String _normalizeBase(String input) {
-    var value = TextNormalizer.normalize(input);
-    value = value.toLowerCase();
-    value = value.replaceAll('ё', 'е');
-    value = value.replaceAll(_softSignsRegExp, '');
-    value = value.replaceAll(_nonAlphaNumericRegExp, ' ');
-    value = value.replaceAll(_whitespaceRegExp, ' ').trim();
-    return value;
-  }
 
   static String _transliterateCyrToLat(String input) {
     final buffer = StringBuffer();

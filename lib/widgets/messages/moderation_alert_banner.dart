@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/theme/app_color_palette.dart';
 import 'package:flutter_project/services/moderation_alert_service.dart';
+import 'package:flutter_project/services/localization/app_localizations.dart';
 import 'moderation_alert_dialog.dart';
 
 class ModerationAlertBanner extends StatelessWidget {
@@ -21,10 +22,10 @@ class ModerationAlertBanner extends StatelessWidget {
 
     final palette = context.colorPalette;
     
-    // Мы можем показать название первого товара, либо общий текст, если их несколько
+    final l10n = AppLocalizations.of(context);
     final String title = alerts.length == 1
-        ? 'Товар «${alerts.first.productName}» удалён модератором'
-        : 'Удалено товаров модератором: ${alerts.length}';
+        ? l10n.getString('moderation_alert_one_product_deleted', params: {'productName': alerts.first.productName})
+        : l10n.getString('moderation_alert_multiple_products_deleted', params: {'count': alerts.length});
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -85,7 +86,7 @@ class ModerationAlertBanner extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
-                'Подробнее',
+                l10n.getString('moderation_alert_more_details'),
                 style: TextStyle(
                   color: palette.error,
                   fontSize: 13,

@@ -128,7 +128,7 @@ class AppColorPalette {
     accentDark: Color(0xFF9BB6FF),
     accentSoft: Color(0xFF243251),
     onAccentSoft: Color(0xFF9BB6FF),
-    accentMist: Color(0xFF1A243A),
+    accentMist: Color(0xFF222F4C),
 
     // Семантические цвета
     success: Color(0xFF66BB6A),
