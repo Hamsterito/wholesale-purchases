@@ -9,6 +9,9 @@ class AppLocalizationsKk extends AppLocalizations {
   AppLocalizationsKk([String locale = 'kk']) : super(locale);
 
   @override
+  String get auto_neobyazatelnoAvtoperev => 'Міндетті емес (автоаударма)';
+
+  @override
   String get common_ok => 'Жарайды';
 
   @override

@@ -260,58 +260,60 @@ class _ForgotPasswordVerificationPageState
                 ),
               ),
             ),
-            if (!isKeyboardVisible)
-              Expanded(
-                child: Center(
-                  child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      AppLocalizations.current.getString('auto_vosstanovlenie_parolya'),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+            Expanded(
+              child: !isKeyboardVisible
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 32),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            AppLocalizations.current.getString('auto_vosstanovlenie_parolya'),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          Text(
+                            AppLocalizations.current.getString('auto_my_otpravili_kod_na_vashu_pochtu'),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            widget.email,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    SizedBox(height: 12),
-                    Text(
-                      AppLocalizations.current.getString('auto_my_otpravili_kod_na_vashu_pochtu'),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      widget.email,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                    )
+                  : const SizedBox.shrink(),
             ),
             Flexible(
               child: Container(
                 decoration: BoxDecoration(
                   color: _cardBg,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(24),
-                  topRight: Radius.circular(24),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
                 ),
-              ),
-              child: SafeArea(
-                top: false,
-                child: Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // КОД И ТАЙМЕР
+                child: SafeArea(
+                  top: false,
+                  child: Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // КОД И ТАЙМЕР
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

@@ -1,4 +1,4 @@
-﻿	BEGIN;
+	BEGIN;
 
 -- ---------- пользователи ----------
 CREATE TABLE IF NOT EXISTS public.users (
@@ -19,75 +19,28 @@ CREATE INDEX IF NOT EXISTS idx_users_role ON public.users(role);
 
 
 -- ---------- товары ----------
-CREATE TABLE IF NOT EXISTS public.categories (
-    id            SERIAL PRIMARY KEY,
-    name          VARCHAR(120) NOT NULL,
-    parent_id     INTEGER REFERENCES public.categories(id) ON DELETE SET NULL,
-    subtitle      VARCHAR(255),
-    image_path    VARCHAR(255),
-    keywords      TEXT,
-    sort_order    INTEGER NOT NULL DEFAULT 0,
-    is_active     BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at    TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
-    updated_at    TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
-);
 
-ALTER TABLE public.categories
-    ADD COLUMN IF NOT EXISTS parent_id INTEGER;
-ALTER TABLE public.categories
-    ADD COLUMN IF NOT EXISTS subtitle VARCHAR(255);
-ALTER TABLE public.categories
-    ADD COLUMN IF NOT EXISTS image_path VARCHAR(255);
-ALTER TABLE public.categories
-    ADD COLUMN IF NOT EXISTS keywords TEXT;
-ALTER TABLE public.categories
-    ADD COLUMN IF NOT EXISTS sort_order INTEGER NOT NULL DEFAULT 0;
-ALTER TABLE public.categories
-    ADD COLUMN IF NOT EXISTS is_active BOOLEAN NOT NULL DEFAULT TRUE;
-ALTER TABLE public.categories
-    ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW();
-ALTER TABLE public.categories
-    ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW();
-
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1
-        FROM pg_constraint
-        WHERE conname = 'fk_categories_parent'
-    ) THEN
-        ALTER TABLE public.categories
-            ADD CONSTRAINT fk_categories_parent
-            FOREIGN KEY (parent_id)
-            REFERENCES public.categories(id)
-            ON DELETE SET NULL;
-    END IF;
-END
-$$;
-
-DROP INDEX IF EXISTS idx_categories_name_ci;
-CREATE UNIQUE INDEX IF NOT EXISTS idx_categories_parent_name_ci
-    ON public.categories (COALESCE(parent_id, 0), LOWER(name));
-CREATE INDEX IF NOT EXISTS idx_categories_active_sort
-    ON public.categories (is_active, sort_order, id);
-CREATE INDEX IF NOT EXISTS idx_categories_parent_sort
-    ON public.categories (parent_id, sort_order, id);
 
 CREATE TABLE IF NOT EXISTS public.products (
     id              SERIAL PRIMARY KEY,
     name            VARCHAR(255) NOT NULL,
+    name_kk         VARCHAR(255),
     description     TEXT,
+    description_kk  TEXT,
     image_url       TEXT,
     ingredients     TEXT,
+    ingredients_kk  TEXT,
     nutrition_calories NUMERIC(10,2) NOT NULL DEFAULT 0,
     nutrition_protein NUMERIC(10,2) NOT NULL DEFAULT 0,
     nutrition_fat NUMERIC(10,2) NOT NULL DEFAULT 0,
     nutrition_carbohydrates NUMERIC(10,2) NOT NULL DEFAULT 0,
     characteristics TEXT,
+    characteristics_kk TEXT,
     stock_quantity  INTEGER NOT NULL DEFAULT 0,
     rating          NUMERIC(2,1) NOT NULL DEFAULT 0.0,
     review_count    INTEGER NOT NULL DEFAULT 0,
     category        VARCHAR(100),
+    category_kk     VARCHAR(100),
     price_per_unit  INTEGER NOT NULL,
     min_quantity    INTEGER NOT NULL DEFAULT 1,
     max_quantity    INTEGER,
@@ -143,6 +96,7 @@ CREATE TABLE IF NOT EXISTS public.order_items (
     order_id    INTEGER NOT NULL REFERENCES public.orders(id) ON DELETE CASCADE,
     product_id  INTEGER NOT NULL REFERENCES public.products(id) ON DELETE RESTRICT,
     name        VARCHAR(255) NOT NULL,
+    name_kk     VARCHAR(255),
     price       INTEGER NOT NULL,
     quantity    INTEGER NOT NULL,
     image_url   TEXT,
@@ -218,61 +172,7 @@ CREATE INDEX IF NOT EXISTS idx_support_messages_created_at
     ON public.support_messages(created_at);
 
 -- тестовые данные
-INSERT INTO public.categories (
-    name,
-    parent_id,
-    subtitle,
-    image_path,
-    keywords,
-    sort_order,
-    is_active
-)
-VALUES
-    ('Напитки', NULL, 'Вода, соки, газировка', 'assets/catalog/water.jpg', NULL, 1, TRUE),
-    ('Овощи и фрукты', NULL, 'Фрукты, ягоды, овощи и зелень', 'assets/catalog/fruits_berries.jpg', NULL, 2, TRUE),
-    ('Хлеб и пекарня', NULL, 'Хлеб, булочки, пироги', 'assets/catalog/bakery_pastry.jpg', NULL, 3, TRUE),
-    ('Молочная продукция', NULL, 'Молоко, сыр, йогурты и яйца', 'assets/catalog/milk.jpg', NULL, 4, TRUE),
-    ('Мясо и птица', NULL, 'Мясо, колбасы и деликатесы', 'assets/catalog/meat.jpg', NULL, 5, TRUE)
-ON CONFLICT ((COALESCE(parent_id, 0)), (LOWER(name))) DO UPDATE
-SET
-    subtitle = EXCLUDED.subtitle,
-    image_path = EXCLUDED.image_path,
-    keywords = EXCLUDED.keywords,
-    sort_order = EXCLUDED.sort_order,
-    is_active = EXCLUDED.is_active,
-    updated_at = NOW();
 
-WITH parents AS (
-    SELECT id, name
-    FROM public.categories
-    WHERE parent_id IS NULL
-)
-INSERT INTO public.categories (name, parent_id, image_path, keywords, sort_order, is_active)
-VALUES
-    ('Вода', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Напитки')), 'assets/catalog/water.jpg', 'вода,минеральная', 1, TRUE),
-    ('Соки', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Напитки')), 'assets/catalog/juice.jpg', 'сок,соки,juice', 2, TRUE),
-    ('Газировка', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Напитки')), 'assets/catalog/soda.jpg', 'газировка,газированный,лимонад,soda', 3, TRUE),
-    ('Фрукты, ягоды', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Овощи и фрукты')), 'assets/catalog/fruits_berries.jpg', 'фрукты,ягоды,фрукт,ягода', 1, TRUE),
-    ('Овощи, грибы и зелень', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Овощи и фрукты')), 'assets/catalog/vegetables_greens.jpg', 'овощи,грибы,зелень,овощ,гриб', 2, TRUE),
-    ('Выпечка от Манса', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Хлеб и пекарня')), 'assets/catalog/bakery_pastry.jpg', 'выпечка,пекарня,булочки,круассан', 1, TRUE),
-    ('Хлеб', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Хлеб и пекарня')), 'assets/catalog/bread.jpg', 'хлеб,батон,багет', 2, TRUE),
-    ('Выпечка и пироги', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Хлеб и пекарня')), 'assets/catalog/pie.jpg', 'выпечка,пирог,пироги', 3, TRUE),
-    ('Сыр', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Молочная продукция')), 'assets/catalog/cheese.jpg', 'сыр', 1, TRUE),
-    ('Творог, сметана', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Молочная продукция')), 'assets/catalog/cottage_cheese.jpg', 'творог,сметана,кисломолочные', 2, TRUE),
-    ('Йогурт и десерты', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Молочная продукция')), 'assets/catalog/yogurt_dessert.jpg', 'йогурт,десерт,десерты', 3, TRUE),
-    ('Молоко и кисломолочные продукты', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Молочная продукция')), 'assets/catalog/milk.jpg', 'молоко,кефир,ряженка,айран', 4, TRUE),
-    ('Масло и яйца', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Молочная продукция')), 'assets/catalog/butter_eggs.jpg', 'масло,яйца,яйцо', 5, TRUE),
-    ('Мясо и птица', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Мясо и птица')), 'assets/catalog/meat.jpg', 'мясо,птица,курица,говядина,свинина', 1, TRUE),
-    ('Колбасы и сосиски', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Мясо и птица')), 'assets/catalog/sausages.jpg', 'колбаса,колбасы,сосиски,сардельки', 2, TRUE),
-    ('Мясные деликатесы', (SELECT id FROM parents WHERE LOWER(name) = LOWER('Мясо и птица')), 'assets/catalog/deli_meats.jpg', 'деликатесы,ветчина,бекон,хамон', 3, TRUE)
-ON CONFLICT ((COALESCE(parent_id, 0)), (LOWER(name))) DO UPDATE
-SET
-    parent_id = EXCLUDED.parent_id,
-    image_path = EXCLUDED.image_path,
-    keywords = EXCLUDED.keywords,
-    sort_order = EXCLUDED.sort_order,
-    is_active = EXCLUDED.is_active,
-    updated_at = NOW();
 
 
 COMMIT;

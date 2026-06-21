@@ -74,10 +74,21 @@ class SearchNormalizer {
     if (tokensVariants.isEmpty) return true;
     if (haystack.isEmpty) return false;
 
+    final haystackWords = haystack.split(' ');
+
     for (final tokens in tokensVariants) {
       var matched = true;
       for (final token in tokens) {
-        if (!haystack.contains(token)) {
+        var tokenFound = false;
+        for (final word in haystackWords) {
+          // Ищем совпадение с начала слова (prefix match) или точное совпадение.
+          // Это предотвратит нахождение "сковорода" по запросу "вода".
+          if (word.startsWith(token)) {
+            tokenFound = true;
+            break;
+          }
+        }
+        if (!tokenFound) {
           matched = false;
           break;
         }

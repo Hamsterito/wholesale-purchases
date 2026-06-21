@@ -29,25 +29,12 @@ http_package.Client get http => AppHttpClient.instance;
 // (когда сервер отдаёт keywords строкой, а не массивом).
 final RegExp _keywordsSplitRegExp = RegExp(r'[;,|]');
 
-// Снимок дерева категорий с моментом получения - для TTL-кэша.
-class _CatalogTreeCacheEntry {
-  _CatalogTreeCacheEntry({required this.tree, required this.fetchedAt});
-  final List<Map<String, dynamic>> tree;
-  final DateTime fetchedAt;
-}
+
 
 class ApiService {
   static String get baseUrl => ApiConfig.baseUrl;
 
-  // CatalogTree_Cache: процессный кэш дерева категорий с TTL и дедупликацией
-  // одновременных запросов. Ключ - флаг includeInactive, потому что это
-  // два разных набора данных. TTL подобран так, чтобы переходы между
-  // home/catalog/wizard в одной сессии не дёргали сеть, но административные
-  // изменения категорий подхватывались на следующем экране.
-  static const Duration _catalogTreeCacheTtl = Duration(minutes: 5);
-  static final Map<bool, _CatalogTreeCacheEntry> _catalogTreeCache = {};
-  static final Map<bool, Future<List<Map<String, dynamic>>>>
-  _catalogTreeInFlight = {};
+
 
   // Последнее сообщение об ошибке API (для диагностики и отображения)
   static Message? _lastErrorMessage;
@@ -169,186 +156,263 @@ class ApiService {
     }
   }
 
+  static const List<Map<String, dynamic>> _hardcodedCatalogTree = [
+    {
+      'id': 1,
+      'nameRu': 'Напитки',
+      'nameKk': 'Сусындар',
+      'subtitleRu': 'Вода, соки, газировка',
+      'subtitleKk': 'Су, шырындар, газдалған сусындар',
+      'imagePath': 'assets/catalog/water.jpg',
+      'sortOrder': 1,
+      'isActive': true,
+      'subcategories': [
+        {
+          'id': 2,
+          'nameRu': 'Вода',
+          'nameKk': 'Су',
+          'imagePath': 'assets/catalog/water.jpg',
+          'keywords': ['вода', 'минеральная', 'су'],
+          'sortOrder': 1,
+          'isActive': true,
+        },
+        {
+          'id': 3,
+          'nameRu': 'Соки',
+          'nameKk': 'Шырындар',
+          'imagePath': 'assets/catalog/juice.jpg',
+          'keywords': ['сок', 'соки', 'juice', 'шырын'],
+          'sortOrder': 2,
+          'isActive': true,
+        },
+        {
+          'id': 4,
+          'nameRu': 'Газировка',
+          'nameKk': 'Газдалған сусындар',
+          'imagePath': 'assets/catalog/soda.jpg',
+          'keywords': ['газировка', 'газированный', 'лимонад', 'soda'],
+          'sortOrder': 3,
+          'isActive': true,
+        },
+      ],
+    },
+    {
+      'id': 5,
+      'nameRu': 'Овощи и фрукты',
+      'nameKk': 'Көкөністер мен жемістер',
+      'subtitleRu': 'Фрукты, ягоды, овощи и зелень',
+      'subtitleKk': 'Жемістер, жидектер, көкөністер және көктер',
+      'imagePath': 'assets/catalog/fruits_berries.jpg',
+      'sortOrder': 2,
+      'isActive': true,
+      'subcategories': [
+        {
+          'id': 6,
+          'nameRu': 'Фрукты, ягоды',
+          'nameKk': 'Жемістер, жидектер',
+          'imagePath': 'assets/catalog/fruits_berries.jpg',
+          'keywords': ['фрукты', 'ягоды', 'фрукт', 'ягода', 'жеміс'],
+          'sortOrder': 1,
+          'isActive': true,
+        },
+        {
+          'id': 7,
+          'nameRu': 'Овощи, грибы и зелень',
+          'nameKk': 'Көкөністер, саңырауқұлақтар және көктер',
+          'imagePath': 'assets/catalog/vegetables_greens.jpg',
+          'keywords': ['овощи', 'грибы', 'зелень', 'овощ', 'гриб', 'көкөніс'],
+          'sortOrder': 2,
+          'isActive': true,
+        },
+      ],
+    },
+    {
+      'id': 8,
+      'nameRu': 'Хлеб и пекарня',
+      'nameKk': 'Нан және наубайхана',
+      'subtitleRu': 'Хлеб, булочки, пироги',
+      'subtitleKk': 'Нан, тоқаштар, бәліштер',
+      'imagePath': 'assets/catalog/bakery_pastry.jpg',
+      'sortOrder': 3,
+      'isActive': true,
+      'subcategories': [
+        {
+          'id': 9,
+          'nameRu': 'Выпечка от Манса',
+          'nameKk': 'Манс пісірмелері',
+          'imagePath': 'assets/catalog/bakery_pastry.jpg',
+          'keywords': ['выпечка', 'пекарня', 'булочки', 'круассан', 'нан'],
+          'sortOrder': 1,
+          'isActive': true,
+        },
+        {
+          'id': 10,
+          'nameRu': 'Хлеб',
+          'nameKk': 'Нан',
+          'imagePath': 'assets/catalog/bread.jpg',
+          'keywords': ['хлеб', 'батон', 'багет', 'нан'],
+          'sortOrder': 2,
+          'isActive': true,
+        },
+        {
+          'id': 11,
+          'nameRu': 'Выпечка и пироги',
+          'nameKk': 'Пісірмелер мен бәліштер',
+          'imagePath': 'assets/catalog/pie.jpg',
+          'keywords': ['выпечка', 'пирог', 'пироги', 'бәліш'],
+          'sortOrder': 3,
+          'isActive': true,
+        },
+      ],
+    },
+    {
+      'id': 12,
+      'nameRu': 'Молочная продукция',
+      'nameKk': 'Сүт өнімдері',
+      'subtitleRu': 'Молоко, сыр, йогурты и яйца',
+      'subtitleKk': 'Сүт, ірімшік, йогурт және жұмыртқа',
+      'imagePath': 'assets/catalog/milk.jpg',
+      'sortOrder': 4,
+      'isActive': true,
+      'subcategories': [
+        {
+          'id': 13,
+          'nameRu': 'Сыр',
+          'nameKk': 'Ірімшік',
+          'imagePath': 'assets/catalog/cheese.jpg',
+          'keywords': ['сыр', 'ірімшік'],
+          'sortOrder': 1,
+          'isActive': true,
+        },
+        {
+          'id': 14,
+          'nameRu': 'Творог, сметана',
+          'nameKk': 'Сүзбе, қаймақ',
+          'imagePath': 'assets/catalog/cottage_cheese.jpg',
+          'keywords': ['творог', 'сметана', 'кисломолочные', 'сүзбе', 'қаймақ'],
+          'sortOrder': 2,
+          'isActive': true,
+        },
+        {
+          'id': 15,
+          'nameRu': 'Йогурт и десерты',
+          'nameKk': 'Йогурт және десерттер',
+          'imagePath': 'assets/catalog/yogurt_dessert.jpg',
+          'keywords': ['йогурт', 'десерт', 'десерты'],
+          'sortOrder': 3,
+          'isActive': true,
+        },
+        {
+          'id': 16,
+          'nameRu': 'Молоко и кисломолочные продукты',
+          'nameKk': 'Сүт және қышқыл сүт өнімдері',
+          'imagePath': 'assets/catalog/milk.jpg',
+          'keywords': ['молоко', 'кефир', 'ряженка', 'айран', 'сүт'],
+          'sortOrder': 4,
+          'isActive': true,
+        },
+        {
+          'id': 17,
+          'nameRu': 'Масло и яйца',
+          'nameKk': 'Май және жұмыртқа',
+          'imagePath': 'assets/catalog/butter_eggs.jpg',
+          'keywords': ['масло', 'яйца', 'яйцо', 'май', 'жұмыртқа'],
+          'sortOrder': 5,
+          'isActive': true,
+        },
+      ],
+    },
+    {
+      'id': 18,
+      'nameRu': 'Мясо и птица',
+      'nameKk': 'Ет және құс еті',
+      'subtitleRu': 'Мясо, колбасы и деликатесы',
+      'subtitleKk': 'Ет, шұжықтар және деликатестер',
+      'imagePath': 'assets/catalog/meat.jpg',
+      'sortOrder': 5,
+      'isActive': true,
+      'subcategories': [
+        {
+          'id': 19,
+          'nameRu': 'Мясо и птица',
+          'nameKk': 'Ет және құс еті',
+          'imagePath': 'assets/catalog/meat.jpg',
+          'keywords': ['мясо', 'птица', 'курица', 'говядина', 'свинина', 'ет'],
+          'sortOrder': 1,
+          'isActive': true,
+        },
+        {
+          'id': 20,
+          'nameRu': 'Колбасы и сосиски',
+          'nameKk': 'Шұжықтар мен сосискалар',
+          'imagePath': 'assets/catalog/sausages.jpg',
+          'keywords': ['колбаса', 'колбасы', 'сосиски', 'сардельки', 'шұжық'],
+          'sortOrder': 2,
+          'isActive': true,
+        },
+        {
+          'id': 21,
+          'nameRu': 'Мясные деликатесы',
+          'nameKk': 'Ет деликатестері',
+          'imagePath': 'assets/catalog/deli_meats.jpg',
+          'keywords': ['деликатесы', 'ветчина', 'бекон', 'хамон', 'деликатес'],
+          'sortOrder': 3,
+          'isActive': true,
+        },
+      ],
+    },
+  ];
+
   static Future<List<String>> getCatalogCategories({
     bool includeInactive = false,
   }) async {
-    try {
-      final query = includeInactive ? '?includeInactive=true' : '';
-      final response = await http.get(Uri.parse('$baseUrl/categories$query'));
-
-      await _logApiResponse(response, endpoint: '/categories', method: 'GET');
-
-      if (response.statusCode == 200) {
-        final body = _decodeBody(response.bodyBytes);
-        final decoded = jsonDecode(body);
-        if (decoded is! List) {
-          return const <String>[];
+    final categories = <String>[];
+    for (final parent in _hardcodedCatalogTree) {
+      if (!includeInactive && !(parent['isActive'] as bool)) continue;
+      categories.add(parent['nameRu'].toString());
+      
+      final subcategories = parent['subcategories'] as List?;
+      if (subcategories != null) {
+        for (final sub in subcategories) {
+          if (!includeInactive && !(sub['isActive'] as bool)) continue;
+          categories.add(sub['nameRu'].toString());
         }
-
-        final categories = <String>[];
-        final seen = <String>{};
-
-        for (final item in decoded) {
-          String rawName = '';
-          if (item is String) {
-            rawName = item;
-          } else if (item is Map) {
-            rawName = item['name']?.toString() ?? '';
-          }
-
-          final normalized = rawName.trim();
-          if (normalized.isEmpty) {
-            continue;
-          }
-
-          final dedupeKey = normalized.toLowerCase();
-          if (seen.add(dedupeKey)) {
-            categories.add(normalized);
-          }
-        }
-
-        return categories;
-      } else {
-        throw Exception(
-          'Не удалось загрузить категории: ${response.statusCode}',
-        );
       }
-    } catch (e, stack) {
-      await _logApiError(e, stack, endpoint: '/categories', method: 'GET');
-      debugPrint('Ошибка при загрузке категорий: $e');
-      rethrow;
     }
+    return categories;
   }
 
   static Future<List<Map<String, dynamic>>> getCatalogCategoryTree({
     bool includeInactive = false,
-  }) {
-    final now = DateTime.now();
-    final cached = _catalogTreeCache[includeInactive];
-    if (cached != null &&
-        now.difference(cached.fetchedAt) < _catalogTreeCacheTtl) {
-      // Возвращаем неизменяемый снимок, иначе вызывающий код может нечаянно
-      // мутировать общий кэш.
-      return Future.value(List<Map<String, dynamic>>.unmodifiable(cached.tree));
-    }
-
-    // Если запрос уже в полёте - шарим его, чтобы параллельные вызовы
-    // из разных страниц не дёргали HTTP несколько раз.
-    final inFlight = _catalogTreeInFlight[includeInactive];
-    if (inFlight != null) {
-      return inFlight;
-    }
-
-    final future = _fetchCatalogCategoryTree(includeInactive: includeInactive)
-        .then((tree) {
-          _catalogTreeCache[includeInactive] = _CatalogTreeCacheEntry(
-            tree: List<Map<String, dynamic>>.unmodifiable(tree),
-            fetchedAt: DateTime.now(),
-          );
-          return List<Map<String, dynamic>>.unmodifiable(tree);
-        })
-        .whenComplete(() {
-          _catalogTreeInFlight.remove(includeInactive);
-        });
-
-    _catalogTreeInFlight[includeInactive] = future;
-    return future;
-  }
-
-  static Future<List<Map<String, dynamic>>> _fetchCatalogCategoryTree({
-    bool includeInactive = false,
+    String locale = 'ru',
   }) async {
-    try {
-      final query = includeInactive ? '?includeInactive=true' : '';
-      final response = await http.get(
-        Uri.parse('$baseUrl/categories/tree$query'),
-      );
-
-      if (response.statusCode != 200) {
-        throw Exception(
-          'Не удалось загрузить список категорий: ${response.statusCode}',
-        );
+    final isKk = locale == 'kk';
+    return _hardcodedCatalogTree
+        .where((parent) => includeInactive || parent['isActive'] == true)
+        .map((parent) {
+      final subcategories = parent['subcategories'] as List?;
+      List<Map<String, dynamic>>? mappedSubcategories;
+      
+      if (subcategories != null) {
+        final activeSubs = subcategories
+            .cast<Map<String, dynamic>>()
+            .where((sub) => includeInactive || sub['isActive'] == true);
+        mappedSubcategories = activeSubs.map((sub) => {
+          ...sub,
+          'name': isKk ? sub['nameKk'] : sub['nameRu'],
+        }).toList();
       }
 
-      final body = _decodeBody(response.bodyBytes);
-      final decoded = jsonDecode(body);
-      if (decoded is! List) {
-        return const <Map<String, dynamic>>[];
-      }
-
-      final tree = <Map<String, dynamic>>[];
-      for (final item in decoded) {
-        if (item is! Map) {
-          continue;
-        }
-
-        final row = Map<String, dynamic>.from(item);
-        final subRows = row['subcategories'];
-        final subcategories = <Map<String, dynamic>>[];
-        if (subRows is List) {
-          for (final child in subRows) {
-            if (child is! Map) {
-              continue;
-            }
-            final childMap = Map<String, dynamic>.from(child);
-            final childName = childMap['name']?.toString().trim() ?? '';
-            if (childName.isEmpty) {
-              continue;
-            }
-
-            final rawKeywords = childMap['keywords'];
-            final keywords = <String>[];
-            if (rawKeywords is List) {
-              for (final keyword in rawKeywords) {
-                final normalized = keyword.toString().trim();
-                if (normalized.isNotEmpty) {
-                  keywords.add(normalized);
-                }
-              }
-            } else if (rawKeywords != null) {
-              for (final keyword in rawKeywords.toString().split(
-                _keywordsSplitRegExp,
-              )) {
-                final normalized = keyword.trim();
-                if (normalized.isNotEmpty) {
-                  keywords.add(normalized);
-                }
-              }
-            }
-
-            subcategories.add({
-              'id': childMap['id'],
-              'name': childName,
-              'imagePath': childMap['imagePath']?.toString() ?? '',
-              'keywords': keywords.isEmpty ? <String>[childName] : keywords,
-              'sortOrder': childMap['sortOrder'] ?? childMap['sort_order'] ?? 0,
-              'isActive': childMap['isActive'] ?? childMap['is_active'] ?? true,
-            });
-          }
-        }
-
-        final name = row['name']?.toString().trim() ?? '';
-        if (name.isEmpty) {
-          continue;
-        }
-
-        tree.add({
-          'id': row['id'],
-          'name': name,
-          'subtitle': row['subtitle']?.toString() ?? '',
-          'imagePath': row['imagePath']?.toString() ?? '',
-          'sortOrder': row['sortOrder'] ?? row['sort_order'] ?? 0,
-          'isActive': row['isActive'] ?? row['is_active'] ?? true,
-          'subcategories': subcategories,
-        });
-      }
-
-      return tree;
-    } catch (e) {
-      debugPrint('Ошибка при загрузке списка категорий: $e');
-      rethrow;
-    }
+      return {
+        ...parent,
+        'name': isKk ? parent['nameKk'] : parent['nameRu'],
+        'subtitle': isKk ? parent['subtitleKk'] : parent['subtitleRu'],
+        'subcategories': mappedSubcategories,
+      };
+    }).toList();
   }
+
+
 
   static Future<List<Order>> getOrders({
     int? userId,

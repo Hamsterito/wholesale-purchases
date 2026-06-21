@@ -98,6 +98,12 @@ abstract class AppLocalizations {
     Locale('ru'),
   ];
 
+  /// Пометка о необязательности поля с автопереводом
+  ///
+  /// In ru, this message translates to:
+  /// **'Опционально (автоперевод)'**
+  String get auto_neobyazatelnoAvtoperev;
+
   /// Кнопка подтверждения в диалогах
   ///
   /// In ru, this message translates to:

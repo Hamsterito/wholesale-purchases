@@ -129,8 +129,11 @@ Map<String, dynamic> _productRowToModerationDto(Map<String, dynamic> map) {
   return {
     'id': (map['id'] ?? '').toString(),
     'name': map['name'] ?? '',
+    'nameKk': map['name_kk'] ?? '',
     'description': map['description'] ?? '',
+    'descriptionKk': map['description_kk'] ?? '',
     'categories': categories,
+    'categoryKk': map['category_kk'] ?? '',
     'imageUrls': imageUrls,
     'pricePerUnit': map['price_per_unit'] ?? 0,
     'minQuantity': map['min_quantity'] ?? 1,
@@ -140,6 +143,7 @@ Map<String, dynamic> _productRowToModerationDto(Map<String, dynamic> map) {
     'deliveryDate': map['delivery_date'] ?? '',
     'deliveryBadge': map['delivery_badge'] ?? '',
     'ingredients': map['ingredients'] ?? '',
+    'ingredientsKk': map['ingredients_kk'] ?? '',
     'nutritionalInfo': {
       'calories': _toNonNegativeDouble(map['nutrition_calories']),
       'protein': _toNonNegativeDouble(map['nutrition_protein']),
@@ -147,6 +151,7 @@ Map<String, dynamic> _productRowToModerationDto(Map<String, dynamic> map) {
       'carbohydrates': _toNonNegativeDouble(map['nutrition_carbohydrates']),
     },
     'characteristics': characteristics,
+    'characteristicsKk': map['characteristics_kk'] ?? '',
     'moderationStatus': map['moderation_status'] ?? 'approved',
     'moderationComment': map['moderation_comment'] ?? '',
     'supplierUserId': map['supplier_user_id'],
@@ -218,71 +223,15 @@ List<String> _parseCategories(Object? value, {bool includeFallback = true}) {
   return ['Без категории'];
 }
 
-List<String> _parseCategoryKeywords(Object? value) {
-  final raw = value?.toString() ?? '';
-  if (raw.trim().isEmpty) {
-    return const <String>[];
-  }
-  return raw
-      .split(RegExp(r'[;,|]'))
-      .map((part) => part.trim())
-      .where((part) => part.isNotEmpty)
-      .toList();
-}
 
-String? _normalizeCategoryKeywordsPayload(Object? value) {
-  if (value == null) {
-    return null;
-  }
-  if (value is List) {
-    final keywords = value
-        .map((item) => item.toString().trim())
-        .where((item) => item.isNotEmpty)
-        .toList();
-    if (keywords.isEmpty) {
-      return null;
-    }
-    return keywords.join(', ');
-  }
-  final parsed = _parseCategoryKeywords(value);
-  if (parsed.isEmpty) {
-    return null;
-  }
-  return parsed.join(', ');
-}
+
+
 
 String _normalizeCategoryName(String value) {
   return value.replaceAll(RegExp(r'\s+'), ' ').trim();
 }
 
-Future<Map<String, String>> _loadAllowedCategoriesByKey(
-  Connection connection, {
-  bool includeInactive = false,
-}) async {
-  final query = includeInactive
-      ? '''
-        SELECT name
-        FROM public.categories
-        ORDER BY sort_order ASC, id ASC;
-      '''
-      : '''
-        SELECT name
-        FROM public.categories
-        WHERE is_active = true
-        ORDER BY sort_order ASC, id ASC;
-      ''';
-  final rows = await connection.execute(query);
-  final result = <String, String>{};
-  for (final row in rows) {
-    final map = row.toColumnMap();
-    final name = _normalizeCategoryName((map['name'] ?? '').toString());
-    if (name.isEmpty) {
-      continue;
-    }
-    result.putIfAbsent(name.toLowerCase(), () => name);
-  }
-  return result;
-}
+
 
 Map<String, String> _parseCharacteristics(Object? value) {
   final raw = value?.toString().trim() ?? '';
@@ -370,35 +319,10 @@ Future<List<String>> _resolvePayloadCategories(
     selected.addAll(_parseCategories(payloadValue, includeFallback: false));
   }
 
-  final allowed = await _loadAllowedCategoriesByKey(connection);
-  final result = <String>[];
-  final seen = <String>{};
-
-  for (final raw in selected) {
-    final canonical = allowed[raw.toLowerCase()];
-    if (canonical == null) {
-      continue;
-    }
-    if (seen.add(canonical.toLowerCase())) {
-      result.add(canonical);
-    }
-  }
-
-  return result;
+  return selected;
 }
 
-Map<String, dynamic> _categoryRowToDto(Map<String, dynamic> map) {
-  return {
-    'id': map['id'],
-    'name': map['name'] ?? '',
-    'parentId': _toNullablePositiveInt(map['parent_id']),
-    'subtitle': map['subtitle'] ?? '',
-    'imagePath': map['image_path'] ?? '',
-    'keywords': _parseCategoryKeywords(map['keywords']),
-    'sortOrder': _toPositiveInt(map['sort_order']),
-    'isActive': map['is_active'] ?? true,
-  };
-}
+
 
 List<String> _parseImageUrls(Object? value) {
   final raw = value?.toString() ?? '';

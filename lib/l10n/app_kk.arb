@@ -1,5 +1,9 @@
 {
   "@@locale": "kk",
+  "auto_neobyazatelnoAvtoperev": "Міндетті емес (автоаударма)",
+  "@auto_neobyazatelnoAvtoperev": {
+    "description": "Пометка о необязательности поля с автопереводом"
+  },
   "common_ok": "Жарайды",
   "@common_ok": {
     "description": "Кнопка подтверждения в диалогах"

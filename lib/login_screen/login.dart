@@ -221,6 +221,9 @@ class _LoginPageState extends State<LoginPage> {
           final errorData = jsonDecode(errorBody) as Map<String, dynamic>;
           if (errorData['success'] == false) {
             message = errorData['message']?.toString() ?? 'Unknown error';
+            if (response.statusCode == 401 && message == 'Неверная почта или пароль') {
+              message = AppLocalizations.current.getString('auto_nevernaya_pochta_ili_parol');
+            }
           } else {
             message = errorBody;
           }
@@ -323,6 +326,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             if (!isKeyboardVisible)
               Expanded(
@@ -355,6 +359,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Flexible(
+              key: const ValueKey('login_form'),
               child: Container(
                 decoration: BoxDecoration(
                   color: _cardBg,
@@ -440,10 +445,13 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         SizedBox(height: 16),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 SizedBox(
                                   width: 20,
@@ -470,29 +478,25 @@ class _LoginPageState extends State<LoginPage> {
                                 Text(
                                   AppLocalizations.current.getString('auto_zapomnit_menya'),
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     color: _colorScheme.onSurface,
                                   ),
                                 ),
                               ],
                             ),
-                            SizedBox(height: 12),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 28),
-                              child: TextButton(
-                                onPressed: _navigateToForgotPassword,
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  minimumSize: Size.zero,
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                ),
+                            GestureDetector(
+                              onTap: _navigateToForgotPassword,
+                              behavior: HitTestBehavior.opaque,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 4),
                                 child: Text(
                                   AppLocalizations.current.getString('auto_zabyli_parol'),
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     color: _colorScheme.onSurface,
                                     fontWeight: FontWeight.w500,
                                   ),
+                                  textAlign: TextAlign.end,
                                 ),
                               ),
                             ),

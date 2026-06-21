@@ -129,14 +129,22 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
   @override
   void initState() {
     super.initState();
-    _loadMainCategoryTabs();
     _loadProducts();
     startAutoRefresh();
   }
 
-  Future<void> _loadMainCategoryTabs() async {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_tabs.isEmpty) {
+      final locale = Localizations.localeOf(context).languageCode;
+      _loadMainCategoryTabs(locale);
+    }
+  }
+
+  Future<void> _loadMainCategoryTabs(String locale) async {
     try {
-      final tree = await ApiService.getCatalogCategoryTree();
+      final tree = await ApiService.getCatalogCategoryTree(locale: locale);
       if (!mounted) return;
 
       final tabs = <String>[context.l10n.homeAllTab];
@@ -588,7 +596,13 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
 
     final filtered = source.where((product) {
       if (!_matchesSearchTokens(product, queryTokens)) return false;
-      if (!_matchesSelectedCategory(product, tabIndex)) return false;
+      
+      // Если есть поисковый запрос, ищем по всему каталогу глобально.
+      // Иначе фильтруем по выбранной категории.
+      if (queryTokens.isEmpty && !_matchesSelectedCategory(product, tabIndex)) {
+        return false;
+      }
+
       final supplier = product.bestSupplier;
       final price = supplier.pricePerUnit.toDouble();
       if (price < range.start) return false;

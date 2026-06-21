@@ -15,7 +15,7 @@ void _registerMutationRoutes(Router router, Connection connection) {
 
   // Модератор: товары и категории
   _registerModeratorProductRoutes(router, connection);
-  _registerModeratorCategoryRoutes(router, connection);
+
 
   // Поддержка: отправка сообщений + закрытие чата модератором
   _registerSupportMessageRoute(router, connection);

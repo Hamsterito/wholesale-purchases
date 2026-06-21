@@ -6,6 +6,7 @@ import 'package:flutter_project/services/localization/localization_extension.dar
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:geolocator/geolocator.dart';
 import '../core/ui/theme/app_dimensions.dart';
+import 'dart:async';
 
 class AddressPage extends StatefulWidget {
   const AddressPage({super.key, this.initial});
@@ -31,6 +32,8 @@ class _AddressPageState extends State<AddressPage> {
   late final TextEditingController _streetController;
   late final TextEditingController _zipController;
   late final TextEditingController _apartmentController;
+  late final TextEditingController _searchController;
+  final FocusNode _searchFocus = FocusNode();
 
   String _selectedType = 'home';
   String? _addressError;
@@ -41,6 +44,13 @@ class _AddressPageState extends State<AddressPage> {
   YandexMapController? _mapController;
   bool _isLoadingLocation = false;
   static const Point _defaultPoint = Point(latitude: 51.128207, longitude: 71.430411);
+
+  Timer? _geocodeDebounceTimer;
+  Timer? _suggestDebounceTimer;
+  SearchSession? _searchSession;
+  SuggestSession? _suggestSession;
+  List<SuggestItem> _suggestions = [];
+  bool _isSearching = false;
 
   ThemeData get _theme => Theme.of(context);
   ColorScheme get _colorScheme => _theme.colorScheme;
@@ -61,6 +71,7 @@ class _AddressPageState extends State<AddressPage> {
     _apartmentController = TextEditingController(
       text: initial?.apartment ?? '',
     );
+    _searchController = TextEditingController();
     final label = initial?.label.trim().toLowerCase();
     if (label == 'home' || label == 'work' || label == 'other') {
       _selectedType = label!;
@@ -69,6 +80,12 @@ class _AddressPageState extends State<AddressPage> {
 
   @override
   void dispose() {
+    _geocodeDebounceTimer?.cancel();
+    _suggestDebounceTimer?.cancel();
+    _searchSession?.cancel();
+    _suggestSession?.close();
+    _searchController.dispose();
+    _searchFocus.dispose();
     _addressController.dispose();
     _streetController.dispose();
     _zipController.dispose();
@@ -114,7 +131,15 @@ class _AddressPageState extends State<AddressPage> {
     }
   }
 
+  void _fetchAddressDebounced(Point point) {
+    _geocodeDebounceTimer?.cancel();
+    _geocodeDebounceTimer = Timer(const Duration(milliseconds: 600), () {
+      _fetchAddress(point);
+    });
+  }
+
   Future<void> _fetchAddress(Point point) async {
+    _searchSession?.cancel();
     debugPrint("Geocoding started for point: ${point.latitude}, ${point.longitude}");
     final resultWithSession = await YandexSearch.searchByPoint(
       point: point,
@@ -123,6 +148,7 @@ class _AddressPageState extends State<AddressPage> {
         geometry: false,
       ),
     );
+    _searchSession = resultWithSession.$1;
 
     try {
       final result = await resultWithSession.$2;
@@ -166,6 +192,90 @@ class _AddressPageState extends State<AddressPage> {
     }
   }
 
+  void _onSearchChanged(String query) {
+    if (query.trim().isEmpty) {
+      setState(() {
+        _suggestions = [];
+      });
+      return;
+    }
+
+    _suggestDebounceTimer?.cancel();
+    _suggestDebounceTimer = Timer(const Duration(milliseconds: 500), () async {
+      _suggestSession?.close();
+      
+      final resultWithSession = await YandexSuggest.getSuggestions(
+        text: query,
+        boundingBox: const BoundingBox(
+          northEast: Point(latitude: 55.5, longitude: 87.5),
+          southWest: Point(latitude: 40.5, longitude: 46.0),
+        ),
+        suggestOptions: const SuggestOptions(suggestType: SuggestType.geo, suggestWords: false),
+      );
+      
+      _suggestSession = resultWithSession.$1;
+      
+      try {
+        final result = await resultWithSession.$2;
+        if (result.error != null) {
+          debugPrint("Suggest error: ${result.error}");
+          return;
+        }
+        
+        if (mounted) {
+          setState(() {
+            _suggestions = result.items ?? [];
+          });
+        }
+      } catch (e) {
+         debugPrint("Suggest exception: $e");
+      }
+    });
+  }
+
+  Future<void> _onSuggestSelected(SuggestItem item) async {
+    _searchFocus.unfocus();
+    setState(() {
+      _suggestions = [];
+      _isSearching = true;
+      _searchController.text = item.displayText;
+    });
+
+    try {
+      final resultWithSession = await YandexSearch.searchByText(
+        searchText: item.displayText,
+        geometry: Geometry.fromBoundingBox(const BoundingBox(
+          northEast: Point(latitude: 55.5, longitude: 87.5),
+          southWest: Point(latitude: 40.5, longitude: 46.0),
+        )),
+        searchOptions: const SearchOptions(
+          searchType: SearchType.geo,
+          geometry: false,
+        ),
+      );
+      
+      final result = await resultWithSession.$2;
+      if (result.error == null && result.items != null && result.items!.isNotEmpty) {
+        final point = result.items!.first.toponymMetadata?.balloonPoint;
+        if (point != null) {
+          await _mapController?.moveCamera(
+            CameraUpdate.newCameraPosition(CameraPosition(target: point, zoom: 16)),
+            animation: const MapAnimation(type: MapAnimationType.smooth, duration: 1.0)
+          );
+          _fetchAddress(point);
+        }
+      }
+    } catch (e) {
+      debugPrint("Search error: $e");
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSearching = false;
+        });
+      }
+    }
+  }
+
   Widget _buildMap() {
     return Container(
       height: 250,
@@ -192,7 +302,7 @@ class _AddressPageState extends State<AddressPage> {
             },
             onCameraPositionChanged: (CameraPosition cameraPosition, CameraUpdateReason reason, bool finished) {
               if (finished && reason == CameraUpdateReason.gestures) {
-                 _fetchAddress(cameraPosition.target);
+                 _fetchAddressDebounced(cameraPosition.target);
               }
             },
           ),
@@ -215,6 +325,75 @@ class _AddressPageState extends State<AddressPage> {
                       child: CircularProgressIndicator(strokeWidth: 2, color: context.colorPalette.accent),
                     )
                   : Icon(Icons.my_location, color: context.colorPalette.accent),
+            ),
+          ),
+          Positioned(
+            top: 8,
+            left: 8,
+            right: 8,
+            child: Column(
+              children: [
+                TextField(
+                  controller: _searchController,
+                  focusNode: _searchFocus,
+                  onChanged: _onSearchChanged,
+                  decoration: InputDecoration(
+                    hintText: context.l10n.getString('auto_poiskAdres'),
+                    filled: true,
+                    fillColor: _cardBg,
+                    prefixIcon: Icon(Icons.search, color: _mutedText),
+                    suffixIcon: _searchController.text.isNotEmpty || _isSearching
+                        ? IconButton(
+                            icon: _isSearching 
+                                ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                                : Icon(Icons.clear, color: _mutedText),
+                            onPressed: () {
+                              _searchController.clear();
+                              _searchFocus.unfocus();
+                              setState(() {
+                                _suggestions = [];
+                              });
+                            },
+                          )
+                        : null,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+                  ),
+                ),
+                if (_suggestions.isNotEmpty)
+                  Container(
+                    margin: const EdgeInsets.only(top: 4),
+                    constraints: const BoxConstraints(maxHeight: 180),
+                    decoration: BoxDecoration(
+                      color: _cardBg,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.1),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: _suggestions.length,
+                      separatorBuilder: (ctx, i) => Divider(height: 1, color: _inputFill),
+                      itemBuilder: (ctx, index) {
+                        final item = _suggestions[index];
+                        return ListTile(
+                          title: Text(item.title, style: TextStyle(color: _colorScheme.onSurface, fontSize: 14)),
+                          subtitle: item.subtitle != null ? Text(item.subtitle!, style: TextStyle(color: _mutedText, fontSize: 12)) : null,
+                          onTap: () => _onSuggestSelected(item),
+                        );
+                      },
+                    ),
+                  ),
+              ],
             ),
           ),
         ],

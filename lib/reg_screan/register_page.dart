@@ -967,6 +967,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             Expanded(
+              key: const ValueKey('register_form'),
               flex: formFlex,
               child: Container(
                 decoration: BoxDecoration(

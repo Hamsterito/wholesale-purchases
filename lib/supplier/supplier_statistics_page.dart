@@ -1426,22 +1426,53 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
   Widget _statusBadge(String status) {
     final palette = AppColorPalette.of(context);
     Color color;
+    String displayStatus = status;
+
     switch (status.toLowerCase()) {
       case 'delivered':
+      case 'доставлен':
+      case 'доставлено':
         color = palette.statusDelivered;
+        displayStatus = context.l10n.statusDelivered;
         break;
       case 'shipped':
+      case 'в пути':
+      case 'отправлен':
         color = palette.statusShipped;
+        displayStatus = context.l10n.statusInTransit;
         break;
       case 'cancelled':
+      case 'отменен':
+      case 'отменён':
         color = palette.statusCancelled;
+        displayStatus = context.l10n.statusCancelled;
         break;
       case 'pending':
+      case 'ожидает':
         color = palette.statusPending;
+        displayStatus = context.l10n.pending;
+        break;
+      case 'assembling':
+      case 'собирается':
+        color = palette.secondary;
+        displayStatus = context.l10n.statusAssembling;
+        break;
+      case 'accepted':
+      case 'принят':
+      case 'принято':
+        color = palette.secondary;
+        displayStatus = context.l10n.statusAccepted;
+        break;
+      case 'confirmed':
+      case 'подтвержден':
+      case 'подтверждён':
+        color = palette.secondary;
+        displayStatus = context.l10n.getString('auto_podtverzhdeny');
         break;
       default:
         color = palette.secondary;
     }
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
       decoration: BoxDecoration(
@@ -1449,7 +1480,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
-        status,
+        displayStatus,
         style: TextStyle(
           fontSize: 10,
           color: color,
@@ -1768,12 +1799,16 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
           child: Icon(icon, size: 14, color: color),
         ),
         const SizedBox(width: 8),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: Theme.of(context).colorScheme.onSurface,
+        Expanded(
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

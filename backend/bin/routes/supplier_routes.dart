@@ -93,6 +93,13 @@ void _registerSupplierProductRoutes(Router router, Connection connection) {
       final characteristics = _serializeCharacteristics(
         payload['characteristics'],
       );
+      final characteristicsKk = _serializeCharacteristics(
+        payload['characteristicsKk'],
+      );
+      final nameKk = payload['nameKk']?.toString().trim();
+      final descriptionKk = payload['descriptionKk']?.toString();
+      final ingredientsKk = payload['ingredientsKk']?.toString();
+      final categoryKk = payload['categoryKk']?.toString();
 
       String imageUrl = '';
       final imageValue = payload['imageUrls'] ?? payload['image_url'];
@@ -106,18 +113,23 @@ void _registerSupplierProductRoutes(Router router, Connection connection) {
         Sql.named('''
           INSERT INTO products (
             name,
+            name_kk,
             description,
+            description_kk,
             image_url,
             ingredients,
+            ingredients_kk,
             nutrition_calories,
             nutrition_protein,
             nutrition_fat,
             nutrition_carbohydrates,
             characteristics,
+            characteristics_kk,
             stock_quantity,
             rating,
             review_count,
             category,
+            category_kk,
             price_per_unit,
             min_quantity,
             max_quantity,
@@ -130,18 +142,23 @@ void _registerSupplierProductRoutes(Router router, Connection connection) {
           )
           VALUES (
             @name,
+            @name_kk,
             @description,
+            @description_kk,
             @image_url,
             @ingredients,
+            @ingredients_kk,
             @nutrition_calories,
             @nutrition_protein,
             @nutrition_fat,
             @nutrition_carbohydrates,
             @characteristics,
+            @characteristics_kk,
             @stock_quantity,
             0.0,
             0,
             @category,
+            @category_kk,
             @price_per_unit,
             @min_quantity,
             @max_quantity,
@@ -156,16 +173,21 @@ void _registerSupplierProductRoutes(Router router, Connection connection) {
         '''),
         parameters: {
           'name': name,
+          'name_kk': nameKk,
           'description': description,
+          'description_kk': descriptionKk,
           'image_url': imageUrl,
           'ingredients': ingredients,
+          'ingredients_kk': ingredientsKk,
           'nutrition_calories': nutritionCalories,
           'nutrition_protein': nutritionProtein,
           'nutrition_fat': nutritionFat,
           'nutrition_carbohydrates': nutritionCarbohydrates,
           'characteristics': characteristics,
+          'characteristics_kk': characteristicsKk,
           'stock_quantity': stockQuantity,
           'category': category,
+          'category_kk': categoryKk,
           'price_per_unit': pricePerUnit,
           'min_quantity': minQuantity,
           'max_quantity': maxQuantity,
@@ -299,6 +321,13 @@ void _registerSupplierProductRoutes(Router router, Connection connection) {
       final characteristics = _serializeCharacteristics(
         payload['characteristics'],
       );
+      final characteristicsKk = _serializeCharacteristics(
+        payload['characteristicsKk'],
+      );
+      final nameKk = payload['nameKk']?.toString().trim();
+      final descriptionKk = payload['descriptionKk']?.toString();
+      final ingredientsKk = payload['ingredientsKk']?.toString();
+      final categoryKk = payload['categoryKk']?.toString();
 
       String imageUrl = '';
       final imageValue = payload['imageUrls'] ?? payload['image_url'];
@@ -312,16 +341,21 @@ void _registerSupplierProductRoutes(Router router, Connection connection) {
         Sql.named('''
           UPDATE products
           SET name = @name,
+              name_kk = @name_kk,
               description = @description,
+              description_kk = @description_kk,
               image_url = @image_url,
               ingredients = @ingredients,
+              ingredients_kk = @ingredients_kk,
               nutrition_calories = @nutrition_calories,
               nutrition_protein = @nutrition_protein,
               nutrition_fat = @nutrition_fat,
               nutrition_carbohydrates = @nutrition_carbohydrates,
               characteristics = @characteristics,
+              characteristics_kk = @characteristics_kk,
               stock_quantity = @stock_quantity,
               category = @category,
+              category_kk = @category_kk,
               price_per_unit = @price_per_unit,
               min_quantity = @min_quantity,
               max_quantity = @max_quantity,
@@ -337,16 +371,21 @@ void _registerSupplierProductRoutes(Router router, Connection connection) {
           'id': productId,
           'supplier_user_id': userId,
           'name': name,
+          'name_kk': nameKk,
           'description': description,
+          'description_kk': descriptionKk,
           'image_url': imageUrl,
           'ingredients': ingredients,
+          'ingredients_kk': ingredientsKk,
           'nutrition_calories': nutritionCalories,
           'nutrition_protein': nutritionProtein,
           'nutrition_fat': nutritionFat,
           'nutrition_carbohydrates': nutritionCarbohydrates,
           'characteristics': characteristics,
+          'characteristics_kk': characteristicsKk,
           'stock_quantity': stockQuantity,
           'category': category,
+          'category_kk': categoryKk,
           'price_per_unit': pricePerUnit,
           'min_quantity': minQuantity,
           'max_quantity': maxQuantity,

@@ -4,7 +4,9 @@ import '../utils/text_normalizer.dart';
 class Product {
   final String id;
   final String name;
+  final String nameKk;
   final String description;
+  final String descriptionKk;
   final List<String> imageUrls;
   final double rating;
   final int reviewCount;
@@ -12,9 +14,12 @@ class Product {
   // на странице товара не моргала нулём, пока подгружается список.
   final int questionCount;
   final List<String> categories;
+  final String categoryKk;
   final NutritionalInfo nutritionalInfo;
   final String ingredients;
+  final String ingredientsKk;
   final Map<String, String> characteristics;
+  final Map<String, String> characteristicsKk;
   final List<Supplier> suppliers;
   final List<Product> similarProducts;
   final List<RatingDistribution> ratingDistribution;
@@ -22,15 +27,20 @@ class Product {
   Product({
     required this.id,
     required this.name,
+    this.nameKk = '',
     required this.description,
+    this.descriptionKk = '',
     required this.imageUrls,
     required this.rating,
     required this.reviewCount,
     this.questionCount = 0,
     required this.categories,
+    this.categoryKk = '',
     required this.nutritionalInfo,
     required this.ingredients,
+    this.ingredientsKk = '',
     required this.characteristics,
+    this.characteristicsKk = const {},
     required this.suppliers,
     required this.similarProducts,
     required this.ratingDistribution,
@@ -59,18 +69,33 @@ class Product {
       });
     }
 
+    final rawCharacteristicsKk = json['characteristicsKk'];
+    final characteristicsKk = <String, String>{};
+    if (rawCharacteristicsKk is Map) {
+      rawCharacteristicsKk.forEach((key, value) {
+        characteristicsKk[normalize(key.toString())] = normalize(
+          value.toString(),
+        );
+      });
+    }
+
     return Product(
       id: json['id']?.toString() ?? '',
       name: normalize(json['name']?.toString() ?? ''),
+      nameKk: normalize(json['nameKk']?.toString() ?? ''),
       description: normalize(json['description']?.toString() ?? ''),
+      descriptionKk: normalize(json['descriptionKk']?.toString() ?? ''),
       imageUrls: List<String>.from(json['imageUrls'] ?? []),
       rating: (json['rating'] ?? 0).toDouble(),
       reviewCount: json['reviewCount'] ?? 0,
       questionCount: json['questionCount'] ?? 0,
       categories: categories,
+      categoryKk: normalize(json['categoryKk']?.toString() ?? ''),
       nutritionalInfo: NutritionalInfo.fromJson(json['nutritionalInfo'] ?? {}),
       ingredients: normalize(json['ingredients']?.toString() ?? ''),
+      ingredientsKk: normalize(json['ingredientsKk']?.toString() ?? ''),
       characteristics: characteristics,
+      characteristicsKk: characteristicsKk,
       suppliers:
           (json['suppliers'] as List?)
               ?.map((s) => Supplier.fromJson(s))

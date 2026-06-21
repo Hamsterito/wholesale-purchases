@@ -69,6 +69,11 @@ docker compose down
 docker compose down -v
 ```
 
+```bash
+# Пересобрать Docker-контейнеры
+docker-compose up -d --build backend
+```
+
 ### Импорт и экспорт данных базы данных
 
 ```bash

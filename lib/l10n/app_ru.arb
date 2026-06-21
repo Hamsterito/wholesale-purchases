@@ -1,5 +1,9 @@
 {
   "@@locale": "ru",
+  "auto_neobyazatelnoAvtoperev": "Опционально (автоперевод)",
+  "@auto_neobyazatelnoAvtoperev": {
+    "description": "Пометка о необязательности поля с автопереводом"
+  },
   "common_ok": "Хорошо",
   "@common_ok": {
     "description": "Кнопка подтверждения в диалогах"

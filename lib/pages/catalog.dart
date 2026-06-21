@@ -74,18 +74,21 @@ class _CatalogPageState extends State<CatalogPage> {
       : Colors.black.withValues(alpha: 0.05);
 
   @override
-  void initState() {
-    super.initState();
-    _loadCategories();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_mainCategories.isEmpty && _isLoadingCategories) {
+      final locale = Localizations.localeOf(context).languageCode;
+      _loadCategories(locale);
+    }
   }
 
-  Future<void> _loadCategories() async {
+  Future<void> _loadCategories(String locale) async {
     setState(() {
       _isLoadingCategories = true;
     });
 
     try {
-      final tree = await ApiService.getCatalogCategoryTree();
+      final tree = await ApiService.getCatalogCategoryTree(locale: locale);
       if (!mounted) {
         return;
       }

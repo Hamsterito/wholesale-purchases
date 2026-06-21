@@ -228,9 +228,7 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final visibleChats = _visibleChats;
-    final chatTileColor = isDark
-        ? colorScheme.surfaceContainerLow.withValues(alpha: 0.34)
-        : colorScheme.surface;
+    final chatTileColor = context.colorPalette.card;
     final chatTileBorderColor = isDark
         ? colorScheme.outline.withValues(alpha: 0.78)
         : colorScheme.outlineVariant.withValues(alpha: 0.95);

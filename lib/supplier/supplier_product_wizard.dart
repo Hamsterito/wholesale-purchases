@@ -13,6 +13,7 @@ import '../utils/delivery_schedule.dart';
 import '../utils/wizard_init.dart';
 import '../widgets/smart_image.dart';
 import '../widgets/messages/top_message.dart';
+import '../services/api/yandex_translate_service.dart';
 
 // Режим задания расписания доставки в визарде поставщика.
 enum _DeliveryMode { weekly, leadTime }
@@ -40,11 +41,14 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   );
 
   late final TextEditingController _nameController;
+  late final TextEditingController _nameKkController;
   late final TextEditingController _descriptionController;
+  late final TextEditingController _descriptionKkController;
   late final TextEditingController _priceController;
   late final TextEditingController _minController;
   late final TextEditingController _stockController;
   late final TextEditingController _ingredientsController;
+  late final TextEditingController _ingredientsKkController;
   late final TextEditingController _caloriesController;
   late final TextEditingController _proteinController;
   late final TextEditingController _fatController;
@@ -153,6 +157,8 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         _countryController.text = product.characteristics[context.l10n.getString('auto_stranaProizvoditelya')] ?? '';
         _shelfLifeController.text = product.characteristics[context.l10n.getString('auto_srokGodnosti')] ?? '';
       }
+      final locale = Localizations.localeOf(context).languageCode;
+      _loadPresetCategories(locale);
       _isInit = true;
     }
   }
@@ -162,8 +168,12 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     super.initState();
     final product = widget.product;
     _nameController = TextEditingController(text: product?.name ?? '');
+    _nameKkController = TextEditingController(text: product?.nameKk ?? '');
     _descriptionController = TextEditingController(
       text: product?.description ?? '',
+    );
+    _descriptionKkController = TextEditingController(
+      text: product?.descriptionKk ?? '',
     );
     for (final category in product?.categories ?? const <String>[]) {
       final normalized = _normalizeCategory(category);
@@ -184,6 +194,9 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     );
     _ingredientsController = TextEditingController(
       text: product?.ingredients ?? '',
+    );
+    _ingredientsKkController = TextEditingController(
+      text: product?.ingredientsKk ?? '',
     );
     _caloriesController = TextEditingController(
       text: product?.nutritionalInfo.calories.toStringAsFixed(0) ?? '',
@@ -229,17 +242,19 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         initWizardImages(product.imageUrls, _isDisplayableImagePath),
       );
     }
-    _loadPresetCategories();
   }
 
   @override
   void dispose() {
     _nameController.dispose();
+    _nameKkController.dispose();
     _descriptionController.dispose();
+    _descriptionKkController.dispose();
     _priceController.dispose();
     _minController.dispose();
     _stockController.dispose();
     _ingredientsController.dispose();
+    _ingredientsKkController.dispose();
     _caloriesController.dispose();
     _proteinController.dispose();
     _fatController.dispose();
@@ -260,9 +275,9 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     super.dispose();
   }
 
-  Future<void> _loadPresetCategories() async {
+  Future<void> _loadPresetCategories(String locale) async {
     try {
-      final tree = await ApiService.getCatalogCategoryTree();
+      final tree = await ApiService.getCatalogCategoryTree(locale: locale);
       final categories = _extractSelectableCategories(tree);
       if (!mounted || categories.isEmpty) {
         return;
@@ -635,17 +650,40 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           .where((item) => item.isNotEmpty && _isDisplayableImagePath(item)),
     ).toList(growable: false);
 
+    // Подготовка переводов
+    String nameKk = _nameKkController.text.trim();
+    if (nameKk.isEmpty) {
+      nameKk = await YandexTranslateService.translateToKazakh(_nameController.text.trim());
+    }
+    String descriptionKk = _descriptionKkController.text.trim();
+    if (descriptionKk.isEmpty && _descriptionController.text.trim().isNotEmpty) {
+      descriptionKk = await YandexTranslateService.translateToKazakh(_descriptionController.text.trim());
+    }
+    String ingredientsKk = _ingredientsKkController.text.trim();
+    if (ingredientsKk.isEmpty && _ingredientsController.text.trim().isNotEmpty) {
+      ingredientsKk = await YandexTranslateService.translateToKazakh(_ingredientsController.text.trim());
+    }
+    String categoryKk = '';
+    if (categories.isNotEmpty) {
+      categoryKk = await YandexTranslateService.translateToKazakh(categories.join(', '));
+    }
+    Map<String, String> characteristicsKk = await YandexTranslateService.translateMapToKazakh(characteristics);
+
     final result = SupplierProduct(
       id: widget.product?.id ?? '',
       name: _nameController.text.trim(),
+      nameKk: nameKk,
       description: _descriptionController.text.trim(),
+      descriptionKk: descriptionKk,
       categories: categories,
+      categoryKk: categoryKk,
       imageUrls: images,
       pricePerUnit: price,
       minQuantity: minQuantity,
       maxQuantity: stockQuantity > 0 ? stockQuantity : null,
       stockQuantity: stockQuantity,
       ingredients: _ingredientsController.text.trim(),
+      ingredientsKk: ingredientsKk,
       nutritionalInfo: SupplierNutritionalInfo(
         calories: calories,
         protein: protein,
@@ -653,6 +691,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         carbohydrates: carbs,
       ),
       characteristics: characteristics,
+      characteristicsKk: characteristicsKk,
       supplierName: widget.product?.supplierName ?? '',
       deliveryDate: deliverySchedule,
       deliveryBadge: deliverySchedule,
@@ -787,7 +826,9 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       child: Column(
         children: [
           _buildField(context.l10n.getString('auto_nazvanieTovara'), _nameController),
+          _buildField('${context.l10n.getString('auto_nazvanieTovara')} (KK)', _nameKkController, hintText: context.l10n.getString('auto_neobyazatelnoAvtoperev')),
           _buildField(context.l10n.getString('auto_opisanie_1'), _descriptionController, maxLines: 3),
+          _buildField('${context.l10n.getString('auto_opisanie_1')} (KK)', _descriptionKkController, maxLines: 3, hintText: context.l10n.getString('auto_neobyazatelnoAvtoperev')),
           _buildField(
             context.l10n.getString('auto_stranaProizvoditelya'),
             _countryController,
@@ -843,6 +884,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       child: Column(
         children: [
           _buildField(context.l10n.getString('auto_sostav'), _ingredientsController, maxLines: 3),
+          _buildField('${context.l10n.getString('auto_sostav')} (KK)', _ingredientsKkController, maxLines: 3, hintText: context.l10n.getString('auto_neobyazatelnoAvtoperev')),
           _buildField(
             context.l10n.getString('auto_kaloriiKkal100g'),
             _caloriesController,

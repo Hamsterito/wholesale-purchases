@@ -3,16 +3,21 @@ import 'dart:convert';
 class SupplierProduct {
   final String id;
   final String name;
+  final String nameKk;
   final String description;
+  final String descriptionKk;
   final List<String> categories;
+  final String categoryKk;
   final List<String> imageUrls;
   final int pricePerUnit;
   final int minQuantity;
   final int? maxQuantity;
   final int stockQuantity;
   final String ingredients;
+  final String ingredientsKk;
   final SupplierNutritionalInfo nutritionalInfo;
   final Map<String, String> characteristics;
+  final Map<String, String> characteristicsKk;
   final String supplierName;
   final String deliveryDate;
   final String deliveryBadge;
@@ -22,23 +27,29 @@ class SupplierProduct {
   SupplierProduct({
     required this.id,
     required this.name,
+    this.nameKk = '',
     required this.description,
+    this.descriptionKk = '',
     required this.categories,
+    this.categoryKk = '',
     required this.imageUrls,
     required this.pricePerUnit,
     required this.minQuantity,
     required this.maxQuantity,
     this.stockQuantity = 0,
     this.ingredients = '',
+    this.ingredientsKk = '',
     SupplierNutritionalInfo? nutritionalInfo,
     Map<String, String>? characteristics,
+    Map<String, String>? characteristicsKk,
     required this.supplierName,
     required this.deliveryDate,
     required this.deliveryBadge,
     required this.moderationStatus,
     required this.moderationComment,
   }) : nutritionalInfo = nutritionalInfo ?? const SupplierNutritionalInfo(),
-       characteristics = characteristics ?? const <String, String>{};
+       characteristics = characteristics ?? const <String, String>{},
+       characteristicsKk = characteristicsKk ?? const <String, String>{};
 
   factory SupplierProduct.fromJson(Map<String, dynamic> json) {
     List<String> parseList(dynamic value) {
@@ -128,6 +139,11 @@ class SupplierProduct {
         ),
       ),
       characteristics: parseCharacteristics(json['characteristics']),
+      characteristicsKk: parseCharacteristics(json['characteristicsKk']),
+      nameKk: json['nameKk']?.toString() ?? '',
+      descriptionKk: json['descriptionKk']?.toString() ?? '',
+      categoryKk: json['categoryKk']?.toString() ?? '',
+      ingredientsKk: json['ingredientsKk']?.toString() ?? '',
       supplierName: json['supplierName']?.toString() ?? '',
       deliveryDate: json['deliveryDate']?.toString() ?? '',
       deliveryBadge: json['deliveryBadge']?.toString() ?? '',
@@ -140,16 +156,21 @@ class SupplierProduct {
     return {
       'userId': userId,
       'name': name,
+      'nameKk': nameKk,
       'description': description,
+      'descriptionKk': descriptionKk,
       'category': categories,
+      'categoryKk': categoryKk,
       'imageUrls': imageUrls,
       'pricePerUnit': pricePerUnit,
       'minQuantity': minQuantity,
       'maxQuantity': maxQuantity,
       'stockQuantity': stockQuantity,
       'ingredients': ingredients,
+      'ingredientsKk': ingredientsKk,
       'nutritionalInfo': nutritionalInfo.toJson(),
       'characteristics': characteristics,
+      'characteristicsKk': characteristicsKk,
       'deliveryDate': deliveryDate,
       'deliveryBadge': deliveryBadge,
     };
@@ -158,16 +179,21 @@ class SupplierProduct {
   SupplierProduct copyWith({
     String? id,
     String? name,
+    String? nameKk,
     String? description,
+    String? descriptionKk,
     List<String>? categories,
+    String? categoryKk,
     List<String>? imageUrls,
     int? pricePerUnit,
     int? minQuantity,
     int? maxQuantity,
     int? stockQuantity,
     String? ingredients,
+    String? ingredientsKk,
     SupplierNutritionalInfo? nutritionalInfo,
     Map<String, String>? characteristics,
+    Map<String, String>? characteristicsKk,
     String? supplierName,
     String? deliveryDate,
     String? deliveryBadge,
@@ -177,16 +203,21 @@ class SupplierProduct {
     return SupplierProduct(
       id: id ?? this.id,
       name: name ?? this.name,
+      nameKk: nameKk ?? this.nameKk,
       description: description ?? this.description,
+      descriptionKk: descriptionKk ?? this.descriptionKk,
       categories: categories ?? this.categories,
+      categoryKk: categoryKk ?? this.categoryKk,
       imageUrls: imageUrls ?? this.imageUrls,
       pricePerUnit: pricePerUnit ?? this.pricePerUnit,
       minQuantity: minQuantity ?? this.minQuantity,
       maxQuantity: maxQuantity ?? this.maxQuantity,
       stockQuantity: stockQuantity ?? this.stockQuantity,
       ingredients: ingredients ?? this.ingredients,
+      ingredientsKk: ingredientsKk ?? this.ingredientsKk,
       nutritionalInfo: nutritionalInfo ?? this.nutritionalInfo,
       characteristics: characteristics ?? this.characteristics,
+      characteristicsKk: characteristicsKk ?? this.characteristicsKk,
       supplierName: supplierName ?? this.supplierName,
       deliveryDate: deliveryDate ?? this.deliveryDate,
       deliveryBadge: deliveryBadge ?? this.deliveryBadge,
