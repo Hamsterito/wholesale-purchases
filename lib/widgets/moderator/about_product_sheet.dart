@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../models/supplier_product.dart';
+import '../../services/localization/app_localizations.dart';
 import '../../services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../../utils/characteristic_sections.dart';
@@ -11,6 +13,7 @@ void showAboutProductSheet({
   required BuildContext context,
   required List<CharacteristicSection> sections,
   required String description,
+  SupplierProduct? supplierProduct,
 }) {
   final palette = context.colorPalette;
   showModalBottomSheet<void>(
@@ -34,6 +37,7 @@ void showAboutProductSheet({
           return AboutProductSheet(
             sections: sections,
             description: description,
+            supplierProduct: supplierProduct,
             scrollController: scrollController,
           );
         },
@@ -49,11 +53,13 @@ class AboutProductSheet extends StatefulWidget {
     required this.sections,
     required this.description,
     required this.scrollController,
+    this.supplierProduct,
   });
 
   final List<CharacteristicSection> sections;
   final String description;
   final ScrollController scrollController;
+  final SupplierProduct? supplierProduct;
 
   @override
   State<AboutProductSheet> createState() => _AboutProductSheetState();
@@ -139,6 +145,57 @@ class _AboutProductSheetState extends State<AboutProductSheet>
             ],
           ),
           const SizedBox(height: 8),
+          if (widget.supplierProduct != null) ...[
+            Text(
+              widget.supplierProduct!.name,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: palette.ink,
+              ),
+            ),
+            if (widget.supplierProduct!.nameKk.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  'КК: ${widget.supplierProduct!.nameKk}',
+                  style: TextStyle(fontSize: 13, color: palette.muted),
+                ),
+              ),
+            const SizedBox(height: 12),
+            if (widget.supplierProduct!.categories.isNotEmpty) ...[
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final category in widget.supplierProduct!.categories)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
+                      ),
+                      child: Text(
+                        category,
+                        style: TextStyle(fontSize: 13, color: palette.ink),
+                      ),
+                    ),
+                ],
+              ),
+              if (widget.supplierProduct!.categoryKk.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: Text(
+                    'КК: ${widget.supplierProduct!.categoryKk}',
+                    style: TextStyle(fontSize: 13, color: palette.muted),
+                  ),
+                ),
+              const SizedBox(height: 16),
+            ],
+            Divider(height: 1, thickness: 1, color: palette.line),
+            const SizedBox(height: 12),
+          ],
           if (hasContent)
             TabBar(
               controller: _tabController,
@@ -177,6 +234,7 @@ class _AboutProductSheetState extends State<AboutProductSheet>
                             key: _characteristicsKey,
                             child: _CharacteristicsList(
                               sections: widget.sections,
+                              supplierProduct: widget.supplierProduct,
                             ),
                           ),
                           const SizedBox(height: 24),
@@ -197,7 +255,10 @@ class _AboutProductSheetState extends State<AboutProductSheet>
                             ),
                           ),
                         ),
-                        _DescriptionBlock(description: widget.description),
+                        _DescriptionBlock(
+                          description: widget.description,
+                          supplierProduct: widget.supplierProduct,
+                        ),
                       ],
                     ),
             ),
@@ -209,9 +270,10 @@ class _AboutProductSheetState extends State<AboutProductSheet>
 }
 
 class _CharacteristicsList extends StatelessWidget {
-  const _CharacteristicsList({required this.sections});
+  const _CharacteristicsList({required this.sections, this.supplierProduct});
 
   final List<CharacteristicSection> sections;
+  final SupplierProduct? supplierProduct;
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +281,10 @@ class _CharacteristicsList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < sections.length; i++) ...[
-          _CharacteristicSectionView(section: sections[i]),
+          _CharacteristicSectionView(
+            section: sections[i],
+            supplierProduct: supplierProduct,
+          ),
           if (i != sections.length - 1) const SizedBox(height: 16),
         ],
       ],
@@ -228,9 +293,10 @@ class _CharacteristicsList extends StatelessWidget {
 }
 
 class _DescriptionBlock extends StatelessWidget {
-  const _DescriptionBlock({required this.description});
+  const _DescriptionBlock({required this.description, this.supplierProduct});
 
   final String description;
+  final SupplierProduct? supplierProduct;
 
   @override
   Widget build(BuildContext context) {
@@ -239,24 +305,40 @@ class _DescriptionBlock extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: isPlaceholder
-          ? Text(
-              context.l10n.getString('auto_opisanieNeUkazano'),
-              style: TextStyle(fontSize: 14, color: palette.muted),
-            )
-          : Text(
-              description,
-              softWrap: true,
-              style: TextStyle(fontSize: 14, color: palette.ink, height: 1.4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          isPlaceholder
+              ? Text(
+                  context.l10n.getString('auto_opisanieNeUkazano'),
+                  style: TextStyle(fontSize: 14, color: palette.muted),
+                )
+              : Text(
+                  description,
+                  softWrap: true,
+                  style: TextStyle(fontSize: 14, color: palette.ink, height: 1.4),
+                ),
+          if (!isPlaceholder &&
+              supplierProduct != null &&
+              supplierProduct!.descriptionKk.trim().isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                'КК: ${supplierProduct!.descriptionKk.trim()}',
+                style: TextStyle(fontSize: 13, color: palette.muted),
+              ),
             ),
+        ],
+      ),
     );
   }
 }
 
 class _CharacteristicSectionView extends StatelessWidget {
-  const _CharacteristicSectionView({required this.section});
+  const _CharacteristicSectionView({required this.section, this.supplierProduct});
 
   final CharacteristicSection section;
+  final SupplierProduct? supplierProduct;
 
   @override
   Widget build(BuildContext context) {
@@ -287,6 +369,18 @@ class _CharacteristicSectionView extends StatelessWidget {
   }
 
   Widget _buildItem(AppColorPalette palette, MapEntry<String, String> item) {
+    String? kkValue;
+    if (supplierProduct != null) {
+      if (item.key == AppLocalizations.current.getString('util_composition')) {
+        kkValue = supplierProduct!.ingredientsKk;
+      } else {
+        kkValue = supplierProduct!.characteristicsKk[item.key];
+      }
+      if (kkValue != null && kkValue.trim().isEmpty) {
+        kkValue = null;
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -302,10 +396,24 @@ class _CharacteristicSectionView extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             flex: 6,
-            child: Text(
-              item.value,
-              textAlign: TextAlign.right,
-              style: TextStyle(fontSize: 14, color: palette.ink),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  item.value,
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontSize: 14, color: palette.ink),
+                ),
+                if (kkValue != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      'КК: $kkValue',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(fontSize: 13, color: palette.muted),
+                    ),
+                  ),
+              ],
             ),
           ),
         ],

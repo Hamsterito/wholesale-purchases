@@ -301,7 +301,7 @@ class _ProductCardState extends State<ProductCard> {
     if (showMessages) {
       showTopMessage(
         context,
-        context.l10n.getString('product_card_added_to_cart', params: {'name': product.name, 'count': selected}),
+        context.l10n.getString('product_card_added_to_cart', params: {'name': product.localizedName(context), 'count': selected}),
         backgroundColor: _palette.accent,
       );
     }
@@ -896,7 +896,7 @@ class _ProductCardState extends State<ProductCard> {
 
   Widget _buildProductTitle() {
     return Text(
-      widget.product.name,
+      widget.product.localizedName(context),
       style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, height: 1),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,

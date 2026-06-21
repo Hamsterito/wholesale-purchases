@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 
+import '../models/language.dart';
+import '../services/localization/localization_extension.dart';
 class SupplierProduct {
   final String id;
   final String name;
@@ -247,5 +250,74 @@ class SupplierNutritionalInfo {
       'fat': fat,
       'carbohydrates': carbohydrates,
     };
+  }
+}
+
+extension SupplierProductLocalization on SupplierProduct {
+  String localizedName(BuildContext context) {
+    if (context.currentLanguage == LanguageCode.kazakh && nameKk.trim().isNotEmpty) {
+      return nameKk.trim();
+    }
+    return name;
+  }
+
+  String localizedDescription(BuildContext context) {
+    if (context.currentLanguage == LanguageCode.kazakh && descriptionKk.trim().isNotEmpty) {
+      return descriptionKk.trim();
+    }
+    return description;
+  }
+
+  String localizedCategory(BuildContext context) {
+    if (context.currentLanguage == LanguageCode.kazakh && categoryKk.trim().isNotEmpty) {
+      return categoryKk.trim();
+    }
+    return categories.isNotEmpty ? categories.first : '';
+  }
+
+  String localizedIngredients(BuildContext context) {
+    if (context.currentLanguage == LanguageCode.kazakh && ingredientsKk.trim().isNotEmpty) {
+      return ingredientsKk.trim();
+    }
+    return ingredients;
+  }
+
+  Map<String, String> localizedCharacteristics(BuildContext context) {
+    final Map<String, String> sourceMap = (context.currentLanguage == LanguageCode.kazakh && characteristicsKk.isNotEmpty)
+        ? characteristicsKk
+        : characteristics;
+
+    if (context.currentLanguage == LanguageCode.kazakh) {
+      final result = <String, String>{};
+      sourceMap.forEach((key, value) {
+        String newKey = key;
+        String newValue = value;
+
+        if (key == 'Страна производителя') {
+          newKey = context.l10n.getString('auto_stranaProizvoditelya');
+          if (value == 'Казахстан') {
+            newValue = 'Қазақстан';
+          } else if (value == 'Россия') {
+            newValue = 'Ресей';
+          }
+        } else if (key == 'Срок годности') {
+          newKey = context.l10n.getString('auto_srokGodnosti');
+          newValue = newValue.replaceAll('суток', 'тәулік');
+          newValue = newValue.replaceAll('сутки', 'тәулік');
+          newValue = newValue.replaceAll('месяцев', 'ай');
+          newValue = newValue.replaceAll('мес.', 'ай.');
+          newValue = newValue.replaceAll('дней', 'күн');
+        } else if (key == 'Температура хранения') {
+          newKey = context.l10n.getString('auto_temperaturaHraneniya');
+          newValue = newValue.replaceAll('от', 'бастап');
+          newValue = newValue.replaceAll('до', 'дейін');
+        }
+
+        result[newKey] = newValue;
+      });
+      return result;
+    }
+
+    return sourceMap;
   }
 }

@@ -699,7 +699,11 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
       buffer
         ..write(product.name)
         ..write(' ')
-        ..write(product.description);
+        ..write(product.nameKk)
+        ..write(' ')
+        ..write(product.description)
+        ..write(' ')
+        ..write(product.descriptionKk);
       for (final cat in product.categories) {
         buffer
           ..write(' ')
@@ -713,7 +717,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
   bool _matchesSearch(Product product, String query) {
     final tokens = SearchNormalizer.tokenizeQuery(query);
     if (tokens.isEmpty) return true;
-    final haystack = _searchIndex[product.id] ?? product.name;
+    final haystack = _searchIndex[product.id] ?? product.localizedName(context);
     return SearchNormalizer.matchesTokens(haystack, tokens);
   }
 

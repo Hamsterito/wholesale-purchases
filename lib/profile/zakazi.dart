@@ -14,6 +14,7 @@ import '../utils/auto_refresh.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/smart_image.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
+import '../services/notification_service.dart';
 
 class MyOrdersPage extends StatefulWidget {
   const MyOrdersPage({super.key});
@@ -45,6 +46,7 @@ class _MyOrdersPageState extends State<MyOrdersPage>
   @override
   void initState() {
     super.initState();
+    NotificationService().markAllBuyerOrdersAsViewed();
     _loadOrders();
     startAutoRefresh();
   }
@@ -534,7 +536,7 @@ title: Text(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  item.name,
+                  item.localizedName(context),
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

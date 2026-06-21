@@ -47,6 +47,7 @@ class _NotificationBadgeState extends State<NotificationBadge>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
+  late Animation<double> _fadeAnimation;
 
   // Отображаемое значение - обновляется при изменении count
   late int _displayCount;
@@ -58,12 +59,24 @@ class _NotificationBadgeState extends State<NotificationBadge>
     _displayCount = widget.count;
 
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 400),
       vsync: this,
     );
 
     _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.elasticOut,
+        reverseCurve: Curves.easeInBack,
+      ),
+    );
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: const Interval(0.0, 0.5, curve: Curves.easeIn),
+        reverseCurve: const Interval(0.5, 1.0, curve: Curves.easeOut),
+      ),
     );
 
     // Если при создании уже есть уведомления - сразу показываем значок
@@ -137,8 +150,10 @@ class _NotificationBadgeState extends State<NotificationBadge>
       right: -8,
       top: -8,
       child: RepaintBoundary(
-        child: ScaleTransition(
-          scale: _scaleAnimation,
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: ScaleTransition(
+            scale: _scaleAnimation,
           child: Semantics(
             label: semanticText,
             child: Container(
@@ -177,6 +192,7 @@ class _NotificationBadgeState extends State<NotificationBadge>
                 ),
               ),
             ),
+          ),
           ),
         ),
       ),

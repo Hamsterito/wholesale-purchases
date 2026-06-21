@@ -1,3 +1,8 @@
+import 'package:flutter/widgets.dart';
+import '../services/localization/localization_extension.dart';
+import '../models/language.dart';
+
+
 class Order {
   final String id;
   final DateTime date;
@@ -68,6 +73,7 @@ class OrderItem {
   final String id;
   final String productId;
   final String name;
+  final String nameKk;
   final String supplierName;
   final int price;
   final int quantity;
@@ -78,6 +84,7 @@ class OrderItem {
     this.id = '',
     this.productId = '',
     required this.name,
+    this.nameKk = '',
     this.supplierName = '',
     required this.price,
     required this.quantity,
@@ -90,6 +97,7 @@ class OrderItem {
       id: json['id']?.toString() ?? '',
       productId: json['productId']?.toString() ?? '',
       name: json['name'] ?? '',
+      nameKk: json['nameKk'] ?? json['name_kk'] ?? '',
       supplierName:
           json['supplierName']?.toString() ??
           json['supplier_name']?.toString() ??
@@ -99,5 +107,14 @@ class OrderItem {
       imageUrl: json['imageUrl']?.toString() ?? json['image_url']?.toString() ?? '',
       isReceived: json['isReceived'] ?? json['is_received'] ?? false,
     );
+  }
+}
+
+extension OrderItemLocalization on OrderItem {
+  String localizedName(BuildContext context) {
+    if (context.currentLanguage == LanguageCode.kazakh && nameKk.trim().isNotEmpty) {
+      return nameKk.trim();
+    }
+    return name.trim();
   }
 }

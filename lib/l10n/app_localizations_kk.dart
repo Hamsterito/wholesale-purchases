@@ -6113,4 +6113,10 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String get moderation_dialog_appeal_button =>
       'Келіспеймін, қолдау қызметіне жазу';
+
+  @override
+  String get auto_poiskAdres => 'Мекенжайды іздеу';
+
+  @override
+  String get auto_temperaturaHraneniya => 'Сақтау температурасы';
 }

@@ -20,12 +20,18 @@ import 'package:flutter_project/widgets/navigation/navigation_shell.dart';
 import 'package:flutter_project/widgets/messages/top_message.dart';
 import 'package:flutter_project/theme/app_color_palette.dart';
 import 'services/localization/localization_extension.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
+import 'dart:io' show Platform;
 
 // Главная функция приложения Flutter
 void main() {
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+      
+      if (Platform.isAndroid) {
+        AndroidYandexMap.useAndroidViewSurface = false;
+      }
 
       FlutterError.onError = (details) {
         AppLogger.error(

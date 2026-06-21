@@ -64,7 +64,7 @@ class SupplierQAQuestionCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      question.productName,
+                      question.localizedProductName(context),
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,

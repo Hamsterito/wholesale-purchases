@@ -35,7 +35,7 @@ class DailyRevenue {
 
   /// Форматированная дата для отображения (например, "14.05")
   String get formattedDate {
-    final day = date.day.toString().padLeft(2, '0');
+    final day = date.day.toString();
     final month = date.month.toString().padLeft(2, '0');
     return '$day.$month';
   }

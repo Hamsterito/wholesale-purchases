@@ -242,6 +242,7 @@ void _registerBuyerOrderRoutes(Router router, Connection connection) {
                    p.stock_quantity,
                    p.max_quantity,
                    p.name,
+                   p.name_kk,
                    p.image_url,
                    EXISTS(
                      SELECT 1
@@ -456,6 +457,7 @@ void _registerBuyerOrderRoutes(Router router, Connection connection) {
               order_id,
               product_id,
               name,
+              name_kk,
               price,
               quantity,
               image_url,
@@ -467,6 +469,7 @@ void _registerBuyerOrderRoutes(Router router, Connection connection) {
               @order_id,
               @product_id,
               @name,
+              @name_kk,
               @price,
               @quantity,
               @image_url,
@@ -480,6 +483,7 @@ void _registerBuyerOrderRoutes(Router router, Connection connection) {
             'order_id': orderId,
             'product_id': productId,
             'name': name,
+            'name_kk': item['nameKk']?.toString().trim() ?? productRow['name_kk']?.toString() ?? '',
             'price': price,
             'quantity': quantity,
             'image_url': imageUrl,
@@ -1500,7 +1504,11 @@ void _registerCatalogRoutes(Router router, Connection connection) {
       final products = rows.map((map) {
         final productId = _toPositiveInt(map['id']);
         final name = (map['name'] ?? '').toString();
+        final nameKk = (map['name_kk'] ?? '').toString();
         final description = (map['description'] ?? '').toString();
+        final descriptionKk = (map['description_kk'] ?? '').toString();
+        final categoryKk = (map['category_kk'] ?? '').toString();
+        final ingredientsKk = (map['ingredients_kk'] ?? '').toString();
         final categories = _parseCategories(map['category']);
         final parsedImages = _parseImageUrls(map['image_url']);
         final imageUrls = parsedImages.isNotEmpty
@@ -1521,6 +1529,7 @@ void _registerCatalogRoutes(Router router, Connection connection) {
             : 0.0;
 
         final characteristics = _parseCharacteristics(map['characteristics']);
+        final characteristicsKk = map['characteristics_kk']?.toString() ?? '';
         final hasOrders = map['has_orders'] == true;
         final rawStockQuantity = _toPositiveInt(map['stock_quantity']);
         final legacyMaxQuantity = _toPositiveInt(map['max_quantity']);
@@ -1540,12 +1549,15 @@ void _registerCatalogRoutes(Router router, Connection connection) {
         return {
           'id': productId.toString(),
           'name': name,
+          'nameKk': nameKk,
           'description': description,
+          'descriptionKk': descriptionKk,
           'imageUrls': imageUrls,
           'rating': rating,
           'reviewCount': reviewCount,
           'questionCount': questionCountByProduct[productId] ?? 0,
           'categories': categories,
+          'categoryKk': categoryKk,
           'nutritionalInfo': {
             'calories': _toNonNegativeDouble(map['nutrition_calories']),
             'protein': _toNonNegativeDouble(map['nutrition_protein']),
@@ -1555,7 +1567,9 @@ void _registerCatalogRoutes(Router router, Connection connection) {
             ),
           },
           'ingredients': map['ingredients']?.toString() ?? '',
+          'ingredientsKk': ingredientsKk,
           'characteristics': characteristics,
+          'characteristicsKk': characteristicsKk,
           'suppliers': [
             {
               'id': supplierId,
@@ -1618,6 +1632,7 @@ void _registerBuyerReadRoutes(Router router, Connection connection) {
               'id', oi.id,
               'order_id', oi.order_id,
               'name', oi.name,
+              'nameKk', oi.name_kk,
               'price', oi.price,
               'quantity', oi.quantity,
               'image_url', oi.image_url,
@@ -1740,8 +1755,10 @@ void _registerBuyerReadRoutes(Router router, Connection connection) {
         Sql.named('''
           SELECT r.*,
                  COALESCE(p.name, oi.name) AS product_name,
+                 COALESCE(p.name_kk, oi.name_kk) AS product_name_kk,
                  COALESCE(p.image_url, oi.image_url) AS product_image,
                  oi.name AS order_item_name,
+                 oi.name_kk AS order_item_name_kk,
                  oi.image_url AS order_item_image,
                  oi.supplier_name,
                  u.name AS reviewer_name,
@@ -1854,7 +1871,9 @@ void _registerBuyerReadRoutes(Router router, Connection connection) {
                  oi.price,
                  oi.quantity,
                  oi.supplier_name,
+                 oi.name_kk AS order_item_name_kk,
                  COALESCE(p.name, oi.name) AS product_name,
+                 COALESCE(p.name_kk, oi.name_kk) AS product_name_kk,
                  COALESCE(p.image_url, oi.image_url) AS product_image
           FROM order_items oi
           JOIN orders o ON o.id = oi.order_id
@@ -1879,6 +1898,7 @@ void _registerBuyerReadRoutes(Router router, Connection connection) {
           'orderItemId': map['order_item_id']?.toString() ?? '',
           'productId': map['product_id']?.toString() ?? '',
           'productName': map['product_name'] ?? map['order_item_name'] ?? '',
+          'productNameKk': map['product_name_kk'] ?? map['order_item_name_kk'] ?? '',
           'productImage': map['product_image'] ?? map['order_item_image'] ?? '',
           'quantity': map['quantity'] ?? 0,
           'price': map['price'] ?? 0,

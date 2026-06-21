@@ -6116,4 +6116,10 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get moderation_dialog_appeal_button =>
       'Не согласен, написать в поддержку';
+
+  @override
+  String get auto_poiskAdres => 'Поиск адреса';
+
+  @override
+  String get auto_temperaturaHraneniya => 'Температура хранения';
 }

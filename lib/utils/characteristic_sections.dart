@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import '../models/product.dart';
 import '../models/supplier_product.dart';
 import '../services/localization/app_localizations.dart';
@@ -13,15 +14,15 @@ class CharacteristicSection {
 
 /// Собирает разделы характеристик в порядке отображения:
 /// «Общие характеристики» → «Питание» → «Состав». Пустые источники пропускаются.
-List<CharacteristicSection> buildCharacteristicSections(Product product) {
+List<CharacteristicSection> buildCharacteristicSections(Product product, BuildContext context) {
   final info = product.nutritionalInfo;
   return _buildSections(
-    characteristics: product.characteristics,
+    characteristics: product.localizedCharacteristics(context),
     calories: info.calories,
     protein: info.protein,
     fat: info.fat,
     carbohydrates: info.carbohydrates,
-    ingredients: product.ingredients,
+    ingredients: product.localizedIngredients(context),
   );
 }
 
@@ -29,15 +30,16 @@ List<CharacteristicSection> buildCharacteristicSections(Product product) {
 /// сырую заявку поставщика без агрегации по продавцам.
 List<CharacteristicSection> buildSupplierProductSections(
   SupplierProduct product,
+  BuildContext context,
 ) {
   final info = product.nutritionalInfo;
   return _buildSections(
-    characteristics: product.characteristics,
+    characteristics: product.localizedCharacteristics(context),
     calories: info.calories,
     protein: info.protein,
     fat: info.fat,
     carbohydrates: info.carbohydrates,
-    ingredients: product.ingredients,
+    ingredients: product.localizedIngredients(context),
   );
 }
 

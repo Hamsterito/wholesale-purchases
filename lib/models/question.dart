@@ -9,6 +9,7 @@ class Question {
   final bool isAnswered;
   final QuestionAnswer? answer;
   final String productName;
+  final String productNameKk;
   final String productImage;
 
   Question({
@@ -22,6 +23,7 @@ class Question {
     required this.isAnswered,
     this.answer,
     required this.productName,
+    this.productNameKk = '',
     required this.productImage,
   });
 
@@ -37,6 +39,7 @@ class Question {
       isAnswered: json['isAnswered'] ?? false,
       answer: json['answer'] != null ? QuestionAnswer.fromJson(json['answer']) : null,
       productName: json['productName'] ?? '',
+      productNameKk: json['productNameKk'] ?? json['product_name_kk'] ?? '',
       productImage: json['productImage'] ?? '',
     );
   }
@@ -52,8 +55,21 @@ class Question {
         'isAnswered': isAnswered,
         'answer': answer?.toJson(),
         'productName': productName,
+        'productNameKk': productNameKk,
         'productImage': productImage,
       };
+}
+
+extension QuestionLocalization on Question {
+  String localizedProductName(dynamic context) {
+    try {
+      final lang = (context as dynamic).currentLanguage;
+      if (lang?.toString() == 'LanguageCode.kazakh' && productNameKk.trim().isNotEmpty) {
+        return productNameKk;
+      }
+    } catch (_) {}
+    return productName;
+  }
 }
 
 // Пустую строку трактуем как отсутствие аватарки - бекенд может прислать "" вместо null.

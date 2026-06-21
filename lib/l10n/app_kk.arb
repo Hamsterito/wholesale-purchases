@@ -6529,5 +6529,9 @@
   "moderation_dialog_ok_button": "Түсінікті",
   "@moderation_dialog_ok_button": {},
   "moderation_dialog_appeal_button": "Келіспеймін, қолдау қызметіне жазу",
-  "@moderation_dialog_appeal_button": {}
+  "@moderation_dialog_appeal_button": {},
+  "auto_poiskAdres": "Мекенжайды іздеу",
+  "@auto_poiskAdres": {},
+  "auto_temperaturaHraneniya": "Сақтау температурасы",
+  "@auto_temperaturaHraneniya": {}
 }

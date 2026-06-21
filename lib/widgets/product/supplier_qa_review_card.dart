@@ -80,7 +80,7 @@ class SupplierQAReviewCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            review.productName,
+                            review.localizedProductName(context),
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,

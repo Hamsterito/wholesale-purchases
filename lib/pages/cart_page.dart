@@ -703,7 +703,7 @@ class _CartPageState extends State<CartPage> {
         .map(
           (item) => {
             'productId': item.product.id,
-            'name': item.product.name,
+            'name': item.product.localizedName(context),
             'price': item.supplier.pricePerUnit,
             'quantity': item.quantity,
             'imageUrl': _resolveCartImage(item),
@@ -1916,7 +1916,7 @@ for (int i = 0; i < shown.length; i++) ...[
                  children: [
                    Expanded(
                      child: Text(
-                       l10n.getString('cart_summary_item', params: {'name': shown[i].product.name, 'quantity': shown[i].quantity}),
+                       l10n.getString('cart_summary_item', params: {'name': shown[i].product.localizedName(context), 'quantity': shown[i].quantity}),
                        maxLines: 1,
                        overflow: TextOverflow.ellipsis,
                        style: TextStyle(
@@ -2243,7 +2243,7 @@ Widget _buildSupplierSummaryCard({
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          item.product.name,
+                          item.product.localizedName(context),
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,

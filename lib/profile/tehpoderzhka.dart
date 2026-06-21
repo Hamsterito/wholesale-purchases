@@ -10,6 +10,7 @@ import '../models/support_message.dart';
 import '../services/api/api_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/message/message_localization.dart';
+import '../services/notification_service.dart';
 import 'support_chat_page.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/animated_select_field.dart';
@@ -70,6 +71,7 @@ class _SupportPageState extends State<SupportPage> {
   @override
   void initState() {
     super.initState();
+    NotificationService().markAllMessagesAsRead();
     _loadThread().whenComplete(_startEventsStream);
   }
 

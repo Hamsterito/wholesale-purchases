@@ -11183,6 +11183,18 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Не согласен, написать в поддержку'**
   String get moderation_dialog_appeal_button;
+
+  /// No description provided for @auto_poiskAdres.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск адреса'**
+  String get auto_poiskAdres;
+
+  /// No description provided for @auto_temperaturaHraneniya.
+  ///
+  /// In ru, this message translates to:
+  /// **'Температура хранения'**
+  String get auto_temperaturaHraneniya;
 }
 
 class _AppLocalizationsDelegate

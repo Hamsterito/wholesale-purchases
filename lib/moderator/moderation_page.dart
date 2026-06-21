@@ -16,6 +16,7 @@ import 'support_chats_page.dart';
 import 'suppliers_directory_page.dart';
 import '../services/api/api_service.dart';
 import '../services/localization/localization_extension.dart';
+import '../services/notification_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../widgets/expandable_text_block.dart';
 import '../widgets/smart_image.dart';
@@ -43,6 +44,7 @@ class _ModerationPageState extends State<ModerationPage> {
   @override
   void initState() {
     super.initState();
+    NotificationService().markAllModerationsAsViewed();
     _loadProducts();
   }
 
@@ -337,14 +339,16 @@ class _ModerationPageState extends State<ModerationPage> {
   void _openAboutSheet(SupplierProduct product) {
     showAboutProductSheet(
       context: context,
-      sections: buildSupplierProductSections(product),
+      sections: buildSupplierProductSections(product, context),
       description: product.description,
+      supplierProduct: product,
     );
   }
 
   // Каждая категория - свой чип. Иконка только у первого, чтобы лента не пестрила.
-  List<Widget> _buildCategoryPills(SupplierProduct product) {
-    if (product.categories.isEmpty) {
+  List<Widget> _buildCategoryPills(SupplierProduct product, BuildContext context) {
+    final localizedCat = product.localizedCategory(context);
+    if (localizedCat.isEmpty) {
       return [
         _ModerationInfoPill(
           icon: Icons.category_outlined,
@@ -353,11 +357,10 @@ class _ModerationPageState extends State<ModerationPage> {
       ];
     }
     return [
-      for (var i = 0; i < product.categories.length; i++)
-        _ModerationInfoPill(
-          icon: i == 0 ? Icons.category_outlined : null,
-          text: product.categories[i],
-        ),
+      _ModerationInfoPill(
+        icon: Icons.category_outlined,
+        text: localizedCat,
+      ),
     ];
   }
 
@@ -377,7 +380,9 @@ class _ModerationPageState extends State<ModerationPage> {
 
     final haystack = [
       product.name,
+      product.nameKk,
       product.description,
+      product.descriptionKk,
       product.supplierName,
       product.moderationComment,
       product.categories.join(' '),
@@ -673,7 +678,7 @@ class _ModerationPageState extends State<ModerationPage> {
                                                       constraints.maxWidth <
                                                       230;
                                                   final title = Text(
-                                                    product.name,
+                                                    product.localizedName(context),
                                                     maxLines: 2,
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -728,12 +733,12 @@ class _ModerationPageState extends State<ModerationPage> {
                                             ),
                                           ],
                                         ),
-                                        if (product.description
+                                        if (product.localizedDescription(context)
                                             .trim()
                                             .isNotEmpty) ...[
                                           const SizedBox(height: 10),
                                           ExpandableTextBlock(
-                                            product.description.trim(),
+                                            product.localizedDescription(context).trim(),
                                             collapsedMaxLines: 3,
                                             textStyle: TextStyle(
                                               color: colorScheme.onSurfaceVariant,
@@ -750,7 +755,7 @@ class _ModerationPageState extends State<ModerationPage> {
                                               icon: Icons.storefront_outlined,
                                               text: product.supplierName,
                                             ),
-                                            ..._buildCategoryPills(product),
+                                            ..._buildCategoryPills(product, context),
                                             _ModerationInfoPill(
                                               icon: Icons.inventory_2_outlined,
                                               text:
@@ -1172,7 +1177,7 @@ class _ModerationAboutTile extends StatelessWidget {
   }
 
   String _aboutPreview(BuildContext context, SupplierProduct product) {
-    final sections = buildSupplierProductSections(product);
+    final sections = buildSupplierProductSections(product, context);
     final parts = <String>[];
     outer:
     for (final section in sections) {

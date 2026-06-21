@@ -196,6 +196,7 @@ Map<String, dynamic> _reviewRowToDto(
     'orderItemId': map['order_item_id']?.toString() ?? '',
     'productId': map['product_id']?.toString() ?? '',
     'productName': map['product_name'] ?? map['order_item_name'] ?? '',
+    'productNameKk': map['product_name_kk'] ?? map['order_item_name_kk'] ?? '',
     'productImage': map['product_image'] ?? map['order_item_image'] ?? '',
     'rating': map['rating'] ?? 0,
     'reviewText': map['review_text'] ?? '',

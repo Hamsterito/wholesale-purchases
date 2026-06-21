@@ -111,7 +111,12 @@ class _AddressPageState extends State<AddressPage> {
         return;
       }
 
-      final position = await Geolocator.getCurrentPosition(locationSettings: const LocationSettings(accuracy: LocationAccuracy.high));
+      final position = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          timeLimit: Duration(seconds: 10),
+        ),
+      );
       final point = Point(latitude: position.latitude, longitude: position.longitude);
 
       await _mapController?.moveCamera(
@@ -288,6 +293,8 @@ class _AddressPageState extends State<AddressPage> {
       child: Stack(
         children: [
           YandexMap(
+            fastTapEnabled: true,
+            nightModeEnabled: Theme.of(context).brightness == Brightness.dark,
             onMapCreated: (YandexMapController yandexMapController) async {
               _mapController = yandexMapController;
               if (widget.initial == null) {
@@ -443,6 +450,7 @@ class _AddressPageState extends State<AddressPage> {
             ),
             const SizedBox(height: 16),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   flex: 2,
@@ -534,25 +542,19 @@ class _AddressPageState extends State<AddressPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: _colorScheme.onSurface,
-          ),
-        ),
-        if (errorText != null) ...[
-          const SizedBox(height: 6),
-          Text(
-            errorText,
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Text(
+            label,
+            maxLines: 1,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: _colorScheme.error,
+              color: _colorScheme.onSurface,
             ),
           ),
-        ],
+        ),
         const SizedBox(height: 8),
         TextField(
           controller: controller,
@@ -575,6 +577,17 @@ class _AddressPageState extends State<AddressPage> {
             ),
           ),
         ),
+        if (errorText != null) ...[
+          const SizedBox(height: 6),
+          Text(
+            errorText,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: _colorScheme.error,
+            ),
+          ),
+        ],
       ],
     );
   }

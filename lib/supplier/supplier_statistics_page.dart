@@ -819,7 +819,11 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                   sideTitles: SideTitles(
                     showTitles: true,
                     reservedSize: 26,
+                    interval: math.max(1.0, (chartData.labels.length / 7).ceilToDouble()),
                     getTitlesWidget: (v, _) {
+                      if (v != v.toInt()) {
+                        return const SizedBox.shrink();
+                      }
                       final i = v.toInt();
                       if (i < 0 || i >= chartData.labels.length) {
                         return const SizedBox.shrink();
@@ -1099,7 +1103,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                         children: [
                           Expanded(
                             child: Text(
-                              p.productName,
+                              p.localizedProductName(context),
                               style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
@@ -1519,7 +1523,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
                   children: [
                     Expanded(
                       child: Text(
-                        review.productName,
+                        review.localizedProductName(context),
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,

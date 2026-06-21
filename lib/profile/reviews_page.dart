@@ -17,6 +17,7 @@ import '../utils/date_formatter.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
 import 'dart:math' as math;
 import '../core/ui/theme/app_dimensions.dart';
+import '../services/notification_service.dart';
 
 class ReviewsPage extends StatefulWidget {
   const ReviewsPage({super.key});
@@ -49,6 +50,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   @override
   void initState() {
     super.initState();
+    NotificationService().markAllReviewsAsViewed();
     _loadReviews();
   }
 
@@ -417,7 +419,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: item.productName,
+                            text: item.localizedProductName(context),
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
@@ -612,7 +614,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: review.productName,
+                            text: review.localizedProductName(context),
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w700,
@@ -875,7 +877,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: review.productName,
+                                      text: review.localizedProductName(context),
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
@@ -1185,7 +1187,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: item.productName,
+                                  text: item.localizedProductName(context),
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,

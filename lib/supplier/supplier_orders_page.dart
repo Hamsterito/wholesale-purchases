@@ -13,6 +13,7 @@ import '../theme/app_color_palette.dart';
 import '../utils/auto_refresh.dart';
 import '../widgets/date_range_picker_dialog.dart' as custom_picker;
 import '../widgets/smart_image.dart';
+import '../services/notification_service.dart';
 
 enum _SupplierOrderTab { active, history }
 
@@ -67,6 +68,7 @@ class _SupplierOrdersPageState extends State<SupplierOrdersPage>
   @override
   void initState() {
     super.initState();
+    NotificationService().markAllSupplierOrdersAsViewed();
     _applyPeriodSelection(_selectedPeriod, notify: false);
     _loadOrders();
     startAutoRefresh();
@@ -515,52 +517,62 @@ Future<void> _updateOrderStatus(SupplierOrder order, String status) async {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator(strokeCap: StrokeCap.round))
           : _error != null
-          ? Center(child: Text(_error!))
-          : Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
-                  child: _buildOrdersTabSelector(
-                    activeCount: activeOrders.length,
-                    historyCount: filteredHistoryOrders.length,
-                  ),
-                ),
-                if (isHistoryTab) ...[
-                  _buildHistoryFilterSection(),
-                  const SizedBox(height: 8),
-                  _buildHistoryPeriodTabs(),
-                ],
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: _loadOrders,
-                    child: visibleOrders.isEmpty
-                        ? ListView(
-                            children: [
-                              const SizedBox(height: 120),
-                              Center(child: Text(emptyMessage)),
-                            ],
-                          )
-                        : ListView.separated(
-                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                            itemCount: visibleOrders.length,
-                            separatorBuilder: (_, __) =>
-                                const SizedBox(height: 14),
-                            itemBuilder: (context, index) {
-                              final order = visibleOrders[index];
-                              final isUpdating = _updatingOrderIds.contains(
-                                order.id,
-                              );
-                              return RepaintBoundary(
-                                child: _buildOrderCard(
-                                  order,
-                                  isUpdating: isUpdating,
-                                ),
-                              );
-                            },
+              ? Center(child: Text(_error!))
+              : RefreshIndicator(
+              onRefresh: _loadOrders,
+              child: CustomScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+                          child: _buildOrdersTabSelector(
+                            activeCount: activeOrders.length,
+                            historyCount: filteredHistoryOrders.length,
                           ),
+                        ),
+                        if (isHistoryTab) ...[
+                          _buildHistoryFilterSection(),
+                          const SizedBox(height: 8),
+                          _buildHistoryPeriodTabs(),
+                        ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  if (visibleOrders.isEmpty)
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 120),
+                          Center(child: Text(emptyMessage)),
+                        ],
+                      ),
+                    )
+                  else
+                    SliverPadding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                      sliver: SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            final itemIndex = index ~/ 2;
+                            if (index.isEven) {
+                              final order = visibleOrders[itemIndex];
+                              final isUpdating = _updatingOrderIds.contains(order.id);
+                              return RepaintBoundary(
+                                child: _buildOrderCard(order, isUpdating: isUpdating),
+                              );
+                            }
+                            return const SizedBox(height: 14);
+                          },
+                          childCount: visibleOrders.length * 2 - 1,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
     );
   }
@@ -1252,7 +1264,7 @@ child: Column(
                        children: [
                          Expanded(
                            child: Text(
-                             item.name,
+                             item.localizedName(context),
                              style: const TextStyle(fontWeight: FontWeight.w600),
                            ),
                          ),
@@ -1376,7 +1388,7 @@ if (order.items.isEmpty)
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                item.name,
+                                item.localizedName(context),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 14,

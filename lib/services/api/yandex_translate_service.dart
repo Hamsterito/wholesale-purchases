@@ -53,4 +53,51 @@ class YandexTranslateService {
     }
     return result;
   }
+  /// Переводит текст на русский
+  static Future<String> translateToRussian(String text) async {
+    if (text.trim().isEmpty) return '';
+
+    final apiKey = dotenv.get('SECRET_KEY_YANDEX', fallback: '');
+    if (apiKey.isEmpty) {
+      AppLogger.warning('Ошибка: Yandex API ключ не найден', scope: 'yandex_translate');
+      return text;
+    }
+
+    try {
+      final response = await http.post(
+        Uri.parse(_baseUrl),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Api-Key $apiKey',
+        },
+        body: jsonEncode({
+          'targetLanguageCode': 'ru',
+          'texts': [text],
+          'folderId': '',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(utf8.decode(response.bodyBytes));
+        if (data['translations'] != null && data['translations'].isNotEmpty) {
+          return data['translations'][0]['text'] ?? text;
+        }
+      } else {
+        AppLogger.error('Ошибка перевода: ${response.statusCode} - ${response.body}', scope: 'yandex_translate');
+      }
+    } catch (e, st) {
+      AppLogger.error('Исключение при переводе', scope: 'yandex_translate', error: e, stackTrace: st);
+    }
+
+    return text;
+  }
+
+  /// Переводит Map значений на русский
+  static Future<Map<String, String>> translateMapToRussian(Map<String, String> map) async {
+    final result = <String, String>{};
+    for (final entry in map.entries) {
+      result[entry.key] = await translateToRussian(entry.value);
+    }
+    return result;
+  }
 }

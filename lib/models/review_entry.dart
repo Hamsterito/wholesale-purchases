@@ -33,6 +33,7 @@ class ReviewEntry {
   final String orderItemId;
   final String productId;
   final String productName;
+  final String productNameKk;
   final String productImage;
   final String reviewerName;
   final String? userAvatarUrl;
@@ -48,6 +49,7 @@ class ReviewEntry {
     required this.orderItemId,
     required this.productId,
     required this.productName,
+    this.productNameKk = '',
     required this.productImage,
     required this.reviewerName,
     this.userAvatarUrl,
@@ -65,6 +67,7 @@ class ReviewEntry {
       orderItemId: json['orderItemId']?.toString() ?? '',
       productId: json['productId']?.toString() ?? '',
       productName: json['productName']?.toString() ?? '',
+      productNameKk: json['productNameKk']?.toString() ?? json['product_name_kk']?.toString() ?? '',
       productImage: json['productImage']?.toString() ?? '',
       reviewerName: json['reviewerName']?.toString() ?? '',
       userAvatarUrl: _parseAvatarUrl(json['userAvatarUrl']),
@@ -89,6 +92,7 @@ class ReviewEntry {
       orderItemId: orderItemId,
       productId: productId,
       productName: productName,
+      productNameKk: productNameKk,
       productImage: productImage,
       reviewerName: reviewerName,
       userAvatarUrl: userAvatarUrl,
@@ -131,6 +135,7 @@ class PendingReviewItem {
   final String orderItemId;
   final String productId;
   final String productName;
+  final String productNameKk;
   final String productImage;
   final int quantity;
   final int price;
@@ -142,6 +147,7 @@ class PendingReviewItem {
     required this.orderItemId,
     required this.productId,
     required this.productName,
+    this.productNameKk = '',
     required this.productImage,
     required this.quantity,
     required this.price,
@@ -155,11 +161,36 @@ class PendingReviewItem {
       orderItemId: json['orderItemId']?.toString() ?? '',
       productId: json['productId']?.toString() ?? '',
       productName: json['productName']?.toString() ?? '',
+      productNameKk: json['productNameKk']?.toString() ?? json['product_name_kk']?.toString() ?? '',
       productImage: json['productImage']?.toString() ?? '',
       quantity: ReviewEntry._parseInt(json['quantity']),
       price: ReviewEntry._parseInt(json['price']),
       orderDate: ReviewEntry._parseDate(json['orderDate'] ?? json['date']),
       supplierName: json['supplierName']?.toString() ?? '',
     );
+  }
+}
+
+extension ReviewEntryLocalization on ReviewEntry {
+  String localizedProductName(dynamic context) {
+    try {
+      final lang = (context as dynamic).currentLanguage;
+      if (lang?.toString() == 'LanguageCode.kazakh' && productNameKk.trim().isNotEmpty) {
+        return productNameKk;
+      }
+    } catch (_) {}
+    return productName;
+  }
+}
+
+extension PendingReviewItemLocalization on PendingReviewItem {
+  String localizedProductName(dynamic context) {
+    try {
+      final lang = (context as dynamic).currentLanguage;
+      if (lang?.toString() == 'LanguageCode.kazakh' && productNameKk.trim().isNotEmpty) {
+        return productNameKk;
+      }
+    } catch (_) {}
+    return productName;
   }
 }

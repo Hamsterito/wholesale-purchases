@@ -162,7 +162,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              widget.product.name,
+                              widget.product.localizedName(context),
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,

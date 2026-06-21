@@ -117,7 +117,9 @@ class ApiService {
   /// Загружает актуальные курсы валют с бэкенда.
   static Future<Map<String, double>> getExchangeRates() async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/exchange-rates'));
+      final response = await http
+          .get(Uri.parse('$baseUrl/exchange-rates'))
+          .timeout(const Duration(seconds: 5));
 
       await _logApiResponse(response, endpoint: '/exchange-rates', method: 'GET');
 

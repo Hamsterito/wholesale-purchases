@@ -152,13 +152,24 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
           ),
         ),
       ),
-      body: Column(
-        children: [
-          _buildFilterSection(),
-          const SizedBox(height: 8),
-          _buildPeriodTabs(),
-          Expanded(child: _buildHistoryContent()),
-        ],
+      body: RefreshIndicator(
+        color: context.colorPalette.accent,
+        onRefresh: _loadOrders,
+        child: CustomScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          slivers: [
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  _buildFilterSection(),
+                  const SizedBox(height: 8),
+                  _buildPeriodTabs(),
+                ],
+              ),
+            ),
+            _buildHistoryContentSliver(),
+          ],
+        ),
       ),
     );
   }
@@ -340,10 +351,13 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     return _isAcceptedStatus(status) || _isCancelledStatus(status);
   }
 
-  Widget _buildHistoryContent() {
+  Widget _buildHistoryContentSliver() {
     if (_isLoading) {
-      return Center(
-        child: CircularProgressIndicator(color: context.colorPalette.accent),
+      return SliverFillRemaining(
+        hasScrollBody: false,
+        child: Center(
+          child: CircularProgressIndicator(color: context.colorPalette.accent),
+        ),
       );
     }
 
@@ -351,27 +365,31 @@ class _OrderHistoryPageState extends State<OrderHistoryPage>
     // и отменённые. Активные живут отдельно в lib/profile/zakazi.dart.
     final visibleOrders = _visibleOrders;
 
-    return RefreshIndicator(
-      color: context.colorPalette.accent,
-      onRefresh: _loadOrders,
-      child: visibleOrders.isEmpty
-          ? ListView(
-              padding: const EdgeInsets.all(24),
-              children: [
-                Center(
-                  child: Text(
-                    context.l10n.getString('auto_istoriyaPokaPustaya'),
-                    style: TextStyle(color: _mutedText, fontSize: 15),
-                  ),
-                ),
-              ],
-            )
-          : ListView.builder(
-              padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
-              itemCount: visibleOrders.length,
-              itemBuilder: (context, index) =>
-                  RepaintBoundary(child: _buildOrderItem(visibleOrders[index])),
+    if (visibleOrders.isEmpty) {
+      return SliverFillRemaining(
+        hasScrollBody: false,
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Center(
+            child: Text(
+              context.l10n.getString('auto_istoriyaPokaPustaya'),
+              style: TextStyle(color: _mutedText, fontSize: 15),
             ),
+          ),
+        ),
+      );
+    }
+
+    return SliverPadding(
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => RepaintBoundary(
+            child: _buildOrderItem(visibleOrders[index]),
+          ),
+          childCount: visibleOrders.length,
+        ),
+      ),
     );
   }
 
@@ -721,7 +739,7 @@ if (order.items.isEmpty)
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                item.name,
+                                item.localizedName(context),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 14,

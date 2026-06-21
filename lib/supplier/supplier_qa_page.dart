@@ -214,7 +214,9 @@ if (userId == null || userId <= 0) {
         _productMap[product.id] = Product(
           id: product.id,
           name: product.name,
+          nameKk: product.nameKk,
           description: product.description,
+          descriptionKk: product.descriptionKk,
           imageUrls: product.imageUrls,
           rating: 0,
           reviewCount: 0,
@@ -358,7 +360,7 @@ if (userId == null || userId <= 0) {
             _productMap[question.productId] ??
             Product(
               id: question.productId,
-              name: question.productName,
+              name: question.localizedProductName(context),
               description: '',
               imageUrls: [question.productImage],
               rating: 0,
@@ -399,7 +401,7 @@ if (userId == null || userId <= 0) {
             _productMap[review.productId] ??
             Product(
               id: review.productId,
-              name: review.productName,
+              name: review.localizedProductName(context),
               description: '',
               imageUrls: [review.productImage],
               rating: 0,
@@ -475,7 +477,7 @@ answer: QuestionAnswer(
                answerText: answerText,
                answeredAt: DateTime.now(),
              ),
-            productName: question.productName,
+            productName: question.localizedProductName(context),
             productImage: question.productImage,
           );
 
@@ -568,7 +570,7 @@ answer: QuestionAnswer(
                answerText: newAnswerText,
                answeredAt: DateTime.now(),
              ),
-             productName: question.productName,
+             productName: question.localizedProductName(context),
              productImage: question.productImage,
            );
 
@@ -649,7 +651,7 @@ AppMessageSnackBar.show(
             orderId: review.orderId,
             orderItemId: review.orderItemId,
             productId: review.productId,
-            productName: review.productName,
+            productName: review.localizedProductName(context),
             productImage: review.productImage,
             reviewerName: review.reviewerName,
             rating: review.rating,
@@ -741,7 +743,7 @@ response: ReviewResponse(
             orderId: review.orderId,
             orderItemId: review.orderItemId,
             productId: review.productId,
-            productName: review.productName,
+            productName: review.localizedProductName(context),
             productImage: review.productImage,
             reviewerName: review.reviewerName,
             rating: review.rating,

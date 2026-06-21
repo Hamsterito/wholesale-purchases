@@ -645,6 +645,69 @@ class NotificationService with WidgetsBindingObserver {
     }
   }
 
+  /// Сбрасывает счетчик сообщений локально. Используется при открытии списка чатов.
+  Future<void> markAllMessagesAsRead() async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) return;
+    if (unreadMessagesCount.value > 0) {
+      unreadMessagesCount.value = 0;
+      _extendOptimisticHold();
+      await _cacheCounts(userId);
+    }
+  }
+
+  /// Сбрасывает счетчик модераций локально. Используется при открытии страницы модерации.
+  Future<void> markAllModerationsAsViewed() async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) return;
+    if (pendingModerationsCount.value > 0) {
+      pendingModerationsCount.value = 0;
+      _extendOptimisticHold();
+      await _cacheCounts(userId);
+    }
+  }
+
+  /// Сбрасывает счетчик заказов поставщика локально. Используется при открытии заказов.
+  Future<void> markAllSupplierOrdersAsViewed() async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) return;
+    if (pendingSupplierOrdersCount.value > 0) {
+      pendingSupplierOrdersCount.value = 0;
+      _extendOptimisticHold();
+      await _cacheCounts(userId);
+    }
+  }
+
+  /// Сбрасывает счетчик заказов покупателя локально. Используется при открытии заказов.
+  Future<void> markAllBuyerOrdersAsViewed() async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) return;
+    bool changed = false;
+    if (pendingBuyerOrdersCount.value > 0) {
+      pendingBuyerOrdersCount.value = 0;
+      changed = true;
+    }
+    if (deliveredOrdersCount.value > 0) {
+      deliveredOrdersCount.value = 0;
+      changed = true;
+    }
+    if (changed) {
+      _extendOptimisticHold();
+      await _cacheCounts(userId);
+    }
+  }
+
+  /// Сбрасывает счетчик отзывов локально. Используется при открытии страницы отзывов.
+  Future<void> markAllReviewsAsViewed() async {
+    final userId = AuthStorage.userId;
+    if (userId == null || userId <= 0) return;
+    if (pendingReviewsCount.value > 0) {
+      pendingReviewsCount.value = 0;
+      _extendOptimisticHold();
+      await _cacheCounts(userId);
+    }
+  }
+
   // Фильтрация по ролям
 
   void _recalculateTotal() {

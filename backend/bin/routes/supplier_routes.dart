@@ -579,7 +579,7 @@ void _registerSupplierProductRoutes(Router router, Connection connection) {
 
       final itemsResult = await connection.execute(
         Sql.named('''
-          SELECT name, price, quantity, image_url, is_received
+          SELECT name, name_kk, price, quantity, image_url, is_received
           FROM order_items
           WHERE order_id = @order_id
             AND (
@@ -599,6 +599,7 @@ void _registerSupplierProductRoutes(Router router, Connection connection) {
         final map = row.toColumnMap();
         return {
           'name': map['name'] ?? '',
+          'nameKk': map['name_kk'] ?? '',
           'price': map['price'] ?? 0,
           'quantity': map['quantity'] ?? 0,
           'imageUrl': map['image_url'] ?? '',
@@ -1245,12 +1246,15 @@ void _registerSupplierPublicRoutes(Router router, Connection connection) {
         return {
           'id': productId.toString(),
           'name': (map['name'] ?? '').toString(),
+          'nameKk': (map['name_kk'] ?? '').toString(),
           'description': (map['description'] ?? '').toString(),
+          'descriptionKk': (map['description_kk'] ?? '').toString(),
           'imageUrls': imageUrls,
           'rating': avgRating,
           'reviewCount': reviewCount,
           'questionCount': questionCount,
           'categories': _parseCategories(map['category']),
+          'categoryKk': (map['category_kk'] ?? '').toString(),
           'nutritionalInfo': {
             'calories': _toNonNegativeDouble(map['nutrition_calories']),
             'protein': _toNonNegativeDouble(map['nutrition_protein']),
@@ -1260,7 +1264,9 @@ void _registerSupplierPublicRoutes(Router router, Connection connection) {
             ),
           },
           'ingredients': map['ingredients']?.toString() ?? '',
+          'ingredientsKk': map['ingredients_kk']?.toString() ?? '',
           'characteristics': _parseCharacteristics(map['characteristics']),
+          'characteristicsKk': map['characteristics_kk']?.toString() ?? '',
           'suppliers': [
             {
               'id': supplierId.toString(),
@@ -1379,6 +1385,7 @@ void _registerSupplierDashboardRoutes(Router router, Connection connection) {
         itemsByOrderId.putIfAbsent(orderId, () => []);
         itemsByOrderId[orderId]!.add({
           'name': map['name'] ?? '',
+          'nameKk': map['name_kk'] ?? '',
           'price': map['price'] ?? 0,
           'quantity': map['quantity'] ?? 0,
           'imageUrl': map['image_url'] ?? '',
@@ -1472,7 +1479,7 @@ void _registerSupplierDashboardRoutes(Router router, Connection connection) {
           SELECT
             q.id, q.product_id, q.user_id, q.question_text, q.created_at, q.is_answered,
             u.name as user_name, u.avatar_url as user_avatar_url,
-            p.name as product_name, p.image_url as product_image,
+            p.name as product_name, p.name_kk as product_name_kk, p.image_url as product_image,
             qa.id as answer_id, qa.answer_text, qa.answered_at,
             us.supplier_name as supplier_name, us.id as supplier_id
           FROM questions q
@@ -1532,6 +1539,7 @@ void _registerSupplierDashboardRoutes(Router router, Connection connection) {
           'id': map['id'].toString(),
           'productId': map['product_id'].toString(),
           'productName': map['product_name'] ?? '',
+          'productNameKk': map['product_name_kk'] ?? '',
           'productImage': map['product_image'] ?? '',
           'userId': map['user_id'].toString(),
           'userName': map['user_name'] ?? 'Пользователь',
@@ -1604,8 +1612,10 @@ void _registerSupplierDashboardRoutes(Router router, Connection connection) {
             r.order_item_id,
             r.product_id,
             p.name as product_name,
+            p.name_kk as product_name_kk,
             p.image_url as product_image,
             oi.name as order_item_name,
+            oi.name_kk as order_item_name_kk,
             oi.image_url as order_item_image,
             r.rating,
             r.review_text,
@@ -1845,12 +1855,13 @@ void _registerSupplierStatisticsRoutes(Router router, Connection connection) {
           SELECT
             p.id,
             p.name as product_name,
+            p.name_kk as product_name_kk,
             SUM(oi.quantity) as units_sold,
             COALESCE(SUM(oi.price * oi.quantity), 0) as revenue
           FROM order_items oi
           JOIN products p ON oi.product_id = p.id
           WHERE oi.supplier_user_id = @supplier_user_id
-          GROUP BY p.id, p.name
+          GROUP BY p.id, p.name, p.name_kk
           ORDER BY units_sold DESC
           LIMIT @limit;
         '''),
@@ -1862,6 +1873,7 @@ void _registerSupplierStatisticsRoutes(Router router, Connection connection) {
         return {
           'productId': (map['id'] ?? '').toString(),
           'productName': map['product_name'] ?? '',
+          'productNameKk': map['product_name_kk'] ?? '',
           'unitsSold': _toPositiveInt(map['units_sold']),
           'revenue': _toPositiveInt(map['revenue']),
         };
@@ -2079,6 +2091,7 @@ void _registerSupplierStatisticsRoutes(Router router, Connection connection) {
         Sql.named('''
           SELECT
             p.name as product_name,
+            p.name_kk as product_name_kk,
             r.rating,
             SUBSTRING(r.review_text, 1, 100) as comment_snippet
           FROM reviews r
@@ -2095,6 +2108,7 @@ void _registerSupplierStatisticsRoutes(Router router, Connection connection) {
         final m = r.toColumnMap();
         return {
           'productName': m['product_name'] ?? '',
+          'productNameKk': m['product_name_kk'] ?? '',
           'rating': _toPositiveInt(m['rating']),
           'commentSnippet': m['comment_snippet'] ?? '',
         };

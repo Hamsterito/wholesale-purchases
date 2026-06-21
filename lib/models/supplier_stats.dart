@@ -62,11 +62,13 @@ class RevenueHistory {
 
 class TopProduct {
   final String productName;
+  final String productNameKk;
   final int revenue;
   final int unitsSold;
 
   TopProduct({
     required this.productName,
+    this.productNameKk = '',
     required this.revenue,
     required this.unitsSold,
   });
@@ -74,6 +76,7 @@ class TopProduct {
   factory TopProduct.fromJson(Map<String, dynamic> json) {
     return TopProduct(
       productName: json['productName'] as String? ?? '',
+      productNameKk: json['productNameKk'] as String? ?? '',
       revenue: json['revenue'] as int? ?? 0,
       unitsSold: json['unitsSold'] as int? ?? 0,
     );
@@ -82,6 +85,7 @@ class TopProduct {
   Map<String, dynamic> toJson() {
     return {
       'productName': productName,
+      'productNameKk': productNameKk,
       'revenue': revenue,
       'unitsSold': unitsSold,
     };
@@ -271,11 +275,13 @@ class RatingStats {
 
 class RecentReview {
   final String productName;
+  final String productNameKk;
   final int rating;
   final String commentSnippet;
 
   RecentReview({
     required this.productName,
+    this.productNameKk = '',
     required this.rating,
     required this.commentSnippet,
   });
@@ -283,6 +289,7 @@ class RecentReview {
   factory RecentReview.fromJson(Map<String, dynamic> json) {
     return RecentReview(
       productName: json['productName'] as String? ?? '',
+      productNameKk: json['productNameKk'] as String? ?? '',
       rating: json['rating'] as int? ?? 0,
       commentSnippet: json['commentSnippet'] as String? ?? '',
     );
@@ -291,8 +298,33 @@ class RecentReview {
   Map<String, dynamic> toJson() {
     return {
       'productName': productName,
+      'productNameKk': productNameKk,
       'rating': rating,
       'commentSnippet': commentSnippet,
     };
+  }
+}
+
+extension TopProductLocalization on TopProduct {
+  String localizedProductName(dynamic context) {
+    try {
+      final lang = (context as dynamic).currentLanguage;
+      if (lang?.toString() == 'LanguageCode.kazakh' && productNameKk.trim().isNotEmpty) {
+        return productNameKk;
+      }
+    } catch (_) {}
+    return productName;
+  }
+}
+
+extension RecentReviewLocalization on RecentReview {
+  String localizedProductName(dynamic context) {
+    try {
+      final lang = (context as dynamic).currentLanguage;
+      if (lang?.toString() == 'LanguageCode.kazakh' && productNameKk.trim().isNotEmpty) {
+        return productNameKk;
+      }
+    } catch (_) {}
+    return productName;
   }
 }

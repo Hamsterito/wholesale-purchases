@@ -713,9 +713,15 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
     buffer
       ..write(product.name)
       ..write(' ')
+      ..write(product.nameKk)
+      ..write(' ')
       ..write(product.description)
       ..write(' ')
-      ..write(product.ingredients);
+      ..write(product.descriptionKk)
+      ..write(' ')
+      ..write(product.ingredients)
+      ..write(' ')
+      ..write(product.ingredientsKk);
     for (final category in product.categories) {
       buffer
         ..write(' ')

@@ -240,6 +240,26 @@ Future<void> _ensureProductSchema(Connection connection) async {
       ADD COLUMN IF NOT EXISTS moderation_comment TEXT;
   ''');
   await connection.execute('''
+    ALTER TABLE public.products
+      ADD COLUMN IF NOT EXISTS name_kk VARCHAR(255);
+  ''');
+  await connection.execute('''
+    ALTER TABLE public.products
+      ADD COLUMN IF NOT EXISTS description_kk TEXT;
+  ''');
+  await connection.execute('''
+    ALTER TABLE public.products
+      ADD COLUMN IF NOT EXISTS category_kk VARCHAR(100);
+  ''');
+  await connection.execute('''
+    ALTER TABLE public.products
+      ADD COLUMN IF NOT EXISTS ingredients_kk TEXT;
+  ''');
+  await connection.execute('''
+    ALTER TABLE public.products
+      ADD COLUMN IF NOT EXISTS characteristics_kk TEXT;
+  ''');
+  await connection.execute('''
     UPDATE public.products p
     SET supplier_user_id = NULL
     WHERE supplier_user_id IS NOT NULL
@@ -326,6 +346,10 @@ Future<void> _ensureOrderItemsSchema(Connection connection) async {
   await connection.execute('''
     ALTER TABLE public.order_items
       ADD COLUMN IF NOT EXISTS supplier_name VARCHAR(255);
+  ''');
+  await connection.execute('''
+    ALTER TABLE public.order_items
+      ADD COLUMN IF NOT EXISTS name_kk VARCHAR(255);
   ''');
   await connection.execute('''
     ALTER TABLE public.order_items
@@ -756,6 +780,7 @@ Future<void> _ensureOrderSchema(Connection connection) async {
       order_id INTEGER NOT NULL REFERENCES public.orders(id) ON DELETE CASCADE,
       product_id INTEGER NOT NULL REFERENCES public.products(id) ON DELETE RESTRICT,
       name VARCHAR(255) NOT NULL,
+      name_kk VARCHAR(255),
       price INTEGER NOT NULL,
       quantity INTEGER NOT NULL,
       image_url TEXT,

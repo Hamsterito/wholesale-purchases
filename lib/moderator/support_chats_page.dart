@@ -9,6 +9,7 @@ import '../models/message.dart';
 import '../models/support_message.dart';
 import '../services/api/api_service.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
+import '../services/notification_service.dart';
 import '../services/storage/auth_storage.dart';
 import '../services/message/message_localization.dart';
 import '../widgets/chat/chat_thread_view.dart';
@@ -38,6 +39,7 @@ class _ModeratorSupportChatsPageState extends State<ModeratorSupportChatsPage> {
   @override
   void initState() {
     super.initState();
+    NotificationService().markAllMessagesAsRead();
     _loadChats().whenComplete(_startEventsStream);
   }
 

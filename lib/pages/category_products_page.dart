@@ -82,7 +82,8 @@ class _CategoryProductsPageState extends State<CategoryProductsPage>
 
     return source.where((product) {
       final name = product.name.toLowerCase();
-      if (keywords.any(name.contains)) return true;
+      final nameKk = product.nameKk.toLowerCase();
+      if (keywords.any((k) => name.contains(k) || nameKk.contains(k))) return true;
       for (final category in product.categories) {
         final normalized = category.toLowerCase();
         for (final keyword in keywords) {

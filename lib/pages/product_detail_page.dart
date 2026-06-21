@@ -417,7 +417,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     );
     showTopMessage(
       context,
-      context.l10n.productDetailAddedToCart(widget.product.name),
+      context.l10n.productDetailAddedToCart(widget.product.localizedName(context)),
       backgroundColor: _palette.accent,
       showAtBottom: true,
       bottomOffset: _bottomMessageOffset,
@@ -434,7 +434,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     );
     showTopMessage(
       context,
-      context.l10n.productDetailRemovedFromCart(widget.product.name),
+      context.l10n.productDetailRemovedFromCart(widget.product.localizedName(context)),
       backgroundColor: _palette.error,
       showAtBottom: true,
       bottomOffset: _bottomMessageOffset,
@@ -700,7 +700,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           ),
           const SizedBox(height: 4),
           Text(
-            widget.product.name,
+            widget.product.localizedName(context),
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -756,7 +756,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
               SizedBox(
                 width: double.infinity,
                 child: CategoryTags(
-                  categories: widget.product.categories,
+                  categories: widget.product.localizedCategory(context).isNotEmpty ? [widget.product.localizedCategory(context)] : [],
                   alignment: WrapAlignment.start,
                 ),
               ),
@@ -772,9 +772,9 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   // компактная плашка поставщика (название, «Поставщик ⭐ rating» и сердечко).
   Widget _buildAboutProductTile() {
     final palette = context.colorPalette;
-    final sections = buildCharacteristicSections(widget.product);
+    final sections = buildCharacteristicSections(widget.product, context);
     final hasDescription = !shouldShowDescriptionPlaceholder(
-      widget.product.description,
+      widget.product.localizedDescription(context),
     );
     final hasAbout = sections.isNotEmpty || hasDescription;
     final supplier = widget.product.suppliers.isEmpty
@@ -1594,7 +1594,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       MaterialPageRoute(
         builder: (context) => QuestionsPage(
           productId: widget.product.id,
-          productName: widget.product.name,
+          productName: widget.product.localizedName(context),
           productImage: widget.product.imageUrls.isNotEmpty
               ? widget.product.imageUrls.first
               : '',
@@ -1610,7 +1610,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     final box = context.findRenderObject() as RenderBox?;
     await Share.share(
       _shareStubUrl,
-      subject: widget.product.name,
+      subject: widget.product.localizedName(context),
       sharePositionOrigin: box == null
           ? null
           : box.localToGlobal(Offset.zero) & box.size,
@@ -1672,8 +1672,8 @@ class _AboutProductSheetState extends State<_AboutProductSheet>
   @override
   Widget build(BuildContext context) {
     final palette = context.colorPalette;
-    final sections = buildCharacteristicSections(widget.product);
-    final description = widget.product.description;
+    final sections = buildCharacteristicSections(widget.product, context);
+    final description = widget.product.localizedDescription(context);
     final hasContent = sections.isNotEmpty || description.trim().isNotEmpty;
 
     return SafeArea(

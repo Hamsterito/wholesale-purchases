@@ -128,7 +128,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
         return AlertDialog(
           title: Text(context.l10n.deleteProduct),
           content: Text(
-            '${context.l10n.product} "${product.name}" ${context.l10n.delete.toLowerCase()}. '
+            '${context.l10n.product} "${product.localizedName(context)}" ${context.l10n.delete.toLowerCase()}. '
             '${l10n.deleteProductConfirm}',
           ),
           actions: [
@@ -347,11 +347,11 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
                       const SizedBox(),
                       Row(
                         children: [
-Expanded(
-                          child: Text(
-                            product.name.isEmpty
-                                    ? context.l10n.noTitle
-                                    : product.name,
+                          Expanded(
+                            child: Text(
+                              product.localizedName(context).isEmpty
+                                  ? context.l10n.noTitle
+                                  : product.localizedName(context),
                               style: const TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w700,
@@ -387,9 +387,9 @@ Expanded(
                       ),
                       const SizedBox(height: 4),
                       _ExpandableDescription(
-                        text: product.description.isEmpty
+                        text: product.localizedDescription(context).isEmpty
                             ? context.l10n.noDescription
-                            : product.description,
+                            : product.localizedDescription(context),
                         isExpanded: _isDescriptionExpanded(product.id),
                         onToggle: () => _toggleDescription(product.id),
                         textColor: colorScheme.onSurfaceVariant,
