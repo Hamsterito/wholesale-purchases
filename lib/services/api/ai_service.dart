@@ -381,6 +381,7 @@ class AiService {
   /// Конструирует промпт на русском языке на основе статистики поставщика
   @visibleForTesting
   static String constructPrompt(Map<String, dynamic> stats) {
+    final currency = stats['currency'] ?? '';
     final totalRevenue = stats['totalRevenue'] ?? 0;
     final monthlyRevenue = stats['monthlyRevenue'] ?? 0;
     final totalOrders = stats['totalOrders'] ?? 0;
@@ -399,10 +400,10 @@ class AiService {
 Ты опытный бизнес-аналитик оптовой торговой площадки. Проанализируй показатели работы поставщика и подготовь короткое, конкретное и полезное резюме на русском языке.
 
 Показатели поставщика:
-• Общая выручка: $totalRevenue
-• Выручка за месяц: $monthlyRevenue
+• Общая выручка: $totalRevenue $currency
+• Выручка за месяц: $monthlyRevenue $currency
 • Всего заказов: $totalOrders
-• Средний чек: $averageOrderValue
+• Средний чек: $averageOrderValue $currency
 • Рейтинг покупателей: $averageRating из 5.0 (отзывов: $totalReviews)
 • Доля повторных покупателей: $repeatBuyersPercentage%
 • Новых покупателей за месяц: $newBuyersThisMonth

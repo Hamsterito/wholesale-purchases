@@ -12,6 +12,7 @@ import 'package:flutter_project/services/localization/localization_extension.dar
 import '../widgets/date_range_picker_dialog.dart';
 import '../utils/month_year_parser.dart';
 import '../theme/app_color_palette.dart';
+import '../services/store/app_settings.dart';
 
 // Вспомогательные классы данных
 
@@ -261,6 +262,7 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
 
     try {
       final stats = {
+        'currency': AppSettings.currency.value.symbol,
         'totalRevenue': _statsSummary!.totalRevenue,
         'monthlyRevenue': _statsSummary!.monthlyRevenue,
         'totalOrders': _statsSummary!.totalOrders,
@@ -337,7 +339,6 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
   Widget build(BuildContext context) {
     final palette = AppColorPalette.of(context);
     return Scaffold(
-      backgroundColor: palette.bgTop,
       appBar: _buildAppBar(palette),
       body: RefreshIndicator(
         color: palette.primary,
@@ -348,11 +349,9 @@ class _SupplierStatisticsPageState extends State<SupplierStatisticsPage>
   }
 
   PreferredSizeWidget _buildAppBar(AppColorPalette palette) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     return AppBar(
       elevation: 0,
       scrolledUnderElevation: 1,
-      backgroundColor: isDark ? palette.accentMist : palette.card,
       surfaceTintColor: Colors.transparent,
       titleSpacing: 20,
       title: Column(

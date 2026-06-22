@@ -116,6 +116,7 @@ void _registerModeratorProductRoutes(Router router, Connection connection) {
       }
       final productMap = productResult.first.toColumnMap();
       final productName = (productMap['name'] ?? 'Товар').toString().trim();
+      final productNameKk = (productMap['name_kk'] ?? '').toString().trim();
       final normalizedReason = reason.replaceAll(RegExp(r'\s+'), ' ').trim();
 
       final deleted = await connection.execute(
@@ -141,12 +142,14 @@ void _registerModeratorProductRoutes(Router router, Connection connection) {
             INSERT INTO moderation_deletions (
               supplier_user_id,
               product_name,
+              product_name_kk,
               reason,
               moderator_id
             )
             VALUES (
               @supplier_user_id,
               @product_name,
+              @product_name_kk,
               @reason,
               @moderator_id
             );
@@ -154,6 +157,7 @@ void _registerModeratorProductRoutes(Router router, Connection connection) {
           parameters: {
             'supplier_user_id': supplierUserId,
             'product_name': productName,
+            'product_name_kk': productNameKk,
             'reason': normalizedReason,
             'moderator_id': moderatorId,
           },

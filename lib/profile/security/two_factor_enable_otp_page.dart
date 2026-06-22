@@ -423,13 +423,13 @@ class _TwoFactorEnableOtpPageState extends State<TwoFactorEnableOtpPage> {
   Widget _buildHeaderRow(AppColorPalette palette) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Flexible(
+        Expanded(
           child: Text(
             _ttlExpired
                 ? context.l10n.getString('auto_srokIstyok', params: {'ttlSecondsLeft': _ttlSecondsLeft.toString()})
                 : context.l10n.twoFactorCodeValid(_ttlSecondsLeft),
-            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
@@ -438,6 +438,7 @@ class _TwoFactorEnableOtpPageState extends State<TwoFactorEnableOtpPage> {
             ),
           ),
         ),
+        const SizedBox(width: 8),
         _buildResendControl(),
       ],
     );

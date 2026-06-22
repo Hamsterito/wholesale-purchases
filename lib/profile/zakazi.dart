@@ -845,32 +845,48 @@ title: Text(
           if (canCancel) const SizedBox(height: 10),
           Row(
             children: [
-              OutlinedButton.icon(
-                onPressed: order.items.isEmpty || isBusy
-                    ? null
-                    : () => _toggleSelectAll(order),
-                icon: Icon(
-                  allSelected ? Icons.remove_done : Icons.done_all,
-                  size: 20,
-                ),
-                label: Text(selectLabel),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: context.colorPalette.accent,
-                  side: BorderSide(color: _borderColor),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 11,
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: order.items.isEmpty || isBusy
+                      ? null
+                      : () => _toggleSelectAll(order),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: context.colorPalette.accent,
+                    side: BorderSide(color: _borderColor),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 8,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
-                  textStyle: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        allSelected ? Icons.remove_done : Icons.done_all,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          selectLabel,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            height: 1.1,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              const Spacer(),
+              const SizedBox(width: 8),
               SizedBox(
                 height: 42,
                 child: ElevatedButton(

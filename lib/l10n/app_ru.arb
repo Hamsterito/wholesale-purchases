@@ -1747,7 +1747,7 @@
       }
     }
   },
-  "cart_min_quantity": "Минимум: {count} шт.",
+  "cart_min_quantity": "Мин: {count} шт.",
   "@cart_min_quantity": {
     "description": "Минимальное количество заказанного товара",
     "placeholders": {
@@ -2733,7 +2733,7 @@
   "@auto_podtverzhdenie_vkhoda": {
     "description": "Auto-extracted"
   },
-  "auto_dvukhfaktornaya_nautentifikatsiya": "Двухфакторная\\nаутентификация",
+  "auto_dvukhfaktornaya_nautentifikatsiya": "Двухфакторная\nаутентификация",
   "@auto_dvukhfaktornaya_nautentifikatsiya": {
     "description": "Auto-extracted"
   },
@@ -5827,11 +5827,11 @@
   "@auto_oplataNalichnymi": {},
   "auto_vyVybraliOplatuNalichn": "Вы выбрали оплату наличными при получении.",
   "@auto_vyVybraliOplatuNalichn": {},
-  "auto_podklyucheniePaypalPoka": "Подключение PayPal пока недоступно.\\nВыберите карту или наличные.",
+  "auto_podklyucheniePaypalPoka": "Подключение PayPal пока недоступно.\nВыберите карту или наличные.",
   "@auto_podklyucheniePaypalPoka": {},
   "auto_netSposobaOplaty": "Нет способа оплаты",
   "@auto_netSposobaOplaty": {},
-  "auto_pozhaluystaVyberiteSpos": "Пожалуйста, выберите способ\\nоплаты",
+  "auto_pozhaluystaVyberiteSpos": "Пожалуйста, выберите способ\nоплаты",
   "@auto_pozhaluystaVyberiteSpos": {},
   "auto_udalitKartu": "Удалить карту",
   "@auto_udalitKartu": {},
@@ -5939,7 +5939,7 @@
   "@auto_etoDeystvieNelzyaOtmen": {},
   "auto_rezervnyeKodyDvuhfaktor": "Резервные коды двухфакторной аутентификации",
   "@auto_rezervnyeKodyDvuhfaktor": {},
-  "auto_sohraniteIhVNadyozhnom": "Сохраните их в надёжном месте - каждый код можно использовать только один раз.\\n",
+  "auto_sohraniteIhVNadyozhnom": "Сохраните их в надёжном месте - каждый код можно использовать только один раз.\n",
   "@auto_sohraniteIhVNadyozhnom": {},
   "auto_kodySkopirovanyVBufer": "Коды скопированы в буфер обмена",
   "@auto_kodySkopirovanyVBufer": {},
@@ -6220,10 +6220,6 @@
   "@auto_uglevodyG100g": {},
   "auto_harakteristikiTovara": "Характеристики товара",
   "@auto_harakteristikiTovara": {},
-  "auto_nazvanie": "Название",
-  "@auto_nazvanie": {},
-  "auto_znachenie": "Значение",
-  "@auto_znachenie": {},
   "auto_udalitHarakteristiku": "Удалить характеристику",
   "@auto_udalitHarakteristiku": {},
   "auto_dobavitHarakteristiku": "Добавить характеристику",
@@ -6491,5 +6487,9 @@
   "auto_perevod": "Перевод",
   "@auto_perevod": {},
   "auto_dobavitPerevod": "Добавить перевод",
-  "@auto_dobavitPerevod": {}
+  "@auto_dobavitPerevod": {},
+  "auto_yaNeSoglasenSUdaleniemT": "Я не согласен с удалением товара:",
+  "@auto_yaNeSoglasenSUdaleniemT": {},
+  "auto_tovar_name_fallback": "Товар",
+  "@auto_tovar_name_fallback": {}
 }

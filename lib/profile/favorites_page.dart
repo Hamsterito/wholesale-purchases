@@ -122,7 +122,8 @@ class _ProductsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = FavoritesStore.instance.items;
+    final allItems = FavoritesStore.instance.items;
+    final items = allItems.where((p) => p.isAvailable).toList();
 
     if (items.isEmpty) {
       return _EmptyState(

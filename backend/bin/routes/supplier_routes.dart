@@ -456,10 +456,7 @@ void _registerSupplierProductRoutes(Router router, Connection connection) {
       }
 
       return Response.ok(
-        jsonEncode({
-          'deleted': true,
-          'id': productId.toString(),
-        }),
+        jsonEncode({'deleted': true, 'id': productId.toString()}),
         headers: {'content-type': 'application/json; charset=utf-8'},
       );
     } catch (e, st) {
@@ -728,11 +725,17 @@ void _registerSupplierExportRoute(Router router, Connection connection) {
       double rate = 1.0;
       if (currencyCode != 'KZT') {
         final rateResult = await connection.execute(
-          Sql.named('SELECT rate FROM public.exchange_rates WHERE currency_code = @code'),
+          Sql.named(
+            'SELECT rate FROM public.exchange_rates WHERE currency_code = @code',
+          ),
           parameters: {'code': currencyCode},
         );
         if (rateResult.isNotEmpty) {
-          rate = double.tryParse(rateResult.first.toColumnMap()['rate'].toString()) ?? 1.0;
+          rate =
+              double.tryParse(
+                rateResult.first.toColumnMap()['rate'].toString(),
+              ) ??
+              1.0;
         }
       }
 
@@ -766,7 +769,7 @@ void _registerSupplierExportRoute(Router router, Connection connection) {
         final price = _toPositiveInt(row['price']);
         final quantity = _toPositiveInt(row['quantity'], fallback: 1);
         final total = price * quantity;
-        
+
         final convertedPrice = (price * rate).round();
         final convertedTotal = (total * rate).round();
         final priceStr = '$convertedPrice $currencySymbol';
@@ -1604,7 +1607,9 @@ void _registerSupplierDashboardRoutes(Router router, Connection connection) {
           SELECT COUNT(*) as total
           FROM reviews r
           JOIN order_items oi ON r.order_item_id = oi.id
-          WHERE oi.supplier_user_id = @supplier_user_id;
+          LEFT JOIN products p ON p.id = r.product_id
+          WHERE oi.supplier_user_id = @supplier_user_id
+            AND p.id IS NOT NULL;
         '''),
         parameters: {'supplier_user_id': userId},
       );
@@ -1637,6 +1642,7 @@ void _registerSupplierDashboardRoutes(Router router, Connection connection) {
           LEFT JOIN products p ON p.id = r.product_id
           LEFT JOIN users u ON u.id = r.user_id
           WHERE oi.supplier_user_id = @supplier_user_id
+            AND p.id IS NOT NULL
           ORDER BY r.created_at DESC
           LIMIT @limit OFFSET @offset;
         '''),
@@ -2155,7 +2161,10 @@ void _registerSupplierStatisticsRoutes(Router router, Connection connection) {
 }
 
 // Уведомления об удалении товаров модератором.
-void _registerSupplierModerationDeletionRoutes(Router router, Connection connection) {
+void _registerSupplierModerationDeletionRoutes(
+  Router router,
+  Connection connection,
+) {
   // GET /supplier/moderation-deletions
   // Получить все активные (не закрытые) уведомления об удалении для поставщика.
   router.get('/supplier/moderation-deletions', (Request request) async {
@@ -2171,6 +2180,7 @@ void _registerSupplierModerationDeletionRoutes(Router router, Connection connect
           SELECT
             id,
             product_name,
+            product_name_kk,
             reason,
             created_at
           FROM moderation_deletions
@@ -2186,6 +2196,7 @@ void _registerSupplierModerationDeletionRoutes(Router router, Connection connect
         return {
           'id': map['id'].toString(),
           'productName': map['product_name'] ?? '',
+          'productNameKk': map['product_name_kk'] ?? '',
           'reason': map['reason'] ?? '',
           'createdAt': (map['created_at'] as DateTime).toIso8601String(),
         };
@@ -2203,7 +2214,10 @@ void _registerSupplierModerationDeletionRoutes(Router router, Connection connect
 
   // PATCH /supplier/moderation-deletions/<id>/dismiss
   // Закрыть уведомление об удалении товара.
-  router.patch('/supplier/moderation-deletions/<id>/dismiss', (Request request, String id) async {
+  router.patch('/supplier/moderation-deletions/<id>/dismiss', (
+    Request request,
+    String id,
+  ) async {
     try {
       final deletionId = int.tryParse(id);
       if (deletionId == null || deletionId <= 0) {
@@ -2225,10 +2239,7 @@ void _registerSupplierModerationDeletionRoutes(Router router, Connection connect
           WHERE id = @id AND supplier_user_id = @supplier_user_id
           RETURNING id;
         '''),
-        parameters: {
-          'id': deletionId,
-          'supplier_user_id': supplierUserId,
-        },
+        parameters: {'id': deletionId, 'supplier_user_id': supplierUserId},
       );
 
       if (updated.isEmpty) {

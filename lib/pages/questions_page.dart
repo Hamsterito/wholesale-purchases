@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/question.dart';
 import 'dart:math' as math;
-import '../core/ui/theme/app_dimensions.dart';
+
 import '../services/api/api_service.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../services/storage/auth_storage.dart';
@@ -471,7 +471,7 @@ class _AskQuestionModalState extends State<_AskQuestionModal> {
       ),
       child: Padding(
         padding: EdgeInsets.only(
-          bottom: math.max(MediaQuery.viewInsetsOf(context).bottom, AppDimensions.minBottomSafePadding),
+          bottom: math.max(MediaQuery.viewInsetsOf(context).bottom, MediaQuery.paddingOf(context).bottom),
         ),
         child: SingleChildScrollView(
           child: Column(

@@ -483,7 +483,10 @@ void _registerBuyerOrderRoutes(Router router, Connection connection) {
             'order_id': orderId,
             'product_id': productId,
             'name': name,
-            'name_kk': item['nameKk']?.toString().trim() ?? productRow['name_kk']?.toString() ?? '',
+            'name_kk':
+                item['nameKk']?.toString().trim() ??
+                productRow['name_kk']?.toString() ??
+                '',
             'price': price,
             'quantity': quantity,
             'image_url': imageUrl,
@@ -1132,11 +1135,17 @@ void _registerBuyerExportRoute(Router router, Connection connection) {
       double rate = 1.0;
       if (currencyCode != 'KZT') {
         final rateResult = await connection.execute(
-          Sql.named('SELECT rate FROM public.exchange_rates WHERE currency_code = @code'),
+          Sql.named(
+            'SELECT rate FROM public.exchange_rates WHERE currency_code = @code',
+          ),
           parameters: {'code': currencyCode},
         );
         if (rateResult.isNotEmpty) {
-          rate = double.tryParse(rateResult.first.toColumnMap()['rate'].toString()) ?? 1.0;
+          rate =
+              double.tryParse(
+                rateResult.first.toColumnMap()['rate'].toString(),
+              ) ??
+              1.0;
         }
       }
 
@@ -1172,7 +1181,7 @@ void _registerBuyerExportRoute(Router router, Connection connection) {
         final price = _toPositiveInt(row['price']);
         final quantity = _toPositiveInt(row['quantity'], fallback: 1);
         final total = price * quantity;
-        
+
         final convertedPrice = (price * rate).round();
         final convertedTotal = (total * rate).round();
         final priceStr = '$convertedPrice $currencySymbol';
@@ -1450,8 +1459,6 @@ void _registerPublicUserRoutes(Router router, Connection connection) {
 // GET-роуты каталога: категории и tree, товары для покупателя.
 
 void _registerCatalogRoutes(Router router, Connection connection) {
-
-
   router.get('/products', (Request request) async {
     try {
       final result = await connection.execute('''
@@ -1559,7 +1566,9 @@ void _registerCatalogRoutes(Router router, Connection connection) {
             : 0.0;
 
         final characteristics = _parseCharacteristics(map['characteristics']);
-        final characteristicsKk = map['characteristics_kk']?.toString() ?? '';
+        final characteristicsKk = _parseCharacteristics(
+          map['characteristics_kk'],
+        );
         final hasOrders = map['has_orders'] == true;
         final rawStockQuantity = _toPositiveInt(map['stock_quantity']);
         final legacyMaxQuantity = _toPositiveInt(map['max_quantity']);
@@ -1613,7 +1622,10 @@ void _registerCatalogRoutes(Router router, Connection connection) {
               'deliveryDate': map['delivery_date'] ?? '',
               'deliveryInfo': 'Доставка по согласованию',
               'deliveryBadge': map['delivery_badge'] ?? '',
-              'avatarUrl': _avatarUrlOrNull(request, map['supplier_avatar_url']),
+              'avatarUrl': _avatarUrlOrNull(
+                request,
+                map['supplier_avatar_url'],
+              ),
             },
           ],
           'similarProducts': const <Map<String, dynamic>>[],
@@ -1767,7 +1779,7 @@ void _registerBuyerReadRoutes(Router router, Connection connection) {
         return Response.badRequest(body: 'Некорректный запрос');
       }
 
-      final List<String> filters = <String>[];
+      final List<String> filters = <String>['p.id IS NOT NULL'];
       final Map<String, dynamic> parameters = <String, dynamic>{};
       if (userId != null) {
         filters.add('r.user_id = @user_id');
@@ -1912,6 +1924,7 @@ void _registerBuyerReadRoutes(Router router, Connection connection) {
           WHERE r.id IS NULL
             AND lower(o.status) = ANY(@accepted_statuses)
             AND o.user_id = @user_id
+            AND p.id IS NOT NULL
           ORDER BY o.created_at DESC, oi.id DESC;
           '''),
         parameters: {
@@ -1928,7 +1941,8 @@ void _registerBuyerReadRoutes(Router router, Connection connection) {
           'orderItemId': map['order_item_id']?.toString() ?? '',
           'productId': map['product_id']?.toString() ?? '',
           'productName': map['product_name'] ?? map['order_item_name'] ?? '',
-          'productNameKk': map['product_name_kk'] ?? map['order_item_name_kk'] ?? '',
+          'productNameKk':
+              map['product_name_kk'] ?? map['order_item_name_kk'] ?? '',
           'productImage': map['product_image'] ?? map['order_item_image'] ?? '',
           'quantity': map['quantity'] ?? 0,
           'price': map['price'] ?? 0,
@@ -2079,9 +2093,9 @@ void _registerExchangeRatesRoutes(Router router, Connection connection) {
   router.get('/exchange-rates', (Request request) async {
     try {
       final result = await connection.execute(
-        'SELECT currency_code, rate FROM public.exchange_rates;'
+        'SELECT currency_code, rate FROM public.exchange_rates;',
       );
-      
+
       final rates = <String, double>{
         'KZT': 1.0, // Базовая валюта приложения
       };

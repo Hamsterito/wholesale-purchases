@@ -151,7 +151,7 @@ Map<String, dynamic> _productRowToModerationDto(Map<String, dynamic> map) {
       'carbohydrates': _toNonNegativeDouble(map['nutrition_carbohydrates']),
     },
     'characteristics': characteristics,
-    'characteristicsKk': map['characteristics_kk'] ?? '',
+    'characteristicsKk': _parseCharacteristics(map['characteristics_kk']),
     'moderationStatus': map['moderation_status'] ?? 'approved',
     'moderationComment': map['moderation_comment'] ?? '',
     'supplierUserId': map['supplier_user_id'],

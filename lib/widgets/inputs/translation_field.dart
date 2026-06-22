@@ -139,16 +139,16 @@ class _TranslationFieldState extends State<TranslationField> {
   Widget _buildPreviewState(AppColorPalette palette, ColorScheme colorScheme) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: colorScheme.surfaceContainerHighest,
+      child: Material(
+        color: colorScheme.surfaceContainerHighest,
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: colorScheme.outlineVariant.withValues(alpha: 0.5)),
+          side: BorderSide(color: colorScheme.outlineVariant.withValues(alpha: 0.5)),
         ),
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -176,23 +176,23 @@ class _TranslationFieldState extends State<TranslationField> {
                 ),
                 const Spacer(),
                 if (widget.onRetranslate != null) ...[
-                  InkWell(
-                    onTap: widget.onRetranslate,
-                    borderRadius: BorderRadius.circular(20),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Icon(Icons.refresh, size: 18, color: palette.muted),
-                    ),
+                  IconButton(
+                    onPressed: widget.onRetranslate,
+                    icon: const Icon(Icons.refresh),
+                    iconSize: 20,
+                    color: palette.muted,
+                    splashRadius: 20,
+                    tooltip: 'Обновить',
                   ),
                   const SizedBox(width: 4),
                 ],
-                InkWell(
-                  onTap: _startEditing,
-                  borderRadius: BorderRadius.circular(20),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Icon(Icons.edit_outlined, size: 18, color: palette.muted),
-                  ),
+                IconButton(
+                  onPressed: _startEditing,
+                  icon: const Icon(Icons.edit_outlined),
+                  iconSize: 20,
+                  color: palette.muted,
+                  splashRadius: 20,
+                  tooltip: 'Редактировать',
                 ),
               ],
             ),
@@ -211,6 +211,7 @@ class _TranslationFieldState extends State<TranslationField> {
               ),
           ],
         ),
+      ),
       ),
     );
   }

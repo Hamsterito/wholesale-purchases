@@ -252,15 +252,32 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       text: _formatTime(_deliveryTime),
     );
     if (product != null) {
-      final drafts = initCustomCharacteristicDrafts(product.characteristics);
-      for (final d in drafts) {
-        _customCharacteristics.add(
-          _CustomCharacteristicDraft(name: d.name, value: d.value),
+      final ruEntries = product.characteristics.entries.toList();
+      final kkEntries = product.characteristicsKk.entries.toList();
+      
+      for (int i = 0; i < ruEntries.length; i++) {
+        final key = ruEntries[i].key.trim();
+        if (key == 'Страна производителя' || key == 'Срок годности') continue;
+        
+        final nameKk = i < kkEntries.length ? kkEntries[i].key : '';
+        final valueKk = i < kkEntries.length ? kkEntries[i].value : '';
+        
+        final draft = _CustomCharacteristicDraft(
+          name: ruEntries[i].key, 
+          value: ruEntries[i].value,
+          nameKk: nameKk,
+          valueKk: valueKk,
         );
+        draft.isAutoTranslated = true;
+        _customCharacteristics.add(draft);
       }
+      
       _images.addAll(
         initWizardImages(product.imageUrls, _isDisplayableImagePath),
       );
+      _nameKkAutoTranslated = true;
+      _descriptionKkAutoTranslated = true;
+      _ingredientsKkAutoTranslated = true;
     }
   }
 
@@ -927,6 +944,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
               onTimerUpdate: (t) => _nameDebounce = t,
               onTranslateSuccess: () => setState(() => _nameKkAutoTranslated = true),
               translateToKk: !isKk,
+              isAutoTranslated: _nameKkAutoTranslated,
             ),
           ),
           TranslationField(
@@ -957,6 +975,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
               onTimerUpdate: (t) => _descriptionDebounce = t,
               onTranslateSuccess: () => setState(() => _descriptionKkAutoTranslated = true),
               translateToKk: !isKk,
+              isAutoTranslated: _descriptionKkAutoTranslated,
             ),
           ),
           TranslationField(
@@ -1046,6 +1065,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
               onTimerUpdate: (t) => _ingredientsDebounce = t,
               onTranslateSuccess: () => setState(() => _ingredientsKkAutoTranslated = true),
               translateToKk: !isKk,
+              isAutoTranslated: _ingredientsKkAutoTranslated,
             ),
           ),
           TranslationField(
@@ -1216,27 +1236,47 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(
+                            '${context.l10n.getString('auto_nazvanie')} (${isKk ? 'RU' : 'KK'})',
+                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(height: 6),
                           TextField(
                             controller: transNameCtrl,
+                            maxLength: 100,
+                            inputFormatters: [LengthLimitingTextInputFormatter(100)],
                             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: palette.ink),
                             onChanged: (_) => setState(() => draft.isAutoTranslated = false),
                             decoration: InputDecoration(
-                              hintText: '${context.l10n.getString('auto_nazvanieHarakteristiki')} (${isKk ? 'RU' : 'KK'})',
-                              isDense: true,
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.zero,
+                              counterText: '',
+                              filled: true,
+                              fillColor: cs.surfaceContainerHighest,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 10),
+                          Text(
+                            '${context.l10n.getString('auto_znachenie')} (${isKk ? 'RU' : 'KK'})',
+                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(height: 6),
                           TextField(
                             controller: transValueCtrl,
+                            maxLength: 200,
+                            inputFormatters: [LengthLimitingTextInputFormatter(200)],
                             style: TextStyle(fontSize: 14, color: palette.ink),
                             onChanged: (_) => setState(() => draft.isAutoTranslated = false),
                             decoration: InputDecoration(
-                              hintText: '${context.l10n.getString('auto_znachenieHarakteristik')} (${isKk ? 'RU' : 'KK'})',
-                              isDense: true,
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.zero,
+                              counterText: '',
+                              filled: true,
+                              fillColor: cs.surfaceContainerHighest,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
                             ),
                           ),
                           Align(
@@ -1250,60 +1290,61 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                       ),
                     )
                   else if (showPreview)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: cs.surface,
+                    Material(
+                      color: cs.surfaceContainerHighest,
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.5)),
+                        side: BorderSide(color: cs.outlineVariant.withValues(alpha: 0.5)),
                       ),
-                      padding: const EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: draft.isAutoTranslated ? cs.primaryContainer : cs.surface,
-                                  borderRadius: BorderRadius.circular(6),
-                                  border: draft.isAutoTranslated ? null : Border.all(color: cs.outlineVariant),
-                                ),
-                                child: Text(
-                                  draft.isAutoTranslated ? '${context.l10n.getString('auto_avtoperevod')} ${isKk ? 'RU' : 'KK'}' : '${context.l10n.getString('auto_perevod')} ${isKk ? 'RU' : 'KK'}',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600,
-                                    color: draft.isAutoTranslated ? cs.onPrimaryContainer : palette.muted,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: draft.isAutoTranslated ? cs.primaryContainer : cs.surface,
+                                    borderRadius: BorderRadius.circular(6),
+                                    border: draft.isAutoTranslated ? null : Border.all(color: cs.outlineVariant),
+                                  ),
+                                  child: Text(
+                                    draft.isAutoTranslated ? '${context.l10n.getString('auto_avtoperevod')} ${isKk ? 'RU' : 'KK'}' : '${context.l10n.getString('auto_perevod')} ${isKk ? 'RU' : 'KK'}',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                      color: draft.isAutoTranslated ? cs.onPrimaryContainer : palette.muted,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const Spacer(),
-                              InkWell(
-                                onTap: () {
-                                  _handleCharacteristicAutoTranslate(draft, force: true);
-                                },
-                                borderRadius: BorderRadius.circular(20),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4),
-                                  child: Icon(Icons.refresh, size: 18, color: palette.muted),
+                                const Spacer(),
+                                IconButton(
+                                  onPressed: () {
+                                    _handleCharacteristicAutoTranslate(draft, force: true);
+                                  },
+                                  icon: const Icon(Icons.refresh),
+                                  iconSize: 20,
+                                  color: palette.muted,
+                                  splashRadius: 20,
+                                  tooltip: 'Обновить',
                                 ),
-                              ),
-                              const SizedBox(width: 4),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    draft.isEditingKk = true;
-                                  });
-                                },
-                                borderRadius: BorderRadius.circular(20),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4),
-                                  child: Icon(Icons.edit_outlined, size: 18, color: palette.muted),
+                                const SizedBox(width: 4),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      draft.isEditingKk = true;
+                                    });
+                                  },
+                                  icon: const Icon(Icons.edit_outlined),
+                                  iconSize: 20,
+                                  color: palette.muted,
+                                  splashRadius: 20,
+                                  tooltip: 'Редактировать',
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
                           const SizedBox(height: 8),
                           if (transNameCtrl.text.trim().isNotEmpty) ...[
                             Text(
@@ -1318,7 +1359,8 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                           ),
                         ],
                       ),
-                    )
+                    ),
+                  )
                   else
                     Align(
                       alignment: Alignment.centerLeft,
@@ -1391,29 +1433,34 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     }
 
     draft.debounceTimer = Timer(const Duration(milliseconds: 1000), () async {
-      // Переводим только если оба поля перевода пустые
-      if (force || (transNameCtrl.text.trim().isEmpty && transValueCtrl.text.trim().isEmpty)) {
+      bool shouldTranslateName = force || transNameCtrl.text.trim().isEmpty || draft.isAutoTranslated;
+      bool shouldTranslateValue = force || transValueCtrl.text.trim().isEmpty || draft.isAutoTranslated;
+      
+      if (shouldTranslateName || shouldTranslateValue) {
         try {
-          String transName = '';
-          String transValue = '';
-          if (nameText.isNotEmpty) {
+          String transName = transNameCtrl.text;
+          String transValue = transValueCtrl.text;
+          bool didTranslate = false;
+          
+          if (shouldTranslateName && nameText.isNotEmpty) {
             transName = !isKk
                 ? await YandexTranslateService.translateToKazakh(nameText)
                 : await YandexTranslateService.translateToRussian(nameText);
+            didTranslate = true;
           }
-          if (valueText.isNotEmpty) {
+          if (shouldTranslateValue && valueText.isNotEmpty) {
             transValue = !isKk
                 ? await YandexTranslateService.translateToKazakh(valueText)
                 : await YandexTranslateService.translateToRussian(valueText);
+            didTranslate = true;
           }
-          if ((transName.isNotEmpty || transValue.isNotEmpty) && mounted) {
-            if (force || (transNameCtrl.text.trim().isEmpty && transValueCtrl.text.trim().isEmpty)) {
-              setState(() {
-                transNameCtrl.text = transName;
-                transValueCtrl.text = transValue;
-                draft.isAutoTranslated = true;
-              });
-            }
+          
+          if (didTranslate && mounted) {
+            setState(() {
+              if (shouldTranslateName) transNameCtrl.text = transName;
+              if (shouldTranslateValue) transValueCtrl.text = transValue;
+              draft.isAutoTranslated = true;
+            });
           }
         } catch (_) {}
       }
@@ -2361,6 +2408,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     required VoidCallback onTranslateSuccess,
     required bool translateToKk,
     bool force = false,
+    bool isAutoTranslated = false,
   }) {
     timer?.cancel();
     if (text.trim().isEmpty) {
@@ -2369,15 +2417,15 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     }
 
     final newTimer = Timer(const Duration(milliseconds: 1000), () async {
-      // Переводим только если поле перевода еще пустое
-      if (force || translationController.text.trim().isEmpty) {
+      // Переводим только если поле перевода еще пустое или было переведено автоматически
+      if (force || translationController.text.trim().isEmpty || isAutoTranslated) {
         try {
           final translated = translateToKk
               ? await YandexTranslateService.translateToKazakh(text.trim())
               : await YandexTranslateService.translateToRussian(text.trim());
           if (translated.isNotEmpty && mounted) {
             // Если текст до сих пор пуст (пользователь не начал писать)
-            if (force || translationController.text.trim().isEmpty) {
+            if (force || translationController.text.trim().isEmpty || isAutoTranslated) {
               translationController.text = translated;
               onTranslateSuccess();
             }

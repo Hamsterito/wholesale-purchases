@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/theme/app_color_palette.dart';
 import 'package:flutter_project/services/moderation_alert_service.dart';
 import 'package:flutter_project/services/localization/app_localizations.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
+import 'package:flutter_project/models/language.dart';
 
 class ModerationAlertDialog extends StatelessWidget {
   final List<ModerationAlertInfo> alerts;
@@ -112,7 +114,9 @@ class ModerationAlertDialog extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        alert.productName,
+                        context.currentLanguage == LanguageCode.kazakh && alert.productNameKk.isNotEmpty
+                            ? alert.productNameKk
+                            : alert.productName,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,

@@ -57,6 +57,10 @@ class Product {
     return suppliers.reduce((a, b) => a.pricePerUnit < b.pricePerUnit ? a : b);
   }
 
+  bool get isAvailable {
+    return suppliers.any((s) => s.isAvailable);
+  }
+
   factory Product.fromJson(Map<String, dynamic> json) {
     final normalize = TextNormalizer.normalize;
     final rawCategories = json['categories'];

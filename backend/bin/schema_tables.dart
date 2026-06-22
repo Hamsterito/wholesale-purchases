@@ -843,11 +843,17 @@ Future<void> _ensureModerationDeletionsSchema(Connection connection) async {
       id SERIAL PRIMARY KEY,
       supplier_user_id INTEGER NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
       product_name VARCHAR(255) NOT NULL,
+      product_name_kk VARCHAR(255),
       reason TEXT NOT NULL,
       moderator_id INTEGER REFERENCES public.users(id) ON DELETE SET NULL,
       dismissed BOOLEAN NOT NULL DEFAULT false,
       created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
     );
+  ''');
+
+  await connection.execute('''
+    ALTER TABLE public.moderation_deletions
+      ADD COLUMN IF NOT EXISTS product_name_kk VARCHAR(255);
   ''');
   await connection.execute(
     'CREATE INDEX IF NOT EXISTS idx_moderation_deletions_supplier ON public.moderation_deletions(supplier_user_id);',

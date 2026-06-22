@@ -704,7 +704,8 @@ class _CartPageState extends State<CartPage> {
         .map(
           (item) => {
             'productId': item.product.id,
-            'name': item.product.localizedName(context),
+            'name': item.product.name,
+            'nameKk': item.product.nameKk,
             'price': item.supplier.pricePerUnit,
             'quantity': item.quantity,
             'imageUrl': _resolveCartImage(item),
@@ -1160,7 +1161,7 @@ class _CartPageState extends State<CartPage> {
 try {
        await ApiService.createOrder(
          items: _buildOrderItemsPayload(itemsSnapshot),
-         status: l10n.getString('supplier_status_assembling'),
+         status: 'Собирается',
          deliveryAddress: selectedAddress.displayAddress,
          userId: userId,
        );
@@ -1235,7 +1236,7 @@ try {
       try {
         await ApiService.createOrder(
           items: _buildOrderItemsPayload(entry.value),
-          status: l10n.getString('supplier_status_assembling'),
+          status: 'Собирается',
           deliveryAddress: selectedAddress.displayAddress,
           userId: userId,
         );
@@ -2267,21 +2268,12 @@ Widget _buildSupplierSummaryCard({
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                _formatSupplierName(item.supplier.name),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: _mutedText,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(
                                 l10n.getString('cart_min_quantity', params: {'count': item.supplier.minQuantity}),
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: _mutedText,
                                 ),
-                                maxLines: 1,
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ],

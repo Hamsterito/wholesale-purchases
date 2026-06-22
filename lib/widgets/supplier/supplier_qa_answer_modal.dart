@@ -4,7 +4,7 @@ import '../../models/product.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
 import 'dart:math' as math;
 import '../../theme/app_color_palette.dart';
-import '../../core/ui/theme/app_dimensions.dart';
+
 import '../smart_image.dart';
 
 class SupplierQAAnswerModal extends StatefulWidget {
@@ -101,7 +101,7 @@ class _SupplierQAAnswerModalState extends State<SupplierQAAnswerModal> {
       ),
       child: Padding(
         padding: EdgeInsets.only(
-          bottom: math.max(MediaQuery.viewInsetsOf(context).bottom, AppDimensions.minBottomSafePadding),
+          bottom: math.max(MediaQuery.viewInsetsOf(context).bottom, MediaQuery.paddingOf(context).bottom),
         ),
         child: SingleChildScrollView(
           child: Column(

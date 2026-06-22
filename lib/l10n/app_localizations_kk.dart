@@ -1287,7 +1287,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String cart_min_quantity(int count) {
-    return 'Минимум: $count дана';
+    return 'Мин: $count дана';
   }
 
   @override
@@ -5293,7 +5293,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get auto_sohraniteIhVNadyozhnom =>
-      'Оларды қауіпсіз жерде сақтаңыз-әр кодты тек бір рет пайдалануға болады.\\n';
+      'Оларды қауіпсіз жерде сақтаңыз-әр кодты тек бір рет пайдалануға болады.\n';
 
   @override
   String get auto_kodySkopirovanyVBufer => 'Кодтар алмасу буферіне көшіріледі';
@@ -5754,12 +5754,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_harakteristikiTovara => 'Тауар сипаттамалары';
 
   @override
-  String get auto_nazvanie => 'Атауы';
-
-  @override
-  String get auto_znachenie => 'Мәні';
-
-  @override
   String get auto_udalitHarakteristiku => 'Сипаттаманы жою';
 
   @override
@@ -6123,4 +6117,35 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String get auto_zapolnyaytePoly =>
       'Өрістерді кез келген ыңғайлы тілде толтырыңыз - аударма автоматты түрде жасалады, оны қолмен өзгертуге болады.';
+
+  @override
+  String get auto_nazvanie => 'Атауы';
+
+  @override
+  String get auto_znachenie => 'Мәні';
+
+  @override
+  String get auto_nazvanieHarakteristiki => 'Сипаттаманың атауы';
+
+  @override
+  String get auto_znachenieHarakteristik => 'Сипаттаманың мәні';
+
+  @override
+  String get auto_gotovo_1 => 'Дайын';
+
+  @override
+  String get auto_avtoperevod => 'Автоаударма';
+
+  @override
+  String get auto_perevod => 'Аударма';
+
+  @override
+  String get auto_dobavitPerevod => 'Аударма қосу';
+
+  @override
+  String get auto_yaNeSoglasenSUdaleniemT =>
+      'Мен тауарды өшірумен келіспеймін:';
+
+  @override
+  String get auto_tovar_name_fallback => 'Тауар';
 }

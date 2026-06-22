@@ -9,6 +9,7 @@ import 'role_navigation_bar.dart';
 import 'package:flutter_project/services/moderation_alert_service.dart';
 import 'package:flutter_project/widgets/messages/moderation_alert_banner.dart';
 import 'package:flutter_project/profile/support_chat_page.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
 
 /// Корневой контейнер навигации. Читает роль один раз при монтировании,
 /// строит набор вкладок и хостит их страницы в IndexedStack.
@@ -36,7 +37,7 @@ class _NavigationShellState extends State<NavigationShell>
     _role = resolveNavRole(AuthStorage.role);
     _currentIndex = widget.initialIndex;
     WidgetsBinding.instance.addObserver(this);
-    
+
     if (_role == NavRole.supplier) {
       ModerationAlertService().checkNewAlerts();
     }
@@ -76,7 +77,7 @@ class _NavigationShellState extends State<NavigationShell>
     // Обновляем вкладки на каждый build, чтобы реагировать на смену языка.
     // Роль при этом не меняется, но переводы (l10n) могут измениться.
     _tabs = tabsForRole(_role, context);
-    
+
     // Зажимаем initialIndex в границы набора вкладок
     if (_currentIndex < 0 || _currentIndex >= _tabs.length) {
       _currentIndex = 0;
@@ -103,8 +104,15 @@ class _NavigationShellState extends State<NavigationShell>
                   onDismiss: () => service.dismissAllAlerts(),
                   onContactSupport: () {
                     final alerts = service.pendingAlerts;
-                    final productsText = alerts.map((a) => a.productName).join(', ');
-                    final initialMsg = 'Я не согласен с удалением товара: $productsText';
+                    final isKk = Localizations.localeOf(context).languageCode == 'kk';
+                    final productsText = alerts.map((a) {
+                      final name = isKk 
+                          ? (a.productNameKk.isNotEmpty ? a.productNameKk : a.productName)
+                          : (a.productName.isNotEmpty ? a.productName : a.productNameKk);
+                      return name.isNotEmpty ? name : context.l10n.getString('auto_tovar_name_fallback');
+                    }).join(', ');
+                    
+                    final initialMsg = '${context.l10n.getString("auto_yaNeSoglasenSUdaleniemT")} $productsText';
 
                     service.dismissAllAlerts();
                     Navigator.of(context).push(

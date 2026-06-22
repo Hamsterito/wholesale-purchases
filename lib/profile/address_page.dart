@@ -283,6 +283,31 @@ class _AddressPageState extends State<AddressPage> {
     }
   }
 
+  Future<void> _openFullScreenMap() async {
+    CameraPosition? cameraPos;
+    if (_mapController != null) {
+      cameraPos = await _mapController!.getCameraPosition();
+    }
+    final currentPoint = cameraPos?.target ?? _defaultPoint;
+
+    if (!mounted) return;
+
+    final selectedPoint = await Navigator.push<Point>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FullScreenMapPage(initialPoint: currentPoint),
+      ),
+    );
+
+    if (selectedPoint != null) {
+      await _mapController?.moveCamera(
+        CameraUpdate.newCameraPosition(CameraPosition(target: selectedPoint, zoom: 16)),
+        animation: const MapAnimation(type: MapAnimationType.smooth, duration: 1.0)
+      );
+      _fetchAddress(selectedPoint);
+    }
+  }
+
   Widget _buildMap() {
     return Container(
       height: 250,
@@ -331,16 +356,28 @@ class _AddressPageState extends State<AddressPage> {
           Positioned(
             right: 16,
             bottom: 16,
-            child: FloatingActionButton.small(
-              heroTag: 'my_location_btn',
-              backgroundColor: _cardBg,
-              onPressed: _isLoadingLocation ? null : _moveToCurrentLocation,
-              child: _isLoadingLocation 
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CircularProgressIndicator(strokeWidth: 2, color: context.colorPalette.accent),
-                    )
-                  : Icon(Icons.my_location, color: context.colorPalette.accent),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FloatingActionButton.small(
+                  heroTag: 'fullscreen_map_btn',
+                  backgroundColor: _cardBg,
+                  onPressed: _openFullScreenMap,
+                  child: Icon(Icons.fullscreen, color: context.colorPalette.accent),
+                ),
+                const SizedBox(height: 8),
+                FloatingActionButton.small(
+                  heroTag: 'my_location_btn',
+                  backgroundColor: _cardBg,
+                  onPressed: _isLoadingLocation ? null : _moveToCurrentLocation,
+                  child: _isLoadingLocation 
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(strokeWidth: 2, color: context.colorPalette.accent),
+                        )
+                      : Icon(Icons.my_location, color: context.colorPalette.accent),
+                ),
+              ],
             ),
           ),
           Positioned(
@@ -741,5 +778,164 @@ class _AddressPageState extends State<AddressPage> {
       return null;
     }
     return normalized;
+  }
+}
+
+class FullScreenMapPage extends StatefulWidget {
+  final Point initialPoint;
+
+  const FullScreenMapPage({super.key, required this.initialPoint});
+
+  @override
+  State<FullScreenMapPage> createState() => _FullScreenMapPageState();
+}
+
+class _FullScreenMapPageState extends State<FullScreenMapPage> {
+  YandexMapController? _mapController;
+  late Point _currentPoint;
+  bool _isLoadingLocation = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentPoint = widget.initialPoint;
+  }
+
+  Future<void> _moveToCurrentLocation() async {
+    setState(() {
+      _isLoadingLocation = true;
+    });
+
+    try {
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          return;
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        return;
+      }
+
+      final position = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          timeLimit: Duration(seconds: 10),
+        ),
+      );
+      final point = Point(latitude: position.latitude, longitude: position.longitude);
+
+      await _mapController?.moveCamera(
+        CameraUpdate.newCameraPosition(CameraPosition(target: point, zoom: 16)),
+        animation: const MapAnimation(type: MapAnimationType.smooth, duration: 1.0)
+      );
+      _currentPoint = point;
+    } catch (e) {
+      debugPrint("Location error: $e");
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoadingLocation = false;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cardBg = context.colorPalette.card;
+    final primaryColor = context.colorPalette.accent;
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: cardBg,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: theme.colorScheme.onSurface),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          context.l10n.getString('auto_adres'),
+          style: TextStyle(
+            color: theme.colorScheme.onSurface,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      body: Stack(
+        children: [
+          YandexMap(
+            fastTapEnabled: true,
+            nightModeEnabled: theme.brightness == Brightness.dark,
+            onMapCreated: (YandexMapController yandexMapController) {
+              _mapController = yandexMapController;
+              _mapController?.moveCamera(
+                CameraUpdate.newCameraPosition(
+                  CameraPosition(target: _currentPoint, zoom: 16)
+                )
+              );
+            },
+            onCameraPositionChanged: (CameraPosition cameraPosition, CameraUpdateReason reason, bool finished) {
+              if (finished && reason == CameraUpdateReason.gestures) {
+                 _currentPoint = cameraPosition.target;
+              }
+            },
+          ),
+          IgnorePointer(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: Icon(Icons.location_on, size: 40, color: primaryColor),
+              ),
+            ),
+          ),
+          Positioned(
+            right: 16,
+            bottom: 100,
+            child: FloatingActionButton(
+              heroTag: 'my_location_btn_fs',
+              backgroundColor: cardBg,
+              onPressed: _isLoadingLocation ? null : _moveToCurrentLocation,
+              child: _isLoadingLocation 
+                  ? Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: CircularProgressIndicator(strokeWidth: 2, color: primaryColor),
+                    )
+                  : Icon(Icons.my_location, color: primaryColor),
+            ),
+          ),
+          Positioned(
+            left: 16,
+            right: 16,
+            bottom: 24,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context, _currentPoint);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryColor,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 4,
+              ),
+              child: Text(
+                context.l10n.getString('auto_podtverdit'),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -1282,7 +1282,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String cart_min_quantity(int count) {
-    return 'Минимум: $count шт.';
+    return 'Мин: $count шт.';
   }
 
   @override
@@ -1999,7 +1999,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_dvukhfaktornaya_nautentifikatsiya =>
-      'Двухфакторная\\nаутентификация';
+      'Двухфакторная\nаутентификация';
 
   @override
   String get auto_my_otpravili_kod_na_vashu_pochtu =>
@@ -5121,14 +5121,14 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_podklyucheniePaypalPoka =>
-      'Подключение PayPal пока недоступно.\\nВыберите карту или наличные.';
+      'Подключение PayPal пока недоступно.\nВыберите карту или наличные.';
 
   @override
   String get auto_netSposobaOplaty => 'Нет способа оплаты';
 
   @override
   String get auto_pozhaluystaVyberiteSpos =>
-      'Пожалуйста, выберите способ\\nоплаты';
+      'Пожалуйста, выберите способ\nоплаты';
 
   @override
   String get auto_udalitKartu => 'Удалить карту';
@@ -5296,7 +5296,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_sohraniteIhVNadyozhnom =>
-      'Сохраните их в надёжном месте - каждый код можно использовать только один раз.\\n';
+      'Сохраните их в надёжном месте - каждый код можно использовать только один раз.\n';
 
   @override
   String get auto_kodySkopirovanyVBufer => 'Коды скопированы в буфер обмена';
@@ -5758,12 +5758,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get auto_harakteristikiTovara => 'Характеристики товара';
 
   @override
-  String get auto_nazvanie => 'Название';
-
-  @override
-  String get auto_znachenie => 'Значение';
-
-  @override
   String get auto_udalitHarakteristiku => 'Удалить характеристику';
 
   @override
@@ -6126,4 +6120,35 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get auto_zapolnyaytePoly =>
       'Заполняйте поля на любом удобном языке - перевод выполнится автоматически, и его можно изменить вручную.';
+
+  @override
+  String get auto_nazvanie => 'Название';
+
+  @override
+  String get auto_znachenie => 'Значение';
+
+  @override
+  String get auto_nazvanieHarakteristiki => 'Название характеристики';
+
+  @override
+  String get auto_znachenieHarakteristik => 'Значение характеристики';
+
+  @override
+  String get auto_gotovo_1 => 'Готово';
+
+  @override
+  String get auto_avtoperevod => 'Автоперевод';
+
+  @override
+  String get auto_perevod => 'Перевод';
+
+  @override
+  String get auto_dobavitPerevod => 'Добавить перевод';
+
+  @override
+  String get auto_yaNeSoglasenSUdaleniemT =>
+      'Я не согласен с удалением товара:';
+
+  @override
+  String get auto_tovar_name_fallback => 'Товар';
 }

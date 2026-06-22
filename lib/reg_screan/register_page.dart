@@ -185,7 +185,9 @@ class _RegisterPageState extends State<RegisterPage> {
       return AppLocalizations.current.getString('auto_vvedite_imya');
     }
     if (name.length < 2) {
-      return AppLocalizations.current.getString('auto_imya_dolzhno_byt_ne_koroche_2_simvo');
+      return AppLocalizations.current.getString(
+        'auto_imya_dolzhno_byt_ne_koroche_2_simvo',
+      );
     }
     return null;
   }
@@ -196,7 +198,9 @@ class _RegisterPageState extends State<RegisterPage> {
       return AppLocalizations.current.getString('auto_vvedite_pochtu');
     }
     if (!_emailRegex.hasMatch(email)) {
-      return AppLocalizations.current.getString('auto_vvedite_korrektnuyu_pochtu');
+      return AppLocalizations.current.getString(
+        'auto_vvedite_korrektnuyu_pochtu',
+      );
     }
     if (_lastCheckedEmail == email && _emailAvailabilityError != null) {
       return _emailAvailabilityError;
@@ -210,17 +214,23 @@ class _RegisterPageState extends State<RegisterPage> {
       return AppLocalizations.current.getString('auto_vvedite_nomer_telefona');
     }
     if (digits.length != 11) {
-      return AppLocalizations.current.getString('auto_nomer_dolzhen_byt_v_formate_7_000_0');
+      return AppLocalizations.current.getString(
+        'auto_nomer_dolzhen_byt_v_formate_7_000_0',
+      );
     }
     if (!digits.startsWith('7')) {
-      return AppLocalizations.current.getString('auto_nomer_dolzhen_nachinatsya_s_7');
+      return AppLocalizations.current.getString(
+        'auto_nomer_dolzhen_nachinatsya_s_7',
+      );
     }
     return null;
   }
 
   String? _validateSupplierName(String value) {
     if (value.trim().isEmpty) {
-      return AppLocalizations.current.getString('auto_vvedite_nazvanie_kompanii');
+      return AppLocalizations.current.getString(
+        'auto_vvedite_nazvanie_kompanii',
+      );
     }
     return null;
   }
@@ -231,7 +241,9 @@ class _RegisterPageState extends State<RegisterPage> {
       return AppLocalizations.current.getString('auto_vvedite_parol');
     }
     if (password.length < 6) {
-      return AppLocalizations.current.getString('auto_parol_dolzhen_byt_ne_koroche_6_simv');
+      return AppLocalizations.current.getString(
+        'auto_parol_dolzhen_byt_ne_koroche_6_simv',
+      );
     }
     return null;
   }
@@ -275,9 +287,7 @@ class _RegisterPageState extends State<RegisterPage> {
       final trimmed = error.trim();
       if (trimmed.isNotEmpty) cleaned.add(trimmed);
     }
-    final body = cleaned.isEmpty
-        ? message
-        : '$message: ${cleaned.join('; ')}';
+    final body = cleaned.isEmpty ? message : '$message: ${cleaned.join('; ')}';
     showTopMessage(
       context,
       body,
@@ -336,7 +346,9 @@ class _RegisterPageState extends State<RegisterPage> {
         final body = utf8.decode(response.bodyBytes);
         final decoded = jsonDecode(body);
         if (decoded is Map && decoded['available'] == false) {
-          availabilityError = AppLocalizations.current.getString('auto_email_uzhe_zaregistrirovan');
+          availabilityError = AppLocalizations.current.getString(
+            'auto_email_uzhe_zaregistrirovan',
+          );
         }
       }
 
@@ -411,7 +423,10 @@ class _RegisterPageState extends State<RegisterPage> {
     if (messages.isEmpty) {
       _clearTopMessage();
     } else {
-      _showTopError(AppLocalizations.current.getString('auto_proverte_zapolnenie_poley'), messages);
+      _showTopError(
+        AppLocalizations.current.getString('auto_proverte_zapolnenie_poley'),
+        messages,
+      );
     }
 
     return messages.isEmpty;
@@ -453,7 +468,10 @@ class _RegisterPageState extends State<RegisterPage> {
     if (messages.isEmpty) {
       _clearTopMessage();
     } else {
-      _showTopError(AppLocalizations.current.getString('auto_proverte_zapolnenie_poley'), messages);
+      _showTopError(
+        AppLocalizations.current.getString('auto_proverte_zapolnenie_poley'),
+        messages,
+      );
     }
 
     return messages.isEmpty;
@@ -483,8 +501,14 @@ class _RegisterPageState extends State<RegisterPage> {
         textStyle: TextStyle(color: _colorScheme.onSurface, fontSize: 15),
         onChanged: _selectRole,
         options: [
-          SelectOption('buyer', AppLocalizations.current.getString('auto_pokupatel')),
-          SelectOption('supplier', AppLocalizations.current.getString('auto_postavshchik')),
+          SelectOption(
+            'buyer',
+            AppLocalizations.current.getString('auto_pokupatel'),
+          ),
+          SelectOption(
+            'supplier',
+            AppLocalizations.current.getString('auto_postavshchik'),
+          ),
         ],
       ),
     );
@@ -565,7 +589,9 @@ class _RegisterPageState extends State<RegisterPage> {
               textCapitalization: TextCapitalization.words,
               onChanged: (_) => _onFieldChanged('supplierName'),
               decoration: _inputDecoration(
-                hintText: AppLocalizations.current.getString('auto_naprimer_too_sklad_mansa'),
+                hintText: AppLocalizations.current.getString(
+                  'auto_naprimer_too_sklad_mansa',
+                ),
                 hasError: _fieldErrors['supplierName'] != null,
               ),
             ),
@@ -577,7 +603,9 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     return Text(
-      AppLocalizations.current.getString('auto_dopolnitelnye_dannye_ne_trebuyutsya'),
+      AppLocalizations.current.getString(
+        'auto_dopolnitelnye_dannye_ne_trebuyutsya',
+      ),
       style: TextStyle(color: _mutedText, fontSize: 14),
     );
   }
@@ -695,14 +723,21 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String get _stepTitle {
     if (_role == 'supplier') {
-      return _step == 0 ? AppLocalizations.current.getString('auto_dannye') : AppLocalizations.current.getString('auto_kompaniya_i_parol');
+      return _step == 0
+          ? AppLocalizations.current.getString('auto_dannye')
+          : AppLocalizations.current.getString('auto_kompaniya_i_parol');
     }
-    return _step == 0 ? AppLocalizations.current.getString('auto_dannye') : AppLocalizations.current.getString('auto_parol_1');
+    return _step == 0
+        ? AppLocalizations.current.getString('auto_dannye')
+        : AppLocalizations.current.getString('auto_parol_1');
   }
 
   String get _stepIndicator {
     final visibleStep = _role == 'buyer' && _step == 2 ? 1 : _step;
-    return AppLocalizations.current.getString('auto_shag_visiblestep_1_iz_2', params: {'step': visibleStep + 1});
+    return AppLocalizations.current.getString(
+      'auto_shag_visiblestep_1_iz_2',
+      params: {'step': visibleStep + 1},
+    );
   }
 
   String get _primaryActionLabel {
@@ -792,7 +827,9 @@ class _RegisterPageState extends State<RegisterPage> {
           );
           await OtpCooldownStore.markRequested(email, 'register');
           _showTopSuccess(
-            responseData['message']?.toString() ?? AppLocalizations.current.getString('auto_registratsiya_proshla_uspeshno'),
+            AppLocalizations.current.getString(
+              'auto_registratsiya_proshla_uspeshno',
+            ),
           );
           await Future<void>.delayed(const Duration(milliseconds: 600));
           if (!mounted) return;
@@ -808,8 +845,14 @@ class _RegisterPageState extends State<RegisterPage> {
             scope: 'auth',
           );
           final message =
-              responseData['message']?.toString() ?? AppLocalizations.current.getString('auto_server_vernul_oshibku');
-          _showTopError(AppLocalizations.current.getString('auto_ne_udalos_zavershit_registratsiyu'), [message]);
+              responseData['message']?.toString() ??
+              AppLocalizations.current.getString('auto_server_vernul_oshibku');
+          _showTopError(
+            AppLocalizations.current.getString(
+              'auto_ne_udalos_zavershit_registratsiyu',
+            ),
+            [message],
+          );
         }
       } catch (_) {
         AppLogger.warning(
@@ -817,9 +860,16 @@ class _RegisterPageState extends State<RegisterPage> {
           scope: 'auth',
         );
         final cleanMessage = responseBody.trim().isEmpty
-            ? AppLocalizations.current.getString('auto_server_vernul_oshibku_poprobuyte_sn')
+            ? AppLocalizations.current.getString(
+                'auto_server_vernul_oshibku_poprobuyte_sn',
+              )
             : responseBody.trim();
-        _showTopError(AppLocalizations.current.getString('auto_ne_udalos_zavershit_registratsiyu'), [cleanMessage]);
+        _showTopError(
+          AppLocalizations.current.getString(
+            'auto_ne_udalos_zavershit_registratsiyu',
+          ),
+          [cleanMessage],
+        );
       }
     } catch (e, st) {
       AppLogger.error(
@@ -829,7 +879,13 @@ class _RegisterPageState extends State<RegisterPage> {
         stackTrace: st,
       );
       if (mounted) {
-        _showTopError(AppLocalizations.current.getString('auto_oshibka_podklyucheniya', params: {'e': e.toString()}), []);
+        _showTopError(
+          AppLocalizations.current.getString(
+            'auto_oshibka_podklyucheniya',
+            params: {'e': e.toString()},
+          ),
+          [],
+        );
       }
     } finally {
       if (mounted) {
@@ -840,7 +896,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-
     final gradientColors = _isDark
         ? [context.colorPalette.bgBottom, context.colorPalette.bgTop]
         : [context.colorPalette.accent, context.colorPalette.accentDark];
@@ -855,8 +910,12 @@ class _RegisterPageState extends State<RegisterPage> {
     final backBorderColor = context.colorPalette.line;
     final backTextEnabledColor = context.colorPalette.muted;
     final backTextDisabledColor = context.colorPalette.muted;
-    final primaryButtonColor = context.colorPalette.ink;
-    final primaryButtonDisabled = context.colorPalette.ink;
+    final primaryButtonColor = _isDark
+        ? _colorScheme.primary
+        : context.colorPalette.ink;
+    final primaryButtonDisabled = _isDark
+        ? _colorScheme.onSurface.withValues(alpha: 0.12)
+        : context.colorPalette.ink.withValues(alpha: 0.3);
     final buttonRadius = BorderRadius.circular(100);
     final backButtonStyle = ButtonStyle(
       minimumSize: const WidgetStatePropertyAll(Size.fromHeight(46)),
@@ -914,10 +973,17 @@ class _RegisterPageState extends State<RegisterPage> {
           builder: (context, constraints) {
             final fullHeight = MediaQuery.sizeOf(context).height;
             final availableHeight = constraints.maxHeight;
-            final keyboardHeight = (fullHeight - availableHeight).clamp(0.0, fullHeight);
-            
-            final targetHeaderHeight = fullHeight * (headerFlex / (headerFlex + formFlex));
-            final headerHeight = (targetHeaderHeight - keyboardHeight).clamp(0.0, targetHeaderHeight);
+            final keyboardHeight = (fullHeight - availableHeight).clamp(
+              0.0,
+              fullHeight,
+            );
+
+            final targetHeaderHeight =
+                fullHeight * (headerFlex / (headerFlex + formFlex));
+            final headerHeight = (targetHeaderHeight - keyboardHeight).clamp(
+              0.0,
+              targetHeaderHeight,
+            );
 
             return Column(
               children: [
@@ -956,7 +1022,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            AppLocalizations.current.getString('auto_registratsiya'),
+                            AppLocalizations.current.getString(
+                              'auto_registratsiya',
+                            ),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: headerTitleSize,
@@ -966,7 +1034,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           SizedBox(height: sectionGap),
                           Text(
-                            AppLocalizations.current.getString('auto_zaregistriruytes_chtoby_nachat'),
+                            AppLocalizations.current.getString(
+                              'auto_zaregistriruytes_chtoby_nachat',
+                            ),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: headerSubtitleSize,
@@ -990,114 +1060,123 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     child: SafeArea(
                       top: false,
-                  child: Padding(
-                    padding: formPadding,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Padding(
+                        padding: formPadding,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              _stepTitle,
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                color: _colorScheme.onSurface,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  _stepTitle,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: _colorScheme.onSurface,
+                                  ),
+                                ),
+                                Text(
+                                  _stepIndicator,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: _mutedText,
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              _stepIndicator,
-                              style: TextStyle(fontSize: 12, color: _mutedText),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: sectionGap),
-                        Expanded(
-                          child: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 200),
-                            layoutBuilder: (currentChild, previousChildren) {
-                              return Stack(
-                                alignment: _isTopAlignedStep
-                                    ? Alignment.topCenter
-                                    : Alignment.center,
-                                children: <Widget>[
-                                  ...previousChildren,
-                                  if (currentChild != null) currentChild,
-                                ],
-                              );
-                            },
-                            child: SingleChildScrollView(
-                              key: ValueKey(_step),
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: _step == 0
-                                    ? _buildAccountStep(fieldGap)
-                                    : (_step == 1
-                                          ? _buildRoleStep(fieldGap)
-                                          : _buildPasswordStep(fieldGap)),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: sectionGap),
-                        Row(
-                          children: [
+                            SizedBox(height: sectionGap),
                             Expanded(
-                              child: SizedBox(
-                                child: OutlinedButton(
-                                  onPressed: _step == 0 ? null : _goBack,
-                                  style: backButtonStyle,
-                                  child: FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: Text(AppLocalizations.current.getString('auto_nazad_1')),
+                              child: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 200),
+                                layoutBuilder:
+                                    (currentChild, previousChildren) {
+                                      return Stack(
+                                        alignment: _isTopAlignedStep
+                                            ? Alignment.topCenter
+                                            : Alignment.center,
+                                        children: <Widget>[
+                                          ...previousChildren,
+                                          if (currentChild != null)
+                                            currentChild,
+                                        ],
+                                      );
+                                    },
+                                child: SingleChildScrollView(
+                                  key: ValueKey(_step),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: _step == 0
+                                        ? _buildAccountStep(fieldGap)
+                                        : (_step == 1
+                                              ? _buildRoleStep(fieldGap)
+                                              : _buildPasswordStep(fieldGap)),
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(width: 10),
-                            Expanded(
-                              child: SizedBox(
-                                child: ElevatedButton(
-                                  onPressed: _isLoading ? null : _goNext,
-                                  style: primaryButtonStyle,
-                                  child: _isSubmitStep && _isLoading
-                                      ? SizedBox(
-                                          width: 18,
-                                          height: 18,
-                                          child: CircularProgressIndicator(
-                                            color: Colors.white,
-                                            strokeWidth: 2,
-                                          ),
-                                        )
-                                      : FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Text(
-                                            _primaryActionLabel,
-                                            maxLines: 1,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w700,
-                                              letterSpacing: 0.8,
-                                              color: Colors.white,
-                                            ),
+                            SizedBox(height: sectionGap),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: SizedBox(
+                                    child: OutlinedButton(
+                                      onPressed: _step == 0 ? null : _goBack,
+                                      style: backButtonStyle,
+                                      child: FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          AppLocalizations.current.getString(
+                                            'auto_nazad_1',
                                           ),
                                         ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: SizedBox(
+                                    child: ElevatedButton(
+                                      onPressed: _isLoading ? null : _goNext,
+                                      style: primaryButtonStyle,
+                                      child: _isSubmitStep && _isLoading
+                                          ? SizedBox(
+                                              width: 18,
+                                              height: 18,
+                                              child: CircularProgressIndicator(
+                                                color: Colors.white,
+                                                strokeWidth: 2,
+                                              ),
+                                            )
+                                          : FittedBox(
+                                              fit: BoxFit.scaleDown,
+                                              child: Text(
+                                                _primaryActionLabel,
+                                                maxLines: 1,
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w700,
+                                                  letterSpacing: 0.8,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ],
-        );
-      },
-    ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

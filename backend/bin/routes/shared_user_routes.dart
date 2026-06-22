@@ -262,7 +262,7 @@ void _registerSharedUserProfileRoutes(Router router, Connection connection) {  r
 
       final user = userResult.first.toColumnMap();
       final persistedPassword = (user['password'] ?? '').toString().trim();
-      if (persistedPassword != currentPassword) {
+      if (!_checkPassword(currentPassword, persistedPassword)) {
         return Response(
           401,
           body: 'Текущий пароль указан неверно',
@@ -270,13 +270,14 @@ void _registerSharedUserProfileRoutes(Router router, Connection connection) {  r
         );
       }
 
+      final hashedNewPassword = _hashPassword(newPassword);
       await connection.execute(
         Sql.named('''
           UPDATE users
           SET password = @password
           WHERE id = @id;
           '''),
-        parameters: {'id': userId, 'password': newPassword},
+        parameters: {'id': userId, 'password': hashedNewPassword},
       );
 
       return Response.ok(

@@ -1747,7 +1747,7 @@
       }
     }
   },
-  "cart_min_quantity": "Минимум: {count} дана",
+  "cart_min_quantity": "Мин: {count} дана",
   "@cart_min_quantity": {
     "description": "Минимальное количество заказанного товара",
     "placeholders": {
@@ -5999,7 +5999,7 @@
   "@auto_etoDeystvieNelzyaOtmen": {},
   "auto_rezervnyeKodyDvuhfaktor": "Екі факторлы аутентификацияның резервтік кодтары",
   "@auto_rezervnyeKodyDvuhfaktor": {},
-  "auto_sohraniteIhVNadyozhnom": "Оларды қауіпсіз жерде сақтаңыз-әр кодты тек бір рет пайдалануға болады.\\n",
+  "auto_sohraniteIhVNadyozhnom": "Оларды қауіпсіз жерде сақтаңыз-әр кодты тек бір рет пайдалануға болады.\n",
   "@auto_sohraniteIhVNadyozhnom": {},
   "auto_kodySkopirovanyVBufer": "Кодтар алмасу буферіне көшіріледі",
   "@auto_kodySkopirovanyVBufer": {},
@@ -6536,10 +6536,6 @@
   "@auto_temperaturaHraneniya": {},
   "auto_zapolnyaytePoly": "Өрістерді кез келген ыңғайлы тілде толтырыңыз - аударма автоматты түрде жасалады, оны қолмен өзгертуге болады.",
   "@auto_zapolnyaytePoly": {},
-  "auto_nazvanie": "Атауы",
-  "@auto_nazvanie": {},
-  "auto_znachenie": "Мәні",
-  "@auto_znachenie": {},
   "auto_nazvanieHarakteristiki": "Сипаттаманың атауы",
   "@auto_nazvanieHarakteristiki": {},
   "auto_znachenieHarakteristik": "Сипаттаманың мәні",
@@ -6551,5 +6547,9 @@
   "auto_perevod": "Аударма",
   "@auto_perevod": {},
   "auto_dobavitPerevod": "Аударма қосу",
-  "@auto_dobavitPerevod": {}
+  "@auto_dobavitPerevod": {},
+  "auto_yaNeSoglasenSUdaleniemT": "Мен тауарды өшірумен келіспеймін:",
+  "@auto_yaNeSoglasenSUdaleniemT": {},
+  "auto_tovar_name_fallback": "Тауар",
+  "@auto_tovar_name_fallback": {}
 }

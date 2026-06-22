@@ -48,7 +48,7 @@ class TwoFactorBackupCodesView extends StatelessWidget {
     final fileName = 'backup_codes_$timestamp';
     final bytes = Uint8List.fromList(utf8.encode(_fileContent(context)));
     try {
-      await FileSaver.instance.saveFile(
+      await FileSaver.instance.saveAs(
         name: fileName,
         bytes: bytes,
         ext: 'txt',

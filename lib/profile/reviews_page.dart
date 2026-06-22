@@ -16,7 +16,7 @@ import '../models/review_entry.dart';
 import '../utils/date_formatter.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
 import 'dart:math' as math;
-import '../core/ui/theme/app_dimensions.dart';
+
 import '../services/notification_service.dart';
 
 class ReviewsPage extends StatefulWidget {
@@ -109,47 +109,47 @@ class _ReviewsPageState extends State<ReviewsPage> {
       ),
       child: Scaffold(
         backgroundColor: pageBackground,
-      body: Stack(
-        children: [
-          if (isDark)
-            Positioned.fill(child: ColoredBox(color: pageBackground))
-          else
-            Positioned.fill(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      context.colorPalette.bgTop,
-                      context.colorPalette.bgBottom,
-                    ],
+        body: Stack(
+          children: [
+            if (isDark)
+              Positioned.fill(child: ColoredBox(color: pageBackground))
+            else
+              Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        context.colorPalette.bgTop,
+                        context.colorPalette.bgBottom,
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
 
-          Column(
-            children: [
-              _buildHeader(context),
-              Expanded(
-                child: SafeArea(
-                  top: false,
-                  child: _buildContent(),
-                ),
-              ),
-            ],
-          ),
-        ],
+            Column(
+              children: [
+                _buildHeader(context),
+                Expanded(child: SafeArea(top: false, child: _buildContent())),
+              ],
+            ),
+          ],
+        ),
+        bottomNavigationBar: RoleInternalNavBar(currentIndex: 3),
       ),
-      bottomNavigationBar: RoleInternalNavBar(currentIndex: 3),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildHeader(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(12, MediaQuery.paddingOf(context).top + 12, 16, 12),
+      padding: EdgeInsets.fromLTRB(
+        12,
+        MediaQuery.paddingOf(context).top + 12,
+        16,
+        12,
+      ),
       decoration: BoxDecoration(
         color: context.colorPalette.card,
         borderRadius: BorderRadius.zero,
@@ -457,7 +457,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         ),
                         _buildMetaPill(
                           icon: Icons.receipt_long_outlined,
-                          label: context.l10n.reviewsOrderLabelWith(item.orderId),
+                          label: context.l10n.reviewsOrderLabelWith(
+                            item.orderId,
+                          ),
                         ),
                       ],
                     ),
@@ -470,7 +472,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
           Opacity(
             opacity: isSubmitting ? 0.6 : 1,
             child: _ActionButton(
-              label: isSubmitting ? context.l10n.getString('auto_otpravlyaem') : context.l10n.getString('auto_ostavitOtzyv'),
+              label: isSubmitting
+                  ? context.l10n.getString('auto_otpravlyaem')
+                  : context.l10n.getString('auto_ostavitOtzyv'),
               background: context.colorPalette.accent,
               foreground: Colors.white,
               borderColor: context.colorPalette.accent,
@@ -653,7 +657,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         if (review.orderId.isNotEmpty) ...[
                           _buildMetaPill(
                             icon: Icons.receipt_long_outlined,
-                            label: context.l10n.reviewsOrderLabelWith(review.orderId),
+                            label: context.l10n.reviewsOrderLabelWith(
+                              review.orderId,
+                            ),
                           ),
                         ],
                       ],
@@ -721,7 +727,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 border: Border.all(color: context.colorPalette.line),
               ),
               child: ExpandableTextBlock(
-                reviewText.isEmpty ? context.l10n.getString('auto_bezTekstaOtzyva') : reviewText,
+                reviewText.isEmpty
+                    ? context.l10n.getString('auto_bezTekstaOtzyva')
+                    : reviewText,
                 key: ValueKey('profile-review-${review.id}'),
                 textStyle: TextStyle(
                   fontSize: 15,
@@ -736,7 +744,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
             children: [
               Expanded(
                 child: _ActionButton(
-                  label: isEditing ? context.l10n.getString('auto_otmena') : context.l10n.getString('auto_redaktirovat'),
+                  label: isEditing
+                      ? context.l10n.getString('auto_otmena')
+                      : context.l10n.getString('auto_redaktirovat'),
                   background: context.colorPalette.accentMist,
                   foreground: context.colorPalette.accentDark,
                   borderColor: isEditing
@@ -750,7 +760,9 @@ class _ReviewsPageState extends State<ReviewsPage> {
               Expanded(
                 child: _ActionButton(
                   label: isEditing
-                      ? (_isUpdatingReview ? context.l10n.getString('auto_sohranyaem') : context.l10n.getString('auto_sohranit_1'))
+                      ? (_isUpdatingReview
+                            ? context.l10n.getString('auto_sohranyaem')
+                            : context.l10n.getString('auto_sohranit_1'))
                       : context.l10n.getString('auto_udalit'),
                   background: isEditing
                       ? context.colorPalette.accent
@@ -844,7 +856,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
         int rating = review.rating;
         return StatefulBuilder(
           builder: (context, setModalState) {
-            final bottomInset = math.max(MediaQuery.viewInsetsOf(context).bottom, AppDimensions.minBottomSafePadding);
+            final bottomInset = math.max(
+              MediaQuery.viewInsetsOf(context).bottom,
+              MediaQuery.paddingOf(context).bottom,
+            );
             return Padding(
               padding: EdgeInsets.only(bottom: bottomInset),
               child: Container(
@@ -853,188 +868,196 @@ class _ReviewsPageState extends State<ReviewsPage> {
                   color: context.colorPalette.card,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Container(
-                        width: 40,
-                        height: 4,
-                        decoration: BoxDecoration(
-                          color: context.colorPalette.line,
-                          borderRadius: BorderRadius.circular(999),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          width: 40,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: context.colorPalette.line,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 16),
-                    Row(
-                      children: [
-                        _buildProductImage(review.productImage),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: review.localizedProductName(context),
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                        color: context.colorPalette.ink,
-                                      ),
-                                    ),
-                                    if (review.supplierName
-                                        .trim()
-                                        .isNotEmpty) ...[
+                      SizedBox(height: 16),
+                      Row(
+                        children: [
+                          _buildProductImage(review.productImage),
+                          SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
                                       TextSpan(
-                                        text:
-                                            ' - ${review.supplierName.trim()}',
+                                        text: review.localizedProductName(
+                                          context,
+                                        ),
                                         style: TextStyle(
                                           fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                          color: context.colorPalette.muted,
+                                          fontWeight: FontWeight.w600,
+                                          color: context.colorPalette.ink,
                                         ),
                                       ),
+                                      if (review.supplierName
+                                          .trim()
+                                          .isNotEmpty) ...[
+                                        TextSpan(
+                                          text:
+                                              ' - ${review.supplierName.trim()}',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            color: context.colorPalette.muted,
+                                          ),
+                                        ),
+                                      ],
                                     ],
-                                  ],
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      context.l10n.getString('auto_otseniteTovar'),
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: context.colorPalette.ink,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    _buildStarRow(
-                      rating: rating,
-                      size: 24,
-                      onSelect: (value) {
-                        setModalState(() {
-                          rating = value;
-                        });
-                      },
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      context.l10n.getString('auto_vashOtzyv'),
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: context.colorPalette.ink,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    TextField(
-                      controller: controller,
-                      keyboardType: TextInputType.text,
-                      maxLines: 4,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: context.colorPalette.ink,
-                        height: 1.4,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: context.l10n.getString('auto_podelitesVpechatleniyami'),
-                        hintStyle: TextStyle(color: context.colorPalette.muted),
-                        filled: true,
-                        fillColor: context.colorPalette.accentMist,
-                        contentPadding: const EdgeInsets.all(12),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: context.colorPalette.line,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: context.colorPalette.line,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: context.colorPalette.accent,
-                            width: 1.4,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: SizedBox(
-                            height: 48,
-                            child: ElevatedButton(
-                              onPressed: () => Navigator.pop(context),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    context.colorPalette.accentMist,
-                                foregroundColor:
-                                    context.colorPalette.accentDark,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  side: BorderSide(
-                                    color: context.colorPalette.line,
                                   ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                elevation: 0,
-                              ),
-                              child: Text(
-                                context.l10n.getString('auto_otmena'),
-                                style: TextStyle(fontWeight: FontWeight.w600),
-                              ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        context.l10n.getString('auto_otseniteTovar'),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: context.colorPalette.ink,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      _buildStarRow(
+                        rating: rating,
+                        size: 24,
+                        onSelect: (value) {
+                          setModalState(() {
+                            rating = value;
+                          });
+                        },
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        context.l10n.getString('auto_vashOtzyv'),
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: context.colorPalette.ink,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      TextField(
+                        controller: controller,
+                        keyboardType: TextInputType.text,
+                        maxLines: 4,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: context.colorPalette.ink,
+                          height: 1.4,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: context.l10n.getString(
+                            'auto_podelitesVpechatleniyami',
+                          ),
+                          hintStyle: TextStyle(
+                            color: context.colorPalette.muted,
+                          ),
+                          filled: true,
+                          fillColor: context.colorPalette.accentMist,
+                          contentPadding: const EdgeInsets.all(12),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: context.colorPalette.line,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: context.colorPalette.line,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: context.colorPalette.accent,
+                              width: 1.4,
                             ),
                           ),
                         ),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: SizedBox(
-                            height: 48,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(
-                                  context,
-                                  _ReviewDraft(
-                                    rating: rating,
-                                    text: controller.text.trim(),
+                      ),
+                      SizedBox(height: 16),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: 48,
+                              child: ElevatedButton(
+                                onPressed: () => Navigator.pop(context),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      context.colorPalette.accentMist,
+                                  foregroundColor:
+                                      context.colorPalette.accentDark,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    side: BorderSide(
+                                      color: context.colorPalette.line,
+                                    ),
                                   ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: context.colorPalette.accent,
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                  elevation: 0,
                                 ),
-                                elevation: 0,
-                              ),
-                              child: Text(
-                                context.l10n.getString('auto_izmenit'),
-                                style: TextStyle(fontWeight: FontWeight.w600),
+                                child: Text(
+                                  context.l10n.getString('auto_otmena'),
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          SizedBox(width: 12),
+                          Expanded(
+                            child: SizedBox(
+                              height: 48,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(
+                                    context,
+                                    _ReviewDraft(
+                                      rating: rating,
+                                      text: controller.text.trim(),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: context.colorPalette.accent,
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  elevation: 0,
+                                ),
+                                child: Text(
+                                  context.l10n.getString('auto_izmenit'),
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -1086,7 +1109,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
       setState(() {
         _isUpdatingReview = false;
       });
-      _showSnack(context.l10n.getString('auto_neUdalosSohranitOtzyv'), severity: MessageSeverity.error);
+      _showSnack(
+        context.l10n.getString('auto_neUdalosSohranitOtzyv'),
+        severity: MessageSeverity.error,
+      );
     }
   }
 
@@ -1111,7 +1137,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
     }
     final text = _editController.text.trim();
     if (_editingRating < 1) {
-      _showSnack(context.l10n.getString('auto_postavteOtsenku'), severity: MessageSeverity.warning);
+      _showSnack(
+        context.l10n.getString('auto_postavteOtsenku'),
+        severity: MessageSeverity.warning,
+      );
       return;
     }
 
@@ -1141,7 +1170,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
       setState(() {
         _isUpdatingReview = false;
       });
-      _showSnack(context.l10n.getString('auto_neUdalosSohranitOtzyv'), severity: MessageSeverity.error);
+      _showSnack(
+        context.l10n.getString('auto_neUdalosSohranitOtzyv'),
+        severity: MessageSeverity.error,
+      );
     }
   }
 
@@ -1157,7 +1189,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
         final selectedTags = <String>{};
         return StatefulBuilder(
           builder: (context, setModalState) {
-            final bottomInset = math.max(MediaQuery.viewInsetsOf(context).bottom, AppDimensions.minBottomSafePadding);
+            final bottomInset = math.max(
+              MediaQuery.viewInsetsOf(context).bottom,
+              MediaQuery.paddingOf(context).bottom,
+            );
             return Padding(
               padding: EdgeInsets.only(bottom: bottomInset),
               child: Container(
@@ -1166,184 +1201,191 @@ class _ReviewsPageState extends State<ReviewsPage> {
                   color: context.colorPalette.card,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Container(
-                        width: 40,
-                        height: 4,
-                        decoration: BoxDecoration(
-                          color: context.colorPalette.line,
-                          borderRadius: BorderRadius.circular(999),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          width: 40,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: context.colorPalette.line,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 16),
-                    Row(
-                      children: [
-                        _buildProductImage(item.productImage),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: item.localizedProductName(context),
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: context.colorPalette.ink,
-                                  ),
-                                ),
-                                if (item.supplierName.trim().isNotEmpty) ...[
+                      SizedBox(height: 16),
+                      Row(
+                        children: [
+                          _buildProductImage(item.productImage),
+                          SizedBox(width: 12),
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
                                   TextSpan(
-                                    text: ' - ${item.supplierName.trim()}',
+                                    text: item.localizedProductName(context),
                                     style: TextStyle(
                                       fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                      color: context.colorPalette.muted,
+                                      fontWeight: FontWeight.w600,
+                                      color: context.colorPalette.ink,
                                     ),
                                   ),
+                                  if (item.supplierName.trim().isNotEmpty) ...[
+                                    TextSpan(
+                                      text: ' - ${item.supplierName.trim()}',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400,
+                                        color: context.colorPalette.muted,
+                                      ),
+                                    ),
+                                  ],
                                 ],
-                              ],
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      context.l10n.getString('auto_otseniteTovar'),
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: context.colorPalette.ink,
+                        ],
                       ),
-                    ),
-                    SizedBox(height: 8),
-                    _buildStarRow(
-                      rating: rating,
-                      size: 24,
-                      onSelect: (value) {
-                        setModalState(() {
-                          rating = value;
-                        });
-                      },
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      context.l10n.getString('auto_dobavteDetali'),
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: context.colorPalette.ink,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: _quickTags.map((tag) {
-                        final selected = selectedTags.contains(tag);
-                        return FilterChip(
-                          label: Text(tag),
-                          selected: selected,
-                          labelStyle: TextStyle(
-                            fontSize: 12,
-                            color: selected
-                                ? context.colorPalette.accentDark
-                                : context.colorPalette.muted,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          selectedColor: context.colorPalette.accentSoft,
-                          backgroundColor: context.colorPalette.accentMist,
-                          onSelected: (value) {
-                            setModalState(() {
-                              if (value) {
-                                selectedTags.add(tag);
-                              } else {
-                                selectedTags.remove(tag);
-                              }
-                              final joined = selectedTags.join(', ');
-                              controller.text = joined;
-                              controller.selection = TextSelection.fromPosition(
-                                TextPosition(offset: controller.text.length),
-                              );
-                            });
-                          },
-                        );
-                      }).toList(),
-                    ),
-                    SizedBox(height: 12),
-                    TextField(
-                      controller: controller,
-                      keyboardType: TextInputType.text,
-                      maxLines: 4,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: context.colorPalette.ink,
-                        height: 1.4,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: context.l10n.getString('auto_podelitesVpechatleniyami'),
-                        hintStyle: TextStyle(color: context.colorPalette.muted),
-                        filled: true,
-                        fillColor: context.colorPalette.accentMist,
-                        contentPadding: const EdgeInsets.all(12),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: context.colorPalette.line,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: context.colorPalette.line,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: context.colorPalette.accent,
-                            width: 1.4,
-                          ),
+                      SizedBox(height: 16),
+                      Text(
+                        context.l10n.getString('auto_otseniteTovar'),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: context.colorPalette.ink,
                         ),
                       ),
-                    ),
-                    SizedBox(height: 16),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 48,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(
-                            context,
-                            _ReviewDraft(
-                              rating: rating,
-                              text: controller.text.trim(),
-                            ),
-                          );
+                      SizedBox(height: 8),
+                      _buildStarRow(
+                        rating: rating,
+                        size: 24,
+                        onSelect: (value) {
+                          setModalState(() {
+                            rating = value;
+                          });
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: context.colorPalette.accent,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: Text(
-                          context.l10n.getString('auto_otpravitOtzyv'),
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        context.l10n.getString('auto_dobavteDetali'),
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: context.colorPalette.ink,
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 8),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: _quickTags.map((tag) {
+                          final selected = selectedTags.contains(tag);
+                          return FilterChip(
+                            label: Text(tag),
+                            selected: selected,
+                            labelStyle: TextStyle(
+                              fontSize: 12,
+                              color: selected
+                                  ? context.colorPalette.accentDark
+                                  : context.colorPalette.muted,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            selectedColor: context.colorPalette.accentSoft,
+                            backgroundColor: context.colorPalette.accentMist,
+                            onSelected: (value) {
+                              setModalState(() {
+                                if (value) {
+                                  selectedTags.add(tag);
+                                } else {
+                                  selectedTags.remove(tag);
+                                }
+                                final joined = selectedTags.join(', ');
+                                controller.text = joined;
+                                controller
+                                    .selection = TextSelection.fromPosition(
+                                  TextPosition(offset: controller.text.length),
+                                );
+                              });
+                            },
+                          );
+                        }).toList(),
+                      ),
+                      SizedBox(height: 12),
+                      TextField(
+                        controller: controller,
+                        keyboardType: TextInputType.text,
+                        maxLines: 4,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: context.colorPalette.ink,
+                          height: 1.4,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: context.l10n.getString(
+                            'auto_podelitesVpechatleniyami',
+                          ),
+                          hintStyle: TextStyle(
+                            color: context.colorPalette.muted,
+                          ),
+                          filled: true,
+                          fillColor: context.colorPalette.accentMist,
+                          contentPadding: const EdgeInsets.all(12),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: context.colorPalette.line,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: context.colorPalette.line,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: context.colorPalette.accent,
+                              width: 1.4,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(
+                              context,
+                              _ReviewDraft(
+                                rating: rating,
+                                text: controller.text.trim(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: context.colorPalette.accent,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 0,
+                          ),
+                          child: Text(
+                            context.l10n.getString('auto_otpravitOtzyv'),
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -1401,7 +1443,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
       setState(() {
         _submittingPending.remove(item.orderItemId);
       });
-      _showSnack(context.l10n.getString('auto_neUdalosOtpravitOtzyv'), severity: MessageSeverity.error);
+      _showSnack(
+        context.l10n.getString('auto_neUdalosOtpravitOtzyv'),
+        severity: MessageSeverity.error,
+      );
     }
   }
 
@@ -1474,7 +1519,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
       });
       _showSnack(context.l10n.getString('auto_otzyvUdalen'));
     } catch (_) {
-      _showSnack(context.l10n.getString('auto_neUdalosUdalitOtzyv'), severity: MessageSeverity.error);
+      _showSnack(
+        context.l10n.getString('auto_neUdalosUdalitOtzyv'),
+        severity: MessageSeverity.error,
+      );
     }
   }
 

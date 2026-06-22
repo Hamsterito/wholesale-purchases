@@ -3075,25 +3075,27 @@ class ApiService {
       );
       return orders.where((o) {
         final s = o.status.trim().toLowerCase();
-        // AppLocalizations.current.getString('auto_prinyat') покупателем = заказ закрыт для поставщика
-        final isDone =
-            s == AppLocalizations.current.getString('auto_dostavlen') ||
-            s == AppLocalizations.current.getString('auto_polucheno') ||
-            s == 'delivered' ||
-            s == AppLocalizations.current.getString('auto_prinyat_1') ||
-            s == AppLocalizations.current.getString('auto_prinyata') ||
-            s == AppLocalizations.current.getString('auto_prinyato') ||
-            s == AppLocalizations.current.getString('auto_prinyaty') ||
+        // Пользователь просил, чтобы бейдж показывался ТОЛЬКО для новых заказов
+        // ("первое уведомление только о том что он пришел").
+        // Если заказ перешел в стадию "Собирается", "В пути", "Доставлен" или завершен,
+        // считать его не нужно.
+        final isNewStatus =
+            s == AppLocalizations.current.getString('auto_prinyat_1').toLowerCase() ||
+            s == AppLocalizations.current.getString('auto_prinyata').toLowerCase() ||
+            s == AppLocalizations.current.getString('auto_prinyato').toLowerCase() ||
+            s == AppLocalizations.current.getString('auto_prinyaty').toLowerCase() ||
             s == 'accepted' ||
             s == 'received' ||
-            s == AppLocalizations.current.getString('auto_zaversheno') ||
-            s == 'completed';
-        final isCancelled =
-            s.contains(AppLocalizations.current.getString('auto_otmena')) ||
-            s == 'cancelled' ||
-            s == AppLocalizations.current.getString('auto_otmenn') ||
-            s == AppLocalizations.current.getString('auto_otmenen');
-        return !isDone && !isCancelled;
+            s == 'принят' ||
+            s == 'создан' ||
+            s == 'pending' ||
+            s == 'new';
+            
+        // При создании заказа статус "Принят", и при завершении (когда покупатель нажал "Принять") статус тоже "Принят".
+        // Отличить их можно по isReceived у товаров. Если товары получены, значит заказ завершен.
+        final isFinished = o.receivedItemsCount > 0;
+        
+        return isNewStatus && !isFinished;
       }).length;
     } catch (_) {
       return 0;

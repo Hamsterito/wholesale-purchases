@@ -89,12 +89,14 @@ class ModerationAlertService extends ChangeNotifier {
 class ModerationAlertInfo {
   final int id;
   final String productName;
+  final String productNameKk;
   final String reason;
   final DateTime? createdAt;
 
   ModerationAlertInfo({
     required this.id,
     required this.productName,
+    required this.productNameKk,
     required this.reason,
     this.createdAt,
   });
@@ -103,6 +105,7 @@ class ModerationAlertInfo {
     return ModerationAlertInfo(
       id: int.tryParse(json['id'].toString()) ?? 0,
       productName: json['productName'] ?? '',
+      productNameKk: json['productNameKk'] ?? '',
       reason: json['reason'] ?? '',
       createdAt: json['createdAt'] != null ? DateTime.tryParse(json['createdAt']) : null,
     );

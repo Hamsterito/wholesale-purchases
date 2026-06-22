@@ -134,7 +134,7 @@ Future<void> _sendVerificationEmail(String toEmail, String code) async {
     ..recipients.add(toEmail)
     ..subject = 'Код подтверждения почты'
     ..text =
-        'Ваш код подтверждения: $code\nКод действителен $_emailVerificationOtpTtlMinutes минут.';
+        'Ваш код подтверждения: $code\nСпасибо, что вы используете наше приложение!';
 
   try {
     final sendReport = await send(message, smtpServer);

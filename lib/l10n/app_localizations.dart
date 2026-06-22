@@ -2471,7 +2471,7 @@ abstract class AppLocalizations {
   /// Минимальное количество заказанного товара
   ///
   /// In ru, this message translates to:
-  /// **'Минимум: {count} шт.'**
+  /// **'Мин: {count} шт.'**
   String cart_min_quantity(int count);
 
   /// Суффикс количества товара
@@ -3809,7 +3809,7 @@ abstract class AppLocalizations {
   /// Auto-extracted
   ///
   /// In ru, this message translates to:
-  /// **'Двухфакторная\\nаутентификация'**
+  /// **'Двухфакторная\nаутентификация'**
   String get auto_dvukhfaktornaya_nautentifikatsiya;
 
   /// Auto-extracted
@@ -9309,7 +9309,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_podklyucheniePaypalPoka.
   ///
   /// In ru, this message translates to:
-  /// **'Подключение PayPal пока недоступно.\\nВыберите карту или наличные.'**
+  /// **'Подключение PayPal пока недоступно.\nВыберите карту или наличные.'**
   String get auto_podklyucheniePaypalPoka;
 
   /// No description provided for @auto_netSposobaOplaty.
@@ -9321,7 +9321,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_pozhaluystaVyberiteSpos.
   ///
   /// In ru, this message translates to:
-  /// **'Пожалуйста, выберите способ\\nоплаты'**
+  /// **'Пожалуйста, выберите способ\nоплаты'**
   String get auto_pozhaluystaVyberiteSpos;
 
   /// No description provided for @auto_udalitKartu.
@@ -9645,7 +9645,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_sohraniteIhVNadyozhnom.
   ///
   /// In ru, this message translates to:
-  /// **'Сохраните их в надёжном месте - каждый код можно использовать только один раз.\\n'**
+  /// **'Сохраните их в надёжном месте - каждый код можно использовать только один раз.\n'**
   String get auto_sohraniteIhVNadyozhnom;
 
   /// No description provided for @auto_kodySkopirovanyVBufer.
@@ -10488,18 +10488,6 @@ abstract class AppLocalizations {
   /// **'Характеристики товара'**
   String get auto_harakteristikiTovara;
 
-  /// No description provided for @auto_nazvanie.
-  ///
-  /// In ru, this message translates to:
-  /// **'Название'**
-  String get auto_nazvanie;
-
-  /// No description provided for @auto_znachenie.
-  ///
-  /// In ru, this message translates to:
-  /// **'Значение'**
-  String get auto_znachenie;
-
   /// No description provided for @auto_udalitHarakteristiku.
   ///
   /// In ru, this message translates to:
@@ -11201,6 +11189,66 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Заполняйте поля на любом удобном языке - перевод выполнится автоматически, и его можно изменить вручную.'**
   String get auto_zapolnyaytePoly;
+
+  /// No description provided for @auto_nazvanie.
+  ///
+  /// In ru, this message translates to:
+  /// **'Название'**
+  String get auto_nazvanie;
+
+  /// No description provided for @auto_znachenie.
+  ///
+  /// In ru, this message translates to:
+  /// **'Значение'**
+  String get auto_znachenie;
+
+  /// No description provided for @auto_nazvanieHarakteristiki.
+  ///
+  /// In ru, this message translates to:
+  /// **'Название характеристики'**
+  String get auto_nazvanieHarakteristiki;
+
+  /// No description provided for @auto_znachenieHarakteristik.
+  ///
+  /// In ru, this message translates to:
+  /// **'Значение характеристики'**
+  String get auto_znachenieHarakteristik;
+
+  /// No description provided for @auto_gotovo_1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Готово'**
+  String get auto_gotovo_1;
+
+  /// No description provided for @auto_avtoperevod.
+  ///
+  /// In ru, this message translates to:
+  /// **'Автоперевод'**
+  String get auto_avtoperevod;
+
+  /// No description provided for @auto_perevod.
+  ///
+  /// In ru, this message translates to:
+  /// **'Перевод'**
+  String get auto_perevod;
+
+  /// No description provided for @auto_dobavitPerevod.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить перевод'**
+  String get auto_dobavitPerevod;
+
+  /// No description provided for @auto_yaNeSoglasenSUdaleniemT.
+  ///
+  /// In ru, this message translates to:
+  /// **'Я не согласен с удалением товара:'**
+  String get auto_yaNeSoglasenSUdaleniemT;
+
+  /// No description provided for @auto_tovar_name_fallback.
+  ///
+  /// In ru, this message translates to:
+  /// **'Товар'**
+  String get auto_tovar_name_fallback;
 }
 
 class _AppLocalizationsDelegate

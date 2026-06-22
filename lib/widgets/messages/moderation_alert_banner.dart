@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/theme/app_color_palette.dart';
 import 'package:flutter_project/services/moderation_alert_service.dart';
 import 'package:flutter_project/services/localization/app_localizations.dart';
+import 'package:flutter_project/services/localization/localization_extension.dart';
+import 'package:flutter_project/models/language.dart';
 import 'moderation_alert_dialog.dart';
 
 class ModerationAlertBanner extends StatelessWidget {
@@ -24,7 +26,11 @@ class ModerationAlertBanner extends StatelessWidget {
     
     final l10n = AppLocalizations.of(context);
     final String title = alerts.length == 1
-        ? l10n.getString('moderation_alert_one_product_deleted', params: {'productName': alerts.first.productName})
+        ? l10n.getString('moderation_alert_one_product_deleted', params: {
+            'productName': context.currentLanguage == LanguageCode.kazakh && alerts.first.productNameKk.isNotEmpty
+                ? alerts.first.productNameKk
+                : alerts.first.productName
+          })
         : l10n.getString('moderation_alert_multiple_products_deleted', params: {'count': alerts.length});
 
     return Container(
