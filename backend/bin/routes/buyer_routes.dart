@@ -645,6 +645,17 @@ void _registerBuyerOrderRoutes(Router router, Connection connection) {
           headers: _utf8TextHeaders,
         );
       }
+
+      final normalizedStatus = _normalizeSupplierOrderStatus(currentStatus);
+      if (normalizedStatus == _supplierOrderStatusInTransit ||
+          normalizedStatus == _supplierOrderStatusDelivered) {
+        return Response(
+          409,
+          body: "Нельзя отменить заказ, когда он в пути или доставлен",
+          headers: _utf8TextHeaders,
+        );
+      }
+
       if (_isCancelledOrderStatus(currentStatus)) {
         return Response(
           409,
@@ -1054,6 +1065,8 @@ void _registerBuyerExportRoute(Router router, Connection connection) {
 
       final startDateRawDt = _toNullableDateTime(startDateRaw);
       final endDateRawDt = _toNullableDateTime(endDateRaw);
+      final currencyCode = (payload['currencyCode'] ?? 'KZT').toString();
+      final currencySymbol = (payload['currencySymbol'] ?? '₸').toString();
 
       if (startDateRawDt == null || endDateRawDt == null) {
         return _jsonError('Неверный формат дат', 400);
@@ -1116,16 +1129,27 @@ void _registerBuyerExportRoute(Router router, Connection connection) {
         },
       );
 
+      double rate = 1.0;
+      if (currencyCode != 'KZT') {
+        final rateResult = await connection.execute(
+          Sql.named('SELECT rate FROM public.exchange_rates WHERE currency_code = @code'),
+          parameters: {'code': currencyCode},
+        );
+        if (rateResult.isNotEmpty) {
+          rate = double.tryParse(rateResult.first.toColumnMap()['rate'].toString()) ?? 1.0;
+        }
+      }
+
       final excel = Excel.createExcel();
       final sheet = excel['Orders'];
 
-      const headers = <String>[
+      final headers = <String>[
         'ID заказа',
         'Поставщик',
         'Товар',
         'Количество',
-        'Цена',
-        'Сумма',
+        'Цена, $currencySymbol',
+        'Сумма, $currencySymbol',
         'Дата',
         'Статус',
       ];
@@ -1148,6 +1172,12 @@ void _registerBuyerExportRoute(Router router, Connection connection) {
         final price = _toPositiveInt(row['price']);
         final quantity = _toPositiveInt(row['quantity'], fallback: 1);
         final total = price * quantity;
+        
+        final convertedPrice = (price * rate).round();
+        final convertedTotal = (total * rate).round();
+        final priceStr = '$convertedPrice $currencySymbol';
+        final totalStr = '$convertedTotal $currencySymbol';
+
         final orderDate = row['order_date'];
         final orderStatus = row['order_status'] ?? '';
 
@@ -1190,15 +1220,15 @@ void _registerBuyerExportRoute(Router router, Connection connection) {
             .cell(
               CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: rowIndex),
             )
-            .value = IntCellValue(
-          price,
+            .value = TextCellValue(
+          priceStr,
         );
         sheet
             .cell(
               CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: rowIndex),
             )
-            .value = IntCellValue(
-          total,
+            .value = TextCellValue(
+          totalStr,
         );
         sheet
             .cell(

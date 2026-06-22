@@ -66,7 +66,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get common_confirm => 'Растау';
 
   @override
-  String get common_unit_short => 'дана.';
+  String get common_unit_short => 'дана';
 
   @override
   String get auth_login_title => 'Тіркелгіге кіру';
@@ -581,7 +581,7 @@ class AppLocalizationsKk extends AppLocalizations {
       'Сатып алушының растауын күтеді';
 
   @override
-  String get units_count_short => 'дана.';
+  String get units_count_short => 'дана';
 
   @override
   String get items_count_short => 'дана';
@@ -1011,7 +1011,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get zakazi_month_december => 'желтоқсан';
 
   @override
-  String get zakazi_quantity_short => 'дана.';
+  String get zakazi_quantity_short => 'дана';
 
   @override
   String get zakazi_accepted_label => 'Алынды';
@@ -1085,7 +1085,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get zakazi_order_cancelled => 'Тапсырыс жойылды.';
 
   @override
-  String get cart_item_removed => 'Өнім жойылды';
+  String get cart_item_removed => 'Себеттен жойылды';
 
   @override
   String get cart_undo_remove => 'Бас тарту';
@@ -1097,7 +1097,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get cart_confirm_row_amount => 'Сомасы';
 
   @override
-  String get cart_confirm_row_units => 'Дана.';
+  String get cart_confirm_row_units => 'дана';
 
   @override
   String get cart_confirm_row_payment => 'Төлем';
@@ -1261,7 +1261,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String cart_total_summary(int units, int positions) {
-    return 'Дана.: $units Позиция: $positions';
+    return 'дана: $units Позиция: $positions';
   }
 
   @override
@@ -1277,7 +1277,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String cart_supplier_info(int units, int positions) {
-    return 'Дана.: $units * Позиция: $positions';
+    return 'дана: $units * Позиция: $positions';
   }
 
   @override
@@ -1287,22 +1287,22 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String cart_min_quantity(int count) {
-    return 'Минимум: $count дана.';
+    return 'Минимум: $count дана';
   }
 
   @override
   String cart_quantity_suffix(int count) {
-    return '$count дана.';
+    return '$count дана';
   }
 
   @override
   String cart_pay_all_details(int units) {
-    return '· $units дана.';
+    return '· $units дана';
   }
 
   @override
   String cart_summary_item(int name, int quantity) {
-    return '$name - $quantity дана.';
+    return '$name - $quantity дана';
   }
 
   @override
@@ -1492,14 +1492,14 @@ class AppLocalizationsKk extends AppLocalizations {
   String get templates_sheet_position_short => 'дана';
 
   @override
-  String get templates_sheet_unit_short => 'дана.';
+  String get templates_sheet_unit_short => 'дана';
 
   @override
   String get templates_sheet_hide => 'Жасыру';
 
   @override
   String product_card_quantity(int count) {
-    return '$count дана.';
+    return '$count дана';
   }
 
   @override
@@ -1536,7 +1536,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get supplier_select => 'Таңдау';
 
   @override
-  String get supplier_unit_short => 'дана.';
+  String get supplier_unit_short => 'дана';
 
   @override
   String get supplier_delivery_default => 'Жеткізу';
@@ -1759,7 +1759,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String product_added_to_cart_msg(String name, int qty) {
-    return 'Себетке қосылды: $name -$qty дана.';
+    return 'Себетке қосылды: $name - $qty дана';
   }
 
   @override
@@ -3541,7 +3541,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String product_in_stock(Object count) {
-    return 'Қолда бар: $count дана.';
+    return 'Қолда бар: $count дана';
   }
 
   @override
@@ -3556,7 +3556,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String order_history_items_count(Object count) {
-    return '$count дана.';
+    return '$count дана';
   }
 
   @override
@@ -3566,7 +3566,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String order_history_received_items(Object received, Object total) {
-    return '$received/$total дана.';
+    return '$received/$total дана';
   }
 
   @override
@@ -3633,7 +3633,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String zakazi_quantity(Object count) {
-    return '$count дана.';
+    return '$count дана';
   }
 
   @override
@@ -3693,12 +3693,12 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String moderation_from_min_qty(Object min) {
-    return 'Бастап $min дана.';
+    return 'Бастап $min дана';
   }
 
   @override
   String moderation_qty_range(Object max, Object min) {
-    return '$min-$max дана.';
+    return '$min-$max дана';
   }
 
   @override
@@ -3708,12 +3708,12 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String moderation_stock_quantity(Object count) {
-    return 'Қалдық: $count дана.';
+    return 'Қалдық: $count дана';
   }
 
   @override
   String moderation_price_per_unit(Object price) {
-    return '$price  бірлік үшін';
+    return '$price бірлік үшін';
   }
 
   @override
@@ -4156,7 +4156,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String product_card_added_to_cart(String name, int count) {
-    return 'Себетке қосылды: $name -$count дана.';
+    return 'Себетке қосылды: $name - $count дана';
   }
 
   @override
@@ -4318,12 +4318,12 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String supplier_products_stock_quantity(int count) {
-    return '$count дана.';
+    return '$count дана';
   }
 
   @override
   String supplier_products_min_quantity(int count) {
-    return '$count дана.';
+    return '$count дана';
   }
 
   @override
@@ -4748,7 +4748,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get auto_filtry => 'Сүзгілер';
 
   @override
-  String get auto_tsenaZaSht => 'Дана бағасы.';
+  String get auto_tsenaZaSht => 'Дана бағасы';
 
   @override
   String get auto_ot => 'бастап';
@@ -6119,4 +6119,8 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get auto_temperaturaHraneniya => 'Сақтау температурасы';
+
+  @override
+  String get auto_zapolnyaytePoly =>
+      'Өрістерді кез келген ыңғайлы тілде толтырыңыз - аударма автоматты түрде жасалады, оны қолмен өзгертуге болады.';
 }

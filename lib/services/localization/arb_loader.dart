@@ -42,11 +42,6 @@ class ArbLoader {
           continue;
         }
 
-        // Пропускаем описания (ключи, заканчивающиеся на _description)
-        if (key.endsWith('_description')) {
-          continue;
-        }
-
         // Добавляем только строковые значения
         if (value is String) {
           translations[key] = value;

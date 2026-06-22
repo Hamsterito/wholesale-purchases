@@ -129,13 +129,16 @@ class _ReviewsPageState extends State<ReviewsPage> {
               ),
             ),
 
-          SafeArea(
-            child: Column(
-              children: [
-                _buildHeader(context),
-                Expanded(child: _buildContent()),
-              ],
-            ),
+          Column(
+            children: [
+              _buildHeader(context),
+              Expanded(
+                child: SafeArea(
+                  top: false,
+                  child: _buildContent(),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -146,7 +149,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
 
   Widget _buildHeader(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
+      padding: EdgeInsets.fromLTRB(12, MediaQuery.paddingOf(context).top + 12, 16, 12),
       decoration: BoxDecoration(
         color: context.colorPalette.card,
         borderRadius: BorderRadius.zero,

@@ -209,7 +209,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
     final tabs = <String>[context.l10n.getString('auto_vse_1')];
     final seen = <String>{};
     for (final product in products) {
-      for (final cat in product.categories) {
+      for (final cat in product.localizedCategories(context)) {
         final key = cat.trim();
         if (key.isNotEmpty && seen.add(key.toLowerCase())) {
           tabs.add(key);
@@ -687,7 +687,7 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
   bool _matchesCategory(Product product, int tabIndex) {
     if (tabIndex <= 0 || tabIndex >= _tabs.length) return true;
     final selected = _tabs[tabIndex].trim().toLowerCase();
-    return product.categories.any(
+    return product.localizedCategories(context).any(
       (cat) => cat.trim().toLowerCase() == selected,
     );
   }
@@ -703,7 +703,9 @@ class _SupplierProfilePageState extends State<SupplierProfilePage> {
         ..write(' ')
         ..write(product.description)
         ..write(' ')
-        ..write(product.descriptionKk);
+        ..write(product.descriptionKk)
+        ..write(' ')
+        ..write(product.categoryKk);
       for (final cat in product.categories) {
         buffer
           ..write(' ')

@@ -190,13 +190,16 @@ class _QuestionsPageState extends State<QuestionsPage> {
                 ),
               ),
             ),
-          SafeArea(
-            child: Column(
-              children: [
-                _buildHeader(context, palette),
-                Expanded(child: _buildBody(palette)),
-              ],
-            ),
+          Column(
+            children: [
+              _buildHeader(context, palette),
+              Expanded(
+                child: SafeArea(
+                  top: false,
+                  child: _buildBody(palette),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -215,7 +218,7 @@ floatingActionButton: FloatingActionButton.extended(
 
   Widget _buildHeader(BuildContext context, AppColorPalette palette) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
+      padding: EdgeInsets.fromLTRB(12, MediaQuery.paddingOf(context).top + 12, 16, 12),
       decoration: BoxDecoration(
         color: palette.card,
         borderRadius: BorderRadius.zero,

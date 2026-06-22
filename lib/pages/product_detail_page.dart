@@ -595,7 +595,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                       icon: _isFavorite
                           ? Icons.favorite
                           : Icons.favorite_border,
-                      iconColor: _isFavorite ? _palette.error : null,
                       onTap: () {
                         final added = _favoritesStore.toggle(widget.product);
                         setState(() {
@@ -974,11 +973,11 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     outer:
     for (final section in sections) {
       for (final item in section.items) {
-        if (item.key.isEmpty) {
+        if (item.primaryKey.isEmpty) {
           // Раздел «Состав»: значение само по себе достаточно информативно.
-          parts.add(item.value);
+          parts.add(item.primaryValue);
         } else {
-          parts.add('${item.key} — ${item.value}');
+          parts.add('${item.primaryKey} - ${item.primaryValue}');
         }
         if (parts.length >= 4) break outer;
       }
@@ -1174,7 +1173,9 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     final isAdded = (_supplierAdded[supplier.id] ?? false) && isAvailable;
     const outOfStockButtonWidth = 164.0;
     const outOfStockButtonHeight = 57.0;
-    final barColor = !isAvailable ? _palette.muted : _palette.accent;
+    final barColor = !isAvailable
+        ? _palette.muted
+        : (isAdded ? _palette.success : _palette.accent);
     final accentColor = barColor;
 
     return ThumbZoneBuilder(
@@ -1206,98 +1207,63 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
             child: Row(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      context.l10n.productPricePerUnit(
-                        context.formatCurrency(
-                          supplier.pricePerUnit.toDouble(),
-                          decimalDigits: 0,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        context.l10n.productPricePerUnit(
+                          context.formatCurrency(
+                            supplier.pricePerUnit.toDouble(),
+                            decimalDigits: 0,
+                          ),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
                         ),
                       ),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
+                      const SizedBox(height: 2),
+                      Text(
+                        isAvailable
+                            ? context.l10n.getString('cart_min_quantity', params: {'count': supplier.minQuantity})
+                            : context.l10n.getString('auto_netVNalichii'),
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Colors.white.withValues(alpha: 0.8),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      isAvailable
-                          ? context.l10n.getString('cart_min_quantity', params: {'count': supplier.minQuantity})
-                          : context.l10n.getString('auto_netVNalichii'),
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: Colors.white.withValues(alpha: 0.8),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Center(
-                    child: isAvailable
-                        ? AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 700),
-                            switchOutCurve: const Interval(
-                              0.0,
-                              0.3,
-                              curve: Curves.easeIn,
-                            ),
-                            switchInCurve: const Interval(
-                              0.7,
-                              1.0,
-                              curve: Curves.easeOut,
-                            ),
-                            transitionBuilder: (child, animation) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child: ScaleTransition(
-                                  scale: Tween<double>(
-                                    begin: 0.7,
-                                    end: 1.0,
-                                  ).animate(animation),
-                                  child: RotationTransition(
-                                    turns: Tween<double>(
-                                      begin: -0.05,
-                                      end: 0.0,
-                                    ).animate(animation),
-                                    child: child,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Icon(
-                              isAdded ? Icons.close : Icons.check,
-                              key: ValueKey<bool>(isAdded),
-                              size: 20,
-                              color: Colors.white,
-                            ),
-                          )
-                        : SizedBox(
-                            width: outOfStockButtonWidth,
-                            height: outOfStockButtonHeight,
-                            child: Center(
-                              child: Text(
-                                context.l10n.getString('auto_netVNalichii'),
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
+                    ],
                   ),
                 ),
-                if (isAvailable) ...[
-                  const SizedBox(width: 12),
+                const SizedBox(width: 4),
+                if (!isAvailable)
+                  SizedBox(
+                    width: outOfStockButtonWidth,
+                    height: outOfStockButtonHeight,
+                    child: Center(
+                      child: Text(
+                        context.l10n.getString('auto_netVNalichii'),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  )
+                else ...[
+                  const SizedBox(width: 8),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
+                      horizontal: 6,
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
@@ -1310,14 +1276,14 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                           icon: Icons.remove,
                           onPressed: () => _updateQuantity(supplier.id, -1),
                         ),
-                        const SizedBox(width: 6),
+                        const SizedBox(width: 4),
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
                               context.formatCurrency(totalPrice.toDouble(), decimalDigits: 0),
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: accentColor,
                               ),
@@ -1325,11 +1291,11 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                             const SizedBox(height: 2),
                             Text(
                               context.l10n.getString('cart_quantity_suffix', params: {'count': quantity}),
-                              style: TextStyle(fontSize: 13, color: _mutedText),
+                              style: TextStyle(fontSize: 11, color: _mutedText),
                             ),
                           ],
                         ),
-                        const SizedBox(width: 6),
+                        const SizedBox(width: 4),
                         _HoldRepeatIconButton(
                           icon: Icons.add,
                           onPressed: () => _updateQuantity(supplier.id, 1),
@@ -1869,7 +1835,7 @@ class _CharacteristicSectionView extends StatelessWidget {
     );
   }
 
-  Widget _buildItem(AppColorPalette palette, MapEntry<String, String> item) {
+  Widget _buildItem(AppColorPalette palette, CharacteristicItem item) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -1878,7 +1844,7 @@ class _CharacteristicSectionView extends StatelessWidget {
           Expanded(
             flex: 5,
             child: Text(
-              item.key,
+              item.primaryKey,
               style: TextStyle(fontSize: 14, color: palette.muted),
             ),
           ),
@@ -1886,7 +1852,7 @@ class _CharacteristicSectionView extends StatelessWidget {
           Expanded(
             flex: 6,
             child: Text(
-              item.value,
+              item.primaryValue,
               textAlign: TextAlign.right,
               style: TextStyle(fontSize: 14, color: palette.ink),
             ),
@@ -2211,9 +2177,9 @@ class _HoldRepeatIconButtonState extends State<_HoldRepeatIconButton> {
       onLongPressEnd: (_) => _stopRepeat(),
       onLongPressCancel: _stopRepeat,
       child: IconButton(
-        icon: Icon(widget.icon, size: 18),
+        icon: Icon(widget.icon, size: 16),
         onPressed: widget.onPressed,
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.all(2),
         constraints: const BoxConstraints(),
       ),
     );

@@ -443,29 +443,38 @@ class _MyAddressesPageState extends State<MyAddressesPage> {
               ),
               const SizedBox(width: 8),
               Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  IconButton(
-                    onPressed: onEdit,
-                    icon: Icon(
-                      Icons.edit_outlined,
-                      color: context.colorPalette.accent,
-                      size: 20,
+                  Tooltip(
+                    message: context.l10n.getString('auto_redaktirovat'),
+                    child: InkWell(
+                      onTap: onEdit,
+                      borderRadius: BorderRadius.circular(6),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Icon(
+                          Icons.edit_outlined,
+                          color: context.colorPalette.accent,
+                          size: 20,
+                        ),
+                      ),
                     ),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    tooltip: context.l10n.getString('auto_redaktirovat'),
                   ),
-                  const SizedBox(width: 12),
-                  IconButton(
-                    onPressed: onDelete,
-                    icon: Icon(
-                      Icons.delete_outline,
-                      color: context.colorPalette.accent,
-                      size: 20,
+                  const SizedBox(width: 4),
+                  Tooltip(
+                    message: context.l10n.getString('auto_udalit'),
+                    child: InkWell(
+                      onTap: onDelete,
+                      borderRadius: BorderRadius.circular(6),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Icon(
+                          Icons.delete_outline,
+                          color: context.colorPalette.accent,
+                          size: 20,
+                        ),
+                      ),
                     ),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    tooltip: context.l10n.getString('auto_udalit'),
                   ),
                 ],
               ),

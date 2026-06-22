@@ -39,6 +39,9 @@ void _registerMutationRoutes(Router router, Connection connection) {
   _registerBuyerQuestionRoute(router, connection);
   _registerSupplierQuestionAnswerRoute(router, connection);
   _registerSupplierReviewResponseRoutes(router, connection);
+
+  // Уведомления поставщика об удалении товаров
+  _registerSupplierModerationDeletionRoutes(router, connection);
 }
 
 void _registerReadRoutes(Router router, Connection connection) {

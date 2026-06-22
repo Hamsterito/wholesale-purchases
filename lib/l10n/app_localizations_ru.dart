@@ -1085,7 +1085,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get zakazi_order_cancelled => 'Заказ отменён.';
 
   @override
-  String get cart_item_removed => 'Товар удалён';
+  String get cart_item_removed => 'Удален из корзины';
 
   @override
   String get cart_undo_remove => 'Отменить';
@@ -1754,7 +1754,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String product_added_to_cart_msg(String name, int qty) {
-    return 'Добавлено в корзину: $name -$qty шт.';
+    return 'Добавлено в корзину: $name - $qty шт.';
   }
 
   @override
@@ -4165,7 +4165,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String product_card_added_to_cart(String name, int count) {
-    return 'Добавлено в корзину: $name -$count шт.';
+    return 'Добавлено в корзину: $name - $count шт.';
   }
 
   @override
@@ -6122,4 +6122,8 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_temperaturaHraneniya => 'Температура хранения';
+
+  @override
+  String get auto_zapolnyaytePoly =>
+      'Заполняйте поля на любом удобном языке - перевод выполнится автоматически, и его можно изменить вручную.';
 }

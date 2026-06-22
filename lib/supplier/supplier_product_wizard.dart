@@ -163,6 +163,8 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     return roundedToScale >= _numeric10Scale2Bound;
   }
 
+  String? _currentLocale;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -172,9 +174,12 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         _countryController.text = product.characteristics[_kCountryKey] ?? '';
         _shelfLifeController.text = product.characteristics[_kShelfLifeKey] ?? '';
       }
-      final locale = Localizations.localeOf(context).languageCode;
-      _loadPresetCategories(locale);
       _isInit = true;
+    }
+    final locale = Localizations.localeOf(context).languageCode;
+    if (_currentLocale != locale) {
+      _currentLocale = locale;
+      _loadPresetCategories(locale);
     }
   }
 
@@ -625,11 +630,18 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
 
     // Отдельная проверка характеристик: «Сохранить» можно нажать с шага 3
     // (фото), а ошибка на шаге 2 должна вернуть пользователя к ней.
-    final country = _countryController.text.trim();
-    final shelfLife = _shelfLifeController.text.trim();
+    final isKk = Localizations.localeOf(context).languageCode == 'kk';
+
+    final countryRaw = _countryController.text.trim();
+    final shelfLifeRaw = _shelfLifeController.text.trim();
+    
+    // Подготовка переводов обязательных характеристик для валидации
+    final countryRu = isKk && countryRaw.isNotEmpty ? await YandexTranslateService.translateToRussian(countryRaw) : countryRaw;
+    final shelfLifeRu = isKk && shelfLifeRaw.isNotEmpty ? await YandexTranslateService.translateToRussian(shelfLifeRaw) : shelfLifeRaw;
+
     final starter = <String, String>{
-      if (country.isNotEmpty) _kCountryKey: country,
-      if (shelfLife.isNotEmpty) _kShelfLifeKey: shelfLife,
+      if (countryRu.isNotEmpty) _kCountryKey: countryRu,
+      if (shelfLifeRu.isNotEmpty) _kShelfLifeKey: shelfLifeRu,
     };
     final drafts = _customCharacteristics
         .map((d) => (name: d.name, value: d.value))
@@ -645,7 +657,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       return;
     }
 
-    final categories = _selectedCategories.toList(growable: false);
+    final rawCategories = _selectedCategories.toList(growable: false);
     final price = int.tryParse(_priceController.text.trim()) ?? 0;
     final minQuantity = int.tryParse(_minController.text.trim()) ?? 1;
     final stockQuantity = int.tryParse(_stockController.text.trim()) ?? 0;
@@ -668,9 +680,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           .where((item) => item.isNotEmpty && _isDisplayableImagePath(item)),
     ).toList(growable: false);
 
-    // Подготовка переводов
-    final isKk = Localizations.localeOf(context).languageCode == 'kk';
-    
+    // Подготовка остальных переводов
     String nameKk = _nameKkController.text.trim();
     String nameRu = _nameController.text.trim();
     if (nameKk.isEmpty && nameRu.isNotEmpty) {
@@ -678,7 +688,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     } else if (nameRu.isEmpty && nameKk.isNotEmpty) {
       nameRu = await YandexTranslateService.translateToRussian(nameKk);
     }
-    
+
     String descriptionKk = _descriptionKkController.text.trim();
     String descriptionRu = _descriptionController.text.trim();
     if (descriptionKk.isEmpty && descriptionRu.isNotEmpty) {
@@ -686,7 +696,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     } else if (descriptionRu.isEmpty && descriptionKk.isNotEmpty) {
       descriptionRu = await YandexTranslateService.translateToRussian(descriptionKk);
     }
-    
+
     String ingredientsKk = _ingredientsKkController.text.trim();
     String ingredientsRu = _ingredientsController.text.trim();
     if (ingredientsKk.isEmpty && ingredientsRu.isNotEmpty) {
@@ -694,16 +704,47 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     } else if (ingredientsRu.isEmpty && ingredientsKk.isNotEmpty) {
       ingredientsRu = await YandexTranslateService.translateToRussian(ingredientsKk);
     }
-    
-    String categoryKk = '';
-    if (categories.isNotEmpty) {
-      categoryKk = isKk 
-          ? await YandexTranslateService.translateToRussian(categories.join(', '))
-          : await YandexTranslateService.translateToKazakh(categories.join(', '));
+
+    List<String> finalCategories = [];
+    String finalCategoryKk = '';
+    if (rawCategories.isNotEmpty) {
+      if (isKk) {
+        finalCategoryKk = rawCategories.join(', ');
+        String ruText = await YandexTranslateService.translateToRussian(finalCategoryKk);
+        finalCategories = ruText.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
+      } else {
+        finalCategories = rawCategories;
+        finalCategoryKk = await YandexTranslateService.translateToKazakh(rawCategories.join(', '));
+      }
     }
-    Map<String, String> characteristicsKk = isKk 
-        ? await YandexTranslateService.translateMapToRussian(characteristics)
-        : await YandexTranslateService.translateMapToKazakh(characteristics);
+
+    Map<String, String> finalCharacteristicsKk = {};
+    for (final entry in characteristics.entries) {
+      final key = entry.key;
+      final valueRu = entry.value;
+
+      if (key == _kCountryKey) {
+        String keyKk = isKk ? key : await YandexTranslateService.translateToKazakh(key);
+        finalCharacteristicsKk[keyKk] = isKk ? countryRaw : await YandexTranslateService.translateToKazakh(valueRu);
+      } else if (key == _kShelfLifeKey) {
+        String keyKk = isKk ? key : await YandexTranslateService.translateToKazakh(key);
+        finalCharacteristicsKk[keyKk] = isKk ? shelfLifeRaw : await YandexTranslateService.translateToKazakh(valueRu);
+      } else {
+        final draft = _customCharacteristics.firstWhere(
+          (d) => d.name.trim() == key,
+          orElse: () => _CustomCharacteristicDraft(),
+        );
+        String keyKk = draft.nameKkCtrl.text.trim();
+        if (keyKk.isEmpty) {
+          keyKk = await YandexTranslateService.translateToKazakh(key);
+        }
+        String valKk = draft.valueKk.trim();
+        if (valKk.isEmpty) {
+          valKk = await YandexTranslateService.translateToKazakh(valueRu);
+        }
+        finalCharacteristicsKk[keyKk] = valKk;
+      }
+    }
 
     final result = SupplierProduct(
       id: widget.product?.id ?? '',
@@ -711,8 +752,8 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       nameKk: nameKk,
       description: descriptionRu,
       descriptionKk: descriptionKk,
-      categories: categories,
-      categoryKk: categoryKk,
+      categories: finalCategories,
+      categoryKk: finalCategoryKk,
       imageUrls: images,
       pricePerUnit: price,
       minQuantity: minQuantity,
@@ -727,7 +768,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
         carbohydrates: carbs,
       ),
       characteristics: characteristics,
-      characteristicsKk: characteristicsKk,
+      characteristicsKk: finalCharacteristicsKk,
       supplierName: widget.product?.supplierName ?? '',
       deliveryDate: deliverySchedule,
       deliveryBadge: deliverySchedule,
@@ -857,10 +898,10 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
 
   Widget _buildInfoStep() {
     final isKk = Localizations.localeOf(context).languageCode == 'kk';
-    
+
     final mainNameCtrl = isKk ? _nameKkController : _nameController;
     final transNameCtrl = isKk ? _nameController : _nameKkController;
-    
+
     final mainDescCtrl = isKk ? _descriptionKkController : _descriptionController;
     final transDescCtrl = isKk ? _descriptionController : _descriptionKkController;
 
@@ -872,18 +913,18 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
             child: Text(
-              'Заполняйте поля на любом удобном языке — перевод выполнится автоматически, и его можно изменить вручную.',
+              context.l10n.getString('auto_zapolnyaytePoly'),
               style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant),
             ),
           ),
           _buildField(
-            '${context.l10n.getString('auto_nazvanieTovara')} (${isKk ? 'KK' : 'RU'})', 
+            '${context.l10n.getString('auto_nazvanieTovara')} (${isKk ? 'KK' : 'RU'})',
             mainNameCtrl,
             onChanged: (text) => _handleAutoTranslate(
-              text: text, 
-              translationController: transNameCtrl, 
-              timer: _nameDebounce, 
-              onTimerUpdate: (t) => _nameDebounce = t, 
+              text: text,
+              translationController: transNameCtrl,
+              timer: _nameDebounce,
+              onTimerUpdate: (t) => _nameDebounce = t,
               onTranslateSuccess: () => setState(() => _nameKkAutoTranslated = true),
               translateToKk: !isKk,
             ),
@@ -896,24 +937,24 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             targetLanguage: isKk ? 'RU' : 'KK',
             onChanged: (_) => setState(() => _nameKkAutoTranslated = false),
             onRetranslate: () => _handleAutoTranslate(
-              text: mainNameCtrl.text, 
-              translationController: transNameCtrl, 
-              timer: _nameDebounce, 
-              onTimerUpdate: (t) => _nameDebounce = t, 
+              text: mainNameCtrl.text,
+              translationController: transNameCtrl,
+              timer: _nameDebounce,
+              onTimerUpdate: (t) => _nameDebounce = t,
               onTranslateSuccess: () => setState(() => _nameKkAutoTranslated = true),
               translateToKk: !isKk,
               force: true,
             ),
           ),
           _buildField(
-            '${context.l10n.getString('auto_opisanie_1')} (${isKk ? 'KK' : 'RU'})', 
-            mainDescCtrl, 
+            '${context.l10n.getString('auto_opisanie_1')} (${isKk ? 'KK' : 'RU'})',
+            mainDescCtrl,
             maxLines: 3,
             onChanged: (text) => _handleAutoTranslate(
-              text: text, 
-              translationController: transDescCtrl, 
-              timer: _descriptionDebounce, 
-              onTimerUpdate: (t) => _descriptionDebounce = t, 
+              text: text,
+              translationController: transDescCtrl,
+              timer: _descriptionDebounce,
+              onTimerUpdate: (t) => _descriptionDebounce = t,
               onTranslateSuccess: () => setState(() => _descriptionKkAutoTranslated = true),
               translateToKk: !isKk,
             ),
@@ -927,10 +968,10 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             targetLanguage: isKk ? 'RU' : 'KK',
             onChanged: (_) => setState(() => _descriptionKkAutoTranslated = false),
             onRetranslate: () => _handleAutoTranslate(
-              text: mainDescCtrl.text, 
-              translationController: transDescCtrl, 
-              timer: _descriptionDebounce, 
-              onTimerUpdate: (t) => _descriptionDebounce = t, 
+              text: mainDescCtrl.text,
+              translationController: transDescCtrl,
+              timer: _descriptionDebounce,
+              onTimerUpdate: (t) => _descriptionDebounce = t,
               onTranslateSuccess: () => setState(() => _descriptionKkAutoTranslated = true),
               translateToKk: !isKk,
               force: true,
@@ -995,14 +1036,14 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       child: Column(
         children: [
           _buildField(
-            '${context.l10n.getString('auto_sostav')} (${isKk ? 'KK' : 'RU'})', 
-            mainIngCtrl, 
+            '${context.l10n.getString('auto_sostav')} (${isKk ? 'KK' : 'RU'})',
+            mainIngCtrl,
             maxLines: 3,
             onChanged: (text) => _handleAutoTranslate(
-              text: text, 
-              translationController: transIngCtrl, 
-              timer: _ingredientsDebounce, 
-              onTimerUpdate: (t) => _ingredientsDebounce = t, 
+              text: text,
+              translationController: transIngCtrl,
+              timer: _ingredientsDebounce,
+              onTimerUpdate: (t) => _ingredientsDebounce = t,
               onTranslateSuccess: () => setState(() => _ingredientsKkAutoTranslated = true),
               translateToKk: !isKk,
             ),
@@ -1016,10 +1057,10 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
             targetLanguage: isKk ? 'RU' : 'KK',
             onChanged: (_) => setState(() => _ingredientsKkAutoTranslated = false),
             onRetranslate: () => _handleAutoTranslate(
-              text: mainIngCtrl.text, 
-              translationController: transIngCtrl, 
-              timer: _ingredientsDebounce, 
-              onTimerUpdate: (t) => _ingredientsDebounce = t, 
+              text: mainIngCtrl.text,
+              translationController: transIngCtrl,
+              timer: _ingredientsDebounce,
+              onTimerUpdate: (t) => _ingredientsDebounce = t,
               onTranslateSuccess: () => setState(() => _ingredientsKkAutoTranslated = true),
               translateToKk: !isKk,
               force: true,
@@ -1229,7 +1270,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                                   border: draft.isAutoTranslated ? null : Border.all(color: cs.outlineVariant),
                                 ),
                                 child: Text(
-                                  draft.isAutoTranslated ? 'Автоперевод ${isKk ? 'RU' : 'KK'}' : 'Перевод ${isKk ? 'RU' : 'KK'}',
+                                  draft.isAutoTranslated ? '${context.l10n.getString('auto_avtoperevod')} ${isKk ? 'RU' : 'KK'}' : '${context.l10n.getString('auto_perevod')} ${isKk ? 'RU' : 'KK'}',
                                   style: TextStyle(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w600,
@@ -1296,7 +1337,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
                               Icon(Icons.add, size: 16, color: palette.accent),
                               const SizedBox(width: 6),
                               Text(
-                                'Добавить перевод (${isKk ? 'RU' : 'KK'})',
+                                '${context.l10n.getString('auto_dobavitPerevod')} (${isKk ? 'RU' : 'KK'})',
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: palette.accent,
@@ -1337,7 +1378,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
   void _handleCharacteristicAutoTranslate(_CustomCharacteristicDraft draft, {bool force = false}) {
     draft.debounceTimer?.cancel();
     final isKk = Localizations.localeOf(context).languageCode == 'kk';
-    
+
     final mainNameCtrl = isKk ? draft.nameKkCtrl : draft.nameCtrl;
     final transNameCtrl = isKk ? draft.nameCtrl : draft.nameKkCtrl;
     final mainValueCtrl = isKk ? draft.valueKkCtrl : draft.valueCtrl;
@@ -1348,7 +1389,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
     if (nameText.isEmpty && valueText.isEmpty) {
       return;
     }
-    
+
     draft.debounceTimer = Timer(const Duration(milliseconds: 1000), () async {
       // Переводим только если оба поля перевода пустые
       if (force || (transNameCtrl.text.trim().isEmpty && transValueCtrl.text.trim().isEmpty)) {
@@ -1356,12 +1397,12 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
           String transName = '';
           String transValue = '';
           if (nameText.isNotEmpty) {
-            transName = !isKk 
+            transName = !isKk
                 ? await YandexTranslateService.translateToKazakh(nameText)
                 : await YandexTranslateService.translateToRussian(nameText);
           }
           if (valueText.isNotEmpty) {
-            transValue = !isKk 
+            transValue = !isKk
                 ? await YandexTranslateService.translateToKazakh(valueText)
                 : await YandexTranslateService.translateToRussian(valueText);
           }
@@ -2326,12 +2367,12 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       onTimerUpdate(null);
       return;
     }
-    
+
     final newTimer = Timer(const Duration(milliseconds: 1000), () async {
       // Переводим только если поле перевода еще пустое
       if (force || translationController.text.trim().isEmpty) {
         try {
-          final translated = translateToKk 
+          final translated = translateToKk
               ? await YandexTranslateService.translateToKazakh(text.trim())
               : await YandexTranslateService.translateToRussian(text.trim());
           if (translated.isNotEmpty && mounted) {
@@ -2588,9 +2629,9 @@ class _StepCard extends StatelessWidget {
 
 class _CustomCharacteristicDraft {
   _CustomCharacteristicDraft({
-    String name = '', 
-    String value = '', 
-    String nameKk = '', 
+    String name = '',
+    String value = '',
+    String nameKk = '',
     String valueKk = '',
   })
     : nameCtrl = TextEditingController(text: name),

@@ -311,7 +311,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isKeyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
+
     final gradientColors = _isDark
         ? [context.colorPalette.bgBottom, context.colorPalette.bgTop]
         : [context.colorPalette.accent, context.colorPalette.accentDark];
@@ -325,53 +325,58 @@ class _LoginPageState extends State<LoginPage> {
             colors: gradientColors,
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            if (!isKeyboardVisible)
-              Expanded(
-                child: Center(
-                  child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      AppLocalizations.current.getString('auto_voyti'),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+        child: CustomScrollView(
+          physics: const ClampingScrollPhysics(),
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              AppLocalizations.current.getString('auto_voyti'),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(height: 12),
+                            Text(
+                              AppLocalizations.current.getString('auto_zaydite_ili_zaregistriruytes'),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 16, color: Colors.white),
+                            ),
+                            Text(
+                              AppLocalizations.current.getString('auto_v_svoy_akkaunt'),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 16, color: Colors.white),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    SizedBox(height: 12),
-                    Text(
-                      AppLocalizations.current.getString('auto_zaydite_ili_zaregistriruytes'),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                  Container(
+                    key: const ValueKey('login_form'),
+                    decoration: BoxDecoration(
+                      color: _cardBg,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24),
+                      ),
                     ),
-                    Text(
-                      AppLocalizations.current.getString('auto_v_svoy_akkaunt'),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Flexible(
-              key: const ValueKey('login_form'),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: _cardBg,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(24),
-                  topRight: Radius.circular(24),
-                ),
-              ),
-              child: SafeArea(
-                top: false,
-                child: SingleChildScrollView(
-                  child: Padding(
+                    child: SafeArea(
+                      top: false,
+                      child: Padding(
                     padding: const EdgeInsets.all(32),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -447,56 +452,66 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(height: 16),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: Checkbox(
-                                    value: _rememberMe,
-                                    onChanged: (value) async {
-                                      final nextValue = value ?? false;
-                                      setState(() {
-                                        _rememberMe = nextValue;
-                                      });
-                                      if (!nextValue) {
-                                        await TemplatesStore.instance
-                                            .clearCache();
-                                        await AuthStorage.forget();
-                                      }
-                                    },
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
+                            Flexible(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Checkbox(
+                                      value: _rememberMe,
+                                      onChanged: (value) async {
+                                        final nextValue = value ?? false;
+                                        setState(() {
+                                          _rememberMe = nextValue;
+                                        });
+                                        if (!nextValue) {
+                                          await TemplatesStore.instance
+                                              .clearCache();
+                                          await AuthStorage.forget();
+                                        }
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  AppLocalizations.current.getString('auto_zapomnit_menya'),
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: _colorScheme.onSurface,
+                                  const SizedBox(width: 8),
+                                  Flexible(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 2),
+                                      child: Text(
+                                        AppLocalizations.current.getString('auto_zapomnit_menya'),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: _colorScheme.onSurface,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            GestureDetector(
-                              onTap: _navigateToForgotPassword,
-                              behavior: HitTestBehavior.opaque,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 4),
-                                child: Text(
-                                  AppLocalizations.current.getString('auto_zabyli_parol'),
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: _colorScheme.onSurface,
-                                    fontWeight: FontWeight.w500,
+                            const SizedBox(width: 8),
+                            Flexible(
+                              child: GestureDetector(
+                                onTap: _navigateToForgotPassword,
+                                behavior: HitTestBehavior.opaque,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 2),
+                                  child: Text(
+                                    AppLocalizations.current.getString('auto_zabyli_parol'),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: _colorScheme.onSurface,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    textAlign: TextAlign.end,
                                   ),
-                                  textAlign: TextAlign.end,
                                 ),
                               ),
                             ),
@@ -568,12 +583,13 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
+                  ),
                 ),
-                ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
       ),
     );
   }

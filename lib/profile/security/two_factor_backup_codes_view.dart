@@ -153,10 +153,12 @@ class TwoFactorBackupCodesView extends StatelessWidget {
                 const SizedBox(height: 16),
                 SizedBox(
                   width: double.infinity,
-                  child: TextButton(
+                  child: ElevatedButton(
                     onPressed: onDone,
-                    style: TextButton.styleFrom(
-                      foregroundColor: cs.onSurface,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: palette.primary,
+                      foregroundColor: Colors.white,
+                      elevation: 0,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),

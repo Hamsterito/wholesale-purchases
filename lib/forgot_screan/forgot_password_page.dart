@@ -129,7 +129,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isKeyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
+
     final gradientColors = _isDark
         ? [context.colorPalette.bgBottom, context.colorPalette.bgTop]
         : [context.colorPalette.accent, context.colorPalette.accentDark];
@@ -143,145 +143,150 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             colors: gradientColors,
           ),
         ),
-        child: Column(
-          children: [
-            SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: _cardBg,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: _colorScheme.onSurface,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: !isKeyboardVisible
-                  ? Padding(
-                      padding: const EdgeInsets.only(bottom: 32),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+        child: CustomScrollView(
+          physics: const ClampingScrollPhysics(),
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SafeArea(
+                    bottom: false,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
                         children: [
-                          Text(
-                            AppLocalizations.current.getString('auto_zabyli_parol_1'),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                          Container(
+                            decoration: BoxDecoration(
+                              color: _cardBg,
+                              shape: BoxShape.circle,
                             ),
-                          ),
-                          SizedBox(height: 12),
-                          Text(
-                            AppLocalizations.current.getString('auto_napishi_svoyu_pochtu'),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 16, color: Colors.white),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.arrow_back,
+                                color: _colorScheme.onSurface,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
                           ),
                         ],
                       ),
-                    )
-                  : const SizedBox.shrink(),
-            ),
-            Flexible(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: _cardBg,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
-                  ),
-                ),
-                child: SafeArea(
-                  top: false,
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(32),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppLocalizations.current.getString('auto_el_pochta'),
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        TextField(
-                          controller: _emailController,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            hintText: 'primer@pochta.ru',
-                            hintStyle: TextStyle(color: _mutedText),
-                            filled: true,
-                            fillColor: _inputFill,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide.none,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 14,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 32),
-                        ThumbZoneBuilder(
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 50,
-                            child: ElevatedButton(
-                              onPressed: _isLoading ? null : _sendResetCode,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: _isDark
-                                    ? _colorScheme.primary
-                                    : context.colorPalette.ink,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              child: _isLoading
-                                  ? const CircularProgressIndicator(
-                                      color: Colors.white,
-                                    )
-                                  : Text(
-                                      AppLocalizations.current.getString('auto_otpravit_kod'),
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 1,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ),
-                ),
-                ),
+                  Expanded(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              AppLocalizations.current.getString('auto_zabyli_parol_1'),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(height: 12),
+                            Text(
+                              AppLocalizations.current.getString('auto_napishi_svoyu_pochtu'),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 16, color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: _cardBg,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24),
+                      ),
+                    ),
+                    child: SafeArea(
+                      top: false,
+                      child: Padding(
+                        padding: const EdgeInsets.all(32),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.current.getString('auto_el_pochta'),
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            TextField(
+                              controller: _emailController,
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                hintText: 'primer@pochta.ru',
+                                hintStyle: TextStyle(color: _mutedText),
+                                filled: true,
+                                fillColor: _inputFill,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: BorderSide.none,
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 14,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 32),
+                            ThumbZoneBuilder(
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: 50,
+                                child: ElevatedButton(
+                                  onPressed: _isLoading ? null : _sendResetCode,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: _isDark
+                                        ? _colorScheme.primary
+                                        : context.colorPalette.ink,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  child: _isLoading
+                                      ? const CircularProgressIndicator(
+                                          color: Colors.white,
+                                        )
+                                      : Text(
+                                          AppLocalizations.current.getString('auto_otpravit_kod'),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            letterSpacing: 1,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
         ),
-      ),
-    );
+        ),
+      );
   }
 }

@@ -131,11 +131,12 @@ class _ReviewsPageState extends State<ReviewsPage> {
             ),
           ),
 
-          SafeArea(
-            child: Column(
-              children: [
-                _buildHeader(context),
-                Expanded(
+          Column(
+            children: [
+              _buildHeader(context),
+              Expanded(
+                child: SafeArea(
+                  top: false,
                   child: _isLoading
                       ? Center(
                           child: CircularProgressIndicator(
@@ -144,8 +145,8 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         )
                       : _buildContent(),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
@@ -160,7 +161,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Container(
-        padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
+        padding: EdgeInsets.fromLTRB(12, MediaQuery.paddingOf(context).top + 12, 16, 12),
         decoration: BoxDecoration(
           color: palette.card,
           borderRadius: BorderRadius.zero,

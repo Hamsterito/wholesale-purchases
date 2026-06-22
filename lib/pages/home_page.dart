@@ -133,11 +133,14 @@ class _HomePageState extends State<HomePage> with AutoRefreshMixin<HomePage> {
     startAutoRefresh();
   }
 
+  String? _currentLocale;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_tabs.isEmpty) {
-      final locale = Localizations.localeOf(context).languageCode;
+    final locale = Localizations.localeOf(context).languageCode;
+    if (_currentLocale != locale) {
+      _currentLocale = locale;
       _loadMainCategoryTabs(locale);
     }
   }

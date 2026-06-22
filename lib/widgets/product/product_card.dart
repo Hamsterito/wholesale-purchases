@@ -221,31 +221,32 @@ class _ProductCardState extends State<ProductCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildImageSection(supplier),
               Expanded(
-                child: Padding(
-                  padding: padding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (hasCarouselIndicator) ...[
-                        SizedBox(height: imageToCarouselGap),
-                        _buildImageCarouselIndicator(),
-                        SizedBox(height: carouselToDeliveryGap),
-                      ],
-                      _buildDeliveryInfo(supplier),
-                      SizedBox(height: gapSmall),
-                      _buildProductTitle(),
-                      SizedBox(height: gapSmall),
-                      _buildMinOrder(supplier),
-                      SizedBox(height: gapTiny),
-                      _buildWarehouse(supplier),
-                      SizedBox(height: gapTiny),
-                      _buildRating(),
-                      const Spacer(),
-                      _buildPriceSection(supplier, totalPrice),
+                child: _buildImageSection(supplier),
+              ),
+              Padding(
+                padding: padding,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (hasCarouselIndicator) ...[
+                      SizedBox(height: imageToCarouselGap),
+                      _buildImageCarouselIndicator(),
+                      SizedBox(height: carouselToDeliveryGap),
                     ],
-                  ),
+                    _buildDeliveryInfo(supplier),
+                    SizedBox(height: gapSmall),
+                    _buildProductTitle(),
+                    SizedBox(height: gapSmall),
+                    _buildMinOrder(supplier),
+                    SizedBox(height: gapTiny),
+                    _buildWarehouse(supplier),
+                    SizedBox(height: gapTiny),
+                    _buildRating(),
+                    SizedBox(height: compact ? 4 : 8),
+                    _buildPriceSection(supplier, totalPrice),
+                  ],
                 ),
               ),
             ],
@@ -344,7 +345,7 @@ class _ProductCardState extends State<ProductCard> {
       children: [
         RepaintBoundary(
           child: Container(
-            height: compact ? 146 : 173,
+            width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(12),
@@ -518,7 +519,8 @@ class _ProductCardState extends State<ProductCard> {
     if (deliveryDate.isEmpty) return const SizedBox.shrink();
     // formatExpectedDelivery возвращает фразу уже с «Доставка ...» внутри,
     // поэтому свой префикс добавляем только для старых сырых строк.
-    final text = deliveryDate.toLowerCase().startsWith(context.l10n.getString('auto_dostavka'))
+    final prefix = context.l10n.getString('auto_dostavka').toLowerCase();
+    final text = deliveryDate.toLowerCase().startsWith(prefix)
         ? deliveryDate
         : context.l10n.getString('product_card_delivery', params: {'date': deliveryDate});
     return Text(
@@ -957,34 +959,41 @@ class _ProductCardState extends State<ProductCard> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.formatCurrency(supplier.pricePerUnit.toDouble(), decimalDigits: 0),
-              style: TextStyle(
-                fontSize: compact ? 15 : 16,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: 1),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              decoration: BoxDecoration(
-                color: _palette.accent.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Text(
-                isAvailable ? context.formatCurrency(totalPrice.toDouble(), decimalDigits: 0) : context.l10n.productOutOfStock,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.formatCurrency(supplier.pricePerUnit.toDouble(), decimalDigits: 0),
                 style: TextStyle(
-                  fontSize: compact ? 10 : 11,
-                  color: isAvailable ? _palette.accent : _palette.error,
-                  fontWeight: FontWeight.w600,
+                  fontSize: compact ? 15 : 16,
+                  fontWeight: FontWeight.w700,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 1),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: _palette.accent.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  isAvailable ? context.formatCurrency(totalPrice.toDouble(), decimalDigits: 0) : context.l10n.productOutOfStock,
+                  style: TextStyle(
+                    fontSize: compact ? 10 : 11,
+                    color: isAvailable ? _palette.accent : _palette.error,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        const SizedBox(width: 4),
         Material(
           color: isAvailable ? _surfaceVariant : _surfaceVariant,
           borderRadius: BorderRadius.circular(6),

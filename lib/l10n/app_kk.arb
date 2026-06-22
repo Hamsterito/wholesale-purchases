@@ -76,9 +76,9 @@
   "@common_confirm": {
     "description": "Кнопка подтверждения действия"
   },
-  "common_unit_short": "дана.",
+  "common_unit_short": "дана",
   "@common_unit_short": {
-    "description": "Сокращение единицы измерения (шт.)"
+    "description": "Сокращение единицы измерения (дана)"
   },
   "auth_login_title": "Тіркелгіге кіру",
   "@auth_login_title": {
@@ -772,7 +772,7 @@
   "@supplier_waiting_buyer_confirmation": {
     "description": "Уведомление ожидания подтверждения"
   },
-  "units_count_short": "дана.",
+  "units_count_short": "дана",
   "@units_count_short": {
     "description": "Сокращение фрагмента категории"
   },
@@ -1356,7 +1356,7 @@
   "@zakazi_month_december": {
     "description": "Месяц декабря"
   },
-  "zakazi_quantity_short": "дана.",
+  "zakazi_quantity_short": "дана",
   "@zakazi_quantity_short": {
     "description": "Сокращение категории"
   },
@@ -1457,7 +1457,7 @@
   "@zakazi_order_cancelled": {
     "description": "Уведомление об отмене заказа"
   },
-  "cart_item_removed": "Өнім жойылды",
+  "cart_item_removed": "Себеттен жойылды",
   "@cart_item_removed": {
     "description": "Уведомление об удалении товара из корзины"
   },
@@ -1473,7 +1473,7 @@
   "@cart_confirm_row_amount": {
     "description": "Символ суммы в диалоге оплаты"
   },
-  "cart_confirm_row_units": "Дана.",
+  "cart_confirm_row_units": "дана",
   "@cart_confirm_row_units": {
     "description": "Отметка количества в диалоге оплаты"
   },
@@ -1697,7 +1697,7 @@
   "@cart_total_amount_title": {
     "description": "Тема общей суммы заказа"
   },
-  "cart_total_summary": "Дана.: {units} Позиция: {positions}",
+  "cart_total_summary": "дана: {units} Позиция: {positions}",
   "@cart_total_summary": {
     "description": "Сумма количества товаров и позиций",
     "placeholders": {
@@ -1726,7 +1726,7 @@
   "@cart_checkout_order": {
     "description": "Кнопка оформления заказа по поставщику"
   },
-  "cart_supplier_info": "Дана.: {units} * Позиция: {positions}",
+  "cart_supplier_info": "дана: {units} * Позиция: {positions}",
   "@cart_supplier_info": {
     "description": "Информация о количестве товаров и позиций поставщика",
     "placeholders": {
@@ -1747,7 +1747,7 @@
       }
     }
   },
-  "cart_min_quantity": "Минимум: {count} дана.",
+  "cart_min_quantity": "Минимум: {count} дана",
   "@cart_min_quantity": {
     "description": "Минимальное количество заказанного товара",
     "placeholders": {
@@ -1756,7 +1756,7 @@
       }
     }
   },
-  "cart_quantity_suffix": "{count} дана.",
+  "cart_quantity_suffix": "{count} дана",
   "@cart_quantity_suffix": {
     "description": "Суффикс количества товара",
     "placeholders": {
@@ -1765,7 +1765,7 @@
       }
     }
   },
-  "cart_pay_all_details": "· {units} дана.",
+  "cart_pay_all_details": "· {units} дана",
   "@cart_pay_all_details": {
     "description": "Количество на кнопке оформления всего заказа",
     "placeholders": {
@@ -1774,7 +1774,7 @@
       }
     }
   },
-  "cart_summary_item": "{name} - {quantity} дана.",
+  "cart_summary_item": "{name} - {quantity} дана",
   "@cart_summary_item": {
     "description": "Товарная строка в наборе корзин",
     "placeholders": {
@@ -2041,7 +2041,7 @@
   "@templates_sheet_position_short": {
     "description": "Сокращение позиции"
   },
-  "templates_sheet_unit_short": "дана.",
+  "templates_sheet_unit_short": "дана",
   "@templates_sheet_unit_short": {
     "description": "Сокращение единицы"
   },
@@ -2049,7 +2049,7 @@
   "@templates_sheet_hide": {
     "description": "Скрыть шаблоны"
   },
-  "product_card_quantity": "{count} дана.",
+  "product_card_quantity": "{count} дана",
   "@product_card_quantity": {
     "description": "Количество товаров",
     "placeholders": {
@@ -2102,7 +2102,7 @@
   "@supplier_select": {
     "description": "Кнопка выбора поставщика"
   },
-  "supplier_unit_short": "дана.",
+  "supplier_unit_short": "дана",
   "@supplier_unit_short": {
     "description": "Сокращение единицы измерения"
   },
@@ -2399,7 +2399,7 @@
   "@qa_edit_answer": {
     "description": "Button to edit answer"
   },
-  "product_added_to_cart_msg": "Себетке қосылды: {name} -{qty} дана.",
+  "product_added_to_cart_msg": "Себетке қосылды: {name} - {qty} дана",
   "@product_added_to_cart_msg": {
     "description": "Toast message for cart",
     "placeholders": {
@@ -4592,12 +4592,12 @@
   "product_tab_reviews": "Бағалау ({count})",
   "product_tab_questions": "Сұрақтар ({count})",
   "product_price_per_unit": "{price} / дана",
-  "product_in_stock": "Қолда бар: {count} дана.",
+  "product_in_stock": "Қолда бар: {count} дана",
   "product_reviews_label": "{count} бағалау",
   "order_history_order_number": "Тапсырыс №{id}",
-  "order_history_items_count": "{count} дана.",
+  "order_history_items_count": "{count} дана",
   "order_history_units_count": "{count} бірлік",
-  "order_history_received_items": "{received}/{total} дана.",
+  "order_history_received_items": "{received}/{total} дана",
   "order_history_supplier_name": "Жеткізуші: {name}",
   "order_history_export_error": "Экспорттау қатесі: {error}",
   "error_loading_products": "Тауарларды жүктеу қатесі: {error}",
@@ -4610,7 +4610,7 @@
   "support_close_reason": "Жабылу себебі: {reason}",
   "support_chat_closed": "Чат жабық",
   "support_chat_closed_reason": "Чат жабық. Себебі: {reason}",
-  "zakazi_quantity": "{count} дана.",
+  "zakazi_quantity": "{count} дана",
   "zakazi_hours_minutes": "{hours} с {minutes} мин",
   "zakazi_minutes": "{minutes} мин",
   "personal_info_save_error": "Сақтау мүмкін болмады: {error}",
@@ -4622,11 +4622,11 @@
   "two_factor_file_save_error": "Файлды сақтау мүмкін болмады: {error}",
   "moderator_remove_confirmation": "{name} ({email}) енді тауарларды модерациялай алмайды.",
   "moderator_user_label": "Пайдаланушы #{id}",
-  "moderation_from_min_qty": "Бастап {min} дана.",
-  "moderation_qty_range": "{min}-{max} дана.",
+  "moderation_from_min_qty": "Бастап {min} дана",
+  "moderation_qty_range": "{min}-{max} дана",
   "moderation_summary_time": "{summary} · {time}",
-  "moderation_stock_quantity": "Қалдық: {count} дана.",
-  "moderation_price_per_unit": "{price}  бірлік үшін",
+  "moderation_stock_quantity": "Қалдық: {count} дана",
+  "moderation_price_per_unit": "{price} бірлік үшін",
   "moderation_comment_prefix": "Модерация туралы түсініктеме: {comment}",
   "moderation_characteristic_format": "{key} — {value}",
   "moderator_two_factor_remove_warning": "Бұл барлық сақтық көшірме кодтарын және пайдаланушының сенімді құрылғыларын жояды {name}. {warning}",
@@ -5254,7 +5254,7 @@
   "@wizard_init_auto_221": {
     "description": "Auto-extracted from lib\\utils\\wizard_init.dart"
   },
-  "product_card_added_to_cart": "Себетке қосылды: {name} -{count} дана.",
+  "product_card_added_to_cart": "Себетке қосылды: {name} - {count} дана",
   "@product_card_added_to_cart": {
     "placeholders": {
       "name": {
@@ -5369,7 +5369,7 @@
       }
     }
   },
-  "supplier_products_stock_quantity": "{count} дана.",
+  "supplier_products_stock_quantity": "{count} дана",
   "@supplier_products_stock_quantity": {
     "placeholders": {
       "count": {
@@ -5377,7 +5377,7 @@
       }
     }
   },
-  "supplier_products_min_quantity": "{count} дана.",
+  "supplier_products_min_quantity": "{count} дана",
   "@supplier_products_min_quantity": {
     "placeholders": {
       "count": {
@@ -5659,7 +5659,7 @@
   "@auto_vernutsya": {},
   "auto_filtry": "Сүзгілер",
   "@auto_filtry": {},
-  "auto_tsenaZaSht": "Дана бағасы.",
+  "auto_tsenaZaSht": "Дана бағасы",
   "@auto_tsenaZaSht": {},
   "auto_ot": "бастап",
   "@auto_ot": {},
@@ -6533,5 +6533,23 @@
   "auto_poiskAdres": "Мекенжайды іздеу",
   "@auto_poiskAdres": {},
   "auto_temperaturaHraneniya": "Сақтау температурасы",
-  "@auto_temperaturaHraneniya": {}
+  "@auto_temperaturaHraneniya": {},
+  "auto_zapolnyaytePoly": "Өрістерді кез келген ыңғайлы тілде толтырыңыз - аударма автоматты түрде жасалады, оны қолмен өзгертуге болады.",
+  "@auto_zapolnyaytePoly": {},
+  "auto_nazvanie": "Атауы",
+  "@auto_nazvanie": {},
+  "auto_znachenie": "Мәні",
+  "@auto_znachenie": {},
+  "auto_nazvanieHarakteristiki": "Сипаттаманың атауы",
+  "@auto_nazvanieHarakteristiki": {},
+  "auto_znachenieHarakteristik": "Сипаттаманың мәні",
+  "@auto_znachenieHarakteristik": {},
+  "auto_gotovo_1": "Дайын",
+  "@auto_gotovo_1": {},
+  "auto_avtoperevod": "Автоаударма",
+  "@auto_avtoperevod": {},
+  "auto_perevod": "Аударма",
+  "@auto_perevod": {},
+  "auto_dobavitPerevod": "Аударма қосу",
+  "@auto_dobavitPerevod": {}
 }

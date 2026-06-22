@@ -7,6 +7,8 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:geolocator/geolocator.dart';
 import '../core/ui/theme/app_dimensions.dart';
 import 'dart:async';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 
 class AddressPage extends StatefulWidget {
   const AddressPage({super.key, this.initial});
@@ -293,6 +295,11 @@ class _AddressPageState extends State<AddressPage> {
       child: Stack(
         children: [
           YandexMap(
+            gestureRecognizers: {
+              Factory<OneSequenceGestureRecognizer>(
+                () => EagerGestureRecognizer(),
+              ),
+            },
             fastTapEnabled: true,
             nightModeEnabled: Theme.of(context).brightness == Brightness.dark,
             onMapCreated: (YandexMapController yandexMapController) async {
@@ -313,10 +320,12 @@ class _AddressPageState extends State<AddressPage> {
               }
             },
           ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 30),
-              child: Icon(Icons.location_on, size: 40, color: context.colorPalette.accent),
+          IgnorePointer(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: Icon(Icons.location_on, size: 40, color: context.colorPalette.accent),
+              ),
             ),
           ),
           Positioned(
@@ -542,16 +551,19 @@ class _AddressPageState extends State<AddressPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.centerLeft,
-          child: Text(
-            label,
-            maxLines: 1,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: _colorScheme.onSurface,
+        SizedBox(
+          height: 18,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              label.toUpperCase(),
+              maxLines: 1,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: _colorScheme.onSurface,
+              ),
             ),
           ),
         ),

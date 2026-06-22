@@ -412,7 +412,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
                   backgroundColor: statusColor.withValues(alpha: 0.12),
                   borderColor: statusColor.withValues(alpha: 0.3),
                 ),
-                ...product.categories.map(
+                ...product.localizedCategories(context).map(
                   (category) =>
                       _BadgeChip(label: category, icon: Icons.sell_outlined),
                 ),
@@ -613,7 +613,7 @@ class _SupplierProductsPageState extends State<SupplierProductsPage>
                       ],
                     )
                   : ListView.separated(
-                      padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
+                      padding: const EdgeInsets.fromLTRB(16, 18, 16, 88),
                       itemCount: _products.length,
                       separatorBuilder: (_, __) => const SizedBox(height: 16),
                       itemBuilder: (context, index) {

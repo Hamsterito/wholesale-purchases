@@ -2141,7 +2141,7 @@ abstract class AppLocalizations {
   /// Уведомление об удалении товара из корзины
   ///
   /// In ru, this message translates to:
-  /// **'Товар удалён'**
+  /// **'Удален из корзины'**
   String get cart_item_removed;
 
   /// Кнопка отмены удаления товара
@@ -3365,7 +3365,7 @@ abstract class AppLocalizations {
   /// Toast message for cart
   ///
   /// In ru, this message translates to:
-  /// **'Добавлено в корзину: {name} -{qty} шт.'**
+  /// **'Добавлено в корзину: {name} - {qty} шт.'**
   String product_added_to_cart_msg(String name, int qty);
 
   /// Toast message for favorites
@@ -7599,7 +7599,7 @@ abstract class AppLocalizations {
   /// No description provided for @product_card_added_to_cart.
   ///
   /// In ru, this message translates to:
-  /// **'Добавлено в корзину: {name} -{count} шт.'**
+  /// **'Добавлено в корзину: {name} - {count} шт.'**
   String product_card_added_to_cart(String name, int count);
 
   /// No description provided for @product_card_delivery.
@@ -11195,6 +11195,12 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Температура хранения'**
   String get auto_temperaturaHraneniya;
+
+  /// No description provided for @auto_zapolnyaytePoly.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заполняйте поля на любом удобном языке - перевод выполнится автоматически, и его можно изменить вручную.'**
+  String get auto_zapolnyaytePoly;
 }
 
 class _AppLocalizationsDelegate

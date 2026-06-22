@@ -219,7 +219,7 @@ class _ForgotPasswordVerificationPageState
 
   @override
   Widget build(BuildContext context) {
-    final isKeyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
+
     final gradientColors = _isDark
         ? [context.colorPalette.bgBottom, context.colorPalette.bgTop]
         : [context.colorPalette.accent, context.colorPalette.accentDark];
@@ -233,37 +233,41 @@ class _ForgotPasswordVerificationPageState
             colors: gradientColors,
           ),
         ),
-        child: Column(
-          children: [
-            SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: _cardBg,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: _colorScheme.onSurface,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+
+            return Column(
+              children: [
+                SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: _cardBg,
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: _colorScheme.onSurface,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
                         ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            Expanded(
-              child: !isKeyboardVisible
-                  ? Padding(
-                      padding: const EdgeInsets.only(bottom: 32),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 32),
+                    child: SingleChildScrollView(
+                      physics: const NeverScrollableScrollPhysics(),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -294,175 +298,171 @@ class _ForgotPasswordVerificationPageState
                           ),
                         ],
                       ),
-                    )
-                  : const SizedBox.shrink(),
-            ),
-            Flexible(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: _cardBg,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
+                    ),
                   ),
                 ),
-                child: SafeArea(
-                  top: false,
-                  child: Padding(
-                    padding: const EdgeInsets.all(32),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // КОД И ТАЙМЕР
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            AppLocalizations.current.getString('auto_kod'),
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.5,
-                            ),
-                          ),
-                          Row(
+                Container(
+                      decoration: BoxDecoration(
+                        color: _cardBg,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24),
+                        ),
+                      ),
+                      child: SafeArea(
+                        top: false,
+                        child: Padding(
+                          padding: const EdgeInsets.all(32),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ValueListenableBuilder<int>(
-                                valueListenable: _remainingTimeNotifier,
-                                builder: (context, remainingTime, _) {
-                                  return ValueListenableBuilder<bool>(
-                                    valueListenable: _isButtonDisabledNotifier,
-                                    builder: (context, isDisabled, _) {
-                                      return Text(
-                                        isDisabled
-                                            ? AppLocalizations.current.getString('util_seconds_left', params: {'count': remainingTime.toString()})
-                                            : '',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: _mutedText,
-                                        ),
-                                      );
+                              // КОД И ТАЙМЕР
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    AppLocalizations.current.getString('auto_kod'),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      ValueListenableBuilder<int>(
+                                        valueListenable: _remainingTimeNotifier,
+                                        builder: (context, remainingTime, _) {
+                                          return ValueListenableBuilder<bool>(
+                                            valueListenable: _isButtonDisabledNotifier,
+                                            builder: (context, isDisabled, _) {
+                                              return Text(
+                                                isDisabled
+                                                    ? AppLocalizations.current.getString('util_seconds_left', params: {'count': remainingTime.toString()})
+                                                    : '',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: _mutedText,
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
+                                      SizedBox(width: 4),
+                                      ValueListenableBuilder<bool>(
+                                        valueListenable: _isButtonDisabledNotifier,
+                                        builder: (context, isDisabled, _) {
+                                          return TextButton(
+                                            onPressed: isDisabled || _isLoading
+                                                ? null
+                                                : _resendCode,
+                                            child: Text(
+                                              AppLocalizations.current.getString('auto_otpravit_snova'),
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: isDisabled
+                                                    ? _mutedText
+                                                    : _colorScheme.onSurface,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 16),
+                              // ПОЛЯ ВВОДА КОДА
+                              LayoutBuilder(
+                                builder: (context, constraints) {
+                                  final cellWidth = ((constraints.maxWidth - 10) / 6).clamp(40.0, 56.0);
+                                  final cellHeight = cellWidth + 6;
+                                  final inactiveBorder = _colorScheme.outline.withValues(alpha: 0.6);
+                                  return PinCodeTextField(
+                                    appContext: context,
+                                    controller: _pinController,
+                                    length: 6,
+                                    animationType: AnimationType.fade,
+                                    // Сами владеем контроллером - LayoutBuilder
+                                    // перестраивает PinCodeTextField и при
+                                    // autoDispose=true диспозит наш контроллер.
+                                    autoDisposeControllers: false,
+                                    pinTheme: PinTheme(
+                                      shape: PinCodeFieldShape.box,
+                                      borderRadius: BorderRadius.circular(12),
+                                      fieldHeight: cellHeight,
+                                      fieldWidth: cellWidth,
+                                      activeFillColor: _inputFill,
+                                      inactiveFillColor: _inputFill,
+                                      selectedFillColor: _inputFill,
+                                      activeColor: _colorScheme.primary,
+                                      inactiveColor: inactiveBorder,
+                                      selectedColor: _colorScheme.primary,
+                                      borderWidth: 2,
+                                    ),
+                                    cursorColor: _colorScheme.primary,
+                                    cursorHeight: 28,
+                                    cursorWidth: 2,
+                                    animationDuration: const Duration(milliseconds: 50),
+                                    animationCurve: Curves.easeInOut,
+                                    enableActiveFill: true,
+                                    keyboardType: TextInputType.number,
+                                    textStyle: const TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    onCompleted: _onPinCompleted,
+                                    errorAnimationController: _errorController,
+                                    beforeTextPaste: (text) {
+                                      final digits = text?.replaceAll(RegExp(r'\D'), '') ?? '';
+                                      return digits.length == 6;
                                     },
                                   );
                                 },
                               ),
-                              SizedBox(width: 4),
-                              ValueListenableBuilder<bool>(
-                                valueListenable: _isButtonDisabledNotifier,
-                                builder: (context, isDisabled, _) {
-                                  return TextButton(
-                                    onPressed: isDisabled || _isLoading
-                                        ? null
-                                        : _resendCode,
-                                    child: Text(
-                                      AppLocalizations.current.getString('auto_otpravit_snova'),
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: isDisabled
-                                            ? _mutedText
-                                            : _colorScheme.onSurface,
+                              SizedBox(height: 32),
+                              // КНОПКА ПОДТВЕРЖДЕНИЯ
+                              ThumbZoneBuilder(
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    onPressed: _isLoading ? null : _verifyCode,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: _isDark
+                                          ? _colorScheme.primary
+                                          : context.colorPalette.ink,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
                                     ),
-                                  );
-                                },
+                                    child: _isLoading
+                                        ? const CircularProgressIndicator(
+                                            color: Colors.white,
+                                          )
+                                        : Text(
+                                            AppLocalizations.current.getString('auto_prodolzhit'),
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 16),
-
-                      // ПОЛЯ ВВОДА КОДА
-                      LayoutBuilder(
-                        builder: (context, constraints) {
-                          final cellWidth = ((constraints.maxWidth - 10) / 6)
-                              .clamp(40.0, 56.0);
-                          final cellHeight = cellWidth + 6;
-                          final inactiveBorder = _colorScheme.outline
-                              .withValues(alpha: 0.6);
-                          return PinCodeTextField(
-                            appContext: context,
-                            controller: _pinController,
-                            length: 6,
-                            animationType: AnimationType.fade,
-                            // Сами владеем контроллером - LayoutBuilder
-                            // перестраивает PinCodeTextField и при
-                            // autoDispose=true диспозит наш контроллер.
-                            autoDisposeControllers: false,
-                            pinTheme: PinTheme(
-                              shape: PinCodeFieldShape.box,
-                              borderRadius: BorderRadius.circular(12),
-                              fieldHeight: cellHeight,
-                              fieldWidth: cellWidth,
-                              activeFillColor: _inputFill,
-                              inactiveFillColor: _inputFill,
-                              selectedFillColor: _inputFill,
-                              activeColor: _colorScheme.primary,
-                              inactiveColor: inactiveBorder,
-                              selectedColor: _colorScheme.primary,
-                              borderWidth: 2,
-                            ),
-                            cursorColor: _colorScheme.primary,
-                            cursorHeight: 28,
-                            cursorWidth: 2,
-                            animationDuration: const Duration(milliseconds: 50),
-                            animationCurve: Curves.easeInOut,
-                            enableActiveFill: true,
-                            keyboardType: TextInputType.number,
-                            textStyle: const TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            onCompleted: _onPinCompleted,
-                            errorAnimationController: _errorController,
-                            beforeTextPaste: (text) {
-                              final digits =
-                                  text?.replaceAll(RegExp(r'\D'), '') ?? '';
-                              return digits.length == 6;
-                            },
-                          );
-                        },
-                      ),
-                      SizedBox(height: 32),
-
-                      // КНОПКА ПОДТВЕРЖДЕНИЯ
-                      ThumbZoneBuilder(
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: _isLoading ? null : _verifyCode,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: _isDark
-                                  ? _colorScheme.primary
-                                  : context.colorPalette.ink,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            child: _isLoading
-                                ? const CircularProgressIndicator(
-                                    color: Colors.white,
-                                  )
-                                : Text(
-                                    AppLocalizations.current.getString('auto_prodolzhit'),
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                          ),
                         ),
                       ),
-                    ],
-                  ),
                 ),
-                ),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
         ),
       ),
     );

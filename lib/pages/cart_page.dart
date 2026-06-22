@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../models/cart_item.dart';
+import '../models/language.dart';
 import '../models/product.dart';
 import '../models/user_address.dart';
 import '../pages/order_history_page.dart';
@@ -2135,7 +2136,10 @@ Widget _buildSupplierSummaryCard({
   Widget _buildCartItemCard(String supplierId, int index, CartItem item) {
     final l10n = AppLocalizations.of(context);
     final totalPrice = item.supplier.pricePerUnit * item.quantity;
-    final tags = _getSortedTags(item.product.id, item.product.categories);
+    final localizedCat = item.product.localizedCategory(context);
+    final tags = context.currentLanguage == LanguageCode.kazakh && localizedCat.isNotEmpty
+        ? [localizedCat]
+        : _getSortedTags(item.product.id, item.product.categories);
     final imagePath = _resolveCartImage(item);
 
     return Container(

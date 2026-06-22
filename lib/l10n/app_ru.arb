@@ -1457,7 +1457,7 @@
   "@zakazi_order_cancelled": {
     "description": "Уведомление об отмене заказа"
   },
-  "cart_item_removed": "Товар удалён",
+  "cart_item_removed": "Удален из корзины",
   "@cart_item_removed": {
     "description": "Уведомление об удалении товара из корзины"
   },
@@ -2399,7 +2399,7 @@
   "@qa_edit_answer": {
     "description": "Button to edit answer"
   },
-  "product_added_to_cart_msg": "Добавлено в корзину: {name} -{qty} шт.",
+  "product_added_to_cart_msg": "Добавлено в корзину: {name} - {qty} шт.",
   "@product_added_to_cart_msg": {
     "description": "Toast message for cart",
     "placeholders": {
@@ -5194,7 +5194,7 @@
   "@wizard_init_auto_221": {
     "description": "Auto-extracted from lib\\utils\\wizard_init.dart"
   },
-  "product_card_added_to_cart": "Добавлено в корзину: {name} -{count} шт.",
+  "product_card_added_to_cart": "Добавлено в корзину: {name} - {count} шт.",
   "@product_card_added_to_cart": {
     "placeholders": {
       "name": {
@@ -6473,5 +6473,23 @@
   "auto_poiskAdres": "Поиск адреса",
   "@auto_poiskAdres": {},
   "auto_temperaturaHraneniya": "Температура хранения",
-  "@auto_temperaturaHraneniya": {}
+  "@auto_temperaturaHraneniya": {},
+  "auto_zapolnyaytePoly": "Заполняйте поля на любом удобном языке - перевод выполнится автоматически, и его можно изменить вручную.",
+  "@auto_zapolnyaytePoly": {},
+  "auto_nazvanie": "Название",
+  "@auto_nazvanie": {},
+  "auto_znachenie": "Значение",
+  "@auto_znachenie": {},
+  "auto_nazvanieHarakteristiki": "Название характеристики",
+  "@auto_nazvanieHarakteristiki": {},
+  "auto_znachenieHarakteristik": "Значение характеристики",
+  "@auto_znachenieHarakteristik": {},
+  "auto_gotovo_1": "Готово",
+  "@auto_gotovo_1": {},
+  "auto_avtoperevod": "Автоперевод",
+  "@auto_avtoperevod": {},
+  "auto_perevod": "Перевод",
+  "@auto_perevod": {},
+  "auto_dobavitPerevod": "Добавить перевод",
+  "@auto_dobavitPerevod": {}
 }

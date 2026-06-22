@@ -793,7 +793,7 @@ class _ModerationPageState extends State<ModerationPage> {
                                               _ModerationMetricRow(
                                                 label: AppLocalizations.current.getString('auto_tsena'),
                                                 value:
-                                                    context.l10n.moderationPricePerUnit(product.pricePerUnit.toString()),
+                                                    context.l10n.moderationPricePerUnit(context.formatCurrency(product.pricePerUnit.toDouble(), decimalDigits: 0)),
                                               ),
                                               const SizedBox(height: 8),
                                               _ModerationMetricRow(
@@ -1182,10 +1182,10 @@ class _ModerationAboutTile extends StatelessWidget {
     outer:
     for (final section in sections) {
       for (final item in section.items) {
-        if (item.key.trim().isEmpty) {
-          parts.add(item.value);
+        if (item.primaryKey.trim().isEmpty) {
+          parts.add(item.primaryValue);
         } else {
-          parts.add(context.l10n.moderationCharacteristicFormat(item.key, item.value));
+          parts.add(context.l10n.moderationCharacteristicFormat(item.primaryKey, item.primaryValue));
         }
         if (parts.length >= 3) break outer;
       }

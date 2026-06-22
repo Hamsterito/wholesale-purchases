@@ -17,9 +17,10 @@ import '../widgets/chat/adapters.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
 
 class UserSupportChatPage extends StatefulWidget {
-  const UserSupportChatPage({super.key, this.chatId});
+  const UserSupportChatPage({super.key, this.chatId, this.initialMessage});
 
   final int? chatId;
+  final String? initialMessage;
 
   @override
   State<UserSupportChatPage> createState() => _UserSupportChatPageState();
@@ -36,13 +37,17 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
   Timer? _eventsReconnectTimer;
   int _eventsReconnectAttempt = 0;
 
-  bool get _isChatOpen => _chat?.isOpen ?? false;
   bool get _isChatClosed => _chat?.isClosed ?? false;
 
   @override
   void initState() {
     super.initState();
-    _loadThread().whenComplete(_startEventsStream);
+    _loadThread().whenComplete(() {
+      _startEventsStream();
+      if (widget.initialMessage != null && widget.initialMessage!.isNotEmpty) {
+        _sendMessageText(widget.initialMessage!);
+      }
+    });
   }
 
   Future<void> _loadThread({bool silent = false}) async {
@@ -149,14 +154,6 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
       _showSnack(
         context.l10n.getString('auto_neUdalosOpredelitPolzo'),
         severity: MessageSeverity.error,
-      );
-      return;
-    }
-
-    if (!_isChatOpen) {
-      _showSnack(
-        context.l10n.getString('auto_chatZakrytSozdayteNovo'),
-        severity: MessageSeverity.warning,
       );
       return;
     }
@@ -279,7 +276,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
     }
 
     final userId = AuthStorage.userId ?? 0;
-    final composerEnabled = _isChatOpen && !_isSending;
+    final composerEnabled = !_isSending;
 
     return Column(
       children: [
@@ -295,7 +292,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
             isInitialLoading: false,
             isLoadingMore: false,
             isComposerEnabled: composerEnabled,
-            composerHint: _isChatOpen ? context.l10n.getString('auto_vvediteSoobshchenie') : context.l10n.getString('auto_chatZakryt'),
+            composerHint: context.l10n.getString('auto_vvediteSoobshchenie'),
           ),
         ),
       ],

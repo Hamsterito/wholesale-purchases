@@ -18,6 +18,9 @@ class NotificationCounts {
   /// Количество доставленных заказов, ожидающих подтверждения получения покупателем.
   final int deliveredOrders;
 
+  /// Уведомления об удалении товаров для поставщика.
+  final int pendingModerationDeletions;
+
   /// Временная метка последнего обновления данных на сервере.
   final DateTime? timestamp;
 
@@ -28,6 +31,7 @@ class NotificationCounts {
     required this.pendingReviews,
     required this.pendingModerations,
     this.deliveredOrders = 0,
+    this.pendingModerationDeletions = 0,
     this.timestamp,
   });
 
@@ -44,6 +48,7 @@ class NotificationCounts {
       pendingReviews: (json['pendingReviews'] as num?)?.toInt() ?? 0,
       pendingModerations: (json['pendingModerations'] as num?)?.toInt() ?? 0,
       deliveredOrders: (json['deliveredOrders'] as num?)?.toInt() ?? 0,
+      pendingModerationDeletions: (json['pendingModerationDeletions'] as num?)?.toInt() ?? 0,
       timestamp: json['timestamp'] != null
           ? DateTime.tryParse(json['timestamp'].toString())
           : null,
@@ -59,6 +64,7 @@ class NotificationCounts {
       'pendingReviews': pendingReviews,
       'pendingModerations': pendingModerations,
       'deliveredOrders': deliveredOrders,
+      'pendingModerationDeletions': pendingModerationDeletions,
       if (timestamp != null) 'timestamp': timestamp!.toIso8601String(),
     };
   }
@@ -71,6 +77,7 @@ class NotificationCounts {
     pendingReviews: 0,
     pendingModerations: 0,
     deliveredOrders: 0,
+    pendingModerationDeletions: 0,
   );
 
   @override
@@ -81,7 +88,8 @@ class NotificationCounts {
         'pendingSupplierOrders: $pendingSupplierOrders, '
         'pendingReviews: $pendingReviews, '
         'pendingModerations: $pendingModerations, '
-        'deliveredOrders: $deliveredOrders'
+        'deliveredOrders: $deliveredOrders, '
+        'pendingModerationDeletions: $pendingModerationDeletions'
         ')';
   }
 }

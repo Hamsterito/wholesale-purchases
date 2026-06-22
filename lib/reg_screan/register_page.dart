@@ -840,7 +840,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isKeyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
+
     final gradientColors = _isDark
         ? [context.colorPalette.bgBottom, context.colorPalette.bgTop]
         : [context.colorPalette.accent, context.colorPalette.accentDark];
@@ -910,75 +910,86 @@ class _RegisterPageState extends State<RegisterPage> {
             colors: gradientColors,
           ),
         ),
-        child: Column(
-          children: [
-            SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: _cardBg,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: _colorScheme.onSurface,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final fullHeight = MediaQuery.sizeOf(context).height;
+            final availableHeight = constraints.maxHeight;
+            final keyboardHeight = (fullHeight - availableHeight).clamp(0.0, fullHeight);
+            
+            final targetHeaderHeight = fullHeight * (headerFlex / (headerFlex + formFlex));
+            final headerHeight = (targetHeaderHeight - keyboardHeight).clamp(0.0, targetHeaderHeight);
+
+            return Column(
+              children: [
+                SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: _cardBg,
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: _colorScheme.onSurface,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
                         ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            ),
-            if (!isKeyboardVisible)
-              Expanded(
-                flex: headerFlex,
-                child: Center(
-                  child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      AppLocalizations.current.getString('auto_registratsiya'),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: headerTitleSize,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: sectionGap),
-                    Text(
-                      AppLocalizations.current.getString('auto_zaregistriruytes_chtoby_nachat'),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: headerSubtitleSize,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              key: const ValueKey('register_form'),
-              flex: formFlex,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: _cardBg,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
                   ),
                 ),
-                child: SafeArea(
-                  top: false,
+                SizedBox(
+                  height: headerHeight,
+                  width: double.infinity,
+                  child: Center(
+                    child: SingleChildScrollView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppLocalizations.current.getString('auto_registratsiya'),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: headerTitleSize,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(height: sectionGap),
+                          Text(
+                            AppLocalizations.current.getString('auto_zaregistriruytes_chtoby_nachat'),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: headerSubtitleSize,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  key: const ValueKey('register_form'),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: _cardBg,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16),
+                      ),
+                    ),
+                    child: SafeArea(
+                      top: false,
                   child: Padding(
                     padding: formPadding,
                     child: Column(
@@ -1084,7 +1095,9 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ],
-        ),
+        );
+      },
+    ),
       ),
     );
   }

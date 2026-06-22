@@ -28,7 +28,7 @@ class CurrencyFormatter {
       decimalDigits: decimalDigits,
     );
 
-    final formattedNumber = formatter.format(amount);
+    final formattedNumber = formatter.format(amount).trim();
 
     // Добавляем символ валюты в нужное место
     if (currencyModel.symbolBeforeValue) {

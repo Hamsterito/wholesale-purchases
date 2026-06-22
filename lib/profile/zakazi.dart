@@ -339,6 +339,9 @@ title: Text(
     if (_isAcceptedStatus(order.status) || _isCancelledStatus(order.status)) {
       return false;
     }
+    if (_isInTransitStatus(order.status) || _isDeliveredStatus(order.status)) {
+      return false;
+    }
     return _isWithinCancellationWindow(order);
   }
 
@@ -589,7 +592,7 @@ title: Text(
 
           // Чекбокс подтверждения или бейдж блокировки
           SizedBox(
-            width: 118,
+            width: 76,
             child: canReceive || item.isReceived || _isAcceptedStatus(orderStatus)
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -627,7 +630,7 @@ title: Text(
                       Text(
                         l10n.getString('zakazi_accepted_label'),
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: 12,
                           color: canReceive ? _colorScheme.onSurface : _mutedText,
                         ),
                       ),
@@ -636,26 +639,35 @@ title: Text(
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: _colorScheme.surfaceContainerHighest,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              l10n.getString('zakazi_accepted_label'),
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: _mutedText,
-                                fontWeight: FontWeight.w500,
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Transform.scale(
+                            scale: 1.3,
+                            child: IgnorePointer(
+                              child: Checkbox(
+                                value: false,
+                                onChanged: (bool? value) {},
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                side: BorderSide(color: _borderColor),
+                                visualDensity: VisualDensity.comfortable,
+                                materialTapTargetSize: MaterialTapTargetSize.padded,
+                                fillColor: WidgetStateProperty.all(
+                                  _colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+                                ),
                               ),
                             ),
-                            const SizedBox(width: 6),
-                            Icon(Icons.lock_outline, size: 14, color: _mutedText),
-                          ],
+                          ),
+                          Icon(Icons.lock_outline, size: 15, color: _mutedText),
+                        ],
+                      ),
+                      Text(
+                        l10n.getString('zakazi_accepted_label'),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: _mutedText,
                         ),
                       ),
                     ],
@@ -757,6 +769,7 @@ title: Text(
     final canReceive = _isDeliveredStatus(order.status);
     final canCancel = _canCancelOrder(order);
     final isBusy = isAccepting || isCancelling;
+    final shouldShowCancelInfo = _isPendingStatus(order.status) || _isProcessingStatus(order.status);
 
     if (!canReceive) {
       return Padding(
@@ -803,7 +816,7 @@ title: Text(
                   ),
                 ],
               ),
-            if (!canCancel) ...[
+            if (shouldShowCancelInfo) ...[
               const SizedBox(height: 8),
               _buildCancelInfo(order, l10n),
             ],
@@ -886,7 +899,7 @@ title: Text(
               ),
             ],
           ),
-          if (!canCancel) ...[
+          if (shouldShowCancelInfo) ...[
             const SizedBox(height: 8),
             _buildCancelInfo(order, l10n),
           ],

@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_project/models/support_message.dart';
 import 'package:flutter_project/services/api/api_service.dart';
 import 'package:flutter_project/services/storage/auth_storage.dart';
-import 'package:flutter_project/services/storage/shared_prefs_provider.dart';
 
 import 'app_logger.dart';
 import 'notification_service.dart';
@@ -16,21 +14,18 @@ class ModerationAlertService extends ChangeNotifier {
   factory ModerationAlertService() => _instance;
 
   ModerationAlertService._internal() {
-    NotificationService().unreadMessagesCount.addListener(_onUnreadMessagesChanged);
+    NotificationService().pendingModerationDeletionsCount.addListener(_onPendingModerationsChanged);
   }
 
-  static const String _lastMessageIdKeyPrefix = 'last_dismissed_moderation_msg_';
-
-  List<SupportMessage> _pendingAlerts = [];
+  List<ModerationAlertInfo> _pendingAlerts = [];
   bool _isLoading = false;
 
-  List<SupportMessage> get pendingAlerts => _pendingAlerts;
+  List<ModerationAlertInfo> get pendingAlerts => _pendingAlerts;
   bool get hasAlerts => _pendingAlerts.isNotEmpty;
   bool get isLoading => _isLoading;
 
-  void _onUnreadMessagesChanged() {
-    // Если есть непрочитанные сообщения, проверяем, не являются ли они уведомлениями модерации
-    if (NotificationService().unreadMessagesCount.value > 0) {
+  void _onPendingModerationsChanged() {
+    if (NotificationService().pendingModerationDeletionsCount.value > 0) {
       checkNewAlerts();
     }
   }
@@ -45,20 +40,8 @@ class ModerationAlertService extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final thread = await ApiService.getSupportThread(userId: userId);
-      final prefs = await SharedPrefsProvider.getInstance();
-      final lastDismissedId = prefs.getInt('$_lastMessageIdKeyPrefix$userId') ?? 0;
-
-      // Фильтруем сообщения от модератора в категории 'Модерация товаров',
-      // у которых ID больше последнего скрытого.
-      final newAlerts = thread.messages.where((msg) {
-        if (!msg.isFromModerator) return false;
-        if (msg.category != 'Модерация товаров') return false;
-        
-        final msgId = int.tryParse(msg.id) ?? 0;
-        return msgId > lastDismissedId;
-      }).toList();
-
+      final deletionsData = await ApiService.getModerationDeletions(userId: userId);
+      final newAlerts = deletionsData.map((d) => ModerationAlertInfo.fromJson(d as Map<String, dynamic>)).toList();
       _pendingAlerts = newAlerts;
     } catch (e, st) {
       AppLogger.error(
@@ -73,62 +56,56 @@ class ModerationAlertService extends ChangeNotifier {
     }
   }
 
-  /// Скрывает все текущие уведомления модерации, сохраняя наибольший ID сообщения.
+  /// Скрывает все текущие уведомления модерации.
   Future<void> dismissAllAlerts() async {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) return;
 
     if (_pendingAlerts.isEmpty) return;
 
-    int maxId = 0;
-    for (final msg in _pendingAlerts) {
-      final msgId = int.tryParse(msg.id) ?? 0;
-      if (msgId > maxId) {
-        maxId = msgId;
+    for (final alert in _pendingAlerts) {
+      if (alert.id > 0) {
+        try {
+          await ApiService.dismissModerationDeletion(id: alert.id, userId: userId);
+        } catch (e) {
+          debugPrint('Failed to dismiss alert ${alert.id}: $e');
+        }
       }
-    }
-
-    if (maxId > 0) {
-      final prefs = await SharedPrefsProvider.getInstance();
-      await prefs.setInt('$_lastMessageIdKeyPrefix$userId', maxId);
     }
 
     _pendingAlerts = [];
     notifyListeners();
   }
 
-  /// Извлекает название товара и причину из стандартного текста сообщения модерации.
-  /// Пример: Товар "Voda" удален модератором за нарушение. Причина: спам
-  static ModerationAlertInfo parseMessageText(String text) {
-    String productName = 'Неизвестный товар';
-    String reason = 'Нарушение правил площадки';
 
-    final match = RegExp(r'Товар "(.*?)" удален.*?Причина: (.*)').firstMatch(text);
-    if (match != null) {
-      productName = match.group(1) ?? productName;
-      reason = match.group(2) ?? reason;
-    } else {
-      // Пробуем одинарные кавычки или без кавычек
-      final fallbackMatch = RegExp(r'Товар (.*?) удален.*?Причина: (.*)').firstMatch(text);
-      if (fallbackMatch != null) {
-        productName = fallbackMatch.group(1)?.replaceAll(RegExp(r'["'']'), '') ?? productName;
-        reason = fallbackMatch.group(2) ?? reason;
-      }
-    }
-
-    return ModerationAlertInfo(productName: productName, reason: reason);
-  }
 
   @override
   void dispose() {
-    NotificationService().unreadMessagesCount.removeListener(_onUnreadMessagesChanged);
+    NotificationService().pendingModerationDeletionsCount.removeListener(_onPendingModerationsChanged);
     super.dispose();
   }
 }
 
 class ModerationAlertInfo {
+  final int id;
   final String productName;
   final String reason;
+  final DateTime? createdAt;
 
-  ModerationAlertInfo({required this.productName, required this.reason});
+  ModerationAlertInfo({
+    required this.id,
+    required this.productName,
+    required this.reason,
+    this.createdAt,
+  });
+
+  factory ModerationAlertInfo.fromJson(Map<String, dynamic> json) {
+    return ModerationAlertInfo(
+      id: int.tryParse(json['id'].toString()) ?? 0,
+      productName: json['productName'] ?? '',
+      reason: json['reason'] ?? '',
+      createdAt: json['createdAt'] != null ? DateTime.tryParse(json['createdAt']) : null,
+    );
+  }
 }
+

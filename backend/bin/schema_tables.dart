@@ -17,6 +17,7 @@ Future<void> _ensureDatabaseSchema(Connection connection) async {
   await _dropLegacyChatsSchema(connection);
   await _ensureQuestionsSchema(connection);
   await _ensureExchangeRatesSchema(connection);
+  await _ensureModerationDeletionsSchema(connection);
 }
 
 /// Создание таблицы курсов валют и заполнение начальных значений.
@@ -831,6 +832,29 @@ Future<void> _ensureQuestionsSchema(Connection connection) async {
   await connection.execute('''
     CREATE INDEX IF NOT EXISTS idx_question_answers_question_id ON public.question_answers(question_id);
   ''');
+}
+
+/// Таблица уведомлений об удалении товара модератором.
+/// Поставщик получает уведомление-баннер; чат поддержки
+/// открывается только если поставщик нажмет "Обратиться в поддержку".
+Future<void> _ensureModerationDeletionsSchema(Connection connection) async {
+  await connection.execute('''
+    CREATE TABLE IF NOT EXISTS public.moderation_deletions (
+      id SERIAL PRIMARY KEY,
+      supplier_user_id INTEGER NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+      product_name VARCHAR(255) NOT NULL,
+      reason TEXT NOT NULL,
+      moderator_id INTEGER REFERENCES public.users(id) ON DELETE SET NULL,
+      dismissed BOOLEAN NOT NULL DEFAULT false,
+      created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+    );
+  ''');
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_moderation_deletions_supplier ON public.moderation_deletions(supplier_user_id);',
+  );
+  await connection.execute(
+    'CREATE INDEX IF NOT EXISTS idx_moderation_deletions_active ON public.moderation_deletions(supplier_user_id) WHERE dismissed = false;',
+  );
 }
 
 Future<void> _ensureTwoFactorSchema(Connection connection) async {

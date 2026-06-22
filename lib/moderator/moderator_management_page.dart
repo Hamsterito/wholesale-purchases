@@ -401,12 +401,19 @@ class _ModeratorRow extends StatelessWidget {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
     final palette = context.colorPalette;
+    final isDark = theme.brightness == Brightness.dark;
+    final borderColor = isDark
+        ? cs.outline.withValues(alpha: 0.78)
+        : cs.outlineVariant.withValues(alpha: 0.95);
 
     return Container(
       decoration: BoxDecoration(
         color: palette.card,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.45)),
+        border: Border.all(
+          color: borderColor,
+          width: 1.15,
+        ),
         boxShadow: [
           BoxShadow(
             color: palette.shadow.withValues(alpha: 0.04),

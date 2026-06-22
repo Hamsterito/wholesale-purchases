@@ -14,6 +14,7 @@ import '../utils/auto_refresh.dart';
 import '../widgets/date_range_picker_dialog.dart' as custom_picker;
 import '../widgets/smart_image.dart';
 import '../services/notification_service.dart';
+import '../services/store/app_settings.dart';
 
 enum _SupplierOrderTab { active, history }
 
@@ -450,6 +451,8 @@ Future<void> _updateOrderStatus(SupplierOrder order, String status) async {
         userId: userId,
         startDate: _historyRangeStart,
         endDate: _historyRangeEnd,
+        currencyCode: AppSettings.currencyCode,
+        currencySymbol: AppSettings.currency.value.symbol,
       );
 
       final fileName =

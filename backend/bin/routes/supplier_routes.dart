@@ -649,6 +649,8 @@ void _registerSupplierExportRoute(Router router, Connection connection) {
 
       final startDateRawDt = _toNullableDateTime(startDateRaw);
       final endDateRawDt = _toNullableDateTime(endDateRaw);
+      final currencyCode = (payload['currencyCode'] ?? 'KZT').toString();
+      final currencySymbol = (payload['currencySymbol'] ?? '₸').toString();
       if (startDateRawDt == null || endDateRawDt == null) {
         return _jsonError('Неверный формат дат', 400);
       }
@@ -723,16 +725,26 @@ void _registerSupplierExportRoute(Router router, Connection connection) {
         },
       );
 
+      double rate = 1.0;
+      if (currencyCode != 'KZT') {
+        final rateResult = await connection.execute(
+          Sql.named('SELECT rate FROM public.exchange_rates WHERE currency_code = @code'),
+          parameters: {'code': currencyCode},
+        );
+        if (rateResult.isNotEmpty) {
+          rate = double.tryParse(rateResult.first.toColumnMap()['rate'].toString()) ?? 1.0;
+        }
+      }
+
       final excel = Excel.createExcel();
       final sheet = excel['SupplierOrders'];
 
-      const headers = <String>[
+      final headers = <String>[
         'ID заказа',
-        'Покупатель',
         'Товар',
         'Количество',
-        'Цена',
-        'Сумма',
+        'Цена, $currencySymbol',
+        'Сумма, $currencySymbol',
         'Дата',
         'Статус',
       ];
@@ -750,11 +762,16 @@ void _registerSupplierExportRoute(Router router, Connection connection) {
       for (var i = 0; i < result.length; i++) {
         final row = result[i].toColumnMap();
         final orderId = row['order_id'].toString();
-        final buyerName = (row['buyer_name'] ?? '').toString();
         final serviceName = (row['service_name'] ?? '').toString();
         final price = _toPositiveInt(row['price']);
         final quantity = _toPositiveInt(row['quantity'], fallback: 1);
         final total = price * quantity;
+        
+        final convertedPrice = (price * rate).round();
+        final convertedTotal = (total * rate).round();
+        final priceStr = '$convertedPrice $currencySymbol';
+        final totalStr = '$convertedTotal $currencySymbol';
+
         final orderDate = row['order_date'];
         final orderStatus = (row['order_status'] ?? '').toString();
 
@@ -777,46 +794,39 @@ void _registerSupplierExportRoute(Router router, Connection connection) {
               CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: rowIndex),
             )
             .value = TextCellValue(
-          buyerName,
-        );
-        sheet
-            .cell(
-              CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: rowIndex),
-            )
-            .value = TextCellValue(
           serviceName,
         );
         sheet
             .cell(
-              CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: rowIndex),
+              CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: rowIndex),
             )
             .value = IntCellValue(
           quantity,
         );
         sheet
             .cell(
+              CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: rowIndex),
+            )
+            .value = TextCellValue(
+          priceStr,
+        );
+        sheet
+            .cell(
               CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: rowIndex),
             )
-            .value = IntCellValue(
-          price,
+            .value = TextCellValue(
+          totalStr,
         );
         sheet
             .cell(
               CellIndex.indexByColumnRow(columnIndex: 5, rowIndex: rowIndex),
-            )
-            .value = IntCellValue(
-          total,
-        );
-        sheet
-            .cell(
-              CellIndex.indexByColumnRow(columnIndex: 6, rowIndex: rowIndex),
             )
             .value = TextCellValue(
           formattedDate,
         );
         sheet
             .cell(
-              CellIndex.indexByColumnRow(columnIndex: 7, rowIndex: rowIndex),
+              CellIndex.indexByColumnRow(columnIndex: 6, rowIndex: rowIndex),
             )
             .value = TextCellValue(
           orderStatus,
@@ -2140,6 +2150,100 @@ void _registerSupplierStatisticsRoutes(Router router, Connection connection) {
     } catch (e, st) {
       print('Error fetching rating stats: $e\n$st');
       return Response.internalServerError();
+    }
+  });
+}
+
+// Уведомления об удалении товаров модератором.
+void _registerSupplierModerationDeletionRoutes(Router router, Connection connection) {
+  // GET /supplier/moderation-deletions
+  // Получить все активные (не закрытые) уведомления об удалении для поставщика.
+  router.get('/supplier/moderation-deletions', (Request request) async {
+    try {
+      final userIdRaw = request.url.queryParameters['userId'];
+      final userId = int.tryParse(userIdRaw ?? '');
+      if (userId == null || userId <= 0) {
+        return Response.badRequest(body: 'Invalid userId');
+      }
+
+      final result = await connection.execute(
+        Sql.named('''
+          SELECT
+            id,
+            product_name,
+            reason,
+            created_at
+          FROM moderation_deletions
+          WHERE supplier_user_id = @supplier_user_id
+            AND dismissed = false
+          ORDER BY created_at DESC;
+        '''),
+        parameters: {'supplier_user_id': userId},
+      );
+
+      final deletions = result.map((row) {
+        final map = row.toColumnMap();
+        return {
+          'id': map['id'].toString(),
+          'productName': map['product_name'] ?? '',
+          'reason': map['reason'] ?? '',
+          'createdAt': (map['created_at'] as DateTime).toIso8601String(),
+        };
+      }).toList();
+
+      return Response.ok(
+        jsonEncode(deletions),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } catch (e, st) {
+      print('Error fetching moderation deletions: $e\n$st');
+      return Response.internalServerError(body: 'Server error');
+    }
+  });
+
+  // PATCH /supplier/moderation-deletions/<id>/dismiss
+  // Закрыть уведомление об удалении товара.
+  router.patch('/supplier/moderation-deletions/<id>/dismiss', (Request request, String id) async {
+    try {
+      final deletionId = int.tryParse(id);
+      if (deletionId == null || deletionId <= 0) {
+        return Response.badRequest(body: 'Invalid deletion ID');
+      }
+
+      final body = await request.readAsString();
+      final decoded = jsonDecode(body);
+      final supplierUserId = _toPositiveInt(decoded['userId']);
+
+      if (supplierUserId == 0) {
+        return Response.badRequest(body: 'userId is required in the body');
+      }
+
+      final updated = await connection.execute(
+        Sql.named('''
+          UPDATE moderation_deletions
+          SET dismissed = true
+          WHERE id = @id AND supplier_user_id = @supplier_user_id
+          RETURNING id;
+        '''),
+        parameters: {
+          'id': deletionId,
+          'supplier_user_id': supplierUserId,
+        },
+      );
+
+      if (updated.isEmpty) {
+        return Response.notFound('Deletion alert not found or unauthorized');
+      }
+
+      return Response.ok(
+        jsonEncode({'success': true}),
+        headers: {'content-type': 'application/json; charset=utf-8'},
+      );
+    } on FormatException {
+      return Response.badRequest(body: 'Invalid JSON');
+    } catch (e, st) {
+      print('Error dismissing moderation deletion: $e\n$st');
+      return Response.internalServerError(body: 'Server error');
     }
   });
 }

@@ -133,121 +133,32 @@ void _registerModeratorProductRoutes(Router router, Connection connection) {
       final supplierUserId = _toPositiveInt(productMap['supplier_user_id']);
       var supplierNotified = false;
       if (supplierUserId > 0) {
-        var chatMap = await _loadPreferredSupportChatForUser(
-          connection,
-          supplierUserId,
+        // Записываем уведомление в moderation_deletions -
+        // поставщик увидит баннер. Чат откроется только если он
+        // сам нажмет "Обратиться в поддержку".
+        await connection.execute(
+          Sql.named('''
+            INSERT INTO moderation_deletions (
+              supplier_user_id,
+              product_name,
+              reason,
+              moderator_id
+            )
+            VALUES (
+              @supplier_user_id,
+              @product_name,
+              @reason,
+              @moderator_id
+            );
+          '''),
+          parameters: {
+            'supplier_user_id': supplierUserId,
+            'product_name': productName,
+            'reason': normalizedReason,
+            'moderator_id': moderatorId,
+          },
         );
-        final hasOpenChat =
-            chatMap != null &&
-            _normalizeSupportChatStatus(chatMap['status']) == 'open';
-        if (!hasOpenChat) {
-          final createdChat = await connection.execute(
-            Sql.named('''
-              INSERT INTO support_chats (
-                user_id,
-                status,
-                category,
-                subject
-              )
-              VALUES (
-                @user_id,
-                'open',
-                @category,
-                @subject
-              )
-              RETURNING *;
-            '''),
-            parameters: {
-              'user_id': supplierUserId,
-              'category': 'Модерация товаров',
-              'subject': 'Действие по товару за нарушение',
-            },
-          );
-          if (createdChat.isNotEmpty) {
-            chatMap = createdChat.first.toColumnMap();
-          }
-        }
-
-        final chatId = chatMap == null ? 0 : _toPositiveInt(chatMap['id']);
-        if (chatId > 0) {
-          final resolvedChatMap = chatMap!;
-          final category =
-              _normalizeOptionalText(resolvedChatMap['category']) ??
-              'Модерация товаров';
-          final subject =
-              _normalizeOptionalText(resolvedChatMap['subject']) ??
-              'Действие по товару за нарушение';
-          final notificationText =
-              'Товар "$productName" удален модератором за нарушение. '
-              'Причина: $normalizedReason';
-
-          final insertedMessage = await connection.execute(
-            Sql.named('''
-              WITH inserted AS (
-                INSERT INTO support_messages (
-                  chat_id,
-                  user_id,
-                  sender_role,
-                  sender_user_id,
-                  category,
-                  subject,
-                  message_text
-                )
-                VALUES (
-                  @chat_id,
-                  @user_id,
-                  'moderator',
-                  @sender_user_id,
-                  @category,
-                  @subject,
-                  @message_text
-                )
-                RETURNING *
-              )
-              SELECT i.*, u.avatar_url AS sender_avatar_url
-              FROM inserted i
-              LEFT JOIN public.users u ON u.id = i.sender_user_id;
-            '''),
-            parameters: {
-              'chat_id': chatId,
-              'user_id': supplierUserId,
-              'sender_user_id': moderatorId,
-              'category': category,
-              'subject': subject,
-              'message_text': notificationText,
-            },
-          );
-          if (insertedMessage.isNotEmpty) {
-            await connection.execute(
-              Sql.named('''
-                UPDATE support_chats
-                SET
-                  updated_at = NOW(),
-                  category = COALESCE(category, @category),
-                  subject = COALESCE(subject, @subject)
-                WHERE id = @chat_id;
-              '''),
-              parameters: {
-                'chat_id': chatId,
-                'category': category,
-                'subject': subject,
-              },
-            );
-
-            final messageDto = _supportMessageRowToDto(
-              insertedMessage.first.toColumnMap(),
-              request,
-            );
-            _emitSupportEvent(
-              kind: 'message',
-              userId: supplierUserId,
-              chatId: chatId,
-              messageId: _toPositiveInt(messageDto['id']),
-              senderRole: messageDto['senderRole']?.toString(),
-            );
-            supplierNotified = true;
-          }
-        }
+        supplierNotified = true;
       }
 
       return Response.ok(
@@ -259,6 +170,7 @@ void _registerModeratorProductRoutes(Router router, Connection connection) {
         }),
         headers: {'content-type': 'application/json; charset=utf-8'},
       );
+
     } on FormatException {
       return Response.badRequest(body: 'Неверный JSON');
     } catch (e, st) {

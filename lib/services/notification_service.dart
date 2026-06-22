@@ -37,6 +37,10 @@ class NotificationBadgeConfig {
   /// не перезаписал локальные изменения устаревшими данными с сервера.
   static const Duration optimisticHoldDuration = Duration(seconds: 5);
 
+  /// Время жизни подавления счётчика - если за этот период API не вернул
+  /// новых данных, подавление снимается при следующем polling.
+  static const Duration suppressionLifetime = Duration(minutes: 10);
+
   /// Минимальный интервал между двумя ручными refreshNotifications.
   static const Duration refreshThrottle = Duration(seconds: 2);
 }
@@ -55,6 +59,7 @@ class NotificationService with WidgetsBindingObserver {
   final ValueNotifier<int> pendingReviewsCount = ValueNotifier(0);
   final ValueNotifier<int> deliveredOrdersCount = ValueNotifier(0);
   final ValueNotifier<int> pendingModerationsCount = ValueNotifier(0);
+  final ValueNotifier<int> pendingModerationDeletionsCount = ValueNotifier(0);
 
   // Внутреннее состояние
 
@@ -77,6 +82,14 @@ class NotificationService with WidgetsBindingObserver {
   /// До этого момента polling не должен перезаписывать счётчики, которые
   /// только что выставил пользователь оптимистично.
   DateTime? _optimisticHoldUntil;
+
+  /// Подавленные счётчики: имя счётчика -> значение с API, при котором
+  /// пользователь открыл раздел. Пока API возвращает то же или меньше,
+  /// счётчик остаётся нулевым. Если API вернул больше - показываем дельту.
+  final Map<String, int> _suppressedValues = {};
+
+  /// Когда было создано подавление - для автоматической очистки.
+  final Map<String, DateTime> _suppressedAt = {};
 
   /// Счётчик попыток refresh для тестов: инкрементируется сразу после
   /// auth-guard, до throttle и до защиты от параллельных вызовов - иначе
@@ -151,6 +164,8 @@ class NotificationService with WidgetsBindingObserver {
     _activeRefresh = null;
     _lastRefreshAt = null;
     _optimisticHoldUntil = null;
+    _suppressedValues.clear();
+    _suppressedAt.clear();
 
     if (prevUserId != null) {
       try {
@@ -171,6 +186,7 @@ class NotificationService with WidgetsBindingObserver {
     pendingSupplierOrdersCount.value = 0;
     pendingReviewsCount.value = 0;
     pendingModerationsCount.value = 0;
+    pendingModerationDeletionsCount.value = 0;
     deliveredOrdersCount.value = 0;
   }
 
@@ -185,6 +201,7 @@ class NotificationService with WidgetsBindingObserver {
     pendingSupplierOrdersCount.addListener(_recalculateTotal);
     pendingReviewsCount.addListener(_recalculateTotal);
     pendingModerationsCount.addListener(_recalculateTotal);
+    pendingModerationDeletionsCount.addListener(_recalculateTotal);
     deliveredOrdersCount.addListener(_recalculateTotal);
     _listenersSubscribed = true;
   }
@@ -276,12 +293,31 @@ class NotificationService with WidgetsBindingObserver {
             scope: 'notifications',
           );
         } else {
-          unreadMessagesCount.value = counts.unreadMessages;
-          pendingBuyerOrdersCount.value = counts.pendingBuyerOrders;
-          pendingSupplierOrdersCount.value = counts.pendingSupplierOrders;
-          pendingReviewsCount.value = counts.pendingReviews;
-          pendingModerationsCount.value = counts.pendingModerations;
-          deliveredOrdersCount.value = counts.deliveredOrders;
+          // Чистим просроченные подавления
+          _cleanExpiredSuppressions();
+
+          // Применяем серверные значения с учётом подавленных счётчиков
+          unreadMessagesCount.value = _applySuppressionFor(
+            'unreadMessages', counts.unreadMessages,
+          );
+          pendingBuyerOrdersCount.value = _applySuppressionFor(
+            'pendingBuyerOrders', counts.pendingBuyerOrders,
+          );
+          pendingSupplierOrdersCount.value = _applySuppressionFor(
+            'pendingSupplierOrders', counts.pendingSupplierOrders,
+          );
+          pendingReviewsCount.value = _applySuppressionFor(
+            'pendingReviews', counts.pendingReviews,
+          );
+          pendingModerationsCount.value = _applySuppressionFor(
+            'pendingModerations', counts.pendingModerations,
+          );
+          pendingModerationDeletionsCount.value = _applySuppressionFor(
+            'pendingModerationDeletions', counts.pendingModerationDeletions,
+          );
+          deliveredOrdersCount.value = _applySuppressionFor(
+            'deliveredOrders', counts.deliveredOrders,
+          );
           await _cacheCounts(userId);
         }
       }
@@ -341,6 +377,8 @@ class NotificationService with WidgetsBindingObserver {
           (data['pendingReviews'] as num?)?.toInt() ?? 0;
       pendingModerationsCount.value =
           (data['pendingModerations'] as num?)?.toInt() ?? 0;
+      pendingModerationDeletionsCount.value =
+          (data['pendingModerationDeletions'] as num?)?.toInt() ?? 0;
       deliveredOrdersCount.value =
           (data['deliveredOrders'] as num?)?.toInt() ?? 0;
     } catch (e) {
@@ -360,6 +398,7 @@ class NotificationService with WidgetsBindingObserver {
         'pendingSupplierOrders': pendingSupplierOrdersCount.value,
         'pendingReviews': pendingReviewsCount.value,
         'pendingModerations': pendingModerationsCount.value,
+        'pendingModerationDeletions': pendingModerationDeletionsCount.value,
         'deliveredOrders': deliveredOrdersCount.value,
         'timestamp': DateTime.now().toIso8601String(),
       };
@@ -498,6 +537,52 @@ class NotificationService with WidgetsBindingObserver {
     final until = _optimisticHoldUntil;
     if (until == null) return false;
     return DateTime.now().isBefore(until);
+  }
+
+  /// Запоминает серверное значение счётчика и подавляет его до тех пор,
+  /// пока API не вернёт новое (увеличенное) значение.
+  void _suppressCounter(String name, int serverValue) {
+    _suppressedValues[name] = serverValue;
+    _suppressedAt[name] = DateTime.now();
+  }
+
+  /// Подавляет несколько счётчиков за раз.
+  void _suppressCounters(Map<String, int> counters) {
+    for (final entry in counters.entries) {
+      _suppressCounter(entry.key, entry.value);
+    }
+  }
+
+  /// Применяет серверное значение с учётом подавления.
+  /// Если счётчик подавлен и API вернул то же или меньше - возвращаем 0.
+  /// Если API вернул больше - показываем только дельту (новые уведомления).
+  int _applySuppressionFor(String name, int serverValue) {
+    final suppressedValue = _suppressedValues[name];
+    if (suppressedValue == null) return serverValue;
+
+    if (serverValue <= suppressedValue) {
+      return 0;
+    }
+
+    // Пришли новые данные - показываем разницу и снимаем подавление
+    _suppressedValues.remove(name);
+    _suppressedAt.remove(name);
+    return serverValue - suppressedValue;
+  }
+
+  /// Очищает подавления старше suppressionLifetime.
+  void _cleanExpiredSuppressions() {
+    final now = DateTime.now();
+    final expired = <String>[];
+    for (final entry in _suppressedAt.entries) {
+      if (now.difference(entry.value) > NotificationBadgeConfig.suppressionLifetime) {
+        expired.add(entry.key);
+      }
+    }
+    for (final key in expired) {
+      _suppressedValues.remove(key);
+      _suppressedAt.remove(key);
+    }
   }
 
   @visibleForTesting
@@ -649,6 +734,7 @@ class NotificationService with WidgetsBindingObserver {
   Future<void> markAllMessagesAsRead() async {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) return;
+    _suppressCounter('unreadMessages', unreadMessagesCount.value);
     if (unreadMessagesCount.value > 0) {
       unreadMessagesCount.value = 0;
       _extendOptimisticHold();
@@ -660,6 +746,7 @@ class NotificationService with WidgetsBindingObserver {
   Future<void> markAllModerationsAsViewed() async {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) return;
+    _suppressCounter('pendingModerations', pendingModerationsCount.value);
     if (pendingModerationsCount.value > 0) {
       pendingModerationsCount.value = 0;
       _extendOptimisticHold();
@@ -671,6 +758,7 @@ class NotificationService with WidgetsBindingObserver {
   Future<void> markAllSupplierOrdersAsViewed() async {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) return;
+    _suppressCounter('pendingSupplierOrders', pendingSupplierOrdersCount.value);
     if (pendingSupplierOrdersCount.value > 0) {
       pendingSupplierOrdersCount.value = 0;
       _extendOptimisticHold();
@@ -682,6 +770,10 @@ class NotificationService with WidgetsBindingObserver {
   Future<void> markAllBuyerOrdersAsViewed() async {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) return;
+    _suppressCounters({
+      'pendingBuyerOrders': pendingBuyerOrdersCount.value,
+      'deliveredOrders': deliveredOrdersCount.value,
+    });
     bool changed = false;
     if (pendingBuyerOrdersCount.value > 0) {
       pendingBuyerOrdersCount.value = 0;
@@ -701,6 +793,7 @@ class NotificationService with WidgetsBindingObserver {
   Future<void> markAllReviewsAsViewed() async {
     final userId = AuthStorage.userId;
     if (userId == null || userId <= 0) return;
+    _suppressCounter('pendingReviews', pendingReviewsCount.value);
     if (pendingReviewsCount.value > 0) {
       pendingReviewsCount.value = 0;
       _extendOptimisticHold();
@@ -739,7 +832,8 @@ class NotificationService with WidgetsBindingObserver {
         return unreadMessagesCount.value +
             buyerActivity +
             pendingSupplierOrdersCount.value +
-            pendingModerationsCount.value;
+            pendingModerationsCount.value +
+            pendingModerationDeletionsCount.value;
       case 'moderator':
       case 'super_admin':
         return unreadMessagesCount.value +

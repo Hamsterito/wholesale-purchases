@@ -816,13 +816,16 @@ response: ReviewResponse(
               ),
             ),
           ),
-          SafeArea(
-            child: Column(
-              children: [
-                _buildHeader(context, palette),
-                Expanded(child: _buildContent(palette)),
-              ],
-            ),
+          Column(
+            children: [
+              _buildHeader(context, palette),
+              Expanded(
+                child: SafeArea(
+                  top: false,
+                  child: _buildContent(palette),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -832,7 +835,7 @@ response: ReviewResponse(
 
   Widget _buildHeader(BuildContext context, AppColorPalette palette) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
+      padding: EdgeInsets.fromLTRB(12, MediaQuery.paddingOf(context).top + 12, 16, 12),
       decoration: BoxDecoration(
         color: palette.card,
         border: Border.all(color: palette.line),

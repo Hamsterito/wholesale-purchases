@@ -13,6 +13,7 @@ import '../utils/auto_refresh.dart';
 import '../widgets/navigation/role_internal_nav_bar.dart';
 import '../widgets/date_range_picker_dialog.dart' as custom_picker;
 import '../widgets/smart_image.dart';
+import '../services/store/app_settings.dart';
 import 'package:file_saver/file_saver.dart';
 
 class OrderHistoryPage extends StatefulWidget {
@@ -881,6 +882,8 @@ if (order.items.isEmpty)
         userId: userId,
         startDate: _rangeStart,
         endDate: _rangeEnd,
+        currencyCode: AppSettings.currencyCode,
+        currencySymbol: AppSettings.currency.value.symbol,
       );
 
       final fileName =

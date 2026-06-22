@@ -174,7 +174,8 @@ class ApiService {
           'nameRu': 'Вода',
           'nameKk': 'Су',
           'imagePath': 'assets/catalog/water.jpg',
-          'keywords': ['вода', 'минеральная', 'су'],
+          'keywordsRu': ['вода', 'минеральная вода', 'газированная вода'],
+          'keywordsKk': ['су', 'минералды су', 'газдалған су'],
           'sortOrder': 1,
           'isActive': true,
         },
@@ -183,7 +184,8 @@ class ApiService {
           'nameRu': 'Соки',
           'nameKk': 'Шырындар',
           'imagePath': 'assets/catalog/juice.jpg',
-          'keywords': ['сок', 'соки', 'juice', 'шырын'],
+          'keywordsRu': ['соки', 'нектары', 'фреши'],
+          'keywordsKk': ['шырындар', 'нектарлар', 'фрештер'],
           'sortOrder': 2,
           'isActive': true,
         },
@@ -192,7 +194,8 @@ class ApiService {
           'nameRu': 'Газировка',
           'nameKk': 'Газдалған сусындар',
           'imagePath': 'assets/catalog/soda.jpg',
-          'keywords': ['газировка', 'газированный', 'лимонад', 'soda'],
+          'keywordsRu': ['газировка', 'лимонад', 'напитки'],
+          'keywordsKk': ['газдалған сусын', 'лимонад', 'сусындар'],
           'sortOrder': 3,
           'isActive': true,
         },
@@ -213,7 +216,8 @@ class ApiService {
           'nameRu': 'Фрукты, ягоды',
           'nameKk': 'Жемістер, жидектер',
           'imagePath': 'assets/catalog/fruits_berries.jpg',
-          'keywords': ['фрукты', 'ягоды', 'фрукт', 'ягода', 'жеміс'],
+          'keywordsRu': ['свежие фрукты', 'ягоды', 'экзотика'],
+          'keywordsKk': ['жас жемістер', 'жидектер', 'экзотика'],
           'sortOrder': 1,
           'isActive': true,
         },
@@ -222,7 +226,8 @@ class ApiService {
           'nameRu': 'Овощи, грибы и зелень',
           'nameKk': 'Көкөністер, саңырауқұлақтар және көктер',
           'imagePath': 'assets/catalog/vegetables_greens.jpg',
-          'keywords': ['овощи', 'грибы', 'зелень', 'овощ', 'гриб', 'көкөніс'],
+          'keywordsRu': ['овощи', 'грибы', 'зелень'],
+          'keywordsKk': ['көкөністер', 'саңырауқұлақтар', 'көктер'],
           'sortOrder': 2,
           'isActive': true,
         },
@@ -243,7 +248,8 @@ class ApiService {
           'nameRu': 'Выпечка от Манса',
           'nameKk': 'Манс пісірмелері',
           'imagePath': 'assets/catalog/bakery_pastry.jpg',
-          'keywords': ['выпечка', 'пекарня', 'булочки', 'круассан', 'нан'],
+          'keywordsRu': ['свежая выпечка', 'булочки', 'круассаны'],
+          'keywordsKk': ['жаңа пісірмелер', 'тоқаштар', 'круассандар'],
           'sortOrder': 1,
           'isActive': true,
         },
@@ -252,7 +258,8 @@ class ApiService {
           'nameRu': 'Хлеб',
           'nameKk': 'Нан',
           'imagePath': 'assets/catalog/bread.jpg',
-          'keywords': ['хлеб', 'батон', 'багет', 'нан'],
+          'keywordsRu': ['хлеб', 'батоны', 'багеты'],
+          'keywordsKk': ['нан', 'батондар', 'багеттер'],
           'sortOrder': 2,
           'isActive': true,
         },
@@ -261,7 +268,8 @@ class ApiService {
           'nameRu': 'Выпечка и пироги',
           'nameKk': 'Пісірмелер мен бәліштер',
           'imagePath': 'assets/catalog/pie.jpg',
-          'keywords': ['выпечка', 'пирог', 'пироги', 'бәліш'],
+          'keywordsRu': ['домашняя выпечка', 'сладкие пироги', 'сытные пироги'],
+          'keywordsKk': ['пісірмелер', 'тәтті бәліштер', 'дәмді бәліштер'],
           'sortOrder': 3,
           'isActive': true,
         },
@@ -282,7 +290,8 @@ class ApiService {
           'nameRu': 'Сыр',
           'nameKk': 'Ірімшік',
           'imagePath': 'assets/catalog/cheese.jpg',
-          'keywords': ['сыр', 'ірімшік'],
+          'keywordsRu': ['твердые сыры', 'мягкие сыры', 'плавленый сыр'],
+          'keywordsKk': ['қатты ірімшік', 'жұмсақ ірімшік', 'балқытылған ірімшік'],
           'sortOrder': 1,
           'isActive': true,
         },
@@ -291,7 +300,8 @@ class ApiService {
           'nameRu': 'Творог, сметана',
           'nameKk': 'Сүзбе, қаймақ',
           'imagePath': 'assets/catalog/cottage_cheese.jpg',
-          'keywords': ['творог', 'сметана', 'кисломолочные', 'сүзбе', 'қаймақ'],
+          'keywordsRu': ['творог', 'сметана', 'сырки'],
+          'keywordsKk': ['сүзбе', 'қаймақ', 'сүзбешелер'],
           'sortOrder': 2,
           'isActive': true,
         },
@@ -300,7 +310,8 @@ class ApiService {
           'nameRu': 'Йогурт и десерты',
           'nameKk': 'Йогурт және десерттер',
           'imagePath': 'assets/catalog/yogurt_dessert.jpg',
-          'keywords': ['йогурт', 'десерт', 'десерты'],
+          'keywordsRu': ['йогурты', 'пудинги', 'десерты'],
+          'keywordsKk': ['йогурттар', 'пудингтер', 'десерттер'],
           'sortOrder': 3,
           'isActive': true,
         },
@@ -309,7 +320,8 @@ class ApiService {
           'nameRu': 'Молоко и кисломолочные продукты',
           'nameKk': 'Сүт және қышқыл сүт өнімдері',
           'imagePath': 'assets/catalog/milk.jpg',
-          'keywords': ['молоко', 'кефир', 'ряженка', 'айран', 'сүт'],
+          'keywordsRu': ['молоко', 'кефир', 'ряженка'],
+          'keywordsKk': ['сүт', 'айран', 'ряженка'],
           'sortOrder': 4,
           'isActive': true,
         },
@@ -318,7 +330,8 @@ class ApiService {
           'nameRu': 'Масло и яйца',
           'nameKk': 'Май және жұмыртқа',
           'imagePath': 'assets/catalog/butter_eggs.jpg',
-          'keywords': ['масло', 'яйца', 'яйцо', 'май', 'жұмыртқа'],
+          'keywordsRu': ['сливочное масло', 'яйца', 'перепелиные яйца'],
+          'keywordsKk': ['сары май', 'жұмыртқа', 'бөдене жұмыртқасы'],
           'sortOrder': 5,
           'isActive': true,
         },
@@ -339,7 +352,8 @@ class ApiService {
           'nameRu': 'Мясо и птица',
           'nameKk': 'Ет және құс еті',
           'imagePath': 'assets/catalog/meat.jpg',
-          'keywords': ['мясо', 'птица', 'курица', 'говядина', 'свинина', 'ет'],
+          'keywordsRu': ['свежее мясо', 'курица', 'говядина'],
+          'keywordsKk': ['жас ет', 'құс еті', 'сиыр еті'],
           'sortOrder': 1,
           'isActive': true,
         },
@@ -348,7 +362,8 @@ class ApiService {
           'nameRu': 'Колбасы и сосиски',
           'nameKk': 'Шұжықтар мен сосискалар',
           'imagePath': 'assets/catalog/sausages.jpg',
-          'keywords': ['колбаса', 'колбасы', 'сосиски', 'сардельки', 'шұжық'],
+          'keywordsRu': ['колбасы', 'сосиски', 'сардельки'],
+          'keywordsKk': ['шұжықтар', 'сосискалар', 'сарделькалар'],
           'sortOrder': 2,
           'isActive': true,
         },
@@ -357,7 +372,8 @@ class ApiService {
           'nameRu': 'Мясные деликатесы',
           'nameKk': 'Ет деликатестері',
           'imagePath': 'assets/catalog/deli_meats.jpg',
-          'keywords': ['деликатесы', 'ветчина', 'бекон', 'хамон', 'деликатес'],
+          'keywordsRu': ['мясные деликатесы', 'ветчина', 'бекон'],
+          'keywordsKk': ['ет деликатестері', 'ветчина', 'бекон'],
           'sortOrder': 3,
           'isActive': true,
         },
@@ -402,6 +418,9 @@ class ApiService {
         mappedSubcategories = activeSubs.map((sub) => {
           ...sub,
           'name': isKk ? sub['nameKk'] : sub['nameRu'],
+          'keywords': isKk 
+              ? (sub['keywordsKk'] ?? sub['keywords'] ?? [])
+              : (sub['keywordsRu'] ?? sub['keywords'] ?? []),
         }).toList();
       }
 
@@ -1589,6 +1608,41 @@ class ApiService {
     }
   }
 
+  static Future<List<dynamic>> getModerationDeletions({required int userId}) async {
+    try {
+      final query = <String, String>{'userId': '$userId'};
+      final uri = Uri.parse('$baseUrl/supplier/moderation-deletions').replace(queryParameters: query);
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        final body = _decodeBody(response.bodyBytes);
+        return jsonDecode(body) as List<dynamic>;
+      }
+      throw Exception('Failed to load moderation deletions: ${response.statusCode}');
+    } catch (e) {
+      debugPrint('Error loading moderation deletions: $e');
+      rethrow;
+    }
+  }
+
+  static Future<void> dismissModerationDeletion({required int id, required int userId}) async {
+    try {
+      final uri = Uri.parse('$baseUrl/supplier/moderation-deletions/$id/dismiss');
+      final response = await http.patch(
+        uri,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'userId': userId}),
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception('Failed to dismiss moderation deletion: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error dismissing moderation deletion: $e');
+      rethrow;
+    }
+  }
+
   static Future<List<SupportMessage>> getSupportMessages({
     required int userId,
     int? chatId,
@@ -1916,6 +1970,8 @@ class ApiService {
     required int userId,
     required DateTime startDate,
     required DateTime endDate,
+    required String currencyCode,
+    required String currencySymbol,
   }) async {
     try {
       final response = await http.post(
@@ -1925,6 +1981,8 @@ class ApiService {
           'userId': userId,
           'startDate': startDate.toIso8601String(),
           'endDate': endDate.toIso8601String(),
+          'currencyCode': currencyCode,
+          'currencySymbol': currencySymbol,
         }),
       );
 
@@ -1948,6 +2006,8 @@ class ApiService {
     required int userId,
     required DateTime startDate,
     required DateTime endDate,
+    required String currencyCode,
+    required String currencySymbol,
   }) async {
     try {
       final response = await http.post(
@@ -1957,6 +2017,8 @@ class ApiService {
           'userId': userId,
           'startDate': startDate.toIso8601String(),
           'endDate': endDate.toIso8601String(),
+          'currencyCode': currencyCode,
+          'currencySymbol': currencySymbol,
         }),
       );
 
@@ -2941,6 +3003,9 @@ class ApiService {
           ? _fetchPendingModerationsCount()
           : Future.value(0),
       _fetchDeliveredOrdersCount(userId),
+      role == 'supplier'
+          ? _fetchPendingModerationDeletionsCount(userId)
+          : Future.value(0),
     ]);
 
     return NotificationCounts(
@@ -2950,6 +3015,7 @@ class ApiService {
       pendingReviews: futures[3],
       pendingModerations: futures[4],
       deliveredOrders: futures[5],
+      pendingModerationDeletions: futures[6],
     );
   }
 
@@ -3072,6 +3138,19 @@ class ApiService {
         onTimeout: () => throw Exception(AppLocalizations.current.getString('auto_taymaut')),
       );
       return products.length;
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  /// Считает уведомления об удалении товаров для поставщика.
+  static Future<int> _fetchPendingModerationDeletionsCount(int userId) async {
+    try {
+      final deletions = await getModerationDeletions(userId: userId).timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => throw Exception(AppLocalizations.current.getString('auto_taymaut')),
+      );
+      return deletions.length;
     } catch (_) {
       return 0;
     }

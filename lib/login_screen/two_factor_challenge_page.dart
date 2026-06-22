@@ -81,7 +81,7 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
   @override
   void initState() {
     super.initState();
-    _errorController = StreamController<ErrorAnimationType>();
+    _errorController = StreamController<ErrorAnimationType>.broadcast();
     _startResendCooldown();
   }
 
@@ -265,7 +265,6 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isKeyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
     final palette = context.colorPalette;
     final gradientColors = _isDark
         ? [palette.bgBottom, palette.bgTop]
@@ -280,131 +279,137 @@ class _TwoFactorChallengePageState extends State<TwoFactorChallengePage> {
             colors: gradientColors,
           ),
         ),
-        child: Column(
-          children: [
-            SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: _cardBg,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: _colorScheme.onSurface,
+                    SafeArea(
+                      bottom: false,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: _cardBg,
+                                shape: BoxShape.circle,
+                              ),
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back,
+                                  color: _colorScheme.onSurface,
+                                ),
+                                tooltip: AppLocalizations.current.getString('auto_nazad'),
+                                onPressed: _isSubmitting
+                                    ? null
+                                    : () => Navigator.of(context).pop(),
+                              ),
+                            ),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                AppLocalizations.current.getString('auto_podtverzhdenie_vkhoda'),
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        tooltip: AppLocalizations.current.getString('auto_nazad'),
-                        onPressed: _isSubmitting
-                            ? null
-                            : () => Navigator.of(context).pop(),
                       ),
                     ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        AppLocalizations.current.getString('auto_podtverzhdenie_vkhoda'),
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppLocalizations.current.getString('auto_dvukhfaktornaya_nautentifikatsiya').replaceAll(r'\n', '\n'),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              height: 1.15,
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          Text(
+                            AppLocalizations.current.getString('auto_my_otpravili_kod_na_vashu_pochtu'),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            widget.email,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: _cardBg,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24),
+                        ),
+                      ),
+                      child: SafeArea(
+                        top: false,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(32, 24, 32, 32),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildHeaderRow(),
+                              SizedBox(height: 16),
+                              if (_useBackupCode)
+                                _buildBackupCodeField()
+                              else
+                                _buildPinCodeField(),
+                              if (_inlineError != null) ...[
+                                SizedBox(height: 12),
+                                Text(
+                                  _inlineError!,
+                                  style: TextStyle(
+                                    color: palette.error,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                              SizedBox(height: 16),
+                              _buildToggleBackupButton(),
+                              SizedBox(height: 8),
+                              _buildRememberDeviceCheckbox(),
+                              SizedBox(height: 16),
+                              _buildSubmitButton(),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-            if (!isKeyboardVisible)
-              Expanded(
-                child: Center(
-                  child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        AppLocalizations.current.getString('auto_dvukhfaktornaya_nautentifikatsiya'),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          height: 1.15,
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Text(
-                        AppLocalizations.current.getString('auto_my_otpravili_kod_na_vashu_pochtu'),
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        widget.email,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Flexible(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: _cardBg,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(24),
-                  topRight: Radius.circular(24),
-                ),
-              ),
-              child: SafeArea(
-                top: false,
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(32, 24, 32, 32),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildHeaderRow(),
-                        SizedBox(height: 16),
-                        if (_useBackupCode)
-                          _buildBackupCodeField()
-                        else
-                          _buildPinCodeField(),
-                        if (_inlineError != null) ...[
-                          SizedBox(height: 12),
-                          Text(
-                            _inlineError!,
-                            style: TextStyle(
-                              color: palette.error,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                        SizedBox(height: 16),
-                        _buildToggleBackupButton(),
-                        SizedBox(height: 8),
-                        _buildRememberDeviceCheckbox(),
-                        SizedBox(height: 16),
-                        _buildSubmitButton(),
-                      ],
-                    ),
-                  ),
-                ),
-                ),
-              ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );

@@ -99,15 +99,17 @@ class _NavigationShellState extends State<NavigationShell>
               builder: (context, _) {
                 final service = ModerationAlertService();
                 return ModerationAlertBanner(
-                  alerts: service.pendingAlerts
-                      .map((msg) => ModerationAlertService.parseMessageText(msg.text))
-                      .toList(),
+                  alerts: service.pendingAlerts,
                   onDismiss: () => service.dismissAllAlerts(),
                   onContactSupport: () {
+                    final alerts = service.pendingAlerts;
+                    final productsText = alerts.map((a) => a.productName).join(', ');
+                    final initialMsg = 'Я не согласен с удалением товара: $productsText';
+
                     service.dismissAllAlerts();
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => const UserSupportChatPage(),
+                        builder: (_) => UserSupportChatPage(initialMessage: initialMsg),
                       ),
                     );
                   },

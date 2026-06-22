@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../models/language.dart';
 import '../../models/supplier_product.dart';
-import '../../services/localization/app_localizations.dart';
 import '../../services/localization/localization_extension.dart';
 import '../../theme/app_color_palette.dart';
 import '../../utils/characteristic_sections.dart';
@@ -147,14 +147,22 @@ class _AboutProductSheetState extends State<AboutProductSheet>
           const SizedBox(height: 8),
           if (widget.supplierProduct != null) ...[
             Text(
-              widget.supplierProduct!.name,
+              widget.supplierProduct!.localizedName(context),
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: palette.ink,
               ),
             ),
-            if (widget.supplierProduct!.nameKk.isNotEmpty)
+            if (context.currentLanguage == LanguageCode.kazakh && widget.supplierProduct!.nameKk.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  'RU: ${widget.supplierProduct!.name}',
+                  style: TextStyle(fontSize: 13, color: palette.muted),
+                ),
+              )
+            else if (context.currentLanguage != LanguageCode.kazakh && widget.supplierProduct!.nameKk.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 4),
                 child: Text(
@@ -177,13 +185,23 @@ class _AboutProductSheetState extends State<AboutProductSheet>
                         border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
                       ),
                       child: Text(
-                        category,
+                        context.currentLanguage == LanguageCode.kazakh && widget.supplierProduct!.categoryKk.isNotEmpty 
+                            ? widget.supplierProduct!.categoryKk 
+                            : category,
                         style: TextStyle(fontSize: 13, color: palette.ink),
                       ),
                     ),
                 ],
               ),
-              if (widget.supplierProduct!.categoryKk.isNotEmpty)
+              if (context.currentLanguage == LanguageCode.kazakh && widget.supplierProduct!.categoryKk.isNotEmpty && widget.supplierProduct!.categories.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: Text(
+                    'RU: ${widget.supplierProduct!.categories.first}',
+                    style: TextStyle(fontSize: 13, color: palette.muted),
+                  ),
+                )
+              else if (context.currentLanguage != LanguageCode.kazakh && widget.supplierProduct!.categoryKk.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(top: 6),
                   child: Text(
@@ -301,7 +319,16 @@ class _DescriptionBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.colorPalette;
-    final isPlaceholder = shouldShowDescriptionPlaceholder(description);
+    final isKk = context.currentLanguage == LanguageCode.kazakh;
+    final primaryDesc = isKk && supplierProduct != null && supplierProduct!.descriptionKk.trim().isNotEmpty
+        ? supplierProduct!.descriptionKk.trim()
+        : description;
+        
+    final secondaryDesc = isKk && supplierProduct != null && supplierProduct!.descriptionKk.trim().isNotEmpty
+        ? 'RU: $description'
+        : (supplierProduct != null && supplierProduct!.descriptionKk.trim().isNotEmpty ? 'КК: ${supplierProduct!.descriptionKk.trim()}' : null);
+
+    final isPlaceholder = shouldShowDescriptionPlaceholder(primaryDesc);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -314,17 +341,15 @@ class _DescriptionBlock extends StatelessWidget {
                   style: TextStyle(fontSize: 14, color: palette.muted),
                 )
               : Text(
-                  description,
+                  primaryDesc,
                   softWrap: true,
                   style: TextStyle(fontSize: 14, color: palette.ink, height: 1.4),
                 ),
-          if (!isPlaceholder &&
-              supplierProduct != null &&
-              supplierProduct!.descriptionKk.trim().isNotEmpty)
+          if (!isPlaceholder && secondaryDesc != null)
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
-                'КК: ${supplierProduct!.descriptionKk.trim()}',
+                secondaryDesc,
                 style: TextStyle(fontSize: 13, color: palette.muted),
               ),
             ),
@@ -368,19 +393,7 @@ class _CharacteristicSectionView extends StatelessWidget {
     );
   }
 
-  Widget _buildItem(AppColorPalette palette, MapEntry<String, String> item) {
-    String? kkValue;
-    if (supplierProduct != null) {
-      if (item.key == AppLocalizations.current.getString('util_composition')) {
-        kkValue = supplierProduct!.ingredientsKk;
-      } else {
-        kkValue = supplierProduct!.characteristicsKk[item.key];
-      }
-      if (kkValue != null && kkValue.trim().isEmpty) {
-        kkValue = null;
-      }
-    }
-
+  Widget _buildItem(AppColorPalette palette, CharacteristicItem item) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -389,7 +402,7 @@ class _CharacteristicSectionView extends StatelessWidget {
           Expanded(
             flex: 5,
             child: Text(
-              item.key,
+              item.primaryKey,
               style: TextStyle(fontSize: 14, color: palette.muted),
             ),
           ),
@@ -400,15 +413,15 @@ class _CharacteristicSectionView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  item.value,
+                  item.primaryValue,
                   textAlign: TextAlign.right,
                   style: TextStyle(fontSize: 14, color: palette.ink),
                 ),
-                if (kkValue != null)
+                if (item.secondaryValue != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      'КК: $kkValue',
+                      item.secondaryValue!,
                       textAlign: TextAlign.right,
                       style: TextStyle(fontSize: 13, color: palette.muted),
                     ),

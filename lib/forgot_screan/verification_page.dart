@@ -199,7 +199,7 @@ class _VerificationPageState extends State<VerificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isKeyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
+
     final gradientColors = _isDark
         ? [context.colorPalette.bgBottom, context.colorPalette.bgTop]
         : [context.colorPalette.accent, context.colorPalette.accentDark];
@@ -213,70 +213,74 @@ class _VerificationPageState extends State<VerificationPage> {
             colors: gradientColors,
           ),
         ),
-        child: Column(
-          children: [
-            SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: _cardBg,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: _colorScheme.onSurface,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+
+            return Column(
+              children: [
+                SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: _cardBg,
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: _colorScheme.onSurface,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
                         ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            if (!isKeyboardVisible)
-              Expanded(
-                child: Center(
-                  child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      AppLocalizations.current.getString('auto_verifikatsiya'),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                Expanded(
+                  child: Center(
+                    child: SingleChildScrollView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppLocalizations.current.getString('auto_verifikatsiya'),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          Text(
+                            AppLocalizations.current.getString('auto_my_otpravili_kod_na_vashu_pochtu'),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            widget.email,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 12),
-                    Text(
-                      AppLocalizations.current.getString('auto_my_otpravili_kod_na_vashu_pochtu'),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      widget.email,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            Flexible(
-              child: Container(
+                Container(
                 decoration: BoxDecoration(
                   color: _cardBg,
                 borderRadius: const BorderRadius.only(
@@ -289,6 +293,7 @@ class _VerificationPageState extends State<VerificationPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(32),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // КОД И ТАЙМЕР
@@ -434,12 +439,13 @@ class _VerificationPageState extends State<VerificationPage> {
                       ),
                     ],
                   ),
-                ),
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        },
+      ),
       ),
     );
   }

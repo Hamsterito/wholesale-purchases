@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_color_palette.dart';
 import '../services/api/api_service.dart';
 import 'category_products_page.dart';
+import '../models/language.dart';
 import 'package:flutter_project/services/localization/localization_extension.dart';
 import '../core/ui/theme/app_dimensions.dart';
 
@@ -73,11 +74,14 @@ class _CatalogPageState extends State<CatalogPage> {
       ? Colors.black.withValues(alpha: 0.35)
       : Colors.black.withValues(alpha: 0.05);
 
+  String? _currentLocale;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_mainCategories.isEmpty && _isLoadingCategories) {
-      final locale = Localizations.localeOf(context).languageCode;
+    final locale = context.currentLanguage == LanguageCode.kazakh ? 'kk' : 'ru';
+    if (_currentLocale != locale) {
+      _currentLocale = locale;
       _loadCategories(locale);
     }
   }

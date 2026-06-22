@@ -268,11 +268,16 @@ extension SupplierProductLocalization on SupplierProduct {
     return description;
   }
 
-  String localizedCategory(BuildContext context) {
+  List<String> localizedCategories(BuildContext context) {
     if (context.currentLanguage == LanguageCode.kazakh && categoryKk.trim().isNotEmpty) {
-      return categoryKk.trim();
+      return categoryKk.split(RegExp(r'[;,|]')).map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
     }
-    return categories.isNotEmpty ? categories.first : '';
+    return categories;
+  }
+
+  String localizedCategory(BuildContext context) {
+    final locCats = localizedCategories(context);
+    return locCats.isNotEmpty ? locCats.first : '';
   }
 
   String localizedIngredients(BuildContext context) {
