@@ -869,7 +869,7 @@ class _SupplierProductWizardPageState extends State<SupplierProductWizardPage> {
       ),
       bottomNavigationBar: SafeArea(
         top: false,
-        minimum: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+        minimum: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         child: Material(
           type: MaterialType.transparency,
           child: Row(
