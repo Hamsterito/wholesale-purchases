@@ -6488,7 +6488,7 @@
   "@auto_perevod": {},
   "auto_dobavitPerevod": "Добавить перевод",
   "@auto_dobavitPerevod": {},
-  "auto_yaNeSoglasenSUdaleniemT": "Я не согласен с удалением товара:",
+  "auto_yaNeSoglasenSUdaleniemT": "Я не согласен с удалением товара.",
   "@auto_yaNeSoglasenSUdaleniemT": {},
   "auto_tovar_name_fallback": "Товар",
   "@auto_tovar_name_fallback": {}

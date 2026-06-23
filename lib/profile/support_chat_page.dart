@@ -171,7 +171,7 @@ class _UserSupportChatPageState extends State<UserSupportChatPage> {
     try {
       final sent = await ApiService.sendSupportMessage(
         userId: userId,
-        chatId: _chat?.id,
+        chatId: _isChatClosed ? null : _chat?.id,
         senderRole: 'user',
         senderUserId: userId,
         text: text,

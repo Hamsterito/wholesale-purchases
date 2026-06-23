@@ -6147,7 +6147,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get auto_yaNeSoglasenSUdaleniemT =>
-      'Я не согласен с удалением товара:';
+      'Я не согласен с удалением товара.';
 
   @override
   String get auto_tovar_name_fallback => 'Товар';

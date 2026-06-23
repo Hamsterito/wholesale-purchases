@@ -11241,7 +11241,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_yaNeSoglasenSUdaleniemT.
   ///
   /// In ru, this message translates to:
-  /// **'Я не согласен с удалением товара:'**
+  /// **'Я не согласен с удалением товара.'**
   String get auto_yaNeSoglasenSUdaleniemT;
 
   /// No description provided for @auto_tovar_name_fallback.
