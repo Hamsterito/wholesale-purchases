@@ -9675,7 +9675,7 @@ abstract class AppLocalizations {
   /// No description provided for @auto_sohraniteKodyVBezopasn.
   ///
   /// In ru, this message translates to:
-  /// **'Сохраните коды в безопасном месте — они показываются один раз. Каждый код можно использовать только однократно для входа, если потерян доступ к почте.'**
+  /// **'Сохраните коды в безопасном месте - они показываются один раз. Каждый код можно использовать только однократно для входа, если потерян доступ к почте.'**
   String get auto_sohraniteKodyVBezopasn;
 
   /// No description provided for @auto_gotovo.

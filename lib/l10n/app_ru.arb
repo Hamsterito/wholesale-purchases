@@ -5949,7 +5949,7 @@
   "@auto_rezervnyeKody": {},
   "auto_rezervnyeKodyDvuhfaktor_1": "Резервные коды двухфакторной аутентификации",
   "@auto_rezervnyeKodyDvuhfaktor_1": {},
-  "auto_sohraniteKodyVBezopasn": "Сохраните коды в безопасном месте — они показываются один раз. Каждый код можно использовать только однократно для входа, если потерян доступ к почте.",
+  "auto_sohraniteKodyVBezopasn": "Сохраните коды в безопасном месте - они показываются один раз. Каждый код можно использовать только однократно для входа, если потерян доступ к почте.",
   "@auto_sohraniteKodyVBezopasn": {},
   "auto_gotovo": "Готово",
   "@auto_gotovo": {},
